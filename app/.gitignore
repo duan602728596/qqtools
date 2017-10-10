@@ -1,0 +1,20 @@
+# node
+node_modules
+npm-debug.log
+package-lock.json
+
+# yarn
+yarn.lock
+yarn-error.log
+
+# webstorm
+.idea
+app/.idea
+
+# webpack
+.happypack
+.dll
+build
+
+# plugin
+.plugin/ckplayer

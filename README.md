@@ -1,10 +1,13 @@
 # QQ群工具
 
+## 功能
+* 微打赏监听
+
 ## 许可证
 本软件遵循**GNU General Public License v3.0**许可证。
 
 ## 技术栈
-html5 + less + TypeScript + react + antd + webpack + nwjs。
+pug + sass + ECMA8 + react + antd + webpack + nwjs。  
 
 ## 编译命令
 * 输入命令 `$ npm start` 运行开发环境。
@@ -23,9 +26,15 @@ html5 + less + TypeScript + react + antd + webpack + nwjs。
 ## 文件夹结构
 * nwjs: nwjs SDK
   * app: 源代码
+  * dependent: 依赖的文件存储目录
+    * ffmpeg: ffmpeg
+  * output: 视频、Excel等文件的输出目录
 
 ## 关于dll
 无论是开发环境还是生产环境，首先要编译dll文件，将公共模块提取出来。
+
+## 关于node-sass
+node-sass如果安装失败，可以先到[https://github.com/sass/node-sass/releases](https://github.com/sass/node-sass/releases)下载binding.node文件，然后将该文件添加到SASS_BINARY_PATH环境变量内。
 
 ## 打包方法
 * 将文件夹内的文件打包成压缩文件，并重命名为*.nw
@@ -35,4 +44,4 @@ $ copy /b nw.exe+*.nw *.exe
 ```
 
 ## 源代码托管地址
-[https://github.com/duan602728596/qqtools](https://github.com/duan602728596/qqtools)
+[https://github.com/duan602728596/48tools](https://github.com/duan602728596/qqtools)
