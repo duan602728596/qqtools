@@ -8,7 +8,6 @@ import { Link, withRouter } from 'react-router-dom';
 const gui = node_require('nw.gui');
 
 @withRouter
-@connect(state, dispatch)
 class Index extends Component{
   render(): Object{
     return (
