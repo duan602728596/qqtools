@@ -1,10 +1,11 @@
 // @flow
 /* 网页版QQ登录接口 */
-import { request, hash33, hash, cookieObj2Str } from './function';
+import { request, hash33, hash, cookieObj2Str, msgId } from './function';
 const queryString = node_require('querystring');
 
 class SmartQQ{
   cookie: Object;
+  cookieStr: ?string;
   token: ?string;
   url: ?string;
   name: ?string;
@@ -13,11 +14,13 @@ class SmartQQ{
   uin: ?string;
   cip: ?string;
   psessionid: ?string;
-  gnamelist: ?Array;
   friends: ?Array;
+  gnamelist: ?Array;
   groupname: string;
+  groupItem: ?Object;
   constructor(groupname: string): void{
     this.cookie = {};            // 储存cookie
+    this.cookieStr = null;       // cookie字符串
     this.token = null;           // 二维码登录令牌
     this.url = null;             // 登录的url
     this.name = null;            // 登录的用户名
@@ -26,9 +29,10 @@ class SmartQQ{
     this.uin = null;
     this.cip = null;
     this.psessionid = null;
-    this.gnamelist = null;       // 群列表
     this.friends = null;         // 获取在线好友列表
+    this.gnamelist = null;       // 群列表
     this.groupname = groupname;  // 群名称
+    this.groupItem = null;       // 群信息
   }
   // 下载二维码
   downloadPtqr(): Promise{
@@ -95,7 +99,7 @@ class SmartQQ{
     });
   }
   // 获取psessionid、uin和cip
-  getPsessionAndUinAndCip(){
+  getPsessionAndUinAndCip(): Promise{
     const data: string = queryString.stringify({
       r: JSON.stringify({
         ptwebqq: this.ptwebqq,
@@ -116,22 +120,103 @@ class SmartQQ{
     });
   }
   // 获取群组
-  getGroup(){
+  getGroup(): Promise{
     const data: string = queryString.stringify({
       r: JSON.stringify({
         vfwebqq: `${ this.vfwebqq }`,
         hash: hash(this.uin, this.ptwebqq)
       })
     });
-
-    console.log(data);
-    console.log(cookieObj2Str(this.cookie));
-
     return request({
       reqUrl: `https://s.web2.qq.com/api/get_group_name_list_mask2`,
       headers: {
         'Cookie': cookieObj2Str(this.cookie),
         'Referer': 'http://s.web2.qq.com/proxy.html?v=20130916001&callback=1&id=1',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      method: 'POST',
+      setEncode: 'utf8',
+      data
+    });
+  }
+  // 获取群好友
+  getFriends(): Promise{
+    return request({
+      reqUrl: `http://d1.web2.qq.com/channel/get_online_buddies2?vfwebqq=${ this.vfwebqq }&clientid=53999199` +
+              `&psessionid=${ this.psessionid }&t=${ new Date().getTime() }`,
+      headers: {
+        'Cookie': cookieObj2Str(this.cookie),
+        'Referer': 'http://d1.web2.qq.com/proxy.html?v=20151105001&callback=1&id=2'
+      },
+      setEncode: 'utf8'
+    });
+  }
+  // 获取群详细信息
+  getGroupItem(): void{
+    for(const index: number in this.gnamelist){
+      const item: Object = this.gnamelist[index];
+      if(item['name'] === this.groupname){
+        this.groupItem = item;
+        break;
+      }
+    }
+  }
+  // 将cookie转换成字符串
+  cookie2Str(): void{
+    this.cookieStr = cookieObj2Str(this.cookie);
+  }
+  // 获取消息
+  getMessage(): Promise{
+    const data: string = queryString.stringify({
+      r: JSON.stringify({
+        ptwebqq: this.ptwebqq,
+        clientid: 53999199,
+        psessionid: this.psessionid,
+        key: ''
+      })
+    });
+    return request({
+      reqUrl: `https://d1.web2.qq.com/channel/poll2`,
+      headers: {
+        'Cookie': this.cookieStr,
+        'Referer': 'https://d1.web2.qq.com/cfproxy.html?v=20151105001&callback=1',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Host': 'd1.web2.qq.com',
+        'Origin': 'https://d1.web2.qq.com'
+      },
+      method: 'POST',
+      setEncode: 'utf8',
+      data
+    });
+  }
+  // 发送消息
+  sendMessage(message: string): Promise{
+    const data: string = queryString.stringify({
+      r: JSON.stringify({
+        group_uin: this.groupItem.gid,
+        content: JSON.stringify([
+          message,
+          [
+            'font',
+            {
+              name: '宋体',
+              size: 10,
+              style: [0, 0, 0],
+              color: '000000'
+            }
+          ]
+        ]),
+        face: 333,
+        clientid: 53999199,
+        msg_id: msgId(),
+        psessionid: this.psessionid
+      })
+    });
+    return request({
+      reqUrl: `https://d1.web2.qq.com/channel/send_qun_msg2`,
+      headers: {
+        'Cookie': this.cookieStr,
+        'Referer': 'https://d1.web2.qq.com/cfproxy.html?v=20151105001&callback=1',
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       method: 'POST',

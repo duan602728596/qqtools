@@ -77,11 +77,15 @@ export function request({ reqUrl, method = 'GET', data = '', headers = {}, setEn
 
   return new Promise((resolve: Function, reject: Function): void=>{
     const req: Object = (protocol === 'https:' ? https : http).request(options, (res: Object): void=>{
-      let getData: string = null;
+      let getData: any = null;
       if(setEncode) res.setEncoding(setEncode);
 
       res.on('data', function(chunk: any): void{
-        getData = chunk;
+        if(!getData){
+          getData = chunk;
+        }else{
+          getData += chunk;
+        }
       });
       res.on('end', function(): void{
         const cookies: ?Array = res.headers['set-cookie'];
@@ -156,4 +160,15 @@ export function hash(uin: number, ptwebqq: string): string{
   });
 
   return V1;
+}
+
+/* 计算msg_id */
+let sequence: number = 0;
+let t: number = new Date().getTime() * 100;
+t = (t - t % 1000) / 1000;
+t = t % 10000 * 10000;
+
+export function msgId(){
+  sequence += 1;
+  return t + sequence;
 }

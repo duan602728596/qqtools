@@ -60,9 +60,21 @@ class Index extends Component{
       qq.uin = result.uin;
       qq.cip = result.cip;
       // 获取群组
-      // 获取在线好友列表
       const [data4, cookies4]: [string, Object] = await qq.getGroup();
-      console.log(data4, cookies4);
+      qq.gnamelist = JSON.parse(data4).result.gnamelist;
+      // 获取在线好友列表
+      const [data5, cookies5]: [string, Object] = await qq.getFriends();
+      qq.friends = JSON.parse(data5).result;
+      // 获取群信息，转换cookie
+      qq.getGroupItem();
+      qq.cookie2Str();
+      // 测试
+      {
+        const a = await qq.getMessage();
+        console.log(a[0]);
+        const b = await qq.sendMessage('大家好！');
+        console.log(b[0]);
+      }
 
     }catch(err){
       console.error('登录错误', err);
@@ -72,7 +84,7 @@ class Index extends Component{
   async componentDidMount(): void{
     // 初始化QQ
     try{
-      qq = new SmartQQ();
+      qq = new SmartQQ('群主很懒');
       const [data, cookies]: [Buffer, Object] = await qq.downloadPtqr();
       qq.cookie = cookies;
       // 写入图片
