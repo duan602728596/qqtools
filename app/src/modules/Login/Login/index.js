@@ -10,6 +10,7 @@ import style from './style.sass';
 import SmartQQ from '../../../components/smartQQ/SmartQQ';
 import option from '../../publicMethod/option';
 import { changeQQLoginList } from '../store/reducer';
+import callback from '../../../components/callback/index';
 const fs = node_require('fs');
 
 let qq: ?SmartQQ = null;
@@ -73,6 +74,7 @@ class Login extends Component{
     try{
       qq.loginSuccess(()=>{
         qq.loginBrokenLineReconnection = setInterval(qq.loginSuccess.bind(qq), 60 ** 2 * 10 ** 3); // 一小时后重新登录，防止掉线
+        qq.listenMessageTimer = setTimeout(qq.listenMessage.bind(qq), 500);                        // 轮询
         // 将新的qq实例存入到store中
         const ll: Array = this.props.qqLoginList;
         ll.push(qq);
@@ -118,7 +120,7 @@ class Login extends Component{
   async componentDidMount(): void{
     // 初始化QQ
     try{
-      qq =new SmartQQ('群主很懒');
+      qq = new SmartQQ('群主很懒', callback);
       const [data, cookies]: [Buffer, Object] = await qq.downloadPtqr();
       qq.cookie = cookies;
       // 写入图片

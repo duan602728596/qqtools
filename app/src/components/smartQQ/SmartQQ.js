@@ -19,7 +19,9 @@ class SmartQQ{
   groupname: string;
   groupItem: ?Object;
   loginBrokenLineReconnection: ?number;
-  constructor(groupname: string): void{
+  listenMessageTimer: ?number;
+  callback: Function;
+  constructor(groupname: string, callback: Function): void{
     this.cookie = {};            // 储存cookie
     this.cookieStr = null;       // cookie字符串
     this.token = null;           // 二维码登录令牌
@@ -35,6 +37,8 @@ class SmartQQ{
     this.groupname = groupname;  // 群名称
     this.groupItem = null;       // 群信息
     this.loginBrokenLineReconnection = null;  // 重新登录的定时器
+    this.listenMessageTimer = null;           // 轮询信息
+    this.callback = callback;    // 获得信息后的回调
   }
   // 下载二维码
   downloadPtqr(): Promise{
@@ -253,6 +257,16 @@ class SmartQQ{
       setEncode: 'utf8',
       data
     });
+  }
+  // 轮询事件
+  async listenMessage(){
+    try{
+      const [data]: [string] = await this.getMessage();
+      this.callback(JSON.parse(data), this);
+    }catch(err){
+      console.error('轮询', err);
+    }
+    this.listenMessageTimer = setTimeout(this.listenMessage.bind(this), 500);
   }
 }
 
