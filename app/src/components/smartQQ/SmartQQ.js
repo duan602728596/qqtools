@@ -18,6 +18,7 @@ class SmartQQ{
   gnamelist: ?Array;
   groupname: string;
   groupItem: ?Object;
+  loginBrokenLineReconnection: ?number;
   constructor(groupname: string): void{
     this.cookie = {};            // 储存cookie
     this.cookieStr = null;       // cookie字符串
@@ -33,6 +34,7 @@ class SmartQQ{
     this.gnamelist = null;       // 群列表
     this.groupname = groupname;  // 群名称
     this.groupItem = null;       // 群信息
+    this.loginBrokenLineReconnection = null;  // 重新登录的定时器
   }
   // 下载二维码
   downloadPtqr(): Promise{
@@ -164,6 +166,34 @@ class SmartQQ{
   // 将cookie转换成字符串
   cookie2Str(): void{
     this.cookieStr = cookieObj2Str(this.cookie);
+  }
+  // 验证成功后的一系列执行事件
+  async loginSuccess(cb: Function): void{
+    // 登录
+    const [data1, cookies1]: [string, Object] = await this.login();
+    this.cookie = Object.assign(this.cookie, cookies1);
+    await this.login302proxy();
+    await this.login302web2();
+    // 获得vfwebqq
+    const [data2]: [string] = await this.getVfWebQQ();
+    this.vfwebqq = JSON.parse(data2).result.vfwebqq;
+    // 获取psessionid、uin和cip
+    const [data3]: [string] = await this.getPsessionAndUinAndCip();
+    const { result }: { result: Object } = JSON.parse(data3);
+    this.psessionid = result.psessionid;
+    this.uin = result.uin;
+    this.cip = result.cip;
+    // 获取群组
+    const [data4]: [string] = await this.getGroup();
+    this.gnamelist = JSON.parse(data4).result.gnamelist;
+    // 获取在线好友列表
+    const [data5]: [string] = await this.getFriends();
+    this.friends = JSON.parse(data5).result;
+    // 获取群信息，转换cookie
+    this.getGroupItem();
+    this.cookie2Str();
+    // 回调函数
+    if(cb) cb();
   }
   // 获取消息
   getMessage(): Promise{
