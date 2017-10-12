@@ -268,6 +268,27 @@ class SmartQQ{
     }
     this.listenMessageTimer = setTimeout(this.listenMessage.bind(this), 500);
   }
+  // 分段发送消息，最多发送二十五行，防止多段的消息发送不出去
+  async sendFormatMessage(message) {
+    const msgArr: string[] = message.split(/\n/g);
+    const sendMsg: string[] = [];
+    const len: number = msgArr.length;
+    let i: number = 0;
+    while(i < len){
+      const len2: number = i + 25;
+      const arr: string[] = [];
+      for(let i1: number = i; i1 < (len2 >= len ? len : len2 ); i1++){
+        arr.push(msgArr[i1]);
+      }
+      const str: string = arr.join('\n');
+      sendMsg.push(str);
+      i = len2;
+    }
+    // 分段发送消息
+    for(let i2: number = 0, j2 = sendMsg.length; i2 < j2; i2++ ){
+      await this.sendMessage(sendMsg[i2]);
+    }
+  }
 }
 
 export default SmartQQ;
