@@ -5,6 +5,7 @@ import asyncModule from './asyncModule';
 /* 加载模块 */
 import Index from '../modules/Index/Layout';
 import Login from '../modules/Login/Layout';
+import Option from '../modules/Option/Layout';
 
 /* 路由模块 */
 class Router extends Component{
@@ -15,6 +16,8 @@ class Router extends Component{
         <Route path="/" component={ Index } exact />
         {/* 登录 */}
         <Route path="/Login" component={ Login } />
+        {/* 配置 */}
+        <Route path="/Option" component={ Option } />
       </Switch>
     );
   }

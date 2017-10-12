@@ -31,7 +31,7 @@
     "cheerio": "^1.0.0-rc.2"
   },
   "devDependencies": {
-    "antd": "^2.13.5",
+    "antd": "^2.13.6",
     "babel-core": "^7.0.0-beta.2",
     "babel-loader": "^7.1.2",
     "babel-plugin-import": "^1.6.0",

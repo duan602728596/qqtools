@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
 import { Affix, Table, Button, Icon } from 'antd';
-import { Link, withRouter } from 'react-router-dom';
 import publicStyle from '../../publicMethod/public.sass';
 import commonStyle from '../../../common.sass';
 import { changeQQLoginList } from '../store/reducer';
@@ -25,7 +25,6 @@ const dispatch: Function = (dispatch: Function): Object=>({
   }, dispatch)
 });
 
-@withRouter
 @connect(state, dispatch)
 class Index extends Component{
   // 表格配置

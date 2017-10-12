@@ -5,8 +5,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { createSelector, createStructuredSelector } from 'reselect';
 import { Link, withRouter } from 'react-router-dom';
-import { Row, Col, Icon, Checkbox, Button, message } from 'antd';
+import { Row, Col, Icon, Button, message } from 'antd';
 import style from './style.sass';
+import '../../publicMethod/initIndexedDB';
 const gui = node_require('nw.gui');
 
 @withRouter
@@ -50,7 +51,7 @@ class Index extends Component{
           <Col xl={ 4 } lg={ 4 } md={ 6 } sm={ 8 } xs={ 12 }>
             <dl className={ style.linkGroup }>
               <dt className={ style.bTest }>
-                <Link to="/" title="群功能配置">
+                <Link to="/Option" title="群功能配置">
                   <img src={ require('../image/hjl1.jpg') } alt="群功能配置" />
                 </Link>
               </dt>
