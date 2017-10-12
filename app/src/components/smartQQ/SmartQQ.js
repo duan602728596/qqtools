@@ -32,10 +32,12 @@ class SmartQQ{
     this.uin = null;
     this.cip = null;
     this.psessionid = null;
+
     this.friends = null;         // 获取在线好友列表
     this.gnamelist = null;       // 群列表
     this.groupname = groupname;  // 群名称
     this.groupItem = null;       // 群信息
+
     this.loginBrokenLineReconnection = null;  // 重新登录的定时器
     this.listenMessageTimer = null;           // 轮询信息
     this.callback = callback;    // 获得信息后的回调

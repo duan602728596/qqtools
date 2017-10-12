@@ -9,6 +9,7 @@
 *.dat
 pnacl
 locales
+swiftshader
 
 # webstorm
 .idea
