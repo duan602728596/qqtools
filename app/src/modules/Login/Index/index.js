@@ -68,18 +68,12 @@ class Index extends Component{
         <div className={ `${ publicStyle.toolsBox } ${ commonStyle.clearfix }` }>
           <div className={ publicStyle.fl }>
             <Link to="/Login/Login">
-              <Button type="primary">
-                <Icon type="windows-o" />
-                <span>登录</span>
-              </Button>
+              <Button type="primary" icon="windows-o">登录</Button>
             </Link>
           </div>
           <div className={ publicStyle.fr }>
             <Link className={ publicStyle.ml10 } to="/">
-              <Button type="danger">
-                <Icon type="poweroff" />
-                <span>返回</span>
-              </Button>
+              <Button type="danger" icon="poweroff">返回</Button>
             </Link>
           </div>
         </div>

@@ -33,18 +33,12 @@ class Index extends Component{
         <div className={ `${ publicStyle.toolsBox } ${ commonStyle.clearfix }` }>
           <div className={ publicStyle.fl }>
             <Link to="/Option/Add">
-              <Button type="primary">
-                <Icon type="plus-circle-o" />
-                <span>添加新配置</span>
-              </Button>
+              <Button type="primary" icon="plus-circle-o">添加新配置</Button>
             </Link>
           </div>
           <div className={ publicStyle.fr }>
             <Link className={ publicStyle.ml10 } to="/">
-              <Button type="danger">
-                <Icon type="poweroff" />
-                <span>返回</span>
-              </Button>
+              <Button type="danger" icon="poweroff">返回</Button>
             </Link>
           </div>
         </div>
