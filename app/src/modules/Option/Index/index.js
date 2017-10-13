@@ -32,7 +32,7 @@ class Index extends Component{
       <Affix key={ 0 } className={ publicStyle.affix }>
         <div className={ `${ publicStyle.toolsBox } ${ commonStyle.clearfix }` }>
           <div className={ publicStyle.fl }>
-            <Link to="/">
+            <Link to="/Option/Add">
               <Button type="primary">
                 <Icon type="plus-circle-o" />
                 <span>添加新配置</span>

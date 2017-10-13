@@ -34,8 +34,8 @@ const option: {
       option: {
         name: 'option',
         key: 'name',
-        data: [
-          {
+        data: [               // custom 自定义配置
+          {                   // basic  基础配置
             name: 'id',
             index: 'id'
           }
