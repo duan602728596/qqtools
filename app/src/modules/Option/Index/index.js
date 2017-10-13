@@ -11,7 +11,7 @@ import { optionList, cursorOptionList } from '../store/reducer';
 
 /* 初始化数据 */
 const state: Function = createStructuredSelector({
-  optionList: createSelector(         // 已登录
+  optionList: createSelector(         // 配置列表
     (state: Object): Object | Array=>state.has('option') ? state.get('option').get('optionList') : [],
     (data: Object | Array): Array=>data instanceof Array ? data : data.toJS()
   )
