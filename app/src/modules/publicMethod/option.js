@@ -32,10 +32,17 @@ const option: {
     version: 1,
     objectStore: {
       option: {
+        /*
+         name       配置名称
+         id         配置的id
+         groupName  监听的群名称
+         basic      基础配置
+         custom     自定义配置
+         */
         name: 'option',
         key: 'name',
-        data: [               // custom 自定义配置
-          {                   // basic  基础配置
+        data: [
+          {
             name: 'id',
             index: 'id'
           }

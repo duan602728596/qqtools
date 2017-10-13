@@ -29,28 +29,45 @@ class Add extends Component{
           </Link>
         </Affix>
         <div>
-          <Form.Item label="配置名称">
-            {
-              getFieldDecorator('name', {
-                rules: [
-                  {
-                    message: '必须输入配置名称',
-                    required: true,
-                    whitespace: true
-                  }
-                ]
-              })(
-                <Input placeholder="输入配置名称" />
-              )
-            }
-          </Form.Item>
+          <div>
+            {/* 基础配置 */}
+            <Form.Item label="配置名称">
+              {
+                getFieldDecorator('name', {
+                  rules: [
+                    {
+                      message: '必须输入配置名称',
+                      required: true,
+                      whitespace: true
+                    }
+                  ]
+                })(
+                  <Input placeholder="输入配置名称" />
+                )
+              }
+            </Form.Item>
+            <Form.Item label="监视群名称">
+              {
+                getFieldDecorator('groupName', {
+                  rules: [
+                    {
+                      message: '必须输入要监视的群名称',
+                      required: true,
+                      whitespace: true
+                    }
+                  ]
+                })(
+                  <Input placeholder="输入群名称" />
+                )
+              }
+            </Form.Item>
+          </div>
+          {/* 微打赏配置 */}
           <h4 className={ formStyle.title }>微打赏配置：</h4>
           <div>
-            <Form.Item className={ formStyle.mb15 } label="是否开启微打赏功能">
+            <Form.Item className={ formStyle.mb15 } label="开启微打赏功能">
               {
-                getFieldDecorator('isWds', {
-                  initialValue: ['isWds']
-                })(
+                getFieldDecorator('isWds')(
                   <Checkbox.Group options={[
                     {
                       label: '',
@@ -89,6 +106,62 @@ class Add extends Component{
                   wdsid：微打赏的ID<br />
                 </p>
               </div>
+            </Form.Item>
+          </div>
+          {/* 口袋48直播监听配置 */}
+          <h4 className={ formStyle.title }>直播监听：</h4>
+          <div>
+            <Form.Item className={ formStyle.mb15 } label="开启口袋48直播监听功能">
+              {
+                getFieldDecorator('is48LiveListener')(
+                  <Checkbox.Group options={[
+                    {
+                      label: '',
+                      value: 'is48LiveListener'
+                    }
+                  ]} />
+                )
+              }
+            </Form.Item>
+            <br />
+            <Form.Item label="监听成员">
+              <div className={ commonStyle.clearfix }>
+                {
+                  getFieldDecorator('48LiveListenerMembers')(
+                    <Input.TextArea className={ formStyle.template } rows={ 3 } />
+                  )
+                }
+                <p className={ formStyle.shuoming }>多个成员名字之间用","（半角逗号）分隔。</p>
+              </div>
+            </Form.Item>
+          </div>
+          {/* 心知天气 */}
+          <h4 className={ formStyle.title }>心知天气：</h4>
+          <div>
+            <p className={ formStyle.mb15 }>该接口用来查询天气情况，目前官方的个人查询限制为400次/时。</p>
+            <p className={ formStyle.mb15 }>
+              请自行到心知天气的官方网站&nbsp;
+              <b>https://www.seniverse.com/</b>
+              &nbsp;注册账号并填写appKey。
+            </p>
+            <Form.Item className={ formStyle.mb15 } label="开启心知天气的查询天气功能">
+              {
+                getFieldDecorator('isXinZhiTianQi')(
+                  <Checkbox.Group options={[
+                    {
+                      label: '',
+                      value: 'isXinZhiTianQi'
+                    }
+                  ]} />
+                )
+              }
+            </Form.Item>
+            <Form.Item className={ formStyle.mb15 } label="心知天气appKey">
+              {
+                getFieldDecorator('xinZhiTianQiAppKey')(
+                  <Input placeholder="请输入您的appKey" />
+                )
+              }
             </Form.Item>
           </div>
         </div>
