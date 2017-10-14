@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
-import { Affix, Table, Button, Icon } from 'antd';
+import { Affix, Table, Button } from 'antd';
 import publicStyle from '../../publicMethod/public.sass';
 import commonStyle from '../../../common.sass';
 import { optionList, cursorOptionList } from '../store/reducer';
@@ -32,7 +32,7 @@ class Index extends Component{
       <Affix key={ 0 } className={ publicStyle.affix }>
         <div className={ `${ publicStyle.toolsBox } ${ commonStyle.clearfix }` }>
           <div className={ publicStyle.fl }>
-            <Link to="/Option/Add">
+            <Link to="/Option/Edit">
               <Button type="primary" icon="plus-circle-o">添加新配置</Button>
             </Link>
           </div>

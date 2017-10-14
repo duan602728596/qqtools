@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
-import { Affix, Table, Button, Icon } from 'antd';
+import { Affix, Table, Button } from 'antd';
 import publicStyle from '../../publicMethod/public.sass';
 import commonStyle from '../../../common.sass';
 import { changeQQLoginList } from '../store/reducer';

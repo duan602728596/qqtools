@@ -29,22 +29,15 @@ const option: {
   ptqr: `${ execPath }/.cache/ptqr.png`,  // 二维码
   indexeddb: {                            // 配置indexedDB
     name: 'qqtools',
-    version: 1,
+    version: 2,
     objectStore: {
       option: {
-        /*
-         name       配置名称
-         id         配置的id
-         groupName  监听的群名称
-         basic      基础配置
-         custom     自定义配置
-         */
         name: 'option',
         key: 'name',
         data: [
           {
-            name: 'id',
-            index: 'id'
+            name: 'time',
+            index: 'time'
           }
         ]
       },
