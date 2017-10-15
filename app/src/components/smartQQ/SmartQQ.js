@@ -1,6 +1,6 @@
 // @flow
 /* 网页版QQ登录接口 */
-import { request, hash33, hash, cookieObj2Str, msgId } from './function';
+import { requestHttp, hash33, hash, cookieObj2Str, msgId } from './function';
 const queryString = node_require('querystring');
 
 class SmartQQ{
@@ -16,12 +16,12 @@ class SmartQQ{
   psessionid: ?string;
   friends: ?Array;
   gnamelist: ?Array;
-  groupname: string;
   groupItem: ?Object;
   loginBrokenLineReconnection: ?number;
   listenMessageTimer: ?number;
   callback: Function;
-  constructor(groupname: string, callback: Function): void{
+  option: Object;
+  constructor(callback: Function): void{
     this.cookie = {};            // 储存cookie
     this.cookieStr = null;       // cookie字符串
     this.token = null;           // 二维码登录令牌
@@ -35,16 +35,16 @@ class SmartQQ{
 
     this.friends = null;         // 获取在线好友列表
     this.gnamelist = null;       // 群列表
-    this.groupname = groupname;  // 群名称
     this.groupItem = null;       // 群信息
 
     this.loginBrokenLineReconnection = null;  // 重新登录的定时器
     this.listenMessageTimer = null;           // 轮询信息
     this.callback = callback;    // 获得信息后的回调
+    this.option = null;          // 配置信息
   }
   // 下载二维码
   downloadPtqr(): Promise{
-    return request({
+    return requestHttp({
       reqUrl: `https://ssl.ptlogin2.qq.com/ptqrshow?appid=501004106&e=0&l=M&s=5&d=72&v=4&t=${ new Date().getTime() }`
     });
   }
@@ -55,7 +55,7 @@ class SmartQQ{
   }
   // 判断是否在登录状态
   isLogin(): Promise{
-    return request({
+    return requestHttp({
       reqUrl: `https://ssl.ptlogin2.qq.com/ptqrlogin?webqq_type=10&remember_uin=1&login2qq=1&aid=501004106&u1=http%3A%2F%2Fw.qq.com%2Fproxy.html%3Flogin2qq%3D1%26webqq_type%3D10&ptredirect=0&ptlang=2052&daid=164&from_ui=1&pttype=1&dumy=&fp=loginerroralert&action=0-0-2105&mibao_css=m_webqq&t=undefined&g=1&js_type=0&js_ver=10220&login_sig=&pt_randsalt=0&ptqrtoken=${ this.token }`,
       headers: {
         'Cookie': cookieObj2Str(this.cookie)
@@ -65,7 +65,7 @@ class SmartQQ{
   }
   // 登录
   login():Promise{
-    return request({
+    return requestHttp({
       reqUrl: this.url,
       headers: {
         'Cookie': cookieObj2Str(this.cookie)
@@ -77,7 +77,7 @@ class SmartQQ{
     // http://web2.qq.com/web2_cookie_proxy.html
   }
   login302proxy(){
-    return request({
+    return requestHttp({
       reqUrl: `http://w.qq.com/proxy.html?login2qq=1&webqq_type=10`,
       headers: {
         'Cookie': cookieObj2Str(this.cookie)
@@ -86,7 +86,7 @@ class SmartQQ{
     });
   }
   login302web2(){
-    return request({
+    return requestHttp({
       reqUrl: `http://web2.qq.com/web2_cookie_proxy.html`,
       headers: {
         'Cookie': cookieObj2Str(this.cookie)
@@ -97,7 +97,7 @@ class SmartQQ{
   // 获取vfwebqq
   getVfWebQQ(){
     const u: string = `http://s.web2.qq.com/api/getvfwebqq?clientid=53999199&psessionid=&t=${ Math.random() * 10 ** 16 }&ptwebqq=${ this.cookie.ptwebqq }`;
-    return request({
+    return requestHttp({
       reqUrl: u,
       headers: {
         'Cookie': cookieObj2Str(this.cookie),
@@ -116,7 +116,7 @@ class SmartQQ{
         status: 'online'
       })
     });
-    return request({
+    return requestHttp({
       reqUrl: `http://d1.web2.qq.com/channel/login2`,
       headers: {
         'Cookie': cookieObj2Str(this.cookie),
@@ -135,7 +135,7 @@ class SmartQQ{
         hash: hash(this.uin, this.ptwebqq)
       })
     });
-    return request({
+    return requestHttp({
       reqUrl: `https://s.web2.qq.com/api/get_group_name_list_mask2`,
       headers: {
         'Cookie': cookieObj2Str(this.cookie),
@@ -149,7 +149,7 @@ class SmartQQ{
   }
   // 获取群好友
   getFriends(): Promise{
-    return request({
+    return requestHttp({
       reqUrl: `http://d1.web2.qq.com/channel/get_online_buddies2?vfwebqq=${ this.vfwebqq }&clientid=53999199` +
               `&psessionid=${ this.psessionid }&t=${ new Date().getTime() }`,
       headers: {
@@ -163,7 +163,7 @@ class SmartQQ{
   getGroupItem(): void{
     for(const index: number in this.gnamelist){
       const item: Object = this.gnamelist[index];
-      if(item['name'] === this.groupname){
+      if(item['name'] === this.option.groupName){
         this.groupItem = item;
         break;
       }
@@ -201,6 +201,10 @@ class SmartQQ{
     // 回调函数
     if(cb) cb();
   }
+  loginSuccessCb(){
+    this.loginBrokenLineReconnection = setInterval(this.loginSuccess.bind(this), 60 ** 2 * 10 ** 3); // 一小时后重新登录，防止掉线
+    this.listenMessageTimer = setTimeout(this.listenMessage.bind(this), 500);                        // 轮询
+  }
   // 获取消息
   getMessage(): Promise{
     const data: string = queryString.stringify({
@@ -211,7 +215,7 @@ class SmartQQ{
         key: ''
       })
     });
-    return request({
+    return requestHttp({
       reqUrl: `https://d1.web2.qq.com/channel/poll2`,
       headers: {
         'Cookie': this.cookieStr,
@@ -248,7 +252,7 @@ class SmartQQ{
         psessionid: this.psessionid
       })
     });
-    return request({
+    return requestHttp({
       reqUrl: `https://d1.web2.qq.com/channel/send_qun_msg2`,
       headers: {
         'Cookie': this.cookieStr,

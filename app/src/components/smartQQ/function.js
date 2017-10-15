@@ -11,6 +11,64 @@ const HEADER: Object = {
 };
 
 /**
+ * 请求
+ * @param { string } reqUrl   : 请求地址
+ * @param { string } method   : 请求方式
+ * @param { Object } data     : 请求参数
+ * @param { Object } headers  : 请求头
+ * @param { string } setEncode: 编码
+ * @return { Promise }
+ */
+export function requestHttp({ reqUrl, method = 'GET', data = '', headers = {}, setEncode }: {
+  reqUrl: string,
+    method: string,
+    data: Object,
+    headers: Object,
+    setEncode: ?string
+}): Promise{
+  const { protocol, host, path, port }: {
+    protocol: string,
+    host: string,
+    path: string,
+    port: ?number
+  } = url.parse(reqUrl);
+
+  const options: Object = {
+    protocol,
+    host,
+    port,
+    path,
+    method,
+    headers: Object.assign(HEADER, headers)
+  };
+
+  return new Promise((resolve: Function, reject: Function): void=>{
+    const req: Object = http/*(protocol === 'https:' ? https : http)*/.request(options, (res: Object): void=>{
+      let getData: any = null;
+      if(setEncode) res.setEncoding(setEncode);
+
+      res.on('data', function(chunk: any): void{
+        if(!getData){
+          getData = chunk;
+        }else{
+          getData += chunk;
+        }
+      });
+      res.on('end', function(): void{
+        const cookies: ?Array = res.headers['set-cookie'];
+        resolve([getData, cookies ? cookieStr2Obj(cookies) : {}]);
+      });
+    });
+
+    req.on('error', function(err: any): void{
+      console.error('请求错误：' + err);
+    });
+    req.write(data);
+    req.end();
+  });
+}
+
+/**
  * 将cookie 字符串转换成Object
  * @param { string } str: cookie字符串
  * @return { Object }
@@ -40,65 +98,6 @@ export function cookieObj2Str(obj: Object): string{
     str += `${ key }=${ value }; `;
   });
   return str;
-}
-
-/**
- * 请求
- * @param { string } reqUrl          : 请求地址
- * @param { string } method          : 请求方式
- * @param { Object } data            : 请求参数
- * @param { Object } headers         : 请求头
- * @param { string | null } setEncode: 编码
- * @return { Promise }
- */
-export function request({ reqUrl, method = 'GET', data = '', headers = {}, setEncode }: {
-  reqUrl: string,
-  method: string,
-  data: Object,
-  headers: Object,
-  setEncode: ?string,
-  timeout: ?number
-}): Promise{
-  const { protocol, hostname, path, port }: {
-    protocol: string,
-    hostname: string,
-    path: string,
-    port: ?number
-  } = url.parse(reqUrl);
-
-  const options: Object = {
-    protocol,
-    hostname,
-    path,
-    port,
-    method,
-    headers: Object.assign(HEADER, headers)
-  };
-
-  return new Promise((resolve: Function, reject: Function): void=>{
-    const req: Object = (protocol === 'https:' ? https : http).request(options, (res: Object): void=>{
-      let getData: any = null;
-      if(setEncode) res.setEncoding(setEncode);
-
-      res.on('data', function(chunk: any): void{
-        if(!getData){
-          getData = chunk;
-        }else{
-          getData += chunk;
-        }
-      });
-      res.on('end', function(): void{
-        const cookies: ?Array = res.headers['set-cookie'];
-        resolve([getData, cookies ? cookieStr2Obj(cookies) : {}]);
-      });
-    });
-
-    req.on('error', function(err: any): void{
-      console.error('请求错误：' + err);
-    });
-    req.write(data);
-    req.end();
-  });
 }
 
 /**

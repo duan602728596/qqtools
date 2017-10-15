@@ -317,7 +317,7 @@ class Add extends Component{
             </div>
           </Form.Item>
         </div>
-        {/* 新成员欢迎语 */}
+        {/* 新成员欢迎 */}
         <h4 className={ style.title }>新成员欢迎：</h4>
         <div>
           <Form.Item className={ style.mb15 } label="开启新成员欢迎功能">

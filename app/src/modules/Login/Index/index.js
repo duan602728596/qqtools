@@ -38,9 +38,9 @@ class Index extends Component{
       },
       {
         title: '群名称',
-        key: 'groupname',
+        key: 'groupName',
         width: '20%',
-        render: (text: ?string, item: SmartQQ): string=>item.groupname
+        render: (text: ?string, item: SmartQQ): string=>item.option.groupName
       },
       {
         title: 'uin',

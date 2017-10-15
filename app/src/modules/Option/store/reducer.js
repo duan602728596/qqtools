@@ -8,7 +8,7 @@ import option from '../../publicMethod/option';
 const initData: {
   optionList: Array
 } = {
-  optionList: []  // QQ登录列表
+  optionList: []  // QQ配置列表
 };
 
 /* Action */
