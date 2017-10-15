@@ -1,6 +1,8 @@
 // @flow
 import { createAction, handleActions } from 'redux-actions';
 import { fromJS } from 'immutable';
+import { cursorAction, deleteAction, putAction, getAction } from 'indexeddb-tools-redux';
+import option from '../../publicMethod/option';
 
 /* 使用immutable初始化基础数据 */
 const initData: {
@@ -10,6 +12,15 @@ const initData: {
 };
 
 /* Action */
+const opt: {
+  name: string,
+  version: number,
+  objectStoreName: string
+} = {
+  name: option.indexeddb.name,
+  version: option.indexeddb.version,
+  objectStoreName: option.indexeddb.objectStore.option.name
+};
 export const changeQQLoginList = createAction('获取已登录的列表');
 
 /* reducer */

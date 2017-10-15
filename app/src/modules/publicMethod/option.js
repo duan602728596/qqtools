@@ -29,7 +29,7 @@ const option: {
   ptqr: `${ execPath }/.cache/ptqr.png`,  // 二维码
   indexeddb: {                            // 配置indexedDB
     name: 'qqtools',
-    version: 2,
+    version: 3,
     objectStore: {
       option: {
         name: 'option',

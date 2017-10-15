@@ -30,7 +30,7 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
   const custom: Object = customProfilesArray2Obj(customProfiles);
   const inter: interfaceOption = {
     name: value.name,
-    groupname: value.groupName,
+    groupName: value.groupName,
     time: new Date().getTime(),
     basic: {
       isWds: value.isWds.length > 0,
@@ -38,6 +38,8 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
       wdsTemplate: value.wdsTemplate,
       is48LiveListener: value.is48LiveListener.length > 0,
       kd48LiveListenerMembers: value.kd48LiveListenerMembers,
+      isNewBlood: value.isNewBlood.length > 0,
+      newBloodTemplate: value.newBloodTemplate,
       isXinZhiTianQi: value.isXinZhiTianQi.length > 0,
       xinZhiTianQiAPIKey: value.xinZhiTianQiAPIKey,
       xinZhiTianQiTemplate: value.xinZhiTianQiTemplate,
@@ -53,7 +55,19 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
 function customProfilesArray2Obj(customProfiles: { command: string, text: string }[]): Object{
   const custom: Object = {};
   jQuery.each(customProfiles, (index: number, item: { command: string, text: string }): void=>{
-    custom[item.command] = item.value;
+    custom[item.command] = item.text;
+  });
+  return custom;
+}
+
+/* 将Obj转换成Array */
+export function customProfilesObj2Array(customProfiles: Object): { command: string, text: string }[]{
+  const custom: { command: string, text: string }[] = [];
+  jQuery.each(customProfiles, (key: string, value: string): void=>{
+    custom.push({
+      command: key,
+      text: value
+    });
   });
   return custom;
 }

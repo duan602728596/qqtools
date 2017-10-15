@@ -7,7 +7,8 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import { Form, Input, Checkbox, Affix, Button, Table, Modal, message, Popconfirm } from 'antd';
 import style from './style.sass';
 import commonStyle from '../../../common.sass';
-import interfaceOption from './interface';
+import interfaceOption, { customProfilesObj2Array } from './interface';
+import { putOption } from '../store/reducer';
 
 /* 判断当前的cmd是否存在，并且返回index */
 function getIndex(lists: Array, cmd: text): ?number{
@@ -23,8 +24,19 @@ function getIndex(lists: Array, cmd: text): ?number{
   return index;
 }
 
+/* 初始化数据 */
+const state: Function = createStructuredSelector({});
+
+/* dispatch */
+const dispatch: Function = (dispatch: Function): Object=>({
+  action: bindActionCreators({
+    putOption
+  }, dispatch)
+});
+
 @withRouter
 @Form.create()
+@connect(state, dispatch)
 class Add extends Component{
   state: {
     customProfiles: Object[],
@@ -46,6 +58,13 @@ class Add extends Component{
       text: '',            // 表单文字
       item: null           // 被选中
     };
+  }
+  componentDidMount(): void{
+    if('query' in this.props.location){
+      this.setState({
+        customProfiles: customProfilesObj2Array(this.props.location.query.detail.custom)
+      });
+    }
   }
   // 图表配置
   columns(): Array{
@@ -161,11 +180,15 @@ class Add extends Component{
     this.props.form.validateFields(async (err: any, value: Object): void=>{
       if(!err){
         const data: Object = interfaceOption(value, this.state.customProfiles);
-        console.log(data);
+        await this.props.action.putOption({
+          data
+        });
+        this.props.history.push('/Option');
       }
     });
   }
   render(): Array{
+    const detail: ?Object = 'query' in this.props.location ? this.props.location.query.detail : null;
     const { getFieldDecorator } = this.props.form;
     return [
       <Form key={ 0 } className={ style.form } layout="inline" onSubmit={ this.onSubmit.bind(this) }>
@@ -181,7 +204,7 @@ class Add extends Component{
           <Form.Item label="配置名称">
             {
               getFieldDecorator('name', {
-                initialValue: '',
+                initialValue: detail ? detail.name : '',
                 rules: [
                   {
                     message: '必须输入配置名称',
@@ -190,14 +213,14 @@ class Add extends Component{
                   }
                 ]
               })(
-                <Input placeholder="输入配置名称" />
+                <Input placeholder="输入配置名称" readOnly={ detail } />
               )
             }
           </Form.Item>
           <Form.Item label="监视群名称">
             {
               getFieldDecorator('groupName', {
-                initialValue: '',
+                initialValue: detail ? detail.groupName : '',
                 rules: [
                   {
                     message: '必须输入要监视的群名称',
@@ -218,7 +241,7 @@ class Add extends Component{
           <Form.Item className={ style.mb15 } label="开启微打赏功能">
             {
               getFieldDecorator('isWds', {
-                initialValue: []
+                initialValue: detail ? (detail.basic.isWds ? ['isWds'] : [] ): []
               })(
                 <Checkbox.Group options={[
                   {
@@ -232,7 +255,7 @@ class Add extends Component{
           <Form.Item className={ style.mb15 } label="微打赏ID">
             {
               getFieldDecorator('wdsId', {
-                initialValue: ''
+                initialValue: detail ? detail.basic.wdsId : ''
               })(
                 <Input />
               )
@@ -243,8 +266,9 @@ class Add extends Component{
             <div className={ commonStyle.clearfix }>
               {
                 getFieldDecorator('wdsTemplate', {
-                  initialValue: `@{{ id }} 刚刚在【{{ wdsname }}】打赏了{{ money }}元，排名提高了{{ rankingchage }}名，当前排名{{ ranking }}。` +
-                                `感谢这位聚聚！\n已筹集资金：{{ amount }}\n微打赏地址：https://wds.modian.com/show_weidashang_pro/{{ wdsid }}#1`
+                  initialValue: detail ? detail.basic.wdsTemplate :
+                    `@{{ id }} 刚刚在【{{ wdsname }}】打赏了{{ money }}元，排名提高了{{ rankingchage }}名，当前排名{{ ranking }}。` +
+                    `感谢这位聚聚！\n已筹集资金：{{ amount }}\n微打赏地址：https://wds.modian.com/show_weidashang_pro/{{ wdsid }}#1`
                 })(
                   <Input.TextArea className={ style.template } rows={ 8 } />
                 )
@@ -268,7 +292,7 @@ class Add extends Component{
           <Form.Item className={ style.mb15 } label="开启口袋48直播监听功能">
             {
               getFieldDecorator('is48LiveListener', {
-                initialValue: []
+                initialValue: detail ? (detail.basic.is48LiveListener ? ['is48LiveListener'] : []) : []
               })(
                 <Checkbox.Group options={[
                   {
@@ -284,12 +308,46 @@ class Add extends Component{
             <div className={ commonStyle.clearfix }>
               {
                 getFieldDecorator('kd48LiveListenerMembers', {
-                  initialValue: ''
+                  initialValue: detail ? detail.basic.kd48LiveListenerMembers : ''
                 })(
                   <Input.TextArea className={ style.template } rows={ 3 } />
                 )
               }
               <p className={ style.shuoming }>多个成员名字之间用","（半角逗号）分隔。</p>
+            </div>
+          </Form.Item>
+        </div>
+        {/* 新成员欢迎语 */}
+        <h4 className={ style.title }>新成员欢迎：</h4>
+        <div>
+          <Form.Item className={ style.mb15 } label="开启新成员欢迎功能">
+            {
+              getFieldDecorator('isNewBlood', {
+                initialValue: detail ? (detail.basic.isNewBlood ? ['isNewBlood'] : []) : []
+              })(
+                <Checkbox.Group options={[
+                  {
+                    label: '',
+                    value: 'isNewBlood'
+                  }
+                ]} />
+              )
+            }
+          </Form.Item>
+          <br />
+          <Form.Item label="欢迎语模板">
+            <div className={ commonStyle.clearfix }>
+              {
+                getFieldDecorator('newBloodTemplate', {
+                  initialValue: detail ? detail.basic.newBloodTemplate : `欢迎@{{ name }}加入群。`
+                })(
+                  <Input.TextArea className={ style.template } rows={ 5 } />
+                )
+              }
+              <p className={ style.shuoming }>
+                <b>模板关键字：</b><br />
+                name：新入群的成员昵称
+              </p>
             </div>
           </Form.Item>
         </div>
@@ -305,7 +363,7 @@ class Add extends Component{
           <Form.Item className={ style.mb15 } label="开启心知天气的查询天气功能">
             {
               getFieldDecorator('isXinZhiTianQi', {
-                initialValue: []
+                initialValue: detail ? (detail.basic.isXinZhiTianQi ? ['isXinZhiTianQi'] : []) : []
               })(
                 <Checkbox.Group options={[
                   {
@@ -319,7 +377,7 @@ class Add extends Component{
           <Form.Item className={ style.mb15 } label="心知天气APIKey">
             {
               getFieldDecorator('xinZhiTianQiAPIKey', {
-                initialValue: ''
+                initialValue: detail ? detail.basic.xinZhiTianQiAPIKey : ''
               })(
                 <Input className={ style.w600 } placeholder="请输入您的APIKey" />
               )
@@ -330,7 +388,8 @@ class Add extends Component{
             <div className={ commonStyle.clearfix }>
               {
                 getFieldDecorator('xinZhiTianQiTemplate', {
-                  initialValue: `【{{ name }}】\n天气：{{ text }}\n温度：{{ temperature }}℃`
+                  initialValue: detail ? detail.basic.xinZhiTianQiTemplate :
+                    `【{{ name }}】\n天气：{{ text }}\n温度：{{ temperature }}℃`
                 })(
                   <Input.TextArea className={ style.template } rows={ 5 } />
                 )
@@ -356,7 +415,7 @@ class Add extends Component{
           <Form.Item className={ style.mb15 } label="开启图灵机器人功能">
             {
               getFieldDecorator('isTuLing', {
-                initialValue: []
+                initialValue: detail ? (detail.basic.isTuLing ? ['isTuLing'] : []) : []
               })(
                 <Checkbox.Group options={[
                   {
@@ -370,7 +429,7 @@ class Add extends Component{
           <Form.Item className={ style.mb15 } label="图灵机器人APIKey">
             {
               getFieldDecorator('tuLingAPIKey', {
-                initialValue: ''
+                initialValue: detail ? detail.basic.tuLingAPIKey : ''
               })(
                 <Input className={ style.w600 } placeholder="请输入您的APIKey" />
               )
@@ -378,17 +437,17 @@ class Add extends Component{
           </Form.Item>
         </div>
         <hr className={ style.line } />
-        {/* 自定义配置 */}
-        <h4 className={ style.title }>自定义配置：</h4>
-        <Button className={ style.addCustom } size="small" onClick={ this.onModalOpen.bind(this) }>添加新自定义配置</Button>
+        {/* 自定义命令 */}
+        <h4 className={ style.title }>自定义命令：</h4>
+        <Button className={ style.addCustom } size="small" onClick={ this.onModalOpen.bind(this) }>添加新自定义命令</Button>
         <Table columns={ this.columns() }
                dataSource={ this.state.customProfiles }
                size="small"
                rowKey={ (item: Object): string=>item.command } />
       </Form>,
-      /* 添加或修改自定义配置 */
+      /* 添加或修改自定义命令 */
       <Modal key={ 1 }
-             title={ this.state.item ? "修改" : "添加" + "自定义配置项" }
+             title={ this.state.item ? "修改" : "添加" + "自定义命令" }
              visible={ this.state.modalDisplay }
              width="500px"
              maskClosable={ false }
@@ -398,6 +457,7 @@ class Add extends Component{
           <label className={ style.customLine } htmlFor="customCmd">命令：</label>
           <Input className={ style.customLine }
                  id="customCmd"
+                 readOnly={ this.state.item }
                  value={ this.state.cmd }
                  onChange={ this.onInputChange.bind(this, 'cmd') } />
           <label className={ style.customLine } htmlFor="customText">文本：</label>

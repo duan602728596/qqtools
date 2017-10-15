@@ -1,7 +1,7 @@
 // @flow
 import { createAction, handleActions } from 'redux-actions';
 import { fromJS } from 'immutable';
-import { cursorAction } from 'indexeddb-tools-redux';
+import { cursorAction, deleteAction, putAction, getAction } from 'indexeddb-tools-redux';
 import option from '../../publicMethod/option';
 
 /* 使用immutable初始化基础数据 */
@@ -22,10 +22,14 @@ const opt: {
   objectStoreName: option.indexeddb.objectStore.option.name
 };
 export const optionList = createAction('配置列表');
-export const cursorOptionList: Function = cursorAction({
+export const putOption = putAction(opt);
+export const cursorOption = cursorAction({
   ...opt,
   successAction: optionList
 });
+export const deleteOption = deleteAction(opt);
+// 导入所有配置
+export const importOption = putAction(opt);
 
 /* reducer */
 const reducer: Function = handleActions({
