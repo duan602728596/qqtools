@@ -35,6 +35,7 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
     basic: {
       isWds: value.isWds.length > 0,
       wdsId: value.wdsId,
+      wdsUrlTemplate: value.wdsUrlTemplate,
       wdsTemplate: value.wdsTemplate,
       is48LiveListener: value.is48LiveListener.length > 0,
       kd48LiveListenerMembers: value.kd48LiveListenerMembers,

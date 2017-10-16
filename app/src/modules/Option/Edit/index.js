@@ -263,13 +263,33 @@ class Add extends Component{
             }
           </Form.Item>
           <br />
+          <Form.Item className={ style.mb15 } label="微打赏命令">
+            <div className={ commonStyle.clearfix }>
+              {
+                getFieldDecorator('wdsUrlTemplate', {
+                  initialValue: detail ? detail.basic.wdsUrlTemplate :
+                    `微打赏：{{ wdsname }}\nhttps://wds.modian.com/show_weidashang_pro/{{ wdsid }}#1`
+                })(
+                  <Input.TextArea className={ style.template } rows={ 8 } />
+                )
+              }
+              <p className={ style.shuoming }>
+                <b>模板关键字：</b>
+                <br />
+                wdsname：微打赏的名称，
+                <br />
+                wdsid：微打赏的ID
+              </p>
+            </div>
+          </Form.Item>
+          <br />
           <Form.Item label="微打赏模板">
             <div className={ commonStyle.clearfix }>
               {
                 getFieldDecorator('wdsTemplate', {
                   initialValue: detail ? detail.basic.wdsTemplate :
-                    `@{{ id }} 刚刚在【{{ wdsname }}】打赏了{{ money }}元，排名提高了{{ rankingchage }}名，当前排名{{ ranking }}。` +
-                    `感谢这位聚聚！\n已筹集资金：{{ amount }}\n微打赏地址：https://wds.modian.com/show_weidashang_pro/{{ wdsid }}#1`
+                    `@{{ id }} 刚刚在【{{ wdsname }}】打赏了{{ money }}元，排名提高了{{ rankingchage }}名，当前排名第{{ ranking }}名。` +
+                    `感谢这位聚聚！\n已筹集资金：{{ amount }}元。\n微打赏地址：https://wds.modian.com/show_weidashang_pro/{{ wdsid }}#1`
                 })(
                   <Input.TextArea className={ style.template } rows={ 8 } />
                 )
