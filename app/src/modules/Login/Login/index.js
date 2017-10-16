@@ -7,6 +7,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
 import { Spin, message, Select } from 'antd';
 import style from './style.sass';
+import commonStyle from '../../../common.sass';
 import SmartQQ from '../../../components/smartQQ/SmartQQ';
 import option from '../../publicMethod/option';
 import { changeQQLoginList, cursorOption } from '../store/reducer';
@@ -65,7 +66,10 @@ class Login extends Component{
     loginState: number,
     qq: ?SmartQQ,
     timer: ?number,
-    optionItemIndex: ?number
+    optionItemIndex: ?number,
+    proxyMode: ?string,
+    proxyIp: ?string,
+    proxyPort: ?number
   };
   constructor(props: Object): void{
     super(props);
@@ -75,13 +79,47 @@ class Login extends Component{
       loginState: 0,   // 登录状态，0：加载二维码，1：二维码加载完毕，2：登陆中
       qq: null,
       timer: null,
-      optionItemIndex: null // 当前选择的配置索引
+      optionItemIndex: null, // 当前选择的配置索引
+      proxyMode: null,
+      proxyIp: null,
+      proxyPort: null
     };
   }
   componentWillMount(): void{
     this.props.action.cursorOption({
       indexName: 'time'
     });
+    // 格式化代理地址的参数
+    if('query' in this.props.location){
+      const { proxyMode, proxyIp, proxyPort }: {
+        proxyMode: string,
+        proxyIp: ?string,
+        proxyPort: ?string
+      } = this.props.location.query;
+      if(proxyMode !== '不使用代理'){
+        let m: ?string, i: ?string, p: ?number = null;
+        m = proxyMode;
+        i = proxyIp;
+        if(/^\s*$/.test(proxyIp)){
+          m = null;
+          i = null;
+          p = null;
+        }else{
+          if(/^\s*$/.test(proxyPort)){
+            if(proxyMode === 'http') p = 80;
+            if(proxyMode === 'https') p = 443;
+          }else{
+            p = Number(proxyPort);
+          }
+        }
+        console.log(m, i, p);
+        this.setState({
+          proxyMode: m,
+          proxyIp: i,
+          proxyPort: p
+        });
+      }
+    }
   }
   async loginSuccess(): void{
     try{
@@ -196,8 +234,24 @@ class Login extends Component{
     const index: ?number = this.state.optionItemIndex ? Number(this.state.optionItemIndex) : null;
     return (
       <div className={ style.body }>
-        <div className={ style.ptqrBody }>
-          { this.ptqrBody(new Date().getTime()) }
+        <div className={ commonStyle.clearfix }>
+          <div className={ style.ptqrBody }>
+            { this.ptqrBody(new Date().getTime()) }
+          </div>
+          <div className={ style.proxy }>
+            <p>
+              <b>是否使用代理IP：</b>
+              { this.state.proxyMode ? '使用代理' : '不使用代理' }
+            </p>
+            <p>
+              <b>IP地址：</b>
+              { this.state.proxyIp ? this.state.proxyIp : '-----' }
+            </p>
+            <p>
+              <b>端口号：</b>
+              { this.state.proxyPort ? this.state.proxyPort : '-----' }
+            </p>
+          </div>
         </div>
         <p className={ style.tishi }>
           请用手机QQ扫描登录，或者

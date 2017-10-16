@@ -45,7 +45,10 @@ class SmartQQ{
   // 下载二维码
   downloadPtqr(): Promise{
     return requestHttp({
-      reqUrl: `https://ssl.ptlogin2.qq.com/ptqrshow?appid=501004106&e=0&l=M&s=5&d=72&v=4&t=${ new Date().getTime() }`
+      reqUrl: `https://ssl.ptlogin2.qq.com/ptqrshow?appid=501004106&e=2&l=M&s=3&d=72&v=4&t=${ new Date().getTime() }&daid=164&pt_3rd_aid=0`,
+      headers: {
+        'referer': 'https://xui.ptlogin2.qq.com/cgi-bin/xlogin?daid=164&target=self&style=40&pt_disable_pwd=1&mibao_css=m_webqq&appid=501004106&enable_qlogin=0&no_verifyimg=1&s_url=https%3A%2F%2Fw.qq.com%2Fproxy.html&f_url=loginerroralert&strong_login=1&login_state=10&t=20131024001'
+      }
     });
   }
   // 计算令牌

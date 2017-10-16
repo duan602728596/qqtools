@@ -4,7 +4,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
-import { Affix, Table, Button } from 'antd';
+import { Affix, Table, Button, Radio, Input } from 'antd';
+import style from './style.sass';
 import publicStyle from '../../publicMethod/public.sass';
 import commonStyle from '../../../common.sass';
 import { changeQQLoginList } from '../store/reducer';
@@ -27,6 +28,20 @@ const dispatch: Function = (dispatch: Function): Object=>({
 
 @connect(state, dispatch)
 class Index extends Component{
+  state: {
+    proxyMode: string,
+    proxyIp: string,
+    proxyPort: string
+  };
+  constructor(props: Object): void{
+    super(props);
+
+    this.state = {
+      proxyMode: '不使用代理',
+      proxyIp: '',
+      proxyPort: ''
+    };
+  }
   // 表格配置
   columus(): Array{
     const columns: Array = [
@@ -62,14 +77,49 @@ class Index extends Component{
     ];
     return columns;
   }
+  // 选择代理
+  onChangeProxy(key: string, event: Object): void{
+    this.setState({
+      [key]: event.target.value
+    });
+  }
   render(): Object{
     return [
       <Affix key={ 0 } className={ publicStyle.affix }>
         <div className={ `${ publicStyle.toolsBox } ${ commonStyle.clearfix }` }>
           <div className={ publicStyle.fl }>
-            <Link to="/Login/Login">
+            <Link className={ publicStyle.mr10 } to={{
+              pathname: '/Login/Login',
+              query: {
+                proxyMode: this.state.proxyMode,
+                proxyIp: this.state.proxyIp,
+                proxyPort: this.state.proxyPort
+              }
+            }}>
               <Button type="primary" icon="windows-o">登录</Button>
             </Link>
+          </div>
+          {/* 配置代理服务器 */}
+          <div className={ publicStyle.fl }>
+            <b>使用代理登录QQ：</b>
+            <Radio.Group options={['不使用代理', 'http', 'https']} value={ this.state.proxyMode } onChange={ this.onChangeProxy.bind(this, 'proxyMode') } />
+            <label htmlFor="proxyIp">IP地址：</label>
+            <Input className={ `${ publicStyle.mr10 } ${ style.proxyIp }` }
+                   id="proxyIp"
+                   disabled={ this.state.proxyMode === '不使用代理' }
+                   value={ this.state.proxyIp }
+                   onChange={ this.onChangeProxy.bind(this, 'proxyIp') } />
+            <label htmlFor="proxyPort">端口号：</label>
+            <Input className={ `${ style.proxyPort } ${ publicStyle.mr10 }` }
+                   id="proxyPort"
+                   disabled={ this.state.proxyMode === '不使用代理' }
+                   value={ this.state.proxyPort }
+                   onChange={ this.onChangeProxy.bind(this, 'proxyPort') } />
+            <span>
+              如果有请求失败的情况，请去&nbsp;
+              <b>http://www.xicidaili.com/</b>
+              &nbsp;使用代理来登录。
+            </span>
           </div>
           <div className={ publicStyle.fr }>
             <Link className={ publicStyle.ml10 } to="/">
