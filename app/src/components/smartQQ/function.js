@@ -5,11 +5,11 @@ const https = node_require('https');
 const http = node_require('http');
 const url = node_require('url');
 
-const USER_AGENT: string = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36';
+/*const USER_AGENT: string = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36';
 const HEADER: Object = {
   'Connection': 'keep-alive',
   'User-Agent': USER_AGENT
-};
+};*/
 
 /**
  * 请求
@@ -27,19 +27,20 @@ export function requestHttp({ reqUrl, method = 'GET', data = '', headers = {}, s
     headers: Object,
     setEncode: ?string
 }): Promise{
+  let options: ?Object = null;
   const { protocol, host, path, port }: {
     protocol: string,
     host: string,
     path: string,
     port: ?number
   } = url.parse(reqUrl);
-  const options: Object = {
+  options = {
     protocol,
     host,
     port,
     path,
     method,
-    headers: Object.assign(HEADER, headers)
+    headers: headers
   };
   return new Promise((resolve: Function, reject: Function): void=>{
     const req: Object = (protocol === 'https:' ? https : http).request(options, (res: Object): void=>{

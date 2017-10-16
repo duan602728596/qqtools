@@ -62,12 +62,6 @@ class Index extends Component{
     ];
     return columns;
   }
-  // 选择代理
-  onChangeProxy(key: string, event: Object): void{
-    this.setState({
-      [key]: event.target.value
-    });
-  }
   render(): Object{
     return [
       <Affix key={ 0 } className={ publicStyle.affix }>

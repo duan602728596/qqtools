@@ -47,9 +47,9 @@ class SmartQQ{
     this.option = null;          // 配置信息
   }
   // 下载二维码
-  downloadPtqr(): Promise{
+  downloadPtqr(timeStr): Promise{
     return requestHttp({
-      reqUrl: `https://ssl.ptlogin2.qq.com/ptqrshow?appid=501004106&e=2&l=M&s=3&d=72&v=4&t=${ new Date().getTime() }&daid=164&pt_3rd_aid=0`
+      reqUrl: `https://ssl.ptlogin2.qq.com/ptqrshow?appid=501004106&e=0&l=M&s=5&d=72&v=4&t=${ Math.random() }`
     });
   }
   // 计算令牌
