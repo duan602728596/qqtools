@@ -186,7 +186,6 @@ function getData(method, url, data){
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.addEventListener('readystatechange', function(event){
       if(xhr.status === 200){
-        // 返回的数据不是正确的json格式，使用eval转换
         try{
           const res = JSON.parse(xhr.response);
           resolve(res);
