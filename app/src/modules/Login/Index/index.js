@@ -61,19 +61,31 @@ class Index extends Component{
       {
         title: 'uin',
         key: 'uin',
-        width: '20%',
+        width: '15%',
         render: (text: ?string, item: SmartQQ): string=>`${ item.uin }`
       },
       {
         title: 'cip',
         key: 'cip',
-        width: '20%',
+        width: '15%',
         render: (text: ?string, item: SmartQQ): string=>`${ item.cip }`
+      },
+      {
+        title: '代理',
+        key: 'proxy',
+        width: '15%',
+        render: (text: ?string, item: SmartQQ): string=>{
+          if(item.proxyMode){
+            return `${ item.proxyMode }://${ item.proxyIp }:${ item.proxyPort }/`;
+          }else{
+            return '无代理';
+          }
+        }
       },
       {
         title: '操作',
         key: 'handle',
-        width: '20%'
+        width: '15%'
       }
     ];
     return columns;

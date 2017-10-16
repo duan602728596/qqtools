@@ -89,37 +89,6 @@ class Login extends Component{
     this.props.action.cursorOption({
       indexName: 'time'
     });
-    // 格式化代理地址的参数
-    if('query' in this.props.location){
-      const { proxyMode, proxyIp, proxyPort }: {
-        proxyMode: string,
-        proxyIp: ?string,
-        proxyPort: ?string
-      } = this.props.location.query;
-      if(proxyMode !== '不使用代理'){
-        let m: ?string, i: ?string, p: ?number = null;
-        m = proxyMode;
-        i = proxyIp;
-        if(/^\s*$/.test(proxyIp)){
-          m = null;
-          i = null;
-          p = null;
-        }else{
-          if(/^\s*$/.test(proxyPort)){
-            if(proxyMode === 'http') p = 80;
-            if(proxyMode === 'https') p = 443;
-          }else{
-            p = Number(proxyPort);
-          }
-        }
-        console.log(m, i, p);
-        this.setState({
-          proxyMode: m,
-          proxyIp: i,
-          proxyPort: p
-        });
-      }
-    }
   }
   async loginSuccess(): void{
     try{
@@ -172,7 +141,42 @@ class Login extends Component{
   async componentDidMount(): void{
     // 初始化QQ
     try{
-      qq = new SmartQQ(callback);
+      // 格式化代理地址的参数
+      let m: ?string, i: ?string, p: ?number = null;
+      if('query' in this.props.location){
+        const { proxyMode, proxyIp, proxyPort }: {
+          proxyMode: string,
+          proxyIp: ?string,
+          proxyPort: ?string
+        } = this.props.location.query;
+        if(proxyMode !== '不使用代理'){
+          m = proxyMode;
+          i = proxyIp;
+          if(/^\s*$/.test(proxyIp)){
+            m = null;
+            i = null;
+            p = null;
+          }else{
+            if(/^\s*$/.test(proxyPort)){
+              if(proxyMode === 'http') p = 80;
+              if(proxyMode === 'https') p = 443;
+            }else{
+              p = Number(proxyPort);
+            }
+          }
+          this.setState({
+            proxyMode: m,
+            proxyIp: i,
+            proxyPort: p
+          });
+        }
+      }
+      qq = new SmartQQ({
+        callback,
+        proxyMode: m,
+        proxyIp: i,
+        proxyPort: p
+      });
       const [data, cookies]: [Buffer, Object] = await qq.downloadPtqr();
       qq.cookie = cookies;
       // 写入图片
