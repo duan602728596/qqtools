@@ -9,6 +9,7 @@ import style from './style.sass';
 import commonStyle from '../../../common.sass';
 import interfaceOption, { customProfilesObj2Array } from './interface';
 import { putOption } from '../store/reducer';
+import { copy } from '../../publicMethod/editOperation';
 
 /* 判断当前的cmd是否存在，并且返回index */
 function getIndex(lists: Array, cmd: text): ?number{
@@ -274,14 +275,21 @@ class Add extends Component{
                 )
               }
               <p className={ style.shuoming }>
-                <b>模板关键字：</b><br />
-                id：打赏人的ID，<br />
-                money：打赏金额，<br />
-                amount：总金额，<br />
-                ranking：当前排名，<br />
-                rankingchage：排名变化（提高），<br />
-                wdsname：微打赏的名称，<br />
-                wdsid：微打赏的ID<br />
+                <b>模板关键字：</b>
+                <br />
+                id：打赏人的ID，
+                <br />
+                money：打赏金额，
+                <br />
+                amount：总金额，
+                <br />
+                ranking：当前排名，
+                <br />
+                rankingchage：排名变化（提高），
+                <br />
+                wdsname：微打赏的名称，
+                <br />
+                wdsid：微打赏的ID
               </p>
             </div>
           </Form.Item>
@@ -345,7 +353,8 @@ class Add extends Component{
                 )
               }
               <p className={ style.shuoming }>
-                <b>模板关键字：</b><br />
+                <b>模板关键字：</b>
+                <br />
                 name：新入群的成员昵称
               </p>
             </div>
@@ -357,7 +366,9 @@ class Add extends Component{
           <p className={ style.mb15 }>该接口用来查询天气情况，目前官方的个人查询限制为400次/时。</p>
           <p className={ style.mb15 }>
             请自行到心知天气的官方网站&nbsp;
-            <b>https://www.seniverse.com/</b>
+            <b className={ style.url } id="copy-option-xinzhitianqi" onClick={ copy.bind(this, 'copy-option-xinzhitianqi') }>https://www.seniverse.com/</b>
+            &nbsp;
+            <Button icon="copy" title="复制" onClick={ copy.bind(this, 'copy-option-xinzhitianqi') } />
             &nbsp;注册账号并填写appKey。
           </p>
           <Form.Item className={ style.mb15 } label="开启心知天气的查询天气功能">
@@ -395,10 +406,13 @@ class Add extends Component{
                 )
               }
               <p className={ style.shuoming }>
-                <b>模板关键字：</b><br />
-                name：查询城市，<br />
-                text：天气现象文字，<br />
-                temperature：温度<br />
+                <b>模板关键字：</b>
+                <br />
+                name：查询城市，
+                <br />
+                text：天气现象文字，
+                <br />
+                temperature：温度
               </p>
             </div>
           </Form.Item>
@@ -409,7 +423,9 @@ class Add extends Component{
           <p className={ style.mb15 }>该接口用来和机器人对话，目前官方的个人查询限制为1000次/日。</p>
           <p className={ style.mb15 }>
             请自行到图灵机器人的官方网站&nbsp;
-            <b>http://www.tuling123.com/</b>
+            <b className={ style.url } id="copy-option-tuling" onClick={ copy.bind(this, 'copy-option-tuling') }>http://www.tuling123.com/</b>
+            &nbsp;
+            <Button icon="copy" title="复制" onClick={ copy.bind(this, 'copy-option-tuling') } />
             &nbsp;注册账号并填写appKey。
           </p>
           <Form.Item className={ style.mb15 } label="开启图灵机器人功能">

@@ -10,6 +10,7 @@ import publicStyle from '../../publicMethod/public.sass';
 import commonStyle from '../../../common.sass';
 import { changeQQLoginList } from '../store/reducer';
 import SmartQQ from "../../../components/smartQQ/SmartQQ";
+import { copy } from '../../publicMethod/editOperation';
 
 /* 初始化数据 */
 const state: Function = createStructuredSelector({
@@ -117,7 +118,9 @@ class Index extends Component{
                    onChange={ this.onChangeProxy.bind(this, 'proxyPort') } />
             <span>
               如果有请求失败的情况，请去&nbsp;
-              <b>http://www.xicidaili.com/</b>
+              <b className={ style.url } id="copy-login-proxy" onClick={ copy.bind(this, 'copy-login-proxy') }>http://www.xicidaili.com/</b>
+              &nbsp;
+              <Button icon="copy" title="复制" onClick={ copy.bind(this, 'copy-login-proxy') } />
               &nbsp;使用代理来登录。
             </span>
           </div>
