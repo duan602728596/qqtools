@@ -4,10 +4,7 @@ import { requestHttp, hash33, hash, cookieObj2Str, msgId } from './function';
 const queryString = node_require('querystring');
 
 type cons = {
-  callback: Function,
-  proxyMode: ?string,
-  proxyIp: ?string,
-  proxyPort: ?number
+  callback: Function
 };
 
 class SmartQQ{
@@ -28,10 +25,7 @@ class SmartQQ{
   listenMessageTimer: ?number;
   callback: Function;
   option: Object;
-  proxyMode: ?string;
-  proxyIp: ?string;
-  proxyPort: ?number;
-  constructor({ callback, proxyMode, proxyIp, proxyPort }: cons): void{
+  constructor({ callback }: cons): void{
     this.cookie = {};            // 储存cookie
     this.cookieStr = null;       // cookie字符串
     this.token = null;           // 二维码登录令牌
@@ -51,21 +45,11 @@ class SmartQQ{
     this.listenMessageTimer = null;           // 轮询信息
     this.callback = callback;    // 获得信息后的回调
     this.option = null;          // 配置信息
-
-    this.proxyMode = proxyMode;  // 代理IP
-    this.proxyIp = proxyIp;
-    this.proxyPort = proxyPort;
-    this.proxy = proxyMode ? {
-      proxyMode,
-      proxyIp,
-      proxyPort
-    } : null;
   }
   // 下载二维码
   downloadPtqr(): Promise{
     return requestHttp({
-      reqUrl: `https://ssl.ptlogin2.qq.com/ptqrshow?appid=501004106&e=2&l=M&s=3&d=72&v=4&t=${ new Date().getTime() }&daid=164&pt_3rd_aid=0`,
-      proxy: this.proxy
+      reqUrl: `https://ssl.ptlogin2.qq.com/ptqrshow?appid=501004106&e=2&l=M&s=3&d=72&v=4&t=${ new Date().getTime() }&daid=164&pt_3rd_aid=0`
     });
   }
   // 计算令牌
@@ -80,8 +64,7 @@ class SmartQQ{
       headers: {
         'Cookie': cookieObj2Str(this.cookie)
       },
-      setEncode: 'utf8',
-      proxy: this.proxy
+      setEncode: 'utf8'
     })
   }
   // 登录
@@ -91,8 +74,7 @@ class SmartQQ{
       headers: {
         'Cookie': cookieObj2Str(this.cookie)
       },
-      setEncode: 'utf8',
-      proxy: this.proxy
+      setEncode: 'utf8'
     });
     // login之后的两个302重定向页面
     // http://w.qq.com/proxy.html?login2qq=1&webqq_type=10
@@ -104,8 +86,7 @@ class SmartQQ{
       headers: {
         'Cookie': cookieObj2Str(this.cookie)
       },
-      setEncode: 'utf8',
-      proxy: this.proxy
+      setEncode: 'utf8'
     });
   }
   login302web2(){
@@ -114,8 +95,7 @@ class SmartQQ{
       headers: {
         'Cookie': cookieObj2Str(this.cookie)
       },
-      setEncode: 'utf8',
-      proxy: this.proxy
+      setEncode: 'utf8'
     });
   }
   // 获取vfwebqq
@@ -127,8 +107,7 @@ class SmartQQ{
         'Cookie': cookieObj2Str(this.cookie),
         'Referer': 'http://s.web2.qq.com/proxy.html?v=20130916001&callback=1&id=1'
       },
-      setEncode: 'utf8',
-      proxy: this.proxy
+      setEncode: 'utf8'
     });
   }
   // 获取psessionid、uin和cip
@@ -149,8 +128,7 @@ class SmartQQ{
       },
       method: 'POST',
       setEncode: 'utf8',
-      data,
-      proxy: this.proxy
+      data
     });
   }
   // 获取群组
@@ -170,8 +148,7 @@ class SmartQQ{
       },
       method: 'POST',
       setEncode: 'utf8',
-      data,
-      proxy: this.proxy
+      data
     });
   }
   // 获取群好友
@@ -183,8 +160,7 @@ class SmartQQ{
         'Cookie': cookieObj2Str(this.cookie),
         'Referer': 'http://d1.web2.qq.com/proxy.html?v=20151105001&callback=1&id=2'
       },
-      setEncode: 'utf8',
-      proxy: this.proxy
+      setEncode: 'utf8'
     });
   }
   // 获取群详细信息
@@ -254,8 +230,7 @@ class SmartQQ{
       },
       method: 'POST',
       setEncode: 'utf8',
-      data,
-      proxy: this.proxy
+      data
     });
   }
   // 发送消息
@@ -290,8 +265,7 @@ class SmartQQ{
       },
       method: 'POST',
       setEncode: 'utf8',
-      data,
-      proxy: this.proxy
+      data
     });
   }
   // 轮询事件

@@ -7,7 +7,6 @@ import { Link, withRouter } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
 import { Spin, message, Select } from 'antd';
 import style from './style.sass';
-import commonStyle from '../../../common.sass';
 import SmartQQ from '../../../components/smartQQ/SmartQQ';
 import option from '../../publicMethod/option';
 import { changeQQLoginList, cursorOption } from '../store/reducer';
@@ -141,41 +140,8 @@ class Login extends Component{
   async componentDidMount(): void{
     // 初始化QQ
     try{
-      // 格式化代理地址的参数
-      let m: ?string, i: ?string, p: ?number = null;
-      if('query' in this.props.location){
-        const { proxyMode, proxyIp, proxyPort }: {
-          proxyMode: string,
-          proxyIp: ?string,
-          proxyPort: ?string
-        } = this.props.location.query;
-        if(proxyMode !== '不使用代理'){
-          m = proxyMode;
-          i = proxyIp;
-          if(/^\s*$/.test(proxyIp)){
-            m = null;
-            i = null;
-            p = null;
-          }else{
-            if(/^\s*$/.test(proxyPort)){
-              if(proxyMode === 'http') p = 80;
-              if(proxyMode === 'https') p = 443;
-            }else{
-              p = Number(proxyPort);
-            }
-          }
-          this.setState({
-            proxyMode: m,
-            proxyIp: i,
-            proxyPort: p
-          });
-        }
-      }
       qq = new SmartQQ({
-        callback,
-        proxyMode: m,
-        proxyIp: i,
-        proxyPort: p
+        callback
       });
       const [data, cookies]: [Buffer, Object] = await qq.downloadPtqr();
       qq.cookie = cookies;
@@ -238,24 +204,8 @@ class Login extends Component{
     const index: ?number = this.state.optionItemIndex ? Number(this.state.optionItemIndex) : null;
     return (
       <div className={ style.body }>
-        <div className={ commonStyle.clearfix }>
-          <div className={ style.ptqrBody }>
-            { this.ptqrBody(new Date().getTime()) }
-          </div>
-          <div className={ style.proxy }>
-            <p>
-              <b>是否使用代理IP：</b>
-              { this.state.proxyMode ? '使用代理' : '不使用代理' }
-            </p>
-            <p>
-              <b>IP地址：</b>
-              { this.state.proxyIp ? this.state.proxyIp : '-----' }
-            </p>
-            <p>
-              <b>端口号：</b>
-              { this.state.proxyPort ? this.state.proxyPort : '-----' }
-            </p>
-          </div>
+        <div className={ style.ptqrBody }>
+          { this.ptqrBody(new Date().getTime()) }
         </div>
         <p className={ style.tishi }>
           请用手机QQ扫描登录，或者

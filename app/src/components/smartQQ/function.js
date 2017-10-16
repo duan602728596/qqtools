@@ -18,49 +18,31 @@ const HEADER: Object = {
  * @param { Object } data     : 请求参数
  * @param { Object } headers  : 请求头
  * @param { string } setEncode: 编码
- * @param { Object } proxy    : 代理IP
  * @return { Promise }
  */
-export function requestHttp({ reqUrl, method = 'GET', data = '', headers = {}, setEncode, proxy }: {
+export function requestHttp({ reqUrl, method = 'GET', data = '', headers = {}, setEncode }: {
   reqUrl: string,
     method: string,
     data: Object,
     headers: Object,
-    setEncode: ?string,
-    proxy: ?{
-      proxyMode: string,
-      proxyIp: string,
-      proxyPort: number
-    };
+    setEncode: ?string
 }): Promise{
-  let options: ?Object = null;
-  if(proxy){     // 使用代理
-    options = {
-      protocol: proxy.proxyMode + ':',
-      host: proxy.proxyIp,
-      port: proxy.proxyPort,
-      path: reqUrl,
-      method,
-      headers: Object.assign(HEADER, headers)
-    };
-  }else{         // 不使用代理
-    const { protocol, host, path, port }: {
-      protocol: string,
-      host: string,
-      path: string,
-      port: ?number
-    } = url.parse(reqUrl);
-    options = {
-      protocol,
-      host,
-      port,
-      path,
-      method,
-      headers: Object.assign(HEADER, headers)
-    };
-  }
+  const { protocol, host, path, port }: {
+    protocol: string,
+    host: string,
+    path: string,
+    port: ?number
+  } = url.parse(reqUrl);
+  const options: Object = {
+    protocol,
+    host,
+    port,
+    path,
+    method,
+    headers: Object.assign(HEADER, headers)
+  };
   return new Promise((resolve: Function, reject: Function): void=>{
-    const req: Object = (options.protocol === 'https:' ? https : http).request(options, (res: Object): void=>{
+    const req: Object = (protocol === 'https:' ? https : http).request(options, (res: Object): void=>{
       let getData: any = null;
       if(setEncode) res.setEncoding(setEncode);
 
