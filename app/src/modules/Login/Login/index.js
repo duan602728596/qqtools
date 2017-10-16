@@ -12,6 +12,7 @@ import option from '../../publicMethod/option';
 import { changeQQLoginList, cursorOption } from '../store/reducer';
 import callback from '../../../components/callback/index';
 import Detail from './Detail';
+import getWdsInformation from '../../../components/weiDaShang/getWdsInformation';
 const fs = node_require('fs');
 
 let qq: ?SmartQQ = null;
@@ -65,10 +66,7 @@ class Login extends Component{
     loginState: number,
     qq: ?SmartQQ,
     timer: ?number,
-    optionItemIndex: ?number,
-    proxyMode: ?string,
-    proxyIp: ?string,
-    proxyPort: ?number
+    optionItemIndex: ?number
   };
   constructor(props: Object): void{
     super(props);
@@ -78,10 +76,7 @@ class Login extends Component{
       loginState: 0,   // 登录状态，0：加载二维码，1：二维码加载完毕，2：登陆中
       qq: null,
       timer: null,
-      optionItemIndex: null, // 当前选择的配置索引
-      proxyMode: null,
-      proxyIp: null,
-      proxyPort: null
+      optionItemIndex: null // 当前选择的配置索引
     };
   }
   componentWillMount(): void{
@@ -89,10 +84,29 @@ class Login extends Component{
       indexName: 'time'
     });
   }
+  // 登录成功事件
   async loginSuccess(): void{
     try{
-      qq.loginSuccess(()=>{
+      qq.loginSuccess(async ()=>{
         qq.loginSuccessCb();
+        // 获取微打赏相关信息
+        if(qq.option.basic.isWds){
+          const { title, moxiId }: {
+            title: string,
+            moxiId: string
+          } = await getWdsInformation(qq.option.basic.wdsId);
+          qq.wdsTitle = title;
+          qq.wdsMoxiId = moxiId;
+          // 创建新的微打赏webWorker
+          qq.wdsWorker = new Worker('../webWorker/weiDaShang.js');
+          qq.wdsWorker.postMessage({
+            type: 'init',
+            wdsId: qq.option.basic.wdsId,
+            moxiId: moxiId,
+            title: title
+          });
+          qq.wdsWorker.addEventListener('message', qq.messageWds.bind(qq), false);
+        }
         // 将新的qq实例存入到store中
         const ll: Array = this.props.qqLoginList;
         ll.push(qq);

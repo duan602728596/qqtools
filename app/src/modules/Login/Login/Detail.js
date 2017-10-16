@@ -13,16 +13,24 @@ function customProfiles(customProfiles: Object): Array{
       text: value
     });
   });
-  return custom.map((item: Object, index: number): Object=>{
+  if(custom.length === 0){
     return (
-      <tr key={ item.command }>
-        <td>{ item.command }</td>
-        <td colSpan={ 3 }>
-          <pre>{ item.text }</pre>
-        </td>
+      <tr>
+        <td colSpan={ 4 }>无自定义命令</td>
       </tr>
     );
-  });
+  }else{
+    return custom.map((item: Object, index: number): Object=>{
+      return (
+        <tr key={ item.command }>
+          <td>{ item.command }</td>
+          <td colSpan={ 3 }>
+            <pre>{ item.text }</pre>
+          </td>
+        </tr>
+      );
+    });
+  }
 }
 
 const Detail: ?Object = (props: ?Object): ?Object=>{
@@ -58,6 +66,12 @@ const Detail: ?Object = (props: ?Object): ?Object=>{
           </td>
           <td className={ style.tdTitle }>微打赏ID</td>
           <td>{ detail.basic.wdsId }</td>
+        </tr>
+        <tr>
+          <td className={ style.tdTitle }>微打赏命令</td>
+          <td colSpan={ 3 }>
+            <pre>{ detail.basic.wdsUrlTemplate }</pre>
+          </td>
         </tr>
         <tr>
           <td className={ style.tdTitle }>微打赏模板</td>

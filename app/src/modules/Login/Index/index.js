@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
-import { Affix, Table, Button } from 'antd';
+import { Affix, Table, Button, Popconfirm } from 'antd';
 import publicStyle from '../../publicMethod/public.sass';
 import commonStyle from '../../../common.sass';
 import { changeQQLoginList } from '../store/reducer';
@@ -39,28 +39,59 @@ class Index extends Component{
       {
         title: '群名称',
         key: 'groupName',
-        width: '20%',
+        width: '15%',
         render: (text: ?string, item: SmartQQ): string=>item.option.groupName
+      },
+      {
+        title: '配置名称',
+        key: 'optionName',
+        width: '20%',
+        render: (text: ?string, item: SmartQQ): string=>item.option.name
       },
       {
         title: 'uin',
         key: 'uin',
-        width: '20%',
+        width: '15%',
         render: (text: ?string, item: SmartQQ): string=>`${ item.uin }`
       },
       {
         title: 'cip',
         key: 'cip',
-        width: '20%',
+        width: '15%',
         render: (text: ?string, item: SmartQQ): string=>`${ item.cip }`
       },
       {
         title: '操作',
         key: 'handle',
-        width: '20%'
+        width: '15%',
+        render: (text: ?string, item: SmartQQ): Object=>{
+          return (
+            <Popconfirm title="确认要退出吗？" onConfirm={ this.onLogOut.bind(this, item) }>
+              <Button type="danger" size="small" icon="logout">退出</Button>
+            </Popconfirm>
+          );
+        }
       }
     ];
     return columns;
+  }
+  // 退出
+  onLogOut(item: SmartQQ, event: Object): void{
+    const index: number = this.props.qqLoginList.indexOf(item);
+    clearTimeout(item.listenMessageTimer);              // 删除轮询信息
+    clearInterval(item.loginBrokenLineReconnection);    // 删除断线重连
+    if(item.wdsWorker){                                 // 删除微打赏的web worker
+      item.sendMessage({
+        type: 'cancel'
+      });
+      item.wdsWorker.terminate();
+    }
+
+    this.props.qqLoginList.splice(index, 1);
+    this.props.action.changeQQLoginList({
+      qqLoginList: this.props.qqLoginList.slice()
+    });
+
   }
   render(): Object{
     return [

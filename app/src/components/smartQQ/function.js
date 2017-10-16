@@ -27,23 +27,21 @@ export function requestHttp({ reqUrl, method = 'GET', data = '', headers = {}, s
     headers: Object,
     setEncode: ?string
 }): Promise{
-  let options: ?Object = null;
   const { protocol, host, path, port }: {
     protocol: string,
     host: string,
     path: string,
     port: ?number
   } = url.parse(reqUrl);
-  options = {
-    protocol,
-    host,
-    port,
-    path,
-    method,
-    headers: headers
-  };
   return new Promise((resolve: Function, reject: Function): void=>{
-    const req: Object = (protocol === 'https:' ? https : http).request(options, (res: Object): void=>{
+    const req: Object = (protocol === 'https:' ? https : http).request({
+      protocol,
+      host,
+      port,
+      path,
+      method,
+      headers: headers
+    }, (res: Object): void=>{
       let getData: any = null;
       if(setEncode) res.setEncoding(setEncode);
 

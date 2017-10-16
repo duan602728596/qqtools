@@ -2,6 +2,7 @@
 /* 网页版QQ登录接口 */
 import { requestHttp, hash33, hash, cookieObj2Str, msgId } from './function';
 const queryString = node_require('querystring');
+import { templateReplace } from '../../function';
 
 type cons = {
   callback: Function
@@ -25,7 +26,11 @@ class SmartQQ{
   listenMessageTimer: ?number;
   callback: Function;
   option: Object;
+  wdsTitle: ?string;
+  wdsMoxiId: ?string;
+  wdsWorker: ?Worker;
   constructor({ callback }: cons): void{
+    // QQ登录相关
     this.cookie = {};            // 储存cookie
     this.cookieStr = null;       // cookie字符串
     this.token = null;           // 二维码登录令牌
@@ -36,15 +41,20 @@ class SmartQQ{
     this.uin = null;
     this.cip = null;
     this.psessionid = null;
-
+    // QQ获取列表
     this.friends = null;         // 获取在线好友列表
     this.gnamelist = null;       // 群列表
     this.groupItem = null;       // 群信息
-
+    // QQ机器人配置相关
     this.loginBrokenLineReconnection = null;  // 重新登录的定时器
     this.listenMessageTimer = null;           // 轮询信息
     this.callback = callback;    // 获得信息后的回调
     this.option = null;          // 配置信息
+    // 微打赏相关
+    this.wdsTitle = null;        // 微打赏标题
+    this.wdsMoxiId = null;       // moxi id
+    this.wdsWorker = null;
+
   }
   // 下载二维码
   downloadPtqr(timeStr): Promise{
@@ -297,6 +307,26 @@ class SmartQQ{
     // 分段发送消息
     for(let i2: number = 0, j2 = sendMsg.length; i2 < j2; i2++ ){
       await this.sendMessage(sendMsg[i2]);
+    }
+  }
+  // web worker监听到微打赏的返回信息
+  async messageWds(event: Object): void{
+    if(event.data.type === 'change'){
+      const { data } = event.data;
+      // 倒序发送消息
+      for(let i = data.length - 1; i >= 0; i--){
+        const item: Object = data[i];
+        const msg: string = templateReplace(this.option.basic.wdsTemplate, {
+          id: item.nickname,
+          money: item.pay_amount,
+          amount: item.allMount,
+          ranking: item.newIndex,
+          rankingchage: item.promote,
+          wdsname: this.wdsTitle,
+          wdsid: this.option.basic.wdsId
+        });
+        await this.sendFormatMessage(msg);
+      }
     }
   }
 }
