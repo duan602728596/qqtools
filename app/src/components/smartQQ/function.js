@@ -43,7 +43,7 @@ export function requestHttp({ reqUrl, method = 'GET', data = '', headers = {}, s
   };
 
   return new Promise((resolve: Function, reject: Function): void=>{
-    const req: Object = http/*(protocol === 'https:' ? https : http)*/.request(options, (res: Object): void=>{
+    const req: Object = (protocol === 'https:' ? https : http).request(options, (res: Object): void=>{
       let getData: any = null;
       if(setEncode) res.setEncoding(setEncode);
 
