@@ -64,7 +64,7 @@ async function juju(proId: string, type: string, size: string, qq: SmartQQ):void
     // total_back_amount
     let txt: string = `【${ qq.wdsTitle }】\n聚聚榜，前${ data.data.length }名。`;
     jQuery.each(data.data, (index: number, item: Object): void=>{
-      txt += `\n${ index + 1 }: ${ item.nickname } ￥${ String(item.total_back_amount.toFixed(2)) }`;
+      txt += `\n${ index + 1 }、 ${ item.nickname } （￥${ String(item.total_back_amount.toFixed(2)) }）`;
     });
     await qq.sendFormatMessage(txt);
   }else{
@@ -87,7 +87,7 @@ async function daka(proId: string, type: string, size: string, qq: SmartQQ):void
     // total_back_amount
     let txt: string = `【${ qq.wdsTitle }】\n打卡榜，前${ data.data.length }名。`;
     jQuery.each(data.data, (index: number, item: Object): void=>{
-      txt += `\n${ index + 1 }: ${ item.nickname } ${ item.total_back_days }天`;
+      txt += `\n${ index + 1 }、${ item.nickname } （${ item.total_back_days }天）`;
     });
     await qq.sendFormatMessage(txt);
   }else{

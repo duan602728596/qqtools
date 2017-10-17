@@ -40,14 +40,18 @@ function writeImage(file: string, data: Buffer): Promise{
 
 /* 初始化数据 */
 const state: Function = createStructuredSelector({
-  qqLoginList: createSelector(         // QQ登录列表
+  qqLoginList: createSelector(             // QQ登录列表
     (state: Object): Object | Array=>state.has('login') ? state.get('login').get('qqLoginList') : [],
     (data: Object | Array): Array=>data instanceof Array ? data : data.toJS()
   ),
-  optionList: createSelector(          // QQ配置列表
+  optionList: createSelector(              // QQ配置列表
     (state: Object): Object | Array=>state.has('login') ? state.get('login').get('optionList') : [],
     (data: Object | Array): Array=>data instanceof Array ? data : data.toJS()
   ),
+  kd48LiveListenerWorker: createSelector(  // 口袋直播
+    (state: Object): ?Worker=>state.has('login') ? state.get('login').get('kd48LiveListenerWorker') : null,
+    (data: ?Worker): ?Worker=>data
+  )
 });
 
 /* dispatch */
@@ -104,7 +108,7 @@ class Login extends Component{
             moxiId: moxiId,
             title: title
           });
-          qq.wdsWorker.addEventListener('message', qq.messageWds.bind(qq), false);
+          qq.wdsWorker.addEventListener('message', qq.workerWds.bind(qq), false);
         }
         // 监听信息
         qq.loginBrokenLineReconnection = setInterval(qq.loginSuccess.bind(qq), 60 ** 2 * 10 ** 3); // 一小时后重新登录，防止掉线

@@ -30,11 +30,6 @@ function fn(command: string[], qq: SmartQQ): void{
     wdsCb(command, qq);
     return true;
   }
-
-
-
-
-
 }
 
 export default callback;

@@ -277,7 +277,6 @@ class SmartQQ{
   }
   // 轮询事件
   async listenMessage(){
-    console.log('轮询');
     try{
       const [data]: [string] = await this.getMessage();
       this.callback(JSON.parse(data), this);
@@ -308,7 +307,7 @@ class SmartQQ{
     }
   }
   // web worker监听到微打赏的返回信息
-  async messageWds(event: Object): void{
+  async workerWds(event: Object): void{
     if(event.data.type === 'change'){
       const { data } = event.data;
       // 倒序发送消息
