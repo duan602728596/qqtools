@@ -110,10 +110,10 @@ async function polling(){
         const jizi = [];
         for(let i = 0, j = newData.length; i < j; i++){
           const item = newData[i];
-          const user_id = item.reply_fuid;                                       // 当前用户的id
-          const oldIndex = indexOf(oldData, user_id, 0, oldData.length - 1);     // 旧排名
-          const newIndex = indexOf(bl.data, user_id, 0, len1);                   // 新排名
-          const promote = oldIndex ? oldIndex - newIndex : newIndex;             // 排名提升
+          const user_id = item.reply_fuid;                                                 // 当前用户的id
+          const oldIndex = indexOf(oldData, user_id, 0, oldData.length - 1);               // 旧排名
+          const newIndex = indexOf(bl.data, user_id, 0, len1);                             // 新排名
+          const promote = oldIndex ? oldIndex - newIndex + 1 : oldData.length - newIndex;  // 排名提升
           jizi.push({
             user_id,
             pay_amount: item.pay_amount,          // 打赏金额
