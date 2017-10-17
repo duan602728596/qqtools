@@ -1,8 +1,6 @@
 // @flow
 /* 软件首页 */
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import { createSelector, createStructuredSelector } from 'reselect';
 import { Link, withRouter } from 'react-router-dom';
 import { Row, Col, Icon, Button, message } from 'antd';

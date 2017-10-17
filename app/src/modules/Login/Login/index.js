@@ -14,7 +14,7 @@ import callback from '../../../components/callback/index';
 import Detail from './Detail';
 import getWdsInformation from '../../../components/weiDaShang/getWdsInformation';
 import { str2reg } from '../../../function';
-import kd48timer from '../../../components/kd48listerer/timer';
+import kd48timer, { init } from '../../../components/kd48listerer/timer';
 const fs = node_require('fs');
 
 let qq: ?SmartQQ = null;
@@ -118,6 +118,7 @@ class Login extends Component{
           if(qq.option.basic.is48LiveListener){
             qq.members = str2reg(qq.option.basic.kd48LiveListenerMembers);
             // 开启口袋48监听
+            await init();
             if(this.props.kd48LiveListenerTimer === null){
               this.props.action.kd48LiveListenerTimer({
                 timer: setInterval(kd48timer, 10000)
