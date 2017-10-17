@@ -185,7 +185,7 @@ function indexOf(rawArray, value, from, to){
 function getData(method, url, data){
   return new Promise((resolve, reject)=>{
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', url, true);
+    xhr.open(method, url, true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.addEventListener('readystatechange', function(event){
       if(xhr.status === 200){
