@@ -1,5 +1,5 @@
 /**
- * 微打赏轮训
+ * 微打赏轮询
  *
  * 评论榜
  * [POST]https://wds.modian.com/ajax_comment
@@ -7,10 +7,11 @@
  * moxi_id
  * pro_id
  * response:
- *   reply_fuid 用户id
- *   pay_amount 当前打卡数
- *   ctime      时间戳
- *   nickname   用户的昵称
+ *   reply_fuid   用户id
+ *   pay_amount   当前打卡数
+ *   ctime        时间戳
+ *   c_userinfo
+ *     nickname   用户的昵称
  *
  * 排行榜
  * [POST] https://wds.modian.com/ajax_backer_list
@@ -82,13 +83,19 @@ async function polling(){
       const { des } = ct;
       let newData = [];
       if(oldData.length === 0){
-        // 无旧数据
-        newData = des;
+        // 无旧数据，不需要对比时间戳，只需要去掉评论
+        for(let i = 0, j = des.length; i < j; i++){
+          if(des[i].pay_amount !== ''){
+            newData.push(des[i]);
+          }
+        }
       }else{
         // 有旧数据时，对比时间戳
         for(let i = 0, j = des.length; i < j; i++){
-          if(des[i].ctime !== oldComment[0].ctime && des[i].pay_amount !== ''){
-            newData.push(des[i]);
+          if(des[i].ctime !== oldComment[0].ctime){
+            if(des[i].pay_amount !== ''){
+              newData.push(des[i]);
+            }
           }else{
             break;
           }
@@ -99,26 +106,27 @@ async function polling(){
         // 获取新排名
         const bl = await getData('POST', listUrl, `pro_id=${ wdsId }&type=${ 1 }&page=${ 1 }&pageSize=10000000000`);
         const len1 = bl.data.length - 1;
-        const amt = String((allMount(bl.data, 0, len1)).toFixed(2));  // 总集资
+        const amt = String((allMount(bl.data, 0, len1)).toFixed(2));  // 当前的总集资
         const jizi = [];
         for(let i = 0, j = newData.length; i < j; i++){
           const item = newData[i];
-          const user_id = item.reply_fuid;
-          const oldIndex = indexOf(oldData, user_id, 0, oldData.length - 1);
-          const newIndex = indexOf(bl.data, user_id, 0, len1);
-          const promote = newIndex - (oldIndex ? oldIndex : 0);
+          const user_id = item.reply_fuid;                                       // 当前用户的id
+          const oldIndex = indexOf(oldData, user_id, 0, oldData.length - 1);     // 旧排名
+          const newIndex = indexOf(bl.data, user_id, 0, len1);                   // 新排名
+          const promote = oldIndex ? oldIndex - newIndex : newIndex;             // 排名提升
           jizi.push({
             user_id,
-            pay_amount: item.pay_amount,
-            nickname: item.c_userinfo.nickname,
+            pay_amount: item.pay_amount,          // 打赏金额
+            nickname: item.c_userinfo.nickname,   // 用户昵称
             newIndex,
             promote: promote < 0 ? 0 : promote,
             allMount: amt
           });
         }
-
+        // 更新旧对比数据
         oldData = bl.data;
         oldComment = ct.des;
+        // 将数据发送回主线程
         postMessage({
           type: 'change',
           data: jizi
@@ -136,17 +144,14 @@ function allMount(rawArray, from, to){
   if(rawArray.length === 0){
     return 0;
   }
-
   // from === to时，返回获取到的集资数
   if(from === to){
     return Number(rawArray[from]['total_back_amount']);
   }
-
   // 拆分计算
   const middle = Math.floor((to - from) / 2) + from;
   const left = allMount(rawArray, from, middle);
   const right = allMount(rawArray, middle + 1, to);
-
   return left + right;
 }
 
@@ -155,7 +160,6 @@ function indexOf(rawArray, value, from, to){
   if(rawArray.length === 0){
     return null;
   }
-
   // from === to时，判断是否匹配
   if(from === to){
     if(rawArray[from].user_id === value){
@@ -164,7 +168,6 @@ function indexOf(rawArray, value, from, to){
       return null;
     }
   }
-
   // 拆分计算
   const middle = Math.floor((to - from) / 2) + from;
   const left = indexOf(rawArray, value, from, middle);
@@ -190,7 +193,7 @@ function getData(method, url, data){
           const res = JSON.parse(xhr.response);
           resolve(res);
         }catch(err){
-          // 捕获错误
+          // ！获取到的json虽然能够正常解析，但是会报格式错误，所以使用try来避免输出错误信息
         }
       }
     });
