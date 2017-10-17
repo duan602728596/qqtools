@@ -215,10 +215,6 @@ class SmartQQ{
     // 回调函数
     if(cb) cb();
   }
-  loginSuccessCb(){
-    this.loginBrokenLineReconnection = setInterval(this.loginSuccess.bind(this), 60 ** 2 * 10 ** 3); // 一小时后重新登录，防止掉线
-    this.listenMessageTimer = setTimeout(this.listenMessage.bind(this), 500);                        // 轮询
-  }
   // 获取消息
   getMessage(): Promise{
     const data: string = queryString.stringify({
@@ -240,7 +236,8 @@ class SmartQQ{
       },
       method: 'POST',
       setEncode: 'utf8',
-      data
+      data,
+      timeout: 30000
     });
   }
   // 发送消息
@@ -280,6 +277,7 @@ class SmartQQ{
   }
   // 轮询事件
   async listenMessage(){
+    console.log('轮询');
     try{
       const [data]: [string] = await this.getMessage();
       this.callback(JSON.parse(data), this);

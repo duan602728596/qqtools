@@ -43,7 +43,7 @@ addEventListener('message', function(event){
 
     // 初始化
     Promise.all([
-      getData('POST', listUrl, `pro_id=${ wdsId }&type=${ 1 }&page=${ 1 }&pageSize=10000000000`),
+      getData('POST', listUrl, `pro_id=${ wdsId }&type=1&page=1&pageSize=10000000000`),
       getData('POST', commentUrl, `pageNum=1&moxi_id=${ moxiId }&pro_id=${ wdsId }`)
     ]).then((result)=>{
       const [data1, data2] = result;
@@ -104,7 +104,7 @@ async function polling(){
       // 计算打赏金额和排名，newData数组的长度为0时集资不变
       if(newData.length > 0){
         // 获取新排名
-        const bl = await getData('POST', listUrl, `pro_id=${ wdsId }&type=${ 1 }&page=${ 1 }&pageSize=10000000000`);
+        const bl = await getData('POST', listUrl, `pro_id=${ wdsId }&type=1&page=1&pageSize=10000000000`);
         const len1 = bl.data.length - 1;
         const amt = String((allMount(bl.data, 0, len1)).toFixed(2));  // 当前的总集资
         const jizi = [];

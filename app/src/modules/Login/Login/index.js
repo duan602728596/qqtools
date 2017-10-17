@@ -88,7 +88,6 @@ class Login extends Component{
   async loginSuccess(): void{
     try{
       qq.loginSuccess(async ()=>{
-        qq.loginSuccessCb();
         // 获取微打赏相关信息
         if(qq.option.basic.isWds){
           const { title, moxiId }: {
@@ -107,6 +106,9 @@ class Login extends Component{
           });
           qq.wdsWorker.addEventListener('message', qq.messageWds.bind(qq), false);
         }
+        // 监听信息
+        qq.loginBrokenLineReconnection = setInterval(qq.loginSuccess.bind(qq), 60 ** 2 * 10 ** 3); // 一小时后重新登录，防止掉线
+        qq.listenMessageTimer = setTimeout(qq.listenMessage.bind(qq), 500);                        // 轮询
         // 将新的qq实例存入到store中
         const ll: Array = this.props.qqLoginList;
         ll.push(qq);

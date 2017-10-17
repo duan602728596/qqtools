@@ -8,7 +8,6 @@ import { Affix, Table, Button, Popconfirm } from 'antd';
 import publicStyle from '../../publicMethod/public.sass';
 import commonStyle from '../../../common.sass';
 import { changeQQLoginList } from '../store/reducer';
-import SmartQQ from "../../../components/smartQQ/SmartQQ";
 
 /* 初始化数据 */
 const state: Function = createStructuredSelector({

@@ -5,12 +5,6 @@ const https = node_require('https');
 const http = node_require('http');
 const url = node_require('url');
 
-/*const USER_AGENT: string = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36';
-const HEADER: Object = {
-  'Connection': 'keep-alive',
-  'User-Agent': USER_AGENT
-};*/
-
 /**
  * 请求
  * @param { string } reqUrl   : 请求地址
@@ -18,9 +12,10 @@ const HEADER: Object = {
  * @param { Object } data     : 请求参数
  * @param { Object } headers  : 请求头
  * @param { string } setEncode: 编码
+ * @param { number } timeout  : 超时
  * @return { Promise }
  */
-export function requestHttp({ reqUrl, method = 'GET', data = '', headers = {}, setEncode }: {
+export function requestHttp({ reqUrl, method = 'GET', data = '', headers = {}, setEncode, timeout = 120000 }: {
   reqUrl: string,
     method: string,
     data: Object,
@@ -40,6 +35,7 @@ export function requestHttp({ reqUrl, method = 'GET', data = '', headers = {}, s
       port,
       path,
       method,
+      timeout,
       headers: headers
     }, (res: Object): void=>{
       let getData: any = null;
