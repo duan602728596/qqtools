@@ -84,6 +84,7 @@ class Index extends Component{
         type: 'cancel'
       });
       item.wdsWorker.terminate();
+      item.wdsWorker = null;
     }
 
     this.props.qqLoginList.splice(index, 1);

@@ -61,13 +61,14 @@ addEventListener('message', function(event){
       }
       // 开启轮询
       polling();
+      timer = setInterval(polling, 5000);
     });
     return true;
   }
   // 关闭
   if(data.type === 'cancel'){
     if(timer){
-      clearTimeout(timer);
+      clearInterval(timer);
     }
     return true;
   }
@@ -136,7 +137,6 @@ async function polling(){
   }catch(err){
     console.log(err);
   }
-  timer = setTimeout(polling, 4500);
 }
 
 /* 计算总集资数 */
