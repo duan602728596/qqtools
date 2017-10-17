@@ -8,11 +8,11 @@ import option from '../../publicMethod/option';
 const initData: {
   qqLoginList: Array,
   optionList: Array,
-  kd48LiveListenerWorker: Worker
+  kd48LiveListenerTimer: number
 } = {
   qqLoginList: [],              // QQ登录列表
   optionList: [],               // QQ配置列表
-  kd48LiveListenerWorker: null  // 监听口袋48直播
+  kd48LiveListenerTimer: null  // 监听口袋48直播
 };
 
 /* Action */
@@ -32,7 +32,7 @@ export const cursorOption = cursorAction({
   successAction: optionList
 });
 // 口袋直播监听
-export const kd48LiveListenerWorker = createAction('口袋直播监听');
+export const kd48LiveListenerTimer = createAction('口袋直播监听');
 
 /* reducer */
 const reducer: Function = handleActions({
@@ -43,8 +43,8 @@ const reducer: Function = handleActions({
     const data: Array = 'optionList' in action.payload ? action.payload.optionList : action.payload;
     return state.set('optionList', data);
   },
-  [kd48LiveListenerWorker]: (state: Object, action: Object): Object=>{
-    return state.set('kd48LiveListenerWorker', action.payload.worker);
+  [kd48LiveListenerTimer]: (state: Object, action: Object): Object=>{
+    return state.set('kd48LiveListenerTimer', action.payload.timer);
   }
 }, fromJS(initData));
 

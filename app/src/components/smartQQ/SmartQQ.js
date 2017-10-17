@@ -29,6 +29,7 @@ class SmartQQ{
   wdsTitle: ?string;
   wdsMoxiId: ?string;
   wdsWorker: ?Worker;
+  members: ?RegExp
   constructor({ callback }: cons): void{
     // QQ登录相关
     this.cookie = {};            // 储存cookie
@@ -54,7 +55,8 @@ class SmartQQ{
     this.wdsTitle = null;        // 微打赏标题
     this.wdsMoxiId = null;       // moxi id
     this.wdsWorker = null;
-
+    // 口袋48监听相关
+    this.members = null;
   }
   // 下载二维码
   downloadPtqr(timeStr): Promise{

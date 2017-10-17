@@ -7,13 +7,17 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import { Affix, Table, Button, Popconfirm } from 'antd';
 import publicStyle from '../../publicMethod/public.sass';
 import commonStyle from '../../../common.sass';
-import { changeQQLoginList } from '../store/reducer';
+import { changeQQLoginList, kd48LiveListenerTimer } from '../store/reducer';
 
 /* 初始化数据 */
 const state: Function = createStructuredSelector({
   qqLoginList: createSelector(         // 已登录
     (state: Object): Object | Array=>state.has('login') ? state.get('login').get('qqLoginList') : [],
     (data: Object | Array): Array=>data instanceof Array ? data : data.toJS()
+  ),
+  kd48LiveListenerTimer: createSelector(   // 口袋直播
+    (state: Object): ?number=>state.has('login') ? state.get('login').get('kd48LiveListenerTimer') : null,
+    (data: ?number): ?number=>data
   )
 });
 
@@ -91,6 +95,22 @@ class Index extends Component{
     this.props.action.changeQQLoginList({
       qqLoginList: this.props.qqLoginList.slice()
     });
+
+    // 判断是否需要开启直播监听
+    let isListener: boolean = false;
+    for(let i = 0, j = this.props.qqLoginList.length; i < j; i++){
+      const item: SmartQQ = this.props.qqLoginList[i];
+      if(item.option.basic.is48LiveListener && item.members){
+        isListener = true;
+        break;
+      }
+    }
+    if(isListener === false){
+      clearInterval(this.props.kd48LiveListenerTimer);
+      this.props.action.kd48LiveListenerTimer({
+        timer: null
+      });
+    }
 
   }
   render(): Object{

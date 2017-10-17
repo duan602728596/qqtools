@@ -9,10 +9,12 @@ import { Spin, message, Select } from 'antd';
 import style from './style.sass';
 import SmartQQ from '../../../components/smartQQ/SmartQQ';
 import option from '../../publicMethod/option';
-import { changeQQLoginList, cursorOption } from '../store/reducer';
+import { changeQQLoginList, cursorOption, kd48LiveListenerTimer } from '../store/reducer';
 import callback from '../../../components/callback/index';
 import Detail from './Detail';
 import getWdsInformation from '../../../components/weiDaShang/getWdsInformation';
+import { str2reg } from '../../../function';
+import kd48timer from '../../../components/kd48listerer/timer';
 const fs = node_require('fs');
 
 let qq: ?SmartQQ = null;
@@ -48,9 +50,9 @@ const state: Function = createStructuredSelector({
     (state: Object): Object | Array=>state.has('login') ? state.get('login').get('optionList') : [],
     (data: Object | Array): Array=>data instanceof Array ? data : data.toJS()
   ),
-  kd48LiveListenerWorker: createSelector(  // 口袋直播
-    (state: Object): ?Worker=>state.has('login') ? state.get('login').get('kd48LiveListenerWorker') : null,
-    (data: ?Worker): ?Worker=>data
+  kd48LiveListenerTimer: createSelector(   // 口袋直播
+    (state: Object): ?number=>state.has('login') ? state.get('login').get('kd48LiveListenerTimer') : null,
+    (data: ?number): ?number=>data
   )
 });
 
@@ -58,7 +60,8 @@ const state: Function = createStructuredSelector({
 const dispatch: Function = (dispatch: Function): Object=>({
   action: bindActionCreators({
     changeQQLoginList,
-    cursorOption
+    cursorOption,
+    kd48LiveListenerTimer
   }, dispatch)
 });
 
@@ -109,6 +112,16 @@ class Login extends Component{
             title: title
           });
           qq.wdsWorker.addEventListener('message', qq.workerWds.bind(qq), false);
+        }
+        // 口袋48直播监听
+        if(qq.option.basic.is48LiveListener){
+          qq.members = str2reg(qq.option.basic.kd48LiveListenerMembers);
+          // 开启口袋48监听
+          if(this.props.kd48LiveListenerTimer === null){
+            this.props.action.kd48LiveListenerTimer({
+              timer: setInterval(kd48timer, 10000)
+            });
+          }
         }
         // 监听信息
         qq.loginBrokenLineReconnection = setInterval(qq.loginSuccess.bind(qq), 60 ** 2 * 10 ** 3); // 一小时后重新登录，防止掉线

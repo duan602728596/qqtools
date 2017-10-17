@@ -34,7 +34,7 @@ async function sendWdsInfor(qq: SmartQQ): void{
 /* 新线程计算排名 */
 async function list(proId: string, type: string, size: string, qq: SmartQQ):void{
   const worker: Worker = new Worker('../webWorker/wdsList.js');
-  const cb = (event: Object): void=>{
+  const cb: Function = (event: Object): void=>{
     qq.sendFormatMessage(event.data.text);
     worker.removeEventListener('message', cb);
     worker.terminate();
