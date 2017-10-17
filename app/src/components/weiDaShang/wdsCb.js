@@ -27,18 +27,26 @@ function wdsCb(command: string[], qq: SmartQQ): void{
         break;
       // 获取打卡榜
       case '2':
+        daka(qq.option.basic.wdsId, command[1], command[2], qq);
         break;
       // 发送微打赏相关信息
       default:
+        sendWdsInfor(qq);
         break;
     }
-
-
-
   }else{
     // 微打赏功能未开启
     qq.sendMessage('[WARNING]微打赏相关功能未开启。');
   }
+}
+
+// 发送信息
+async function sendWdsInfor(qq: SmartQQ): void{
+  const text: string = templateReplace(qq.option.basic.wdsUrlTemplate, {
+    wdsname: qq.wdsTitle,
+    wdsid: qq.option.basic.wdsId
+  });
+  await qq.sendFormatMessage(text);
 }
 
 // 聚聚榜
@@ -60,7 +68,30 @@ async function juju(proId: string, type: string, size: string, qq: SmartQQ):void
     });
     await qq.sendFormatMessage(txt);
   }else{
-    qq.sendMessage('[ERROR]获取微打赏聚聚榜错误。');
+    await qq.sendMessage('[ERROR]获取微打赏聚聚榜错误。');
+  }
+}
+
+// 打卡榜
+async function daka(proId: string, type: string, size: string, qq: SmartQQ):void{
+  const x: number = Number(size);
+  const pageSize: number = isNaN(x) ? 10 ** 10 : x;
+  const data: Object = await getData({
+    pro_id: proId,
+    type,
+    page: 1,
+    pageSize: pageSize
+  });
+  if(data.status === '0'){
+    // nickname
+    // total_back_amount
+    let txt: string = `【${ qq.wdsTitle }】\n打卡榜，前${ data.data.length }名。`;
+    jQuery.each(data.data, (index: number, item: Object): void=>{
+      txt += `\n${ index + 1 }: ${ item.nickname } ${ item.total_back_days }天`;
+    });
+    await qq.sendFormatMessage(txt);
+  }else{
+    await qq.sendMessage('[ERROR]获取微打赏打卡榜错误。');
   }
 }
 
