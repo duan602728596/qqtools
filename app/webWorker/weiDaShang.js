@@ -47,19 +47,19 @@ addEventListener('message', function(event){
       getData('POST', commentUrl, `pageNum=1&moxi_id=${ moxiId }&pro_id=${ wdsId }`)
     ]).then((result)=>{
       const [data1, data2] = result;
-
+      // 获取旧排行榜
       if(data1.status === '-1'){
         oldData = [];
       }else{
         oldData = data1.data;
       }
-
+      // 获取旧评论榜
       if(data2.status === '-1'){
         oldComment = [];
       }else{
         oldComment = data2.des;
       }
-
+      // 开启轮询
       polling();
     });
     return true;
@@ -101,7 +101,7 @@ async function polling(){
           }
         }
       }
-      // 计算打赏金额和排名，newData为0时集资不变
+      // 计算打赏金额和排名，newData数组的长度为0时集资不变
       if(newData.length > 0){
         // 获取新排名
         const bl = await getData('POST', listUrl, `pro_id=${ wdsId }&type=${ 1 }&page=${ 1 }&pageSize=10000000000`);
