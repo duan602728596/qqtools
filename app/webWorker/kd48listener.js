@@ -9,7 +9,7 @@ function array2obj(rawArray){
 }
 
 /* 查询是否在旧直播中，并返回一个数组 */
-function getNewLive(newData, oldData){
+function getNewLive(oldData, newData){
   const arr = [];
   for(const key in newData){
     if(!(key in oldData)){

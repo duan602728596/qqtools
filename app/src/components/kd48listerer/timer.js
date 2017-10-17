@@ -35,7 +35,7 @@ async function kd48timer(){
   }
   // 开启新计算线程
   const worker: Worker = new Worker('../webWorker/kd48listener.js');
-  const cb: Function = (event: Object): void=>{
+  const cb: Function = async (event: Object): void=>{
     const { newDataObj, newLive }: {
       newDataObj: Object,
       newLive: Array
@@ -47,21 +47,32 @@ async function kd48timer(){
       const ll: Object | Array = store.getState().get('login').get('qqLoginList');
       const ll2: Array = ll instanceof Array ? ll : ll.toJS();
 
-      jQuery.each(newLive.length, (index: number, item: Object): void=>{
-        // 遍历所有登录的QQ
-        jQuery.each(ll2, (index2: number, item2: SmartQQ): void=>{
-          // 已开启口袋监听功能，且成员匹配
-          if(item2.option.is48LiveListener && item2.members && item2.members.test(item.title)){
-            const text: string = `[ ${ item.title.match(item2.members)[0] } ]开启了一个直播，\n` +
-              `直播标题：${ item.subTitle }\n` +
-              `开始时间：${ time('YY-MM-DD hh:mm:ss', item.startTime) }\n` +
-              `视频地址：${ item.streamPath }`;
-            item2.sendFormatMessage(text);
+      // 发送数据
+      for(let i1: number = 0, j1: number = newLive.length, j2: number = ll2.length; i1 < j1; i1++){
+        const item1: Object = newLive[i1];
+        for(let i2: number = 0; i2 < j2; i2++){
+          const item2: Object = ll2[i2];
+          console.log();
+          if(item2.option.basic.is48LiveListener && item2.members && item2.members.test(item1.title)){
+            const member: string = item1.title.match(item2.members)[0],
+              subTitle: string = item1.subTitle,
+              time1: string = time('YY-MM-DD hh:mm:ss', item1.startTime),
+              streamPath: string = item1.streamPath,
+              qq: SmartQQ = item2;
+            const text: string = `[ ${ member } ]开启了一个直播，\n` +
+              `直播标题：${ subTitle }\n` +
+              `开始时间：${ time1 }\n` +
+              `视频地址：${ streamPath }`;
+            await qq.sendFormatMessage(text);
           }
-        });
-      });
+        }
+      }
     }
+
+    worker.removeEventListener('message', cb);
+    worker.terminate();
   };
+  worker.addEventListener('message', cb, false);
   worker.postMessage({
     oldData: oldList,
     newData

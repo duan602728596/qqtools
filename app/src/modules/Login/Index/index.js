@@ -24,7 +24,8 @@ const state: Function = createStructuredSelector({
 /* dispatch */
 const dispatch: Function = (dispatch: Function): Object=>({
   action: bindActionCreators({
-    changeQQLoginList
+    changeQQLoginList,
+    kd48LiveListenerTimer
   }, dispatch)
 });
 

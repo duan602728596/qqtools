@@ -29,7 +29,7 @@ class SmartQQ{
   wdsTitle: ?string;
   wdsMoxiId: ?string;
   wdsWorker: ?Worker;
-  members: ?RegExp
+  members: ?RegExp;
   constructor({ callback }: cons): void{
     // QQ登录相关
     this.cookie = {};            // 储存cookie
@@ -288,7 +288,8 @@ class SmartQQ{
     this.listenMessageTimer = setTimeout(this.listenMessage.bind(this), 500);
   }
   // 分段发送消息，最多发送二十五行，防止多段的消息发送不出去
-  async sendFormatMessage(message) {
+  async sendFormatMessage(message): void{
+    console.log('message', message);
     const msgArr: string[] = message.split(/\n/g);
     const sendMsg: string[] = [];
     const len: number = msgArr.length;
