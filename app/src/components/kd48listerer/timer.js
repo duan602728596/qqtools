@@ -3,6 +3,7 @@ import jQuery from 'jquery';
 import post from './post';
 import { time } from '../../function';
 import store from '../../store/store';
+import kd48listenerWorker from 'worker-loader?name=worker/kd48listener.js!../../../webWorker/kd48listener';
 
 let oldList: Object = {};  // 旧列表
 
@@ -34,7 +35,7 @@ async function kd48timer(){
     newData = data2.content.liveList;
   }
   // 开启新计算线程
-  const worker: Worker = new Worker('../webWorker/kd48listener.js');
+  const worker: Worker = new kd48listenerWorker();
   const cb: Function = async (event: Object): void=>{
     const { newDataObj, newLive }: {
       newDataObj: Object,

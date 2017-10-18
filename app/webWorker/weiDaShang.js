@@ -23,18 +23,19 @@
  *   user_id           用户id
  *   total_back_amount 总打卡数
  */
+import getData from './function/getData';
 
-const listUrl = `https://wds.modian.com/ajax_backer_list`;
-const commentUrl= `https://wds.modian.com/ajax_comment`;
-let wdsId = null;
-let moxiId = null;
-let title = null;
-let timer = null;      // 轮询定时器
-let oldData = null;    // 旧数据
-let oldComment = null; // 旧评论榜
+const listUrl: string = `https://wds.modian.com/ajax_backer_list`;
+const commentUrl: string = `https://wds.modian.com/ajax_comment`;
+let wdsId: ?string = null;
+let moxiId: ?string = null;
+let title: ?string = null;
+let timer: ?number = null;     // 轮询定时器
+let oldData: ?Array = null;    // 旧数据
+let oldComment: ?Array = null; // 旧评论榜
 
-addEventListener('message', function(event){
-  const { data } = event;
+addEventListener('message', function(event: Object): boolean{
+  const { data }: { data: Object } = event;
   // 初始化
   if(data.type === 'init'){
     wdsId = data.wdsId;
@@ -45,8 +46,8 @@ addEventListener('message', function(event){
     Promise.all([
       getData('POST', listUrl, `pro_id=${ wdsId }&type=1&page=1&pageSize=10000000000`),
       getData('POST', commentUrl, `pageNum=1&moxi_id=${ moxiId }&pro_id=${ wdsId }`)
-    ]).then((result)=>{
-      const [data1, data2] = result;
+    ]).then((result: Array<Object>)=>{
+      const [data1, data2]: [Object, Object] = result;
       // 获取旧排行榜
       if(data1.status === '-1'){
         oldData = [];
@@ -76,23 +77,23 @@ addEventListener('message', function(event){
 }, false);
 
 /* 轮询事件 */
-async function polling(){
+async function polling(): void{
   try{
-    const ct = await getData('POST', commentUrl, `pageNum=1&moxi_id=${ moxiId }&pro_id=${ wdsId }`);
+    const ct: Object = await getData('POST', commentUrl, `pageNum=1&moxi_id=${ moxiId }&pro_id=${ wdsId }`);
     // 等于-1时报错
     if(ct.status !== '-1'){
-      const { des } = ct;
-      let newData = [];
+      const { des }: { des: Array } = ct;
+      let newData: Array = [];
       if(oldData.length === 0){
         // 无旧数据，不需要对比时间戳，只需要去掉评论
-        for(let i = 0, j = des.length; i < j; i++){
+        for(let i: number = 0, j: number = des.length; i < j; i++){
           if(des[i].pay_amount !== ''){
             newData.push(des[i]);
           }
         }
       }else{
         // 有旧数据时，对比时间戳
-        for(let i = 0, j = des.length; i < j; i++){
+        for(let i: number = 0, j: number = des.length; i < j; i++){
           if(des[i].ctime !== oldComment[0].ctime){
             if(des[i].pay_amount !== ''){
               newData.push(des[i]);
@@ -105,16 +106,16 @@ async function polling(){
       // 计算打赏金额和排名，newData数组的长度为0时集资不变
       if(newData.length > 0){
         // 获取新排名
-        const bl = await getData('POST', listUrl, `pro_id=${ wdsId }&type=1&page=1&pageSize=10000000000`);
-        const len1 = bl.data.length - 1;
-        const amt = String((allMount(bl.data, 0, len1)).toFixed(2));  // 当前的总集资
-        const jizi = [];
-        for(let i = 0, j = newData.length; i < j; i++){
-          const item = newData[i];
-          const user_id = item.reply_fuid;                                                 // 当前用户的id
-          const oldIndex = indexOf(oldData, user_id, 0, oldData.length - 1);               // 旧排名
-          const newIndex = indexOf(bl.data, user_id, 0, len1);                             // 新排名
-          const promote = oldIndex ? oldIndex - newIndex + 1 : oldData.length - newIndex;  // 排名提升
+        const bl: Object = await getData('POST', listUrl, `pro_id=${ wdsId }&type=1&page=1&pageSize=10000000000`);
+        const len1: number = bl.data.length - 1;
+        const amt: String = String((allMount(bl.data, 0, len1)).toFixed(2));  // 当前的总集资
+        const jizi: Array = [];
+        for(let i: Object = 0, j: Object = newData.length; i < j; i++){
+          const item: Object = newData[i];
+          const user_id: string = item.reply_fuid;                                                  // 当前用户的id
+          const oldIndex: ?number = indexOf(oldData, user_id, 0, oldData.length - 1);               // 旧排名
+          const newIndex: ?number = indexOf(bl.data, user_id, 0, len1);                             // 新排名
+          const promote: number = oldIndex ? oldIndex - newIndex + 1 : oldData.length - newIndex;   // 排名提升
           jizi.push({
             user_id,
             pay_amount: item.pay_amount,          // 打赏金额
@@ -140,7 +141,7 @@ async function polling(){
 }
 
 /* 计算总集资数 */
-function allMount(rawArray, from, to){
+function allMount(rawArray: Array, from: number, to: number): number{
   if(rawArray.length === 0){
     return 0;
   }
@@ -149,14 +150,14 @@ function allMount(rawArray, from, to){
     return Number(rawArray[from]['total_back_amount']);
   }
   // 拆分计算
-  const middle = Math.floor((to - from) / 2) + from;
-  const left = allMount(rawArray, from, middle);
-  const right = allMount(rawArray, middle + 1, to);
+  const middle: number = Math.floor((to - from) / 2) + from;
+  const left: number = allMount(rawArray, from, middle);
+  const right: number = allMount(rawArray, middle + 1, to);
   return left + right;
 }
 
 /* 查找索引，没有则返回null */
-function indexOf(rawArray, value, from, to){
+function indexOf(rawArray: Array, value: string, from: number, to: number): ?number{
   if(rawArray.length === 0){
     return null;
   }
@@ -169,34 +170,14 @@ function indexOf(rawArray, value, from, to){
     }
   }
   // 拆分计算
-  const middle = Math.floor((to - from) / 2) + from;
-  const left = indexOf(rawArray, value, from, middle);
+  const middle: number = Math.floor((to - from) / 2) + from;
+  const left: number = indexOf(rawArray, value, from, middle);
   if(left !== null){
     return left;
   }
-  const right =indexOf(rawArray, value, middle + 1, to);
+  const right: number =indexOf(rawArray, value, middle + 1, to);
   if(right !== null){
     return right;
   }
   return null;
-}
-
-/* ajax */
-function getData(method, url, data){
-  return new Promise((resolve, reject)=>{
-    const xhr = new XMLHttpRequest();
-    xhr.open(method, url, true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.addEventListener('readystatechange', function(event){
-      if(xhr.status === 200){
-        try{
-          const res = JSON.parse(xhr.response);
-          resolve(res);
-        }catch(err){
-          // ！获取到的json虽然能够正常解析，但是会报格式错误，所以使用try来避免输出错误信息
-        }
-      }
-    });
-    xhr.send(data);
-  });
 }

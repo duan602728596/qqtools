@@ -15,6 +15,7 @@ import Detail from './Detail';
 import getWdsInformation from '../../../components/weiDaShang/getWdsInformation';
 import { str2reg } from '../../../function';
 import kd48timer, { init } from '../../../components/kd48listerer/timer';
+import weiDaShangWorker from 'worker-loader?name=worker/weiDaShang.js!../../../../webWorker/weiDaShang';
 const fs = node_require('fs');
 
 let qq: ?SmartQQ = null;
@@ -105,7 +106,7 @@ class Login extends Component{
             qq.wdsTitle = title;
             qq.wdsMoxiId = moxiId;
             // 创建新的微打赏webWorker
-            qq.wdsWorker = new Worker('../webWorker/weiDaShang.js');
+            qq.wdsWorker = new weiDaShangWorker();
             qq.wdsWorker.postMessage({
               type: 'init',
               wdsId: qq.option.basic.wdsId,

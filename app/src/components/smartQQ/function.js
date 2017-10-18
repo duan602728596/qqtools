@@ -60,6 +60,8 @@ export function requestHttp({ reqUrl, method = 'GET', data = '', headers = {}, s
     });
     req.write(data);
     req.end();
+  }).catch((err: any): void=>{
+    resolve({});
   });
 }
 
