@@ -442,7 +442,7 @@ class Add extends Component{
               {
                 getFieldDecorator('xinZhiTianQiTemplate', {
                   initialValue: detail ? detail.basic.xinZhiTianQiTemplate :
-                    `【{{ name }}】\n天气：{{ text }}\n温度：{{ temperature }}℃`
+                    `【{{ city }}】\n天气：{{ text }}\n温度：{{ temperature }}℃`
                 })(
                   <Input.TextArea className={ style.template } rows={ 15 } />
                 )
@@ -450,7 +450,7 @@ class Add extends Component{
               <p className={ style.shuoming }>
                 <b>模板关键字：</b>
                 <br />
-                name：查询城市，
+                city：查询城市，
                 <br />
                 text：天气现象文字，
                 <br />

@@ -2,6 +2,7 @@
 /* 轮询的回调函数 */
 import wdsCb from '../weiDaShang/wdsCb';
 import kd48Cb from '../kd48listerer/kd48Cb';
+import tianQiCb from '../xinZhiTianQi/tianQiCb';
 
 function callback(result: Array | Object, qq: SmartQQ): void{
   if('result' in result){
@@ -36,6 +37,11 @@ function fn(command: string[], qq: SmartQQ): void{
     case '直播列表':
     case 'zb':
       kd48Cb(qq);
+      break;
+    // 天气
+    case '天气预报':
+    case 'tq':
+      tianQiCb(command, qq);
       break;
   }
 }
