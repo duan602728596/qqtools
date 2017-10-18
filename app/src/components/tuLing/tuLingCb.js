@@ -2,13 +2,13 @@
 /* 机器人 */
 import jQuery from 'jquery';
 
-function getTuLing(command: string, qq: SmartQQ): void{
+function getTuLing(command: string[], qq: SmartQQ): void{
   jQuery.ajax({
     type: 'POST',
     url: `http://www.tuling123.com/openapi/api`,
     data: {
       key: qq.option.basic.tuLingAPIKey,
-      info: command,
+      info: command[1],
       userid: `user${ new Date().getTime() }`
     },
     dataType: 'json',
@@ -29,7 +29,7 @@ function getTuLing(command: string, qq: SmartQQ): void{
   });
 }
 
-function tuLingCb(command: string, qq: SmartQQ): void{
+function tuLingCb(command: string[], qq: SmartQQ): void{
   if(qq.option.basic.isXinZhiTianQi){
     getTuLing(command, qq);
   }else{

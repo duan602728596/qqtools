@@ -3,10 +3,10 @@
 import jQuery from 'jquery';
 import { templateReplace } from '../../function';
 
-function getTianQi(command: string, qq: SmartQQ): void{
+function getTianQi(command: string[], qq: SmartQQ): void{
   jQuery.ajax({
     type: 'GET',
-    url: `https://api.seniverse.com/v3/weather/now.json?key=${ qq.option.basic.xinZhiTianQiAPIKey }&location=${ command }&language=zh-Hans&unit=c`,
+    url: `https://api.seniverse.com/v3/weather/now.json?key=${ qq.option.basic.xinZhiTianQiAPIKey }&location=${ command[1] }&language=zh-Hans&unit=c`,
     cache: true,
     dataType: 'json',
     success: function(data: string, status: number, xhr: XMLHttpRequest): void{
@@ -28,7 +28,7 @@ function getTianQi(command: string, qq: SmartQQ): void{
   });
 }
 
-function tianQiCb(command: string, qq: SmartQQ): void{
+function tianQiCb(command: string[], qq: SmartQQ): void{
   if(qq.option.basic.isXinZhiTianQi){
     getTianQi(command, qq);
   }else{
