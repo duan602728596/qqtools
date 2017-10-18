@@ -521,7 +521,7 @@ class Add extends Component{
           <label className={ style.customLine } htmlFor="customText">文本：</label>
           <Input.TextArea className={ style.customLine }
                           id="customText"
-                          rows={ 5 }
+                          rows={ 15 }
                           value={ this.state.text }
                           onChange={ this.onInputChange.bind(this, 'text') } />
         </div>

@@ -4,6 +4,8 @@ import wdsCb from '../weiDaShang/wdsCb';
 import kd48Cb from '../kd48listerer/kd48Cb';
 import tianQiCb from '../xinZhiTianQi/tianQiCb';
 import tuLingCb from '../tuLing/tuLingCb';
+import customCb from '../custom/customCb';
+import helpCb from '../help/helpCb';
 
 function callback(result: Array | Object, qq: SmartQQ): void{
   if('result' in result){
@@ -46,12 +48,15 @@ function fn(command: string[], qq: SmartQQ): void{
       break;
     // 机器人
     case 'say':
+      tuLingCb(command, qq);
       break;
     // 帮助
     case '--help':
+      helpCb(qq);
       break;
     // 其他自定义命令
     default:
+      customCb(command, qq);
       break;
   }
 }
