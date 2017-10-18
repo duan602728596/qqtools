@@ -3,6 +3,7 @@
 import wdsCb from '../weiDaShang/wdsCb';
 import kd48Cb from '../kd48listerer/kd48Cb';
 import tianQiCb from '../xinZhiTianQi/tianQiCb';
+import tuLingCb from '../tuLing/tuLingCb';
 
 function callback(result: Array | Object, qq: SmartQQ): void{
   if('result' in result){
@@ -42,6 +43,15 @@ function fn(command: string[], qq: SmartQQ): void{
     case '天气预报':
     case 'tq':
       tianQiCb(command, qq);
+      break;
+    // 机器人
+    case 'say':
+      break;
+    // 帮助
+    case '--help':
+      break;
+    // 其他自定义命令
+    default:
       break;
   }
 }
