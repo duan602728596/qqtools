@@ -408,7 +408,9 @@ class Add extends Component{
           <p className={ style.mb15 }>该接口用来查询天气情况，目前官方的个人查询限制为400次/时。</p>
           <p className={ style.mb15 }>
             请自行到心知天气的官方网站&nbsp;
-            <b className={ style.url } id="copy-option-xinzhitianqi" onClick={ copy.bind(this, 'copy-option-xinzhitianqi') }>https://www.seniverse.com/</b>
+            <b className={ style.url } id="copy-option-xinzhitianqi" onClick={ copy.bind(this, 'copy-option-xinzhitianqi') }>
+              https://www.seniverse.com/
+            </b>
             &nbsp;
             <Button icon="copy" title="复制" onClick={ copy.bind(this, 'copy-option-xinzhitianqi') } />
             &nbsp;注册账号并填写appKey。
@@ -465,7 +467,9 @@ class Add extends Component{
           <p className={ style.mb15 }>该接口用来和机器人对话，目前官方的个人查询限制为1000次/日。</p>
           <p className={ style.mb15 }>
             请自行到图灵机器人的官方网站&nbsp;
-            <b className={ style.url } id="copy-option-tuling" onClick={ copy.bind(this, 'copy-option-tuling') }>http://www.tuling123.com/</b>
+            <b className={ style.url } id="copy-option-tuling" onClick={ copy.bind(this, 'copy-option-tuling') }>
+              http://www.tuling123.com/
+            </b>
             &nbsp;
             <Button icon="copy" title="复制" onClick={ copy.bind(this, 'copy-option-tuling') } />
             &nbsp;注册账号并填写appKey。

@@ -42,7 +42,7 @@ class Index extends Component{
                 </Link>
               </dt>
               <dd>
-                <Link to="/LiveCatch">QQ登录</Link>
+                <Link to="/Login">QQ登录</Link>
               </dd>
             </dl>
           </Col>
@@ -54,7 +54,19 @@ class Index extends Component{
                 </Link>
               </dt>
               <dd>
-                <Link to="/PlayBackDownload">群功能配置</Link>
+                <Link to="/Option">群功能配置</Link>
+              </dd>
+            </dl>
+          </Col>
+          <Col xl={ 4 } lg={ 4 } md={ 6 } sm={ 8 } xs={ 12 }>
+            <dl className={ style.linkGroup }>
+              <dt className={ style.bTest }>
+                <Link to="/Help" title="帮助">
+                  <img src={ require('../image/ws1.jpg') } alt="帮助" />
+                </Link>
+              </dt>
+              <dd>
+                <Link to="/Help">帮助</Link>
               </dd>
             </dl>
           </Col>

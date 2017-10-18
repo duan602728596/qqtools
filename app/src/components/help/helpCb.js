@@ -11,7 +11,7 @@ async function helpCb(qq: SmartQQ): void{
 [直播列表 或 zb]：查看当前的口袋48直播列表
 [(天气预报 或 tq) 城市]：查询天气情况
 [say 你想说的话]：机器人
-[--help]：帮助` ;
+[--help]：帮助`;
 
   let text2: string = `【自定义命令】`;
   jQuery.each(qq.option.custom, (key: string, value: string): void=>{
