@@ -331,30 +331,33 @@ class SmartQQ{
   }
   // 轮询监听群成员信息
   async listenGroupMinfo(){
-    const ginfor: Object = await this.getGroupMinfo();
-    const minfo: Array = ginfor.result.minfo;
-    if(minfo.length > this.minfo.length){   // 数量变化，说明有成员变动
-      const worker: Worker = new MinfoWorker();
-      const cb: Function = async (event: Object): void=>{
-        const newM: Array = event.data. minfo;
-        for(let i: number = 0, j: number = newM.length; i < j; i++){
-          const item: Object = data[i];
-          const msg: string = templateReplace(this.option.basic.newBloodTemplate, {
-            name: item.nick
-          });
-          await this.sendFormatMessage(msg);
-        }
-        worker.removeEventListener('message', cb);
-        worker.terminate();
-      };
-      worker.addEventListener('message', cb, false);
-      worker.postMessage({
-        oldList: minfo,
-        newList: minfo
-      });
+    const [ginfor]: [ string ] = await this.getGroupMinfo();
+    const ginfor2: Object = JSON.parse(ginfor);
+    if('result' in ginfor2){
+      const minfo: Array = ginfor2.result.minfo;
+      if(this.minfo && minfo.length > this.minfo.length){   // 数量变化，说明有成员变动
+        const worker: Worker = new MinfoWorker();
+        const cb: Function = async (event: Object): void=>{
+          const newM: Array = event.data.minfo;
+          for(let i: number = 0, j: number = newM.length; i < j; i++){
+            const item: Object = newM[i];
+            const msg: string = templateReplace(this.option.basic.newBloodTemplate, {
+              name: item.nick
+            });
+            await this.sendFormatMessage(msg);
+          }
+          worker.removeEventListener('message', cb);
+          worker.terminate();
+        };
+        worker.addEventListener('message', cb, false);
+        worker.postMessage({
+          oldList: this.minfo,
+          newList: minfo
+        });
+      }
+      this.minfo = minfo;
     }
-    this.minfo = minfo;
-    this.minfoTimer = setTimeout(this.listenGroupMinfo.bind(this), 15000);
+    this.minfoTimer = setTimeout(this.listenGroupMinfo.bind(this), 10000);
   }
   // web worker监听到微打赏的返回信息
   async workerWds(event: Object): void{

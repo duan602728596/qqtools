@@ -18,7 +18,7 @@ import { copy } from '../../publicMethod/editOperation';
  * 天气：天气预报、tq
  * 机器人：say
  */
-const COMMAND = `微打赏|wds|直播列表|zb|天气预报|tq|say|--help`;
+const COMMAND = `微打赏|wds|直播列表|zb|天气预报|tq|say|help`;
 
 /* 判断当前的cmd是否存在，并且返回index */
 function getIndex(lists: Array, cmd: text): ?number{
@@ -389,7 +389,7 @@ class Add extends Component{
             <div className={ commonStyle.clearfix }>
               {
                 getFieldDecorator('newBloodTemplate', {
-                  initialValue: detail ? detail.basic.newBloodTemplate : `欢迎@{{ name }}加入群。`
+                  initialValue: detail ? detail.basic.newBloodTemplate : `欢迎@{{ name }} 加入群。`
                 })(
                   <Input.TextArea className={ style.template } rows={ 15 } />
                 )

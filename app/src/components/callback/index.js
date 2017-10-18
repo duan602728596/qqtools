@@ -51,7 +51,7 @@ function fn(command: string[], qq: SmartQQ): void{
       tuLingCb(command, qq);
       break;
     // 帮助
-    case '--help':
+    case 'help':
       helpCb(qq);
       break;
     // 其他自定义命令

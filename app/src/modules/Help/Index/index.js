@@ -67,7 +67,7 @@ const Index = (props: Object): Array=>{
       </p>
       <p className={ style.p }>
         [
-        <b className={ style.b }>--help</b>
+        <b className={ style.b }>help</b>
         ]：帮助
       </p>
       {/* 自定义命令 */}

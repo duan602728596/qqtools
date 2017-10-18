@@ -84,12 +84,19 @@ class Index extends Component{
     const index: number = this.props.qqLoginList.indexOf(item);
     clearTimeout(item.listenMessageTimer);              // 删除轮询信息
     clearInterval(item.loginBrokenLineReconnection);    // 删除断线重连
-    if(item.wdsWorker){                                 // 删除微打赏的web worker
+
+    // 删除微打赏的web worker
+    if(item.wdsWorker){
       item.sendMessage({
         type: 'cancel'
       });
       item.wdsWorker.terminate();
       item.wdsWorker = null;
+    }
+
+    // 删除群监听
+    if(item.minfoTimer){
+      clearTimeout(item.minfoTimer);
     }
 
     this.props.qqLoginList.splice(index, 1);

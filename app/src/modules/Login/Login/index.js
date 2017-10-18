@@ -128,7 +128,7 @@ class Login extends Component{
           }
           // 监听新入群成员
           if(qq.option.basic.isNewBlood){
-            qq.minfoTimer = setTimeout(qq.listenGroupMinfo.bind(qq), 15000);
+            qq.listenGroupMinfo();
           }
           // 监听信息
           qq.loginBrokenLineReconnection = setInterval(qq.loginSuccess.bind(qq), 60 ** 2 * 10 ** 3); // 一小时后重新登录，防止掉线
@@ -149,33 +149,38 @@ class Login extends Component{
   }
   // 判断是否登陆
   async isLogin(){
-    // 轮询判断是否登陆
-    const [x, cookies2]: [string, Object] = await qq.isLogin();
-    const status: string[] = x.split(/[()',]/g); // 2：登陆状态，17：姓名，8：登录地址
-    if(status[2] === '65'){
-      // 失效，重新获取二维码
-      const [dataReset, cookiesReset]: [Buffer, Object] = await qq.downloadPtqr();
-      qq.cookie = cookiesReset;
-      await writeImage(option.ptqr, dataReset);
-      qq.getToken();
-      this.setState({
-        imgUrl: option.ptqr
-      });
-    }else if(status[2] === '0'){
-      // 登陆成功
-      clearInterval(timer);
-      timer = null;
-      this.setState({
-        imgUrl: option.ptqr,
-        loginState: 2
-      });
-      qq.url = status[8];                               // 登录url
-      qq.name = status[17];                             // qq昵称
-      qq.cookie = Object.assign(qq.cookie, cookies2);
-      qq.ptwebqq = qq.cookie.ptwebqq;
-      // 获取配置项
-      qq.option = this.props.optionList[Number(this.state.optionItemIndex)];
-      this.loginSuccess();
+    try{
+      // 轮询判断是否登陆
+      const [x, cookies2]: [string, Object] = await qq.isLogin();
+      const status: string[] = x.split(/[()',]/g); // 2：登陆状态，17：姓名，8：登录地址
+      if(status[2] === '65'){
+        // 失效，重新获取二维码
+        const [dataReset, cookiesReset]: [Buffer, Object] = await qq.downloadPtqr();
+        qq.cookie = cookiesReset;
+        await writeImage(option.ptqr, dataReset);
+        qq.getToken();
+        this.setState({
+          imgUrl: option.ptqr
+        });
+      }else if(status[2] === '0'){
+        // 登陆成功
+        clearInterval(timer);
+        timer = null;
+        this.setState({
+          imgUrl: option.ptqr,
+          loginState: 2
+        });
+        qq.url = status[8];                               // 登录url
+        qq.name = status[17];                             // qq昵称
+        qq.cookie = Object.assign(qq.cookie, cookies2);
+        qq.ptwebqq = qq.cookie.ptwebqq;
+        // 获取配置项
+        qq.option = this.props.optionList[Number(this.state.optionItemIndex)];
+        this.loginSuccess();
+      }
+    }catch(err){
+      console.error('登录错误', err);
+      message.error('初始化失败！');
     }
   }
   async componentDidMount(): void{

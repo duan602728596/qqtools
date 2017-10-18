@@ -57,6 +57,7 @@ export function requestHttp({ reqUrl, method = 'GET', data = '', headers = {}, s
     req.on('error', function(err: any): void{
       message.error('请求错误！');
       console.error('请求错误：' + err);
+      resolve({});
     });
     req.write(data);
     req.end();
