@@ -11,12 +11,20 @@ import interfaceOption, { customProfilesObj2Array } from './interface';
 import { putOption } from '../store/reducer';
 import { copy } from '../../publicMethod/editOperation';
 
+/**
+ * 预留命令：微打赏、直播、天气、机器人
+ * 微打赏：微打赏、wds
+ * 直播：口袋直播、zb
+ * 天气：天气预报、tq
+ * 机器人：say
+ */
+const COMMAND = `微打赏|wds|口袋直播|zb|天气预报|tq|say`;
+
 /* 判断当前的cmd是否存在，并且返回index */
 function getIndex(lists: Array, cmd: text): ?number{
   let index: number = null;
   for(let i: number = 0, j: number = lists.length; i < j; i++){
-    // 预留命令：微打赏、天气、机器人
-    const reg: RegExp = new RegExp(`^\\s*(${ lists[i].command }|微打赏|wds|天气|tq|say)\\s*$`, 'i');
+    const reg: RegExp = new RegExp(`^\\s*(${ lists[i].command }|${ COMMAND })\\s*$`, 'i');
     if(reg.test(cmd)){
       index = i;
       break;
