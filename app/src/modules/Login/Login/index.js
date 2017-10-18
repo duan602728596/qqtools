@@ -15,7 +15,7 @@ import Detail from './Detail';
 import getWdsInformation from '../../../components/weiDaShang/getWdsInformation';
 import { str2reg } from '../../../function';
 import kd48timer, { init } from '../../../components/kd48listerer/timer';
-import weiDaShangWorker from 'worker-loader?name=worker/weiDaShang.js!../../../../webWorker/weiDaShang';
+import WeiDaShangWorker from 'worker-loader?name=worker/weiDaShang.js!../../../../webWorker/weiDaShang';
 const fs = node_require('fs');
 
 let qq: ?SmartQQ = null;
@@ -106,7 +106,7 @@ class Login extends Component{
             qq.wdsTitle = title;
             qq.wdsMoxiId = moxiId;
             // 创建新的微打赏webWorker
-            qq.wdsWorker = new weiDaShangWorker();
+            qq.wdsWorker = new WeiDaShangWorker();
             qq.wdsWorker.postMessage({
               type: 'init',
               wdsId: qq.option.basic.wdsId,
@@ -122,9 +122,13 @@ class Login extends Component{
             await init();
             if(this.props.kd48LiveListenerTimer === null){
               this.props.action.kd48LiveListenerTimer({
-                timer: setInterval(kd48timer, 10000)
+                timer: setInterval(kd48timer, 15000)
               });
             }
+          }
+          // 监听新入群成员
+          if(qq.option.basic.isNewBlood){
+            qq.minfoTimer = setTimeout(qq.listenGroupMinfo.bind(qq), 15000);
           }
           // 监听信息
           qq.loginBrokenLineReconnection = setInterval(qq.loginSuccess.bind(qq), 60 ** 2 * 10 ** 3); // 一小时后重新登录，防止掉线

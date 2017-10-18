@@ -1,8 +1,9 @@
 // @flow
 /* 网页版QQ登录接口 */
 import { requestHttp, hash33, hash, cookieObj2Str, msgId } from './function';
-const queryString = node_require('querystring');
 import { templateReplace } from '../../function';
+import MinfoWorker from 'worker-loader?name=worker/minfo.js!../../../webWorker/minfo';
+const queryString = node_require('querystring');
 
 type cons = {
   callback: Function
@@ -30,6 +31,8 @@ class SmartQQ{
   wdsMoxiId: ?string;
   wdsWorker: ?Worker;
   members: ?RegExp;
+  minfo: ?Array;
+  minfoTimer: ?number;
   constructor({ callback }: cons): void{
     // QQ登录相关
     this.cookie = {};            // 储存cookie
@@ -54,9 +57,12 @@ class SmartQQ{
     // 微打赏相关
     this.wdsTitle = null;        // 微打赏标题
     this.wdsMoxiId = null;       // moxi id
-    this.wdsWorker = null;
+    this.wdsWorker = null;       // 微打赏新线程
     // 口袋48监听相关
-    this.members = null;
+    this.members = null;         // 监听指定成员
+    // 群成员信息
+    this.minfo = null;           // 群成员信息
+    this.minfoTimer = null;      // 群成员监听定时器
   }
   // 下载二维码
   downloadPtqr(timeStr): Promise{
@@ -307,6 +313,48 @@ class SmartQQ{
     for(let i2: number = 0, j2 = sendMsg.length; i2 < j2; i2++ ){
       await this.sendMessage(sendMsg[i2]);
     }
+  }
+  // 获取群成员信息
+  getGroupMinfo(){
+    const url: string = `http://s.web2.qq.com/api/get_group_info_ext2?` +
+      `gcode=${ this.groupItem.code }&vfwebqq=${ this.vfwebqq }&t={ ${ Math.random() } }`;
+    return requestHttp({
+      reqUrl: url,
+      headers: {
+        'Cookie': this.cookieStr,
+        'Referer': 'http://s.web2.qq.com/proxy.html?v=20130916001&callback=1&id=1'
+      },
+      method: 'GET',
+      setEncode: 'utf8',
+      timeout: 20000  // 设置15秒超时
+    });
+  }
+  // 轮询监听群成员信息
+  async listenGroupMinfo(){
+    const ginfor: Object = await this.getGroupMinfo();
+    const minfo: Array = ginfor.result.minfo;
+    if(minfo.length > this.minfo.length){   // 数量变化，说明有成员变动
+      const worker: Worker = new MinfoWorker();
+      const cb: Function = async (event: Object): void=>{
+        const newM: Array = event.data. minfo;
+        for(let i: number = 0, j: number = newM.length; i < j; i++){
+          const item: Object = data[i];
+          const msg: string = templateReplace(this.option.basic.newBloodTemplate, {
+            name: item.nick
+          });
+          await this.sendFormatMessage(msg);
+        }
+        worker.removeEventListener('message', cb);
+        worker.terminate();
+      };
+      worker.addEventListener('message', cb, false);
+      worker.postMessage({
+        oldList: minfo,
+        newList: minfo
+      });
+    }
+    this.minfo = minfo;
+    this.minfoTimer = setTimeout(this.listenGroupMinfo.bind(this), 15000);
   }
   // web worker监听到微打赏的返回信息
   async workerWds(event: Object): void{
