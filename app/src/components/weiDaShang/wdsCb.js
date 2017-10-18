@@ -1,6 +1,6 @@
 /* 微打赏监听回调函数 */
 import { templateReplace } from '../../function';
-import wdsListWorker from 'worker-loader?name=worker/wdsList.js!../../../webWorker/wdsList';
+import WdsListWorker from 'worker-loader?name=worker/wdsList.js!../../../webWorker/wdsList';
 
 function wdsCb(command: string[], qq: SmartQQ): void{
   if(qq.option.basic.isWds){
@@ -34,7 +34,7 @@ async function sendWdsInfor(qq: SmartQQ): void{
 
 /* 新线程计算排名 */
 async function list(proId: string, type: string, size: string, qq: SmartQQ): void{
-  const worker: Worker = new wdsListWorker();
+  const worker: Worker = new WdsListWorker();
   const cb: Function = async (event: Object): void=>{
     await qq.sendFormatMessage(event.data.text);
     worker.removeEventListener('message', cb);
