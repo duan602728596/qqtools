@@ -19,7 +19,7 @@ function wdsCb(command: string[], qq: SmartQQ): void{
     }
   }else{
     // 微打赏功能未开启
-    qq.sendMessage('[WARNING]微打赏相关功能未开启。');
+    qq.sendMessage('[WARNING] 微打赏相关功能未开启。');
   }
 }
 

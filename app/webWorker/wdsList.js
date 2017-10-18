@@ -1,3 +1,4 @@
+// @flow
 /**
  * 微打赏榜单计算
  */
@@ -35,7 +36,7 @@ function juju(data: Object, title: string): string{
       text += `\n${ index + 1 }、 ${ item.nickname } （￥${ String(item.total_back_amount.toFixed(2)) }）`;
     });
   }else{
-    text = '[ERROR]获取微打赏聚聚榜错误。';
+    text = '[ERROR] 获取微打赏聚聚榜错误。';
   }
   return text;
 }
@@ -51,7 +52,7 @@ function daka(data: Object, title: string): string{
       text += `\n${ index + 1 }、${ item.nickname } （${ item.total_back_days }天）`;
     });
   }else{
-      text = '[ERROR]获取微打赏打卡榜错误。';
+      text = '[ERROR] 获取微打赏打卡榜错误。';
   }
   return text;
 }

@@ -1,3 +1,4 @@
+// @flow
 /* 口袋直播查重计算 */
 
 function array2obj(rawArray: Array): Object{

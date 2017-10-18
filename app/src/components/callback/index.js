@@ -1,6 +1,7 @@
 // @flow
 /* 轮询的回调函数 */
 import wdsCb from '../weiDaShang/wdsCb';
+import kd48Cb from '../kd48listerer/kd48Cb';
 
 function callback(result: Array | Object, qq: SmartQQ): void{
   if('result' in result){
@@ -25,10 +26,17 @@ function callback(result: Array | Object, qq: SmartQQ): void{
 }
 
 function fn(command: string[], qq: SmartQQ): void{
-  // 微打赏判断
-  if(command[0] === 'wds' || command[0] === '微打赏'){
-    wdsCb(command, qq);
-    return true;
+  switch(command[0]){
+    // 微打赏判断
+    case '微打赏':
+    case 'wds':
+      wdsCb(command, qq);
+      break;
+    // 口袋当前直播
+    case '直播列表':
+    case 'zb':
+      kd48Cb(qq);
+      break;
   }
 }
 
