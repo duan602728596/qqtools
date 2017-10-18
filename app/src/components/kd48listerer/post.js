@@ -23,13 +23,15 @@ const options: {
   port: ?number,
   path: string,
   method: string,
-  headers: Object
+  headers: Object,
+  timeout: number
 } = {
   hostname: 'plive.48.cn',
   port: null,
   path: '/livesystem/api/live/v1/memberLivePage',
   method: 'POST',
-  headers: headers
+  headers: headers,
+  timeout: 20000
 };
 
 /* post数据 */

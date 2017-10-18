@@ -14,11 +14,11 @@ import { copy } from '../../publicMethod/editOperation';
 /**
  * 预留命令：微打赏、直播、天气、机器人
  * 微打赏：微打赏、wds
- * 直播：口袋直播、zb
+ * 直播：直播列表、zb
  * 天气：天气预报、tq
  * 机器人：say
  */
-const COMMAND = `微打赏|wds|口袋直播|zb|天气预报|tq|say|--help`;
+const COMMAND = `微打赏|wds|直播列表|zb|天气预报|tq|say|--help`;
 
 /* 判断当前的cmd是否存在，并且返回index */
 function getIndex(lists: Array, cmd: text): ?number{
@@ -278,7 +278,7 @@ class Add extends Component{
                   initialValue: detail ? detail.basic.wdsUrlTemplate :
                     `微打赏：{{ wdsname }}\nhttps://wds.modian.com/show_weidashang_pro/{{ wdsid }}#1`
                 })(
-                  <Input.TextArea className={ style.template } rows={ 8 } />
+                  <Input.TextArea className={ style.template } rows={ 15 } />
                 )
               }
               <p className={ style.shuoming }>
@@ -299,7 +299,7 @@ class Add extends Component{
                     `@{{ id }} 刚刚在【{{ wdsname }}】打赏了{{ money }}元，排名提高了{{ rankingchage }}名，当前排名第{{ ranking }}名。` +
                     `感谢这位聚聚！\n已筹集资金：{{ amount }}元。\n微打赏地址：https://wds.modian.com/show_weidashang_pro/{{ wdsid }}#1`
                 })(
-                  <Input.TextArea className={ style.template } rows={ 8 } />
+                  <Input.TextArea className={ style.template } rows={ 15 } />
                 )
               }
               <p className={ style.shuoming }>
@@ -339,6 +339,20 @@ class Add extends Component{
               )
             }
           </Form.Item>
+          <Form.Item className={ style.mb15 } label="监听所有成员">
+            {
+              getFieldDecorator('isListenerAll', {
+                initialValue: detail ? (detail.basic.isListenerAll ? ['isListenerAll'] : []) : []
+              })(
+                <Checkbox.Group options={[
+                  {
+                    label: '',
+                    value: 'isListenerAll'
+                  }
+                ]} />
+              )
+            }
+          </Form.Item>
           <br />
           <Form.Item label="监听成员">
             <div className={ commonStyle.clearfix }>
@@ -346,7 +360,7 @@ class Add extends Component{
                 getFieldDecorator('kd48LiveListenerMembers', {
                   initialValue: detail ? detail.basic.kd48LiveListenerMembers : ''
                 })(
-                  <Input.TextArea className={ style.template } rows={ 3 } />
+                  <Input.TextArea className={ style.template } rows={ 15 } />
                 )
               }
               <p className={ style.shuoming }>多个成员名字之间用","（半角逗号）分隔。</p>
@@ -377,7 +391,7 @@ class Add extends Component{
                 getFieldDecorator('newBloodTemplate', {
                   initialValue: detail ? detail.basic.newBloodTemplate : `欢迎@{{ name }}加入群。`
                 })(
-                  <Input.TextArea className={ style.template } rows={ 5 } />
+                  <Input.TextArea className={ style.template } rows={ 15 } />
                 )
               }
               <p className={ style.shuoming }>
@@ -430,7 +444,7 @@ class Add extends Component{
                   initialValue: detail ? detail.basic.xinZhiTianQiTemplate :
                     `【{{ name }}】\n天气：{{ text }}\n温度：{{ temperature }}℃`
                 })(
-                  <Input.TextArea className={ style.template } rows={ 5 } />
+                  <Input.TextArea className={ style.template } rows={ 15 } />
                 )
               }
               <p className={ style.shuoming }>

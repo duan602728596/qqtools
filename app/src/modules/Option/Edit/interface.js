@@ -33,17 +33,23 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
     groupName: value.groupName,
     time: new Date().getTime(),
     basic: {
+      // 微打赏
       isWds: value.isWds.length > 0,
       wdsId: value.wdsId,
       wdsUrlTemplate: value.wdsUrlTemplate,
       wdsTemplate: value.wdsTemplate,
+      // 口袋48监听
       is48LiveListener: value.is48LiveListener.length > 0,
+      isListenerAll: value.isListenerAll.length > 0,
       kd48LiveListenerMembers: value.kd48LiveListenerMembers,
+      // 新成员监听
       isNewBlood: value.isNewBlood.length > 0,
       newBloodTemplate: value.newBloodTemplate,
+      // 天气
       isXinZhiTianQi: value.isXinZhiTianQi.length > 0,
       xinZhiTianQiAPIKey: value.xinZhiTianQiAPIKey,
       xinZhiTianQiTemplate: value.xinZhiTianQiTemplate,
+      // 图灵机器人
       isTuLing: value.isTuLing.length > 0,
       tuLingAPIKey: value.tuLingAPIKey
     },
