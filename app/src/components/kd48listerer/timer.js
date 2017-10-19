@@ -48,7 +48,7 @@ async function kd48timer(){
       const ll2: Array = ll instanceof Array ? ll : ll.toJS();
 
       // 发送数据
-      for(let i1: number = 0, j1: number = newLive.length, j2: number = ll2.length; i1 < j1; i1++){
+      for(let i1: number = newLive.length - 1, j2: number = ll2.length; i1 >= 0; i1--){
         const item1: Object = newLive[i1];
         for(let i2: number = 0; i2 < j2; i2++){
           const item2: Object = ll2[i2];
