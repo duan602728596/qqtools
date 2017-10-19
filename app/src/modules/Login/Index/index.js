@@ -104,22 +104,23 @@ class Index extends Component{
       qqLoginList: this.props.qqLoginList.slice()
     });
 
-    // 判断是否需要开启直播监听
-    let isListener: boolean = false;
-    for(let i = 0, j = this.props.qqLoginList.length; i < j; i++){
-      const item: SmartQQ = this.props.qqLoginList[i];
-      if(item.option.basic.is48LiveListener && item.members){
-        isListener = true;
-        break;
+    // 判断是否需要关闭直播监听
+    if(this.props.kd48LiveListenerTimer !== null){
+      let isListener: boolean = false;
+      for(let i = 0, j = this.props.qqLoginList.length; i < j; i++){
+        const item: SmartQQ = this.props.qqLoginList[i];
+        if(item.option.basic.is48LiveListener && item.members){
+          isListener = true;
+          break;
+        }
+      }
+      if(isListener === false){
+        clearInterval(this.props.kd48LiveListenerTimer);
+        this.props.action.kd48LiveListenerTimer({
+          timer: null
+        });
       }
     }
-    if(isListener === false){
-      clearInterval(this.props.kd48LiveListenerTimer);
-      this.props.action.kd48LiveListenerTimer({
-        timer: null
-      });
-    }
-
   }
   render(): Object{
     return [

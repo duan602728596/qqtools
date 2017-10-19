@@ -139,6 +139,7 @@ class Login extends Component{
           this.props.action.changeQQLoginList({
             qqLoginList: ll
           });
+          qq = null;
           this.props.history.push('/Login');
         }
       });
@@ -207,7 +208,41 @@ class Login extends Component{
   }
   componentWillUnmount(): void{
     if(timer) clearInterval(timer); // 清除定时器
-    if(qq) qq = null;               // 清除qq相关
+    // 清除qq相关
+    if(qq !== null){
+      if(qq.listenMessageTimer) clearTimeout(qq.listenMessageTimer);                       // 删除轮询信息
+      if(qq.loginBrokenLineReconnection) clearInterval(qq.loginBrokenLineReconnection);    // 删除断线重连
+
+      if(qq.wdsWorker){
+        qq.sendMessage({
+          type: 'cancel'
+        });
+        qq.wdsWorker.terminate();
+        qq.wdsWorker = null;
+      }
+      // 删除群监听
+      if(qq.minfoTimer) clearTimeout(qq.minfoTimer);
+
+      // 判断是否需要关闭直播监听
+      if(this.props.kd48LiveListenerTimer !== null){
+        let isListener: boolean = false;
+        for(let i = 0, j = this.props.qqLoginList.length; i < j; i++){
+          const item: SmartQQ = this.props.qqLoginList[i];
+          if(item.option.basic.is48LiveListener && item.members){
+            isListener = true;
+            break;
+          }
+        }
+        if(isListener === false){
+          clearInterval(this.props.kd48LiveListenerTimer);
+          this.props.action.kd48LiveListenerTimer({
+            timer: null
+          });
+        }
+      }
+
+      qq = null;
+    }
   }
   ptqrBody(timeString: number): Object | Array{
     switch(this.state.loginState){

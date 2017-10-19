@@ -17,14 +17,15 @@ import cheerio from 'cheerio';
 </li>
 */
 export function juju(xmlStr: string): { allMount: number, arr: Array, obj: Object }{
-  const xml: any = cheerio(`<ul id="xml">${ xmlStr }</ul>`);
+  const xml: any = cheerio.load(`<html id="xml">${ xmlStr }</html>`);
   const arr: Array = [];
   const obj: Object = {};
   let allMount: number = 0;
-  xml("#xml li").each((index: number, item: any): void=>{
-    const id: string = (item.find('a').eq(0).attr('href')).match(/[0-9]+/)[0];     // 用户id
-    const nickname: string = item.find('.nickname').text();                        // 用户的昵称
-    const money: Number = Number(item.find('.money').text().match(/[0-9.]+/)[0]);  // 用户的打赏金额
+  xml("#xml").find("li").each((index: number, item: any): void=>{
+    const item2: any = xml(item);
+    const id: string = (item2.find('a').eq(0).attr('href')).match(/[0-9]+/)[0];     // 用户id
+    const nickname: string = item2.find('.nickname').text();                        // 用户的昵称
+    const money: Number = Number(item2.find('.money').text().match(/[0-9.]+/)[0]);  // 用户的打赏金额
     const o: Object = {
       index,
       id,
@@ -56,9 +57,9 @@ export function juju(xmlStr: string): { allMount: number, arr: Array, obj: Objec
 </li>
 */
 export function daka(xmlStr: string): Array{
-  const xml: any = cheerio(`<ul id="xml">${ xmlStr }</ul>`);
+  const xml: any = cheerio(`<html id="xml">${ xmlStr }</html>`);
   const arr: Array = [];
-  xml("#xml li").each((index: number, item: any): void=>{
+  xml("#xml").find("li").each((index: number, item: any): void=>{
     const id: string = (item.find('a').eq(0).attr('href')).match(/[0-9]+/)[0];     // 用户id
     const nickname: string = item.find('.nickname').text();                        // 用户的昵称
     const day: Number = Number(item.find('.money').text().match(/[0-9]+/)[0]);     // 打赏天数

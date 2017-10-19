@@ -28,7 +28,7 @@ addEventListener('message', function(event: Object): boolean{
     title = data.title;
 
     // 初始化
-    getData('POST', listUrl, `pro_id=${ wdsId }&type=1&page=1&page_ize=10000000000`).then((result: Object)=>{
+    getData('POST', listUrl, `pro_id=${ wdsId }&type=1&page=1&page_size=10000000000`).then((result: Object)=>{
       // 获取旧排行榜
       if(result.status !== 0){
         oldData = {
@@ -57,28 +57,29 @@ addEventListener('message', function(event: Object): boolean{
 /* 轮询事件 */
 async function polling(): void{
   try{
-    const ct: Object = await getData('POST', listUrl, `pro_id=${ wdsId }&type=1&page=1&page_ize=10000000000`);
+    const ct: Object = await getData('POST', listUrl, `pro_id=${ wdsId }&type=1&page=1&page_size=10000000000`);
     // 不等于0时报错
-    if(ct.status !== 0){
+    if(ct.status === 0){
       const newD = juju(ct.data.html);
       if(newD.allMount !== oldData.allMount){
         const newData: Array = changeMembers(oldData.obj, newD.arr, 0, newD.arr.length - 1);
+        const al: string = String(newD.allMount.toFixed(2));
         // 计算打赏金额和排名
         const jizi: Array = [];
         for(let i: Object = 0, j: Object = newData.length; i < j; i++){
           const item: Object = newData[i];
-          const user_id: string = item.id;                                                          // 当前用户的id
-          const oldIndex: ?number = user_id in oldData.obj ? oldData.obj[user_id].index : null;     // 旧排名
-          const newIndex: ?number = item.index;                                                     // 新排名
-          const promote: number = oldIndex ? oldIndex - newIndex + 1 : oldData.length - newIndex;   // 排名提升
-          const pay_amount: number = item.money - oldData.obj[user_id].money;                       // 打赏金额
+          const user_id: string = item.id;                                                                    // 当前用户的id
+          const oldIndex: ?number = user_id in oldData.obj ? oldData.obj[user_id].index : null;               // 旧排名
+          const newIndex: ?number = item.index + 1;                                                           // 新排名
+          const promote: number = oldIndex ? oldIndex - newIndex : oldData.length - newIndex;                 // 排名提升
+          const pay_amount: number = item.money - (user_id in oldData.obj ? oldData.obj[user_id].money : 0);  // 打赏金额
           jizi.push({
             user_id,
-            pay_amount,                    // 打赏金额
-            nickname: item.nickname,       // 用户昵称
+            pay_amount: String(pay_amount.toFixed(2)), // 打赏金额
+            nickname: item.nickname,                   // 用户昵称
             newIndex,
             promote: promote < 0 ? 0 : promote,
-            allMount: newD.allMount
+            allMount: al
           });
         }
         // 更新旧对比数据
