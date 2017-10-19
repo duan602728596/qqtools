@@ -42,11 +42,6 @@ async function kd48timer(){
       newLive: Array
     } = event.data;
     oldList = newDataObj; // 覆盖旧数据
-
-    ////////////////////////
-    console.log(oldList, newDataObj, newLive);
-    ////////////////////////
-
     // 当有新直播时，遍历已登录的SmartQQ，并发送数据
     if(newLive.length > 0){
       const ll: Object | Array = store.getState().get('login').get('qqLoginList');
@@ -57,15 +52,6 @@ async function kd48timer(){
         const item1: Object = newLive[i1];
         for(let i2: number = 0; i2 < j2; i2++){
           const item2: Object = ll2[i2];
-          ////////////////////////
-          console.log(
-            item2.option.basic.is48LiveListener &&                // 开启直播功能
-            (
-              item2.option.basic.isListenerAll ||                 // 监听所有成员
-              (item2.members && item2.members.test(item1.title))  // 监听指定成员
-            )
-          );
-          ////////////////////////
           if(
             item2.option.basic.is48LiveListener &&                // 开启直播功能
             (
@@ -73,7 +59,7 @@ async function kd48timer(){
               (item2.members && item2.members.test(item1.title))  // 监听指定成员
             )
           ){
-            const member: string = item1.title.match(item2.members)[0],
+            const member: string = item1.title.split('的')[0],
               subTitle: string = item1.subTitle,
               time1: string = time('YY-MM-DD hh:mm:ss', item1.startTime),
               streamPath: string = item1.streamPath,
