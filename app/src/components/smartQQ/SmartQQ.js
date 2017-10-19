@@ -357,7 +357,7 @@ class SmartQQ{
       }
       this.minfo = minfo;
     }
-    this.minfoTimer = setTimeout(this.listenGroupMinfo.bind(this), 10000);
+    this.minfoTimer = setTimeout(this.listenGroupMinfo.bind(this), 8000);
   }
   // web worker监听到微打赏的返回信息
   async workerWds(event: Object): void{
