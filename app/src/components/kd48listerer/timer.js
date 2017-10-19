@@ -57,7 +57,7 @@ async function kd48timer(){
           if(
             item2.option.basic.is48LiveListener &&                // 开启直播功能
             (
-              item2.option.isListenerAll ||                       // 监听所有成员
+              item2.option.basic.isListenerAll ||                 // 监听所有成员
               (item2.members && item2.members.test(item1.title))  // 监听指定成员
             )
           ){
