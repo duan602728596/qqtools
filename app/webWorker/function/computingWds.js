@@ -57,12 +57,13 @@ export function juju(xmlStr: string): { allMount: number, arr: Array, obj: Objec
 </li>
 */
 export function daka(xmlStr: string): Array{
-  const xml: any = cheerio(`<html id="xml">${ xmlStr }</html>`);
+  const xml: any = cheerio.load(`<html id="xml">${ xmlStr }</html>`);
   const arr: Array = [];
   xml("#xml").find("li").each((index: number, item: any): void=>{
-    const id: string = (item.find('a').eq(0).attr('href')).match(/[0-9]+/)[0];     // 用户id
-    const nickname: string = item.find('.nickname').text();                        // 用户的昵称
-    const day: Number = Number(item.find('.money').text().match(/[0-9]+/)[0]);     // 打赏天数
+    const item2: any = xml(item);
+    const id: string = (item2.find('a').eq(0).attr('href')).match(/[0-9]+/)[0];     // 用户id
+    const nickname: string = item2.find('.nickname').text();                        // 用户的昵称
+    const day: string = item2.find('.money').text().match(/[0-9]+/)[0];             // 打赏天数
     arr.push({
       index,
       id,

@@ -53,6 +53,7 @@ function post(number: number = 0): Promise{
     });
 
     req.on('error', function(err: any): void{
+      reject(err);
       console.log('错误：' + err.message);
     });
 

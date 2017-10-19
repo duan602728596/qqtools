@@ -10,7 +10,7 @@
  * page_size: 每次请求的数据数
  */
 import getData from './function/getData';
-import { juju, daka, changeMembers } from './function/computingWds';
+import { juju, changeMembers } from './function/computingWds';
 
 const listUrl: string = `https://wds.modian.com/ajax/backer_ranking_list`;
 let wdsId: ?string = null;
