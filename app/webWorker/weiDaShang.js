@@ -71,7 +71,7 @@ async function polling(): void{
           const user_id: string = item.id;                                                                    // 当前用户的id
           const oldIndex: ?number = user_id in oldData.obj ? oldData.obj[user_id].index : null;               // 旧排名
           const newIndex: ?number = item.index + 1;                                                           // 新排名
-          const promote: number = oldIndex ? oldIndex - newIndex : oldData.length - newIndex;                 // 排名提升
+          const promote: number = oldIndex !== null ? oldIndex - newIndex : oldData.arr.length - newIndex;    // 排名提升
           const pay_amount: number = item.money - (user_id in oldData.obj ? oldData.obj[user_id].money : 0);  // 打赏金额
           jizi.push({
             user_id,
