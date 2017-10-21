@@ -1,6 +1,6 @@
 /* 微打赏监听回调函数 */
 import { templateReplace } from '../../function';
-import WdsListWorker from 'worker-loader?name=worker/wdsList.js!../../../webWorker/wdsList';
+import WdsListWorker from 'worker-loader?name=worker/wdsList.js!../../webWorker/wdsList';
 
 function wdsCb(command: string[], qq: SmartQQ): void{
   if(qq.option.basic.isWds){

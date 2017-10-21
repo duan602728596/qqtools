@@ -15,7 +15,7 @@ import Detail from './Detail';
 import getWdsInformation from '../../../components/weiDaShang/getWdsInformation';
 import { str2reg } from '../../../function';
 import kd48timer, { init } from '../../../components/kd48listerer/timer';
-import WeiDaShangWorker from 'worker-loader?name=worker/weiDaShang.js!../../../../webWorker/weiDaShang';
+import WeiDaShangWorker from 'worker-loader?name=worker/weiDaShang.js!../../../webWorker/weiDaShang';
 const fs = node_require('fs');
 
 let qq: ?SmartQQ = null;
