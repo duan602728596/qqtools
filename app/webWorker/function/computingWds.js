@@ -9,8 +9,8 @@ import cheerio from 'cheerio';
   <span class="suport_ran">21</span>
   <a href="otuser_tmp?user_id=123">
     <span class="avatar">
-	    <img class="lazyload" data-original="" src="" onerror="">
-	  </span>
+      <img class="lazyload" data-original="" src="" onerror="">
+    </span>
     <span class="nickname\">昵称</span>
     <span class="money">￥ 400.00</span>
   </a>
