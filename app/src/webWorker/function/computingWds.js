@@ -11,7 +11,7 @@ import cheerio from 'cheerio';
     <span class="avatar">
       <img class="lazyload" data-original="" src="" onerror="">
     </span>
-    <span class="nickname\">昵称</span>
+    <span class="nickname">昵称</span>
     <span class="money">￥ 400.00</span>
   </a>
 </li>
