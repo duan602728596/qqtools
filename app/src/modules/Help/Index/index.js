@@ -21,7 +21,8 @@ const Index = (props: Object): Array=>{
         <b className={ style.b }>微打赏</b>
         &nbsp;或&nbsp;
         <b className={ style.b }>wds</b>
-        &nbsp;]：查看当前微打赏链接</p>
+        &nbsp;]：查看当前微打赏链接
+      </p>
       <p className={ style.p }>
         [(
         <b className={ style.b }>微打赏</b>
