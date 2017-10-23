@@ -56,28 +56,29 @@ addEventListener('message', function(event: Object): boolean{
 
 /* 轮询事件 */
 async function polling(): void{
+  const oldData23: Object = Object.assign({}, oldData);
   try{
     const ct: Object = await getData('POST', listUrl, `pro_id=${ wdsId }&type=1&page=1&page_size=10000000000`);
     // 不等于0时报错
     if(ct.status === 0){
       const newD = juju(ct.data.html);
-      if(newD.allMount !== oldData.allMount){
-        const newData: Array = changeMembers(oldData.obj, newD.arr, 0, newD.arr.length - 1);
+      if(newD.allMount !== oldData23.allMount){
+        const newData: Array = changeMembers(oldData23.obj, newD.arr, 0, newD.arr.length - 1);
         const al: string = String(newD.allMount.toFixed(2));
         // 计算打赏金额和排名
         const jizi: Array = [];
         for(let i: Object = 0, j: Object = newData.length; i < j; i++){
           const item: Object = newData[i];
-          const user_id: string = item.id;                                                                    // 当前用户的id
-          const oldIndex: ?number = user_id in oldData.obj ? oldData.obj[user_id].index : null;               // 旧排名
-          const newIndex: ?number = item.index;                                                               // 新排名
-          const promote: number = oldIndex !== null ? oldIndex - newIndex : oldData.arr.length - newIndex;    // 排名提升
-          const pay_amount: number = item.money - (user_id in oldData.obj ? oldData.obj[user_id].money : 0);  // 打赏金额
+          const user_id: string = item.id;                                                                        // 当前用户的id
+          const oldIndex: ?number = oldData23.obj[user_id] ? oldData23.obj[user_id].index : null;                 // 旧排名
+          const newIndex: ?number = item.index;                                                                   // 新排名
+          const promote: number = oldIndex !== null ? oldIndex - newIndex : newData.arr.length - newIndex;        // 排名提升
+          const pay_amount: number = item.money - (user_id in oldData23.obj ? oldData23.obj[user_id].money : 0);  // 打赏金额
           jizi.push({
             user_id,
             pay_amount: String(pay_amount.toFixed(2)), // 打赏金额
             nickname: item.nickname,                   // 用户昵称
-            index: newIndex,
+            newIndex,
             promote: promote < 0 ? 0 : promote,
             allMount: al
           });

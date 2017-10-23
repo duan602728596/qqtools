@@ -1,6 +1,6 @@
 {
   "name": "qqtools",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "QQ群工具。",
   "license": "GNU General Public License v3.0",
   "scripts": {
@@ -13,7 +13,7 @@
   "main": "./build/index.html",
   "nodejs": true,
   "window": {
-    "title": "QQ群工具（v0.1.3）",
+    "title": "QQ群工具（v0.1.4）",
     "position": "center",
     "toolbar": true,
     "frame": true,

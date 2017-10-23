@@ -370,7 +370,7 @@ class SmartQQ{
           id: item.nickname,
           money: item.pay_amount,
           amount: item.allMount,
-          ranking: item.newIndex,
+          ranking: item.newIndex + 1,
           rankingchage: item.promote,
           wdsname: this.wdsTitle,
           wdsid: this.option.basic.wdsId

@@ -82,7 +82,7 @@ export function changeMembers(oldObj: Object, newArr: Array, from: number, to: n
   // 判断集资是否变化
   if(from === to){
     const id: string = newArr[from].id;
-    if((!(id in oldObj)) || (newArr[from].money !== oldObj[id].money)){
+    if(!oldObj[id] || (newArr[from].money > oldObj[id].money)){
       return [newArr[from]];
     }else{
       return [];
