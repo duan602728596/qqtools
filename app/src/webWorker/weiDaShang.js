@@ -70,14 +70,14 @@ async function polling(): void{
           const item: Object = newData[i];
           const user_id: string = item.id;                                                                    // 当前用户的id
           const oldIndex: ?number = user_id in oldData.obj ? oldData.obj[user_id].index : null;               // 旧排名
-          const newIndex: ?number = item.index + 1;                                                           // 新排名
+          const newIndex: ?number = item.index;                                                               // 新排名
           const promote: number = oldIndex !== null ? oldIndex - newIndex : oldData.arr.length - newIndex;    // 排名提升
           const pay_amount: number = item.money - (user_id in oldData.obj ? oldData.obj[user_id].money : 0);  // 打赏金额
           jizi.push({
             user_id,
             pay_amount: String(pay_amount.toFixed(2)), // 打赏金额
             nickname: item.nickname,                   // 用户昵称
-            newIndex,
+            index: newIndex,
             promote: promote < 0 ? 0 : promote,
             allMount: al
           });
