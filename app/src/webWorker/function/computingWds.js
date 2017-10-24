@@ -39,7 +39,7 @@ export function juju(xmlStr: string): { allMount: number, arr: Array, obj: Objec
   return {
     obj,
     arr,
-    allMount
+    allMount: String(allMount.toFixed(2))
   };
 }
 
