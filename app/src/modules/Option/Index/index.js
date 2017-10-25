@@ -185,27 +185,30 @@ class Index extends Component{
       /* 显示列表 */
       <div key={ 1 } className={ publicStyle.tableBox }>
         <Table dataSource={ this.props.optionList }
-               columns={ this.columns() }
-               rowKey={ (item: Object): string=>item.name }
-               pagination={{
-                 pageSize: 20,
-                 showQuickJumper: true
-               }} />
+          columns={ this.columns() }
+          rowKey={ (item: Object): string=>item.name }
+          pagination={{
+            pageSize: 20,
+            showQuickJumper: true
+          }}
+        />
       </div>,
       /* 导出配置 */
       <Modal key={ 2 }
-             title="导出配置"
-             visible={ this.state.visible1 }
-             onOk={ this.onExportConfiguration.bind(this) }
-             onCancel={ this.onModalDisplay.bind(this, 'visible1', false) } >
+        title="导出配置"
+        visible={ this.state.visible1 }
+        onOk={ this.onExportConfiguration.bind(this) }
+        onCancel={ this.onModalDisplay.bind(this, 'visible1', false) }
+      >
         <input id="exportConfiguration" type="file" nwsaveas={ `backup_${ new Date().getTime() }.json` } />
       </Modal>,
       /* 导入配置 */
       <Modal key={ 3 }
-             title="导入配置"
-             visible={ this.state.visible2 }
-             onOk={ this.onImportConfiguration.bind(this) }
-             onCancel={ this.onModalDisplay.bind(this, 'visible2', false) } >
+        title="导入配置"
+        visible={ this.state.visible2 }
+        onOk={ this.onImportConfiguration.bind(this) }
+        onCancel={ this.onModalDisplay.bind(this, 'visible2', false) }
+      >
         <p className={ style.tishi }>同一配置名称会覆盖原有的配置。</p>
         <input id="importConfiguration" type="file" />
       </Modal>

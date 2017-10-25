@@ -509,25 +509,28 @@ class Add extends Component{
       </Form>,
       /* 添加或修改自定义命令 */
       <Modal key={ 1 }
-             title={ this.state.item ? "修改" : "添加" + "自定义命令" }
-             visible={ this.state.modalDisplay }
-             width="500px"
-             maskClosable={ false }
-             onOk={ this.state.item ? this.onSave.bind(this) : this.onAdd.bind(this) }
-             onCancel={ this.onModalClose.bind(this) }>
+        title={ this.state.item ? "修改" : "添加" + "自定义命令" }
+        visible={ this.state.modalDisplay }
+        width="500px"
+        maskClosable={ false }
+        onOk={ this.state.item ? this.onSave.bind(this) : this.onAdd.bind(this) }
+        onCancel={ this.onModalClose.bind(this) }
+      >
         <div className={ style.customProfiles }>
           <label className={ style.customLine } htmlFor="customCmd">命令：</label>
           <Input className={ style.customLine }
-                 id="customCmd"
-                 readOnly={ this.state.item }
-                 value={ this.state.cmd }
-                 onChange={ this.onInputChange.bind(this, 'cmd') } />
+            id="customCmd"
+            readOnly={ this.state.item }
+            value={ this.state.cmd }
+            onChange={ this.onInputChange.bind(this, 'cmd') }
+          />
           <label className={ style.customLine } htmlFor="customText">文本：</label>
           <Input.TextArea className={ style.customLine }
-                          id="customText"
-                          rows={ 15 }
-                          value={ this.state.text }
-                          onChange={ this.onInputChange.bind(this, 'text') } />
+            id="customText"
+            rows={ 15 }
+            value={ this.state.text }
+            onChange={ this.onInputChange.bind(this, 'text') }
+          />
         </div>
       </Modal>
     ];

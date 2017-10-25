@@ -141,13 +141,14 @@ class Index extends Component{
       /* 显示列表 */
       <div key={ 1 } className={ publicStyle.tableBox }>
         <Table bordered={ true }
-               columns={ this.columus() }
-               rowKey={ (item: Object): string=>item.token }
-               dataSource={ this.props.qqLoginList }
-               pagination={{
-                 pageSize: 20,
-                 showQuickJumper: true
-               }} />
+          columns={ this.columus() }
+          rowKey={ (item: Object): string=>item.token }
+          dataSource={ this.props.qqLoginList }
+          pagination={{
+            pageSize: 20,
+            showQuickJumper: true
+          }}
+        />
       </div>
     ];
   }

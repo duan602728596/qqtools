@@ -295,9 +295,10 @@ class Login extends Component{
         <div className={ style.changeOption }>
           <label>选择一个配置文件：</label>
           <Select className={ style.select }
-                  dropdownClassName={ style.select }
-                  value={ this.state.optionItemIndex }
-                  onSelect={ this.onOptionSelect.bind(this) }>
+            dropdownClassName={ style.select }
+            value={ this.state.optionItemIndex }
+            onSelect={ this.onOptionSelect.bind(this) }
+          >
             { this.selectOption() }
           </Select>
         </div>
