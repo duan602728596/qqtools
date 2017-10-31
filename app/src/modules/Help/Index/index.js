@@ -72,7 +72,7 @@ const Index = (props: Object): Array=>{
         ]：帮助
       </p>
       {/* 自定义命令 */}
-      <h4 className={ style.seconeTitle }>图灵机器人</h4>
+      <h4 className={ style.seconeTitle }>自定义命令</h4>
       <p className={ style.p }>
         [
         <b className={ style.b }>自定义命令</b>
