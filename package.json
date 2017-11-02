@@ -1,0 +1,11 @@
+{
+  "name": "qqtools",
+  "version": "0.2.2",
+  "description": "QQ群工具。",
+  "license": "GNU General Public License v3.0",
+  "author": {
+    "name": "段昊辰",
+    "email": "duanhaochen@126.com",
+    "url": "https://github.com/duan602728596"
+  }
+}
