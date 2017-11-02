@@ -12,7 +12,7 @@ function getWdsInformation(wdsId: string): Promise{
       url: `https://wds.modian.com/show_weidashang_pro/${ wdsId }#1`,
       cache: true,
       dataType: 'text',
-      success: function(data: string, status: number, xhr: XMLHttpRequest): void{
+      success: function(data: string, status: string, xhr: XMLHttpRequest): void{
         const xml: string = cheerio.load(data);
         const title: string = xml('span.title').text();
         const moxiId: string = xml('#look_user_id').attr('moxi_id');

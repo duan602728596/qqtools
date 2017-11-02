@@ -11,7 +11,7 @@ function getTuLing(command: string[], qq: SmartQQ): void{
       userid: `user${ new Date().getTime() }`
     },
     dataType: 'json',
-    success: function(data: string, status: number, xhr: XMLHttpRequest): void{
+    success: function(data: string, status: string, xhr: XMLHttpRequest): void{
       let text: string = `${ data.text }`;
       if('url' in data){
         text += `\n${ data.url }`;
