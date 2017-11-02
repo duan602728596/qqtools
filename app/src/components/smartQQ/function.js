@@ -1,4 +1,3 @@
-// @flow
 import jQuery from 'jquery';
 import { message } from 'antd';
 const https = node_require('https');

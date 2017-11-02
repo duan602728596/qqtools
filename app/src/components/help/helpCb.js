@@ -1,4 +1,3 @@
-// @flow
 /* 帮助命令 */
 import jQuery from 'jquery';
 

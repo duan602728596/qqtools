@@ -1,4 +1,3 @@
-// @flow
 import { message } from 'antd';
 
 /**

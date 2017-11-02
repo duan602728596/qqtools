@@ -1,4 +1,3 @@
-// @flow
 /* ajax */
 function getData(method: string, url: string, data: string){
   return new Promise((resolve: Function, reject: Function): void=>{

@@ -1,4 +1,3 @@
-// @flow
 /* 轮询的回调函数 */
 import wdsCb from '../weiDaShang/wdsCb';
 import kd48Cb from '../kd48listerer/kd48Cb';

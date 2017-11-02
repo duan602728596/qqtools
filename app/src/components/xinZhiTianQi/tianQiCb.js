@@ -1,4 +1,3 @@
-// @flow
 /* 天气查询接口 */
 import jQuery from 'jquery';
 import { templateReplace } from '../../function';

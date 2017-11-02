@@ -1,4 +1,3 @@
-// @flow
 /* reducers */
 import { combineReducers } from 'redux-immutable';
 

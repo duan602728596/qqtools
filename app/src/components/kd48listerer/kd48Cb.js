@@ -1,4 +1,3 @@
-// @flow
 import jQuery from 'jquery';
 import post from './post';
 import { time } from '../../function';

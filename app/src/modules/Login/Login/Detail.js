@@ -1,4 +1,3 @@
-// @flow
 /* 当前配置的具体内容 */
 import React, { Component } from 'react';
 import jQuery from 'jquery';

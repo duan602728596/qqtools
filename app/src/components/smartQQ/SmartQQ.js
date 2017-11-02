@@ -1,4 +1,3 @@
-// @flow
 /* 网页版QQ登录接口 */
 import { requestHttp, hash33, hash, cookieObj2Str, msgId } from './function';
 import { templateReplace } from '../../function';

@@ -1,4 +1,3 @@
-// @flow
 /* 机器人 */
 import jQuery from 'jquery';
 

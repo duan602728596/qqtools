@@ -1,4 +1,3 @@
-// @flow
 import jQuery from 'jquery';
 /**
  * name       配置名称

@@ -1,4 +1,3 @@
-// @flow
 /* 自定义命令 */
 
 function customCb(command: string, qq: SmartQQ): void{
