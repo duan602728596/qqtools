@@ -1,6 +1,6 @@
 {
   "name": "qqtools",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "QQ群工具。",
   "license": "GNU General Public License v3.0",
   "scripts": {
@@ -14,7 +14,7 @@
   "main": "./build/index.html",
   "nodejs": true,
   "window": {
-    "title": "QQ群工具（v0.3.0）",
+    "title": "QQ群工具（v0.3.1）",
     "position": "center",
     "toolbar": true,
     "frame": true,
@@ -49,7 +49,7 @@
     "happypack": "^4.0.0",
     "html-webpack-plugin": "^2.30.1",
     "immutable": "^3.8.2",
-    "indexeddb-tools": "^2.0.0",
+    "indexeddb-tools": "^2.0.2",
     "indexeddb-tools-redux": "^2.0.0",
     "jquery": "^3.2.1",
     "node-sass": "^4.6.0",
