@@ -1,7 +1,7 @@
 import { createAction, handleActions } from 'redux-actions';
 import { fromJS } from 'immutable';
-import { cursorAction, deleteAction, putAction, getAction } from 'indexeddb-tools-redux';
 import option from '../../publicMethod/option';
+import { db } from '../../publicMethod/initIndexedDB';
 
 /* 使用immutable初始化基础数据 */
 const initData: {
@@ -15,19 +15,10 @@ const initData: {
 };
 
 /* Action */
-const opt: {
-  name: string,
-  version: number,
-  objectStoreName: string
-} = {
-  name: option.indexeddb.name,
-  version: option.indexeddb.version,
-  objectStoreName: option.indexeddb.objectStore.option.name
-};
 export const changeQQLoginList = createAction('获取已登录的列表');
 export const optionList = createAction('配置列表');
-export const cursorOption = cursorAction({
-  ...opt,
+export const cursorOption = db.cursorAction({
+  objectStoreName: option.indexeddb.objectStore.option.name,
   successAction: optionList
 });
 // 口袋直播监听
@@ -39,7 +30,7 @@ const reducer: Function = handleActions({
     return state.set('qqLoginList', action.payload.qqLoginList);
   },
   [optionList]: (state: Object, action: Object): Object=>{
-    const data: Array = 'optionList' in action.payload ? action.payload.optionList : action.payload;
+    const data: Array = 'optionList' in action.payload ? action.payload.optionList : action.payload.result;
     return state.set('optionList', data);
   },
   [kd48LiveListenerTimer]: (state: Object, action: Object): Object=>{

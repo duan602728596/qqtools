@@ -82,14 +82,16 @@ class Index extends Component{
   }
   componentWillMount(): void{
     this.props.action.cursorOption({
-      indexName: 'time'
+      query: {
+        indexName: 'time'
+      }
     });
   }
   // 删除
   async onDeleteOption(item: Object, event: Object): void{
     const index: number = this.props.optionList.indexOf(item);
     await this.props.action.deleteOption({
-      data: item.name
+      query: item.name
     });
     this.props.optionList.splice(index, 1);
     this.props.action.optionList({
@@ -150,7 +152,9 @@ class Index extends Component{
               data: data.configuration
             });
             await this.props.action.cursorOption({
-              indexName: 'time'
+              query: {
+                indexName: 'time'
+              }
             });
             message.success('导入成功');
             this.onModalDisplay('visible2', false);

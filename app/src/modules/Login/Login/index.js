@@ -88,7 +88,9 @@ class Login extends Component{
   }
   componentWillMount(): void{
     this.props.action.cursorOption({
-      indexName: 'time'
+      query: {
+        indexName: 'time'
+      }
     });
   }
   // 登录成功事件

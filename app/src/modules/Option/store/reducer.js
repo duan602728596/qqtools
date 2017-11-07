@@ -1,7 +1,7 @@
 import { createAction, handleActions } from 'redux-actions';
 import { fromJS } from 'immutable';
-import { cursorAction, deleteAction, putAction, getAction } from 'indexeddb-tools-redux';
 import option from '../../publicMethod/option';
+import { db } from '../../publicMethod/initIndexedDB';
 
 /* 使用immutable初始化基础数据 */
 const initData: {
@@ -12,29 +12,25 @@ const initData: {
 
 /* Action */
 const opt: {
-  name: string,
-  version: number,
   objectStoreName: string
 } = {
-  name: option.indexeddb.name,
-  version: option.indexeddb.version,
   objectStoreName: option.indexeddb.objectStore.option.name
 };
 export const optionList = createAction('配置列表');
-export const putOption = putAction(opt);
-export const cursorOption = cursorAction({
+export const putOption = db.putAction(opt);
+export const cursorOption = db.cursorAction({
   ...opt,
   successAction: optionList
 });
-export const deleteOption = deleteAction(opt);
+export const deleteOption = db.deleteAction(opt);
 // 导入所有配置
-export const importOption = putAction(opt);
+export const importOption = db.putAction(opt);
 
 /* reducer */
 const reducer: Function = handleActions({
   [optionList]: (state: Object, action: Object): Object=>{
     console.log(action);
-    const data: Array = 'optionList' in action.payload ? action.payload.optionList : action.payload;
+    const data: Array = 'optionList' in action.payload ? action.payload.optionList : action.payload.result;
     return state.set('optionList', data);
   }
 }, fromJS(initData));
