@@ -14,7 +14,7 @@
   "main": "./build/index.html",
   "nodejs": true,
   "window": {
-    "title": "QQ群工具（v0.3.1）",
+    "title": "QQ群工具（v0.3.2）",
     "position": "center",
     "toolbar": true,
     "frame": true,
