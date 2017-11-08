@@ -14,11 +14,20 @@ addEventListener('message', async function(event: Object): void{
     title: string
   } = event.data;
   const x: number = Number(size);
-  const pageSize: number = isNaN(x) ? 10 ** 10 : x;
-  const d: string = `pro_id=${ proId }&type=${ type }&page=1&page_size=${ pageSize }`;
-  const data: Object = await getData('POST', listUrl, d);
+  const pageSize: number = isNaN(x) ? 20 : x;
 
-  const text: string = type === '1' ? jujubang(data, title) : dakabang(data, title);
+  let html: string = '';
+  for(let i: number = 1; i <= (Math.floor(pageSize / 20) + (pageSize % 20 === 0 ? 0 : 1)); i++){
+    const d: string = `pro_id=${ proId }&type=${ type }&page=${ i }&page_size=20`;
+    const data: Object = await getData('POST', listUrl, d);
+    if(data.status !== 0){
+      break;
+    }else{
+      html += data.data.html;
+    }
+  }
+
+  const text: string = type === '1' ? jujubang(html, title) : dakabang(html, title);
   postMessage({
     text
   });
@@ -26,31 +35,23 @@ addEventListener('message', async function(event: Object): void{
 }, false);
 
 /* 计算聚聚榜 */
-function jujubang(data: Object, title: string): string{
+function jujubang(html: string, title: string): string{
   let text: ?string = null;
-  if(data.status === 0){
-    const data2: Array = juju(data.data.html).arr;
-    text = `【${ title }】\n聚聚榜，前${ data2.length }名。\n`;
-    data2.map((item: Object, index: number): void=>{
-      text += `\n${ index + 1 }、 ${ item.nickname } （￥${ String(item.money.toFixed(2)) }）`;
-    });
-  }else{
-    text = '[ERROR] 获取微打赏聚聚榜错误。';
-  }
+  const data2: Array = juju(html).arr;
+  text = `【${ title }】\n聚聚榜，前${ data2.length }名。\n`;
+  data2.map((item: Object, index: number): void=>{
+    text += `\n${ index + 1 }、 ${ item.nickname } （￥${ String(item.money.toFixed(2)) }）`;
+  });
   return text;
 }
 
 /* 计算打卡榜 */
-function dakabang(data: Object, title: string): string{
+function dakabang(html: string, title: string): string{
   let text: ?string = null;
-  if(data.status === 0){
-    const data2: Array = daka(data.data.html);
-    text = `【${ title }】\n打卡榜，前${ data2.length }名。\n`;
-    data2.map((item: Object, index: number): void=>{
-      text += `\n${ index + 1 }、${ item.nickname } （${ item.day }天）`;
-    });
-  }else{
-      text = '[ERROR] 获取微打赏打卡榜错误。';
-  }
+  const data2: Array = daka(html);
+  text = `【${ title }】\n打卡榜，前${ data2.length }名。\n`;
+  data2.map((item: Object, index: number): void=>{
+    text += `\n${ index + 1 }、${ item.nickname } （${ item.day }天）`;
+  });
   return text;
 }
