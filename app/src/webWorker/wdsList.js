@@ -27,7 +27,7 @@ addEventListener('message', async function(event: Object): void{
     }
   }
 
-  const text: string = type === '1' ? jujubang(html, title) : dakabang(html, title);
+  const text: string = type === '1' ? jujubang(html, title, x) : dakabang(html, title, x);
   postMessage({
     text
   });
@@ -35,23 +35,25 @@ addEventListener('message', async function(event: Object): void{
 }, false);
 
 /* 计算聚聚榜 */
-function jujubang(html: string, title: string): string{
+function jujubang(html: string, title: string, len: number): string{
   let text: ?string = null;
   const data2: Array = juju(html).arr;
-  text = `【${ title }】\n聚聚榜，前${ data2.length }名。\n`;
-  data2.map((item: Object, index: number): void=>{
-    text += `\n${ index + 1 }、 ${ item.nickname } （￥${ String(item.money.toFixed(2)) }）`;
-  });
+  text = `【${ title }】\n聚聚榜，前${ len }名。\n`;
+  for(let i: number = 0; i < len; i++){
+    const item: Object = data2[i];
+    text += `\n${ i + 1 }、 ${ item.nickname } （￥${ String(item.money.toFixed(2)) }）`;
+  }
   return text;
 }
 
 /* 计算打卡榜 */
-function dakabang(html: string, title: string): string{
+function dakabang(html: string, title: string, len: number): string{
   let text: ?string = null;
   const data2: Array = daka(html);
   text = `【${ title }】\n打卡榜，前${ data2.length }名。\n`;
-  data2.map((item: Object, index: number): void=>{
-    text += `\n${ index + 1 }、${ item.nickname } （${ item.day }天）`;
-  });
+  for(let i: number = 0; i < len; i++){
+    const item: Object = data2[i];
+    text += `\n${ i + 1 }、${ item.nickname } （${ item.day }天）`;
+  }
   return text;
 }
