@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
 import { Affix, Table, Button, Popconfirm } from 'antd';
 import publicStyle from '../../publicMethod/public.sass';
-import commonStyle from '../../../common.sass';
 import { changeQQLoginList, kd48LiveListenerTimer } from '../store/reducer';
 
 /* 初始化数据 */
@@ -124,7 +123,7 @@ class Index extends Component{
   render(): Object{
     return [
       <Affix key={ 0 } className={ publicStyle.affix }>
-        <div className={ `${ publicStyle.toolsBox } ${ commonStyle.clearfix }` }>
+        <div className={ `${ publicStyle.toolsBox } clearfix` }>
           <div className={ publicStyle.fl }>
             <Link className={ publicStyle.mr10 } to="/Login/Login">
               <Button type="primary" icon="windows-o">登录</Button>
