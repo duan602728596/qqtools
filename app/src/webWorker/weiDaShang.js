@@ -81,7 +81,7 @@ async function polling(): void{
     }
     const newD = juju(html);
 
-    if(newD.allMount !== oldData23.allMount){
+    if(newD.allMount > oldData23.allMount){
       // 更新旧对比数据
       oldData = newD;
       const newData: Array = changeMembers(oldData23.obj, newD.arr, 0, newD.arr.length - 1);
