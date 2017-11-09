@@ -120,7 +120,7 @@ class Index extends Component{
       }
     }
   }
-  render(): Object{
+  render(): Array{
     return [
       <Affix key={ 0 } className={ publicStyle.affix }>
         <div className={ `${ publicStyle.toolsBox } clearfix` }>
