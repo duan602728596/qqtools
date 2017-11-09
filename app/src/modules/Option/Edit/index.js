@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
 import { Form, Input, Checkbox, Affix, Button, Table, Modal, message, Popconfirm } from 'antd';
-import style from './style.sass';
-import commonStyle from '../../../common.sass';
 import interfaceOption, { customProfilesObj2Array } from './interface';
 import { putOption } from '../store/reducer';
 import { copy } from '../../publicMethod/editOperation';
@@ -271,7 +269,7 @@ class Add extends Component{
           </Form.Item>
           <br />
           <Form.Item className={ style.mb15 } label="微打赏命令">
-            <div className={ commonStyle.clearfix }>
+            <div className="clearfix">
               {
                 getFieldDecorator('wdsUrlTemplate', {
                   initialValue: detail ? detail.basic.wdsUrlTemplate :
@@ -291,7 +289,7 @@ class Add extends Component{
           </Form.Item>
           <br />
           <Form.Item label="微打赏模板">
-            <div className={ commonStyle.clearfix }>
+            <div className="clearfix">
               {
                 getFieldDecorator('wdsTemplate', {
                   initialValue: detail ? detail.basic.wdsTemplate :
@@ -354,7 +352,7 @@ class Add extends Component{
           </Form.Item>
           <br />
           <Form.Item label="监听成员">
-            <div className={ commonStyle.clearfix }>
+            <div className="clearfix">
               {
                 getFieldDecorator('kd48LiveListenerMembers', {
                   initialValue: detail ? detail.basic.kd48LiveListenerMembers : ''
@@ -385,7 +383,7 @@ class Add extends Component{
           </Form.Item>
           <br />
           <Form.Item label="欢迎语模板">
-            <div className={ commonStyle.clearfix }>
+            <div className="clearfix">
               {
                 getFieldDecorator('newBloodTemplate', {
                   initialValue: detail ? detail.basic.newBloodTemplate : `欢迎@{{ name }} 加入群。`
@@ -439,7 +437,7 @@ class Add extends Component{
           </Form.Item>
           <br />
           <Form.Item label="天气情况模板">
-            <div className={ commonStyle.clearfix }>
+            <div className="clearfix">
               {
                 getFieldDecorator('xinZhiTianQiTemplate', {
                   initialValue: detail ? detail.basic.xinZhiTianQiTemplate :

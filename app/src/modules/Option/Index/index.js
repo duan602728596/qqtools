@@ -7,7 +7,6 @@ import { Affix, Table, Button, Popconfirm, Modal, message } from 'antd';
 import jQuery from 'jquery';
 import style from './style.sass';
 import publicStyle from '../../publicMethod/public.sass';
-import commonStyle from '../../../common.sass';
 import { optionList, cursorOption, deleteOption, importOption } from '../store/reducer';
 const path = node_require('path');
 const fs = node_require('fs');
@@ -170,7 +169,7 @@ class Index extends Component{
   render(): Array{
     return [
       <Affix key={ 0 } className={ publicStyle.affix }>
-        <div className={ `${ publicStyle.toolsBox } ${ commonStyle.clearfix }` }>
+        <div className={ `${ publicStyle.toolsBox } clearfix` }>
           <div className={ publicStyle.fl }>
             <Link className={ style.mr10 } to="/Option/Edit">
               <Button type="primary" icon="plus-circle-o">添加新配置</Button>
