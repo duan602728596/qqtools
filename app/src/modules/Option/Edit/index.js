@@ -5,6 +5,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
 import { Form, Input, Checkbox, Affix, Button, Table, Modal, message, Popconfirm } from 'antd';
 import interfaceOption, { customProfilesObj2Array } from './interface';
+import style from './style.sass';
 import { putOption } from '../store/reducer';
 import { copy } from '../../publicMethod/editOperation';
 
