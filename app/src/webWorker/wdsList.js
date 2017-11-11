@@ -13,8 +13,7 @@ addEventListener('message', async function(event: Object): void{
     size: string,
     title: string
   } = event.data;
-  const x: number = Number(size);
-  const pageSize: number = isNaN(x) ? 20 : x;
+  const pageSize: number = Number(size);
 
   let html: string = '';
   for(let i: number = 1; i <= (Math.floor(pageSize / 20) + (pageSize % 20 === 0 ? 0 : 1)); i++){
@@ -27,7 +26,7 @@ addEventListener('message', async function(event: Object): void{
     }
   }
 
-  const text: string = type === '1' ? jujubang(html, title, x) : dakabang(html, title, x);
+  const text: string = type === '1' ? jujubang(html, title, pageSize) : dakabang(html, title, pageSize);
   postMessage({
     text
   });

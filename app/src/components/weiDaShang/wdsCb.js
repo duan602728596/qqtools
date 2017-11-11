@@ -3,6 +3,10 @@ import { templateReplace } from '../../function';
 import WdsListWorker from 'worker-loader?name=worker/wdsList.js!../../webWorker/wdsList';
 
 function wdsCb(command: string[], qq: SmartQQ): void{
+  if(!command[2]){
+    command[2] = '20';
+  }
+
   if(qq.option.basic.isWds){
     // 微打赏功能开启
     switch(command[1]){
