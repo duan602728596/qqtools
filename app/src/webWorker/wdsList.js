@@ -51,7 +51,7 @@ function dakabang(html: string, title: string, len: number): string{
   let text: ?string = null;
   const data2: Array = daka(html);
   const len2: number = data2.length < len ? data2.length : len;
-  text = `【${ title }】\n打卡榜，前${ data2.length }名。\n`;
+  text = `【${ title }】\n打卡榜，前${ len2 }名。\n`;
   for(let i: number = 0; i < len2; i++){
     const item: Object = data2[i];
     text += `\n${ i + 1 }、${ item.nickname } （${ item.day }天）`;
