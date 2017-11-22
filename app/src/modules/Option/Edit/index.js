@@ -16,7 +16,7 @@ import { copy } from '../../publicMethod/editOperation';
  * 天气：天气预报、tq
  * 机器人：say
  */
-const COMMAND = `微打赏|wds|直播列表|zb|天气预报|tq|say|help`;
+const COMMAND: string = `微打赏|wds|直播列表|zb|天气预报|tq|say|help`;
 
 /* 判断当前的cmd是否存在，并且返回index */
 function getIndex(lists: Array, cmd: text): ?number{
@@ -501,9 +501,9 @@ class Add extends Component{
         <h4 className={ style.title }>自定义命令：</h4>
         <Button className={ style.addCustom } size="small" onClick={ this.onModalOpen.bind(this) }>添加新自定义命令</Button>
         <Table columns={ this.columns() }
-               dataSource={ this.state.customProfiles }
-               size="small"
-               rowKey={ (item: Object): string=>item.command } />
+          dataSource={ this.state.customProfiles }
+          size="small"
+          rowKey={ (item: Object): string=>item.command }，/>
       </Form>,
       /* 添加或修改自定义命令 */
       <Modal key={ 1 }
