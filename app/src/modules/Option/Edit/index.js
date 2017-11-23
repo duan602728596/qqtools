@@ -503,11 +503,12 @@ class Add extends Component{
         <Table columns={ this.columns() }
           dataSource={ this.state.customProfiles }
           size="small"
-          rowKey={ (item: Object): string=>item.command }，/>
+          rowKey={ (item: Object): string=>item.command }
+        />
       </Form>,
       /* 添加或修改自定义命令 */
       <Modal key={ 1 }
-        title={ this.state.item ? "修改" : "添加" + "自定义命令" }
+        title={ this.state.item ? '修改' : '添加' + '自定义命令' }
         visible={ this.state.modalDisplay }
         width="500px"
         maskClosable={ false }
