@@ -37,7 +37,7 @@ function getNewMinfo(oldData: Object, newList: Array, from: number, to: number):
   return left.concat(right);
 }
 
-addEventListener('message', function(event: Object): void{
+addEventListener('message', function(event: Event): void{
   const { oldList, newList }: {
     oldList: Array,
     newList: Array

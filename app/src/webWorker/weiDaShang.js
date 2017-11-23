@@ -27,7 +27,7 @@ function copyObj(obj: Object): Object{
   return newO;
 }
 
-addEventListener('message', async function(event: Object): boolean{
+addEventListener('message', async function(event: Event): boolean{
   const { data }: { data: Object } = event;
   // 初始化
   if(data.type === 'init'){

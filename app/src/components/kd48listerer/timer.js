@@ -36,7 +36,7 @@ async function kd48timer(){
   }
   // 开启新计算线程
   const worker: Worker = new Kd48listenerWorker();
-  const cb: Function = async (event: Object): void=>{
+  const cb: Function = async (event: Event): void=>{
     const { newDataObj, newLive }: {
       newDataObj: Object,
       newLive: Array

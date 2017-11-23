@@ -109,19 +109,19 @@ class Add extends Component{
     return columns;
   }
   // 表单的change事件
-  onInputChange(key: string, event: Object): void{
+  onInputChange(key: string, event: Event): void{
     this.setState({
       [key]: event.target.value
     });
   }
   // modal显示
-  onModalOpen(event: Object): void{
+  onModalOpen(event: Event): void{
     this.setState({
       modalDisplay: true
     });
   }
   // modal关闭事件
-  onModalClose(event: Object): void{
+  onModalClose(event: Event): void{
     this.setState({
       modalDisplay: false,
       cmd: '',
@@ -130,7 +130,7 @@ class Add extends Component{
     });
   }
   // 添加
-  onAdd(event: Object): void{
+  onAdd(event: Event): void{
     if(getIndex(this.state.customProfiles, this.state.cmd) === null){
       this.state.customProfiles.push({
         command: this.state.cmd,
@@ -147,7 +147,7 @@ class Add extends Component{
     }
   }
   // 编辑
-  onEdit(item: Object, event: Object): void{
+  onEdit(item: Object, event: Event): void{
     this.setState({
       modalDisplay: true,
       cmd: item.command,
@@ -174,7 +174,7 @@ class Add extends Component{
     }
   }
   // 删除
-  onDelete(item: Object, event: Object): void{
+  onDelete(item: Object, event: Event): void{
     const index: number = getIndex(this.state.customProfiles, item.command);
     this.state.customProfiles.splice(index, 1);
     this.setState({
@@ -182,7 +182,7 @@ class Add extends Component{
     });
   }
   // 提交
-  onSubmit(event: Object): void{
+  onSubmit(event: Event): void{
     event.preventDefault();
     this.props.form.validateFields(async (err: any, value: Object): void=>{
       if(!err){

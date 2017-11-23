@@ -87,7 +87,7 @@ class Index extends Component{
     });
   }
   // 删除
-  async onDeleteOption(item: Object, event: Object): void{
+  async onDeleteOption(item: Object, event: Event): void{
     const index: number = this.props.optionList.indexOf(item);
     await this.props.action.deleteOption({
       query: item.name
@@ -98,13 +98,13 @@ class Index extends Component{
     });
   }
   // 显示弹出层
-  onModalDisplay(key: string, value: boolean, event: Object): void{
+  onModalDisplay(key: string, value: boolean, event: Event): void{
     this.setState({
       [key]: value
     });
   }
   // 导入配置
-  onExportConfiguration(event: Object): ?boolean{
+  onExportConfiguration(event: Event): ?boolean{
     const files = jQuery('#exportConfiguration').val();
     if(files === ''){
       message.error('必须选择一个保存位置！');
@@ -127,7 +127,7 @@ class Index extends Component{
       }
     });
   }
-  onImportConfiguration(event: Object): ?boolean{
+  onImportConfiguration(event: Event): ?boolean{
     const files = jQuery('#importConfiguration').val();
     if(files === ''){
       message.error('必须选择一个文件！');

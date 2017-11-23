@@ -78,7 +78,7 @@ class Index extends Component{
     return columns;
   }
   // 退出
-  onLogOut(item: SmartQQ, event: Object): void{
+  onLogOut(item: SmartQQ, event: Event): void{
     const index: number = this.props.qqLoginList.indexOf(item);
     clearTimeout(item.listenMessageTimer);              // 删除轮询信息
     clearInterval(item.loginBrokenLineReconnection);    // 删除断线重连

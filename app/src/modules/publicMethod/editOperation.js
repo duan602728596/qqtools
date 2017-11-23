@@ -3,7 +3,7 @@ import { message } from 'antd';
 /**
  * 复制指定区域文本
  */
-export function copy(id: string, event: Object): void{
+export function copy(id: string, event: Event): void{
   const range = document.createRange();
   range.selectNode(document.getElementById(id));
 

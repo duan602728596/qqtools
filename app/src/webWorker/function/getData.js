@@ -5,7 +5,7 @@ function getData(method: string, url: string, data: string){
     xhr.open(method, url, true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('Cache-Control', 'no-cache');
-    xhr.addEventListener('readystatechange', function(event: Object): void{
+    xhr.addEventListener('readystatechange', function(event: Event): void{
       if(xhr.status === 200){
         try{
           const res: JSON = JSON.parse(xhr.response);

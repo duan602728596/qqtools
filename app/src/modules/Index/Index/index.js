@@ -10,7 +10,7 @@ const gui = node_require('nw.gui');
 @withRouter
 class Index extends Component{
   // 清除缓存
-  onClearCache(event: Object): void{
+  onClearCache(event: Event): void{
     gui.App.clearCache();
     message.success('缓存清除成功！');
   }

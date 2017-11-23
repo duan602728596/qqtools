@@ -336,7 +336,7 @@ class SmartQQ{
       const minfo: Array = ginfor2.result.minfo;
       if(this.minfo && minfo.length > this.minfo.length){   // 数量变化，说明有成员变动
         const worker: Worker = new MinfoWorker();
-        const cb: Function = async (event: Object): void=>{
+        const cb: Function = async (event: Event): void=>{
           const newM: Array = event.data.minfo;
           for(let i: number = 0, j: number = newM.length; i < j; i++){
             const item: Object = newM[i];
@@ -359,7 +359,7 @@ class SmartQQ{
     this.minfoTimer = setTimeout(this.listenGroupMinfo.bind(this), 8000);
   }
   // web worker监听到微打赏的返回信息
-  async workerWds(event: Object): void{
+  async workerWds(event: Event): void{
     if(event.data.type === 'change'){
       const { data } = event.data;
       // 倒序发送消息

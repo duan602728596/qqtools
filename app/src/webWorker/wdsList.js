@@ -6,7 +6,7 @@ import { daka, juju } from './function/computingWds';
 
 const listUrl: string = `https://wds.modian.com/ajax/backer_ranking_list`;
 
-addEventListener('message', async function(event: Object): void{
+addEventListener('message', async function(event: Event): void{
   const { proId, type, size, title }: {
     proId: string,
     type: string,
