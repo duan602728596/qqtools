@@ -362,10 +362,11 @@ class SmartQQ{
   async workerWds(event: Event): void{
     if(event.data.type === 'change'){
       const { data }: { data: Array } = event.data;
+      const { wdsTemplate }: { wdsTemplate: string } = this.option.basic;
       // 倒序发送消息
-      for(let i = data.length - 1; i >= 0; i--){
+      for(let i: number = data.length - 1; i >= 0; i--){
         const item: Object = data[i];
-        const msg: string = templateReplace(this.option.basic.wdsTemplate, {
+        const msg: string = templateReplace(wdsTemplate, {
           id: item.nickname,
           money: item.pay_amount,
           amount: item.allMount,
