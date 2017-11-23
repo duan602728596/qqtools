@@ -361,7 +361,7 @@ class SmartQQ{
   // web worker监听到微打赏的返回信息
   async workerWds(event: Event): void{
     if(event.data.type === 'change'){
-      const { data } = event.data;
+      const { data }: { data: Array } = event.data;
       // 倒序发送消息
       for(let i = data.length - 1; i >= 0; i--){
         const item: Object = data[i];
