@@ -156,7 +156,7 @@ class Add extends Component{
     });
   }
   // 保存编辑
-  onSave(){
+  onSave(event: Event): void{
     if(getIndex(this.state.customProfiles, this.state.cmd) === null || this.state.cmd === this.state.item.command){
       const index: number = getIndex(this.state.customProfiles, this.state.item.command);
       this.state.customProfiles[index] = {
