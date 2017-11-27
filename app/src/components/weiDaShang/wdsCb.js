@@ -10,6 +10,10 @@ function wdsCb(command: string[], qq: SmartQQ): void{
   if(qq.option.basic.isWds){
     // 微打赏功能开启
     switch(command[1]){
+      // 获取整体信息
+      case '0':
+        getAllMount(qq);
+        break;
       // 获取聚聚榜
       case '1':
       // 获取打卡榜
@@ -50,6 +54,20 @@ async function list(proId: string, type: string, size: string, qq: SmartQQ): voi
     type,
     size,
     title: qq.wdsTitle
+  });
+}
+
+/* 获取已集资金额 */
+function getAllMount(qq: SmartQQ): void{
+  const cb: Function = async (event: Event): void=>{
+    if(event.data.type === 'allMount'){
+      await qq.sendFormatMessage(`${ qq.wdsTitle }: ￥${ event.data.allMount }`);
+      qq.wdsWorker.removeEventListener('message', cb);
+    }
+  };
+  qq.wdsWorker.addEventListener('message', cb, false);
+  qq.wdsWorker.postMessage({
+    type: 'allMount'
   });
 }
 

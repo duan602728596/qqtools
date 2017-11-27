@@ -50,7 +50,7 @@ addEventListener('message', async function(event: Event): boolean{
     oldData = juju(html);
 
     // 开启轮询
-    timer = setInterval(polling, 8000);
+    timer = setInterval(polling, 10000);
     return true;
   }
   // 关闭
@@ -60,7 +60,14 @@ addEventListener('message', async function(event: Event): boolean{
     }
     return true;
   }
-
+  // 集资总金额
+  if(data.type === 'allMount'){
+    postMessage({
+      type: 'allMount',
+      allMount: oldData.allMount
+    });
+    return true;
+  }
 }, false);
 
 /* 轮询事件 */
@@ -80,10 +87,10 @@ async function polling(): void{
       }
     }
     const newD = juju(html);
-
     if(newD.allMount > oldData23.allMount){
-      // 更新旧对比数据
-      oldData = newD;
+      // 因为微打赏偶尔会发生获取数据为别人家数据的问题，判断新集资>=20人为无效数据
+      // 如果要是10秒之内有20多个新打卡的，真有那么火，那我也没办法了
+      let pdErr: number = 0;
       const newData: Array = changeMembers(oldData23.obj, newD.arr, 0, newD.arr.length - 1);
       // 计算打赏金额和排名
       const jizi: Array = [];
@@ -94,6 +101,7 @@ async function polling(): void{
         const newIndex: ?number = item.index;                                                                   // 新排名
         const promote: number = oldIndex !== null ? oldIndex - newIndex : newD.arr.length - newIndex;           // 排名提升
         const pay_amount: number = item.money - (user_id in oldData23.obj ? oldData23.obj[user_id].money : 0);  // 打赏金额
+        if(oldIndex === null) pdErr += 1;
         jizi.push({
           user_id,
           pay_amount: String(pay_amount.toFixed(2)), // 打赏金额
@@ -103,11 +111,15 @@ async function polling(): void{
           allMount: newD.allMount
         });
       }
-      // 将数据发送回主线程
-      postMessage({
-        type: 'change',
-        data: jizi
-      });
+      if(pdErr < 20){
+        // 更新旧对比数据
+        oldData = newD;
+        // 将数据发送回主线程
+        postMessage({
+          type: 'change',
+          data: jizi
+        });
+      }
     }
   }catch(err){
     console.log(err);

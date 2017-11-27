@@ -28,6 +28,15 @@ const Index = (props: Object): Array=>{
         &nbsp;或&nbsp;
         <b className={ style.b }>wds</b>
         )&nbsp;
+        <span className={ style.c1 }>0</span>
+        ]：查看当前的集资总金额
+      </p>
+      <p className={ style.p }>
+        [(
+        <b className={ style.b }>微打赏</b>
+        &nbsp;或&nbsp;
+        <b className={ style.b }>wds</b>
+        )&nbsp;
         <span className={ style.c1 }>1</span>
         &nbsp;
         <span className={ style.c2 }>?number</span>
