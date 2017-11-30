@@ -15,6 +15,7 @@ import getWdsInformation from '../../../components/weiDaShang/getWdsInformation'
 import { str2reg } from '../../../function';
 import kd48timer, { init } from '../../../components/kd48listerer/timer';
 import WeiDaShangWorker from 'worker-loader?name=worker/weiDaShang.js!../../../webWorker/weiDaShang';
+import {daka} from "../../../webWorker/function/computingWds";
 const fs = node_require('fs');
 
 let qq: ?SmartQQ = null;
@@ -41,18 +42,26 @@ function writeImage(file: string, data: Buffer): Promise{
 }
 
 /* 初始化数据 */
+const getState: Function = (state: Object): ?Object => state.has('login') ? state.get('login') : null;
+
 const state: Function = createStructuredSelector({
   qqLoginList: createSelector(             // QQ登录列表
-    (state: Object): Object | Array=>state.has('login') ? state.get('login').get('qqLoginList') : [],
-    (data: Object | Array): Array=>data instanceof Array ? data : data.toJS()
+    getState,
+    (data: ?Object): Array=>{
+      const qqLoginList: Object | Array = data !== null ? data.get('qqLoginList') : [];
+      return qqLoginList instanceof Array ? qqLoginList : qqLoginList.toJS();
+    }
   ),
   optionList: createSelector(              // QQ配置列表
-    (state: Object): Object | Array=>state.has('login') ? state.get('login').get('optionList') : [],
-    (data: Object | Array): Array=>data instanceof Array ? data : data.toJS()
+    getState,
+    (data: ?Object): Array=>{
+      const optionList: Object | Array = data !== null ? data.get('optionList') : [];
+      return optionList instanceof Array ? optionList : optionList.toJS();
+    }
   ),
   kd48LiveListenerTimer: createSelector(   // 口袋直播
-    (state: Object): ?number=>state.has('login') ? state.get('login').get('kd48LiveListenerTimer') : null,
-    (data: ?number): ?number=>data
+    getState,
+    (data: ?Object): ?number => data !== null ? data.get('kd48LiveListenerTimer') : null
   )
 });
 

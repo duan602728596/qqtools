@@ -8,14 +8,19 @@ import publicStyle from '../../publicMethod/public.sass';
 import { changeQQLoginList, kd48LiveListenerTimer } from '../store/reducer';
 
 /* 初始化数据 */
+const getState: Function = (state: Object): ?Object => state.has('login') ? state.get('login') : null;
+
 const state: Function = createStructuredSelector({
-  qqLoginList: createSelector(         // 已登录
-    (state: Object): Object | Array=>state.has('login') ? state.get('login').get('qqLoginList') : [],
-    (data: Object | Array): Array=>data instanceof Array ? data : data.toJS()
+  qqLoginList: createSelector(             // 已登录
+    getState,
+    (data: ?Object): Array=>{
+      const qqLoginList: Object | Array = data !== null ? data.get('qqLoginList') : [];
+      return qqLoginList instanceof Array ? qqLoginList : qqLoginList.toJS();
+    }
   ),
   kd48LiveListenerTimer: createSelector(   // 口袋直播
-    (state: Object): ?number=>state.has('login') ? state.get('login').get('kd48LiveListenerTimer') : null,
-    (data: ?number): ?number=>data
+    getState,
+    (data: ?Object): ?number => data !== null ? data.get('kd48LiveListenerTimer') : null
   )
 });
 
@@ -36,31 +41,31 @@ class Index extends Component{
         title: 'QQ昵称',
         key: 'name',
         width: '20%',
-        render: (text: ?string, item: SmartQQ): string=>item.name
+        render: (text: ?string, item: SmartQQ): string => item.name
       },
       {
         title: '群名称',
         key: 'groupName',
         width: '15%',
-        render: (text: ?string, item: SmartQQ): string=>item.option.groupName
+        render: (text: ?string, item: SmartQQ): string => item.option.groupName
       },
       {
         title: '配置名称',
         key: 'optionName',
         width: '20%',
-        render: (text: ?string, item: SmartQQ): string=>item.option.name
+        render: (text: ?string, item: SmartQQ): string => item.option.name
       },
       {
         title: 'uin',
         key: 'uin',
         width: '15%',
-        render: (text: ?string, item: SmartQQ): string=>`${ item.uin }`
+        render: (text: ?string, item: SmartQQ): string => `${ item.uin }`
       },
       {
         title: 'cip',
         key: 'cip',
         width: '15%',
-        render: (text: ?string, item: SmartQQ): string=>`${ item.cip }`
+        render: (text: ?string, item: SmartQQ): string => `${ item.cip }`
       },
       {
         title: '操作',
