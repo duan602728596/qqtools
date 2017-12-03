@@ -28,9 +28,9 @@ export const importOption = db.putAction(opt);
 
 /* reducer */
 const reducer: Function = handleActions({
-  [optionList]: (state: Object, action: Object): Object=>{
+  [optionList]: ($$state: Immutable.Map, action: Object): Immutable.Map=>{
     const data: Array = 'optionList' in action.payload ? action.payload.optionList : action.payload.result;
-    return state.set('optionList', data);
+    return $$state.set('optionList', data);
   }
 }, fromJS(initData));
 

@@ -14,9 +14,9 @@ const fs = node_require('fs');
 /* 初始化数据 */
 const state: Function = createStructuredSelector({
   optionList: createSelector(         // 配置列表
-    (state: Object): ?Object => state.has('option') ? state.get('option') : null,
-    (data: ?Object): Array=>{
-      const optionList: Object | Array = data !== null ? data.get('optionList') : [];
+    ($$state: Immutable): ?Immutable => $$state.has('option') ? $$state.get('option') : null,
+    ($$data: ?Immutable): Array=>{
+      const optionList: Object | Array = $$data !== null ? $$data.get('optionList') : [];
       return optionList instanceof Array ? optionList : optionList.toJS()
     }
   )

@@ -26,15 +26,15 @@ export const kd48LiveListenerTimer = createAction('口袋直播监听');
 
 /* reducer */
 const reducer: Function = handleActions({
-  [changeQQLoginList]: (state: Object, action: Object): Object=>{
-    return state.set('qqLoginList', action.payload.qqLoginList);
+  [changeQQLoginList]: ($$state: Immutable.Map, action: Object): Immutable.Map=>{
+    return $$state.set('qqLoginList', action.payload.qqLoginList);
   },
-  [optionList]: (state: Object, action: Object): Object=>{
+  [optionList]: ($$state: Immutable.Map, action: Object): Immutable.Map=>{
     const data: Array = 'optionList' in action.payload ? action.payload.optionList : action.payload.result;
-    return state.set('optionList', data);
+    return $$state.set('optionList', data);
   },
-  [kd48LiveListenerTimer]: (state: Object, action: Object): Object=>{
-    return state.set('kd48LiveListenerTimer', action.payload.timer);
+  [kd48LiveListenerTimer]: ($$state: Immutable.Map, action: Object): Immutable.Map=>{
+    return $$state.set('kd48LiveListenerTimer', action.payload.timer);
   }
 }, fromJS(initData));
 

@@ -9,7 +9,7 @@ import { createReducer } from './reducers';
 const reducer: Function = createReducer({});
 
 /* initialState */
-const initialState: Object = Map();
+const initialState: Immutable.Map = Map();
 
 /* 日志 */
 const logger: Function = createLogger({

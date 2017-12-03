@@ -42,26 +42,26 @@ function writeImage(file: string, data: Buffer): Promise{
 }
 
 /* 初始化数据 */
-const getState: Function = (state: Object): ?Object => state.has('login') ? state.get('login') : null;
+const getState: Function = ($$state: Immutable.Map): ?Immutable.Map => $$state.has('login') ? $$state.get('login') : null;
 
 const state: Function = createStructuredSelector({
   qqLoginList: createSelector(             // QQ登录列表
     getState,
-    (data: ?Object): Array=>{
-      const qqLoginList: Object | Array = data !== null ? data.get('qqLoginList') : [];
+    ($$data: ?Immutable.Map): Array=>{
+      const qqLoginList: Immutable.List | Array = $$data !== null ? $$data.get('qqLoginList') : [];
       return qqLoginList instanceof Array ? qqLoginList : qqLoginList.toJS();
     }
   ),
   optionList: createSelector(              // QQ配置列表
     getState,
-    (data: ?Object): Array=>{
-      const optionList: Object | Array = data !== null ? data.get('optionList') : [];
+    ($$data: ?Immutable.Map): Array=>{
+      const optionList: Immutable.List | Array = $$data !== null ? $$data.get('optionList') : [];
       return optionList instanceof Array ? optionList : optionList.toJS();
     }
   ),
   kd48LiveListenerTimer: createSelector(   // 口袋直播
     getState,
-    (data: ?Object): ?number => data !== null ? data.get('kd48LiveListenerTimer') : null
+    ($$data: ?Immutable.Map): ?number => $$data !== null ? $$data.get('kd48LiveListenerTimer') : null
   )
 });
 
