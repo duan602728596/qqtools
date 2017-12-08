@@ -1,9 +1,8 @@
 /* 天气查询接口 */
-import jQuery from 'jquery';
 import { templateReplace } from '../../function';
 
 function getTianQi(command: string[], qq: SmartQQ): void{
-  jQuery.ajax({
+  $.ajax({
     type: 'GET',
     url: `https://api.seniverse.com/v3/weather/now.json?key=${ qq.option.basic.xinZhiTianQiAPIKey }&location=${ command[1] }&language=zh-Hans&unit=c`,
     cache: true,

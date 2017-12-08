@@ -1,4 +1,3 @@
-import jQuery from 'jquery';
 import post from './post';
 import { time } from '../../function';
 
@@ -12,7 +11,7 @@ async function getList(qq: Smart): void{
       const { liveList }: { liveList: Array } = data2.content;
 
       text = `口袋48直播：（当前直播成员数：${ liveList.length }）`;
-      jQuery.each(liveList, (index: number, item: Object): void=>{
+      $.each(liveList, (index: number, item: Object): void=>{
         text += `\n${ index + 1 }、${ item.title.split('的')[0] }\n` +
           `标题：${ item.subTitle }\n` +
           `开始时间：${ time('YY-MM-DD hh:mm:ss', item.startTime) }`;

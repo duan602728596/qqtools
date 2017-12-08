@@ -1,4 +1,3 @@
-import jQuery from 'jquery';
 const https = node_require('https');
 const http = node_require('http');
 const url = node_require('url');
@@ -70,9 +69,9 @@ export function requestHttp({ reqUrl, method = 'GET', data = '', headers = {}, s
  */
 export function cookieStr2Obj(str: string[]): Object{
   const obj: Object = {};
-  jQuery.each(str, (index: number, item: string): void=>{
+  $.each(str, (index: number, item: string): void=>{
     const str2: string[] = item.split(/;\s*/g);
-    jQuery.each(str2, (index2: number, item2: string): void=>{
+    $.each(str2, (index2: number, item2: string): void=>{
       if(item2 !== ''){
         const x: string[] = item2.split('=');
         if(x[1] !== '') obj[x[0]] = x[1];
@@ -89,7 +88,7 @@ export function cookieStr2Obj(str: string[]): Object{
  */
 export function cookieObj2Str(obj: Object): string{
   let str: string = '';
-  jQuery.each(obj, (key: string, value: string): void=>{
+  $.each(obj, (key: string, value: string): void=>{
     str += `${ key }=${ value }; `;
   });
   return str;

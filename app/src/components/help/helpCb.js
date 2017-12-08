@@ -1,6 +1,4 @@
 /* 帮助命令 */
-import jQuery from 'jquery';
-
 async function helpCb(qq: SmartQQ): void{
 
   let text1: string = `【帮助】
@@ -14,7 +12,7 @@ async function helpCb(qq: SmartQQ): void{
 · [help]：帮助`;
 
   let text2: string = `【自定义命令】`;
-  jQuery.each(qq.option.custom, (key: string, value: string): void=>{
+  $.each(qq.option.custom, (key: string, value: string): void=>{
     text2 += '\n · ' + key;
   });
 

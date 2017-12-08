@@ -1,4 +1,3 @@
-import jQuery from 'jquery';
 const cheerio = node_require('cheerio');
 
 /**
@@ -7,7 +6,7 @@ const cheerio = node_require('cheerio');
  */
 function getWdsInformation(wdsId: string): Promise{
   return new Promise((resolve: Function, reject: Function): void=>{
-    jQuery.ajax({
+    $.ajax({
       type: 'GET',
       url: `https://wds.modian.com/show_weidashang_pro/${ wdsId }#1`,
       cache: true,

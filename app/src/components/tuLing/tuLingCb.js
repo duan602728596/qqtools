@@ -1,8 +1,7 @@
 /* 机器人 */
-import jQuery from 'jquery';
 
 function getTuLing(command: string[], qq: SmartQQ): void{
-  jQuery.ajax({
+  $.ajax({
     type: 'POST',
     url: `http://www.tuling123.com/openapi/api`,
     data: {

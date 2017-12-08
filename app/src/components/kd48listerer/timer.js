@@ -1,5 +1,4 @@
 /* 口袋直播列表轮询事件 */
-import jQuery from 'jquery';
 import post from './post';
 import { time } from '../../function';
 import store from '../../store/store';
@@ -9,7 +8,7 @@ let oldList: Object = {};  // 旧列表
 
 function array2obj(rawArray: Array): Object{
   const o: Object = {};
-  jQuery.each(rawArray, (index: number, item: Object): void=>{
+  $.each(rawArray, (index: number, item: Object): void=>{
     o[item.liveId] = item;
   });
   return o;
