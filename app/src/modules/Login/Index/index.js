@@ -145,7 +145,7 @@ class Index extends Component{
       <div key={ 1 } className={ publicStyle.tableBox }>
         <Table bordered={ true }
           columns={ this.columus() }
-          rowKey={ (item: Object): string=>item.token }
+          rowKey={ (item: Object): string => item.token }
           dataSource={ this.props.qqLoginList }
           pagination={{
             pageSize: 20,
