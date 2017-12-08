@@ -99,7 +99,7 @@ async function polling(): void{
         const user_id: string = item.id;                                                                        // 当前用户的id
         const oldIndex: ?number = oldData23.obj[user_id] ? oldData23.obj[user_id].index : null;                 // 旧排名
         const newIndex: ?number = item.index;                                                                   // 新排名
-        const promote: number = oldIndex !== null ? oldIndex - newIndex : newD.arr.length - newIndex;           // 排名提升
+        const promote: number = oldIndex !== null ? oldIndex - newIndex : newD.arr.length - newIndex - 1;       // 排名提升
         const pay_amount: number = item.money - (user_id in oldData23.obj ? oldData23.obj[user_id].money : 0);  // 打赏金额
         if(oldIndex === null) pdErr += 1;
         jizi.push({
