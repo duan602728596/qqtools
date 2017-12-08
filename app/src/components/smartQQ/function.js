@@ -1,5 +1,4 @@
 import jQuery from 'jquery';
-import { message } from 'antd';
 const https = node_require('https');
 const http = node_require('http');
 const url = node_require('url');

@@ -1,7 +1,7 @@
 /* 网页版QQ登录接口 */
 import { requestHttp, hash33, hash, cookieObj2Str, msgId } from './function';
 import { templateReplace } from '../../function';
-import MinfoWorker from 'worker-loader?name=worker/minfo.js!../../webWorker/minfo';
+import MinfoWorker from 'worker-loader?name=script/minfo.js!./minfo';
 const queryString = node_require('querystring');
 
 type cons = {

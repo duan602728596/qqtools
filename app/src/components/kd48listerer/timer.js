@@ -3,7 +3,7 @@ import jQuery from 'jquery';
 import post from './post';
 import { time } from '../../function';
 import store from '../../store/store';
-import Kd48listenerWorker from 'worker-loader?name=worker/kd48listener.js!../../webWorker/kd48listener';
+import Kd48listenerWorker from 'worker-loader?name=script/kd48listener.js!./kd48listener';
 
 let oldList: Object = {};  // 旧列表
 
