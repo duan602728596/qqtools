@@ -1,4 +1,3 @@
-import jQuery from 'jquery';
 /**
  * name       配置名称
  * id         配置的id
@@ -60,7 +59,7 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
 /* 将Array转换成Obj */
 function customProfilesArray2Obj(customProfiles: { command: string, text: string }[]): Object{
   const custom: Object = {};
-  jQuery.each(customProfiles, (index: number, item: { command: string, text: string }): void=>{
+  $.each(customProfiles, (index: number, item: { command: string, text: string }): void=>{
     custom[item.command] = item.text;
   });
   return custom;
@@ -69,7 +68,7 @@ function customProfilesArray2Obj(customProfiles: { command: string, text: string
 /* 将Obj转换成Array */
 export function customProfilesObj2Array(customProfiles: Object): { command: string, text: string }[]{
   const custom: { command: string, text: string }[] = [];
-  jQuery.each(customProfiles, (key: string, value: string): void=>{
+  $.each(customProfiles, (key: string, value: string): void=>{
     custom.push({
       command: key,
       text: value

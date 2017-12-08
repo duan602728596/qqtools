@@ -1,12 +1,11 @@
 /* 当前配置的具体内容 */
 import React, { Component } from 'react';
-import jQuery from 'jquery';
 import style from './style.sass';
 
 /* 将Obj转换成Array */
 function customProfiles(customProfiles: Object): Array{
   const custom: { command: string, text: string }[] = [];
-  jQuery.each(customProfiles, (key: string, value: string): void=>{
+  $.each(customProfiles, (key: string, value: string): void=>{
     custom.push({
       command: key,
       text: value

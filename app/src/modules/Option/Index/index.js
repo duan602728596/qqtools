@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
 import { Affix, Table, Button, Popconfirm, Modal, message } from 'antd';
-import jQuery from 'jquery';
 import style from './style.sass';
 import publicStyle from '../../publicMethod/public.sass';
 import { optionList, cursorOption, deleteOption, importOption } from '../store/reducer';
@@ -108,7 +107,7 @@ class Index extends Component{
   }
   // 导入配置
   onExportConfiguration(event: Event): ?boolean{
-    const files = jQuery('#exportConfiguration').val();
+    const files = $('#exportConfiguration').val();
     if(files === ''){
       message.error('必须选择一个保存位置！');
       return false;
@@ -131,7 +130,7 @@ class Index extends Component{
     });
   }
   onImportConfiguration(event: Event): ?boolean{
-    const files = jQuery('#importConfiguration').val();
+    const files = $('#importConfiguration').val();
     if(files === ''){
       message.error('必须选择一个文件！');
       return false;

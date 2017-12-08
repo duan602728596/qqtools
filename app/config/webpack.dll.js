@@ -25,8 +25,7 @@ module.exports = {
       'redux-immutable',
       'reselect',
       'indexeddb-tools',
-      'indexeddb-tools-redux',
-      'jquery'
+      'indexeddb-tools-redux'
     ]
   },
   output: {
