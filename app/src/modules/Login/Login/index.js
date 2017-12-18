@@ -102,60 +102,59 @@ class Login extends Component{
     });
   }
   // 登录成功事件
-  async loginSuccess(): void{
-    try{
-      qq.loginSuccess(async ()=>{
-        if(qq){
-          // 获取微打赏相关信息
-          if(qq.option.basic.isWds){
-            const { title, moxiId }: {
-              title: string,
-              moxiId: string
-            } = await getWdsInformation(qq.option.basic.wdsId);
-            qq.wdsTitle = title;
-            qq.wdsMoxiId = moxiId;
-            // 创建新的微打赏webWorker
-            qq.wdsWorker = new WeiDaShangWorker();
-            qq.wdsWorker.postMessage({
-              type: 'init',
-              wdsId: qq.option.basic.wdsId,
-              moxiId: moxiId,
-              title: title
-            });
-            qq.wdsWorker.addEventListener('message', qq.workerWds.bind(qq), false);
-          }
-          // 口袋48直播监听
-          if(qq.option.basic.is48LiveListener){
-            qq.members = str2reg(qq.option.basic.kd48LiveListenerMembers);
-            // 开启口袋48监听
-            await init();
-            if(this.props.kd48LiveListenerTimer === null){
-              this.props.action.kd48LiveListenerTimer({
-                timer: setInterval(kd48timer, 15000)
-              });
-            }
-          }
-          // 监听新入群成员
-          if(qq.option.basic.isNewBlood){
-            qq.listenGroupMinfo();
-          }
-          // 监听信息
-          qq.loginBrokenLineReconnection = setInterval(qq.loginSuccess.bind(qq), 60 ** 2 * 10 ** 3); // 一小时后重新登录，防止掉线
-          qq.listenMessageTimer = setTimeout(qq.listenMessage.bind(qq), 500);                        // 轮询
-          // 将新的qq实例存入到store中
-          const ll: Array = this.props.qqLoginList;
-          ll.push(qq);
-          this.props.action.changeQQLoginList({
-            qqLoginList: ll
+  loginSuccess(): void{
+    qq.loginSuccess(async ()=>{
+      try{
+        // 获取微打赏相关信息
+        if(qq.option.basic.isWds){
+          const { title, moxiId }: {
+            title: string,
+            moxiId: string
+          } = await getWdsInformation(qq.option.basic.wdsId);
+          qq.wdsTitle = title;
+          qq.wdsMoxiId = moxiId;
+          // 创建新的微打赏webWorker
+          qq.wdsWorker = new WeiDaShangWorker();
+          qq.wdsWorker.postMessage({
+            type: 'init',
+            wdsId: qq.option.basic.wdsId,
+            moxiId: moxiId,
+            title: title
           });
-          qq = null;
-          this.props.history.push('/Login');
+          qq.wdsWorker.addEventListener('message', qq.listenWdsWorkerCbInformation.bind(qq), false);
         }
-      });
-    }catch(err){
-      console.error('登录错误', err);
-      message.error('登录失败！');
-    }
+        // 口袋48直播监听
+        if(qq.option.basic.is48LiveListener){
+          const memberReg: RegExp = str2reg(qq.option.basic.kd48LiveListenerMembers);
+          qq.members = memberReg;
+          // 开启口袋48监听
+          await init();
+          if(this.props.kd48LiveListenerTimer === null){
+            this.props.action.kd48LiveListenerTimer({
+              timer: setInterval(kd48timer, 15000)
+            });
+          }
+        }
+        // 监听新入群成员
+        if(qq.option.basic.isNewBlood){
+          qq.listenGroupMinfo();
+        }
+        // 监听信息
+        qq.loginBrokenLineReconnection = setInterval(qq.loginSuccess.bind(qq), 60 ** 2 * 10 ** 3); // 一小时后重新登录，防止掉线
+        qq.listenMessageTimer = setTimeout(qq.listenMessage.bind(qq), 500);                        // 轮询
+        // 将新的qq实例存入到store中
+        const ll: Array = this.props.qqLoginList;
+        ll.push(qq);
+        this.props.action.changeQQLoginList({
+          qqLoginList: ll
+        });
+        qq = null;
+        this.props.history.push('/Login');
+      }catch(err){
+        console.error('登录错误', err);
+        message.error('登录失败！');
+      }
+    });
   }
   // 判断是否登陆
   async isLogin(){

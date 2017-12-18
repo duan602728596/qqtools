@@ -1,5 +1,5 @@
 /* 网页版QQ登录接口 */
-import { requestHttp, hash33, hash, cookieObj2Str, msgId } from './function';
+import { requestHttp, hash33, hash, cookieObj2Str, msgId } from './calculate';
 import { templateReplace } from '../../function';
 import MinfoWorker from 'worker-loader?name=script/minfo.js!./minfo';
 const queryString = node_require('querystring');
@@ -72,7 +72,8 @@ class SmartQQ{
   // 计算令牌
   getToken(): void{
     const qrsig: string = this.cookie['qrsig'];
-    this.token = hash33(qrsig);
+    const token33: string = hash33(qrsig);
+    this.token = token33;
   }
   // 判断是否在登录状态
   isLogin(): Promise{
@@ -192,7 +193,8 @@ class SmartQQ{
   }
   // 将cookie转换成字符串
   cookie2Str(): void{
-    this.cookieStr = cookieObj2Str(this.cookie);
+    const cs: string = cookieObj2Str(this.cookie);
+    this.cookieStr = cs;
   }
   // 验证成功后的一系列执行事件
   async loginSuccess(cb: Function): void{
@@ -359,7 +361,7 @@ class SmartQQ{
     this.minfoTimer = setTimeout(this.listenGroupMinfo.bind(this), 8000);
   }
   // web worker监听到微打赏的返回信息
-  async workerWds(event: Event): void{
+  async listenWdsWorkerCbInformation(event: Event): void{
     if(event.data.type === 'change'){
       const { data }: { data: Array } = event.data;
       const { wdsTemplate }: { wdsTemplate: string } = this.option.basic;
