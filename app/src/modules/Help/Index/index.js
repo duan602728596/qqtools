@@ -17,25 +17,25 @@ const Index = (props: Object): Array=>{
       <h4 className={ style.seconeTitle }>命令</h4>
       <p className={ style.p }>
         [&nbsp;
-        <b className={ style.b }>微打赏</b>
+        <b className={ style.b }>摩点</b>
         &nbsp;或&nbsp;
-        <b className={ style.b }>wds</b>
+        <b className={ style.b }>mod</b>
         &nbsp;]：查看当前微打赏链接
       </p>
       <p className={ style.p }>
         [(
-        <b className={ style.b }>微打赏</b>
+        <b className={ style.b }>摩点</b>
         &nbsp;或&nbsp;
-        <b className={ style.b }>wds</b>
+        <b className={ style.b }>mod</b>
         )&nbsp;
         <span className={ style.c1 }>0</span>
         ]：查看当前的集资总金额
       </p>
       <p className={ style.p }>
         [(
-        <b className={ style.b }>微打赏</b>
+        <b className={ style.b }>摩点</b>
         &nbsp;或&nbsp;
-        <b className={ style.b }>wds</b>
+        <b className={ style.b }>mod</b>
         )&nbsp;
         <span className={ style.c1 }>1</span>
         &nbsp;
@@ -44,9 +44,9 @@ const Index = (props: Object): Array=>{
       </p>
       <p className={ style.p }>
         [(
-        <b className={ style.b }>微打赏</b>
+        <b className={ style.b }>摩点</b>
         &nbsp;或&nbsp;
-        <b className={ style.b }>wds</b>
+        <b className={ style.b }>mod</b>
         )&nbsp;
         <span className={ style.c1 }>2</span>&nbsp;
         <span className={ style.c2 }>?number</span>

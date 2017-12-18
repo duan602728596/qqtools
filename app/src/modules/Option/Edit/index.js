@@ -197,6 +197,12 @@ class Add extends Component{
   render(): Array{
     const detail: ?Object = 'query' in this.props.location ? this.props.location.query.detail : null;
     const { getFieldDecorator } = this.props.form;
+    // checkbox的值
+    const isModian: boolean = detail ? detail.basic.isModian : false;
+    const is48LiveListener: boolean = detail ? detail.basic.is48LiveListener : false;
+    const isListenerAll: boolean = detail ? detail.basic.isListenerAll : false;
+    const isXinZhiTianQi: boolean = detail ? detail.basic.isXinZhiTianQi :false;
+    const isTuLing: boolean =  detail ? detail.basic.isTuLing : false;
     return [
       <Form key={ 0 } className={ style.form } layout="inline" onSubmit={ this.onSubmit.bind(this) }>
         <Affix className={ style.affix }>
@@ -242,39 +248,34 @@ class Add extends Component{
           </Form.Item>
           <hr className={ style.line } />
         </div>
-        {/* 微打赏配置 */}
-        <h4 className={ style.title }>微打赏配置：</h4>
+        {/* 摩点项目配置 */}
+        <h4 className={ style.title }>摩点项目配置：</h4>
         <div>
-          <Form.Item className={ style.mb15 } label="开启微打赏功能">
+          <Form.Item className={ style.mb15 } label="开启摩点相关功能">
             {
-              getFieldDecorator('isWds', {
-                initialValue: detail ? (detail.basic.isWds ? ['isWds'] : [] ): []
+              getFieldDecorator('isModian', {
+                initialValue: isModian
               })(
-                <Checkbox.Group options={[
-                  {
-                    label: '',
-                    value: 'isWds'
-                  }
-                ]} />
+                <Checkbox defaultChecked={ isModian } />
               )
             }
           </Form.Item>
-          <Form.Item className={ style.mb15 } label="微打赏ID">
+          <Form.Item className={ style.mb15 } label="摩点ID">
             {
-              getFieldDecorator('wdsId', {
-                initialValue: detail ? detail.basic.wdsId : ''
+              getFieldDecorator('modianId', {
+                initialValue: detail ? detail.basic.modianId : ''
               })(
                 <Input />
               )
             }
           </Form.Item>
           <br />
-          <Form.Item className={ style.mb15 } label="微打赏命令">
+          <Form.Item className={ style.mb15 } label="摩点命令">
             <div className="clearfix">
               {
-                getFieldDecorator('wdsUrlTemplate', {
-                  initialValue: detail ? detail.basic.wdsUrlTemplate :
-                    `微打赏：{{ wdsname }}\nhttps://wds.modian.com/show_weidashang_pro/{{ wdsid }}#1`
+                getFieldDecorator('modianUrlTemplate', {
+                  initialValue: detail ? detail.basic.modianUrlTemplate :
+                    `摩点：{{ modianname }}\nhttps://m.modian.com/project/{{ modianid }}.html`
                 })(
                   <Input.TextArea className={ style.template } rows={ 15 } />
                 )
@@ -282,20 +283,20 @@ class Add extends Component{
               <p className={ style.shuoming }>
                 <b>模板关键字：</b>
                 <br />
-                wdsname：微打赏的名称，
+                modianname：微打赏的名称，
                 <br />
-                wdsid：微打赏的ID
+                modianid：微打赏的ID
               </p>
             </div>
           </Form.Item>
           <br />
-          <Form.Item label="微打赏模板">
+          <Form.Item label="集资提示">
             <div className="clearfix">
               {
-                getFieldDecorator('wdsTemplate', {
-                  initialValue: detail ? detail.basic.wdsTemplate :
-                    `@{{ id }} 刚刚在【{{ wdsname }}】打赏了{{ money }}元，排名提高了{{ rankingchage }}名，当前排名第{{ ranking }}名。` +
-                    `感谢这位聚聚！\n已筹集资金：{{ amount }}元。\n微打赏地址：https://wds.modian.com/show_weidashang_pro/{{ wdsid }}#1`
+                getFieldDecorator('modianTemplate', {
+                  initialValue: detail ? detail.basic.modianTemplate :
+                    `@{{ id }} 刚刚在【{{ modianname }}】打赏了{{ money }}元，` +
+                    `感谢这位聚聚！\n摩点项目地址：https://m.modian.com/project/{{ modianid }}.html`
                 })(
                   <Input.TextArea className={ style.template } rows={ 15 } />
                 )
@@ -307,15 +308,9 @@ class Add extends Component{
                 <br />
                 money：打赏金额，
                 <br />
-                amount：总金额，
+                modianname：微打赏的名称，
                 <br />
-                ranking：当前排名，
-                <br />
-                rankingchage：排名变化（提高），
-                <br />
-                wdsname：微打赏的名称，
-                <br />
-                wdsid：微打赏的ID
+                modianid：微打赏的ID
               </p>
             </div>
           </Form.Item>
@@ -326,28 +321,18 @@ class Add extends Component{
           <Form.Item className={ style.mb15 } label="开启口袋48直播监听功能">
             {
               getFieldDecorator('is48LiveListener', {
-                initialValue: detail ? (detail.basic.is48LiveListener ? ['is48LiveListener'] : []) : []
+                initialValue: is48LiveListener
               })(
-                <Checkbox.Group options={[
-                  {
-                    label: '',
-                    value: 'is48LiveListener'
-                  }
-                ]} />
+                <Checkbox defaultChecked={ is48LiveListener } />
               )
             }
           </Form.Item>
           <Form.Item className={ style.mb15 } label="监听所有成员">
             {
               getFieldDecorator('isListenerAll', {
-                initialValue: detail ? (detail.basic.isListenerAll ? ['isListenerAll'] : []) : []
+                initialValue: isListenerAll
               })(
-                <Checkbox.Group options={[
-                  {
-                    label: '',
-                    value: 'isListenerAll'
-                  }
-                ]} />
+                <Checkbox defaultChecked={ isListenerAll } />
               )
             }
           </Form.Item>
@@ -362,41 +347,6 @@ class Add extends Component{
                 )
               }
               <p className={ style.shuoming }>多个成员名字之间用","（半角逗号）分隔。</p>
-            </div>
-          </Form.Item>
-        </div>
-        {/* 新成员欢迎 */}
-        <h4 className={ style.title }>新成员欢迎：</h4>
-        <div>
-          <Form.Item className={ style.mb15 } label="开启新成员欢迎功能">
-            {
-              getFieldDecorator('isNewBlood', {
-                initialValue: detail ? (detail.basic.isNewBlood ? ['isNewBlood'] : []) : []
-              })(
-                <Checkbox.Group options={[
-                  {
-                    label: '',
-                    value: 'isNewBlood'
-                  }
-                ]} />
-              )
-            }
-          </Form.Item>
-          <br />
-          <Form.Item label="欢迎语模板">
-            <div className="clearfix">
-              {
-                getFieldDecorator('newBloodTemplate', {
-                  initialValue: detail ? detail.basic.newBloodTemplate : `欢迎@{{ name }} 加入群。`
-                })(
-                  <Input.TextArea className={ style.template } rows={ 15 } />
-                )
-              }
-              <p className={ style.shuoming }>
-                <b>模板关键字：</b>
-                <br />
-                name：新入群的成员昵称
-              </p>
             </div>
           </Form.Item>
         </div>
@@ -416,14 +366,9 @@ class Add extends Component{
           <Form.Item className={ style.mb15 } label="开启心知天气的查询天气功能">
             {
               getFieldDecorator('isXinZhiTianQi', {
-                initialValue: detail ? (detail.basic.isXinZhiTianQi ? ['isXinZhiTianQi'] : []) : []
+                initialValue: isXinZhiTianQi
               })(
-                <Checkbox.Group options={[
-                  {
-                    label: '',
-                    value: 'isXinZhiTianQi'
-                  }
-                ]} />
+                <Checkbox defaultChecked={ isXinZhiTianQi } />
               )
             }
           </Form.Item>
@@ -475,14 +420,9 @@ class Add extends Component{
           <Form.Item className={ style.mb15 } label="开启图灵机器人功能">
             {
               getFieldDecorator('isTuLing', {
-                initialValue: detail ? (detail.basic.isTuLing ? ['isTuLing'] : []) : []
+                initialValue: isTuLing
               })(
-                <Checkbox.Group options={[
-                  {
-                    label: '',
-                    value: 'isTuLing'
-                  }
-                ]} />
+                <Checkbox defaultChecked={ isTuLing } />
               )
             }
           </Form.Item>

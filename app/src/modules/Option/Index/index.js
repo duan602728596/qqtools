@@ -190,6 +190,7 @@ class Index extends Component{
       <div key={ 1 } className={ publicStyle.tableBox }>
         <Table dataSource={ this.props.optionList }
           columns={ this.columns() }
+          bordered={ true }
           rowKey={ (item: Object): string=>item.name }
           pagination={{
             pageSize: 20,
