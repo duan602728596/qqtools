@@ -88,13 +88,13 @@ class Index extends Component{
     clearTimeout(item.listenMessageTimer);              // 删除轮询信息
     clearInterval(item.loginBrokenLineReconnection);    // 删除断线重连
 
-    // 删除微打赏的web worker
-    if(item.wdsWorker){
+    // 删除摩点的web worker
+    if(item.modianWorker){
       item.sendMessage({
         type: 'cancel'
       });
-      item.wdsWorker.terminate();
-      item.wdsWorker = null;
+      item.modianWorker.terminate();
+      item.modianWorker = null;
     }
 
     // 删除群监听

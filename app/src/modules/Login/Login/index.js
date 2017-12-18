@@ -11,10 +11,10 @@ import option from '../../publicMethod/option';
 import { changeQQLoginList, cursorOption, kd48LiveListenerTimer } from '../store/reducer';
 import callback from '../../../components/callback/index';
 import Detail from './Detail';
-import getWdsInformation from '../../../components/weiDaShang/getWdsInformation';
+import getModianInformation from '../../../components/modian/getModianInformation';
 import { str2reg } from '../../../function';
 import kd48timer, { init } from '../../../components/kd48listerer/timer';
-import WeiDaShangWorker from 'worker-loader?name=script/weiDaShang.js!../../../components/weiDaShang/weiDaShang';
+import ModianWorker from 'worker-loader?name=script/modian.worker.js!../../../components/modian/modian.worker';
 const fs = node_require('fs');
 
 let qq: ?SmartQQ = null;
@@ -103,58 +103,53 @@ class Login extends Component{
   }
   // 登录成功事件
   loginSuccess(): void{
-    qq.loginSuccess(async ()=>{
-      try{
-        // 获取微打赏相关信息
-        if(qq.option.basic.isWds){
-          const { title, moxiId }: {
-            title: string,
-            moxiId: string
-          } = await getWdsInformation(qq.option.basic.wdsId);
-          qq.wdsTitle = title;
-          qq.wdsMoxiId = moxiId;
-          // 创建新的微打赏webWorker
-          qq.wdsWorker = new WeiDaShangWorker();
-          qq.wdsWorker.postMessage({
-            type: 'init',
-            wdsId: qq.option.basic.wdsId,
-            moxiId: moxiId,
-            title: title
-          });
-          qq.wdsWorker.addEventListener('message', qq.listenWdsWorkerCbInformation.bind(qq), false);
-        }
-        // 口袋48直播监听
-        if(qq.option.basic.is48LiveListener){
-          const memberReg: RegExp = str2reg(qq.option.basic.kd48LiveListenerMembers);
-          qq.members = memberReg;
-          // 开启口袋48监听
-          await init();
-          if(this.props.kd48LiveListenerTimer === null){
-            this.props.action.kd48LiveListenerTimer({
-              timer: setInterval(kd48timer, 15000)
+    if(qq){
+      qq.loginSuccess(async ()=>{
+        try{
+          // 获取微打赏相关信息
+          if(qq.option.basic.isModian){
+            const { title }: { title: string } = await getModianInformation(qq.option.basic.modianId);
+            qq.modianTitle = title;
+            // 创建新的摩点webWorker
+            qq.modianWorker = new ModianWorker();
+            qq.modianWorker.postMessage({
+              type: 'init',
+              modianId: qq.option.basic.modianId,
+              title
             });
+            qq.modianWorker.addEventListener('message', qq.listenModianWorkerCbInformation.bind(qq), false);
           }
+          // 口袋48直播监听
+          if(qq.option.basic.is48LiveListener){
+            const memberReg: RegExp = str2reg(qq.option.basic.kd48LiveListenerMembers);
+            qq.members = memberReg;
+            // 开启口袋48监听
+            await init();
+            if(this.props.kd48LiveListenerTimer === null){
+              this.props.action.kd48LiveListenerTimer({
+                timer: setInterval(kd48timer, 15000)
+              });
+            }
+          }
+          // 监听信息
+          const t1: number = setInterval(qq.loginSuccess.bind(qq), 60 ** 2 * 10 ** 3); // 一小时后重新登录，防止掉线
+          const t2: number = setTimeout(qq.listenMessage.bind(qq), 500);               // 轮询
+          qq.loginBrokenLineReconnection = t1;
+          qq.listenMessageTimer = t2;
+          // 将新的qq实例存入到store中
+          const ll: Array = this.props.qqLoginList;
+          ll.push(qq);
+          this.props.action.changeQQLoginList({
+            qqLoginList: ll
+          });
+          qq = null;
+          this.props.history.push('/Login');
+        }catch(err){
+          console.error('登录错误', err);
+          message.error('登录失败！');
         }
-        // 监听新入群成员
-        if(qq.option.basic.isNewBlood){
-          qq.listenGroupMinfo();
-        }
-        // 监听信息
-        qq.loginBrokenLineReconnection = setInterval(qq.loginSuccess.bind(qq), 60 ** 2 * 10 ** 3); // 一小时后重新登录，防止掉线
-        qq.listenMessageTimer = setTimeout(qq.listenMessage.bind(qq), 500);                        // 轮询
-        // 将新的qq实例存入到store中
-        const ll: Array = this.props.qqLoginList;
-        ll.push(qq);
-        this.props.action.changeQQLoginList({
-          qqLoginList: ll
-        });
-        qq = null;
-        this.props.history.push('/Login');
-      }catch(err){
-        console.error('登录错误', err);
-        message.error('登录失败！');
-      }
-    });
+      });
+    }
   }
   // 判断是否登陆
   async isLogin(){

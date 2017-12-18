@@ -10,13 +10,13 @@ import { putOption } from '../store/reducer';
 import { copy } from '../../publicMethod/editOperation';
 
 /**
- * 预留命令：微打赏、直播、天气、机器人
- * 微打赏：微打赏、wds
+ * 预留命令：摩点、直播、天气、机器人
+ * 微打赏：摩点、mod
  * 直播：直播列表、zb
  * 天气：天气预报、tq
  * 机器人：say
  */
-const COMMAND: string = `微打赏|wds|直播列表|zb|天气预报|tq|say|help`;
+const COMMAND: string = `摩点|mod|直播列表|zb|天气预报|tq|say|help`;
 
 /* 判断当前的cmd是否存在，并且返回index */
 function getIndex(lists: Array, cmd: text): ?number{

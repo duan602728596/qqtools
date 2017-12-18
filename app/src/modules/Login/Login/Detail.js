@@ -49,32 +49,32 @@ const Detail: ?Object = (props: ?Object): ?Object=>{
         </tr>
         {/* 微打赏 */}
         <tr>
-          <td className={ style.tdGTitle } colSpan={ 4 }>微打赏配置：</td>
+          <td className={ style.tdGTitle } colSpan={ 4 }>摩点项目配置：</td>
         </tr>
         <tr>
-          <td className={ style.tdTitle }>开启微打赏功能</td>
+          <td className={ style.tdTitle }>开启摩点项目监听功能</td>
           <td>
             {
-              detail.basic.isWds ? (
+              detail.basic.isModian ? (
                 <span className={ style.on }>开启</span>
               ) : (
                 <span className={ style.off }>未开启</span>
               )
             }
           </td>
-          <td className={ style.tdTitle }>微打赏ID</td>
-          <td>{ detail.basic.wdsId }</td>
+          <td className={ style.tdTitle }>摩点项目ID</td>
+          <td>{ detail.basic.modianId }</td>
         </tr>
         <tr>
-          <td className={ style.tdTitle }>微打赏命令</td>
+          <td className={ style.tdTitle }>摩点项目命令</td>
           <td colSpan={ 3 }>
-            <pre>{ detail.basic.wdsUrlTemplate }</pre>
+            <pre>{ detail.basic.modianUrlTemplate }</pre>
           </td>
         </tr>
         <tr>
-          <td className={ style.tdTitle }>微打赏模板</td>
+          <td className={ style.tdTitle }>摩点项目模板</td>
           <td colSpan={ 3 }>
-            <pre>{ detail.basic.wdsTemplate }</pre>
+            <pre>{ detail.basic.modianTemplate }</pre>
           </td>
         </tr>
         {/* 直播监听 */}
