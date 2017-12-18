@@ -1,7 +1,6 @@
 /* 网页版QQ登录接口 */
 import { requestHttp, hash33, hash, cookieObj2Str, msgId } from './calculate';
 import { templateReplace } from '../../function';
-import MinfoWorker from 'worker-loader?name=script/minfo.js!./minfo';
 const queryString = node_require('querystring');
 
 type cons = {
@@ -26,9 +25,8 @@ class SmartQQ{
   listenMessageTimer: ?number;
   callback: Function;
   option: Object;
-  wdsTitle: ?string;
-  wdsMoxiId: ?string;
-  wdsWorker: ?Worker;
+  modianTitle: ?string;
+  modianWorker: ?Worker;
   members: ?RegExp;
   minfo: ?Array;
   minfoTimer: ?number;
@@ -53,10 +51,9 @@ class SmartQQ{
     this.listenMessageTimer = null;           // 轮询信息
     this.callback = callback;    // 获得信息后的回调
     this.option = null;          // 配置信息
-    // 微打赏相关
-    this.wdsTitle = null;        // 微打赏标题
-    this.wdsMoxiId = null;       // moxi id
-    this.wdsWorker = null;       // 微打赏新线程
+    // 摩点项目相关
+    this.modianTitle = null;     // 摩点项目标题
+    this.modianWorker = null;    // 摩点新线程
     // 口袋48监听相关
     this.members = null;         // 监听指定成员
     // 群成员信息
@@ -292,7 +289,8 @@ class SmartQQ{
     }catch(err){
       console.error('轮询', err);
     }
-    this.listenMessageTimer = setTimeout(this.listenMessage.bind(this), 500);
+    const t1: number = setTimeout(this.listenMessage.bind(this), 500);
+    this.listenMessageTimer = t1;
   }
   // 分段发送消息，最多发送十六行，防止多段的消息发送不出去
   async sendFormatMessage(message): void{
@@ -330,52 +328,19 @@ class SmartQQ{
       timeout: 20000  // 设置15秒超时
     });
   }
-  // 轮询监听群成员信息
-  async listenGroupMinfo(){
-    const [ginfor]: [ string ] = await this.getGroupMinfo();
-    const ginfor2: Object = JSON.parse(ginfor);
-    if('result' in ginfor2){
-      const minfo: Array = ginfor2.result.minfo;
-      if(this.minfo && minfo.length > this.minfo.length){   // 数量变化，说明有成员变动
-        const worker: Worker = new MinfoWorker();
-        const cb: Function = async (event: Event): void=>{
-          const newM: Array = event.data.minfo;
-          for(let i: number = 0, j: number = newM.length; i < j; i++){
-            const item: Object = newM[i];
-            const msg: string = templateReplace(this.option.basic.newBloodTemplate, {
-              name: item.nick
-            });
-            await this.sendFormatMessage(msg);
-          }
-          worker.removeEventListener('message', cb);
-          worker.terminate();
-        };
-        worker.addEventListener('message', cb, false);
-        worker.postMessage({
-          oldList: this.minfo,
-          newList: minfo
-        });
-      }
-      this.minfo = minfo;
-    }
-    this.minfoTimer = setTimeout(this.listenGroupMinfo.bind(this), 8000);
-  }
   // web worker监听到微打赏的返回信息
-  async listenWdsWorkerCbInformation(event: Event): void{
+  async listenModianWorkerCbInformation(event: Event): void{
     if(event.data.type === 'change'){
       const { data }: { data: Array } = event.data;
-      const { wdsTemplate }: { wdsTemplate: string } = this.option.basic;
+      const { modianTemplate }: { modianTemplate: string } = this.option.basic;
       // 倒序发送消息
       for(let i: number = data.length - 1; i >= 0; i--){
         const item: Object = data[i];
-        const msg: string = templateReplace(wdsTemplate, {
+        const msg: string = templateReplace(modianTemplate, {
           id: item.nickname,
           money: item.pay_amount,
-          amount: item.allMount,
-          ranking: item.newIndex + 1,
-          rankingchage: item.promote,
-          wdsname: this.wdsTitle,
-          wdsid: this.option.basic.wdsId
+          modianname: this.modianTitle,
+          modianid: this.option.basic.modianId
         });
         await this.sendFormatMessage(msg);
       }

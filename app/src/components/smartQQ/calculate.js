@@ -53,12 +53,12 @@ export function requestHttp({ reqUrl, method = 'GET', data = '', headers = {}, s
 
     req.on('error', function(err: any): void{
       console.error('请求错误：' + err);
-      resolve({});
+      reject(err);
     });
     req.write(data);
     req.end();
   }).catch((err: any): void=>{
-    resolve({});
+    console.error(err);
   });
 }
 

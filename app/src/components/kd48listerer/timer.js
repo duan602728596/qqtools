@@ -2,7 +2,7 @@
 import post from './post';
 import { time } from '../../function';
 import store from '../../store/store';
-import Kd48listenerWorker from 'worker-loader?name=script/kd48listener.js!./kd48listener';
+import Kd48listenerWorker from 'worker-loader?name=script/kd48listener.worker.js!./kd48listener.worker';
 
 let oldList: Object = {};  // 旧列表
 
