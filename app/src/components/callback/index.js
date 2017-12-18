@@ -1,5 +1,5 @@
 /* 轮询的回调函数 */
-import wdsCb from '../weiDaShang/wdsCb';
+import modianCb from '../modian/modianCb';
 import kd48Cb from '../kd48listerer/kd48Cb';
 import tianQiCb from '../xinZhiTianQi/tianQiCb';
 import tuLingCb from '../tuLing/tuLingCb';
@@ -31,9 +31,9 @@ function callback(result: Array | Object, qq: SmartQQ): void{
 function fn(command: string[], qq: SmartQQ): void{
   switch(command[0]){
     // 微打赏判断
-    case '微打赏':
-    case 'wds':
-      wdsCb(command, qq);
+    case '摩点':
+    case 'mod':
+      modianCb(command, qq);
       break;
     // 口袋当前直播
     case '直播列表':
