@@ -1,13 +1,14 @@
 /* 微打赏监听回调函数 */
+import getModianInformation from './getModianInformation';
 import { templateReplace } from '../../function';
-import WdsListWorker from 'worker-loader?name=script/wdsList.js!./wdsList';
+import ModianListWorker from 'worker-loader?name=script/modianList.worker.js!./modianList.worker';
 
-function wdsCb(command: string[], qq: SmartQQ): void{
+function modianCb(command: string[], qq: SmartQQ): void{
   if(!command[2]){
     command[2] = '20';
   }
 
-  if(qq.option.basic.isWds){
+  if(qq.option.basic.isModian){
     // 微打赏功能开启
     switch(command[1]){
       // 获取整体信息
@@ -18,31 +19,31 @@ function wdsCb(command: string[], qq: SmartQQ): void{
       case '1':
       // 获取打卡榜
       case '2':
-        list(qq.option.basic.wdsId, command[1], command[2], qq);
+        list(qq.option.basic.modianId, command[1], command[2], qq);
         break;
       // 发送微打赏相关信息
       default:
-        sendWdsInfor(qq);
+        sendModianInfor(qq);
         break;
     }
   }else{
     // 微打赏功能未开启
-    qq.sendMessage('[WARNING] 微打赏相关功能未开启。');
+    qq.sendMessage('[WARNING] 摩点相关功能未开启。');
   }
 }
 
 /* 发送信息 */
-async function sendWdsInfor(qq: SmartQQ): void{
-  const text: string = templateReplace(qq.option.basic.wdsUrlTemplate, {
-    wdsname: qq.wdsTitle,
-    wdsid: qq.option.basic.wdsId
+async function sendModianInfor(qq: SmartQQ): void{
+  const text: string = templateReplace(qq.option.basic.modianUrlTemplate, {
+    modianname: qq.modianTitle,
+    modianid: qq.option.basic.modianId
   });
   await qq.sendFormatMessage(text);
 }
 
 /* 新线程计算排名 */
 async function list(proId: string, type: string, size: string, qq: SmartQQ): void{
-  const worker: Worker = new WdsListWorker();
+  const worker: Worker = new ModianListWorker();
   const cb: Function = async (event: Event): void=>{
     await qq.sendFormatMessage(event.data.text);
     worker.removeEventListener('message', cb);
@@ -53,22 +54,14 @@ async function list(proId: string, type: string, size: string, qq: SmartQQ): voi
     proId,
     type,
     size,
-    title: qq.wdsTitle
+    title: qq.modianTitle
   });
 }
 
 /* 获取已集资金额 */
-function getAllMount(qq: SmartQQ): void{
-  const cb: Function = async (event: Event): void=>{
-    if(event.data.type === 'allMount'){
-      await qq.sendFormatMessage(`${ qq.wdsTitle }: ￥${ event.data.allMount }`);
-      qq.wdsWorker.removeEventListener('message', cb);
-    }
-  };
-  qq.wdsWorker.addEventListener('message', cb, false);
-  qq.wdsWorker.postMessage({
-    type: 'allMount'
-  });
+async function getAllMount(qq: SmartQQ): void{
+  const { already_raised }: { already_raised: number } = await getModianInformation(qq.option.basic.modianId);
+  await qq.sendFormatMessage(`${ qq.modianTitle }: ￥${ already_raised }`);
 }
 
-export default wdsCb;
+export default modianCb;
