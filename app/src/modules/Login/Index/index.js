@@ -97,11 +97,6 @@ class Index extends Component{
       item.modianWorker = null;
     }
 
-    // 删除群监听
-    if(item.minfoTimer){
-      clearTimeout(item.minfoTimer);
-    }
-
     this.props.qqLoginList.splice(index, 1);
     this.props.action.changeQQLoginList({
       qqLoginList: this.props.qqLoginList.slice()

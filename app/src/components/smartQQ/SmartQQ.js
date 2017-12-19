@@ -28,8 +28,7 @@ class SmartQQ{
   modianTitle: ?string;
   modianWorker: ?Worker;
   members: ?RegExp;
-  minfo: ?Array;
-  minfoTimer: ?number;
+
   constructor({ callback }: cons): void{
     // QQ登录相关
     this.cookie = {};            // 储存cookie
@@ -56,9 +55,6 @@ class SmartQQ{
     this.modianWorker = null;    // 摩点新线程
     // 口袋48监听相关
     this.members = null;         // 监听指定成员
-    // 群成员信息
-    this.minfo = null;           // 群成员信息
-    this.minfoTimer = null;      // 群成员监听定时器
   }
   // 下载二维码
   downloadPtqr(timeStr): Promise{
