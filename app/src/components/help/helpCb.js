@@ -2,10 +2,10 @@
 async function helpCb(qq: SmartQQ): void{
 
   let text1: string = `【帮助】
-· [微打赏 或 wds]:查看当前微打赏链接
-· [(微打赏 或 wds) 0]:查看当前已集资数
-· [(微打赏 或 wds) 1 ?number]:查看聚聚榜
-· [(微打赏 或 wds) 2 ?number]:查看打卡榜
+· [摩点 或 mod]:查看当前微打赏链接
+· [(摩点 或 mod) 0]:查看当前已集资数
+· [(摩点 或 mod) 1 ?number]:查看聚聚榜
+· [(摩点 或 mod) 2 ?number]:查看打卡榜
 · [直播列表 或 zb]:查看当前的口袋48直播列表
 · [(天气预报 或 tq) 城市]:查询天气情况
 · [say 你想说的话]:机器人
