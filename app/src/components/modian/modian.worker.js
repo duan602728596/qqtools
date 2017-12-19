@@ -2,11 +2,11 @@
  * 摩点信息查询轮询
  *
  * 排行榜
- * [POST] https://wds.modian.com/ajax/backer_ranking_list
+ * [POST] https://wds.modian.com/api/project/orders
  * pro_id  : 微打赏id
  * type    : 1 聚聚榜 2 打卡榜
  * page    : 页数
- * page_size: 每次请求的数据数
+ * sign    : 签名
  */
 import MD5 from 'md5.js';
 import getData from './function/getData';
