@@ -55,8 +55,8 @@ class Add extends Component{
       text: string
     }
   };
-  constructor(props: Object): void{
-    super(props);
+  constructor(): void{
+    super(...arguments);
 
     this.state = {
       customProfiles: [],  // 自定义配置

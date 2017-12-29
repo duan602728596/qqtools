@@ -37,8 +37,8 @@ class Index extends Component{
     visible1: boolean,
     visible2: boolean
   };
-  constructor(props: Object): void{
-    super(props);
+  constructor(): void{
+    super(...arguments);
 
     this.state = {
       visible1: false,

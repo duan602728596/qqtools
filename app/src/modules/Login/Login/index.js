@@ -83,8 +83,8 @@ class Login extends Component{
     timer: ?number,
     optionItemIndex: ?number
   };
-  constructor(props: Object): void{
-    super(props);
+  constructor(): void{
+    super(...arguments);
 
     this.state = {
       imgUrl: null,    // 图片地址
