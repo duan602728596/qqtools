@@ -308,9 +308,9 @@ class Add extends Component{
                 <br />
                 money：打赏金额，
                 <br />
-                modianname：微打赏的名称，
+                modianname：摩点项目的名称，
                 <br />
-                modianid：微打赏的ID
+                modianid：摩点项目的ID
               </p>
             </div>
           </Form.Item>
