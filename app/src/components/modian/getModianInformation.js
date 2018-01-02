@@ -2,7 +2,7 @@ const MD5 = node_require('md5.js');
 
 /**
  * 获取摩点项目的相关信息
- * @param { string } modianId: 微打赏ID
+ * @param { string } modianId: 摩点ID
  */
 function getModianInformation(modianId: string): Promise{
   // 计算签名
