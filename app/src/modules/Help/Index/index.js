@@ -11,16 +11,16 @@ const Index = (props: Object): Array=>{
       <Button type="danger" icon="poweroff">返回</Button>
     </Link>,
     /* 正文 */
-    <div key={ 1 } className={ style.body }>
-      <h1 className={ style.title }>帮助</h1>
-      {/* 基础命令 */}
-      <h4 className={ style.seconeTitle }>命令</h4>
+    <h1 key={ 1 } className={ style.title }>帮助</h1>,
+    /* 基础命令 */
+    <h4 key={ 2 } className={ style.seconeTitle }>命令</h4>,
+    <div key={ 3 } className={ style.body }>
       <p className={ style.p }>
-        [&nbsp;
+        [
         <b className={ style.b }>摩点</b>
         &nbsp;或&nbsp;
         <b className={ style.b }>mod</b>
-        &nbsp;]：查看当前摩点项目链接
+        ]：查看当前摩点项目链接
       </p>
       <p className={ style.p }>
         [(
@@ -79,16 +79,20 @@ const Index = (props: Object): Array=>{
         <b className={ style.b }>help</b>
         ]：帮助
       </p>
-      {/* 自定义命令 */}
-      <h4 className={ style.seconeTitle }>自定义命令</h4>
+    </div>,
+    /* 自定义命令 */
+    <h4 key={ 4 } className={ style.seconeTitle }>自定义命令</h4>,
+    <div key={ 5 } className={ style.body }>
       <p className={ style.p }>
         [
         <b className={ style.b }>自定义命令</b>
         ]
       </p>
       <p className={ style.p }>如果当前配置项有该命令，则会返回该命令对应的内容。</p>
-      {/* 天气 */}
-      <h4 className={ style.seconeTitle }>天气接口</h4>
+    </div>,
+    /* 天气 */
+    <h4 key={ 6 } className={ style.seconeTitle }>天气接口</h4>,
+    <div key={ 7 } className={ style.body }>
       <p className={ style.p }>
         请自行到心知天气的官方网站&nbsp;
         <b className={ style.url } id="copy-help-xinzhitianqi" onClick={ copy.bind(this, 'copy-help-xinzhitianqi') }>
@@ -98,8 +102,10 @@ const Index = (props: Object): Array=>{
         <Button icon="copy" title="复制" onClick={ copy.bind(this, 'copy-help-xinzhitianqi') } />
         &nbsp;注册账号并填写appKey。
       </p>
-      {/* 机器人 */}
-      <h4 className={ style.seconeTitle }>图灵机器人</h4>
+    </div>,
+    /* 机器人 */
+    <h4 key={ 8 } className={ style.seconeTitle }>图灵机器人</h4>,
+    <div key={ 9 } className={ style.body }>
       <p className={ style.p }>
         请自行到图灵机器人的官方网站&nbsp;
         <b className={ style.url } id="copy-help-tuling" onClick={ copy.bind(this, 'copy-help-tuling') }>

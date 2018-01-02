@@ -19,7 +19,7 @@ import { copy } from '../../publicMethod/editOperation';
 const COMMAND: string = `摩点|mod|直播列表|zb|天气预报|tq|say|help`;
 
 /* 判断当前的cmd是否存在，并且返回index */
-function getIndex(lists: Array, cmd: text): ?number{
+function getIndex(lists: Array, cmd: string): ?number{
   let index: number = null;
   for(let i: number = 0, j: number = lists.length; i < j; i++){
     const reg: RegExp = new RegExp(`^\\s*(${ lists[i].command }|${ COMMAND })\\s*$`, 'i');
