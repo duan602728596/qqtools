@@ -283,9 +283,9 @@ class Add extends Component{
               <p className={ style.shuoming }>
                 <b>模板关键字：</b>
                 <br />
-                modianname：微打赏的名称，
+                modianname：摩点项目的名称，
                 <br />
-                modianid：微打赏的ID
+                modianid：摩点项目的ID
               </p>
             </div>
           </Form.Item>
