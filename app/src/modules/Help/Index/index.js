@@ -20,7 +20,7 @@ const Index = (props: Object): Array=>{
         <b className={ style.b }>摩点</b>
         &nbsp;或&nbsp;
         <b className={ style.b }>mod</b>
-        &nbsp;]：查看当前微打赏链接
+        &nbsp;]：查看当前摩点项目链接
       </p>
       <p className={ style.p }>
         [(
