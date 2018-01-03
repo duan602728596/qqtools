@@ -47,7 +47,7 @@ const Detail: ?Object = (props: ?Object): ?Object=>{
           <td className={ `${ style.td1 } ${ style.tdTitle }` }>监视群名称</td>
           <td className={ style.td2 }>{ detail.groupName }</td>
         </tr>
-        {/* 微打赏 */}
+        {/* 摩点 */}
         <tr>
           <td className={ style.tdGTitle } colSpan={ 4 }>摩点项目配置：</td>
         </tr>
@@ -96,28 +96,6 @@ const Detail: ?Object = (props: ?Object): ?Object=>{
           <td className={ style.tdTitle }>监听成员</td>
           <td colSpan={ 3 }>
             <pre>{ detail.basic.kd48LiveListenerMembers }</pre>
-          </td>
-        </tr>
-        {/* 新成员欢迎 */}
-        <tr>
-          <td className={ style.tdGTitle } colSpan={ 4 }>开启新成员欢迎功能</td>
-        </tr>
-        <tr>
-          <td className={ style.tdTitle }>开启微打赏功能</td>
-          <td>
-            {
-              detail.basic.isNewBlood ? (
-                <span className={ style.on }>开启</span>
-              ) : (
-                <span className={ style.off }>未开启</span>
-              )
-            }
-          </td>
-        </tr>
-        <tr>
-          <td className={ style.tdTitle }>欢迎语模板</td>
-          <td colSpan={ 3 }>
-            <pre>{ detail.basic.newBloodTemplate }</pre>
           </td>
         </tr>
         {/* 心知天气 */}
