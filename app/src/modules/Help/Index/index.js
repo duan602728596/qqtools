@@ -40,7 +40,7 @@ const Index = (props: Object): Array=>{
         <span className={ style.c1 }>1</span>
         &nbsp;
         <span className={ style.c2 }>?number</span>
-        ]：查看当前的聚聚榜
+        ]：查看聚聚榜
       </p>
       <p className={ style.p }>
         [(
@@ -50,7 +50,17 @@ const Index = (props: Object): Array=>{
         )&nbsp;
         <span className={ style.c1 }>2</span>&nbsp;
         <span className={ style.c2 }>?number</span>
-        ]：查看当前的打卡榜
+        ]：查看打卡榜
+      </p>
+      <p className={ style.p }>
+        [(
+        <b className={ style.b }>摩点</b>
+        &nbsp;或&nbsp;
+        <b className={ style.b }>mod</b>
+        )&nbsp;
+        <span className={ style.c1 }>3</span>&nbsp;
+        <span className={ style.c2 }>?number</span>
+        ]：订单查询
       </p>
       <p className={ style.p }>
         [

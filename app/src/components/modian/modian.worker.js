@@ -1,10 +1,9 @@
 /**
  * 摩点信息查询轮询
  *
- * 排行榜
+ * 订单
  * [POST] https://wds.modian.com/api/project/orders
  * pro_id  : 微打赏id
- * type    : 1 聚聚榜 2 打卡榜
  * page    : 页数
  * sign    : 签名
  */

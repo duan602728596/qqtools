@@ -21,6 +21,10 @@ function modianCb(command: string[], qq: SmartQQ): void{
       case '2':
         list(qq.option.basic.modianId, command[1], command[2], qq);
         break;
+      // 获取订单信息
+      case '3':
+        dingDan(qq.option.basic.modianId, command[2], qq);
+        break;
       // 发送微打赏相关信息
       default:
         sendModianInfor(qq);
@@ -53,6 +57,23 @@ async function list(proId: string, type: string, size: string, qq: SmartQQ): voi
   worker.postMessage({
     proId,
     type,
+    size,
+    title: qq.modianTitle
+  });
+}
+
+/* 获取订单信息 */
+async function dingDan(proId: string, size: string, qq: SmartQQ){
+  const worker: Worker = new ModianListWorker();
+  const cb: Function = async (event: Event): void=>{
+    await qq.sendFormatMessage(event.data.text);
+    worker.removeEventListener('message', cb);
+    worker.terminate();
+  };
+  worker.addEventListener('message', cb, false);
+  worker.postMessage({
+    proId,
+    type: '订单',
     size,
     title: qq.modianTitle
   });

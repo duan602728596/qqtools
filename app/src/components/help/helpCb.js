@@ -6,6 +6,7 @@ async function helpCb(qq: SmartQQ): void{
 · [(摩点 或 mod) 0]:查看当前已集资数
 · [(摩点 或 mod) 1 ?number]:查看聚聚榜
 · [(摩点 或 mod) 2 ?number]:查看打卡榜
+· [(摩点 或 mod) 3 ?number]:订单查询
 · [直播列表 或 zb]:查看当前的口袋48直播列表
 · [(天气预报 或 tq) 城市]:查询天气情况
 · [say 你想说的话]:机器人
