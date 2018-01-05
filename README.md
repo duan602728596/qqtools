@@ -1,7 +1,7 @@
 # QQ群工具
 
 ## 软件下载链接
-进入到[https://github.com/duan602728596/document/tree/master/48](https://github.com/duan602728596/document/tree/master/48)下载
+进入到[https://github.com/duan602728596/document/blob/master/48/README.md](https://github.com/duan602728596/document/blob/master/48/README.md)下载
 
 ## 功能
 * <del>微打赏监听</del>摩点项目监听
