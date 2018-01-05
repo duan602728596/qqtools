@@ -1,5 +1,8 @@
 # QQ群工具
 
+## 软件下载链接
+进入到[https://github.com/duan602728596/document/tree/master/48](https://github.com/duan602728596/document/tree/master/48)下载
+
 ## 功能
 * <del>微打赏监听</del>摩点项目监听
 * 口袋48直播监听
