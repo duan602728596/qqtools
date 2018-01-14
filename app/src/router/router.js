@@ -4,13 +4,11 @@ import asyncModule from './asyncModule';
 /* 加载模块 */
 import Index from '../modules/Index/Layout';
 import Login from 'bundle-loader?name=login!../modules/Login/Layout';
-import loginReducer from 'bundle-loader?name=login!../modules/Login/store/reducer';
 import Option from 'bundle-loader?name=option!../modules/Option/Layout';
-import optionReducer from 'bundle-loader?name=option!../modules/Option/store/reducer';
 import Help from 'bundle-loader?name=help!../modules/Help/Layout';
 
-const LoginBundle: Function = asyncModule(Login, loginReducer);
-const OptionBundle: Function = asyncModule(Option, optionReducer);
+const LoginBundle: Function = asyncModule(Login);
+const OptionBundle: Function = asyncModule(Option);
 const HelpBundle: Function = asyncModule(Help);
 
 /* 路由模块 */
