@@ -3,9 +3,9 @@ import { Route, Switch } from 'react-router-dom';
 import asyncModule from './asyncModule';
 /* 加载模块 */
 import Index from '../modules/Index/Layout';
-import Login from 'bundle-loader?name=login!../modules/Login/Layout';
-import Option from 'bundle-loader?name=option!../modules/Option/Layout';
-import Help from 'bundle-loader?name=help!../modules/Help/Layout';
+import Login from 'bundle-loader?lazy&name=login!../modules/Login/Layout';
+import Option from 'bundle-loader?lazy&name=option!../modules/Option/Layout';
+import Help from 'bundle-loader?lazy&name=help!../modules/Help/Layout';
 
 const LoginBundle: Function = asyncModule(Login);
 const OptionBundle: Function = asyncModule(Option);
