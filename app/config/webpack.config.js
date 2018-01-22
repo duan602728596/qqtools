@@ -69,12 +69,6 @@ function config(options){
       ]
     },
     plugins: [
-      // 公共模块
-      /*
-      new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendor'
-      }),
-      */
       // 范围提升
       new webpack.optimize.ModuleConcatenationPlugin(),
       // dll
