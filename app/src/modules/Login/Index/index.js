@@ -85,8 +85,8 @@ class Index extends Component{
   // 退出
   onLogOut(item: SmartQQ, event: Event): void{
     const index: number = this.props.qqLoginList.indexOf(item);
-    clearTimeout(item.listenMessageTimer);              // 删除轮询信息
-    clearInterval(item.loginBrokenLineReconnection);    // 删除断线重连
+    global.clearTimeout(item.listenMessageTimer);              // 删除轮询信息
+    global.clearInterval(item.loginBrokenLineReconnection);    // 删除断线重连
 
     // 删除摩点的web worker
     if(item.modianWorker){
@@ -113,7 +113,7 @@ class Index extends Component{
         }
       }
       if(isListener === false){
-        clearInterval(this.props.kd48LiveListenerTimer);
+        global.clearInterval(this.props.kd48LiveListenerTimer);
         this.props.action.kd48LiveListenerTimer({
           timer: null
         });

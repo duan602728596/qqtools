@@ -1,9 +1,9 @@
 /* node require */
-const node_require = require;
+const node_require = global.require;
 
 {
   /* 窗口全屏 */
-  const gui = require('nw.gui');
+  const gui = global.require('nw.gui');
   const win = gui.Window.get();
   win.maximize();
 }

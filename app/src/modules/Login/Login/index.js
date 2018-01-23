@@ -127,13 +127,13 @@ class Login extends Component{
             await init();
             if(this.props.kd48LiveListenerTimer === null){
               this.props.action.kd48LiveListenerTimer({
-                timer: setInterval(kd48timer, 15000)
+                timer: global.setInterval(kd48timer, 15000)
               });
             }
           }
           // 监听信息
-          const t1: number = setInterval(qq.loginSuccess.bind(qq), 60 ** 2 * 10 ** 3); // 一小时后重新登录，防止掉线
-          const t2: number = setTimeout(qq.listenMessage.bind(qq), 500);               // 轮询
+          const t1: number = global.setInterval(qq.loginSuccess.bind(qq), 60 ** 2 * 10 ** 3); // 一小时后重新登录，防止掉线
+          const t2: number = global.setTimeout(qq.listenMessage.bind(qq), 500);               // 轮询
           qq.loginBrokenLineReconnection = t1;
           qq.listenMessageTimer = t2;
           // 将新的qq实例存入到store中
@@ -168,7 +168,7 @@ class Login extends Component{
         });
       }else if(status[2] === '0'){
         // 登陆成功
-        clearInterval(timer);
+        global.clearInterval(timer);
         timer = null;
         this.setState({
           imgUrl: option.ptqr,
@@ -199,7 +199,7 @@ class Login extends Component{
       await writeImage(option.ptqr, data);
       // 计算令牌
       qq.getToken();
-      timer = setInterval(this.isLogin.bind(this), 500);
+      timer = global.setInterval(this.isLogin.bind(this), 500);
       this.setState({
         imgUrl: option.ptqr,
         loginState: 1
@@ -210,11 +210,11 @@ class Login extends Component{
     }
   }
   componentWillUnmount(): void{
-    if(timer) clearInterval(timer); // 清除定时器
+    if(timer) global.clearInterval(timer); // 清除定时器
     // 清除qq相关
     if(qq !== null){
       if(qq.listenMessageTimer) clearTimeout(qq.listenMessageTimer);                       // 删除轮询信息
-      if(qq.loginBrokenLineReconnection) clearInterval(qq.loginBrokenLineReconnection);    // 删除断线重连
+      if(qq.loginBrokenLineReconnection) global.clearInterval(qq.loginBrokenLineReconnection);    // 删除断线重连
 
       if(qq.wdsWorker){
         qq.sendMessage({
@@ -237,7 +237,7 @@ class Login extends Component{
           }
         }
         if(isListener === false){
-          clearInterval(this.props.kd48LiveListenerTimer);
+          global.clearInterval(this.props.kd48LiveListenerTimer);
           this.props.action.kd48LiveListenerTimer({
             timer: null
           });

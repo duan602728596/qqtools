@@ -285,7 +285,7 @@ class SmartQQ{
     }catch(err){
       console.error('轮询', err);
     }
-    const t1: number = setTimeout(this.listenMessage.bind(this), 500);
+    const t1: number = global.setTimeout(this.listenMessage.bind(this), 500);
     this.listenMessageTimer = t1;
   }
   // 分段发送消息，最多发送十六行，防止多段的消息发送不出去
