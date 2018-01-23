@@ -79,7 +79,7 @@ class SmartQQ{
     })
   }
   // 登录
-  login():Promise{
+  login(): Promise{
     return requestHttp({
       reqUrl: this.url,
       headers: {
@@ -91,7 +91,7 @@ class SmartQQ{
     // http://w.qq.com/proxy.html?login2qq=1&webqq_type=10
     // http://web2.qq.com/web2_cookie_proxy.html
   }
-  login302proxy(){
+  login302proxy(): Promise{
     return requestHttp({
       reqUrl: `http://w.qq.com/proxy.html?login2qq=1&webqq_type=10`,
       headers: {
@@ -100,7 +100,7 @@ class SmartQQ{
       setEncode: 'utf8'
     });
   }
-  login302web2(){
+  login302web2(): Promise{
     return requestHttp({
       reqUrl: `http://web2.qq.com/web2_cookie_proxy.html`,
       headers: {
@@ -110,7 +110,7 @@ class SmartQQ{
     });
   }
   // 获取vfwebqq
-  getVfWebQQ(){
+  getVfWebQQ(): Promise{
     const u: string = `http://s.web2.qq.com/api/getvfwebqq?clientid=53999199&psessionid=&t=${ Math.random() * 10 ** 16 }&ptwebqq=${ this.cookie.ptwebqq }`;
     return requestHttp({
       reqUrl: u,
@@ -310,7 +310,7 @@ class SmartQQ{
     }
   }
   // 获取群成员信息
-  getGroupMinfo(){
+  getGroupMinfo(): Promise{
     const url: string = `http://s.web2.qq.com/api/get_group_info_ext2?` +
       `gcode=${ this.groupItem.code }&vfwebqq=${ this.vfwebqq }&t={ ${ Math.random() } }`;
     return requestHttp({

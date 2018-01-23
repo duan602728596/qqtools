@@ -1,4 +1,4 @@
-const MD5 = node_require('md5.js');
+import sign from './function/sign';
 
 /**
  * 获取摩点项目的相关信息
@@ -6,10 +6,7 @@ const MD5 = node_require('md5.js');
  */
 function getModianInformation(modianId: string): Promise{
   // 计算签名
-  let data: string = `pro_id=${ modianId }`;
-  const signStr: string = new MD5().update(data + '&p=das41aq6').digest('hex');
-  const sign: string = signStr.substr(5, 16);
-  data += `&sign=${ sign }`;
+  const data: string = sign(`pro_id=${ modianId }`);
   return new Promise((resolve: Function, reject: Function): void=>{
     $.ajax({
       type: 'POST',

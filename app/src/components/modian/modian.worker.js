@@ -7,11 +7,10 @@
  * page    : 页数
  * sign    : 签名
  */
-import MD5 from 'md5.js';
 import getData from './function/getData';
+import sign from './function/signInWorker';
 
 const listUrl: string = `https://wds.modian.com/api/project/orders`;
-let sign: ?string = null;      // 签名
 let queryData: ?string = null; // 查询条件
 let modianId: ?string = null;  // 摩点id
 let title: ?string = null;     // 摩点项目标题
@@ -26,10 +25,7 @@ addEventListener('message', async function(event: Event): boolean{
     title = data.title;
 
     // 初始化
-    let data2: string = `page=1&pro_id=${ modianId }`;
-    const signStr: string = new MD5().update(data2 + '&p=das41aq6').digest('hex');
-    sign = signStr.substr(5, 16);
-    queryData = data2 + '&sign=' + sign;
+    queryData = sign(`page=1&pro_id=${ modianId }`);
     const res: Object = await getData('POST', listUrl, queryData);
     oldTime = new Date(res.data[0].pay_time).getTime();
 
@@ -56,7 +52,7 @@ async function polling(): void{
       const newData: Array = res.data;
       const jizi: Array = [];
       let ot: ?number = null;
-      for(let i: Object = 0, j: Object = newData.length; i < j; i++){
+      for(let i: number = 0, j: number = newData.length; i < j; i++){
         const item: Object = newData[i];
         const pay_time: number = new Date(item.pay_time).getTime();
         if(pay_time > oldTime){

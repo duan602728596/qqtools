@@ -3,6 +3,7 @@
  */
 import MD5 from 'md5.js';
 import getData from './function/getData';
+import sign from './function/signInWorker';
 
 const listUrl: string = `https://wds.modian.com/api/project/rankings`;
 const dingDanUrl: string = `https://wds.modian.com/api/project/orders`;
@@ -21,10 +22,7 @@ addEventListener('message', async function(event: Event): void{
   const size2: number = Math.floor(pageSize / 20) + (pageSize % 20 === 0 ? 0 : 1);
   if(type === '订单'){  // 查询订单
     for(let i: number = 1; i <= size2; i++){
-      let d: string = `page=${ i }&pro_id=${ proId }`;
-      const signStr: string = new MD5().update(d + '&p=das41aq6').digest('hex');
-      const sign: string = signStr.substr(5, 16);
-      d += '&sign=' + sign;
+      const d: string = sign(`page=${ i }&pro_id=${ proId }`);
       const res: Object = await getData('POST', dingDanUrl, d);
       if(res.status !== '0' || res.data.length === 0){
         break;
@@ -35,10 +33,7 @@ addEventListener('message', async function(event: Event): void{
     text = dingdan(backList, title, pageSize);
   }else{                // 查询榜单
     for(let i: number = 1; i <= size2; i++){
-      let d: string = `page=${ i }&pro_id=${ proId }&type=${ type }`;
-      const signStr: string = new MD5().update(d + '&p=das41aq6').digest('hex');
-      const sign: string = signStr.substr(5, 16);
-      d += '&sign=' + sign;
+      const d: string = sign(`page=${ i }&pro_id=${ proId }&type=${ type }`);
       const res: Object = await getData('POST', listUrl, d);
       if(res.status !== '0' || res.data.length === 0){
         break;
