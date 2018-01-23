@@ -36,6 +36,7 @@
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.38",
     "@babel/plugin-proposal-decorators": "^7.0.0-beta.38",
+    "@babel/plugin-proposal-export-default-from": "^7.0.0-beta.38",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.38",
     "@babel/preset-flow": "^7.0.0-beta.38",
     "@babel/preset-react": "^7.0.0-beta.38",
