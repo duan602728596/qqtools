@@ -5,7 +5,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { Row, Col, Icon, Button, message } from 'antd';
 import style from './style.sass';
 import '../../publicMethod/initIndexedDB';
-const gui = node_require('nw.gui');
+const gui = global.require('nw.gui');
 
 @withRouter
 class Index extends Component{

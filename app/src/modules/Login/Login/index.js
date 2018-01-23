@@ -15,7 +15,7 @@ import getModianInformation from '../../../components/modian/getModianInformatio
 import { str2reg } from '../../../function';
 import kd48timer, { init } from '../../../components/kd48listerer/timer';
 import ModianWorker from 'worker-loader?name=script/modian.worker.js!../../../components/modian/modian.worker';
-const fs = node_require('fs');
+const fs = global.require('fs');
 
 let qq: ?SmartQQ = null;
 let timer: ?number = null;

@@ -1,7 +1,7 @@
 /* 网页版QQ登录接口 */
 import { requestHttp, hash33, hash, cookieObj2Str, msgId } from './calculate';
 import { templateReplace } from '../../function';
-const queryString = node_require('querystring');
+const queryString = global.require('querystring');
 
 type cons = {
   callback: Function

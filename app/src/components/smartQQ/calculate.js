@@ -1,6 +1,6 @@
-const https = node_require('https');
-const http = node_require('http');
-const url = node_require('url');
+const https = global.require('https');
+const http = global.require('http');
+const url = global.require('url');
 
 /**
  * 请求

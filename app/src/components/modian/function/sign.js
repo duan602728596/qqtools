@@ -1,4 +1,4 @@
-const MD5 = node_require('md5.js');
+const MD5 = global.require('md5.js');
 
 /**
  * 摩点请求加密方法

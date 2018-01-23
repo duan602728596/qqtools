@@ -7,8 +7,8 @@ import { Affix, Table, Button, Popconfirm, Modal, message } from 'antd';
 import style from './style.sass';
 import publicStyle from '../../publicMethod/public.sass';
 import { optionList, cursorOption, deleteOption, importOption } from '../store/reducer';
-const path = node_require('path');
-const fs = node_require('fs');
+const path = global.require('path');
+const fs = global.require('fs');
 
 /* 初始化数据 */
 const state: Function = createStructuredSelector({
