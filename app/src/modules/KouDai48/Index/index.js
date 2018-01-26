@@ -10,7 +10,28 @@ import style from './style.sass';
 import { loginInformation, getLoginInformation, putLoginInformation, cursorMemberInformation } from '../store/reducer';
 import LoginInformation from './LoginInformation';
 import MemberInformation from './MemberInformation';
-import { format, login } from './unit';
+import { login } from '../../../components/roomListener/roomListener';
+
+// 格式化数组
+export function format(rawArray: Array, from: number, to: number): Array{
+  if(rawArray.length === 0){
+    return [];
+  }
+
+  if(from === to){
+    return [
+      {
+        memberId: rawArray[from]
+      }
+    ];
+  }
+
+  const middle: number = Math.floor((to - from) / 2) + from;
+  const left: Array = format(rawArray, from, middle);
+  const right: Array = format(rawArray, middle + 1, to);
+
+  return left.concat(right);
+}
 
 /* 初始化数据 */
 const state: Function = createStructuredSelector({

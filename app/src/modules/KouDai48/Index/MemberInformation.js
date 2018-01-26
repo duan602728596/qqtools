@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { createSelector, createStructuredSelector } from 'reselect';
 import style from './style.sass';
 import { getMemberInformation, addMemberInformation } from '../store/reducer';
-import { requestMemberInformation } from './unit';
+import { requestMemberInformation } from '../../../components/roomListener/roomListener';
 
 /* 初始化数据 */
 const state: Function = createStructuredSelector({});

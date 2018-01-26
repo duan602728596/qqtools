@@ -1,26 +1,5 @@
 const request = global.require('request');
 
-// 格式化数组
-export function format(rawArray: Array, from: number, to: number): Array{
-  if(rawArray.length === 0){
-    return [];
-  }
-
-  if(from === to){
-    return [
-      {
-        memberId: rawArray[from]
-      }
-    ];
-  }
-
-  const middle: number = Math.floor((to - from) / 2) + from;
-  const left: Array = format(rawArray, from, middle);
-  const right: Array = format(rawArray, middle + 1, to);
-
-  return left.concat(right);
-}
-
 // 请求头
 const HEADERS: Object = {
   'os': 'android',
@@ -65,8 +44,8 @@ export function login(account: string, password: string): Promise{
 }
 
 /**
- * 获取房间信息
- * @param { number } memberId: 用户名
+ * 获取成员的相关信息
+ * @param { number } memberId: 成员的ID
  */
 export function requestMemberInformation(memberId: number): Promise{
   return new Promise((resolve: Function, reject: Function)=>{

@@ -25,6 +25,7 @@ class SmartQQ{
   listenMessageTimer: ?number;
   callback: Function;
   option: Object;
+
   modianTitle: ?string;
   modianWorker: ?Worker;
   members: ?RegExp;
@@ -50,6 +51,7 @@ class SmartQQ{
     this.listenMessageTimer = null;           // 轮询信息
     this.callback = callback;    // 获得信息后的回调
     this.option = null;          // 配置信息
+
     // 摩点项目相关
     this.modianTitle = null;     // 摩点项目标题
     this.modianWorker = null;    // 摩点新线程
