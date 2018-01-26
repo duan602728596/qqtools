@@ -1,3 +1,4 @@
+/* 房间信息监听相关 */
 const request = global.require('request');
 
 // 请求头
