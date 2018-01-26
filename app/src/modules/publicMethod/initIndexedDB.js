@@ -8,12 +8,15 @@ IndexedDB(option.indexeddb.name, option.indexeddb.version, {
     this.close();
   },
   upgradeneeded: function(et: Object, event: Event): void{
-    { // 存储QQ机器人配置
+    const objectStore: Array = option.indexeddb.objectStore;
+
+    for(let i: number = 0, j: number = objectStore.length; i < j; i++){
+      const item: Object = objectStore[i];
       const { name, key, data }: {
         name: string,
         key: string,
-        data: Array
-      } = option.indexeddb.objectStore.option;
+        data: ?Array
+      } = item;
       if(!this.hasObjectStore(name)){
         this.createObjectStore(name, key, data)
       }

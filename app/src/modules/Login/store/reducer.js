@@ -11,14 +11,14 @@ const initData: {
 } = {
   qqLoginList: [],              // QQ登录列表
   optionList: [],               // QQ配置列表
-  kd48LiveListenerTimer: null  // 监听口袋48直播
+  kd48LiveListenerTimer: null   // 监听口袋48直播
 };
 
 /* Action */
 export const changeQQLoginList = createAction('获取已登录的列表');
 export const optionList = createAction('配置列表');
 export const cursorOption = db.cursorAction({
-  objectStoreName: option.indexeddb.objectStore.option.name,
+  objectStoreName: option.indexeddb.objectStore[0].name,
   successAction: optionList
 });
 // 口袋直播监听

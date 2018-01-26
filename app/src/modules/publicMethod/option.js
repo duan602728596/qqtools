@@ -6,7 +6,7 @@ const execPath = path.dirname(process.execPath).replace(/\\/g, '/');
 type inforMap = {
   name: string,
   key: string,
-  data: {
+  data: ?{
     name: string,
     index: string
   }[]
@@ -15,9 +15,7 @@ type inforMap = {
 type indexeddbMap = {
   name: string,
   version: number,
-  objectStore: {
-    option: inforMap
-  }
+  objectStore: inforMap[]
 };
 
 const option: {
@@ -28,9 +26,10 @@ const option: {
   ptqr: `${ execPath }/.cache/ptqr.png`,  // 二维码
   indexeddb: {                            // 配置indexedDB
     name: 'qqtools',
-    version: 3,
-    objectStore: {
-      option: {
+    version: 4,
+    objectStore: [
+      {
+        // 机器人配置
         name: 'option',
         key: 'name',
         data: [
@@ -40,7 +39,17 @@ const option: {
           }
         ]
       },
-    }
+      {
+        // 成员id和相关信息
+        name: 'memberId',
+        key: 'memberId'
+      },
+      {
+        // 登录信息存储
+        name: 'loginInformation',
+        key: 'key'
+      }
+    ]
   }
 };
 

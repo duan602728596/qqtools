@@ -14,7 +14,7 @@ const initData: {
 const opt: {
   objectStoreName: string
 } = {
-  objectStoreName: option.indexeddb.objectStore.option.name
+  objectStoreName: option.indexeddb.objectStore[0].name
 };
 export const optionList = createAction('配置列表');
 export const putOption = db.putAction(opt);

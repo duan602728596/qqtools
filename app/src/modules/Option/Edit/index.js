@@ -196,7 +196,7 @@ class Add extends Component{
   }
   render(): Array{
     const detail: ?Object = 'query' in this.props.location ? this.props.location.query.detail : null;
-    const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator }: { getFieldDecorator: Function } = this.props.form;
     // checkbox的值
     const isModian: boolean = detail ? detail.basic.isModian : false;
     const is48LiveListener: boolean = detail ? detail.basic.is48LiveListener : false;
