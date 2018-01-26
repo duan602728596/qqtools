@@ -7,7 +7,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import { Affix, Table, Button, Card, message, Form, Row, Col, Input } from 'antd';
 import publicStyle from '../../publicMethod/public.sass';
 import style from './style.sass';
-import { loginInformation, getLoginInformation, putLoginInformation } from '../store/reducer';
+import { loginInformation, getLoginInformation, putLoginInformation, cursorMemberInformation } from '../store/reducer';
 import LoginInformation from './LoginInformation';
 import MemberInformation from './MemberInformation';
 import { format, login } from './unit';
@@ -25,13 +25,26 @@ const dispatch: Function = (dispatch: Function): Object=>({
   action: bindActionCreators({
     loginInformation,
     getLoginInformation,
-    putLoginInformation
+    putLoginInformation,
+    cursorMemberInformation
   }, dispatch)
 });
 
 @Form.create()
 @connect(state, dispatch)
 class KouDai48 extends Component{
+  state: {
+    searchString: string,
+    searchResult: Array
+  };
+  constructor(): void{
+    super(...arguments);
+
+    this.state = {
+      searchString: '',   // 搜索关键字
+      searchResult: []    // 搜索结果
+    };
+  }
   componentWillMount(): void{
     this.props.action.getLoginInformation({
       query: 'loginInformation'
@@ -83,9 +96,39 @@ class KouDai48 extends Component{
       }
     });
   }
+  // 搜索
+  onInputChange(event: Event): void{
+    this.setState({
+      searchString: event.target.value
+    });
+  }
+  async onSearchInformation(event: Event): void{
+    const data: Object = await this.props.action.cursorMemberInformation({
+      query: {
+        indexName: 'memberName',    // 索引
+        range: this.state.searchString
+      }
+    });
+    this.setState({
+      searchResult: data.result
+    });
+  }
   render(): Object{
     const { getFieldDecorator }: { getFieldDecorator: Function } = this.props.form;
     const loginInformation: ?Object = this.props.loginInformation;
+
+    // 渲染搜索结果
+    const resultEle: Array = [];
+    this.state.searchResult.map((item: Object, index: number): void=>{
+      resultEle.push(
+        <div key={ item.memberId } className={ style.searchGroup }>
+          <p className={ style.searchText }>memberId:&nbsp;{ item.memberId }</p>
+          <p className={ style.searchText }>memberName:&nbsp;{ item.memberName }</p>
+          <p className={ style.searchText }>roomId:&nbsp;{ item.roomId }</p>
+        </div>
+      );
+    });
+
     return (
       <Fragment>
         <Affix key={ 0 } className={ publicStyle.affix }>
@@ -136,6 +179,19 @@ class KouDai48 extends Component{
               <LoginInformation loginInformation={ loginInformation ? loginInformation.value : null } />
             </Col>
             <Col span={ 12 }>
+              <Card className={ style.mb10 } title="ID搜索">
+                <div>
+                  <label htmlFor="koudai48-search">在数据库中搜索小偶像的相关信息，请输入小偶像的名字：</label>
+                  <Input className={ style.searchId }
+                    id="koudai48-search"
+                    value={ this.state.searchString }
+                    onChange={ this.onInputChange.bind(this) }
+                    onPressEnter={ this.onSearchInformation.bind(this) }
+                  />
+                  <Button className={ publicStyle.ml10 } type="primary" onClick={ this.onSearchInformation.bind(this) }>搜索</Button>
+                  { resultEle }
+                </div>
+              </Card>
               <Table columns={ this.columns() }
                 size="middle"
                 rowKey={ (item: Object): number => item.memberId  }

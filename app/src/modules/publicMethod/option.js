@@ -26,7 +26,7 @@ const option: {
   ptqr: `${ execPath }/.cache/ptqr.png`,  // 二维码
   indexeddb: {                            // 配置indexedDB
     name: 'qqtools',
-    version: 4,
+    version: 1,
     objectStore: [
       {
         // 机器人配置
@@ -42,7 +42,13 @@ const option: {
       {
         // 成员id和相关信息
         name: 'memberId',
-        key: 'memberId'
+        key: 'memberId',
+        data: [
+          {
+            name: 'memberName',
+            index: 'memberName'
+          }
+        ]
       },
       {
         // 登录信息存储

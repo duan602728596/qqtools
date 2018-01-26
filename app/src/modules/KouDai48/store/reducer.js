@@ -32,6 +32,7 @@ export const putLoginInformation = db.putAction({
 });
 export const getMemberInformation = db.getAction(opt2);
 export const addMemberInformation = db.addAction(opt2);
+export const cursorMemberInformation = db.cursorAction(opt2);
 
 /* reducer */
 const reducer: Function = handleActions({
