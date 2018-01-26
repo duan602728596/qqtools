@@ -119,6 +119,9 @@ class Index extends Component{
         });
       }
     }
+
+    // 关闭房间信息监听
+    if(item.roomListenerTimer !== null) global.clearTimeout(item.roomListenerTimer);
   }
   render(): Array{
     return [

@@ -21,6 +21,9 @@ export const cursorOption = db.cursorAction({
   objectStoreName: option.indexeddb.objectStore[0].name,
   successAction: optionList
 });
+export const getLoginInformation = db.getAction({
+  objectStoreName: option.indexeddb.objectStore[2].name,
+});
 // 口袋直播监听
 export const kd48LiveListenerTimer = createAction('口袋直播监听');
 

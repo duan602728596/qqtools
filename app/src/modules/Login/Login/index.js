@@ -8,13 +8,14 @@ import { Spin, message, Select } from 'antd';
 import style from './style.sass';
 import SmartQQ from '../../../components/smartQQ/SmartQQ';
 import option from '../../publicMethod/option';
-import { changeQQLoginList, cursorOption, kd48LiveListenerTimer } from '../store/reducer';
+import { changeQQLoginList, cursorOption, kd48LiveListenerTimer, getLoginInformation } from '../store/reducer';
 import callback from '../../../components/callback/index';
 import Detail from './Detail';
 import getModianInformation from '../../../components/modian/getModianInformation';
 import { str2reg } from '../../../function';
 import kd48timer, { init } from '../../../components/kd48listerer/timer';
 import ModianWorker from 'worker-loader?name=script/modian.worker.js!../../../components/modian/modian.worker';
+import { requestRoomMessage } from '../../../components/roomListener/roomListener';
 const fs = global.require('fs');
 
 let qq: ?SmartQQ = null;
@@ -69,7 +70,8 @@ const dispatch: Function = (dispatch: Function): Object=>({
   action: bindActionCreators({
     changeQQLoginList,
     cursorOption,
-    kd48LiveListenerTimer
+    kd48LiveListenerTimer,
+    getLoginInformation
   }, dispatch)
 });
 
@@ -106,22 +108,23 @@ class Login extends Component{
     if(qq){
       qq.loginSuccess(async ()=>{
         try{
+          const basic: Object = qq.option.basic;
           // 获取微打赏相关信息
-          if(qq.option.basic.isModian){
-            const { title }: { title: string } = await getModianInformation(qq.option.basic.modianId);
+          if(basic.isModian){
+            const { title }: { title: string } = await getModianInformation(basic.modianId);
             qq.modianTitle = title;
             // 创建新的摩点webWorker
             qq.modianWorker = new ModianWorker();
             qq.modianWorker.postMessage({
               type: 'init',
-              modianId: qq.option.basic.modianId,
+              modianId: basic.modianId,
               title
             });
             qq.modianWorker.addEventListener('message', qq.listenModianWorkerCbInformation.bind(qq), false);
           }
           // 口袋48直播监听
-          if(qq.option.basic.is48LiveListener){
-            const memberReg: RegExp = str2reg(qq.option.basic.kd48LiveListenerMembers);
+          if(basic.is48LiveListener){
+            const memberReg: RegExp = str2reg(basic.kd48LiveListenerMembers);
             qq.members = memberReg;
             // 开启口袋48监听
             await init();
@@ -131,9 +134,22 @@ class Login extends Component{
               });
             }
           }
+          // 房间信息监听
+          if(basic.isRoomListener){
+            // 数据库读取token
+            const res: Object = await this.props.action.getLoginInformation({
+              query: 'loginInformation'
+            });
+            if(res.result !== undefined){
+              qq.kouDai48Token = res.result.value.token;
+              const req: Object = await requestRoomMessage(basic.roomId, qq.kouDai48Token);
+              qq.roomLastTime = req.content.data[0].msgTime;
+              qq.roomListenerTimer = global.setTimeout(qq.listenRoomMessage.bind(qq), 15000);
+            }
+          }
           // 监听信息
-          const t1: number = global.setInterval(qq.loginSuccess.bind(qq), 60 ** 2 * 10 ** 3); // 一小时后重新登录，防止掉线
-          const t2: number = global.setTimeout(qq.listenMessage.bind(qq), 500);               // 轮询
+          const t1: number = global.setInterval(qq.loginSuccess.bind(qq), 5 * 60 ** 2 * 10 ** 3); // 五小时后重新登录，防止掉线
+          const t2: number = global.setTimeout(qq.listenMessage.bind(qq), 500);                   // 轮询
           qq.loginBrokenLineReconnection = t1;
           qq.listenMessageTimer = t2;
           // 将新的qq实例存入到store中
