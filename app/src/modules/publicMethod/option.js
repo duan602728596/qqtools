@@ -26,7 +26,7 @@ const option: {
   ptqr: `${ execPath }/.cache/ptqr.png`,  // 二维码
   indexeddb: {                            // 配置indexedDB
     name: 'qqtools',
-    version: 1,
+    version: 10,
     objectStore: [
       {
         // 机器人配置
