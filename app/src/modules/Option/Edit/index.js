@@ -199,6 +199,7 @@ class Add extends Component{
     const { getFieldDecorator }: { getFieldDecorator: Function } = this.props.form;
     // checkbox的值
     const isModian: boolean = detail ? detail.basic.isModian : false;
+    const isRoomListener: boolean = detail ? detail.basic.isRoomListener : false;
     const is48LiveListener: boolean = detail ? detail.basic.is48LiveListener : false;
     const isListenerAll: boolean = detail ? detail.basic.isListenerAll : false;
     const isXinZhiTianQi: boolean = detail ? detail.basic.isXinZhiTianQi :false;
@@ -348,6 +349,29 @@ class Add extends Component{
               }
               <p className={ style.shuoming }>多个成员名字之间用","（半角逗号）分隔。</p>
             </div>
+          </Form.Item>
+        </div>
+        {/* 成员房间信息监听配置 */}
+        <h4 className={ style.title }>成员房间信息监听配置：</h4>
+        <p>如果未登录，无法监听成员房间信息。</p>
+        <div>
+          <Form.Item className={ style.mb15 } label="开启成员房间信息监听">
+            {
+              getFieldDecorator('isRoomListener', {
+                initialValue: isRoomListener
+              })(
+                <Checkbox defaultChecked={ isRoomListener } />
+              )
+            }
+          </Form.Item>
+          <Form.Item className={ style.mb15 } label="房间ID">
+            {
+              getFieldDecorator('roomId', {
+                initialValue: detail ? detail.basic.roomId : ''
+              })(
+                <Input />
+              )
+            }
           </Form.Item>
         </div>
         {/* 心知天气 */}

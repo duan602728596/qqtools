@@ -17,6 +17,8 @@ type interfaceOption = {
     is48LiveListener: boolean,
     isListenerAll: boolean,
     kd48LiveListenerMembers: string,
+    isRoomListener: boolean,
+    roomId: string,
     isXinZhiTianQi: boolean,
     xinZhiTianQiAPIKey: string,
     xinZhiTianQiTemplate: string,
@@ -33,7 +35,7 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
     groupName: value.groupName,
     time: new Date().getTime(),
     basic: {
-      // 微打赏
+      // 摩点
       isModian: value.isModian,
       modianId: value.modianId,
       modianUrlTemplate: value.modianUrlTemplate,
@@ -42,6 +44,9 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
       is48LiveListener: value.is48LiveListener,
       isListenerAll: value.isListenerAll,
       kd48LiveListenerMembers: value.kd48LiveListenerMembers,
+      // 成员房间信息监听
+      isRoomListener: value.isRoomListener,
+      roomId: value.roomId,
       // 天气
       isXinZhiTianQi: value.isXinZhiTianQi,
       xinZhiTianQiAPIKey: value.xinZhiTianQiAPIKey,
