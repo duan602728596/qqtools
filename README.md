@@ -28,7 +28,7 @@
   * version: 5.0.0
   * Content-Type: application/json
   * Connection: Keep-Alive
-  <del>* token: 登录后获得的token</del>
+  * <del>token: 登录后获得的token</del>
 * body:
   * memberId: 成员Id（测试：417331，GNZ48-杨媛媛）
 
@@ -57,7 +57,7 @@
   * version: 5.0.0
   * Content-Type: application/json
   * Connection: Keep-Alive
-  <del>* token: 登录后获得的token</del>
+  * <del>token: 登录后获得的token</del>
 * body:
   * needRecommend: false
   * needChatInfo: false
