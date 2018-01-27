@@ -81,6 +81,7 @@ function config(options){
           NODE_ENV: JSON.stringify(process.env.NODE_ENV)
         }
       }),
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       /* HappyPack */
       // react
       new HappyPack({

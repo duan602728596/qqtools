@@ -80,6 +80,7 @@ module.exports = {
           quote_style: 3
         }
       }
-    })
+    }),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
   ]
 };
