@@ -98,6 +98,22 @@ const Detail: ?Object = (props: ?Object): ?Object=>{
             <pre>{ detail.basic.kd48LiveListenerMembers }</pre>
           </td>
         </tr>
+        {/* 成员房间信息监听 */}
+        <tr>
+          <td className={ style.tdGTitle } colSpan={ 4 }>成员房间信息监听</td>
+        </tr>
+        <td className={ style.tdTitle }>开启成员房间信息监听功能</td>
+        <td>
+          {
+            detail.basic.isRoomListener ? (
+              <span className={ style.on }>开启</span>
+            ) : (
+              <span className={ style.off }>未开启</span>
+            )
+          }
+        </td>
+        <td className={ style.tdTitle }>房间ID</td>
+        <td>{ detail.basic.roomId }</td>
         {/* 心知天气 */}
         <tr>
           <td className={ style.tdGTitle } colSpan={ 4 }>心知天气</td>
