@@ -47,6 +47,9 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
       // 成员房间信息监听
       isRoomListener: value.isRoomListener,
       roomId: value.roomId,
+      // 微博监听
+      isWeiboListener: value.isWeiboListener,
+      lfid: value.lfid,
       // 天气
       isXinZhiTianQi: value.isXinZhiTianQi,
       xinZhiTianQiAPIKey: value.xinZhiTianQiAPIKey,

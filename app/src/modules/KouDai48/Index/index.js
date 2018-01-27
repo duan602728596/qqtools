@@ -10,7 +10,7 @@ import style from './style.sass';
 import { loginInformation, getLoginInformation, putLoginInformation, cursorMemberInformation } from '../store/reducer';
 import LoginInformation from './LoginInformation';
 import MemberInformation from './MemberInformation';
-import { login } from '../../../components/roomListener/roomListener';
+import { login } from '../../../components/kd48listerer/roomListener';
 
 // 格式化数组
 export function format(rawArray: Array, from: number, to: number): Array{

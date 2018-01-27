@@ -199,9 +199,10 @@ class Add extends Component{
     const { getFieldDecorator }: { getFieldDecorator: Function } = this.props.form;
     // checkbox的值
     const isModian: boolean = detail ? detail.basic.isModian : false;
-    const isRoomListener: boolean = detail ? detail.basic.isRoomListener : false;
     const is48LiveListener: boolean = detail ? detail.basic.is48LiveListener : false;
     const isListenerAll: boolean = detail ? detail.basic.isListenerAll : false;
+    const isRoomListener: boolean = detail ? detail.basic.isRoomListener : false;
+    const isWeiboListener: boolean = detail ? detail.basic.isWeiboListener : false;
     const isXinZhiTianQi: boolean = detail ? detail.basic.isXinZhiTianQi :false;
     const isTuLing: boolean =  detail ? detail.basic.isTuLing : false;
     return [
@@ -368,6 +369,34 @@ class Add extends Component{
             {
               getFieldDecorator('roomId', {
                 initialValue: detail ? detail.basic.roomId : ''
+              })(
+                <Input />
+              )
+            }
+          </Form.Item>
+        </div>
+        {/* 成员微博监听配置 */}
+        <h4 className={ style.title }>成员微博监听配置：</h4>
+        <p>
+          微博lfid例子：
+          <br />
+          https://m.weibo.cn/u/5863498042?uid=5863498042&luicode=10000011&
+          <b className={ style.flid }>lfid=1076035863498042</b>
+        </p>
+        <div>
+          <Form.Item className={ style.mb15 } label="开启成员房间信息监听">
+            {
+              getFieldDecorator('isWeiboListener', {
+                initialValue: isWeiboListener
+              })(
+                <Checkbox defaultChecked={ isWeiboListener } />
+              )
+            }
+          </Form.Item>
+          <Form.Item className={ style.mb15 } label="微博lfid">
+            {
+              getFieldDecorator('lfid', {
+                initialValue: detail ? detail.basic.lfid : ''
               })(
                 <Input />
               )

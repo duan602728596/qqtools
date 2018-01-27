@@ -1,7 +1,7 @@
 /* 网页版QQ登录接口 */
 import { requestHttp, hash33, hash, cookieObj2Str, msgId } from './calculate';
 import { templateReplace } from '../../function';
-import { requestUserInformation, requestRoomMessage } from '../roomListener/roomListener';
+import { requestUserInformation, requestRoomMessage } from '../kd48listerer/roomListener';
 const queryString = global.require('querystring');
 
 type cons = {
@@ -22,7 +22,7 @@ class SmartQQ{
   friends: ?Array;
   gnamelist: ?Array;
   groupItem: ?Object;
-  loginBrokenLineReconnection: ?number;
+  // loginBrokenLineReconnection: ?number;
   listenMessageTimer: ?number;
   callback: Function;
   option: Object;
@@ -33,6 +33,7 @@ class SmartQQ{
   roomListenerTimer: ?number;
   roomLastTime: ?number;
   kouDai48Token: ?string;
+  weiboWorker: ?null;
 
   constructor({ callback }: cons): void{
     // QQ登录相关
@@ -51,8 +52,8 @@ class SmartQQ{
     this.gnamelist = null;       // 群列表
     this.groupItem = null;       // 群信息
     // QQ机器人配置相关
-    this.loginBrokenLineReconnection = null;  // 重新登录的定时器
-    this.listenMessageTimer = null;           // 轮询信息
+    // this.loginBrokenLineReconnection = null;  // 重新登录的定时器
+    this.listenMessageTimer = null;              // 轮询信息
     this.callback = callback;    // 获得信息后的回调
     this.option = null;          // 配置信息
 
@@ -67,11 +68,16 @@ class SmartQQ{
     this.roomListenerTimer = null;  // 轮询定时器
     this.roomLastTime = null;       // 最后一次发言
     this.kouDai48Token = null;      // token
+    // 微博监听相关
+    this.weiboWorker = null;     // 微博监听新线程
   }
   // 下载二维码
   downloadPtqr(timeStr): Promise{
     return requestHttp({
-      reqUrl: `https://ssl.ptlogin2.qq.com/ptqrshow?appid=501004106&e=0&l=M&s=5&d=72&v=4&t=${ Math.random() }`
+      reqUrl: `https://ssl.ptlogin2.qq.com/ptqrshow?appid=501004106&e=0&l=M&s=5&d=72&v=4&t=${ Math.random() }`,
+      headers: {
+        'Connection': 'Keep-Alive'
+      }
     });
   }
   // 计算令牌
@@ -85,7 +91,8 @@ class SmartQQ{
     return requestHttp({
       reqUrl: `https://ssl.ptlogin2.qq.com/ptqrlogin?webqq_type=10&remember_uin=1&login2qq=1&aid=501004106&u1=http%3A%2F%2Fw.qq.com%2Fproxy.html%3Flogin2qq%3D1%26webqq_type%3D10&ptredirect=0&ptlang=2052&daid=164&from_ui=1&pttype=1&dumy=&fp=loginerroralert&action=0-0-2105&mibao_css=m_webqq&t=undefined&g=1&js_type=0&js_ver=10220&login_sig=&pt_randsalt=0&ptqrtoken=${ this.token }`,
       headers: {
-        'Cookie': cookieObj2Str(this.cookie)
+        'Cookie': cookieObj2Str(this.cookie),
+        'Connection': 'Keep-Alive'
       },
       setEncode: 'utf8'
     })
@@ -95,7 +102,8 @@ class SmartQQ{
     return requestHttp({
       reqUrl: this.url,
       headers: {
-        'Cookie': cookieObj2Str(this.cookie)
+        'Cookie': cookieObj2Str(this.cookie),
+        'Connection': 'Keep-Alive'
       },
       setEncode: 'utf8'
     });
@@ -107,7 +115,8 @@ class SmartQQ{
     return requestHttp({
       reqUrl: `http://w.qq.com/proxy.html?login2qq=1&webqq_type=10`,
       headers: {
-        'Cookie': cookieObj2Str(this.cookie)
+        'Cookie': cookieObj2Str(this.cookie),
+        'Connection': 'Keep-Alive'
       },
       setEncode: 'utf8'
     });
@@ -116,7 +125,8 @@ class SmartQQ{
     return requestHttp({
       reqUrl: `http://web2.qq.com/web2_cookie_proxy.html`,
       headers: {
-        'Cookie': cookieObj2Str(this.cookie)
+        'Cookie': cookieObj2Str(this.cookie),
+        'Connection': 'Keep-Alive'
       },
       setEncode: 'utf8'
     });
@@ -128,7 +138,8 @@ class SmartQQ{
       reqUrl: u,
       headers: {
         'Cookie': cookieObj2Str(this.cookie),
-        'Referer': 'http://s.web2.qq.com/proxy.html?v=20130916001&callback=1&id=1'
+        'Referer': 'http://s.web2.qq.com/proxy.html?v=20130916001&callback=1&id=1',
+        'Connection': 'Keep-Alive'
       },
       setEncode: 'utf8'
     });
@@ -147,7 +158,8 @@ class SmartQQ{
       reqUrl: `http://d1.web2.qq.com/channel/login2`,
       headers: {
         'Cookie': cookieObj2Str(this.cookie),
-        'Referer': 'http://d1.web2.qq.com/proxy.html?v=20151105001&callback=1&id=2'
+        'Referer': 'http://d1.web2.qq.com/proxy.html?v=20151105001&callback=1&id=2',
+        'Connection': 'Keep-Alive'
       },
       method: 'POST',
       setEncode: 'utf8',
@@ -167,7 +179,8 @@ class SmartQQ{
       headers: {
         'Cookie': cookieObj2Str(this.cookie),
         'Referer': 'http://s.web2.qq.com/proxy.html?v=20130916001&callback=1&id=1',
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Connection': 'Keep-Alive'
       },
       method: 'POST',
       setEncode: 'utf8',
@@ -181,7 +194,8 @@ class SmartQQ{
               `&psessionid=${ this.psessionid }&t=${ new Date().getTime() }`,
       headers: {
         'Cookie': cookieObj2Str(this.cookie),
-        'Referer': 'http://d1.web2.qq.com/proxy.html?v=20151105001&callback=1&id=2'
+        'Referer': 'http://d1.web2.qq.com/proxy.html?v=20151105001&callback=1&id=2',
+        'Connection': 'Keep-Alive'
       },
       setEncode: 'utf8'
     });
@@ -246,7 +260,8 @@ class SmartQQ{
         'Referer': 'https://d1.web2.qq.com/cfproxy.html?v=20151105001&callback=1',
         'Content-Type': 'application/x-www-form-urlencoded',
         'Host': 'd1.web2.qq.com',
-        'Origin': 'https://d1.web2.qq.com'
+        'Origin': 'https://d1.web2.qq.com',
+        'Connection': 'Keep-Alive'
       },
       method: 'POST',
       setEncode: 'utf8',
@@ -282,7 +297,8 @@ class SmartQQ{
       headers: {
         'Cookie': this.cookieStr,
         'Referer': 'https://d1.web2.qq.com/cfproxy.html?v=20151105001&callback=1',
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Connection': 'Keep-Alive'
       },
       method: 'POST',
       setEncode: 'utf8',
@@ -297,8 +313,6 @@ class SmartQQ{
     }catch(err){
       console.error('轮询', err);
     }
-    const t1: number = global.setTimeout(this.listenMessage.bind(this), 500);
-    this.listenMessageTimer = t1;
   }
   // 分段发送消息，最多发送十八行，防止多段的消息发送不出去
   async sendFormatMessage(message): void{
@@ -329,11 +343,12 @@ class SmartQQ{
       reqUrl: url,
       headers: {
         'Cookie': this.cookieStr,
-        'Referer': 'http://s.web2.qq.com/proxy.html?v=20130916001&callback=1&id=1'
+        'Referer': 'http://s.web2.qq.com/proxy.html?v=20130916001&callback=1&id=1',
+        'Connection': 'Keep-Alive'
       },
       method: 'GET',
       setEncode: 'utf8',
-      timeout: 20000  // 设置15秒超时
+      timeout: 20000  // 设置20秒超时
     });
   }
 
@@ -387,27 +402,27 @@ class SmartQQ{
             // 普通信息
             case 'text':
               sendStr.push(`${ extInfo.senderName }：${ extInfo.text }\n` +
-                `时间：${ item.msgTimeStr }`);
+                           `时间：${ item.msgTimeStr }`);
               break;
             // 翻牌信息
             case 'faipaiText':
               const ui: Object = await requestUserInformation(extInfo.faipaiUserId);
               sendStr.push(`${ ui.content.userInfo.nickName }：${ extInfo.faipaiContent }\n` +
-                `${ extInfo.senderName }：${ extInfo.messageText }\n` +
-                `时间：${ item.msgTimeStr }`);
+                           `${ extInfo.senderName }：${ extInfo.messageText }\n` +
+                           `时间：${ item.msgTimeStr }`);
               break;
             // 发送图片
             case 'image':
               const url: string = JSON.parse(item.bodys).url;
               sendStr.push(`${ extInfo.senderName }：${ url }\n` +
-                `时间：${ item.msgTimeStr }`);
+                           `时间：${ item.msgTimeStr }`);
               break;
             // 直播
             case 'live':
               sendStr.push(`${ extInfo.senderName }正在直播\n` +
-                `直播间：${ extInfo.referenceTitle }\n` +
-                `直播标题：${ extInfo.referenceContent }\n` +
-                `时间：${ item.msgTimeStr }`);
+                           `直播间：${ extInfo.referenceTitle }\n` +
+                           `直播标题：${ extInfo.referenceContent }\n` +
+                           `时间：${ item.msgTimeStr }`);
               break;
           }
         }else{
@@ -424,6 +439,17 @@ class SmartQQ{
       console.error(err);
     }
     this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), 15000);
+  }
+  // web worker监听到微博的返回信息
+  async listenWeiboWorkerCbInformation(event: Event): void{
+    if(event.data.type === 'change'){
+      const { data }: { data: Array } = event.data;
+      // 倒序发送消息
+      for(let i: number = data.length - 1; i >= 0; i--){
+        const item: string = data[i];
+        await this.sendFormatMessage(item);
+      }
+    }
   }
 }
 

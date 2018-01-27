@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { createSelector, createStructuredSelector } from 'reselect';
 import style from './style.sass';
 import { getMemberInformation, addMemberInformation } from '../store/reducer';
-import { requestMemberInformation } from '../../../components/roomListener/roomListener';
+import { requestMemberInformation } from '../../../components/kd48listerer/roomListener';
 
 /* 初始化数据 */
 const state: Function = createStructuredSelector({});
@@ -49,17 +49,22 @@ class MemberInformation extends Component{
         roomInfo.memberName = '';
         roomInfo.roomId = '';
       }
+      const { memberName, roomId }: {
+        memberName: string,
+        roomId: string
+      } = roomInfo;
+      const memberName2: string = memberName.replace(/\s/g, '');
       const value2: Object = {
         memberId,
-        memberName: roomInfo.memberName,
-        roomId: roomInfo.roomId
+        memberName: memberName2,
+        roomId: roomId
       };
       await this.props.action.addMemberInformation({
         data: value2
       });
       this.setState({
-        memberName: roomInfo.memberName,
-        roomId: roomInfo.roomId
+        memberName: memberName2,
+        roomId: roomId
       });
     }
   }

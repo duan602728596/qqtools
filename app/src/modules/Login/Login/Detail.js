@@ -90,7 +90,8 @@ const Detail: ?Object = (props: ?Object): ?Object=>{
               ) : (
                 <span className={ style.off }>未开启</span>
               )
-            }</td>
+            }
+          </td>
         </tr>
         <tr>
           <td className={ style.tdTitle }>监听成员</td>
@@ -102,18 +103,38 @@ const Detail: ?Object = (props: ?Object): ?Object=>{
         <tr>
           <td className={ style.tdGTitle } colSpan={ 4 }>成员房间信息监听</td>
         </tr>
-        <td className={ style.tdTitle }>开启成员房间信息监听功能</td>
-        <td>
-          {
-            detail.basic.isRoomListener ? (
-              <span className={ style.on }>开启</span>
-            ) : (
-              <span className={ style.off }>未开启</span>
-            )
-          }
-        </td>
-        <td className={ style.tdTitle }>房间ID</td>
-        <td>{ detail.basic.roomId }</td>
+        <tr>
+          <td className={ style.tdTitle }>开启成员房间信息监听功能</td>
+          <td>
+            {
+              detail.basic.isRoomListener ? (
+                <span className={ style.on }>开启</span>
+              ) : (
+                <span className={ style.off }>未开启</span>
+              )
+            }
+          </td>
+          <td className={ style.tdTitle }>房间ID</td>
+          <td>{ detail.basic.roomId }</td>
+        </tr>
+        {/* 微博监听 */}
+        <tr>
+          <td className={ style.tdGTitle } colSpan={ 4 }>微博监听</td>
+        </tr>
+        <tr>
+          <td className={ style.tdTitle }>开启微博监听功能</td>
+          <td>
+            {
+              detail.basic.isWeiboListener ? (
+                <span className={ style.on }>开启</span>
+              ) : (
+                <span className={ style.off }>未开启</span>
+              )
+            }
+          </td>
+          <td className={ style.tdTitle }>微博</td>
+          <td>{ detail.basic.lfid }</td>
+        </tr>
         {/* 心知天气 */}
         <tr>
           <td className={ style.tdGTitle } colSpan={ 4 }>心知天气</td>

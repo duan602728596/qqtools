@@ -14,8 +14,9 @@ import Detail from './Detail';
 import getModianInformation from '../../../components/modian/getModianInformation';
 import { str2reg } from '../../../function';
 import kd48timer, { init } from '../../../components/kd48listerer/timer';
-import ModianWorker from 'worker-loader?name=script/modian.worker.js!../../../components/modian/modian.worker';
-import { requestRoomMessage } from '../../../components/roomListener/roomListener';
+import ModianWorker from 'worker-loader?name=script/modian_[hash]_worker.js!../../../components/modian/modian.worker';
+import WeiBoWorker from 'worker-loader?name=script/weibo_[hash]_worker.js!../../../components/weibo/weibo.worker';
+import { requestRoomMessage } from '../../../components/kd48listerer/roomListener';
 const fs = global.require('fs');
 
 let qq: ?SmartQQ = null;
@@ -147,10 +148,20 @@ class Login extends Component{
               qq.roomListenerTimer = global.setTimeout(qq.listenRoomMessage.bind(qq), 15000);
             }
           }
+          // 微博监听
+          if(basic.isWeiboListener){
+            qq.weiboWorker = new WeiBoWorker();
+            qq.weiboWorker.postMessage({
+              type: 'init',
+              containerid: basic.lfid,
+            });
+            qq.weiboWorker.addEventListener('message', qq.listenWeiboWorkerCbInformation.bind(qq), false);
+          }
           // 监听信息
-          const t1: number = global.setInterval(qq.loginSuccess.bind(qq), 5 * 60 ** 2 * 10 ** 3); // 五小时后重新登录，防止掉线
-          const t2: number = global.setTimeout(qq.listenMessage.bind(qq), 500);                   // 轮询
-          qq.loginBrokenLineReconnection = t1;
+          // 取消重新登录，避免失败而掉线
+          // const t1: number = global.setInterval(qq.loginSuccess.bind(qq), 5 * 60 ** 2 * 10 ** 3); // 五小时后重新登录，防止掉线
+          const t2: number = global.setInterval(qq.listenMessage.bind(qq), 1000);                    // 轮询
+          // qq.loginBrokenLineReconnection = t1;
           qq.listenMessageTimer = t2;
           // 将新的qq实例存入到store中
           const ll: Array = this.props.qqLoginList;
