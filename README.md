@@ -4,10 +4,10 @@
 进入到[https://github.com/duan602728596/document/blob/master/48/README.md](https://github.com/duan602728596/document/blob/master/48/README.md)下载
 
 ## 功能
-* <del>微打赏监听</del>摩点项目监听
+* 摩点项目监听
 * 口袋48直播监听
 * 成员房间信息监听
-* <del>新成员欢迎提醒</del>
+* 微博监听
 * 天气预报查询
 * 图灵机器人
 * 自定义命令
