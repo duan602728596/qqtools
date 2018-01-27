@@ -361,59 +361,65 @@ class SmartQQ{
   async listenRoomMessage(): void{
     try{
       const data2: Object = await requestRoomMessage(this.option.basic.roomId, this.kouDai48Token);
-      if(data2.status === 200 && 'content' in data2){
-        const newTime: number = data2.content.data[0].msgTime;
-        // 新时间大于旧时间，获取数据20条
-        if(newTime > this.roomLastTime){
-          const data3: Object = await requestRoomMessage(this.option.basic.roomId, this.kouDai48Token, 25);  // 重新获取数据
-          if(data3.status === 200 && 'content' in data3){
-            // 格式化发送消息
-            const sendStr: string[] = [];
-            const data: Array = data3.content.data;
-            for(let i: number = 0, j: number = data.length; i < j; i++){
-              const item: Object = data[i];
-              if(item.msgTime > this.roomLastTime){
-                const extInfo: Object = JSON.parse(item.extInfo);
-                switch(extInfo.messageObject){
-                  // 普通信息
-                  case 'text':
-                    sendStr.push(`${ extInfo.senderName }：${ extInfo.text }\n` +
-                                 `时间：${ item.msgTimeStr }`);
-                    break;
-                  // 翻牌信息
-                  case 'faipaiText':
-                    const ui: Object = await requestUserInformation(extInfo.faipaiUserId);
-                    sendStr.push(`${ ui.content.userInfo.nickName }：${ extInfo.faipaiContent }\n` +
-                                 `${ extInfo.senderName }：${ extInfo.messageText }\n` +
-                                 `时间：${ item.msgTimeStr }`);
-                    break;
-                  // 发送图片
-                  case 'image':
-                    const url: string = JSON.parse(item.bodys).url;
-                    sendStr.push(`${ extInfo.senderName }：${ url }\n` +
-                                 `时间：${ item.msgTimeStr }`);
-                    break;
-                  // 直播
-                  case 'live':
-                    sendStr.push(`${ extInfo.senderName }正在直播\n` +
-                                 `直播间：${ extInfo.referenceTitle }\n` +
-                                 `直播标题：${ extInfo.referenceContent }\n` +
-                                 `时间：${ item.msgTimeStr }`);
-                    break;
-                }
-              }else{
-                break;
-              }
-            }
-            // 倒序数组发送消息
-            for(let i: number = sendStr.length - 1; i >= 0; i--){
-              await this.sendFormatMessage(sendStr[i]);
-            }
-            // 更新时间节点
-            this.roomLastTime = data[0].msgTime;
+      if(!(data2.status === 200 && 'content' in data2)){
+        this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), 15000);
+        return;
+      }
+      const newTime: number = data2.content.data[0].msgTime;
+      // 新时间大于旧时间，获取25条数据
+      if(!(newTime > this.roomLastTime)){
+        this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), 15000);
+        return;
+      }
+      const data3: Object = await requestRoomMessage(this.option.basic.roomId, this.kouDai48Token, 25);  // 重新获取数据
+      if(!(data3.status === 200 && 'content' in data3)){
+        this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), 15000);
+        return;
+      }
+      // 格式化发送消息
+      const sendStr: string[] = [];
+      const data: Array = data3.content.data;
+      for(let i: number = 0, j: number = data.length; i < j; i++){
+        const item: Object = data[i];
+        if(item.msgTime > this.roomLastTime){
+          const extInfo: Object = JSON.parse(item.extInfo);
+          switch(extInfo.messageObject){
+            // 普通信息
+            case 'text':
+              sendStr.push(`${ extInfo.senderName }：${ extInfo.text }\n` +
+                `时间：${ item.msgTimeStr }`);
+              break;
+            // 翻牌信息
+            case 'faipaiText':
+              const ui: Object = await requestUserInformation(extInfo.faipaiUserId);
+              sendStr.push(`${ ui.content.userInfo.nickName }：${ extInfo.faipaiContent }\n` +
+                `${ extInfo.senderName }：${ extInfo.messageText }\n` +
+                `时间：${ item.msgTimeStr }`);
+              break;
+            // 发送图片
+            case 'image':
+              const url: string = JSON.parse(item.bodys).url;
+              sendStr.push(`${ extInfo.senderName }：${ url }\n` +
+                `时间：${ item.msgTimeStr }`);
+              break;
+            // 直播
+            case 'live':
+              sendStr.push(`${ extInfo.senderName }正在直播\n` +
+                `直播间：${ extInfo.referenceTitle }\n` +
+                `直播标题：${ extInfo.referenceContent }\n` +
+                `时间：${ item.msgTimeStr }`);
+              break;
           }
+        }else{
+          break;
         }
       }
+      // 倒序数组发送消息
+      for(let i: number = sendStr.length - 1; i >= 0; i--){
+        await this.sendFormatMessage(sendStr[i]);
+      }
+      // 更新时间节点
+      this.roomLastTime = data[0].msgTime;
     }catch(err){
       console.error(err);
     }
