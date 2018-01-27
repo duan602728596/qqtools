@@ -44,7 +44,7 @@ class MemberInformation extends Component{
       const data: Object = await requestMemberInformation(memberId);
       let roomInfo: Object = data.content.roomInfo;
       // 兼容
-      if(!(roomInfo && 'memberName' in roomInfo && 'roomId' in roomInfo)){
+      if(!(roomInfo && ('memberName' in roomInfo) && ('roomId' in roomInfo))){
         roomInfo = {};
         roomInfo.memberName = '';
         roomInfo.roomId = '';
@@ -63,14 +63,18 @@ class MemberInformation extends Component{
       });
     }
   }
-  render(): Array | Object{
-    if(this.state.memberName && this.state.roomId){
-      return [
-        <b key={ 0 } className={ style.keyName }>memberName:</b>,
-        <span key={ 1 } className={ style.mr20 }>{ this.state.memberName }</span>,
-        <b key={ 2 } className={ style.keyName }>roomId:</b>,
-        <span key={ 3 }>{ this.state.roomId }</span>
-      ];
+  render(): ?(Array | Object){
+    if(this.state.memberName !== null && this.state.roomId !== null){
+      if(this.state.memberName !== '' && this.state.roomId !== ''){
+        return [
+          <b key={ 0 } className={ style.keyName }>memberName:</b>,
+          <span key={ 1 } className={ style.mr20 }>{ this.state.memberName }</span>,
+          <b key={ 2 } className={ style.keyName }>roomId:</b>,
+          <span key={ 3 }>{ this.state.roomId }</span>
+        ];
+      }else{
+        return null;
+      }
     }else{
       return (
         <span className={ style.loadingText }>加载中...</span>
