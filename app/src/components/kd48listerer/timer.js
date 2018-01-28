@@ -63,7 +63,7 @@ async function kd48timer(){
               time1: string = time('YY-MM-DD hh:mm:ss', item1.startTime),
               streamPath: string = item1.streamPath,
               qq: SmartQQ = item2;
-            const text: string = `[ ${ member } ]开启了一个直播。\n` +
+            const text: string = `${ member } 开启了一个直播。\n` +
               `直播标题：${ subTitle }\n` +
               `开始时间：${ time1 }\n` +
               `视频地址：${ streamPath }`;
