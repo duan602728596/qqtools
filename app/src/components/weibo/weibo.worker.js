@@ -5,7 +5,7 @@ let weiboUrl: string = 'https://m.weibo.cn/api/container/getIndex?containerid=';
 let containerid: ?string = null;  // 微博的lfid
 let lastId: ?number = null;       // 记录旧的ID
 let timer: ?number = null;        // 定时器
-const t: number = 60 * 10 ** 3;
+const t: number = 1.5 * 60 * 10 ** 3;
 
 addEventListener('message', async function(event: Event): boolean{
   const data: Object = event.data;
@@ -85,7 +85,7 @@ function formatText(newWeiBo: Object[]): string[]{
     const item: Object = newWeiBo[i];
     const mblog: Object = item.mblog;
     const type: string = 'retweeted_status' in item.mblog ? '转载' : '原创';
-    sendData.push(`${ mblog.user.screen_name }在${ mblog.created_at }发送了一条微博：${ mblog.text.replace(/<[^<>]+>/g, '') }\n` +
+    sendData.push(`${ mblog.user.screen_name } ${ mblog.created_at === '刚刚' ? mblog.created_at : ('在' + mblog.created_at) }发送了一条微博：${ mblog.text.replace(/<[^<>]+>/g, '') }\n` +
                   `类型：${ type }\n` +
                   `地址：${ item.scheme }`);
   }
