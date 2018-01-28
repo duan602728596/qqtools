@@ -96,6 +96,9 @@ export function requestUserInformation(userId: number){
 
 /**
  * 获取房间信息
+ * @param { number } roomId: 房间ID
+ * @param { string } token : 登陆后得到的token
+ * @param { number } limit : 返回的数据数量
  */
 export function requestRoomMessage(roomId: number, token: string, limit: number = 1){
   return new Promise((resolve: Function, reject: Function)=>{

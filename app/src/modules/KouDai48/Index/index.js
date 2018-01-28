@@ -4,10 +4,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
-import { Affix, Table, Button, Card, message, Form, Row, Col, Input } from 'antd';
+import { Affix, Table, Button, Card, message, Form, Row, Col, Input, Popconfirm } from 'antd';
 import publicStyle from '../../publicMethod/public.sass';
 import style from './style.sass';
-import { loginInformation, getLoginInformation, putLoginInformation, cursorMemberInformation } from '../store/reducer';
+import { loginInformation, getLoginInformation, putLoginInformation, cursorMemberInformation, clearLoginInformation, clearMemberInformation } from '../store/reducer';
 import LoginInformation from './LoginInformation';
 import MemberInformation from './MemberInformation';
 import { login } from '../../../components/kd48listerer/roomListener';
@@ -47,7 +47,9 @@ const dispatch: Function = (dispatch: Function): Object=>({
     loginInformation,
     getLoginInformation,
     putLoginInformation,
-    cursorMemberInformation
+    cursorMemberInformation,
+    clearLoginInformation,
+    clearMemberInformation
   }, dispatch)
 });
 
@@ -134,6 +136,14 @@ class KouDai48 extends Component{
       searchResult: data.result
     });
   }
+  // 退出并清除缓存
+  async onExitAndClear(event: Event): void{
+    await this.props.action.clearLoginInformation();
+    await this.props.action.clearMemberInformation();
+    this.props.action.loginInformation({
+      data: null
+    });
+  }
   render(): Object{
     const { getFieldDecorator }: { getFieldDecorator: Function } = this.props.form;
     const loginInformation: ?Object = this.props.loginInformation;
@@ -155,6 +165,9 @@ class KouDai48 extends Component{
         <Affix key={ 0 } className={ publicStyle.affix }>
           <div className={ `${ publicStyle.toolsBox } clearfix` }>
             <div className={ publicStyle.fr }>
+              <Popconfirm title="确定退出登录并清除缓存吗？" onConfirm={ this.onExitAndClear.bind(this) }>
+                <Button icon="warning">退出登录并清除缓存</Button>
+              </Popconfirm>
               <Link className={ publicStyle.ml10 } to="/">
                 <Button type="danger" icon="poweroff">返回</Button>
               </Link>
