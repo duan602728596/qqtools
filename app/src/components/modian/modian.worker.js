@@ -10,7 +10,7 @@
 import getData from './function/getData';
 import sign from './function/signInWorker';
 
-const listUrl: string = `https://wds.modian.com/api/project/orders`;
+const dingDanUrl: string = `https://wds.modian.com/api/project/orders`;
 let queryData: ?string = null; // 查询条件
 let modianId: ?string = null;  // 摩点id
 let title: ?string = null;     // 摩点项目标题
@@ -26,7 +26,7 @@ addEventListener('message', async function(event: Event): boolean{
 
     // 初始化
     queryData = sign(`page=1&pro_id=${ modianId }`);
-    const res: Object = await getData('POST', listUrl, queryData);
+    const res: Object = await getData('POST', dingDanUrl + '?t=' + new Date().getTime(), queryData);
     oldTime = new Date(res.data[0].pay_time).getTime();
 
     // 开启轮询
@@ -46,7 +46,7 @@ addEventListener('message', async function(event: Event): boolean{
 async function polling(): void{
   try{
     // 获取新信息
-    const res: Object = await getData('POST', listUrl, queryData);
+    const res: Object = await getData('POST', dingDanUrl + '?t=' + new Date().getTime(), queryData);
     if(res.status === '0'){
       // 计算打赏金额和排名
       const newData: Array = res.data;

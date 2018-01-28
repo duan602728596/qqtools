@@ -1,7 +1,6 @@
 /**
  * 微打赏榜单计算
  */
-import MD5 from 'md5.js';
 import getData from './function/getData';
 import sign from './function/signInWorker';
 
@@ -23,7 +22,7 @@ addEventListener('message', async function(event: Event): void{
   if(type === '订单'){  // 查询订单
     for(let i: number = 1; i <= size2; i++){
       const d: string = sign(`page=${ i }&pro_id=${ proId }`);
-      const res: Object = await getData('POST', dingDanUrl, d);
+      const res: Object = await getData('POST', dingDanUrl + '?t=' + new Date().getTime(), d);
       if(res.status !== '0' || res.data.length === 0){
         break;
       }else{
