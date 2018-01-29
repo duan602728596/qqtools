@@ -417,9 +417,15 @@ class SmartQQ{
               sendStr.push(`${ extInfo.senderName }：${ url }\n` +
                            `时间：${ item.msgTimeStr }`);
               break;
+            // 发送语音
+            case 'audio':
+              const url2: string = JSON.parse(item.bodys).url;
+              sendStr.push(`${ extInfo.senderName } 发送了一条语音：${ url2 }\n` +
+                `时间：${ item.msgTimeStr }`);
+              break;
             // 直播
             case 'live':
-              sendStr.push(`${ extInfo.senderName }正在直播\n` +
+              sendStr.push(`${ extInfo.senderName } 正在直播\n` +
                            `直播间：${ extInfo.referenceTitle }\n` +
                            `直播标题：${ extInfo.referenceContent }\n` +
                            `时间：${ item.msgTimeStr }`);
