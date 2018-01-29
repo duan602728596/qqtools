@@ -37,7 +37,7 @@ function modianCb(command: string[], qq: SmartQQ): void{
 }
 
 /* 发送信息 */
-async function sendModianInfor(qq: SmartQQ): void{
+async function sendModianInfor(qq: SmartQQ): Promise<void>{
   const text: string = templateReplace(qq.option.basic.modianUrlTemplate, {
     modianname: qq.modianTitle,
     modianid: qq.option.basic.modianId
@@ -46,9 +46,9 @@ async function sendModianInfor(qq: SmartQQ): void{
 }
 
 /* 新线程计算排名 */
-async function list(proId: string, type: string, size: string, qq: SmartQQ): void{
+async function list(proId: string, type: string, size: string, qq: SmartQQ): Promise<void>{
   const worker: Worker = new ModianListWorker();
-  const cb: Function = async (event: Event): void=>{
+  const cb: Function = async (event: Event): Promise<void>=>{
     await qq.sendFormatMessage(event.data.text);
     worker.removeEventListener('message', cb);
     worker.terminate();
@@ -63,9 +63,9 @@ async function list(proId: string, type: string, size: string, qq: SmartQQ): voi
 }
 
 /* 获取订单信息 */
-async function dingDan(proId: string, size: string, qq: SmartQQ){
+async function dingDan(proId: string, size: string, qq: SmartQQ): Promise<void>{
   const worker: Worker = new ModianListWorker();
-  const cb: Function = async (event: Event): void=>{
+  const cb: Function = async (event: Event): Promise<void>=>{
     await qq.sendFormatMessage(event.data.text);
     worker.removeEventListener('message', cb);
     worker.terminate();
@@ -80,7 +80,7 @@ async function dingDan(proId: string, size: string, qq: SmartQQ){
 }
 
 /* 获取已集资金额 */
-async function getAllMount(qq: SmartQQ): void{
+async function getAllMount(qq: SmartQQ): Promise<void>{
   const { already_raised }: { already_raised: number } = await getModianInformation(qq.option.basic.modianId);
   await qq.sendFormatMessage(`${ qq.modianTitle }: ￥${ already_raised }`);
 }

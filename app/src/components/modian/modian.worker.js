@@ -17,7 +17,7 @@ let title: ?string = null;     // 摩点项目标题
 let timer: ?number = null;     // 轮询定时器
 let oldTime: ?number = null;   // 最后一次的打赏时间
 
-addEventListener('message', async function(event: Event): boolean{
+addEventListener('message', async function(event: Event): Promise<boolean>{
   const data: Object = event.data;
   // 初始化
   if(data.type === 'init'){
@@ -43,7 +43,7 @@ addEventListener('message', async function(event: Event): boolean{
 }, false);
 
 /* 轮询事件 */
-async function polling(): void{
+async function polling(): Promise<void>{
   try{
     // 获取新信息
     const res: Object = await getData('POST', dingDanUrl + '?t=' + new Date().getTime(), queryData);

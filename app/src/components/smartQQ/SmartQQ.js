@@ -216,7 +216,7 @@ class SmartQQ{
     this.cookieStr = cs;
   }
   // 验证成功后的一系列执行事件
-  async loginSuccess(cb: Function): void{
+  async loginSuccess(cb: Function): Promise<void>{
     // 登录
     const [data1, cookies1]: [string, Object] = await this.login();
     this.cookie = Object.assign(this.cookie, cookies1);
@@ -306,7 +306,7 @@ class SmartQQ{
     });
   }
   // 轮询事件
-  async listenMessage(){
+  async listenMessage(): Promise<void>{
     try{
       const [data]: [string] = await this.getMessage();
       this.callback(JSON.parse(data), this);
@@ -315,7 +315,7 @@ class SmartQQ{
     }
   }
   // 分段发送消息，最多发送十八行，防止多段的消息发送不出去
-  async sendFormatMessage(message): void{
+  async sendFormatMessage(message): Promise<void>{
     const msgArr: string[] = message.split(/\n/g);
     const sendMsg: string[] = [];
     const len: number = msgArr.length;
@@ -355,7 +355,7 @@ class SmartQQ{
   /* === 从此往下是业务相关 === */
 
   // web worker监听到微打赏的返回信息
-  async listenModianWorkerCbInformation(event: Event): void{
+  async listenModianWorkerCbInformation(event: Event): Promise<void>{
     if(event.data.type === 'change'){
       const { data }: { data: Array } = event.data;
       const { modianTemplate }: { modianTemplate: string } = this.option.basic;
@@ -373,7 +373,7 @@ class SmartQQ{
     }
   }
   // 监听信息
-  async listenRoomMessage(): void{
+  async listenRoomMessage(): Promise<void>{
     try{
       const data2: Object = await requestRoomMessage(this.option.basic.roomId, this.kouDai48Token);
       if(!(data2.status === 200 && 'content' in data2)){
@@ -441,7 +441,7 @@ class SmartQQ{
     this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), 15000);
   }
   // web worker监听到微博的返回信息
-  async listenWeiboWorkerCbInformation(event: Event): void{
+  async listenWeiboWorkerCbInformation(event: Event): Promise<void>{
     if(event.data.type === 'change'){
       const { data }: { data: Array } = event.data;
       // 倒序发送消息

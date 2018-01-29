@@ -107,7 +107,7 @@ class Login extends Component{
   // 登录成功事件
   loginSuccess(): void{
     if(qq){
-      qq.loginSuccess(async ()=>{
+      qq.loginSuccess(async (): Promise<void>=>{
         try{
           const basic: Object = qq.option.basic;
           // 获取微打赏相关信息
@@ -179,7 +179,7 @@ class Login extends Component{
     }
   }
   // 判断是否登陆
-  async isLogin(){
+  async isLogin(): Promise<void>{
     try{
       // 轮询判断是否登陆
       const [x, cookies2]: [string, Object] = await qq.isLogin();
@@ -214,7 +214,7 @@ class Login extends Component{
       message.error('初始化失败！');
     }
   }
-  async componentDidMount(): void{
+  async componentDidMount(): Promise<void>{
     // 初始化QQ
     try{
       qq = new SmartQQ({

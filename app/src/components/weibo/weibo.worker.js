@@ -7,7 +7,7 @@ let lastId: ?number = null;       // 记录旧的ID
 let timer: ?number = null;        // 定时器
 const t: number = 1.5 * 60 * 10 ** 3;
 
-addEventListener('message', async function(event: Event): boolean{
+addEventListener('message', async function(event: Event): Promise<boolean>{
   const data: Object = event.data;
   if(data.type === 'init'){
     containerid = data.containerid;
@@ -29,7 +29,7 @@ addEventListener('message', async function(event: Event): boolean{
 }, false);
 
 // 轮询
-async function polling(): void{
+async function polling(): Promise<void>{
   const res: Object = await getData('GET', weiboUrl);
   if(res.ok === 1){
     const cards: Array = res.data.cards;
@@ -61,7 +61,7 @@ async function polling(): void{
 }
 
 // 获取初始ID
-async function initId(): number{
+async function initId(): Promise<number>{
   const res: Object = await getData('GET', weiboUrl);
   const cards: Array = res.data.cards;
   if(res.ok === 1){

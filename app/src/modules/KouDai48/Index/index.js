@@ -94,7 +94,7 @@ class KouDai48 extends Component{
   // 登录
   onSubmit(event: Event): void{
     event.preventDefault();
-    this.props.form.validateFields(async (err: any, value: Object): void=>{
+    this.props.form.validateFields(async (err: any, value: Object): Promise<void>=>{
       if(!err){
         try{
           const data: Object = await login(value.account, value.password);
@@ -125,7 +125,7 @@ class KouDai48 extends Component{
       searchString: event.target.value
     });
   }
-  async onSearchInformation(event: Event): void{
+  async onSearchInformation(event: Event): Promise<void>{
     const data: Object = await this.props.action.cursorMemberInformation({
       query: {
         indexName: 'memberName',    // 索引
@@ -137,7 +137,7 @@ class KouDai48 extends Component{
     });
   }
   // 退出并清除缓存
-  async onExitAndClear(event: Event): void{
+  async onExitAndClear(event: Event): Promise<void>{
     await this.props.action.clearLoginInformation();
     await this.props.action.clearMemberInformation();
     this.props.action.loginInformation({

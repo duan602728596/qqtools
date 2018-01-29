@@ -1,5 +1,5 @@
 /* 帮助命令 */
-async function helpCb(qq: SmartQQ): void{
+async function helpCb(qq: SmartQQ): Promise<void>{
 
   let text1: string = `【帮助】
 · [摩点 或 mod]:查看当前微打赏链接

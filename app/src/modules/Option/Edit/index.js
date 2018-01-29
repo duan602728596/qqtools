@@ -184,7 +184,7 @@ class Add extends Component{
   // 提交
   onSubmit(event: Event): void{
     event.preventDefault();
-    this.props.form.validateFields(async (err: any, value: Object): void=>{
+    this.props.form.validateFields(async (err: any, value: Object): Promise<void>=>{
       if(!err){
         const data: Object = interfaceOption(value, this.state.customProfiles);
         await this.props.action.putOption({

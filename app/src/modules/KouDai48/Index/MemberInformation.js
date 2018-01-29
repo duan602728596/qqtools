@@ -27,7 +27,7 @@ class MemberInformation extends Component{
       roomId: null        // 房间姓名
     };
   }
-  async componentWillMount(): void{
+  async componentWillMount(): Promise<void>{
     const memberId: number = this.props.item.memberId;
     const infor: Object = await this.props.action.getMemberInformation({
       query: memberId

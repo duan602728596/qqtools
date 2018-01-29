@@ -15,7 +15,7 @@ function array2obj(rawArray: Array): Object{
 }
 
 /* 初始化 */
-export async function init(){
+export async function init(): Promise<void>{
   const data: string = await post();
   const data2: Object = JSON.parse(data);
   if(data2.status === 200 && 'liveList' in data2.content){
@@ -25,7 +25,7 @@ export async function init(){
 }
 
 /* 轮询 */
-async function kd48timer(){
+async function kd48timer(): Promise<void>{
   // 获取新数据
   const data = await post();
   const data2: Object = JSON.parse(data);
@@ -35,7 +35,7 @@ async function kd48timer(){
   }
   // 开启新计算线程
   const worker: Worker = new Kd48listenerWorker();
-  const cb: Function = async (event: Event): void=>{
+  const cb: Function = async (event: Event): Promise<void>=>{
     const { newDataObj, newLive }: {
       newDataObj: Object,
       newLive: Array

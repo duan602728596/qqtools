@@ -89,7 +89,7 @@ class Index extends Component{
     });
   }
   // 删除
-  async onDeleteOption(item: Object, event: Event): void{
+  async onDeleteOption(item: Object, event: Event): Promise<void>{
     const index: number = this.props.optionList.indexOf(item);
     await this.props.action.deleteOption({
       query: item.name
@@ -142,7 +142,7 @@ class Index extends Component{
     }
     fs.readFile(files, {
       encoding: 'utf8'
-    }, async (err: any, chunk: any): void=>{
+    }, async (err: any, chunk: any): Promise<void>=>{
       if(err){
         message.error('导入失败');
       }else{

@@ -1,7 +1,7 @@
 import post from './post';
 import { time } from '../../function';
 
-async function getList(qq: Smart): void{
+async function getList(qq: Smart): Promise<void>{
   const data = await post();
   const data2: Object = JSON.parse(data);
 
