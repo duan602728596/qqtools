@@ -10,7 +10,7 @@
 import getData from './function/getData';
 import sign from './function/signInWorker';
 
-const dingDanUrl: string = `https://wds.modian.com/api/project/orders`;
+const dingDanUrl: string = 'https://wds.modian.com/api/project/orders';
 let queryData: ?string = null; // 查询条件
 let modianId: ?string = null;  // 摩点id
 let title: ?string = null;     // 摩点项目标题

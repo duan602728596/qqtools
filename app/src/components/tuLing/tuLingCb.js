@@ -3,21 +3,21 @@
 function getTuLing(command: string[], qq: SmartQQ): void{
   $.ajax({
     type: 'POST',
-    url: `http://www.tuling123.com/openapi/api`,
+    url: 'http://www.tuling123.com/openapi/api',
     data: {
       key: qq.option.basic.tuLingAPIKey,
       info: command[1],
       userid: `user${ new Date().getTime() }`
     },
     dataType: 'json',
-    success: function(data: string, status: string, xhr: XMLHttpRequest): void{
+    success(data: string, status: string, xhr: XMLHttpRequest): void{
       let text: string = `${ data.text }`;
       if('url' in data){
         text += `\n${ data.url }`;
       }
       qq.sendFormatMessage(text);
     },
-    error: function(err: any): void{
+    error(err: any): void{
       qq.sendMessage('[ERROR] 机器人返回数据失败。');
     }
   });

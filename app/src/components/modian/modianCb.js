@@ -48,7 +48,7 @@ async function sendModianInfor(qq: SmartQQ): Promise<void>{
 /* 新线程计算排名 */
 async function list(proId: string, type: string, size: string, qq: SmartQQ): Promise<void>{
   const worker: Worker = new ModianListWorker();
-  const cb: Function = async (event: Event): Promise<void>=>{
+  const cb: Function = async(event: Event): Promise<void>=>{
     await qq.sendFormatMessage(event.data.text);
     worker.removeEventListener('message', cb);
     worker.terminate();
@@ -65,7 +65,7 @@ async function list(proId: string, type: string, size: string, qq: SmartQQ): Pro
 /* 获取订单信息 */
 async function dingDan(proId: string, size: string, qq: SmartQQ): Promise<void>{
   const worker: Worker = new ModianListWorker();
-  const cb: Function = async (event: Event): Promise<void>=>{
+  const cb: Function = async(event: Event): Promise<void>=>{
     await qq.sendFormatMessage(event.data.text);
     worker.removeEventListener('message', cb);
     worker.terminate();

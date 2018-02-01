@@ -17,7 +17,7 @@ import kd48timer, { init } from '../../../components/kd48listerer/timer';
 import ModianWorker from 'worker-loader?name=script/modian_[hash]_worker.js!../../../components/modian/modian.worker';
 import WeiBoWorker from 'worker-loader?name=script/weibo_[hash]_worker.js!../../../components/weibo/weibo.worker';
 import { requestRoomMessage } from '../../../components/kd48listerer/roomListener';
-const fs = global.require('fs');
+const fs: Object = global.require('fs');
 
 let qq: ?SmartQQ = null;
 let timer: ?number = null;
@@ -107,7 +107,7 @@ class Login extends Component{
   // 登录成功事件
   loginSuccess(): void{
     if(qq){
-      qq.loginSuccess(async (): Promise<void>=>{
+      qq.loginSuccess(async(): Promise<void>=>{
         try{
           const basic: Object = qq.option.basic;
           // 获取微打赏相关信息
@@ -256,7 +256,7 @@ class Login extends Component{
       // 判断是否需要关闭直播监听
       if(this.props.kd48LiveListenerTimer !== null){
         let isListener: boolean = false;
-        for(let i = 0, j = this.props.qqLoginList.length; i < j; i++){
+        for(let i: number = 0, j: number = this.props.qqLoginList.length; i < j; i++){
           const item: SmartQQ = this.props.qqLoginList[i];
           if(item.option.basic.is48LiveListener && item.members){
             isListener = true;

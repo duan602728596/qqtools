@@ -7,8 +7,8 @@ import { Affix, Table, Button, Popconfirm, Modal, message } from 'antd';
 import style from './style.sass';
 import publicStyle from '../../publicMethod/public.sass';
 import { optionList, cursorOption, deleteOption, importOption } from '../store/reducer';
-const path = global.require('path');
-const fs = global.require('fs');
+const path: Object = global.require('path');
+const fs: Object = global.require('fs');
 
 /* 初始化数据 */
 const state: Function = createStructuredSelector({
@@ -16,7 +16,7 @@ const state: Function = createStructuredSelector({
     ($$state: Immutable.Map): ?Immutable.Map => $$state.has('option') ? $$state.get('option') : null,
     ($$data: ?Immutable.Map): Array=>{
       const optionList: Immutable.List | Array = $$data !== null ? $$data.get('optionList') : [];
-      return optionList instanceof Array ? optionList : optionList.toJS()
+      return optionList instanceof Array ? optionList : optionList.toJS();
     }
   )
 });
@@ -107,7 +107,7 @@ class Index extends Component{
   }
   // 导入配置
   onExportConfiguration(event: Event): ?boolean{
-    const files = $('#exportConfiguration').val();
+    const files: jQuery = $('#exportConfiguration').val();
     if(files === ''){
       message.error('必须选择一个保存位置！');
       return false;
@@ -130,7 +130,7 @@ class Index extends Component{
     });
   }
   onImportConfiguration(event: Event): ?boolean{
-    const files = $('#importConfiguration').val();
+    const files: jQuery = $('#importConfiguration').val();
     if(files === ''){
       message.error('必须选择一个文件！');
       return false;
@@ -142,7 +142,7 @@ class Index extends Component{
     }
     fs.readFile(files, {
       encoding: 'utf8'
-    }, async (err: any, chunk: any): Promise<void>=>{
+    }, async(err: any, chunk: any): Promise<void>=>{
       if(err){
         message.error('导入失败');
       }else{

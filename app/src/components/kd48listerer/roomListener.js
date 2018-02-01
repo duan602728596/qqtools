@@ -1,5 +1,5 @@
 /* 房间信息监听相关 */
-const request = global.require('request');
+const request: Object = global.require('request');
 
 // 请求头
 const HEADERS: Object = {

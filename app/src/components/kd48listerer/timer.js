@@ -27,7 +27,7 @@ export async function init(): Promise<void>{
 /* 轮询 */
 async function kd48timer(): Promise<void>{
   // 获取新数据
-  const data = await post();
+  const data: Object = await post();
   const data2: Object = JSON.parse(data);
   let newData: Array = [];
   if(data2.status === 200 && 'liveList' in data2.content){
@@ -35,7 +35,7 @@ async function kd48timer(): Promise<void>{
   }
   // 开启新计算线程
   const worker: Worker = new Kd48listenerWorker();
-  const cb: Function = async (event: Event): Promise<void>=>{
+  const cb: Function = async(event: Event): Promise<void>=>{
     const { newDataObj, newLive }: {
       newDataObj: Object,
       newLive: Array
@@ -52,10 +52,10 @@ async function kd48timer(): Promise<void>{
         for(let i2: number = 0; i2 < j2; i2++){
           const item2: Object = ll2[i2];
           if(
-            item2.option.basic.is48LiveListener &&                // 开启直播功能
-            (
-              item2.option.basic.isListenerAll ||                 // 监听所有成员
-              (item2.members && item2.members.test(item1.title))  // 监听指定成员
+            item2.option.basic.is48LiveListener // 开启直播功能
+            && (
+              item2.option.basic.isListenerAll                       // 监听所有成员
+              || (item2.members && item2.members.test(item1.title))  // 监听指定成员
             )
           ){
             const member: string = item1.title.split('的')[0],
@@ -63,10 +63,10 @@ async function kd48timer(): Promise<void>{
               time1: string = time('YY-MM-DD hh:mm:ss', item1.startTime),
               streamPath: string = item1.streamPath,
               qq: SmartQQ = item2;
-            const text: string = `${ member } 开启了一个直播。\n` +
-              `直播标题：${ subTitle }\n` +
-              `开始时间：${ time1 }\n` +
-              `视频地址：${ streamPath }`;
+            const text: string = `${ member } 开启了一个直播。\n`
+                               + `直播标题：${ subTitle }\n`
+                               + `开始时间：${ time1 }\n`
+                               + `视频地址：${ streamPath }`;
             await qq.sendFormatMessage(text);
           }
         }

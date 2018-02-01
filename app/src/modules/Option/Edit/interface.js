@@ -5,7 +5,7 @@
  * basic      基础配置
  * custom     自定义配置
  */
-type interfaceOption = {
+type interfaceOptionType = {
   name: string;
   groupName: string;
   time: number,
@@ -28,7 +28,7 @@ type interfaceOption = {
   custom: Object
 };
 
-function interfaceOption(value: Object, customProfiles: { command: string, text: string }[]): interfaceOption{
+function interfaceOption(value: Object, customProfiles: { command: string, text: string }[]): interfaceOptionType{
   const custom: Object = customProfilesArray2Obj(customProfiles);
   const inter: interfaceOption = {
     name: value.name,

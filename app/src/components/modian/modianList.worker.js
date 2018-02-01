@@ -4,8 +4,8 @@
 import getData from './function/getData';
 import sign from './function/signInWorker';
 
-const listUrl: string = `https://wds.modian.com/api/project/rankings`;
-const dingDanUrl: string = `https://wds.modian.com/api/project/orders`;
+const listUrl: string = 'https://wds.modian.com/api/project/rankings';
+const dingDanUrl: string = 'https://wds.modian.com/api/project/orders';
 
 addEventListener('message', async function(event: Event): void{
   const { proId, type, size, title }: {

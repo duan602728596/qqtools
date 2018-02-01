@@ -15,17 +15,17 @@ const initData: {
 };
 
 /* Action */
-export const changeQQLoginList = createAction('获取已登录的列表');
-export const optionList = createAction('配置列表');
-export const cursorOption = db.cursorAction({
+export const changeQQLoginList: Function = createAction('获取已登录的列表');
+export const optionList: Function = createAction('配置列表');
+export const cursorOption: Function = db.cursorAction({
   objectStoreName: option.indexeddb.objectStore[0].name,
   successAction: optionList
 });
-export const getLoginInformation = db.getAction({
+export const getLoginInformation: Function = db.getAction({
   objectStoreName: option.indexeddb.objectStore[2].name,
 });
 // 口袋直播监听
-export const kd48LiveListenerTimer = createAction('口袋直播监听');
+export const kd48LiveListenerTimer: Function = createAction('口袋直播监听');
 
 /* reducer */
 const reducer: Function = handleActions({

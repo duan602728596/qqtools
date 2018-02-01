@@ -16,7 +16,7 @@ import { copy } from '../../publicMethod/editOperation';
  * 天气：天气预报、tq
  * 机器人：say
  */
-const COMMAND: string = `摩点|mod|直播列表|zb|天气预报|tq|say|help`;
+const COMMAND: string = '摩点|mod|直播列表|zb|天气预报|tq|say|help';
 
 /* 判断当前的cmd是否存在，并且返回index */
 function getIndex(lists: Array, cmd: string): ?number{
@@ -152,7 +152,7 @@ class Add extends Component{
       modalDisplay: true,
       cmd: item.command,
       text: item.text,
-      item: item
+      item
     });
   }
   // 保存编辑
@@ -184,7 +184,7 @@ class Add extends Component{
   // 提交
   onSubmit(event: Event): void{
     event.preventDefault();
-    this.props.form.validateFields(async (err: any, value: Object): Promise<void>=>{
+    this.props.form.validateFields(async(err: any, value: Object): Promise<void>=>{
       if(!err){
         const data: Object = interfaceOption(value, this.state.customProfiles);
         await this.props.action.putOption({
@@ -276,8 +276,8 @@ class Add extends Component{
             <div className="clearfix">
               {
                 getFieldDecorator('modianUrlTemplate', {
-                  initialValue: detail ? detail.basic.modianUrlTemplate :
-                    `摩点：{{ modianname }}\nhttps://m.modian.com/project/{{ modianid }}.html`
+                  initialValue: detail ? detail.basic.modianUrlTemplate
+                    : '摩点：{{ modianname }}\nhttps://m.modian.com/project/{{ modianid }}.html'
                 })(
                   <Input.TextArea className={ style.template } rows={ 15 } />
                 )
@@ -296,9 +296,9 @@ class Add extends Component{
             <div className="clearfix">
               {
                 getFieldDecorator('modianTemplate', {
-                  initialValue: detail ? detail.basic.modianTemplate :
-                    `@{{ id }} 刚刚在【{{ modianname }}】打赏了{{ money }}元，` +
-                    `感谢这位聚聚！\n摩点项目地址：https://m.modian.com/project/{{ modianid }}.html`
+                  initialValue: detail ? detail.basic.modianTemplate
+                    : ('@{{ id }} 刚刚在【{{ modianname }}】打赏了{{ money }}元，'
+                    +  '感谢这位聚聚！\n摩点项目地址：https://m.modian.com/project/{{ modianid }}.html')
                 })(
                   <Input.TextArea className={ style.template } rows={ 15 } />
                 )

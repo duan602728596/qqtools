@@ -1,7 +1,8 @@
 /* 配置文件 */
-const path = global.require('path');
-const process = global.require('process');
-const execPath = path.dirname(process.execPath).replace(/\\/g, '/');
+const path: Object = global.require('path');
+const process: Object = global.require('process');
+
+const execPath: string = path.dirname(process.execPath).replace(/\\/g, '/');
 
 type inforMap = {
   name: string,

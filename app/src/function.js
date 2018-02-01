@@ -7,7 +7,7 @@
  */
 export function objectToArray(obj: Object): Function[]{
   const arr: Array = [];
-  for(let key in obj){
+  for(const key: string in obj){
     arr.push(obj[key]);
   }
   return arr;
@@ -22,7 +22,7 @@ export function patchZero(num: number): string{
   if(num < 10){
     return `0${ num }`;
   }else{
-    return `${ num }`
+    return `${ num }`;
   }
 }
 
@@ -70,7 +70,7 @@ export function templateReplace(template: string, data: Object): string{
  * @param { string } str
  * @return { ?RegExp }
  */
-export function str2reg(str): ?RegExp{
+export function str2reg(str: string): ?RegExp{
   const str2: string[] = str.replace(/\s+/g, '').split(/\s*,\s*/g);
   // 去掉空字符串
   for(let i: number = str2.length - 1; i >= 0; i--){

@@ -57,14 +57,14 @@ class MemberInformation extends Component{
       const value2: Object = {
         memberId,
         memberName: memberName2,
-        roomId: roomId
+        roomId
       };
       await this.props.action.addMemberInformation({
         data: value2
       });
       this.setState({
         memberName: memberName2,
-        roomId: roomId
+        roomId
       });
     }
   }

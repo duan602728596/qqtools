@@ -10,18 +10,18 @@ function getModianInformation(modianId: string): Promise{
   return new Promise((resolve: Function, reject: Function): void=>{
     $.ajax({
       type: 'POST',
-      url: `https://wds.modian.com/api/project/detail`,
+      url: 'https://wds.modian.com/api/project/detail',
       cache: true,
       data,
       dataType: 'json',
-      success: function(data: string, status: string, xhr: XMLHttpRequest): void{
+      success(data: string, status: string, xhr: XMLHttpRequest): void{
         const data2: Object = data.data[0];
         resolve({
           title: data2.pro_name,
           already_raised: data2.already_raised
         });
       },
-      error: function(err: any): void{
+      error(err: any): void{
         reject(err);
       }
     });

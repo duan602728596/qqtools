@@ -4,7 +4,7 @@ import { Button } from 'antd';
 import style from './style.sass';
 import { copy } from '../../publicMethod/editOperation';
 
-const Index = (props: Object): Array=>{
+const Index: Function = (props: Object): Array=>{
   return [
     /* 返回 */
     <Link key={ 0 } className={ style.back } to="/">

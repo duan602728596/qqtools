@@ -2,7 +2,7 @@ import post from './post';
 import { time } from '../../function';
 
 async function getList(qq: Smart): Promise<void>{
-  const data = await post();
+  const data: string = await post();
   const data2: Object = JSON.parse(data);
 
   let text: ?string = null;
@@ -12,9 +12,9 @@ async function getList(qq: Smart): Promise<void>{
 
       text = `口袋48直播：（当前直播成员数：${ liveList.length }）`;
       $.each(liveList, (index: number, item: Object): void=>{
-        text += `\n${ index + 1 }、${ item.title.split('的')[0] }\n` +
-          `标题：${ item.subTitle }\n` +
-          `开始时间：${ time('YY-MM-DD hh:mm:ss', item.startTime) }`;
+        text += `\n${ index + 1 }、${ item.title.split('的')[0] }\n`
+              + `标题：${ item.subTitle }\n`
+              + `开始时间：${ time('YY-MM-DD hh:mm:ss', item.startTime) }`;
       });
 
     }else{

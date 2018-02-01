@@ -19,7 +19,7 @@ class Router extends Component{
     return (
       <Switch>
         {/* 首页 */}
-        <Route path="/" component={ Index } exact />
+        <Route path="/" component={ Index } exact={ true } />
         {/* 登录 */}
         <Route path="/Login" component={ LoginBundle } />
         {/* 配置 */}

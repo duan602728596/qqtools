@@ -7,7 +7,7 @@ function getTianQi(command: string[], qq: SmartQQ): void{
     url: `https://api.seniverse.com/v3/weather/now.json?key=${ qq.option.basic.xinZhiTianQiAPIKey }&location=${ command[1] }&language=zh-Hans&unit=c`,
     cache: true,
     dataType: 'json',
-    success: function(data: string, status: string, xhr: XMLHttpRequest): void{
+    success(data: string, status: string, xhr: XMLHttpRequest): void{
       if('results' in data){
         const results: Array = data.results[0];
         const text: string = templateReplace(qq.option.basic.xinZhiTianQiTemplate, {
@@ -20,7 +20,7 @@ function getTianQi(command: string[], qq: SmartQQ): void{
         qq.sendMessage(`[ERROR] ${ data.status_code }: ${ data.status }`);
       }
     },
-    error: function(err: any): void{
+    error(err: any): void{
       qq.sendMessage('[ERROR] 天气查询失败。');
     }
   });

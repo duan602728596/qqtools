@@ -3,7 +3,7 @@
  * url   : 'https://plive.48.cn/livesystem/api/live/v1/memberLivePage'
  * method: POST
  */
-const https = global.require('https');
+const https: Object = global.require('https');
 
 const headers: Object = {
   'os': 'android',
@@ -29,7 +29,7 @@ const options: {
   port: null,
   path: '/livesystem/api/live/v1/memberLivePage',
   method: 'POST',
-  headers: headers,
+  headers,
   timeout: 20000
 };
 
@@ -40,7 +40,7 @@ function postData(number: number): string{
 
 function post(number: number = 0): Promise{
   return new Promise((resolve: Function, reject: Function): void=>{
-    const req: Object = https.request(options, (res): void=>{
+    const req: Object = https.request(options, (res: Object): void=>{
       let getData: string = '';
       res.setEncoding('utf8');
       res.on('data', function(chunk: any): void{

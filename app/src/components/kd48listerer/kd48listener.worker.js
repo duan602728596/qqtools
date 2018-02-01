@@ -19,7 +19,7 @@ function getNewLive(oldData: Object, newData: Object): Array{
   return arr;
 }
 
-addEventListener('message', function(event){
+addEventListener('message', function(event: Event): void{
   const { oldData, newData }: {
     oldData: Array,
     newData: Array

@@ -94,7 +94,7 @@ class KouDai48 extends Component{
   // 登录
   onSubmit(event: Event): void{
     event.preventDefault();
-    this.props.form.validateFields(async (err: any, value: Object): Promise<void>=>{
+    this.props.form.validateFields(async(err: any, value: Object): Promise<void>=>{
       if(!err){
         try{
           const data: Object = await login(value.account, value.password);
@@ -232,7 +232,7 @@ class KouDai48 extends Component{
                 bordered={ true }
                 dataSource={ loginInformation ? format(loginInformation.value.friends, 0, loginInformation.value.friends.length - 1) : [] }
                 pagination={{
-                  defaultPageSize: 10 ,
+                  defaultPageSize: 10,
                   showQuickJumper: true
                 }}
               />

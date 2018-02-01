@@ -1,6 +1,6 @@
-const https = global.require('https');
-const http = global.require('http');
-const url = global.require('url');
+const https: Object = global.require('https');
+const http: Object = global.require('http');
+const url: Object = global.require('url');
 
 /**
  * 请求
@@ -33,7 +33,7 @@ export function requestHttp({ reqUrl, method = 'GET', data = '', headers = {}, s
       path,
       method,
       timeout,
-      headers: headers
+      headers
     }, (res: Object): void=>{
       let getData: any = null;
       if(setEncode) res.setEncoding(setEncode);
@@ -126,7 +126,7 @@ export function hash(uin: number, ptwebqq: string): string{
     t += 1;
   }
 
-  const V = [
+  const V: Array = [
     ((uin >> 24) & 255) ^ 'E'.charCodeAt(0),
     ((uin >> 16) & 255) ^ 'C'.charCodeAt(0),
     ((uin >> 8)  & 255) ^ 'O'.charCodeAt(0),
@@ -134,7 +134,7 @@ export function hash(uin: number, ptwebqq: string): string{
   ];
 
   const U1: number[] = [0, 0, 0, 0, 0, 0, 0, 0];
-  const k1 = U1.length;
+  const k1: number = U1.length;
   let t1: number = 0;
   while(t1 < k1){
     if(t1 % 2 === 0){

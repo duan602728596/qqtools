@@ -16,15 +16,15 @@ const opt: {
 } = {
   objectStoreName: option.indexeddb.objectStore[0].name
 };
-export const optionList = createAction('配置列表');
-export const putOption = db.putAction(opt);
-export const cursorOption = db.cursorAction({
+export const optionList: Function = createAction('配置列表');
+export const putOption: Function = db.putAction(opt);
+export const cursorOption: Function = db.cursorAction({
   ...opt,
   successAction: optionList
 });
-export const deleteOption = db.deleteAction(opt);
+export const deleteOption: Function = db.deleteAction(opt);
 // 导入所有配置
-export const importOption = db.putAction(opt);
+export const importOption: Function = db.putAction(opt);
 
 /* reducer */
 const reducer: Function = handleActions({

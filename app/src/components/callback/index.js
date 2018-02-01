@@ -18,10 +18,10 @@ function callback(result: Array | Object, qq: SmartQQ): void{
     if(type === 'group_message' && fromUin === gid && content[1] !== undefined){
       const command: string[] = content[1].split(/\s+/);
       // 格式化去掉空字符串
-      for(let i = command.length - 1; i >= 0; i--){
+      for(let i: number = command.length - 1; i >= 0; i--){
         if(command[i] === ''){
           command.splice(i, 1);
-        }  
+        }
       }
       fn(command, qq);
     }

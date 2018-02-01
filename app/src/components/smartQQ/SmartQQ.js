@@ -2,7 +2,7 @@
 import { requestHttp, hash33, hash, cookieObj2Str, msgId } from './calculate';
 import { templateReplace } from '../../function';
 import { requestUserInformation, requestRoomMessage } from '../kd48listerer/roomListener';
-const queryString = global.require('querystring');
+const queryString: Object = global.require('querystring');
 
 type cons = {
   callback: Function
@@ -72,7 +72,7 @@ class SmartQQ{
     this.weiboWorker = null;     // 微博监听新线程
   }
   // 下载二维码
-  downloadPtqr(timeStr): Promise{
+  downloadPtqr(timeStr: string): Promise{
     return requestHttp({
       reqUrl: `https://ssl.ptlogin2.qq.com/ptqrshow?appid=501004106&e=0&l=M&s=5&d=72&v=4&t=${ Math.random() }`,
       headers: {
@@ -95,7 +95,7 @@ class SmartQQ{
         'Connection': 'Keep-Alive'
       },
       setEncode: 'utf8'
-    })
+    });
   }
   // 登录
   login(): Promise{
@@ -113,7 +113,7 @@ class SmartQQ{
   }
   login302proxy(): Promise{
     return requestHttp({
-      reqUrl: `http://w.qq.com/proxy.html?login2qq=1&webqq_type=10`,
+      reqUrl: 'http://w.qq.com/proxy.html?login2qq=1&webqq_type=10',
       headers: {
         'Cookie': cookieObj2Str(this.cookie),
         'Connection': 'Keep-Alive'
@@ -123,7 +123,7 @@ class SmartQQ{
   }
   login302web2(): Promise{
     return requestHttp({
-      reqUrl: `http://web2.qq.com/web2_cookie_proxy.html`,
+      reqUrl: 'http://web2.qq.com/web2_cookie_proxy.html',
       headers: {
         'Cookie': cookieObj2Str(this.cookie),
         'Connection': 'Keep-Alive'
@@ -155,7 +155,7 @@ class SmartQQ{
       })
     });
     return requestHttp({
-      reqUrl: `http://d1.web2.qq.com/channel/login2`,
+      reqUrl: 'http://d1.web2.qq.com/channel/login2',
       headers: {
         'Cookie': cookieObj2Str(this.cookie),
         'Referer': 'http://d1.web2.qq.com/proxy.html?v=20151105001&callback=1&id=2',
@@ -175,7 +175,7 @@ class SmartQQ{
       })
     });
     return requestHttp({
-      reqUrl: `https://s.web2.qq.com/api/get_group_name_list_mask2`,
+      reqUrl: 'https://s.web2.qq.com/api/get_group_name_list_mask2',
       headers: {
         'Cookie': cookieObj2Str(this.cookie),
         'Referer': 'http://s.web2.qq.com/proxy.html?v=20130916001&callback=1&id=1',
@@ -254,7 +254,7 @@ class SmartQQ{
       })
     });
     return requestHttp({
-      reqUrl: `https://d1.web2.qq.com/channel/poll2`,
+      reqUrl: 'https://d1.web2.qq.com/channel/poll2',
       headers: {
         'Cookie': this.cookieStr,
         'Referer': 'https://d1.web2.qq.com/cfproxy.html?v=20151105001&callback=1',
@@ -293,7 +293,7 @@ class SmartQQ{
       })
     });
     return requestHttp({
-      reqUrl: `https://d1.web2.qq.com/channel/send_qun_msg2`,
+      reqUrl: 'https://d1.web2.qq.com/channel/send_qun_msg2',
       headers: {
         'Cookie': this.cookieStr,
         'Referer': 'https://d1.web2.qq.com/cfproxy.html?v=20151105001&callback=1',
@@ -331,14 +331,14 @@ class SmartQQ{
       i = len2;
     }
     // 分段发送消息
-    for(let i2: number = 0, j2 = sendMsg.length; i2 < j2; i2++ ){
+    for(let i2: number = 0, j2: number = sendMsg.length; i2 < j2; i2++ ){
       await this.sendMessage(sendMsg[i2]);
     }
   }
   // 获取群成员信息
   getGroupMinfo(): Promise{
-    const url: string = `http://s.web2.qq.com/api/get_group_info_ext2?` +
-      `gcode=${ this.groupItem.code }&vfwebqq=${ this.vfwebqq }&t={ ${ Math.random() } }`;
+    const url: string = 'http://s.web2.qq.com/api/get_group_info_ext2?'
+                      + `gcode=${ this.groupItem.code }&vfwebqq=${ this.vfwebqq }&t={ ${ Math.random() } }`;
     return requestHttp({
       reqUrl: url,
       headers: {
@@ -401,34 +401,34 @@ class SmartQQ{
           switch(extInfo.messageObject){
             // 普通信息
             case 'text':
-              sendStr.push(`${ extInfo.senderName }：${ extInfo.text }\n` +
-                           `时间：${ item.msgTimeStr }`);
+              sendStr.push(`${ extInfo.senderName }：${ extInfo.text }\n`
+                         + `时间：${ item.msgTimeStr }`);
               break;
             // 翻牌信息
             case 'faipaiText':
               const ui: Object = await requestUserInformation(extInfo.faipaiUserId);
-              sendStr.push(`${ ui.content.userInfo.nickName }：${ extInfo.faipaiContent }\n` +
-                           `${ extInfo.senderName }：${ extInfo.messageText }\n` +
-                           `时间：${ item.msgTimeStr }`);
+              sendStr.push(`${ ui.content.userInfo.nickName }：${ extInfo.faipaiContent }\n`
+                         + `${ extInfo.senderName }：${ extInfo.messageText }\n`
+                         + `时间：${ item.msgTimeStr }`);
               break;
             // 发送图片
             case 'image':
               const url: string = JSON.parse(item.bodys).url;
-              sendStr.push(`${ extInfo.senderName }：${ url }\n` +
-                           `时间：${ item.msgTimeStr }`);
+              sendStr.push(`${ extInfo.senderName }：${ url }\n`
+                         + `时间：${ item.msgTimeStr }`);
               break;
             // 发送语音
             case 'audio':
               const url2: string = JSON.parse(item.bodys).url;
-              sendStr.push(`${ extInfo.senderName } 发送了一条语音：${ url2 }\n` +
-                `时间：${ item.msgTimeStr }`);
+              sendStr.push(`${ extInfo.senderName } 发送了一条语音：${ url2 }\n`
+                         + `时间：${ item.msgTimeStr }`);
               break;
             // 直播
             case 'live':
-              sendStr.push(`${ extInfo.senderName } 正在直播\n` +
-                           `直播间：${ extInfo.referenceTitle }\n` +
-                           `直播标题：${ extInfo.referenceContent }\n` +
-                           `时间：${ item.msgTimeStr }`);
+              sendStr.push(`${ extInfo.senderName } 正在直播\n`
+                         + `直播间：${ extInfo.referenceTitle }\n`
+                         + `直播标题：${ extInfo.referenceContent }\n`
+                         + `时间：${ item.msgTimeStr }`);
               break;
           }
         }else{
