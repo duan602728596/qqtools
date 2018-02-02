@@ -158,10 +158,10 @@ export function hash(uin: number, ptwebqq: string): string{
 /* 计算msg_id */
 let sequence: number = 0;
 let t: number = new Date().getTime() * 100;
-t = (t - t % 1000) / 1000;
+t = (t - (t % 1000)) / 1000;
 t = t % 10000 * 10000;
 
-export function msgId(){
+export function msgId(): number{
   sequence += 1;
   return t + sequence;
 }

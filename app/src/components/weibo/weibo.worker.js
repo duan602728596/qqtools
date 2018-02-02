@@ -95,7 +95,7 @@ function formatText(newWeiBo: Object[]): string[]{
 }
 
 /* ajax */
-function getData(method: string, url: string){
+function getData(method: string, url: string): Promise{
   return new Promise((resolve: Function, reject: Function): void=>{
     const xhr: XMLHttpRequest = new XMLHttpRequest();
     xhr.open(method, url, true);

@@ -203,7 +203,7 @@ class Add extends Component{
     const isListenerAll: boolean = detail ? detail.basic.isListenerAll : false;
     const isRoomListener: boolean = detail ? detail.basic.isRoomListener : false;
     const isWeiboListener: boolean = detail ? detail.basic.isWeiboListener : false;
-    const isXinZhiTianQi: boolean = detail ? detail.basic.isXinZhiTianQi :false;
+    const isXinZhiTianQi: boolean = detail ? detail.basic.isXinZhiTianQi : false;
     const isTuLing: boolean =  detail ? detail.basic.isTuLing : false;
     return [
       <Form key={ 0 } className={ style.form } layout="inline" onSubmit={ this.onSubmit.bind(this) }>
@@ -439,8 +439,9 @@ class Add extends Component{
             <div className="clearfix">
               {
                 getFieldDecorator('xinZhiTianQiTemplate', {
-                  initialValue: detail ? detail.basic.xinZhiTianQiTemplate :
-                    `【{{ city }}】\n天气：{{ text }}\n温度：{{ temperature }}℃`
+                  initialValue: detail
+                    ? detail.basic.xinZhiTianQiTemplate
+                    : '【{{ city }}】\n天气：{{ text }}\n温度：{{ temperature }}℃'
                 })(
                   <Input.TextArea className={ style.template } rows={ 15 } />
                 )

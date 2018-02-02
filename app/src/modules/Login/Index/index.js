@@ -117,7 +117,7 @@ class Index extends Component{
     // 判断是否需要关闭直播监听
     if(this.props.kd48LiveListenerTimer !== null){
       let isListener: boolean = false;
-      for(let i = 0, j = this.props.qqLoginList.length; i < j; i++){
+      for(let i: number = 0, j: number = this.props.qqLoginList.length; i < j; i++){
         const item: SmartQQ = this.props.qqLoginList[i];
         if(item.option.basic.is48LiveListener && item.members){
           isListener = true;

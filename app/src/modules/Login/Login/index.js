@@ -153,7 +153,7 @@ class Login extends Component{
             qq.weiboWorker = new WeiBoWorker();
             qq.weiboWorker.postMessage({
               type: 'init',
-              containerid: basic.lfid,
+              containerid: basic.lfid
             });
             qq.weiboWorker.addEventListener('message', qq.listenWeiboWorkerCbInformation.bind(qq), false);
           }

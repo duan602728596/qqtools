@@ -22,7 +22,7 @@ const reqOption: Object = {
  * @param { string } password: 密码
  */
 export function login(account: string, password: string): Promise{
-  return new Promise((resolve: Function, reject: Function)=>{
+  return new Promise((resolve: Function, reject: Function): void=>{
     request({
       ...reqOption,
       uri: 'https://puser.48.cn/usersystem/api/user/v1/login/phone',
@@ -49,7 +49,7 @@ export function login(account: string, password: string): Promise{
  * @param { number } memberId: 成员的ID
  */
 export function requestMemberInformation(memberId: number): Promise{
-  return new Promise((resolve: Function, reject: Function)=>{
+  return new Promise((resolve: Function, reject: Function): void=>{
     request({
       ...reqOption,
       uri: 'https://puser.48.cn/usersystem/api/user/member/v1/fans/room',
@@ -72,8 +72,8 @@ export function requestMemberInformation(memberId: number): Promise{
  * 获取聚聚的相关信息
  * @param { number } userId: 用户的ID
  */
-export function requestUserInformation(userId: number){
-  return new Promise((resolve: Function, reject: Function)=>{
+export function requestUserInformation(userId: number): Promise{
+  return new Promise((resolve: Function, reject: Function): void=>{
     request({
       ...reqOption,
       uri: `https://puser.48.cn/usersystem/api/user/v1/show/info/${ userId }`,
@@ -100,14 +100,14 @@ export function requestUserInformation(userId: number){
  * @param { string } token : 登陆后得到的token
  * @param { number } limit : 返回的数据数量
  */
-export function requestRoomMessage(roomId: number, token: string, limit: number = 1){
-  return new Promise((resolve: Function, reject: Function)=>{
+export function requestRoomMessage(roomId: number, token: string, limit: number = 1): Promise{
+  return new Promise((resolve: Function, reject: Function): void=>{
     request({
       uri: 'https://pjuju.48.cn/imsystem/api/im/v1/member/room/message/mainpage',
       method: 'POST',
       headers: {
         ...HEADERS,
-        token,
+        token
       },
       json: true,
       body: {

@@ -1,5 +1,5 @@
 /* ajax */
-function getData(method: string, url: string, data: string){
+function getData(method: string, url: string, data: string): Promise{
   return new Promise((resolve: Function, reject: Function): void=>{
     const xhr: XMLHttpRequest = new XMLHttpRequest();
     xhr.open(method, url, true);

@@ -22,7 +22,7 @@ export const cursorOption: Function = db.cursorAction({
   successAction: optionList
 });
 export const getLoginInformation: Function = db.getAction({
-  objectStoreName: option.indexeddb.objectStore[2].name,
+  objectStoreName: option.indexeddb.objectStore[2].name
 });
 // 口袋直播监听
 export const kd48LiveListenerTimer: Function = createAction('口袋直播监听');

@@ -133,7 +133,7 @@ class SmartQQ{
   }
   // 获取vfwebqq
   getVfWebQQ(): Promise{
-    const u: string = `http://s.web2.qq.com/api/getvfwebqq?clientid=53999199&psessionid=&t=${ Math.random() * 10 ** 16 }&ptwebqq=${ this.cookie.ptwebqq }`;
+    const u: string = `http://s.web2.qq.com/api/getvfwebqq?clientid=53999199&psessionid=&t=${ Math.random() * (10 ** 16) }&ptwebqq=${ this.cookie.ptwebqq }`;
     return requestHttp({
       reqUrl: u,
       headers: {
@@ -190,8 +190,8 @@ class SmartQQ{
   // 获取群好友
   getFriends(): Promise{
     return requestHttp({
-      reqUrl: `http://d1.web2.qq.com/channel/get_online_buddies2?vfwebqq=${ this.vfwebqq }&clientid=53999199` +
-              `&psessionid=${ this.psessionid }&t=${ new Date().getTime() }`,
+      reqUrl: `http://d1.web2.qq.com/channel/get_online_buddies2?vfwebqq=${ this.vfwebqq }&clientid=53999199`
+            + `&psessionid=${ this.psessionid }&t=${ new Date().getTime() }`,
       headers: {
         'Cookie': cookieObj2Str(this.cookie),
         'Referer': 'http://d1.web2.qq.com/proxy.html?v=20151105001&callback=1&id=2',
@@ -315,7 +315,7 @@ class SmartQQ{
     }
   }
   // 分段发送消息，最多发送十八行，防止多段的消息发送不出去
-  async sendFormatMessage(message): Promise<void>{
+  async sendFormatMessage(message: string): Promise<void>{
     const msgArr: string[] = message.split(/\n/g);
     const sendMsg: string[] = [];
     const len: number = msgArr.length;

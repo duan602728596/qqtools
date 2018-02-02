@@ -86,7 +86,7 @@ class KouDai48 extends Component{
         title: 'information',
         key: 'information',
         width: '80%',
-        render: (text: string, item: Object, index: number) => <MemberInformation item={ item } />
+        render: (text: string, item: Object, index: number): Object => <MemberInformation item={ item } />
       }
     ];
     return columns;
