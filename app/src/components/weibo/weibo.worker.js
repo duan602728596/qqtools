@@ -48,7 +48,6 @@ async function polling(): Promise<void>{
       }
     }
     // 构建发送数据
-
     if(newWeiBo.length > 0){
       lastId = Number(newWeiBo[0].mblog.id);
       const sendData: string[] = formatText(newWeiBo);
