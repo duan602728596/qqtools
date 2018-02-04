@@ -25,7 +25,8 @@ module.exports = {
       'redux-immutable',
       'reselect',
       'indexeddb-tools',
-      'indexeddb-tools-redux'
+      'indexeddb-tools-redux',
+      'moment'
     ]
   },
   output: {

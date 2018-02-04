@@ -50,6 +50,11 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
       // 微博监听
       isWeiboListener: value.isWeiboListener,
       lfid: value.lfid,
+      // 群内定时消息推送
+      isTimingMessagePush: value.isTimingMessagePush,
+      timingMessagePushTime: value.timingMessagePushTime,
+      timingMessagePushStartTime: value.timingMessagePushStartTime.format('HH:mm:ss'),
+      timingMessagePushText: value.timingMessagePushText,
       // 天气
       isXinZhiTianQi: value.isXinZhiTianQi,
       xinZhiTianQiAPIKey: value.xinZhiTianQiAPIKey,

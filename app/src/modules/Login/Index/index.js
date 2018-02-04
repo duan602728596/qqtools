@@ -109,6 +109,11 @@ class Index extends Component{
       item.weiboWorker = null;
     }
 
+    // 删除群消息推送定时器
+    if(item.timingMessagePushTimer){
+      global.clearInterval(item.timingMessagePushTimer);
+    }
+
     this.props.qqLoginList.splice(index, 1);
     this.props.action.changeQQLoginList({
       qqLoginList: this.props.qqLoginList.slice()

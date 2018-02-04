@@ -157,6 +157,10 @@ class Login extends Component{
             });
             qq.weiboWorker.addEventListener('message', qq.listenWeiboWorkerCbInformation.bind(qq), false);
           }
+          // 群内定时消息推送
+          if(basic.isTimingMessagePush){
+            qq.timingMessagePushTimer = global.setInterval(qq.timeIsOption.bind(qq), 10 * (10 ** 3));
+          }
           // 监听信息
           // 取消重新登录，避免失败而掉线
           // const t1: number = global.setInterval(qq.loginSuccess.bind(qq), 5 * 60 ** 2 * 10 ** 3); // 五小时后重新登录，防止掉线

@@ -132,8 +132,36 @@ const Detail: ?Object = (props: ?Object): ?Object=>{
               )
             }
           </td>
-          <td className={ style.tdTitle }>微博</td>
+          <td className={ style.tdTitle }>微博lfid</td>
           <td>{ detail.basic.lfid }</td>
+        </tr>
+        {/* 群内定时消息推送功能 */}
+        <tr>
+          <td className={ style.tdGTitle } colSpan={ 4 }>群内定时消息推送功能</td>
+        </tr>
+        <tr>
+          <td className={ style.tdTitle }>开启群内定时消息推送功能</td>
+          <td>
+            {
+              detail.basic.isTimingMessagePush ? (
+                <span className={ style.on }>开启</span>
+              ) : (
+                <span className={ style.off }>未开启</span>
+              )
+            }
+          </td>
+          <td className={ style.tdTitle }>开始时间</td>
+          <td>{ detail.basic.timingMessagePushStartTime }</td>
+        </tr>
+        <tr>
+          <td className={ style.tdTitle }>时间间隔</td>
+          <td colSpan={ 3 }>{ detail.basic.timingMessagePushTime }分</td>
+        </tr>
+        <tr>
+          <td className={ style.tdTitle }>推送消息</td>
+          <td colSpan={ 3 }>
+            <pre>{ detail.basic.timingMessagePushText }</pre>
+          </td>
         </tr>
         {/* 心知天气 */}
         <tr>

@@ -1,4 +1,5 @@
 /* 网页版QQ登录接口 */
+import moment from 'moment';
 import { requestHttp, hash33, hash, cookieObj2Str, msgId } from './calculate';
 import { templateReplace } from '../../function';
 import { requestUserInformation, requestRoomMessage } from '../kd48listerer/roomListener';
@@ -34,6 +35,7 @@ class SmartQQ{
   roomLastTime: ?number;
   kouDai48Token: ?string;
   weiboWorker: ?null;
+  timingMessagePushTimer: ?null;
 
   constructor({ callback }: cons): void{
     // QQ登录相关
@@ -60,16 +62,18 @@ class SmartQQ{
     /* === 从此往下是业务相关 === */
 
     // 摩点项目相关
-    this.modianTitle = null;     // 摩点项目标题
-    this.modianWorker = null;    // 摩点新线程
+    this.modianTitle = null;             // 摩点项目标题
+    this.modianWorker = null;            // 摩点新线程
     // 口袋48监听相关
-    this.members = null;         // 监听指定成员
+    this.members = null;                 // 监听指定成员
     // 房间信息监听相关
-    this.roomListenerTimer = null;  // 轮询定时器
-    this.roomLastTime = null;       // 最后一次发言
-    this.kouDai48Token = null;      // token
+    this.roomListenerTimer = null;       // 轮询定时器
+    this.roomLastTime = null;            // 最后一次发言
+    this.kouDai48Token = null;           // token
     // 微博监听相关
-    this.weiboWorker = null;     // 微博监听新线程
+    this.weiboWorker = null;             // 微博监听新线程
+    // 群内定时消息推送
+    this.timingMessagePushTimer = null;  // 群内定时消息推送定时器
   }
   // 下载二维码
   downloadPtqr(timeStr: string): Promise{
@@ -462,6 +466,26 @@ class SmartQQ{
         await this.sendFormatMessage(item);
       }
     }
+  }
+  // 轮询判断手否到指定时间
+  async timeIsOption(event: Event): Promise<void>{
+    const option: number[] = this.option.basic.timingMessagePushStartTime.split(':');
+    const omu: number = moment().hour(Number(option[0])).minute(Number(option[1])).second(Number(option[2])).unix();
+    const now: number = moment().unix();
+    if(now >= omu){
+      const msg: string = this.option.basic.timingMessagePushText;
+      await this.sendFormatMessage(msg);
+      // 切换定时器
+      let t: number = Number(this.option.basic.timingMessagePushTime);
+      t = t === 0 ? 1 : t;    // 判断时间，默认为1分钟
+      global.clearInterval(this.timingMessagePushTimer);
+      this.timingMessagePushTimer = global.setInterval(this.timingMessagePush.bind(this), t * 60 * (10 ** 3));
+    }
+  }
+  // 群内定时推送消息
+  async timingMessagePush(event: Event): Promise<void>{
+    const msg: string = this.option.basic.timingMessagePushText;
+    await this.sendFormatMessage(msg);
   }
 }
 

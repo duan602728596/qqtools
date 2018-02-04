@@ -3,7 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
-import { Form, Input, Checkbox, Affix, Button, Table, Modal, message, Popconfirm } from 'antd';
+import { Form, Input, Checkbox, Affix, Button, Table, Modal, message, Popconfirm, TimePicker } from 'antd';
+import moment from 'moment';
 import interfaceOption, { customProfilesObj2Array } from './interface';
 import style from './style.sass';
 import { putOption } from '../store/reducer';
@@ -198,13 +199,19 @@ class Add extends Component{
     const detail: ?Object = 'query' in this.props.location ? this.props.location.query.detail : null;
     const { getFieldDecorator }: { getFieldDecorator: Function } = this.props.form;
     // checkbox的值
-    const isModian: boolean = detail ? detail.basic.isModian : false;
-    const is48LiveListener: boolean = detail ? detail.basic.is48LiveListener : false;
-    const isListenerAll: boolean = detail ? detail.basic.isListenerAll : false;
-    const isRoomListener: boolean = detail ? detail.basic.isRoomListener : false;
-    const isWeiboListener: boolean = detail ? detail.basic.isWeiboListener : false;
-    const isXinZhiTianQi: boolean = detail ? detail.basic.isXinZhiTianQi : false;
-    const isTuLing: boolean =  detail ? detail.basic.isTuLing : false;
+    const isModian: boolean = detail ? detail.basic.isModian : false;                         // 摩点
+    const is48LiveListener: boolean = detail ? detail.basic.is48LiveListener : false;         // 口袋48直播
+    const isListenerAll: boolean = detail ? detail.basic.isListenerAll : false;               // 监听所有成员
+    const isRoomListener: boolean = detail ? detail.basic.isRoomListener : false;             // 房间监听
+    const isWeiboListener: boolean = detail ? detail.basic.isWeiboListener : false;           // 微博监听
+    const isTimingMessagePush: boolean = detail ? detail.basic.isTimingMessagePush : false;   // 定时推送
+    const isXinZhiTianQi: boolean = detail ? detail.basic.isXinZhiTianQi : false;             // 心知天气
+    const isTuLing: boolean =  detail ? detail.basic.isTuLing : false;                        // 图灵机器人
+    // 格式化时间
+    const st: ?(number[]) = (detail && detail.basic.timingMessagePushStartTime)
+      ? detail.basic.timingMessagePushStartTime.split(':') : null;
+    const startTime: moment = moment();
+    if(st) startTime.hour(Number(st[0])).minute(Number(st[1])).second(Number(st[2]));
     return [
       <Form key={ 0 } className={ style.form } layout="inline" onSubmit={ this.onSubmit.bind(this) }>
         <Affix className={ style.affix }>
@@ -227,9 +234,7 @@ class Add extends Component{
                     whitespace: true
                   }
                 ]
-              })(
-                <Input placeholder="输入配置名称" readOnly={ detail } />
-              )
+              })(<Input placeholder="输入配置名称" readOnly={ detail } />)
             }
           </Form.Item>
           <Form.Item label="监视群名称">
@@ -243,9 +248,7 @@ class Add extends Component{
                     whitespace: true
                   }
                 ]
-              })(
-                <Input placeholder="输入群名称" />
-              )
+              })(<Input placeholder="输入群名称" />)
             }
           </Form.Item>
           <hr className={ style.line } />
@@ -257,18 +260,14 @@ class Add extends Component{
             {
               getFieldDecorator('isModian', {
                 initialValue: isModian
-              })(
-                <Checkbox defaultChecked={ isModian } />
-              )
+              })(<Checkbox defaultChecked={ isModian } />)
             }
           </Form.Item>
           <Form.Item className={ style.mb15 } label="摩点ID">
             {
               getFieldDecorator('modianId', {
                 initialValue: detail ? detail.basic.modianId : ''
-              })(
-                <Input />
-              )
+              })(<Input />)
             }
           </Form.Item>
           <br />
@@ -278,9 +277,7 @@ class Add extends Component{
                 getFieldDecorator('modianUrlTemplate', {
                   initialValue: detail ? detail.basic.modianUrlTemplate
                     : '摩点：{{ modianname }}\nhttps://m.modian.com/project/{{ modianid }}.html'
-                })(
-                  <Input.TextArea className={ style.template } rows={ 15 } />
-                )
+                })(<Input.TextArea className={ style.template } rows={ 15 } />)
               }
               <p className={ style.shuoming }>
                 <b>模板关键字：</b>
@@ -299,9 +296,7 @@ class Add extends Component{
                   initialValue: detail ? detail.basic.modianTemplate
                     : ('@{{ id }} 刚刚在【{{ modianname }}】打赏了{{ money }}元，'
                     +  '感谢这位聚聚！\n摩点项目地址：https://m.modian.com/project/{{ modianid }}.html')
-                })(
-                  <Input.TextArea className={ style.template } rows={ 15 } />
-                )
+                })(<Input.TextArea className={ style.template } rows={ 15 } />)
               }
               <p className={ style.shuoming }>
                 <b>模板关键字：</b>
@@ -324,18 +319,14 @@ class Add extends Component{
             {
               getFieldDecorator('is48LiveListener', {
                 initialValue: is48LiveListener
-              })(
-                <Checkbox defaultChecked={ is48LiveListener } />
-              )
+              })(<Checkbox defaultChecked={ is48LiveListener } />)
             }
           </Form.Item>
           <Form.Item className={ style.mb15 } label="监听所有成员">
             {
               getFieldDecorator('isListenerAll', {
                 initialValue: isListenerAll
-              })(
-                <Checkbox defaultChecked={ isListenerAll } />
-              )
+              })(<Checkbox defaultChecked={ isListenerAll } />)
             }
           </Form.Item>
           <br />
@@ -344,9 +335,7 @@ class Add extends Component{
               {
                 getFieldDecorator('kd48LiveListenerMembers', {
                   initialValue: detail ? detail.basic.kd48LiveListenerMembers : ''
-                })(
-                  <Input.TextArea className={ style.template } rows={ 15 } />
-                )
+                })(<Input.TextArea className={ style.template } rows={ 15 } />)
               }
               <p className={ style.shuoming }>多个成员名字之间用","（半角逗号）分隔。</p>
             </div>
@@ -360,49 +349,72 @@ class Add extends Component{
             {
               getFieldDecorator('isRoomListener', {
                 initialValue: isRoomListener
-              })(
-                <Checkbox defaultChecked={ isRoomListener } />
-              )
+              })(<Checkbox defaultChecked={ isRoomListener } />)
             }
           </Form.Item>
           <Form.Item className={ style.mb15 } label="房间ID">
             {
               getFieldDecorator('roomId', {
                 initialValue: detail ? detail.basic.roomId : ''
-              })(
-                <Input />
-              )
+              })(<Input />)
             }
           </Form.Item>
         </div>
         {/* 成员微博监听配置 */}
         <h4 className={ style.title }>成员微博监听配置：</h4>
         <p>
-          微博lfid例子：
-          <br />
-          https://m.weibo.cn/u/5863498042?uid=5863498042&luicode=10000011&
+          微博lfid例子：https://m.weibo.cn/u/5863498042?uid=5863498042&luicode=10000011&
           <b className={ style.flid }>lfid=1076035863498042</b>
         </p>
         <div>
-          <Form.Item className={ style.mb15 } label="开启成员房间信息监听">
+          <Form.Item className={ style.mb15 } label="开启成员微博监听">
             {
               getFieldDecorator('isWeiboListener', {
                 initialValue: isWeiboListener
-              })(
-                <Checkbox defaultChecked={ isWeiboListener } />
-              )
+              })(<Checkbox defaultChecked={ isWeiboListener } />)
             }
           </Form.Item>
           <Form.Item className={ style.mb15 } label="微博lfid">
             {
               getFieldDecorator('lfid', {
                 initialValue: detail ? detail.basic.lfid : ''
-              })(
-                <Input />
-              )
+              })(<Input />)
             }
           </Form.Item>
         </div>
+        {/* 群内定时消息推送 */}
+        <h4 className={ style.title }>群内定时消息推送：</h4>
+        <p>开始时间只对首次登陆有效，之后会根据时间间隔发送消息。如果不设置时间间隔，则以登陆时间为准。登陆成功不会推送消息。</p>
+        <Form.Item className={ style.mb15 } label="开启群内定时消息推送功能">
+          {
+            getFieldDecorator('isTimingMessagePush', {
+              initialValue: isTimingMessagePush
+            })(<Checkbox defaultChecked={ isTimingMessagePush } />)
+          }
+        </Form.Item>
+        <Form.Item className={ style.mb15 } label="开始时间">
+          {
+            getFieldDecorator('timingMessagePushStartTime', {
+              initialValue: startTime
+            })(<TimePicker />)
+          }
+        </Form.Item>
+        <Form.Item className={ style.mb15 } label="时间间隔">
+          {
+            getFieldDecorator('timingMessagePushTime', {
+              initialValue: detail ? detail.basic.timingMessagePushTime : ''
+            })(<Input addonAfter="分" />)
+          }
+        </Form.Item>
+        <Form.Item label="推送消息">
+          <div className="clearfix">
+            {
+              getFieldDecorator('timingMessagePushText', {
+                initialValue: detail ? detail.basic.timingMessagePushText : ''
+              })(<Input.TextArea className={ style.template } rows={ 15 } />)
+            }
+          </div>
+        </Form.Item>
         {/* 心知天气 */}
         <h4 className={ style.title }>心知天气：</h4>
         <div>
@@ -420,18 +432,14 @@ class Add extends Component{
             {
               getFieldDecorator('isXinZhiTianQi', {
                 initialValue: isXinZhiTianQi
-              })(
-                <Checkbox defaultChecked={ isXinZhiTianQi } />
-              )
+              })(<Checkbox defaultChecked={ isXinZhiTianQi } />)
             }
           </Form.Item>
           <Form.Item className={ style.mb15 } label="心知天气APIKey">
             {
               getFieldDecorator('xinZhiTianQiAPIKey', {
                 initialValue: detail ? detail.basic.xinZhiTianQiAPIKey : ''
-              })(
-                <Input className={ style.w600 } placeholder="请输入您的APIKey" />
-              )
+              })(<Input className={ style.w600 } placeholder="请输入您的APIKey" />)
             }
           </Form.Item>
           <br />
@@ -475,18 +483,14 @@ class Add extends Component{
             {
               getFieldDecorator('isTuLing', {
                 initialValue: isTuLing
-              })(
-                <Checkbox defaultChecked={ isTuLing } />
-              )
+              })(<Checkbox defaultChecked={ isTuLing } />)
             }
           </Form.Item>
           <Form.Item className={ style.mb15 } label="图灵机器人APIKey">
             {
               getFieldDecorator('tuLingAPIKey', {
                 initialValue: detail ? detail.basic.tuLingAPIKey : ''
-              })(
-                <Input className={ style.w600 } placeholder="请输入您的APIKey" />
-              )
+              })(<Input className={ style.w600 } placeholder="请输入您的APIKey" />)
             }
           </Form.Item>
         </div>
