@@ -17,8 +17,9 @@ function getModianInformation(modianId: string): Promise{
       success(data: string, status: string, xhr: XMLHttpRequest): void{
         const data2: Object = data.data[0];
         resolve({
-          title: data2.pro_name,
-          already_raised: data2.already_raised
+          title: data2.pro_name,                 // 标题
+          already_raised: data2.already_raised,  // 已打赏金额
+          goal: data2.goal                       // 目标
         });
       },
       error(err: any): void{

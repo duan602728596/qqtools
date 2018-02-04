@@ -112,14 +112,19 @@ class Login extends Component{
           const basic: Object = qq.option.basic;
           // 获取微打赏相关信息
           if(basic.isModian){
-            const { title }: { title: string } = await getModianInformation(basic.modianId);
+            const { title, goal }: {
+              title: string,
+              goal: string
+            } = await getModianInformation(basic.modianId);
             qq.modianTitle = title;
+            qq.modianGoal = goal;
             // 创建新的摩点webWorker
             qq.modianWorker = new ModianWorker();
             qq.modianWorker.postMessage({
               type: 'init',
               modianId: basic.modianId,
-              title
+              title,
+              goal
             });
             qq.modianWorker.addEventListener('message', qq.listenModianWorkerCbInformation.bind(qq), false);
           }

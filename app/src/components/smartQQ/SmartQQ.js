@@ -29,6 +29,7 @@ class SmartQQ{
   option: Object;
 
   modianTitle: ?string;
+  modianGoal: ?string;
   modianWorker: ?Worker;
   members: ?RegExp;
   roomListenerTimer: ?number;
@@ -63,6 +64,7 @@ class SmartQQ{
 
     // 摩点项目相关
     this.modianTitle = null;             // 摩点项目标题
+    this.modianGoal = null;              // 摩点项目目标
     this.modianWorker = null;            // 摩点新线程
     // 口袋48监听相关
     this.members = null;                 // 监听指定成员
@@ -361,7 +363,10 @@ class SmartQQ{
   // web worker监听到微打赏的返回信息
   async listenModianWorkerCbInformation(event: Event): Promise<void>{
     if(event.data.type === 'change'){
-      const { data }: { data: Array } = event.data;
+      const { data, alreadyRaised }: {
+        data: Array,
+        alreadyRaised: string
+      } = event.data;
       const { modianTemplate }: { modianTemplate: string } = this.option.basic;
       // 倒序发送消息
       for(let i: number = data.length - 1; i >= 0; i--){
@@ -370,7 +375,9 @@ class SmartQQ{
           id: item.nickname,
           money: item.pay_amount,
           modianname: this.modianTitle,
-          modianid: this.option.basic.modianId
+          modianid: this.option.basic.modianId,
+          goal: this.modianGoal,
+          alreadyraised: alreadyRaised
         });
         await this.sendFormatMessage(msg);
       }

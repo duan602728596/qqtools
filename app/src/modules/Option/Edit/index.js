@@ -277,7 +277,7 @@ class Add extends Component{
                 getFieldDecorator('modianUrlTemplate', {
                   initialValue: detail ? detail.basic.modianUrlTemplate
                     : '摩点：{{ modianname }}\nhttps://m.modian.com/project/{{ modianid }}.html'
-                })(<Input.TextArea className={ style.template } rows={ 15 } />)
+                })(<Input.TextArea className={ style.template } rows={ 5 } />)
               }
               <p className={ style.shuoming }>
                 <b>模板关键字：</b>
@@ -295,8 +295,9 @@ class Add extends Component{
                 getFieldDecorator('modianTemplate', {
                   initialValue: detail ? detail.basic.modianTemplate
                     : ('@{{ id }} 刚刚在【{{ modianname }}】打赏了{{ money }}元，'
-                    +  '感谢这位聚聚！\n摩点项目地址：https://m.modian.com/project/{{ modianid }}.html')
-                })(<Input.TextArea className={ style.template } rows={ 15 } />)
+                     + '感谢这位聚聚！\n摩点项目地址：https://m.modian.com/project/{{ modianid }}.html\n'
+                     + '当前进度：￥{{ alreadyraised }} / ￥{{ goal }}')
+                })(<Input.TextArea className={ style.template } rows={ 10 } />)
               }
               <p className={ style.shuoming }>
                 <b>模板关键字：</b>
@@ -307,7 +308,11 @@ class Add extends Component{
                 <br />
                 modianname：摩点项目的名称，
                 <br />
-                modianid：摩点项目的ID
+                modianid：摩点项目的ID，
+                <br />
+                goal：摩点项目目标
+                <br />
+                alreadyraised：当前已打赏金额
               </p>
             </div>
           </Form.Item>
@@ -335,7 +340,7 @@ class Add extends Component{
               {
                 getFieldDecorator('kd48LiveListenerMembers', {
                   initialValue: detail ? detail.basic.kd48LiveListenerMembers : ''
-                })(<Input.TextArea className={ style.template } rows={ 15 } />)
+                })(<Input.TextArea className={ style.template } rows={ 5 } />)
               }
               <p className={ style.shuoming }>多个成员名字之间用","（半角逗号）分隔。</p>
             </div>
@@ -411,7 +416,7 @@ class Add extends Component{
             {
               getFieldDecorator('timingMessagePushText', {
                 initialValue: detail ? detail.basic.timingMessagePushText : ''
-              })(<Input.TextArea className={ style.template } rows={ 15 } />)
+              })(<Input.TextArea className={ style.template } rows={ 10 } />)
             }
           </div>
         </Form.Item>
@@ -451,7 +456,7 @@ class Add extends Component{
                     ? detail.basic.xinZhiTianQiTemplate
                     : '【{{ city }}】\n天气：{{ text }}\n温度：{{ temperature }}℃'
                 })(
-                  <Input.TextArea className={ style.template } rows={ 15 } />
+                  <Input.TextArea className={ style.template } rows={ 5 } />
                 )
               }
               <p className={ style.shuoming }>
