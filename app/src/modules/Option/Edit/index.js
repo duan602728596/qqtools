@@ -411,6 +411,7 @@ class Add extends Component{
             })(<Input addonAfter="分" />)
           }
         </Form.Item>
+        <br />
         <Form.Item label="推送消息">
           <div className="clearfix">
             {
