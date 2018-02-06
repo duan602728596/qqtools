@@ -434,6 +434,12 @@ class SmartQQ{
               sendStr.push(`${ extInfo.senderName } 发送了一条语音：${ url2 }\n`
                          + `时间：${ item.msgTimeStr }`);
               break;
+            // 发送短视频
+            case 'videoRecord':
+              const url3: string = JSON.parse(item.bodys).url;
+              sendStr.push(`${ extInfo.senderName } 发送了一个视频：${ url3 }\n`
+                         + `时间：${ item.msgTimeStr }`);
+              break;
             // 直播
             case 'live':
               sendStr.push(`${ extInfo.senderName } 正在直播\n`
