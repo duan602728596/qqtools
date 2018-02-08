@@ -53,4 +53,4 @@ $ copy /b nw.exe+*.nw *.exe
 ```
 
 ## 源代码托管地址
-[https://github.com/duan602728596/48tools](https://github.com/duan602728596/qqtools)
+[https://github.com/duan602728596/qqtools](https://github.com/duan602728596/qqtools)
