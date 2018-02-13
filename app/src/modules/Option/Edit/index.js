@@ -390,37 +390,39 @@ class Add extends Component{
         {/* 群内定时消息推送 */}
         <h4 className={ style.title }>群内定时消息推送：</h4>
         <p>开始时间只对首次登陆有效，之后会根据时间间隔发送消息。如果不设置时间间隔，则以登陆时间为准。登陆成功不会推送消息。</p>
-        <Form.Item className={ style.mb15 } label="开启群内定时消息推送功能">
-          {
-            getFieldDecorator('isTimingMessagePush', {
-              initialValue: isTimingMessagePush
-            })(<Checkbox defaultChecked={ isTimingMessagePush } />)
-          }
-        </Form.Item>
-        <Form.Item className={ style.mb15 } label="开始时间">
-          {
-            getFieldDecorator('timingMessagePushStartTime', {
-              initialValue: startTime
-            })(<TimePicker />)
-          }
-        </Form.Item>
-        <Form.Item className={ style.mb15 } label="时间间隔">
-          {
-            getFieldDecorator('timingMessagePushTime', {
-              initialValue: detail ? detail.basic.timingMessagePushTime : ''
-            })(<Input addonAfter="分" />)
-          }
-        </Form.Item>
-        <br />
-        <Form.Item label="推送消息">
-          <div className="clearfix">
+        <div>
+          <Form.Item className={ style.mb15 } label="开启群内定时消息推送功能">
             {
-              getFieldDecorator('timingMessagePushText', {
-                initialValue: detail ? detail.basic.timingMessagePushText : ''
-              })(<Input.TextArea className={ style.template } rows={ 10 } />)
+              getFieldDecorator('isTimingMessagePush', {
+                initialValue: isTimingMessagePush
+              })(<Checkbox defaultChecked={ isTimingMessagePush } />)
             }
-          </div>
-        </Form.Item>
+          </Form.Item>
+          <Form.Item className={ style.mb15 } label="开始时间">
+            {
+              getFieldDecorator('timingMessagePushStartTime', {
+                initialValue: startTime
+              })(<TimePicker />)
+            }
+          </Form.Item>
+          <Form.Item className={ style.mb15 } label="时间间隔">
+            {
+              getFieldDecorator('timingMessagePushTime', {
+                initialValue: detail ? detail.basic.timingMessagePushTime : ''
+              })(<Input addonAfter="分" />)
+            }
+          </Form.Item>
+          <br />
+          <Form.Item label="推送消息">
+            <div className="clearfix">
+              {
+                getFieldDecorator('timingMessagePushText', {
+                  initialValue: detail ? detail.basic.timingMessagePushText : ''
+                })(<Input.TextArea className={ style.template } rows={ 10 } />)
+              }
+            </div>
+          </Form.Item>
+        </div>
         {/* 心知天气 */}
         <h4 className={ style.title }>心知天气：</h4>
         <div>
