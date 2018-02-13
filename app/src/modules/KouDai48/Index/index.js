@@ -98,7 +98,7 @@ class KouDai48 extends Component{
       if(!err){
         try{
           const data: Object = await login(value.account, value.password);
-          const { content }: { content: Object } = data;
+          const content: Object = data.content;
           const value2: Object = {
             key: 'loginInformation',
             value: {

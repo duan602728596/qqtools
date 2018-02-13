@@ -11,12 +11,11 @@ IndexedDB(option.indexeddb.name, option.indexeddb.version, {
     const objectStore: Array = option.indexeddb.objectStore;
 
     for(let i: number = 0, j: number = objectStore.length; i < j; i++){
-      const item: Object = objectStore[i];
       const { name, key, data }: {
         name: string,
         key: string,
         data: ?Array
-      } = item;
+      } = objectStore[i];
       if(!this.hasObjectStore(name)){
         this.createObjectStore(name, key, data);
       }

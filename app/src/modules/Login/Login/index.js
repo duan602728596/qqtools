@@ -229,7 +229,9 @@ class Login extends Component{
       qq = new SmartQQ({
         callback
       });
-      const [data, cookies]: [Buffer, Object] = await qq.downloadPtqr();
+      const ptqr: [Buffer, Object] = await qq.downloadPtqr();
+      const data: Buffer = ptqr.data;
+      const cookies: Object = ptqr.cookies;
       qq.cookie = cookies;
       // 写入图片
       await writeImage(option.ptqr, data);
@@ -249,8 +251,8 @@ class Login extends Component{
     if(timer) global.clearInterval(timer); // 清除定时器
     // 清除qq相关
     if(qq !== null){
-      if(qq.listenMessageTimer) clearTimeout(qq.listenMessageTimer);                       // 删除轮询信息
-      if(qq.loginBrokenLineReconnection) global.clearInterval(qq.loginBrokenLineReconnection);    // 删除断线重连
+      if(qq.listenMessageTimer) clearTimeout(qq.listenMessageTimer);                            // 删除轮询信息
+      if(qq.loginBrokenLineReconnection) global.clearInterval(qq.loginBrokenLineReconnection);  // 删除断线重连
 
       if(qq.wdsWorker){
         qq.sendMessage({
