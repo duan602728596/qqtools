@@ -26,7 +26,7 @@ class Index extends Component{
         <p className={ style.text }>
           源代码托管地址：
           <Icon type="github" />
-          <span className={ style.url }>https://github.com/duan602728596/qqtools</span>
+          <span className={ style.url }>https://github.com/duan602728596/qqtools/tree/smartQQ</span>
           。
         </p>
         <div className={ style.test }>
