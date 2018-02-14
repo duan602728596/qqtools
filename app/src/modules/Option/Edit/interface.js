@@ -32,7 +32,9 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
   const custom: Object = customProfilesArray2Obj(customProfiles);
   const inter: interfaceOption = {
     name: value.name,
-    groupName: value.groupName,
+    qqNumber: value.qqNumber,
+    groupNumber: value.groupNumber,
+    socketPort: value.socketPort,
     time: new Date().getTime(),
     basic: {
       // 摩点
@@ -50,6 +52,9 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
       // 微博监听
       isWeiboListener: value.isWeiboListener,
       lfid: value.lfid,
+      // 新成员欢迎
+      isNewGroupMember: value.isNewGroupMember,
+      welcomeNewGroupMember: value.welcomeNewGroupMember,
       // 群内定时消息推送
       isTimingMessagePush: value.isTimingMessagePush,
       timingMessagePushTime: value.timingMessagePushTime,

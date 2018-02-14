@@ -204,6 +204,7 @@ class Add extends Component{
     const isListenerAll: boolean = detail ? detail.basic.isListenerAll : false;               // 监听所有成员
     const isRoomListener: boolean = detail ? detail.basic.isRoomListener : false;             // 房间监听
     const isWeiboListener: boolean = detail ? detail.basic.isWeiboListener : false;           // 微博监听
+    const isNewGroupMember: boolean = detail ? detail.basic.isNewGroupMember : false;         // 新成员欢迎
     const isTimingMessagePush: boolean = detail ? detail.basic.isTimingMessagePush : false;   // 定时推送
     const isXinZhiTianQi: boolean = detail ? detail.basic.isXinZhiTianQi : false;             // 心知天气
     const isTuLing: boolean =  detail ? detail.basic.isTuLing : false;                        // 图灵机器人
@@ -212,6 +213,7 @@ class Add extends Component{
       ? detail.basic.timingMessagePushStartTime.split(':') : null;
     const startTime: moment = moment();
     if(st) startTime.hour(Number(st[0])).minute(Number(st[1])).second(Number(st[2]));
+
     return [
       <Form key={ 0 } className={ style.form } layout="inline" onSubmit={ this.onSubmit.bind(this) }>
         <Affix className={ style.affix }>
@@ -237,13 +239,41 @@ class Add extends Component{
               })(<Input placeholder="输入配置名称" readOnly={ detail } />)
             }
           </Form.Item>
-          <Form.Item label="监视群名称">
+          <Form.Item label="QQ号">
             {
-              getFieldDecorator('groupName', {
-                initialValue: detail ? detail.groupName : '',
+              getFieldDecorator('qqNumber', {
+                initialValue: detail ? detail.qqNumber : '',
                 rules: [
                   {
-                    message: '必须输入要监视的群名称',
+                    message: '必须输入QQ号',
+                    required: true,
+                    whitespace: true
+                  }
+                ]
+              })(<Input placeholder="输入配置名称" />)
+            }
+          </Form.Item>
+          <Form.Item label="Socket端口号">
+            {
+              getFieldDecorator('socketPort', {
+                initialValue: detail ? detail.socketPort : '6700',
+                rules: [
+                  {
+                    message: '必须输入Socket端口号',
+                    required: true,
+                    whitespace: true
+                  }
+                ]
+              })(<Input placeholder="输入配置名称" />)
+            }
+          </Form.Item>
+          <Form.Item label="监视群号">
+            {
+              getFieldDecorator('groupNumber', {
+                initialValue: detail ? detail.groupNumber : '',
+                rules: [
+                  {
+                    message: '必须输入要监视的群号',
                     required: true,
                     whitespace: true
                   }
@@ -251,6 +281,14 @@ class Add extends Component{
               })(<Input placeholder="输入群名称" />)
             }
           </Form.Item>
+          <p>Sockte端口号请到酷Q文件下，app/io.github.richardchien.coolqhttpapi，编辑config.cfg文件，如下所示</p>
+          <Input.TextArea className={ style.shuomingPre }
+            id="copy-option-shuoming"
+            value={ '[QQ号]\nws_port=6800\n' }
+            rows={ 4 }
+            readOnly={ true }
+          />
+          <Button icon="copy" title="复制" onClick={ copy.bind(this, 'copy-option-shuoming') } />
           <hr className={ style.line } />
         </div>
         {/* 摩点项目配置 */}
@@ -385,6 +423,32 @@ class Add extends Component{
                 initialValue: detail ? detail.basic.lfid : ''
               })(<Input />)
             }
+          </Form.Item>
+        </div>
+        {/* 欢迎新成员 */}
+        <h4 className={ style.title }>欢迎新成员配置：</h4>
+        <div>
+          <Form.Item className={ style.mb15 } label="开启新成员欢迎功能">
+            {
+              getFieldDecorator('isNewGroupMember', {
+                initialValue: isNewGroupMember
+              })(<Checkbox defaultChecked={ isNewGroupMember } />)
+            }
+          </Form.Item>
+          <br />
+          <Form.Item label="欢迎词">
+            <div className="clearfix">
+              {
+                getFieldDecorator('welcomeNewGroupMember', {
+                  initialValue: detail ? detail.basic.welcomeNewGroupMember : '欢迎{{ nickname }}加入。'
+                })(<Input.TextArea className={ style.template } rows={ 5 } />)
+              }
+              <p className={ style.shuoming }>
+                <b>模板关键字：</b>
+                <br />
+                nickname：群成员的昵称
+              </p>
+            </div>
           </Form.Item>
         </div>
         {/* 群内定时消息推送 */}

@@ -41,7 +41,7 @@ async function kd48timer(): Promise<void>{
       newLive: Array
     } = event.data;
     oldList = newDataObj; // 覆盖旧数据
-    // 当有新直播时，遍历已登录的SmartQQ，并发送数据
+    // 当有新直播时，遍历已登录的CoolQ，并发送数据
     if(newLive.length > 0){
       const ll: Object | Array = store.getState().get('login').get('qqLoginList');
       const ll2: Array = ll instanceof Array ? ll : ll.toJS();
@@ -62,12 +62,12 @@ async function kd48timer(): Promise<void>{
               subTitle: string = item1.subTitle,
               time1: string = time('YY-MM-DD hh:mm:ss', item1.startTime),
               streamPath: string = item1.streamPath,
-              qq: SmartQQ = item2;
+              qq: CoolQ = item2;
             const text: string = `${ member } 开启了一个直播。\n`
                                + `直播标题：${ subTitle }\n`
                                + `开始时间：${ time1 }\n`
                                + `视频地址：${ streamPath }`;
-            await qq.sendFormatMessage(text);
+            await qq.sendMessage(text);
           }
         }
       }

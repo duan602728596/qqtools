@@ -44,8 +44,14 @@ const Detail: ?Object = (props: ?Object): ?Object=>{
         <tr>
           <td className={ `${ style.td1 } ${ style.tdTitle }` }>配置名称</td>
           <td className={ style.td2 }>{ detail.name }</td>
-          <td className={ `${ style.td1 } ${ style.tdTitle }` }>监视群名称</td>
-          <td className={ style.td2 }>{ detail.groupName }</td>
+          <td className={ `${ style.td1 } ${ style.tdTitle }` }>QQ号</td>
+          <td className={ style.td2 }>{ detail.qqNumber }</td>
+        </tr>
+        <tr>
+          <td className={ `${ style.td1 } ${ style.tdTitle }` }>群号</td>
+          <td className={ style.td2 }>{ detail.groupNumber }</td>
+          <td className={ `${ style.td1 } ${ style.tdTitle }` }>socket端口</td>
+          <td className={ style.td2 }>{ detail.socketPort }</td>
         </tr>
         {/* 摩点 */}
         <tr>

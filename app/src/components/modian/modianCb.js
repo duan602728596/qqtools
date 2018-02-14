@@ -3,7 +3,7 @@ import getModianInformation from './getModianInformation';
 import { templateReplace } from '../../function';
 import ModianListWorker from 'worker-loader?name=script/modianList_[hash]_worker.js!./modianList.worker';
 
-function modianCb(command: string[], qq: SmartQQ): void{
+function modianCb(command: string[], qq: CoolQ): void{
   if(!command[2]){
     command[2] = '20';
   }
@@ -37,19 +37,19 @@ function modianCb(command: string[], qq: SmartQQ): void{
 }
 
 /* 发送信息 */
-async function sendModianInfor(qq: SmartQQ): Promise<void>{
+async function sendModianInfor(qq: CoolQ): Promise<void>{
   const text: string = templateReplace(qq.option.basic.modianUrlTemplate, {
     modianname: qq.modianTitle,
     modianid: qq.option.basic.modianId
   });
-  await qq.sendFormatMessage(text);
+  await qq.sendMessage(text);
 }
 
 /* 新线程计算排名 */
-async function list(proId: string, type: string, size: string, qq: SmartQQ): Promise<void>{
+async function list(proId: string, type: string, size: string, qq: CoolQ): Promise<void>{
   const worker: Worker = new ModianListWorker();
   const cb: Function = async(event: Event): Promise<void>=>{
-    await qq.sendFormatMessage(event.data.text);
+    await qq.sendMessage(event.data.text);
     worker.removeEventListener('message', cb);
     worker.terminate();
   };
@@ -63,10 +63,10 @@ async function list(proId: string, type: string, size: string, qq: SmartQQ): Pro
 }
 
 /* 获取订单信息 */
-async function dingDan(proId: string, size: string, qq: SmartQQ): Promise<void>{
+async function dingDan(proId: string, size: string, qq: CoolQ): Promise<void>{
   const worker: Worker = new ModianListWorker();
   const cb: Function = async(event: Event): Promise<void>=>{
-    await qq.sendFormatMessage(event.data.text);
+    await qq.sendMessage(event.data.text);
     worker.removeEventListener('message', cb);
     worker.terminate();
   };
@@ -80,9 +80,9 @@ async function dingDan(proId: string, size: string, qq: SmartQQ): Promise<void>{
 }
 
 /* 获取已集资金额 */
-async function getAllMount(qq: SmartQQ): Promise<void>{
+async function getAllMount(qq: CoolQ): Promise<void>{
   const { already_raised }: { already_raised: number } = await getModianInformation(qq.option.basic.modianId);
-  await qq.sendFormatMessage(`${ qq.modianTitle }: ￥${ already_raised } / ￥${ qq.modianGoal }`);
+  await qq.sendMessage(`${ qq.modianTitle }: ￥${ already_raised } / ￥${ qq.modianGoal }`);
 }
 
 export default modianCb;

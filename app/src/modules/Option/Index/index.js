@@ -54,9 +54,9 @@ class Index extends Component{
         width: '35%'
       },
       {
-        title: '监听群名称',
-        dataIndex: 'groupName',
-        key: 'groupName',
+        title: '监听群号',
+        dataIndex: 'groupNumber',
+        key: 'groupNumber',
         width: '35%'
       },
       {

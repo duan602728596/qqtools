@@ -38,40 +38,28 @@ class Index extends Component{
   columus(): Array{
     const columns: Array = [
       {
-        title: 'QQ昵称',
-        key: 'name',
-        width: '20%',
-        render: (text: ?string, item: SmartQQ): string => item.name
+        title: 'QQ号',
+        key: 'qqNumber',
+        width: '25%',
+        render: (text: ?string, item: CoolQ): string => item.qq
       },
       {
-        title: '群名称',
+        title: '群ID',
         key: 'groupName',
-        width: '15%',
-        render: (text: ?string, item: SmartQQ): string => item.option.groupName
+        width: '25%',
+        render: (text: ?string, item: CoolQ): string => item.option.groupNumber
       },
       {
         title: '配置名称',
         key: 'optionName',
-        width: '20%',
-        render: (text: ?string, item: SmartQQ): string => item.option.name
-      },
-      {
-        title: 'uin',
-        key: 'uin',
-        width: '15%',
-        render: (text: ?string, item: SmartQQ): string => `${ item.uin }`
-      },
-      {
-        title: 'cip',
-        key: 'cip',
-        width: '15%',
-        render: (text: ?string, item: SmartQQ): string => `${ item.cip }`
+        width: '25%',
+        render: (text: ?string, item: CoolQ): string => item.option.name
       },
       {
         title: '操作',
         key: 'handle',
-        width: '15%',
-        render: (text: ?string, item: SmartQQ): Object=>{
+        width: '25%',
+        render: (text: ?string, item: CoolQ): Object=>{
           return (
             <Popconfirm title="确认要退出吗？" onConfirm={ this.onLogOut.bind(this, item) }>
               <Button type="danger" size="small" icon="logout">退出</Button>
@@ -83,36 +71,9 @@ class Index extends Component{
     return columns;
   }
   // 退出
-  onLogOut(item: SmartQQ, event: Event): void{
+  onLogOut(item: CoolQ, event: Event): void{
     const index: number = this.props.qqLoginList.indexOf(item);
-    global.clearInterval(item.listenMessageTimer);                // 删除轮询信息
-    // global.clearInterval(item.loginBrokenLineReconnection);    // 删除断线重连
-
-    // 删除摩点的web worker
-    if(item.modianWorker){
-      item.sendMessage({
-        type: 'cancel'
-      });
-      item.modianWorker.terminate();
-      item.modianWorker = null;
-    }
-
-    // 关闭房间信息监听
-    if(item.roomListenerTimer !== null) global.clearTimeout(item.roomListenerTimer);
-
-    // 删除微博的web worker
-    if(item.weiboWorker){
-      item.sendMessage({
-        type: 'cancel'
-      });
-      item.weiboWorker.terminate();
-      item.weiboWorker = null;
-    }
-
-    // 删除群消息推送定时器
-    if(item.timingMessagePushTimer){
-      global.clearInterval(item.timingMessagePushTimer);
-    }
+    item.outAndClear();
 
     this.props.qqLoginList.splice(index, 1);
     this.props.action.changeQQLoginList({
@@ -123,7 +84,7 @@ class Index extends Component{
     if(this.props.kd48LiveListenerTimer !== null){
       let isListener: boolean = false;
       for(let i: number = 0, j: number = this.props.qqLoginList.length; i < j; i++){
-        const item: SmartQQ = this.props.qqLoginList[i];
+        const item: CoolQ = this.props.qqLoginList[i];
         if(item.option.basic.is48LiveListener && item.members){
           isListener = true;
           break;
@@ -157,7 +118,7 @@ class Index extends Component{
       <div key={ 1 } className={ publicStyle.tableBox }>
         <Table bordered={ true }
           columns={ this.columus() }
-          rowKey={ (item: Object): string => item.token }
+          rowKey={ (item: Object): string => item.time }
           dataSource={ this.props.qqLoginList }
           pagination={{
             pageSize: 20,

@@ -1,6 +1,6 @@
 /* 机器人 */
 
-function getTuLing(command: string[], qq: SmartQQ): void{
+function getTuLing(command: string[], qq: CoolQ): void{
   $.ajax({
     type: 'POST',
     url: 'http://www.tuling123.com/openapi/api',
@@ -15,7 +15,7 @@ function getTuLing(command: string[], qq: SmartQQ): void{
       if('url' in data){
         text += `\n${ data.url }`;
       }
-      qq.sendFormatMessage(text);
+      qq.sendMessage(text);
     },
     error(err: any): void{
       qq.sendMessage('[ERROR] 机器人返回数据失败。');
@@ -23,7 +23,7 @@ function getTuLing(command: string[], qq: SmartQQ): void{
   });
 }
 
-function tuLingCb(command: string[], qq: SmartQQ): void{
+function tuLingCb(command: string[], qq: CoolQ): void{
   if(qq.option.basic.isXinZhiTianQi){
     getTuLing(command, qq);
   }else{

@@ -1,7 +1,7 @@
 import post from './post';
 import { time } from '../../function';
 
-async function getList(qq: Smart): Promise<void>{
+async function getList(qq: CoolQ): Promise<void>{
   const data: string = await post();
   const data2: Object = JSON.parse(data);
 
@@ -23,10 +23,10 @@ async function getList(qq: Smart): Promise<void>{
   }else{
     text = '[ERROR] 获取口袋48直播列表错误。\'';
   }
-  await qq.sendFormatMessage(text);
+  await qq.sendMessage(text);
 }
 
-function kd48Cb(qq: SmartQQ): void{
+function kd48Cb(qq: CoolQ): void{
   if(qq.option.basic.is48LiveListener){
     getList(qq);
   }else{

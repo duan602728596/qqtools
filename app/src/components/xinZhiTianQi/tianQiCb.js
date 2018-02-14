@@ -1,7 +1,7 @@
 /* 天气查询接口 */
 import { templateReplace } from '../../function';
 
-function getTianQi(command: string[], qq: SmartQQ): void{
+function getTianQi(command: string[], qq: CoolQ): void{
   $.ajax({
     type: 'GET',
     url: `https://api.seniverse.com/v3/weather/now.json?key=${ qq.option.basic.xinZhiTianQiAPIKey }&location=${ command[1] }&language=zh-Hans&unit=c`,
@@ -15,7 +15,7 @@ function getTianQi(command: string[], qq: SmartQQ): void{
           text: results.now.text,
           temperature: results.now.temperature
         });
-        qq.sendFormatMessage(text);
+        qq.sendMessage(text);
       }else{
         qq.sendMessage(`[ERROR] ${ data.status_code }: ${ data.status }`);
       }
@@ -26,7 +26,7 @@ function getTianQi(command: string[], qq: SmartQQ): void{
   });
 }
 
-function tianQiCb(command: string[], qq: SmartQQ): void{
+function tianQiCb(command: string[], qq: CoolQ): void{
   if(qq.option.basic.isXinZhiTianQi){
     getTianQi(command, qq);
   }else{

@@ -1,5 +1,5 @@
 /* 帮助命令 */
-async function helpCb(qq: SmartQQ): Promise<void>{
+async function helpCb(qq: CoolQ): Promise<void>{
   const text1: string = `【帮助】
 · [摩点 或 mod]:查看当前微打赏链接
 · [(摩点 或 mod) 0]:查看当前已集资数
@@ -16,8 +16,8 @@ async function helpCb(qq: SmartQQ): Promise<void>{
     text2 += '\n · ' + key;
   });
 
-  await qq.sendFormatMessage(text1);
-  await qq.sendFormatMessage(text2);
+  await qq.sendMessage(text1);
+  await qq.sendMessage(text2);
 }
 
 export default helpCb;
