@@ -35,7 +35,7 @@ class SmartQQ{
   roomListenerTimer: ?number;
   roomLastTime: ?number;
   kouDai48Token: ?string;
-  weiboWorker: ?null;
+  weiboWorker: ?Worker;
   timingMessagePushTimer: ?null;
 
   constructor({ callback }: cons): void{
@@ -356,6 +356,39 @@ class SmartQQ{
       setEncode: 'utf8',
       timeout: 20000  // 设置20秒超时
     });
+  }
+  // 退出
+  outAndClear(): void{
+    global.clearInterval(this.listenMessageTimer);                // 删除轮询信息
+    // global.clearInterval(this.loginBrokenLineReconnection);    // 删除断线重连
+
+    // 删除摩点的web worker
+    if(this.modianWorker){
+      this.modianWorker.postMessage({
+        type: 'cancel'
+      });
+      this.modianWorker.terminate();
+      this.modianWorker = null;
+    }
+
+    // 关闭房间信息监听
+    if(this.roomListenerTimer !== null){
+      global.clearTimeout(this.roomListenerTimer);
+    }
+
+    // 删除微博的web worker
+    if(this.weiboWorker){
+      this.weiboWorker.postMessage({
+        type: 'cancel'
+      });
+      this.weiboWorker.terminate();
+      this.weiboWorker = null;
+    }
+
+    // 删除群消息推送定时器
+    if(this.timingMessagePushTimer){
+      global.clearInterval(this.timingMessagePushTimer);
+    }
   }
 
   /* === 从此往下是业务相关 === */
