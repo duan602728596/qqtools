@@ -480,7 +480,7 @@ class SmartQQ{
       }
     }
   }
-  // 轮询判断手否到指定时间
+  // 轮询判断是否到指定时间
   async timeIsOption(event: Event): Promise<void>{
     const option: number[] = this.option.basic.timingMessagePushStartTime.split(':');
     const omu: number = moment().hour(Number(option[0])).minute(Number(option[1])).second(Number(option[2])).unix();
