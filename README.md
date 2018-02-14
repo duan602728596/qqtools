@@ -3,6 +3,8 @@
 ## 软件下载链接
 进入到[https://github.com/duan602728596/document/blob/master/48/README.md](https://github.com/duan602728596/document/blob/master/48/README.md)下载
 
+## 针对酷Q的扩展请查看[https://github.com/duan602728596/qqtools/tree/master](https://github.com/duan602728596/qqtools/tree/master)
+
 ## 功能
 * 摩点项目监听
 * 口袋48直播监听
