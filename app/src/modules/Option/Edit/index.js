@@ -278,7 +278,7 @@ class Add extends Component{
                     whitespace: true
                   }
                 ]
-              })(<Input placeholder="输入群名称" />)
+              })(<Input placeholder="输入群号" />)
             }
           </Form.Item>
           <p className={ style.coolQP }>
