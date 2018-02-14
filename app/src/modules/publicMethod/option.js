@@ -23,8 +23,6 @@ const option: {
   cache: string,
   indexeddb: indexeddbMap
 } = {
-  cache: `${ execPath }/.cache`,          // 文件缓存目录
-  ptqr: `${ execPath }/.cache/ptqr.png`,  // 二维码
   indexeddb: {                            // 配置indexedDB
     name: 'qqtools',
     version: 10,
