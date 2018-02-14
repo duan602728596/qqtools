@@ -1,7 +1,10 @@
-# QQ群工具
+# QQ群工具v2
 
 ## 软件下载链接
 进入到[https://github.com/duan602728596/document/blob/master/48/README.md](https://github.com/duan602728596/document/blob/master/48/README.md)下载
+
+## SmartQQ版本
+SmartQQ版本请查看[https://github.com/duan602728596/qqtools/tree/smartQQ](https://github.com/duan602728596/qqtools/tree/smartQQ)
 
 ## 功能
 * 摩点项目监听
@@ -34,10 +37,12 @@ pug + sass + ECMA8 + react + antd + webpack + nwjs。
 * 教程参考：[http://www.ituring.com.cn/book/1421](http://www.ituring.com.cn/book/1421)
 * api文档：[https://developer.chrome.com/extensions/api_index](https://developer.chrome.com/extensions/api_index)
 
+## coolq-http-api
+酷Q和nodejs的交互离不开**[https://github.com/richardchien/coolq-http-api](https://github.com/richardchien/coolq-http-api)**，感谢插件的作者！！！
+
 ## 文件夹结构
 * nwjs: nwjs SDK
   * app: 源代码
-  * .cache: 缓存目录
 
 ## 关于dll
 无论是开发环境还是生产环境，首先要编译dll文件，将公共模块提取出来。
