@@ -281,8 +281,15 @@ class Add extends Component{
               })(<Input placeholder="输入群名称" />)
             }
           </Form.Item>
-          <p>Sockte端口号请到酷Q文件下，app/io.github.richardchien.coolqhttpapi，编辑config.cfg文件，如下所示</p>
-          <Input.TextArea className={ style.shuomingPre }
+          <p className={ style.coolQP }>
+            Sockte端口号请到
+            <b>酷Q</b>文件下，找到
+            <b>app/io.github.richardchien.coolqhttpapi</b>
+            文件夹，编辑
+            <b>config.cfg</b>
+            文件，添加如下配置
+          </p>
+          <Input.TextArea className={ style.coolQShuoming }
             id="copy-option-shuoming"
             value={ '[QQ号]\nws_port=6800\n' }
             rows={ 4 }

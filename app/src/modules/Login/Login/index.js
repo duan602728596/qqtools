@@ -193,6 +193,7 @@ class Login extends Component{
     return (
       <div className={ style.body }>
         <div className={ style.changeOption }>
+          <p className={ style.zhuyi }>注意：要先登录酷Q！</p>
           <label>选择一个配置文件：</label>
           <Select className={ style.select }
             dropdownClassName={ style.select }
