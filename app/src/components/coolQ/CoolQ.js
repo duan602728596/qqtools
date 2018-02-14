@@ -165,7 +165,16 @@ class CoolQ{
       global.clearInterval(this.timingMessagePushTimer);
     }
 
-    // 关闭socket
+    // --- 关闭socket ---
+    // event
+    this.eventSocket.removeEventListener('open', this.onOpenEventSocket);
+    this.eventSocket.removeEventListener('error', this.onEventSocketError);
+    this.eventSocket.removeEventListener('message', this.onListenerEventMessage);
+    // api
+    this.apiSocket.removeEventListener('open', this.onOpenApiSocket);
+    this.apiSocket.removeEventListener('error', this.onApiSocketError);
+    this.apiSocket.removeEventListener('message', this.onListenerApiMessage);
+
     this.eventSocket.close();
     this.apiSocket.close();
   }
