@@ -251,19 +251,7 @@ class Login extends Component{
     if(timer) global.clearInterval(timer); // 清除定时器
     // 清除qq相关
     if(qq !== null){
-      if(qq.listenMessageTimer) clearTimeout(qq.listenMessageTimer);                            // 删除轮询信息
-      if(qq.loginBrokenLineReconnection) global.clearInterval(qq.loginBrokenLineReconnection);  // 删除断线重连
-
-      if(qq.wdsWorker){
-        qq.sendMessage({
-          type: 'cancel'
-        });
-        qq.wdsWorker.terminate();
-        qq.wdsWorker = null;
-      }
-      // 删除群监听
-      if(qq.minfoTimer) clearTimeout(qq.minfoTimer);
-
+      qq.outAndClear();
       // 判断是否需要关闭直播监听
       if(this.props.kd48LiveListenerTimer !== null){
         let isListener: boolean = false;
