@@ -267,13 +267,13 @@ class Add extends Component{
               })(<Input placeholder="输入配置名称" />)
             }
           </Form.Item>
-          <Form.Item label="监视群号">
+          <Form.Item label="监听群号">
             {
               getFieldDecorator('groupNumber', {
                 initialValue: detail ? detail.groupNumber : '',
                 rules: [
                   {
-                    message: '必须输入要监视的群号',
+                    message: '必须输入要监听的群号',
                     required: true,
                     whitespace: true
                   }
