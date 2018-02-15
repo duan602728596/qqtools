@@ -141,6 +141,28 @@ const Detail: ?Object = (props: ?Object): ?Object=>{
           <td className={ style.tdTitle }>微博lfid</td>
           <td>{ detail.basic.lfid }</td>
         </tr>
+        {/* 欢迎新成员 */}
+        <tr>
+          <td className={ style.tdGTitle } colSpan={ 4 }>欢迎新成员</td>
+        </tr>
+        <tr>
+          <td className={ style.tdTitle }>开启欢迎新成员功能</td>
+          <td>
+            {
+              detail.basic.isNewGroupMember ? (
+                <span className={ style.on }>开启</span>
+              ) : (
+                <span className={ style.off }>未开启</span>
+              )
+            }
+          </td>
+        </tr>
+        <tr>
+          <td className={ style.tdTitle }>欢迎词</td>
+          <td colSpan={ 3 }>
+            <pre>{ detail.basic.welcomeNewGroupMember }</pre>
+          </td>
+        </tr>
         {/* 群内定时消息推送功能 */}
         <tr>
           <td className={ style.tdGTitle } colSpan={ 4 }>群内定时消息推送功能</td>
