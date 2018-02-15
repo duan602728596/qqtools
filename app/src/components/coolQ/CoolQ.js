@@ -7,6 +7,7 @@ class CoolQ{
   time: number;
   qq: string;
   port: string;
+  isError: boolean;
   eventUrl: string;
   eventSocket: ?WebSocket;
   isEventSuccess: boolean;
@@ -37,6 +38,7 @@ class CoolQ{
     this.time = moment().unix();
     this.qq = qq;                                             // qq号
     this.port = port;                                         // socket端口
+    this.isError = false;                                     // 判断是否错误
     this.eventUrl = `ws://127.0.0.1:${ this.port }/event/`;   // 地址
     this.eventSocket = null;                                  // socket
     this.isEventSuccess = false;                              // 判断是否连接成功
@@ -71,11 +73,12 @@ class CoolQ{
   }
   // 初始化连接
   _onOpenSocket(key: string, type: string, event: Event): void{
-    message.success(`【${ this.qq }】 Socket: ${ type }连接成功！`);
     this[key] = true;
+    message.success(`【${ this.qq }】 Socket: ${ type }连接成功！`);
   }
   // 连接失败
   _onSocketError(type: string, event: Event): void{
+    this.isError = true;
     message.error(`【${ this.qq }】 Socket: ${ type }连接失败！请检查酷Q的配置是否正确！`);
   }
   // 接收消息
