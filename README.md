@@ -20,8 +20,8 @@ SmartQQ版本请查看[https://github.com/duan602728596/qqtools/tree/smartQQ](ht
 * 自定义命令
 * 配置导入和导出
 
-## 配置方法
-[https://github.com/duan602728596/qqtools/blob/master/配置方法.txt](https://github.com/duan602728596/qqtools/blob/master/配置方法.txt)
+## 使用说明
+[https://github.com/duan602728596/qqtools/blob/master/使用说明.txt](https://github.com/duan602728596/qqtools/blob/master/使用说明.txt)
 
 ## 许可证
 本软件遵循**GNU General Public License v3.0**许可证。
