@@ -1,5 +1,7 @@
 # QQ群工具v2
 
+V2版本的QQ登录基于[酷Q](https://cqp.cc/)。
+
 ## 软件下载链接
 进入到[https://github.com/duan602728596/document/blob/master/48/README.md](https://github.com/duan602728596/document/blob/master/48/README.md)下载
 
@@ -11,6 +13,7 @@ SmartQQ版本请查看[https://github.com/duan602728596/qqtools/tree/smartQQ](ht
 * 口袋48直播监听
 * 成员房间信息监听
 * 微博监听
+* 新成员自动欢迎
 * 定时喊话
 * 天气预报查询
 * 图灵机器人
@@ -38,7 +41,7 @@ pug + sass + ECMA8 + react + antd + webpack + nwjs。
 * api文档：[https://developer.chrome.com/extensions/api_index](https://developer.chrome.com/extensions/api_index)
 
 ## coolq-http-api
-酷Q和nodejs的交互离不开**[https://github.com/richardchien/coolq-http-api](https://github.com/richardchien/coolq-http-api)**，感谢插件的作者！！！
+酷Q和nodejs的交互离不开[**https://github.com/richardchien/coolq-http-api**](https://github.com/richardchien/coolq-http-api)，感谢插件的作者！！！
 
 ## 文件夹结构
 * nwjs: nwjs SDK

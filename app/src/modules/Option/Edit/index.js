@@ -291,7 +291,7 @@ class Add extends Component{
           </p>
           <Input.TextArea className={ style.coolQShuoming }
             id="copy-option-shuoming"
-            value={ '[QQ号]\nws_port=6800\n' }
+            value={ '[QQ号]\nws_port=端口号(比如:6800)\n' }
             rows={ 4 }
             readOnly={ true }
           />
