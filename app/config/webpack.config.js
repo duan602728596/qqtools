@@ -64,18 +64,6 @@ function config(options){
               }
             }
           ]
-        },
-        { // pug
-          test: /^.*\.pug$/,
-          use: [
-            {
-              loader: 'pug-loader',
-              options: {
-                pretty: process.env.NODE_ENV === 'development',
-                name: '[name].html'
-              }
-            }
-          ]
         }
       ]
     },
@@ -90,6 +78,7 @@ function config(options){
   };
 
   /* 合并 */
+  conf.module.rules = conf.module.rules.concat(options.module.rules);       // 合并rules
   conf.plugins = conf.plugins.concat(options.plugins);                      // 合并插件
   conf.output = options.output;                                             // 合并输出目录
   if('devtool' in options){                                                 // 合并source-map配置

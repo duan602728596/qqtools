@@ -11,6 +11,21 @@ module.exports = config({
     filename: 'script/[name]_[chunkhash].js',
     chunkFilename: 'script/[name]_[chunkhash]_chunk.js'
   },
+  module: {
+    rules: [
+      { // pug
+        test: /^.*\.pug$/,
+        use: [
+          {
+            loader: 'pug-loader',
+            options: {
+              name: '[name].html'
+            }
+          }
+        ]
+      }
+    ]
+  },
   plugins: [
     // 代码压缩
     new UglifyJSPlugin({

@@ -10,6 +10,30 @@ module.exports = config({
     filename: 'script/[name].js',
     chunkFilename: 'script/[name]_chunk.js'
   },
+  module: {
+    rules: [
+      { // pug
+        test: /^.*\.pug$/,
+        use: [
+          {
+            loader: 'pug-loader',
+            options: {
+              pretty: true,
+              name: '[name].html'
+            }
+          },
+          {
+            loader: 'nwjs-webpack-hot-loader/loader',
+            options: {
+              buildFile: './build',
+              rootFile: 'script/app.js',
+              type: 'pug'
+            }
+          }
+        ]
+      }
+    ]
+  },
   devtool: 'cheap-module-source-map',
   plugins: [
     // html模板
