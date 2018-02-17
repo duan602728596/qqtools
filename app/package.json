@@ -83,7 +83,7 @@
     "url-loader": "^0.6.2",
     "webpack": "^4.0.0-beta.1",
     "webpack-cli": "^2.0.6",
-    "worker-loader": "github:duan602728596/qqtools#worker-loader-build"
+    "worker-loader": "github:duan602728596/worker-loader#build"
   },
   "peerDependencies": {
     "node-modules-clean": "^0.1.1"
