@@ -54,7 +54,7 @@
     "eslint-plugin-flowtype": "^2.44.0",
     "eslint-plugin-react": "^7.6.1",
     "file-loader": "^1.1.6",
-    "html-webpack-plugin": "github:Graham42/html-webpack-plugin#feat/webpack-4",
+    "html-webpack-plugin": "github:webpack-contrib/html-webpack-plugin",
     "immutable": "^4.0.0-rc.9",
     "indexeddb-tools": "^2.0.3",
     "indexeddb-tools-redux": "^2.0.0",
