@@ -34,7 +34,7 @@ function config(options){
         },
         { // sass
           test: /^.*\.sass$/,
-          use: ['style-loader', cssConfig, postcssConfig, sassConfig],
+          use: ['style-loader', cssConfig, postcssConfig, sassConfig]
         },
         { // css
           test: /^.*\.css$/,
