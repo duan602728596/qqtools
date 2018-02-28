@@ -2,6 +2,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const config = require('./webpack.config');
+const cssConfig = require('./css.config');
+const sassConfig = require('./sass.config');
+const postcssConfig = require('./postcss.config');
 
 /* 合并配置 */
 module.exports = config({
@@ -10,8 +13,17 @@ module.exports = config({
     filename: 'script/[name].js',
     chunkFilename: 'script/[name]_chunk.js'
   },
+  devtool: 'cheap-module-source-map',
   module: {
     rules: [
+      { // sass
+        test: /^.*\.sass$/,
+        use: ['style-loader', cssConfig, postcssConfig, sassConfig],
+      },
+      { // css
+        test: /^.*\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
       { // pug
         test: /^.*\.pug$/,
         use: [
@@ -34,7 +46,6 @@ module.exports = config({
       }
     ]
   },
-  devtool: 'cheap-module-source-map',
   plugins: [
     // html模板
     new HtmlWebpackPlugin({
