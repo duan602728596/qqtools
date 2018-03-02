@@ -2,9 +2,9 @@
 const path = require('path');
 const process = require('process');
 const webpack = require('webpack');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
+  mode: process.env.NODE_ENV,
   entry: {
     'dll': [
       'react',
@@ -13,7 +13,6 @@ module.exports = {
       'redux',
       'react-redux',
       'redux-thunk',
-      'redux-logger',
       'redux-actions',
       'immutable',
       'redux-immutable',
@@ -35,17 +34,6 @@ module.exports = {
       path: '.dll/manifest.json',
       name: '[name]_[hash]',
       context: __dirname
-    }),
-    // 代码压缩
-    new UglifyJSPlugin({
-      uglifyOptions: {
-        warnings: true,
-        output: {
-          comments: false,
-          beautify: false,
-          quote_style: 3
-        }
-      }
     }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
   ]
