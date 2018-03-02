@@ -10,6 +10,9 @@ function config(options){
     entry: {
       app: path.join(__dirname, '../src/app.js')
     },
+    externals: {
+      jquery: 'window.jQuery'
+    },
     module: {
       rules: [
         { // react & js

@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import post from './post';
 import { time } from '../../function';
 

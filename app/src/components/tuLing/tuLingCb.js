@@ -1,4 +1,5 @@
 /* 机器人 */
+import $ from 'jquery';
 
 function getTuLing(command: string[], qq: CoolQ): void{
   $.ajax({

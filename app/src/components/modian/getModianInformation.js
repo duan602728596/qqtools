@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import sign from './function/sign';
 
 /**

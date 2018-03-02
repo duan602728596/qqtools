@@ -1,6 +1,7 @@
 /* 当前配置的具体内容 */
 import React, { Component } from 'react';
 import style from './style.sass';
+import $ from 'jquery';
 
 /* 将Obj转换成Array */
 function customProfiles(customProfiles: Object): Array{
