@@ -1,4 +1,6 @@
 /* 帮助命令 */
+import $ from 'jquery';
+
 async function helpCb(qq: SmartQQ): Promise<void>{
   const text1: string = `【帮助】
 · [摩点 或 mod]:查看当前微打赏链接

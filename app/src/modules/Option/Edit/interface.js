@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 /**
  * name       配置名称
  * id         配置的id

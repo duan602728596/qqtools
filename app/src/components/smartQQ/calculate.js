@@ -1,3 +1,4 @@
+import $ from 'jquery';
 const https: Object = global.require('https');
 const http: Object = global.require('http');
 const url: Object = global.require('url');

@@ -1,4 +1,5 @@
 /* 天气查询接口 */
+import $ from 'jquery';
 import { templateReplace } from '../../function';
 
 function getTianQi(command: string[], qq: SmartQQ): void{

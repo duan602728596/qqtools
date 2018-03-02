@@ -1,5 +1,6 @@
 /* 当前配置的具体内容 */
 import React, { Component } from 'react';
+import $ from 'jquery';
 import style from './style.sass';
 
 /* 将Obj转换成Array */
