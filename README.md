@@ -10,20 +10,12 @@
 * 摩点项目监听
 * 口袋48直播监听
 * 成员房间信息监听
-* 微博监听
+* 微博监听（[微博的lfid查找方法](#微博的lfid查找方法)）
 * 定时喊话
 * 天气预报查询
 * 图灵机器人
 * 自定义命令
 * 配置导入和导出
-
-## 微博的lfid查找方法
-1、移动端打开微博：找到要监听的微博   
-![示例1](https://raw.githubusercontent.com/duan602728596/document/master/image/20180307193607.jpg)
-2、点击昵称，此时微博页面不变，但是地址变了，地址上就有lfid   
-![示例2](https://raw.githubusercontent.com/duan602728596/document/master/image/20180307193622.jpg)
-3、验证lfid是否正确
-地址：`https://m.weibo.cn/api/container/getIndex?containerid={{ lfid }}`
 
 ## 许可证
 本软件遵循**GNU General Public License v3.0**许可证。
@@ -65,3 +57,11 @@ $ copy /b nw.exe+*.nw *.exe
 
 ## 源代码托管地址
 [https://github.com/duan602728596/qqtools](https://github.com/duan602728596/qqtools)
+
+## 微博的lfid查找方法
+1、移动端打开微博：找到要监听的微博   
+![示例1](https://raw.githubusercontent.com/duan602728596/document/master/image/20180307193607.jpg)   
+2、点击昵称，此时微博页面不变，但是地址变了，地址上就有lfid   
+![示例2](https://raw.githubusercontent.com/duan602728596/document/master/image/20180307193622.jpg)   
+3、验证lfid是否正确   
+地址：`https://m.weibo.cn/api/container/getIndex?containerid={{ lfid }}`
