@@ -38,22 +38,22 @@ class Index extends Component{
   columus(): Array{
     const columns: Array = [
       {
+        title: '配置名称',
+        key: 'optionName',
+        width: '25%',
+        render: (text: ?string, item: CoolQ): string => item.option.name
+      },
+      {
         title: 'QQ号',
         key: 'qqNumber',
         width: '25%',
         render: (text: ?string, item: CoolQ): string => item.qq
       },
       {
-        title: '群ID',
-        key: 'groupName',
+        title: '监听群号',
+        key: 'groupNumber',
         width: '25%',
         render: (text: ?string, item: CoolQ): string => item.option.groupNumber
-      },
-      {
-        title: '配置名称',
-        key: 'optionName',
-        width: '25%',
-        render: (text: ?string, item: CoolQ): string => item.option.name
       },
       {
         title: '操作',

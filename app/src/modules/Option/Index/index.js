@@ -52,17 +52,24 @@ class Index extends Component{
         title: '配置名称',
         dataIndex: 'name',
         key: 'name',
-        width: '35%'
+        width: '25%'
+      },
+      {
+        title: 'QQ号',
+        dataIndex: 'qqNumber',
+        key: 'qqNumber',
+        width: '25%'
       },
       {
         title: '监听群号',
         dataIndex: 'groupNumber',
         key: 'groupNumber',
-        width: '35%'
+        width: '25%'
       },
       {
         title: '操作',
         key: 'handle',
+        width: '25%',
         render: (text: string, item: Object, index: number): Array=>{
           return [
             <Link key={ 0 } to={{
@@ -192,7 +199,7 @@ class Index extends Component{
         <Table dataSource={ this.props.optionList }
           columns={ this.columns() }
           bordered={ true }
-          rowKey={ (item: Object): string=>item.name }
+          rowKey={ (item: Object): string => item.time }
           pagination={{
             pageSize: 20,
             showQuickJumper: true

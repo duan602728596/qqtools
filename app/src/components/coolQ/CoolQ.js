@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { message } from 'antd';
 import { requestRoomMessage, requestUserInformation } from '../kd48listerer/roomListener';
 import { templateReplace } from '../../function';
@@ -25,7 +24,7 @@ class CoolQ{
   roomLastTime: ?number;
   kouDai48Token: ?string;
   weiboWorker: ?Worker;
-  timingMessagePushTimer: ?null;
+  timingMessagePushTimer: ?Object;
 
   onOpenEventSocket: Function;
   onEventSocketError: Function;
@@ -35,7 +34,6 @@ class CoolQ{
   onListenerApiMessage: Function;
 
   constructor(qq: string, port: string, callback: Function): void{
-    this.time = moment().unix();
     this.qq = qq;                                             // qq号
     this.port = port;                                         // socket端口
     this.isError = false;                                     // 判断是否错误
@@ -165,7 +163,7 @@ class CoolQ{
 
     // 删除群消息推送定时器
     if(this.timingMessagePushTimer){
-      global.clearInterval(this.timingMessagePushTimer);
+      this.timingMessagePushTimer.cancel();
     }
 
     // --- 关闭socket ---
@@ -304,24 +302,8 @@ class CoolQ{
       }
     }
   }
-  // 轮询判断是否到指定时间
-  async timeIsOption(event: Event): Promise<void>{
-    const option: number[] = this.option.basic.timingMessagePushStartTime.split(':');
-    const omu: number = moment().hour(Number(option[0])).minute(Number(option[1])).second(Number(option[2])).unix();
-    const now: number = moment().unix();
-    if(now >= omu){
-      const msg: string = this.option.basic.timingMessagePushText;
-      await this.sendMessage(msg);
-      // 切换定时器
-      let t: number = Number(this.option.basic.timingMessagePushTime);
-      t = t === 0 ? 1 : t;    // 判断时间，默认为1分钟
-      global.clearInterval(this.timingMessagePushTimer);
-      this.timingMessagePushTimer = global.setInterval(this.timingMessagePush.bind(this), t * 60 * (10 ** 3));
-    }
-  }
   // 群内定时推送消息
-  async timingMessagePush(event: Event): Promise<void>{
-    const msg: string = this.option.basic.timingMessagePushText;
+  async timingMessagePush(msg: string): Promise<void>{
     await this.sendMessage(msg);
   }
 }

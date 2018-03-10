@@ -179,12 +179,8 @@ const Detail: ?Object = (props: ?Object): ?Object=>{
               )
             }
           </td>
-          <td className={ style.tdTitle }>开始时间</td>
-          <td>{ detail.basic.timingMessagePushStartTime }</td>
-        </tr>
-        <tr>
-          <td className={ style.tdTitle }>时间间隔</td>
-          <td colSpan={ 3 }>{ detail.basic.timingMessagePushTime }分</td>
+          <td className={ style.tdTitle }>规则配置</td>
+          <td>{ detail.basic.timingMessagePushFormat }</td>
         </tr>
         <tr>
           <td className={ style.tdTitle }>推送消息</td>
