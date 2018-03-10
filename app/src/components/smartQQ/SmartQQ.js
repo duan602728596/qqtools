@@ -1,5 +1,4 @@
 /* 网页版QQ登录接口 */
-import moment from 'moment';
 import { requestHttp, hash33, hash, cookieObj2Str, msgId } from './calculate';
 import { templateReplace } from '../../function';
 import { requestUserInformation, requestRoomMessage } from '../kd48listerer/roomListener';
@@ -23,7 +22,6 @@ class SmartQQ{
   friends: ?Array;
   gnamelist: ?Array;
   groupItem: ?Object;
-  // loginBrokenLineReconnection: ?number;
   listenMessageTimer: ?number;
   callback: Function;
   option: Object;
@@ -36,7 +34,7 @@ class SmartQQ{
   roomLastTime: ?number;
   kouDai48Token: ?string;
   weiboWorker: ?Worker;
-  timingMessagePushTimer: ?null;
+  timingMessagePushTimer: ?Object;
 
   constructor({ callback }: cons): void{
     // QQ登录相关
@@ -75,12 +73,12 @@ class SmartQQ{
     // 微博监听相关
     this.weiboWorker = null;             // 微博监听新线程
     // 群内定时消息推送
-    this.timingMessagePushTimer = null;  // 群内定时消息推送定时器
+    this.timingMessagePushTimer = null;  // 群内定时消息推送
   }
   // 下载二维码
   downloadPtqr(timeStr: string): Promise{
     return requestHttp({
-      reqUrl: `https://ssl.ptlogin2.qq.com/ptqrshow?appid=501004106&e=0&l=M&s=5&d=72&v=4&t=${ Math.random() }`,
+      reqUrl: `https://ssl.ptlogin2.qq.com/ptqrshow?appid=501004106&e=2&l=M&s=3&d=72&v=4&t=${ Math.random() }&daid=164&pt_3rd_aid=0`,
       headers: {
         'Connection': 'Keep-Alive'
       }
@@ -247,7 +245,7 @@ class SmartQQ{
     this.getGroupItem();
     this.cookie2Str();
     // 回调函数
-    if(cb) cb();
+    cb();
   }
   // 获取消息
   getMessage(): Promise{
@@ -387,7 +385,7 @@ class SmartQQ{
 
     // 删除群消息推送定时器
     if(this.timingMessagePushTimer){
-      global.clearInterval(this.timingMessagePushTimer);
+      this.timingMessagePushTimer.cancel();
     }
   }
 
@@ -513,24 +511,8 @@ class SmartQQ{
       }
     }
   }
-  // 轮询判断是否到指定时间
-  async timeIsOption(event: Event): Promise<void>{
-    const option: number[] = this.option.basic.timingMessagePushStartTime.split(':');
-    const omu: number = moment().hour(Number(option[0])).minute(Number(option[1])).second(Number(option[2])).unix();
-    const now: number = moment().unix();
-    if(now >= omu){
-      const msg: string = this.option.basic.timingMessagePushText;
-      await this.sendFormatMessage(msg);
-      // 切换定时器
-      let t: number = Number(this.option.basic.timingMessagePushTime);
-      t = t === 0 ? 1 : t;    // 判断时间，默认为1分钟
-      global.clearInterval(this.timingMessagePushTimer);
-      this.timingMessagePushTimer = global.setInterval(this.timingMessagePush.bind(this), t * 60 * (10 ** 3));
-    }
-  }
   // 群内定时推送消息
-  async timingMessagePush(event: Event): Promise<void>{
-    const msg: string = this.option.basic.timingMessagePushText;
+  async timingMessagePush(msg: string): Promise<void>{
     await this.sendFormatMessage(msg);
   }
 }

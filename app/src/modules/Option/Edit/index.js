@@ -3,8 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
-import { Form, Input, Checkbox, Affix, Button, Table, Modal, message, Popconfirm, TimePicker } from 'antd';
-import moment from 'moment';
+import { Form, Input, Checkbox, Affix, Button, Table, Modal, message, Popconfirm } from 'antd';
 import interfaceOption, { customProfilesObj2Array } from './interface';
 import style from './style.sass';
 import { putOption } from '../store/reducer';
@@ -207,11 +206,6 @@ class Add extends Component{
     const isTimingMessagePush: boolean = detail ? detail.basic.isTimingMessagePush : false;   // 定时推送
     const isXinZhiTianQi: boolean = detail ? detail.basic.isXinZhiTianQi : false;             // 心知天气
     const isTuLing: boolean =  detail ? detail.basic.isTuLing : false;                        // 图灵机器人
-    // 格式化时间
-    const st: ?(number[]) = (detail && detail.basic.timingMessagePushStartTime)
-      ? detail.basic.timingMessagePushStartTime.split(':') : null;
-    const startTime: moment = moment();
-    if(st) startTime.hour(Number(st[0])).minute(Number(st[1])).second(Number(st[2]));
     return [
       <Form key={ 0 } className={ style.form } layout="inline" onSubmit={ this.onSubmit.bind(this) }>
         <Affix className={ style.affix }>
@@ -367,10 +361,7 @@ class Add extends Component{
         </div>
         {/* 成员微博监听配置 */}
         <h4 className={ style.title }>成员微博监听配置：</h4>
-        <p>
-          微博lfid例子：https://m.weibo.cn/u/5863498042?uid=5863498042&luicode=10000011&
-          <b className={ style.flid }>lfid=1076035863498042</b>
-        </p>
+        <p>微博lfid配置方法：https://github.com/duan602728596/qqtools/tree/smartQQ#微博的lfid查找方法</p>
         <div>
           <Form.Item className={ style.mb15 } label="开启成员微博监听">
             {
@@ -389,7 +380,6 @@ class Add extends Component{
         </div>
         {/* 群内定时消息推送 */}
         <h4 className={ style.title }>群内定时消息推送：</h4>
-        <p>开始时间只对首次登陆有效，之后会根据时间间隔发送消息。如果不设置时间间隔，则以登陆时间为准。登陆成功不会推送消息。</p>
         <div>
           <Form.Item className={ style.mb15 } label="开启群内定时消息推送功能">
             {
@@ -398,20 +388,34 @@ class Add extends Component{
               })(<Checkbox defaultChecked={ isTimingMessagePush } />)
             }
           </Form.Item>
-          <Form.Item className={ style.mb15 } label="开始时间">
+          <Form.Item className={ style.mb15 } label="规则配置">
             {
-              getFieldDecorator('timingMessagePushStartTime', {
-                initialValue: startTime
-              })(<TimePicker />)
+              getFieldDecorator('timingMessagePushFormat', {
+                initialValue: detail ? detail.basic.timingMessagePushFormat : ''
+              })(<Input className={ style.w600 } />)
             }
           </Form.Item>
-          <Form.Item className={ style.mb15 } label="时间间隔">
-            {
-              getFieldDecorator('timingMessagePushTime', {
-                initialValue: detail ? detail.basic.timingMessagePushTime : ''
-              })(<Input addonAfter="分" />)
-            }
-          </Form.Item>
+          <p>
+            规则格式：
+            <img className={ style.nodeScheduleFormat } src={ require('./node-schedule-format.jpg') } />
+          </p>
+          <p>如果不配置该位置，则用“*”占位；</p>
+          <p>
+            多个时间段用“,”分割，比如
+            <var className={ style.var }>2,4,6</var>
+            表示；
+          </p>
+          <p>
+            连续时间段用类似
+            <var className={ style.var }>2-6</var>
+            表示；
+          </p>
+          <p>
+            每隔多长时间，可以用类似
+            <var className={ style.var }>*/5</var>
+            表示；
+          </p>
+          <p>每个规则不要有空格。</p>
           <br />
           <Form.Item label="推送消息">
             <div className="clearfix">

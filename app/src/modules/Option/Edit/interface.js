@@ -21,6 +21,11 @@ type interfaceOptionType = {
     kd48LiveListenerMembers: string,
     isRoomListener: boolean,
     roomId: string,
+    isWeiboListener: boolean,
+    lfid: string,
+    isTimingMessagePush: boolean,
+    timingMessagePushFormat: string,
+    timingMessagePushText: string,
     isXinZhiTianQi: boolean,
     xinZhiTianQiAPIKey: string,
     xinZhiTianQiTemplate: string,
@@ -54,8 +59,7 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
       lfid: value.lfid,
       // 群内定时消息推送
       isTimingMessagePush: value.isTimingMessagePush,
-      timingMessagePushTime: value.timingMessagePushTime,
-      timingMessagePushStartTime: value.timingMessagePushStartTime.format('HH:mm:ss'),
+      timingMessagePushFormat: value.timingMessagePushFormat,
       timingMessagePushText: value.timingMessagePushText,
       // 天气
       isXinZhiTianQi: value.isXinZhiTianQi,

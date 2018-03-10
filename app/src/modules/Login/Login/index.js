@@ -18,6 +18,7 @@ import ModianWorker from 'worker-loader?name=script/modian_[hash]_worker.js!../.
 import WeiBoWorker from 'worker-loader?name=script/weibo_[hash]_worker.js!../../../components/weibo/weibo.worker';
 import { requestRoomMessage } from '../../../components/kd48listerer/roomListener';
 const fs: Object = global.require('fs');
+const schedule: Object = global.require('node-schedule');
 
 let qq: ?SmartQQ = null;
 let timer: ?number = null;
@@ -164,13 +165,10 @@ class Login extends Component{
           }
           // 群内定时消息推送
           if(basic.isTimingMessagePush){
-            qq.timingMessagePushTimer = global.setInterval(qq.timeIsOption.bind(qq), 10 * (10 ** 3));
+            qq.timingMessagePushTimer = schedule.scheduleJob(basic.timingMessagePushFormat, qq.timingMessagePush.bind(qq, basic.timingMessagePushText));
           }
           // 监听信息
-          // 取消重新登录，避免失败而掉线
-          // const t1: number = global.setInterval(qq.loginSuccess.bind(qq), 5 * 60 ** 2 * 10 ** 3); // 五小时后重新登录，防止掉线
-          const t2: number = global.setInterval(qq.listenMessage.bind(qq), 1000);                    // 轮询
-          // qq.loginBrokenLineReconnection = t1;
+          const t2: number = global.setInterval(qq.listenMessage.bind(qq), 1000);  // 轮询
           qq.listenMessageTimer = t2;
           // 将新的qq实例存入到store中
           const ll: Array = this.props.qqLoginList;
@@ -230,8 +228,8 @@ class Login extends Component{
         callback
       });
       const ptqr: [Buffer, Object] = await qq.downloadPtqr();
-      const data: Buffer = ptqr.data;
-      const cookies: Object = ptqr.cookies;
+      const data: Buffer = ptqr[0];
+      const cookies: Object = ptqr[1];
       qq.cookie = cookies;
       // 写入图片
       await writeImage(option.ptqr, data);
@@ -331,6 +329,13 @@ class Login extends Component{
             { this.selectOption() }
           </Select>
         </div>
+        <article className={ style.tixing }>
+          <p>如果出现无法登陆的情况，请先检查：</p>
+          <p>1、摩点的配置是否正确；</p>
+          <p>2、口袋48账号是否登录；</p>
+          <p>3、口袋48账号token是否过期（token有效时间一个月）；</p>
+          <p>4、其他配置是否正确。</p>
+        </article>
         <Detail detail={ index === null ? null : this.props.optionList[index] } />
       </div>
     );
