@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
 import { Form, Input, Checkbox, Affix, Button, Table, Modal, message, Popconfirm } from 'antd';
-import moment from 'moment';
 import interfaceOption, { customProfilesObj2Array } from './interface';
 import style from './style.sass';
 import { putOption } from '../store/reducer';
