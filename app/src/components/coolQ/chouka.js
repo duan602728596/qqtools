@@ -3,9 +3,9 @@
  *
  * 抽卡概率：
  *   ssr: 2%    1   / 50
- *   sr : 12%   6   / 50
- *   r  : 26%   13  / 50
- *   n  : 60%   30  / 50
+ *   sr : 8%    4   / 50
+ *   r  : 28%   14  / 50
+ *   n  : 62%   31  / 50
  *
  * 抽卡次数为12.8的倍数，128抽11次
  */
@@ -19,9 +19,9 @@ function random(len: number): number{
 }
 
 /* 生成长度为50的卡组 */
-const _N: number = 30;     // 抽取N卡数量
-const _R: number = 13;     // 抽取R卡数量
-const _SR: number = 6;     // 抽取SR卡数量
+const _N: number = 31;     // 抽取N卡数量
+const _R: number = 14;     // 抽取R卡数量
+const _SR: number = 4;     // 抽取SR卡数量
 const _SSR: number = 1;    // 抽取SSR卡数量
 function kazu(CARD: Object): Array{
   const kz: Array = [];
