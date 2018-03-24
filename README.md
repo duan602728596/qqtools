@@ -10,7 +10,7 @@ SmartQQ版本请查看[https://github.com/duan602728596/qqtools/tree/smartQQ](ht
 
 ## 功能
 * 摩点项目监听
-* 摩点打卡抽卡功能
+* 摩点打卡抽卡功能（抽卡后端服务器地址：[https://github.com/duan602728596/chouka-server](https://github.com/duan602728596/chouka-server)）
 * 口袋48直播监听
 * 成员房间信息监听
 * 微博监听（[微博的lfid查找方法](#微博的lfid查找方法)）
