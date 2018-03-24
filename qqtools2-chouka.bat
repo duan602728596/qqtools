@@ -1,0 +1,1 @@
+start nw.exe ./app
