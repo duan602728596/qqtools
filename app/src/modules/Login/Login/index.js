@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
 import { Button, Select } from 'antd';
+import moment from 'moment';
 import style from './style.sass';
 import publicStyle from '../../publicMethod/public.sass';
 import CoolQ from '../../../components/coolQ/CoolQ';
@@ -98,6 +99,7 @@ class Login extends Component{
   // 登录成功
   async loginSuccess(): Promise<void>{
     const basic: Object = qq.option.basic;
+    qq.time = moment().unix();
     // 获取微打赏相关信息
     if(basic.isModian){
       const { title, goal }: {
@@ -115,6 +117,20 @@ class Login extends Component{
         goal
       });
       qq.modianWorker.addEventListener('message', qq.listenModianWorkerCbInformation.bind(qq), false);
+    }
+    // 抽卡
+    if(basic.isChouka){
+      const card: string = await new Promise((resolve: Function, reject: Function): void=>{
+        fs.readFile(basic.choukaFile, (err: Error, data: ArrayBuffer): void=>{
+          if(err){
+            reject(err);
+          }else{
+            resolve(data.toString());
+          }
+        });
+      });
+      qq.card = JSON.parse(card);
+      qq.choukaMoney = Number(basic.choukaMoney);
     }
     // 口袋48直播监听
     if(basic.is48LiveListener){

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
 import { Form, Input, Checkbox, Affix, Button, Table, Modal, message, Popconfirm } from 'antd';
-import moment from 'moment';
+import $ from 'jquery';
 import interfaceOption, { customProfilesObj2Array } from './interface';
 import style from './style.sass';
 import { putOption } from '../store/reducer';
@@ -54,7 +54,8 @@ class Add extends Component{
     item: ?{
       command: string,
       text: string
-    }
+    },
+    choukaFile: string
   };
   constructor(): void{
     super(...arguments);
@@ -64,13 +65,15 @@ class Add extends Component{
       modalDisplay: false, // modal显示
       cmd: '',             // 表单cmd
       text: '',            // 表单文字
-      item: null           // 被选中
+      item: null,          // 被选中
+      choukaFile: ''       // 抽卡的地址
     };
   }
   componentDidMount(): void{
     if('query' in this.props.location){
       this.setState({
-        customProfiles: customProfilesObj2Array(this.props.location.query.detail.custom)
+        customProfiles: customProfilesObj2Array(this.props.location.query.detail.custom),
+        choukaFile: this.props.location.query.detail.basic.choukaFile
       });
     }
   }
@@ -187,7 +190,7 @@ class Add extends Component{
     event.preventDefault();
     this.props.form.validateFields(async(err: any, value: Object): Promise<void>=>{
       if(!err){
-        const data: Object = interfaceOption(value, this.state.customProfiles);
+        const data: Object = interfaceOption(value, this.state.customProfiles, this.state.choukaFile);
         await this.props.action.putOption({
           data
         });
@@ -195,11 +198,24 @@ class Add extends Component{
       }
     });
   }
+  // 选择抽卡地址
+  onChoukaFileChange(event: Event): void{
+    const value: string = event.target.value;
+    this.setState({
+      choukaFile: value
+    });
+    $('#option-inputFile').val('');
+  }
+  // 点击选择文件
+  onInputFileClick(event: Event): void{
+    $('#option-inputFile').click();
+  }
   render(): Array{
     const detail: ?Object = 'query' in this.props.location ? this.props.location.query.detail : null;
     const { getFieldDecorator }: { getFieldDecorator: Function } = this.props.form;
     // checkbox的值
     const isModian: boolean = detail ? detail.basic.isModian : false;                         // 摩点
+    const isChouka: boolean = detail ? detail.basic.isChouka : false;                         // 抽卡
     const is48LiveListener: boolean = detail ? detail.basic.is48LiveListener : false;         // 口袋48直播
     const isListenerAll: boolean = detail ? detail.basic.isListenerAll : false;               // 监听所有成员
     const isRoomListener: boolean = detail ? detail.basic.isRoomListener : false;             // 房间监听
@@ -294,7 +310,7 @@ class Add extends Component{
         </div>
         {/* 摩点项目配置 */}
         <h4 className={ style.title }>摩点项目配置：</h4>
-        <div>
+        <div className={ style.mb15 }>
           <Form.Item className={ style.mb15 } label="开启摩点相关功能">
             {
               getFieldDecorator('isModian', {
@@ -354,6 +370,43 @@ class Add extends Component{
                 alreadyraised：当前已打赏金额
               </p>
             </div>
+          </Form.Item>
+        </div>
+        {/* 抽卡配置 */}
+        <div>
+          <Form.Item className={ style.mb15 } label="开启抽卡功能，会自动在模板后面加上抽卡信息">
+            {
+              getFieldDecorator('isChouka', {
+                initialValue: isChouka
+              })(<Checkbox defaultChecked={ isChouka } />)
+            }
+          </Form.Item>
+          <Form.Item className={ style.mb15 } label="抽卡接口地址">
+            {
+              getFieldDecorator('choukaUrl', {
+                initialValue: detail ? detail.basic.choukaUrl : ''
+              })(<Input className={ style.w300 } />)
+            }
+          </Form.Item>
+          <Form.Item className={ style.mb15 } label="抽卡接口的token">
+            {
+              getFieldDecorator('choukaToken', {
+                initialValue: detail ? detail.basic.choukaToken : ''
+              })(<Input />)
+            }
+          </Form.Item>
+          <br />
+          <Form.Item className={ style.mb15 } label="单次抽卡钱数">
+            {
+              getFieldDecorator('choukaMoney', {
+                initialValue: detail ? detail.basic.choukaMoney : ''
+              })(<Input />)
+            }
+          </Form.Item>
+          <Form.Item className={ style.mb15 } label="选择卡牌信息配置文件地址">
+            <input className={ style.inputFile } id="option-inputFile" type="file" onChange={ this.onChoukaFileChange.bind(this) } />
+            <Button className={ style.mr10 } onClick={ this.onInputFileClick.bind(this) }>选择文件</Button>
+            <span>{ this.state.choukaFile }</span>
           </Form.Item>
         </div>
         {/* 口袋48直播监听配置 */}
@@ -451,7 +504,6 @@ class Add extends Component{
         </div>
         {/* 群内定时消息推送 */}
         <h4 className={ style.title }>群内定时消息推送：</h4>
-        <p>开始时间只对首次登陆有效，之后会根据时间间隔发送消息。如果不设置时间间隔，则以登陆时间为准。登陆成功不会推送消息。</p>
         <div>
           <Form.Item className={ style.mb15 } label="开启群内定时消息推送功能">
             {

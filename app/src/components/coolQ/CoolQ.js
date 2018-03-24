@@ -1,6 +1,8 @@
 import { message } from 'antd';
 import { requestRoomMessage, requestUserInformation } from '../kd48listerer/roomListener';
 import { templateReplace } from '../../function';
+import chouka, { record, choukaText } from './chouka';
+const request: Function = global.require('request');
 
 class CoolQ{
   time: number;
@@ -19,6 +21,8 @@ class CoolQ{
   modianTitle: ?string;
   modianGoal: ?string;
   modianWorker: ?Worker;
+  card: ?Object;
+  choukaMoney: ?Object;
   members: ?RegExp;
   roomListenerTimer: ?number;
   roomLastTime: ?number;
@@ -34,6 +38,7 @@ class CoolQ{
   onListenerApiMessage: Function;
 
   constructor(qq: string, port: string, callback: Function): void{
+    this.time = null;                                         // 登录时间戳
     this.qq = qq;                                             // qq号
     this.port = port;                                         // socket端口
     this.isError = false;                                     // 判断是否错误
@@ -50,6 +55,9 @@ class CoolQ{
     this.modianTitle = null;             // 摩点项目标题
     this.modianGoal = null;              // 摩点项目目标
     this.modianWorker = null;            // 摩点新线程
+    // 抽卡相关
+    this.card = null;                    // 卡牌的配置信息
+    this.choukaMoney = null;             // 抽卡的钱
     // 口袋48监听相关
     this.members = null;                 // 监听指定成员
     // 房间信息监听相关
@@ -183,17 +191,40 @@ class CoolQ{
   /* === 从此往下是业务相关 === */
 
   // web worker监听到微打赏的返回信息
+  choukaRequest(body: Object): Promise<void>{
+    const basic: Object = this.option.basic;
+    return new Promise((resolve: Function, reject: Function): void=>{
+      request({
+        uri: basic.choukaUrl,
+        method: 'POST',
+        json: true,
+        body
+      }, (err: Error, response: Object, body: Object): void=>{
+        if(err){
+          reject(err);
+        }else{
+          resolve({
+            status: response.statusCode,
+            message: body.message
+          });
+        }
+      });
+    }).catch((err: Error): void=>{
+      console.error(err);
+    });
+  }
   async listenModianWorkerCbInformation(event: Event): Promise<void>{
     if(event.data.type === 'change'){
       const { data, alreadyRaised }: {
         data: Array,
         alreadyRaised: string
       } = event.data;
-      const { modianTemplate }: { modianTemplate: string } = this.option.basic;
+      const basic: Object = this.option.basic;
+      const { modianTemplate }: { modianTemplate: string } = basic;
       // 倒序发送消息
       for(let i: number = data.length - 1; i >= 0; i--){
         const item: Object = data[i];
-        const msg: string = templateReplace(modianTemplate, {
+        let msg: string = templateReplace(modianTemplate, {
           id: item.nickname,
           money: item.pay_amount,
           modianname: this.modianTitle,
@@ -201,6 +232,25 @@ class CoolQ{
           goal: this.modianGoal,
           alreadyraised: alreadyRaised
         });
+        // 订单的钱大于等于抽卡基准
+        if(item.pay_amount >= this.choukaMoney){
+          const r1: Array = chouka(this.card, this.choukaMoney, item.pay_amount);  // 抽卡结果
+          const r2: Array<string> = record(r1);  // 格式化卡组
+          // 修改数据
+          const res: Object = await this.choukaRequest({
+            nickname: item.nickname,
+            userid: item.userid,
+            token: basic.choukaToken,
+            record: r2
+          });
+          if(res.status === 200){
+            const t1: string = choukaText(r1);     // 文字
+            msg += `\n抽卡结果：${ t1 }`;
+          }else{
+            msg += `\n抽卡结果：[${ res.status }]${ res.message }`;
+          }
+        }
+        // 抽卡计算
         await this.sendMessage(msg);
       }
     }

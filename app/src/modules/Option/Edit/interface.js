@@ -35,7 +35,7 @@ type interfaceOptionType = {
   custom: Object
 };
 
-function interfaceOption(value: Object, customProfiles: { command: string, text: string }[]): interfaceOptionType{
+function interfaceOption(value: Object, customProfiles: { command: string, text: string }[], choukaFile: string): interfaceOptionType{
   const custom: Object = customProfilesArray2Obj(customProfiles);
   const inter: interfaceOption = {
     name: value.name,
@@ -49,6 +49,12 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
       modianId: value.modianId,
       modianUrlTemplate: value.modianUrlTemplate,
       modianTemplate: value.modianTemplate,
+      // 摩点抽卡
+      isChouka: value.isChouka,
+      choukaUrl: value.choukaUrl,
+      choukaToken: value.choukaToken,
+      choukaMoney: value.choukaMoney,
+      choukaFile,
       // 口袋48监听
       is48LiveListener: value.is48LiveListener,
       isListenerAll: value.isListenerAll,
