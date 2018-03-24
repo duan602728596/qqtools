@@ -34,6 +34,7 @@ class CoolQ{
   onListenerApiMessage: Function;
 
   constructor(qq: string, port: string, callback: Function): void{
+    this.time = null;                                         // 登录时间戳
     this.qq = qq;                                             // qq号
     this.port = port;                                         // socket端口
     this.isError = false;                                     // 判断是否错误
