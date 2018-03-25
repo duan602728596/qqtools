@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
 import { Form, Input, Checkbox, Affix, Button, Table, Modal, message, Popconfirm } from 'antd';
-import moment from 'moment';
 import interfaceOption, { customProfilesObj2Array } from './interface';
 import style from './style.sass';
 import { putOption } from '../store/reducer';
@@ -451,7 +450,6 @@ class Add extends Component{
         </div>
         {/* 群内定时消息推送 */}
         <h4 className={ style.title }>群内定时消息推送：</h4>
-        <p>开始时间只对首次登陆有效，之后会根据时间间隔发送消息。如果不设置时间间隔，则以登陆时间为准。登陆成功不会推送消息。</p>
         <div>
           <Form.Item className={ style.mb15 } label="开启群内定时消息推送功能">
             {
