@@ -408,6 +408,35 @@ class Add extends Component{
             <Button className={ style.mr10 } onClick={ this.onInputFileClick.bind(this) }>选择文件</Button>
             <span>{ this.state.choukaFile }</span>
           </Form.Item>
+          <p>抽卡规则是从SSR、SR、R、N各随机抽取你配置的数量形成卡组，从卡组中随机抽取一张。</p>
+          <Form.Item className={ style.mb15 } label="【SSR】数量配置">
+            {
+              getFieldDecorator('choukaSSR', {
+                initialValue: detail ? detail.basic.choukaSSR : ''
+              })(<Input className={ style.w100 } />)
+            }
+          </Form.Item>
+          <Form.Item className={ style.mb15 } label="【SR】数量配置">
+            {
+              getFieldDecorator('choukaSR', {
+                initialValue: detail ? detail.basic.choukaSR : ''
+              })(<Input className={ style.w100 } />)
+            }
+          </Form.Item>
+          <Form.Item className={ style.mb15 } label="【R】数量配置">
+            {
+              getFieldDecorator('choukaR', {
+                initialValue: detail ? detail.basic.choukaR : ''
+              })(<Input className={ style.w100 } />)
+            }
+          </Form.Item>
+          <Form.Item className={ style.mb15 } label="【N】数量配置">
+            {
+              getFieldDecorator('choukaN', {
+                initialValue: detail ? detail.basic.choukaN : ''
+              })(<Input className={ style.w100 } />)
+            }
+          </Form.Item>
         </div>
         {/* 口袋48直播监听配置 */}
         <h4 className={ style.title }>直播监听：</h4>

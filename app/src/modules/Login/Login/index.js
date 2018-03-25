@@ -131,6 +131,13 @@ class Login extends Component{
       });
       qq.card = JSON.parse(card);
       qq.choukaMoney = Number(basic.choukaMoney);
+      // 将抽卡比例转换成数组
+      qq.choukaLen = {
+        n: Number(basic.choukaN),
+        r: Number(basic.choukaR),
+        sr: Number(basic.choukaSR),
+        ssr: Number(basic.choukaSSR)
+      };
     }
     // 口袋48直播监听
     if(basic.is48LiveListener){

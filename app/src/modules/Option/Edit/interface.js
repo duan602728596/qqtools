@@ -54,6 +54,10 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
       choukaUrl: value.choukaUrl,
       choukaToken: value.choukaToken,
       choukaMoney: value.choukaMoney,
+      choukaSSR: value.choukaSSR,
+      choukaSR: value.choukaSR,
+      choukaR: value.choukaR,
+      choukaN: value.choukaN,
       choukaFile,
       // 口袋48监听
       is48LiveListener: value.is48LiveListener,

@@ -23,6 +23,12 @@ class CoolQ{
   modianWorker: ?Worker;
   card: ?Object;
   choukaMoney: ?Object;
+  choukaLen: ?{
+    n: number,
+    r: number,
+    sr: number,
+    ssr: number
+  };
   members: ?RegExp;
   roomListenerTimer: ?number;
   roomLastTime: ?number;
@@ -58,6 +64,7 @@ class CoolQ{
     // 抽卡相关
     this.card = null;                    // 卡牌的配置信息
     this.choukaMoney = null;             // 抽卡的钱
+    this.choukaLen = null;               // 卡组配置
     // 口袋48监听相关
     this.members = null;                 // 监听指定成员
     // 房间信息监听相关
@@ -233,8 +240,8 @@ class CoolQ{
           alreadyraised: alreadyRaised
         });
         // 订单的钱大于等于抽卡基准
-        if(item.pay_amount >= this.choukaMoney){
-          const r1: Array = chouka(this.card, this.choukaMoney, item.pay_amount);  // 抽卡结果
+        if(basic.isChouka && item.pay_amount >= this.choukaMoney){
+          const r1: Array = chouka(this.card, this.choukaMoney, item.pay_amount, this.choukaLen);  // 抽卡结果
           const r2: Array<string> = record(r1);  // 格式化卡组
           // 修改数据
           const res: Object = await this.choukaRequest({

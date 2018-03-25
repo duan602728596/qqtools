@@ -1,14 +1,4 @@
-/**
- * 抽卡算法
- *
- * 抽卡概率：
- *   ssr: 1%
- *   sr : 6%
- *   r  : 28%
- *   n  : 65%
- *
- * 抽卡次数为12.8的倍数，128抽11次
- */
+/* 抽卡算法 */
 
 /**
  * 生成随机数
@@ -18,16 +8,12 @@ function random(len: number): number{
   return Math.floor(Math.random() * len);
 }
 
-/* 生成长度为50的卡组 */
-const _N: number = 65;     // 抽取N卡数量
-const _R: number = 28;     // 抽取R卡数量
-const _SR: number = 5;     // 抽取SR卡数量
-const _SSR: number = 2;    // 抽取SSR卡数量
-function kazu(CARD: Object): Array{
+/* 生成卡组 */
+function kazu(CARD: Object, len: { n: number, r: number, sr: number, ssr: number }): Array{
   const kz: Array = [];
 
   // 抽取ssr卡形成卡组
-  for(let i: number = 0, j: number = CARD.SSR.length; i < _SSR; i++){
+  for(let i: number = 0, j: number = CARD.SSR.length; i <len.ssr; i++){
     kz.push({
       ...CARD.SSR[random(CARD.SSR.length)],
       level: 'SSR'
@@ -35,7 +21,7 @@ function kazu(CARD: Object): Array{
   }
 
   // 抽取sr卡形成卡组
-  for(let i: number = 0, j: number = CARD.SR.length; i < _SR; i++){
+  for(let i: number = 0, j: number = CARD.SR.length; i < len.sr; i++){
     kz.push({
       ...CARD.SR[random(j)],
       level: 'SR'
@@ -43,7 +29,7 @@ function kazu(CARD: Object): Array{
   }
 
   // 抽取r卡形成卡组
-  for(let i: number = 0, j: number = CARD.R.length; i < _R; i++){
+  for(let i: number = 0, j: number = CARD.R.length; i < len.r; i++){
     kz.push({
       ...CARD.R[random(j)],
       level: 'R'
@@ -51,7 +37,7 @@ function kazu(CARD: Object): Array{
   }
 
   // 抽取n卡形成卡组
-  for(let i: number = 0, j: number = CARD.N.length; i < _N; i++){
+  for(let i: number = 0, j: number = CARD.N.length; i < len.n; i++){
     kz.push({
       ...CARD.N[random(j)],
       level: 'N'
@@ -74,8 +60,9 @@ function kazu(CARD: Object): Array{
  * @param { Object } CARD       : 抽卡的配置卡组
  * @param { number } choukaMoney: 单次抽卡钱数
  * @param { number } money      : 钱数
+ * @param { Object } len        : 卡组数量配置
  */
-function chouka(CARD: Object, choukaMoney: number, money: number): Array{
+function chouka(CARD: Object, choukaMoney: number, money: number, len: { n: number, r: number, sr: number, ssr: number }): Array{
   // 计算抽卡次数
   const l_128: number = Math.floor(money / (choukaMoney * 10)); // 128的档次可以抽多少次卡
   const l_12point8: number = Math.floor(money / choukaMoney);   // 12.8的档次可以抽多少次卡
@@ -87,7 +74,7 @@ function chouka(CARD: Object, choukaMoney: number, money: number): Array{
   let ka: ?Array = null;
   while(i < bout){
     if(i % 3 === 0){
-      ka = kazu(CARD);
+      ka = kazu(CARD, len);
     }
     const index: number = random(ka.length);
     result.push(ka[index]);
