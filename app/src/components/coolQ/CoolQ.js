@@ -251,10 +251,10 @@ class CoolQ{
             record: r2
           });
           if(res.status === 200){
-            const t1: string = choukaText(r1);     // 文字
-            msg += `\n抽卡结果：${ t1 }`;
+            const t1: string = /^\s*$/.test(basic.choukaOneResultTemplate) ? '' : choukaText(r1, basic.choukaOneResultTemplate);  // 抽卡结果文字
+            msg += `\n${ basic.choukaTemplate }${ t1 }`;
           }else{
-            msg += `\n抽卡结果：[${ res.status }]${ res.message }`;
+            msg += `\n错误：[${ res.status }]${ res.message }`;
           }
         }
         // 抽卡计算

@@ -1,4 +1,5 @@
 /* 抽卡算法 */
+import { templateReplace } from '../../function';
 
 /**
  * 生成随机数
@@ -102,8 +103,9 @@ export function record(rawArray: Array): Array<string>{
 /**
  * 将卡组转换成对象，并输出文字
  * @param { Array } rawArray
+ * @param { string } template: 文字模板
  */
-export function choukaText(rawArray: Array): string{
+export function choukaText(rawArray: Array, template: string): string{
   const r: Object = {};
   for(let i: number = 0, j: number = rawArray.length; i < j; i++){
     const item: Object = rawArray[i];
@@ -121,7 +123,11 @@ export function choukaText(rawArray: Array): string{
   let txt: string = '';
   for(const key: string in r){
     const item: Object = r[key];
-    txt += `\n${ item.name }【${ item.level }】x${ item.len }`;
+    txt += '\n' + templateReplace(template, {
+      name: item.name,
+      level: item.level,
+      len: item.len
+    });
   }
   return txt;
 }

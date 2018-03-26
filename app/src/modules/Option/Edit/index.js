@@ -437,6 +437,35 @@ class Add extends Component{
               })(<Input className={ style.w100 } />)
             }
           </Form.Item>
+          <br />
+          <Form.Item className={ style.mb15 } label="抽卡文案">
+            <div className="clearfix">
+              {
+                getFieldDecorator('choukaTemplate', {
+                  initialValue: detail ? detail.basic.choukaTemplate : '抽卡结果：'
+                })(<Input.TextArea className={ style.template } rows={ 4 } />)
+              }
+            </div>
+          </Form.Item>
+          <br />
+          <Form.Item label="单条抽卡结果显示">
+            <div className="clearfix">
+              {
+                getFieldDecorator('choukaOneResultTemplate', {
+                  initialValue: detail ? detail.basic.choukaOneResultTemplate : '{{ name }}【{{ level }}】 x {{ len }}'
+                })(<Input.TextArea className={ style.template } rows={ 5 } />)
+              }
+              <p className={ style.shuoming }>
+                <b>模板关键字：</b>
+                <br />
+                name：卡的名称，
+                <br />
+                level：卡的等级，
+                <br />
+                len：抽取的数量
+              </p>
+            </div>
+          </Form.Item>
         </div>
         {/* 口袋48直播监听配置 */}
         <h4 className={ style.title }>直播监听：</h4>
