@@ -63,11 +63,12 @@ function kazu(CARD: Object, len: { n: number, r: number, sr: number, ssr: number
  * @param { number } money      : 钱数
  * @param { Object } len        : 卡组数量配置
  */
-function chouka(CARD: Object, choukaMoney: number, money: number, len: { n: number, r: number, sr: number, ssr: number }): Array{
+function chouka(CARD: Object, choukaMoney: number, money: number, len: { n: number, r: number, sr: number, ssr: number }): Object{
   // 计算抽卡次数
   const l_128: number = Math.floor(money / (choukaMoney * 10)); // 128的档次可以抽多少次卡
   const l_12point8: number = Math.floor(money / choukaMoney);   // 12.8的档次可以抽多少次卡
-  const bout: number = l_12point8 + l_128;
+  const bout: number = l_12point8 + l_128;                      // 总抽钱数
+  let best: ?Object = null;                                     // 最好的卡
 
   // 抽卡
   const result: Array = [];
@@ -78,11 +79,29 @@ function chouka(CARD: Object, choukaMoney: number, money: number, len: { n: numb
       ka = kazu(CARD, len);
     }
     const index: number = random(ka.length);
-    result.push(ka[index]);
+    const item: Object = ka[index];
+    // 获取卡的最该等级
+    const L: Object = {
+      N: 0,
+      R: 1,
+      SR: 2,
+      SSR: 3
+    };
+    if(best === null){
+      best = item;
+    }else{
+      if(L[item.level] > L[best.level]){
+        best = item;
+      }
+    }
+    result.push(item);
     i += 1;
   }
 
-  return result;
+  return {
+    result,
+    best
+  };
 }
 
 export default chouka;

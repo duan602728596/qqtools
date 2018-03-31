@@ -131,7 +131,7 @@ class Login extends Component{
       });
       qq.card = JSON.parse(card);
       qq.choukaMoney = Number(basic.choukaMoney);
-      // 将抽卡比例转换成数组
+      // 获取抽卡比例
       qq.choukaLen = {
         n: Number(basic.choukaN),
         r: Number(basic.choukaR),

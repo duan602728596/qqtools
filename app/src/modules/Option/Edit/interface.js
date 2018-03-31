@@ -61,6 +61,7 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
       choukaFile,
       choukaTemplate: value.choukaTemplate,
       choukaOneResultTemplate: value.choukaOneResultTemplate,
+      isChoukaSendImage: value.isChoukaSendImage,
       // 口袋48监听
       is48LiveListener: value.is48LiveListener,
       isListenerAll: value.isListenerAll,

@@ -216,6 +216,7 @@ class Add extends Component{
     // checkbox的值
     const isModian: boolean = detail ? detail.basic.isModian : false;                         // 摩点
     const isChouka: boolean = detail ? detail.basic.isChouka : false;                         // 抽卡
+    const isChoukaSendImage: boolean = detail ? detail.basic.isChoukaSendImage : false;       // 抽卡后是否发送图片
     const is48LiveListener: boolean = detail ? detail.basic.is48LiveListener : false;         // 口袋48直播
     const isListenerAll: boolean = detail ? detail.basic.isListenerAll : false;               // 监听所有成员
     const isRoomListener: boolean = detail ? detail.basic.isRoomListener : false;             // 房间监听
@@ -465,6 +466,14 @@ class Add extends Component{
                 len：抽取的数量
               </p>
             </div>
+          </Form.Item>
+          <br />
+          <Form.Item className={ style.mb15 } label="抽卡后发送抽得等级最高的卡的图片（只限于酷QPro版本）">
+            {
+              getFieldDecorator('isChoukaSendImage', {
+                initialValue: isChoukaSendImage
+              })(<Checkbox defaultChecked={ isChoukaSendImage } />)
+            }
           </Form.Item>
         </div>
         {/* 口袋48直播监听配置 */}

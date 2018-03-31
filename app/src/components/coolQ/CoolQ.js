@@ -241,8 +241,8 @@ class CoolQ{
         });
         // 订单的钱大于等于抽卡基准
         if(basic.isChouka && item.pay_amount >= this.choukaMoney){
-          const r1: Array = chouka(this.card, this.choukaMoney, item.pay_amount, this.choukaLen);  // 抽卡结果
-          const r2: Array<string> = record(r1);  // 格式化卡组
+          const r1: Object = chouka(this.card, this.choukaMoney, item.pay_amount, this.choukaLen);  // 抽卡结果
+          const r2: Array<string> = record(r1.result);  // 格式化卡组
           // 修改数据
           const res: Object = await this.choukaRequest({
             nickname: item.nickname,
@@ -251,8 +251,12 @@ class CoolQ{
             record: r2
           });
           if(res.status === 200){
-            const t1: string = /^\s*$/.test(basic.choukaOneResultTemplate) ? '' : choukaText(r1, basic.choukaOneResultTemplate);  // 抽卡结果文字
+            const t1: string = /^\s*$/.test(basic.choukaOneResultTemplate) ? '' : choukaText(r1.result, basic.choukaOneResultTemplate);  // 抽卡结果文字
             msg += `\n${ basic.choukaTemplate }${ t1 }`;
+            // 发送图片
+            if(basic.isChoukaSendImage){
+              msg += `[CQ:image,file=${ r1.best.src }]`;
+            }
           }else{
             msg += `\n错误：[${ res.status }]${ res.message }`;
           }
