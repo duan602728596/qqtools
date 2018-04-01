@@ -52,6 +52,7 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
       // 摩点抽卡
       isChouka: value.isChouka,
       choukaUrl: value.choukaUrl,
+      choukaSearchUrl: value.choukaSearchUrl,
       choukaToken: value.choukaToken,
       choukaMoney: value.choukaMoney,
       choukaSSR: value.choukaSSR,

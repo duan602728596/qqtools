@@ -17,7 +17,7 @@ import { copy } from '../../publicMethod/editOperation';
  * 天气：天气预报、tq
  * 机器人：say
  */
-const COMMAND: string = '摩点|mod|直播列表|zb|天气预报|tq|say|help';
+const COMMAND: string = '摩点|mod|查卡|cards|直播列表|zb|天气预报|tq|say|help';
 
 /* 判断当前的cmd是否存在，并且返回index */
 function getIndex(lists: Array, cmd: string): ?number{
@@ -389,6 +389,14 @@ class Add extends Component{
               })(<Input className={ style.w300 } />)
             }
           </Form.Item>
+          <Form.Item className={ style.mb15 } label="抽卡查询接口地址">
+            {
+              getFieldDecorator('choukaSearchUrl', {
+                initialValue: detail ? detail.basic.choukaSearchUrl : ''
+              })(<Input className={ style.w300 } />)
+            }
+          </Form.Item>
+          <br />
           <Form.Item className={ style.mb15 } label="抽卡接口的token">
             {
               getFieldDecorator('choukaToken', {
@@ -396,7 +404,6 @@ class Add extends Component{
               })(<Input />)
             }
           </Form.Item>
-          <br />
           <Form.Item className={ style.mb15 } label="单次抽卡钱数">
             {
               getFieldDecorator('choukaMoney', {

@@ -1,5 +1,6 @@
 /* 轮询的回调函数 */
 import modianCb from '../modian/modianCb';
+import cardsCb from '../modian/cardsCb';
 import kd48Cb from '../kd48listerer/kd48Cb';
 import tianQiCb from '../xinZhiTianQi/tianQiCb';
 import tuLingCb from '../tuLing/tuLingCb';
@@ -23,6 +24,11 @@ function fn(command: string[], qq: CoolQ): void{
     case '摩点':
     case 'mod':
       modianCb(command, qq);
+      break;
+    // 查卡
+    case '查卡':
+    case 'cards':
+      cardsCb(command, qq);
       break;
     // 口袋当前直播
     case '直播列表':
