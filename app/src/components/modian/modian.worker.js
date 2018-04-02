@@ -32,7 +32,7 @@ addEventListener('message', async function(event: Event): Promise<boolean>{
     queryData = sign(`page=1&pro_id=${ modianId }`);
     queryInfor = sign(`pro_id=${ modianId }`);
     const res: Object = await getData('POST', dingDanUrl + '?t=' + new Date().getTime(), queryData);
-    oldTime = new Date(res.data[0].pay_time).getTime();
+    oldTime = res.data === null ? new Date().getTime() : new Date(res.data[0].pay_time).getTime();
 
     // 开启轮询
     timer = setInterval(polling, 13000);
