@@ -65,6 +65,7 @@ class Login extends Component{
     btnLoading: boolean,
     optionItemIndex: ?number
   };
+
   constructor(): void{
     super(...arguments);
 
@@ -91,7 +92,7 @@ class Login extends Component{
       );
     });
   }
-  onOptionSelect(value: number, option: any): void{
+  onOptionSelect(value: number, option: Object): void{
     this.setState({
       optionItemIndex: value
     });

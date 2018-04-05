@@ -60,6 +60,18 @@ class Index extends Component{
           <Col xl={ 4 } lg={ 4 } md={ 6 } sm={ 8 } xs={ 12 }>
             <dl className={ style.linkGroup }>
               <dt className={ style.bTest }>
+                <Link to="/BuKa" title="抽卡补卡">
+                  <img src={ require('../image/zjy1.jpg') } alt="抽卡补卡" />
+                </Link>
+              </dt>
+              <dd>
+                <Link to="/BuKa">抽卡补卡</Link>
+              </dd>
+            </dl>
+          </Col>
+          <Col xl={ 4 } lg={ 4 } md={ 6 } sm={ 8 } xs={ 12 }>
+            <dl className={ style.linkGroup }>
+              <dt className={ style.bTest }>
                 <Link to="/KouDai48" title="口袋48登录和房间ID查询">
                   <img src={ require('../image/kd481.jpg') } alt="口袋48登录和房间ID查询" />
                 </Link>

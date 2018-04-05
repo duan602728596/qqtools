@@ -5,11 +5,13 @@ import asyncModule from './asyncModule';
 import Index from '../modules/Index/Layout';
 import Login from 'bundle-loader?lazy&name=login!../modules/Login/Layout';
 import Option from 'bundle-loader?lazy&name=option!../modules/Option/Layout';
+import BuKa from 'bundle-loader?lazy&name=buka!../modules/BuKa/Layout';
 import KouDai48 from 'bundle-loader?lazy&name=koudai48!../modules/KouDai48/Layout';
 import Help from 'bundle-loader?lazy&name=help!../modules/Help/Layout';
 
 const LoginBundle: Function = asyncModule(Login);
 const OptionBundle: Function = asyncModule(Option);
+const BuKaBundle: Function = asyncModule(BuKa);
 const KouDai48Bundle: Function = asyncModule(KouDai48);
 const HelpBundle: Function = asyncModule(Help);
 
@@ -24,6 +26,8 @@ class Router extends Component{
         <Route path="/Login" component={ LoginBundle } />
         {/* 配置 */}
         <Route path="/Option" component={ OptionBundle } />
+        {/* 补卡 */}
+        <Route path="/BuKa" component={ BuKaBundle } />
         {/* 口袋48 */}
         <Route path="/KouDai48" component={ KouDai48Bundle } />
         {/* 帮助 */}

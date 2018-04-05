@@ -67,7 +67,7 @@ function chouka(CARD: Object, choukaMoney: number, money: number, len: { n: numb
   // 计算抽卡次数
   const l_128: number = Math.floor(money / (choukaMoney * 10)); // 128的档次可以抽多少次卡
   const l_12point8: number = Math.floor(money / choukaMoney);   // 12.8的档次可以抽多少次卡
-  const bout: number = l_12point8 + l_128;                      // 总抽钱数
+  const bout: number = l_12point8 + l_128;                      // 总抽卡数
   let best: ?Object = null;                                     // 最好的卡
 
   // 抽卡
@@ -105,6 +105,30 @@ function chouka(CARD: Object, choukaMoney: number, money: number, len: { n: numb
 }
 
 export default chouka;
+
+/**
+ * 补卡
+ * @param { Object } CARD: 抽卡的配置卡组
+ * @param { number } num : 补卡次数
+ * @param { Object } len : 卡组数量配置
+ */
+export function buka(CARD: Object, num: number, len: { n: number, r: number, sr: number, ssr: number }): Array{
+  // 抽卡
+  const result: Array = [];
+  let i: number = 0;
+  let ka: ?Array = null;
+  while(i < num){
+    if(i % 3 === 0){
+      ka = kazu(CARD, len);
+    }
+    const index: number = random(ka.length);
+    const item: Object = ka[index];
+    result.push(item);
+    i += 1;
+  }
+
+  return result;
+}
 
 /**
  * 取出卡组的id，转换成数组
