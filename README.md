@@ -68,9 +68,9 @@ $ copy /b nw.exe+*.nw *.exe
 [https://github.com/duan602728596/qqtools](https://github.com/duan602728596/qqtools)
 
 ## 微博的lfid查找方法
-1、移动端打开微博：找到要监听的微博
-![示例1](https://raw.githubusercontent.com/duan602728596/document/master/image/20180307193607.jpg)
-2、点击昵称，此时微博页面不变，但是地址变了，地址上就有lfid
-![示例2](https://raw.githubusercontent.com/duan602728596/document/master/image/20180307193622.jpg)
-3、验证lfid是否正确
+1、移动端打开微博：找到要监听的微博   
+![示例1](https://raw.githubusercontent.com/duan602728596/document/master/image/20180307193607.jpg)   
+2、点击昵称，此时微博页面不变，但是地址变了，地址上就有lfid   
+![示例2](https://raw.githubusercontent.com/duan602728596/document/master/image/20180307193622.jpg)   
+3、验证lfid是否正确   
 地址：`https://m.weibo.cn/api/container/getIndex?containerid={{ lfid }}`
