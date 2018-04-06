@@ -70,6 +70,7 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
       // 成员房间信息监听
       isRoomListener: value.isRoomListener,
       roomId: value.roomId,
+      isRoomSendImage: value.isRoomSendImage,
       // 微博监听
       isWeiboListener: value.isWeiboListener,
       lfid: value.lfid,

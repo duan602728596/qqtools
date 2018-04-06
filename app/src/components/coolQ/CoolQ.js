@@ -308,8 +308,10 @@ class CoolQ{
             // 发送图片
             case 'image':
               const url: string = JSON.parse(item.bodys).url;
-              sendStr.push(`${ extInfo.senderName }：${ url }\n`
-                         + `时间：${ item.msgTimeStr }`);
+              let txt: string = `${ extInfo.senderName }：`;
+              if(this.option.basic.isRoomSendImage) txt += `\n[CQ:image,file=${ url }]\n`;
+              txt += `${ url }\n`;
+              sendStr.push(`${ txt }时间：${ item.msgTimeStr }`);
               break;
             // 发送语音
             case 'audio':
