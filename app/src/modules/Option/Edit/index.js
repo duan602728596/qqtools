@@ -96,6 +96,7 @@ class Add extends Component{
       {
         title: '操作',
         key: 'handle',
+        width: '20%',
         render: (text: string, item: Object, index: number): Array=>{
           return [
             <Button key={ 0 } className={ style.mr10 } size="small" onClick={ this.onEdit.bind(this, item) }>修改</Button>,
@@ -202,6 +203,7 @@ class Add extends Component{
     const is48LiveListener: boolean = detail ? detail.basic.is48LiveListener : false;         // 口袋48直播
     const isListenerAll: boolean = detail ? detail.basic.isListenerAll : false;               // 监听所有成员
     const isRoomListener: boolean = detail ? detail.basic.isRoomListener : false;             // 房间监听
+    const isRoomSendImage: boolean = detail ? detail.basic.isRoomSendImage : false;           // 房间信息发送图片和链接
     const isWeiboListener: boolean = detail ? detail.basic.isWeiboListener : false;           // 微博监听
     const isNewGroupMember: boolean = detail ? detail.basic.isNewGroupMember : false;         // 新成员欢迎
     const isTimingMessagePush: boolean = detail ? detail.basic.isTimingMessagePush : false;   // 定时推送
@@ -400,6 +402,13 @@ class Add extends Component{
               getFieldDecorator('roomId', {
                 initialValue: detail ? detail.basic.roomId : ''
               })(<Input />)
+            }
+          </Form.Item>
+          <Form.Item className={ style.mb15 } label="发送图片和图片链接（只限于酷QPro版本）">
+            {
+              getFieldDecorator('isRoomSendImage', {
+                initialValue: isRoomSendImage
+              })(<Checkbox defaultChecked={ isRoomSendImage } />)
             }
           </Form.Item>
         </div>
