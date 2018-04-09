@@ -462,7 +462,7 @@ class Add extends Component{
             <div className="clearfix">
               {
                 getFieldDecorator('choukaOneResultTemplate', {
-                  initialValue: detail ? detail.basic.choukaOneResultTemplate : '{{ name }}【{{ level }}】 x {{ len }}'
+                  initialValue: detail ? detail.basic.choukaOneResultTemplate : '{{ name }}【{{ level }}】 * {{ len }}'
                 })(<Input.TextArea className={ style.template } rows={ 5 } />)
               }
               <p className={ style.shuoming }>
