@@ -36,9 +36,9 @@ function cardsCb(command: string[], qq: CoolQ): void{
           const item: number = record[key];
           const card: Object = array2Object(qq.card);
           if(key in card){
-            txt += `[${ card[key].level }]${ card[key].name }x${ item },`;
+            txt += `[${ card[key].level }]${ card[key].name } * ${ item }, `;
           }else{
-            txt += `${ key }x${ item },`;
+            txt += `${ key } * ${ item }, `;
           }
         }
       }
