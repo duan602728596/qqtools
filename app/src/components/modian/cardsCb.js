@@ -17,7 +17,10 @@ function array2Object(obj: Object): Object{
 
 function cardsCb(command: string[], qq: CoolQ): void{
   const basic: Object = qq.option.basic;
-
+  // 如果没有昵称，取消查找
+  if(command[1] === undefined){
+    return void 0;
+  }
   $.ajax({
     url: basic.choukaSearchUrl,
     dataType: 'json',
