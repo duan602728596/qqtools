@@ -48,7 +48,7 @@ class BuKa extends Component{
       bukaList: []           // 补卡列表
     };
   }
-  componentWillMount(): void{
+  UNSAFE_componentWillMount(): void{
     this.props.action.cursorOption({
       query: {
         indexName: 'time'
