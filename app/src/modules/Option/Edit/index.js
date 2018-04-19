@@ -57,6 +57,7 @@ class Add extends Component{
     },
     choukaFile: string
   };
+
   constructor(): void{
     super(...arguments);
 

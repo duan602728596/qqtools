@@ -38,6 +38,7 @@ class Index extends Component{
     visible1: boolean,
     visible2: boolean
   };
+
   constructor(): void{
     super(...arguments);
 

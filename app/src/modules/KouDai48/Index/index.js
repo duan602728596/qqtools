@@ -60,6 +60,7 @@ class KouDai48 extends Component{
     searchString: string,
     searchResult: Array
   };
+
   constructor(): void{
     super(...arguments);
 
