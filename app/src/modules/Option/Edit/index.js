@@ -55,6 +55,7 @@ class Add extends Component{
       text: string
     }
   };
+
   constructor(): void{
     super(...arguments);
 

@@ -87,6 +87,7 @@ class Login extends Component{
     timer: ?number,
     optionItemIndex: ?number
   };
+
   constructor(): void{
     super(...arguments);
 
