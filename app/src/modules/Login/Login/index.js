@@ -65,6 +65,7 @@ class Login extends Component{
     btnLoading: boolean,
     optionItemIndex: ?number
   };
+
   constructor(): void{
     super(...arguments);
 
