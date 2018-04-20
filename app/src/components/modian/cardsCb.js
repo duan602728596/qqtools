@@ -41,7 +41,6 @@ function cardsCb(command: string[], qq: CoolQ): void{
         for(let i: number = 0, j: number = card.N.length; i < j; i++){
           const item: Object = card.N[i];
           if(item.id in record) nArray.push(`${ item.name } * ${ card[item.id] }`);
-
         }
         if(nArray.length > 0) txt += `\n【N】:\n${ nArray.join(', ') }`;
         // 获取R卡情况
