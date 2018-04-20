@@ -40,36 +40,29 @@ function cardsCb(command: string[], qq: CoolQ): void{
         const nArray: [] = [];
         for(let i: number = 0, j: number = card.N.length; i < j; i++){
           const item: Object = card.N[i];
-          if(item.id in record){
-            nArray.push(`${ item.name } * ${ card[item.id] }`);
-          }
+          if(item.id in record) nArray.push(`${ item.name } * ${ card[item.id] }`);
+
         }
         if(nArray.length > 0) txt += `\n【N】:\n${ nArray.join(', ') }`;
         // 获取R卡情况
         const rArray: [] = [];
         for(let i: number = 0, j: number = card.R.length; i < j; i++){
           const item: Object = card.R[i];
-          if(item.id in record){
-            nArray.push(`[R]${ item.name } * ${ card[item.id] }`);
-          }
+          if(item.id in record) rArray.push(`[R]${ item.name } * ${ card[item.id] }`);
         }
         if(rArray.length > 0) txt += `\n【R】:\n${ rArray.join(', ') }`;
         // 获取SR卡情况
         const srArray: [] = [];
         for(let i: number = 0, j: number = card.SR.length; i < j; i++){
           const item: Object = card.SR[i];
-          if(item.id in record){
-            nArray.push(`[SR]${ item.name } * ${ card[item.id] }`);
-          }
+          if(item.id in record) srArray.push(`[SR]${ item.name } * ${ card[item.id] }`);
         }
         if(srArray.length > 0) txt += `\n【SR】:\n${ srArray.join(', ') }`;
         // 获取SSR卡情况
         const ssrArray: [] = [];
         for(let i: number = 0, j: number = card.SR.length; i < j; i++){
           const item: Object = card.SSR[i];
-          if(item.id in record){
-            nArray.push(`[SSR]${ item.name } * ${ card[item.id] }`);
-          }
+          if(item.id in record) ssrArray.push(`[SSR]${ item.name } * ${ card[item.id] }`);
         }
         if(ssrArray.length > 0) txt += `\n【SSR】:\n${ ssrArray.join(', ') }`;
       }
