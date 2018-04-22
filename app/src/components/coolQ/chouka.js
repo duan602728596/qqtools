@@ -16,7 +16,7 @@ function kazu(CARD: Object, len: { n: number, r: number, sr: number, ssr: number
   // 抽取ssr卡形成卡组
   for(let i: number = 0, j: number = CARD.SSR.length; i < len.ssr; i++){
     kz.push({
-      ...CARD.SSR[random(CARD.SSR.length)],
+      ...CARD.SSR[random(j)],
       level: 'SSR'
     });
   }
