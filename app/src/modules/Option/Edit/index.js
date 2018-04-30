@@ -201,6 +201,7 @@ class Add extends Component{
     const { getFieldDecorator }: { getFieldDecorator: Function } = this.props.form;
     // checkbox的值
     const isModian: boolean = detail ? detail.basic.isModian : false;                         // 摩点
+    const isOwhat: boolean = detail ? detail.basic.isOwhat : false;                           // owhat
     const is48LiveListener: boolean = detail ? detail.basic.is48LiveListener : false;         // 口袋48直播
     const isListenerAll: boolean = detail ? detail.basic.isListenerAll : false;               // 监听所有成员
     const isRoomListener: boolean = detail ? detail.basic.isRoomListener : false;             // 房间监听
@@ -352,6 +353,70 @@ class Add extends Component{
                 modianid：摩点项目的ID，
                 <br />
                 goal：摩点项目目标
+                <br />
+                alreadyraised：当前已打赏金额
+              </p>
+            </div>
+          </Form.Item>
+        </div>
+        {/* owhat */}
+        <h4 className={ style.title }>owhat项目配置：</h4>
+        <div>
+          <Form.Item className={ style.mb15 } label="开启owhat相关功能">
+            {
+              getFieldDecorator('isOwhat', {
+                initialValue: isOwhat
+              })(<Checkbox defaultChecked={ isOwhat } />)
+            }
+          </Form.Item>
+          <Form.Item className={ style.mb15 } label="owhat项目ID">
+            {
+              getFieldDecorator('owhatId', {
+                initialValue: detail ? detail.basic.owhatId : ''
+              })(<Input />)
+            }
+          </Form.Item>
+          <br />
+          <Form.Item className={ style.mb15 } label="owhat命令">
+            <div className="clearfix">
+              {
+                getFieldDecorator('owhatUrlTemplate', {
+                  initialValue: detail ? detail.basic.owhatUrlTemplate
+                    : 'owhat：{{ owhatname }}\nhttps://www.owhat.cn/shop/supportdetail.html?id={{ owhatid }}'
+                })(<Input.TextArea className={ style.template } rows={ 5 } />)
+              }
+              <p className={ style.shuoming }>
+                <b>模板关键字：</b>
+                <br />
+                owhatname：owhat项目的名称，
+                <br />
+                owhatid：owhat项目的ID
+              </p>
+            </div>
+          </Form.Item>
+          <br />
+          <Form.Item label="集资提示">
+            <div className="clearfix">
+              {
+                getFieldDecorator('owhatTemplate', {
+                  initialValue: detail ? detail.basic.owhatTemplate
+                    : ('@{{ id }} 刚刚在【{{ owhatname }}】打赏了{{ money }}元，'
+                      + '感谢这位聚聚！\nowhat项目地址：https://www.owhat.cn/shop/supportdetail.html?id={{ owhatid }}\n'
+                      + '当前进度：￥{{ alreadyraised }} / ￥{{ goal }}')
+                })(<Input.TextArea className={ style.template } rows={ 10 } />)
+              }
+              <p className={ style.shuoming }>
+                <b>模板关键字：</b>
+                <br />
+                id：打赏人的ID，
+                <br />
+                money：打赏金额，
+                <br />
+                owhatname：owhat项目的名称，
+                <br />
+                owhatid：owhat项目的ID，
+                <br />
+                goal：owhat项目目标
                 <br />
                 alreadyraised：当前已打赏金额
               </p>
