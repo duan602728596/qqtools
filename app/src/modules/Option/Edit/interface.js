@@ -71,7 +71,6 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
       // 天气
       isXinZhiTianQi: value.isXinZhiTianQi,
       xinZhiTianQiAPIKey: value.xinZhiTianQiAPIKey,
-      xinZhiTianQiTemplate: value.xinZhiTianQiTemplate,
       // 图灵机器人
       isTuLing: value.isTuLing,
       tuLingAPIKey: value.tuLingAPIKey
