@@ -11,11 +11,7 @@ function getTianQi(command: string[], qq: CoolQ): void{
     success(data: string, status: string, xhr: XMLHttpRequest): void{
       if('results' in data){
         const results: Array = data.results[0];
-        const text: string = templateReplace(qq.option.basic.xinZhiTianQiTemplate, {
-          city: results.location.name,
-          text: results.now.text,
-          temperature: results.now.temperature
-        });
+        const text: string = `【${ results.location.name }】\n天气：${ results.now.text }\n温度：${ results.now.temperature }℃`;
         qq.sendMessage(text);
       }else{
         qq.sendMessage(`[ERROR] ${ data.status_code }: ${ data.status }`);
