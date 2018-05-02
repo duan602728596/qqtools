@@ -455,29 +455,6 @@ class Add extends Component{
               })(<Input className={ style.w600 } placeholder="请输入您的APIKey" />)
             }
           </Form.Item>
-          <br />
-          <Form.Item label="天气情况模板">
-            <div className="clearfix">
-              {
-                getFieldDecorator('xinZhiTianQiTemplate', {
-                  initialValue: detail
-                    ? detail.basic.xinZhiTianQiTemplate
-                    : '【{{ city }}】\n天气：{{ text }}\n温度：{{ temperature }}℃'
-                })(
-                  <Input.TextArea className={ style.template } rows={ 5 } />
-                )
-              }
-              <p className={ style.shuoming }>
-                <b>模板关键字：</b>
-                <br />
-                city：查询城市，
-                <br />
-                text：天气现象文字，
-                <br />
-                temperature：温度
-              </p>
-            </div>
-          </Form.Item>
         </div>
         {/* 图灵机器人 */}
         <h4 className={ style.title }>图灵机器人：</h4>
