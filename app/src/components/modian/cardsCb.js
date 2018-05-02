@@ -68,7 +68,6 @@ function cardsCb(command: string[], qq: CoolQ): void{
       qq.sendMessage(txt);
     },
     error(xhr: XMLHttpRequest, status: string, type: string): void{
-      console.log(xhr);
       qq.sendMessage(xhr.responseJSON.message);
     }
   });
