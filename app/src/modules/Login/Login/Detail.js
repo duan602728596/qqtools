@@ -206,12 +206,6 @@ const Detail: ?Object = (props: ?Object): ?Object=>{
           <td className={ style.tdTitle }>心知天气APIKey</td>
           <td>{ detail.basic.xinZhiTianQiAPIKey }</td>
         </tr>
-        <tr>
-          <td className={ style.tdTitle }>天气情况模板</td>
-          <td colSpan={ 3 }>
-            <pre>{ detail.basic.xinZhiTianQiTemplate }</pre>
-          </td>
-        </tr>
         {/* 图灵机器人 */}
         <tr>
           <td className={ style.tdGTitle } colSpan={ 4 }>图灵机器人</td>
