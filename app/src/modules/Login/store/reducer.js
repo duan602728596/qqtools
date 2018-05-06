@@ -4,6 +4,7 @@ import option from '../../publicMethod/option';
 import { db } from '../../publicMethod/initIndexedDB';
 
 /* 使用immutable初始化基础数据 */
+// TODO: Array => Immutable.List
 const initData: {
   qqLoginList: Array,
   optionList: Array,
