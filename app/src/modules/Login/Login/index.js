@@ -30,17 +30,11 @@ const getState: Function = ($$state: Immutable.Map): ?Immutable.Map => $$state.h
 const state: Function = createStructuredSelector({
   qqLoginList: createSelector(             // QQ登录列表
     getState,
-    ($$data: ?Immutable.Map): Array=>{
-      const qqLoginList: Immutable.List | Array = $$data !== null ? $$data.get('qqLoginList') : [];
-      return qqLoginList instanceof Array ? qqLoginList : qqLoginList.toJS();
-    }
+    ($$data: ?Immutable.Map): Array => $$data !== null ? $$data.get('qqLoginList').toJS() : []
   ),
   optionList: createSelector(              // QQ配置列表
     getState,
-    ($$data: ?Immutable.Map): Array=>{
-      const optionList: Immutable.List | Array = $$data !== null ? $$data.get('optionList') : [];
-      return optionList instanceof Array ? optionList : optionList.toJS();
-    }
+    ($$data: ?Immutable.Map): Array => $$data !== null ? $$data.get('optionList').toJS() : []
   ),
   kd48LiveListenerTimer: createSelector(   // 口袋直播
     getState,

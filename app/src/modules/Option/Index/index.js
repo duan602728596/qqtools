@@ -15,10 +15,7 @@ const fs: Object = global.require('fs');
 const state: Function = createStructuredSelector({
   optionList: createSelector(         // 配置列表
     ($$state: Immutable.Map): ?Immutable.Map => $$state.has('option') ? $$state.get('option') : null,
-    ($$data: ?Immutable.Map): Array=>{
-      const optionList: Immutable.List | Array = $$data !== null ? $$data.get('optionList') : [];
-      return optionList instanceof Array ? optionList : optionList.toJS();
-    }
+    ($$data: ?Immutable.Map): Array => $$data !== null ? $$data.get('optionList').toJS() : []
   )
 });
 

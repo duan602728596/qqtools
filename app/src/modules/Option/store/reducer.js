@@ -1,14 +1,13 @@
 import { createAction, handleActions } from 'redux-actions';
-import { fromJS } from 'immutable';
+import { fromJS, List } from 'immutable';
 import option from '../../publicMethod/option';
 import { db } from '../../publicMethod/initIndexedDB';
 
 /* 使用immutable初始化基础数据 */
-// TODO: Array => Immutable.List
 const initData: {
-  optionList: Array
+  optionList: Immutable.List
 } = {
-  optionList: []  // QQ配置列表
+  optionList: List([])  // QQ配置列表
 };
 
 /* Action */
@@ -31,7 +30,7 @@ export const importOption: Function = db.putAction(opt);
 const reducer: Function = handleActions({
   [optionList]: ($$state: Immutable.Map, action: Object): Immutable.Map=>{
     const data: Array = 'optionList' in action.payload ? action.payload.optionList : action.payload.result;
-    return $$state.set('optionList', data);
+    return $$state.set('optionList', List(data));
   }
 }, fromJS(initData));
 

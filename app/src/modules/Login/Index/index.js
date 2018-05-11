@@ -13,10 +13,7 @@ const getState: Function = ($$state: Immutable.Map): ?Immutable.Map => $$state.h
 const state: Function = createStructuredSelector({
   qqLoginList: createSelector(             // 已登录
     getState,
-    ($$data: ?Immutable.Map): Array=>{
-      const qqLoginList: Immutable.List | Array = $$data !== null ? $$data.get('qqLoginList') : [];
-      return qqLoginList instanceof Array ? qqLoginList : qqLoginList.toJS();
-    }
+    ($$data: ?Immutable.Map): Array => $$data !== null ? $$data.get('qqLoginList').toJS() : []
   ),
   kd48LiveListenerTimer: createSelector(   // 口袋直播
     getState,

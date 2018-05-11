@@ -1,17 +1,16 @@
 import { createAction, handleActions } from 'redux-actions';
-import { fromJS } from 'immutable';
+import { fromJS, List } from 'immutable';
 import option from '../../publicMethod/option';
 import { db } from '../../publicMethod/initIndexedDB';
 
 /* 使用immutable初始化基础数据 */
-// TODO: Array => Immutable.List
 const initData: {
-  qqLoginList: Array,
-  optionList: Array,
+  qqLoginList: Immutable.List,
+  optionList: Immutable.List,
   kd48LiveListenerTimer: number
 } = {
-  qqLoginList: [],              // QQ登录列表
-  optionList: [],               // QQ配置列表
+  qqLoginList: List([]),        // QQ登录列表
+  optionList: List([]),         // QQ配置列表
   kd48LiveListenerTimer: null   // 监听口袋48直播
 };
 
@@ -31,11 +30,11 @@ export const kd48LiveListenerTimer: Function = createAction('口袋直播监听'
 /* reducer */
 const reducer: Function = handleActions({
   [changeQQLoginList]: ($$state: Immutable.Map, action: Object): Immutable.Map=>{
-    return $$state.set('qqLoginList', action.payload.qqLoginList);
+    return $$state.set('qqLoginList', List(action.payload.qqLoginList));
   },
   [optionList]: ($$state: Immutable.Map, action: Object): Immutable.Map=>{
     const data: Array = 'optionList' in action.payload ? action.payload.optionList : action.payload.result;
-    return $$state.set('optionList', data);
+    return $$state.set('optionList', List(data));
   },
   [kd48LiveListenerTimer]: ($$state: Immutable.Map, action: Object): Immutable.Map=>{
     return $$state.set('kd48LiveListenerTimer', action.payload.timer);
