@@ -15,6 +15,9 @@ module.exports = {
       ],
       '@babel/plugin-proposal-object-rest-spread',
       '@babel/plugin-proposal-export-default-from',
+      '@babel/plugin-proposal-do-expressions',
+      '@babel/plugin-proposal-pipeline-operator',
+      '@babel/plugin-proposal-optional-chaining',
       [
         'import',
         {
