@@ -43,7 +43,6 @@
     "@babel/plugin-proposal-export-default-from": "^7.0.0-beta.46",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.46",
     "@babel/plugin-proposal-optional-chaining": "^7.0.0-beta.46",
-    "@babel/plugin-proposal-pipeline-operator": "^7.0.0-beta.46",
     "@babel/preset-flow": "^7.0.0-beta.46",
     "@babel/preset-react": "^7.0.0-beta.46",
     "antd": "^3.5.1",
