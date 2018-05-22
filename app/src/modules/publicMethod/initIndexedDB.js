@@ -4,10 +4,10 @@ import option from './option';
 
 /* 初始化所有的数据库 */
 IndexedDB(option.indexeddb.name, option.indexeddb.version, {
-  success(et: Object, event: Event): void{
+  success(event: Event): void{
     this.close();
   },
-  upgradeneeded(et: Object, event: Event): void{
+  upgradeneeded(event: Event): void{
     const objectStore: Array = option.indexeddb.objectStore;
 
     for(let i: number = 0, j: number = objectStore.length; i < j; i++){
