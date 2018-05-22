@@ -199,14 +199,15 @@ class Add extends Component{
     const detail: ?Object = 'query' in this.props.location ? this.props.location.query.detail : null;
     const { getFieldDecorator }: { getFieldDecorator: Function } = this.props.form;
     // checkbox的值
-    const isModian: boolean = detail ? detail.basic.isModian : false;                         // 摩点
-    const is48LiveListener: boolean = detail ? detail.basic.is48LiveListener : false;         // 口袋48直播
-    const isListenerAll: boolean = detail ? detail.basic.isListenerAll : false;               // 监听所有成员
-    const isRoomListener: boolean = detail ? detail.basic.isRoomListener : false;             // 房间监听
-    const isWeiboListener: boolean = detail ? detail.basic.isWeiboListener : false;           // 微博监听
-    const isTimingMessagePush: boolean = detail ? detail.basic.isTimingMessagePush : false;   // 定时推送
-    const isXinZhiTianQi: boolean = detail ? detail.basic.isXinZhiTianQi : false;             // 心知天气
-    const isTuLing: boolean =  detail ? detail.basic.isTuLing : false;                        // 图灵机器人
+    // checkbox的值
+    const isModian: boolean = detail?.basic?.isModian;                         // 摩点
+    const is48LiveListener: boolean = detail?.basic?.is48LiveListener;         // 口袋48直播
+    const isListenerAll: boolean = detail?.basic?.isListenerAll;               // 监听所有成员
+    const isRoomListener: boolean = detail?.basic?.isRoomListener;             // 房间监听
+    const isWeiboListener: boolean = detail?.basic?.isWeiboListener;           // 微博监听
+    const isTimingMessagePush: boolean = detail?.basic?.isTimingMessagePush;   // 定时推送
+    const isXinZhiTianQi: boolean = detail?.basic?.isXinZhiTianQi;             // 心知天气
+    const isTuLing: boolean =  detail?.basic?.isTuLing;                        // 图灵机器人
     return [
       <Form key={ 0 } className={ style.form } layout="inline" onSubmit={ this.onSubmit.bind(this) }>
         <Affix className={ style.affix }>

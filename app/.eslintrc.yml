@@ -45,7 +45,7 @@ rules:
     - always
   no-empty-function: error                            # 禁止出现空函数
   no-eval: error                                      # 禁用 eval()
-  no-new-func: error 	                              # 禁止对 Function 对象使用 new 操作符
+  no-new-func: error                                  # 禁止对 Function 对象使用 new 操作符
   no-new-wrappers: error                              # 禁止对 String，Number 和 Boolean 使用 new 操作符
   no-param-reassign: error                            # 禁止对 function 的参数进行重新赋值
   no-redeclare: error                                 # 禁止多次声明同一变量
@@ -53,8 +53,6 @@ rules:
   no-self-assign: error                               # 禁止自我赋值
   no-self-compare: error                              # 禁止自身比较
   no-sequences: error                                 # 禁用逗号操作符
-  no-unused-expressions: error                        # 禁止出现未使用过的表达式
-  no-unused-labels: error                             # 禁用出现未使用过的标
   # Variables
   no-delete-var: error                                # 禁止删除变量
   # Node.js and CommonJS
