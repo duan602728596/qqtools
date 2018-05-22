@@ -13,8 +13,10 @@ module.exports = {
           legacy: true
         }
       ],
-      '@babel/plugin-proposal-export-default-from',
       '@babel/plugin-proposal-object-rest-spread',
+      '@babel/plugin-proposal-export-default-from',
+      '@babel/plugin-proposal-do-expressions',
+      '@babel/plugin-proposal-optional-chaining',
       [
         'import',
         {
