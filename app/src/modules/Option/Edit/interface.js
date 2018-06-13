@@ -8,8 +8,10 @@ import $ from 'jquery';
  * custom     自定义配置
  */
 type interfaceOptionType = {
-  name: string;
-  groupName: string;
+  name: string,
+  qqNumber: string,
+  groupNumber: string,
+  socketPort: string,
   time: number,
   basic: {
     isModian: boolean,
