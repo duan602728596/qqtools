@@ -1,20 +1,6 @@
 /* 查询卡牌数量 */
 import $ from 'jquery';
 
-/* 将数组转化成字符串 */
-function array2Object(obj: Object): Object{
-  const result: Object = {};
-  for(const key: string in obj){
-    const item: Array = obj[key];
-    for(let i: number = 0, j: number = item.length; i < j; i++){
-      const item2: Object = item[i];
-      item2.level = key;
-      result[item2.id] = item2;
-    }
-  }
-  return result;
-}
-
 function cardsCb(command: string[], qq: CoolQ): void{
   const basic: Object = qq.option.basic;
   // 如果没有昵称，取消查找

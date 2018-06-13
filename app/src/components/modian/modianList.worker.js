@@ -4,8 +4,8 @@
 import getData from './function/getData';
 import sign from './function/signInWorker';
 
+const dingDanUrl: string = 'https://wds.modian.com/api/project/sorted_orders';
 const listUrl: string = 'https://wds.modian.com/api/project/rankings';
-const dingDanUrl: string = 'https://wds.modian.com/api/project/orders';
 
 addEventListener('message', async function(event: Event): void{
   const { proId, type, size, title }: {
@@ -21,7 +21,7 @@ addEventListener('message', async function(event: Event): void{
   const size2: number = Math.floor(pageSize / 20) + (pageSize % 20 === 0 ? 0 : 1);
   if(type === '订单'){  // 查询订单
     for(let i: number = 1; i <= size2; i++){
-      const d: string = sign(`page=${ i }&pro_id=${ proId }`);
+      const d: string = sign(`page=${ i }&pro_id=${ proId }&sort_by=1`);
       const res: Object = await getData('POST', dingDanUrl + '?t=' + new Date().getTime(), d);
       if(res.status !== '0' || res.data.length === 0){
         break;
@@ -79,7 +79,7 @@ function dingdan(backList: Array, title: string, len: number): string{
   text = `【${ title }】\n订单，前${ len2 }个。\n`;
   for(let i: number = 0; i < len2; i++){
     const item: Object = backList[i];
-    text += `\n${ i + 1 }、${ item.pay_time }\n${ item.nickname } （￥${ item.backer_money }）`;
+    text += `\n${ i + 1 }、${ item.pay_success_time }\n${ item.nickname } （￥${ item.backer_money }）`;
   }
   return text;
 }
