@@ -81,8 +81,15 @@ async function dingDan(proId: string, size: string, qq: SmartQQ): Promise<void>{
 
 /* 获取已集资金额 */
 async function getAllMount(qq: SmartQQ): Promise<void>{
-  const { already_raised }: { already_raised: number } = await getModianInformation(qq.option.basic.modianId);
-  await qq.sendFormatMessage(`${ qq.modianTitle }: ￥${ already_raised } / ￥${ qq.modianGoal }`);
+  const data: {
+    already_raised: number,
+    backer_count: number,
+    end_time: string
+  } = await getModianInformation(qq.option.basic.modianId);
+  await qq.sendMessage(
+    `${ qq.modianTitle }: ￥${ data.already_raised } / ￥${ qq.modianGoal }，` +
+    `\n集资人数：${ data.backer_count }\n项目截至日期：${ data.end_time }`
+  );
 }
 
 export default modianCb;
