@@ -20,7 +20,9 @@ function getModianInformation(modianId: string): Promise{
         resolve({
           title: data2.pro_name,                 // 标题
           already_raised: data2.already_raised,  // 已打赏金额
-          goal: data2.goal                       // 目标
+          goal: data2.goal,                      // 目标
+          backer_count: data2.backer_count,      // 集资人数
+          end_time: data2.end_time               // 结束时间
         });
       },
       error(err: any): void{

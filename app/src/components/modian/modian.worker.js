@@ -1,16 +1,11 @@
 /**
  * 摩点信息查询轮询
- *
- * 订单
- * [POST] https://wds.modian.com/api/project/orders
- * pro_id  : 微打赏id
- * page    : 页数
- * sign    : 签名
+ * 文档地址：https://www.showdoc.cc/web/#/1702718?page_id=15700669
  */
 import getData from './function/getData';
 import sign from './function/signInWorker';
 
-const dingDanUrl: string = 'https://wds.modian.com/api/project/orders';
+const dingDanUrl: string = 'https://wds.modian.com/api/project/sorted_orders';
 const inforUrl: string = 'https://wds.modian.com/api/project/detail';
 let queryData: ?string = null;   // 查询条件
 let queryInfor: ?string = null;  // 查询摩点项目信息条件
@@ -29,10 +24,10 @@ addEventListener('message', async function(event: Event): Promise<boolean>{
     goal = data.goal;
 
     // 初始化
-    queryData = sign(`page=1&pro_id=${ modianId }`);
+    queryData = sign(`page=1&pro_id=${ modianId }&sort_by=1`);
     queryInfor = sign(`pro_id=${ modianId }`);
     const res: Object = await getData('POST', dingDanUrl + '?t=' + new Date().getTime(), queryData);
-    oldTime = res.data === null ? new Date().getTime() : new Date(res.data[0].pay_time).getTime();
+    oldTime = res.data === null ? new Date().getTime() : new Date(res.data[0].pay_success_time).getTime();
 
     // 开启轮询
     timer = setInterval(polling, 13000);
@@ -60,7 +55,7 @@ async function polling(): Promise<void>{
       let ot: ?number = null;
       for(let i: number = 0, j: number = newData.length; i < j; i++){
         const item: Object = newData[i];
-        const pay_time: number = new Date(item.pay_time).getTime();
+        const pay_time: number = new Date(item.pay_success_time).getTime();
         if(pay_time > oldTime){
           jizi.push({
             pay_amount: item.backer_money,
