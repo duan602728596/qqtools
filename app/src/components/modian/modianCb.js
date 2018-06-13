@@ -86,9 +86,8 @@ async function getAllMount(qq: SmartQQ): Promise<void>{
     backer_count: number,
     end_time: string
   } = await getModianInformation(qq.option.basic.modianId);
-  await qq.sendMessage(
-    `${ qq.modianTitle }: ￥${ data.already_raised } / ￥${ qq.modianGoal }，` +
-    `\n集资人数：${ data.backer_count }\n项目截至日期：${ data.end_time }`
+  await qq.sendMessage(`${ qq.modianTitle }: ￥${ data.already_raised } / ￥${ qq.modianGoal }，`
+    + `\n集资人数：${ data.backer_count }\n项目截至日期：${ data.end_time }`
   );
 }
 
