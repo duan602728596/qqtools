@@ -166,7 +166,10 @@ class Login extends Component{
           }
           // 群内定时消息推送
           if(basic.isTimingMessagePush){
-            qq.timingMessagePushTimer = schedule.scheduleJob(basic.timingMessagePushFormat, qq.timingMessagePush.bind(qq, basic.timingMessagePushText));
+            qq.timingMessagePushTimer = schedule.scheduleJob(
+              basic.timingMessagePushFormat,
+              qq.timingMessagePush.bind(qq, basic.timingMessagePushText)
+            );
           }
           // 监听信息
           const t2: number = global.setInterval(qq.listenMessage.bind(qq), 1000);  // 轮询
