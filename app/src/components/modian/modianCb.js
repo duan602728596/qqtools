@@ -13,12 +13,21 @@ function modianCb(command: string[], qq: CoolQ): void{
     switch(command[1]){
       // 获取整体信息
       case '0':
+      case '项目信息':
         getAllMount(qq);
         break;
       // 获取聚聚榜
       case '1':
+      case '聚聚榜':
       // 获取打卡榜
       case '2':
+      case '打卡榜':
+        // 命令兼容
+        if(command[1] === '聚聚榜'){
+          command[1] = '1';
+        }else if(command[1] === '打卡榜'){
+          command[1] = '2';
+        }
         list(qq.option.basic.modianId, command[1], command[2], qq);
         break;
       // 获取订单信息
