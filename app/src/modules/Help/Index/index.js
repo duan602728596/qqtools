@@ -27,18 +27,22 @@ const Index: Function = (props: Object): Array=>{
         <b className={ style.b }>摩点</b>
         &nbsp;或&nbsp;
         <b className={ style.b }>mod</b>
-        )&nbsp;
+        )&nbsp;(
         <span className={ style.c1 }>0</span>
-        ]：查看当前的集资总金额
+        &nbsp;或&nbsp;
+        <span className={ style.c1 }>项目信息</span>
+        )]：查看当前的集资总金额
       </p>
       <p className={ style.p }>
         [(
         <b className={ style.b }>摩点</b>
         &nbsp;或&nbsp;
         <b className={ style.b }>mod</b>
-        )&nbsp;
+        )&nbsp;(
         <span className={ style.c1 }>1</span>
-        &nbsp;
+        &nbsp;或&nbsp;
+        <span className={ style.c1 }>聚聚榜</span>
+        )&nbsp;
         <span className={ style.c2 }>?number</span>
         ]：查看聚聚榜
       </p>
@@ -47,8 +51,11 @@ const Index: Function = (props: Object): Array=>{
         <b className={ style.b }>摩点</b>
         &nbsp;或&nbsp;
         <b className={ style.b }>mod</b>
+        )&nbsp;(
+        <span className={ style.c1 }>2</span>
+        &nbsp;或&nbsp;
+        <span className={ style.c1 }>打卡榜</span>
         )&nbsp;
-        <span className={ style.c1 }>2</span>&nbsp;
         <span className={ style.c2 }>?number</span>
         ]：查看打卡榜
       </p>
@@ -57,8 +64,11 @@ const Index: Function = (props: Object): Array=>{
         <b className={ style.b }>摩点</b>
         &nbsp;或&nbsp;
         <b className={ style.b }>mod</b>
+        )&nbsp;(
+        <span className={ style.c1 }>3</span>
+        &nbsp;或&nbsp;
+        <span className={ style.c1 }>订单</span>
         )&nbsp;
-        <span className={ style.c1 }>3</span>&nbsp;
         <span className={ style.c2 }>?number</span>
         ]：订单查询
       </p>
