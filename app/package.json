@@ -1,6 +1,6 @@
 {
   "name": "qqtools2-chouka",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "description": "QQ群工具，配合酷Q使用。（抽卡）",
   "license": "GNU General Public License v3.0",
   "scripts": {
@@ -17,7 +17,7 @@
   "main": "./build/index.html",
   "nodejs": true,
   "window": {
-    "title": "QQ群工具-酷Q-抽卡（v2.2.4）",
+    "title": "QQ群工具-酷Q-抽卡（v2.2.5）",
     "position": "center",
     "toolbar": true,
     "frame": true,
