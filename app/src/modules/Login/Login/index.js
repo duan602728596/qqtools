@@ -176,7 +176,10 @@ class Login extends Component{
     }
     // 群内定时消息推送
     if(basic.isTimingMessagePush){
-      qq.timingMessagePushTimer = schedule.scheduleJob(basic.timingMessagePushFormat, qq.timingMessagePush.bind(qq, basic.timingMessagePushText));
+      qq.timingMessagePushTimer = schedule.scheduleJob(
+        basic.timingMessagePushFormat,
+        qq.timingMessagePush.bind(qq, basic.timingMessagePushText)
+      );
     }
     const ll: Array = this.props.qqLoginList;
     ll.push(qq);
