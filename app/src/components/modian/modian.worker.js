@@ -69,10 +69,13 @@ async function polling(): Promise<void>{
       if(jizi.length > 0){
         if(ot) oldTime = ot;
         // 将数据发送回主线程
+        const infData: Object = inf.data[0];
         postMessage({
           type: 'change',
           data: jizi,
-          alreadyRaised: inf.data[0].already_raised
+          alreadyRaised: infData.already_raised,
+          backerCount: infData.backer_count,
+          endTime: infData.end_time
         });
       }
     }

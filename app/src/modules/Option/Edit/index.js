@@ -337,7 +337,9 @@ class Add extends Component{
                   initialValue: detail ? detail.basic.modianTemplate
                     : ('@{{ id }} 刚刚在【{{ modianname }}】打赏了{{ money }}元，'
                      + '感谢这位聚聚！\n摩点项目地址：https://m.modian.com/project/{{ modianid }}.html\n'
-                     + '当前进度：￥{{ alreadyraised }} / ￥{{ goal }}')
+                     + '当前进度：￥{{ alreadyraised }} / ￥{{ goal }}\n'
+                     + '集资参与人数：{{ backercount }}人\n'
+                     + '项目截止时间：{{ endtime }}')
                 })(<Input.TextArea className={ style.template } rows={ 10 } />)
               }
               <p className={ style.shuoming }>
@@ -354,6 +356,10 @@ class Add extends Component{
                 goal：摩点项目目标
                 <br />
                 alreadyraised：当前已打赏金额
+                <br />
+                backercount：集资参与人数
+                <br />
+                endtime：项目截止时间
               </p>
             </div>
           </Form.Item>
