@@ -394,9 +394,11 @@ class SmartQQ{
   // web worker监听到微打赏的返回信息
   async listenModianWorkerCbInformation(event: Event): Promise<void>{
     if(event.data.type === 'change'){
-      const { data, alreadyRaised }: {
+      const { data, alreadyRaised, backerCount, endTime }: {
         data: Array,
-        alreadyRaised: string
+        alreadyRaised: string,
+        backerCount: number,
+        endTime: string
       } = event.data;
       const { modianTemplate }: { modianTemplate: string } = this.option.basic;
       // 倒序发送消息
@@ -408,7 +410,9 @@ class SmartQQ{
           modianname: this.modianTitle,
           modianid: this.option.basic.modianId,
           goal: this.modianGoal,
-          alreadyraised: alreadyRaised
+          alreadyraised: alreadyRaised,
+          backercount: backerCount,
+          endtime: endTime
         });
         await this.sendFormatMessage(msg);
       }
