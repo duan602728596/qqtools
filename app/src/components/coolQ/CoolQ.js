@@ -222,9 +222,11 @@ class CoolQ{
   }
   async listenModianWorkerCbInformation(event: Event): Promise<void>{
     if(event.data.type === 'change'){
-      const { data, alreadyRaised }: {
+      const { data, alreadyRaised, backerCount, endTime }: {
         data: Array,
-        alreadyRaised: string
+        alreadyRaised: string,
+        backerCount: number,
+        endTime: string
       } = event.data;
       const basic: Object = this.option.basic;
       const { modianTemplate }: { modianTemplate: string } = basic;
@@ -237,7 +239,9 @@ class CoolQ{
           modianname: this.modianTitle,
           modianid: this.option.basic.modianId,
           goal: this.modianGoal,
-          alreadyraised: alreadyRaised
+          alreadyraised: alreadyRaised,
+          backercount: backerCount,
+          endtime: endTime
         });
         // 订单的钱大于等于抽卡基准
         if(basic.isChouka && item.pay_amount >= this.choukaMoney){
@@ -251,7 +255,8 @@ class CoolQ{
             record: r2
           });
           if(res.status === 200){
-            const t1: string = /^\s*$/.test(basic.choukaOneResultTemplate) ? '' : choukaText(r1.result, basic.choukaOneResultTemplate);  // 抽卡结果文字
+            const t1: string = /^\s*$/.test(basic.choukaOneResultTemplate)
+              ? '' : choukaText(r1.result, basic.choukaOneResultTemplate);  // 抽卡结果文字
             msg += `\n${ basic.choukaTemplate }${ t1 }`;
             // 发送图片
             if(basic.isChoukaSendImage){
