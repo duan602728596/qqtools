@@ -18,7 +18,6 @@ import kd48timer, { init } from '../../../components/kd48listerer/timer';
 import ModianWorker from 'worker-loader?name=script/modian_[hash]_worker.js!../../../components/modian/modian.worker';
 import WeiBoWorker from 'worker-loader?name=script/weibo_[hash]_worker.js!../../../components/weibo/weibo.worker';
 import { requestRoomMessage } from '../../../components/kd48listerer/roomListener';
-const fs: Object = global.require('fs');
 const schedule: Object = global.require('node-schedule');
 
 let qq: ?CoolQ = null;
@@ -149,7 +148,10 @@ class Login extends Component{
     }
     // 群内定时消息推送
     if(basic.isTimingMessagePush){
-      qq.timingMessagePushTimer = schedule.scheduleJob(basic.timingMessagePushFormat, qq.timingMessagePush.bind(qq, basic.timingMessagePushText));
+      qq.timingMessagePushTimer = schedule.scheduleJob(
+        basic.timingMessagePushFormat,
+        qq.timingMessagePush.bind(qq, basic.timingMessagePushText)
+      );
     }
     const ll: Array = this.props.qqLoginList;
     ll.push(qq);
