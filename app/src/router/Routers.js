@@ -16,7 +16,7 @@ const KouDai48Bundle: Function = asyncModule(KouDai48);
 const HelpBundle: Function = asyncModule(Help);
 
 /* 路由模块 */
-class Router extends Component{
+class Routers extends Component{
   render(): Object{
     return (
       <Switch>
@@ -37,4 +37,4 @@ class Router extends Component{
   }
 }
 
-export default Router;
+export default Routers;
