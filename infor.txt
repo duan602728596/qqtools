@@ -1,0 +1,1344 @@
+memberName: 张语格
+memberId  : 1
+roomId    : 5776891
+
+memberName: 陈观慧
+memberId  : 3
+roomId    : 5777227
+
+memberName: 陈佳莹
+memberId  : 4
+roomId    : 5780789
+
+memberName: 袁雨桢
+memberId  : 5
+roomId    : 5770616
+
+memberName: 董艳芸
+memberId  : 6
+roomId    : 5776895
+
+memberName: 冯薪朵
+memberId  : 7
+roomId    : 5779207
+
+memberName: 孙芮
+memberId  : 8
+roomId    : 5777228
+
+memberName: 沈之琳
+memberId  : 9
+roomId    : 5778524
+
+memberName: 何晓玉
+memberId  : 10
+roomId    : 5773743
+
+memberName: 温晶婕
+memberId  : 11
+roomId    : 5783153
+
+memberName: 唐安琪
+memberId  : 12
+roomId    : 5779208
+
+memberName: 徐子轩
+memberId  : 14
+roomId    : 5777229
+
+memberName: 李艺彤
+memberId  : 16
+roomId    : 5771855
+
+memberName: 蒋芸
+memberId  : 17
+roomId    : 5776896
+
+memberName: 徐晨辰
+memberId  : 18
+roomId    : 5773746
+
+memberName: 孔肖吟
+memberId  : 19
+roomId    : 5782029
+
+memberName: 李宇琪
+memberId  : 20
+roomId    : 5782030
+
+memberName: 许佳琪
+memberId  : 21
+roomId    : 5773747
+
+memberName: 黄婷婷
+memberId  : 22
+roomId    : 5776897
+
+memberName: 林思意
+memberId  : 24
+roomId    : 5774511
+
+memberName: 万丽娜
+memberId  : 25
+roomId    : 5776899
+
+memberName: 赵粤
+memberId  : 27
+roomId    : 5777230
+
+memberName: 李清扬
+memberId  : 28
+roomId    : 5770618
+
+memberName: 郝婉晴
+memberId  : 32
+roomId    : 5778526
+
+memberName: 易嘉爱
+memberId  : 33
+roomId    : 5776904
+
+memberName: 陆婷
+memberId  : 34
+roomId    : 5773750
+
+memberName: 莫寒
+memberId  : 35
+roomId    : 5778527
+
+memberName: 钱蓓婷
+memberId  : 36
+roomId    : 5779209
+
+memberName: 陈思
+memberId  : 37
+roomId    : 5779210
+
+memberName: 戴萌
+memberId  : 38
+roomId    : 5774514
+
+memberName: 吴哲晗
+memberId  : 39
+roomId    : 5771856
+
+memberName: 邱欣怡
+memberId  : 40
+roomId    : 5758962
+
+memberName: 徐伊人
+memberId  : 43
+roomId    : 5779211
+
+memberName: 谢妮
+memberId  : 45
+roomId    : 5778528
+
+memberName: 刘佩鑫
+memberId  : 46
+roomId    : 5770619
+
+memberName: 王柏硕
+memberId  : 47
+roomId    : 5770620
+
+memberName: 袋王
+memberId  : 63
+roomId    : 5774517
+
+memberName: 袁丹妮
+memberId  : 67
+roomId    : 5758963
+
+memberName: 陈问言
+memberId  : 68
+roomId    : 5774518
+
+memberName: 刘炅然
+memberId  : 1544
+roomId    : 5780790
+
+memberName: 徐晗
+memberId  : 2470
+roomId    : 5773753
+
+memberName: 张昕
+memberId  : 2508
+roomId    : 5776908
+
+memberName: 林楠
+memberId  : 5562
+roomId    : 5776909
+
+memberName: 吴燕文
+memberId  : 5564
+roomId    : 5758965
+
+memberName: 许杨玉琢
+memberId  : 5566
+roomId    : 5783159
+
+memberName: 杨惠婷
+memberId  : 5567
+roomId    : 5776912
+
+memberName: 张雨鑫
+memberId  : 5574
+roomId    : 5782031
+
+memberName: SNH48
+memberId  : 5973
+roomId    : 9139038
+
+memberName: 赵晔
+memberId  : 6429
+roomId    : 5770621
+
+memberName: 陈琳
+memberId  : 6431
+roomId    : 5783160
+
+memberName: 冯晓菲
+memberId  : 6432
+roomId    : 5780791
+
+memberName: 李晶
+memberId  : 6734
+roomId    : 5776913
+
+memberName: 李钊
+memberId  : 6735
+roomId    : 5779212
+
+memberName: 邵雪聪
+memberId  : 6737
+roomId    : 5776914
+
+memberName: 宋昕冉
+memberId  : 6738
+roomId    : 5770622
+
+memberName: 孙歆文
+memberId  : 6739
+roomId    : 5783164
+
+memberName: 汪佳翎
+memberId  : 6740
+roomId    : 5780792
+
+memberName: 汪束
+memberId  : 6741
+roomId    : 5779213
+
+memberName: 王晓佳
+memberId  : 6742
+roomId    : 5783166
+
+memberName: 谢天依
+memberId  : 6743
+roomId    : 5776915
+
+memberName: 杨冰怡
+memberId  : 6744
+roomId    : 5779214
+
+memberName: 闫明筠
+memberId  : 6745
+roomId    : 5776916
+
+memberName: 杨韫玉
+memberId  : 6746
+roomId    : 5771857
+
+memberName: 张丹三
+memberId  : 6747
+roomId    : 5780793
+
+memberName: 影视君
+memberId  : 9073
+roomId    : 21465661
+
+memberName: 周怡
+memberId  : 49003
+roomId    : 5771860
+
+memberName: 沈梦瑶
+memberId  : 49005
+roomId    : 5773766
+
+memberName: 王露皎
+memberId  : 49006
+roomId    : 5779216
+
+memberName: 陈珂
+memberId  : 63548
+roomId    : 5771862
+
+memberName: 陈美君
+memberId  : 63549
+roomId    : 5778530
+
+memberName: 陈韫凌
+memberId  : 63551
+roomId    : 5776932
+
+memberName: 陈雨琪
+memberId  : 63552
+roomId    : 5776933
+
+memberName: 段艺璇
+memberId  : 63554
+roomId    : 5774521
+
+memberName: 费沁源
+memberId  : 63555
+roomId    : 5782033
+
+memberName: 高源婧
+memberId  : 63557
+roomId    : 5776938
+
+memberName: 洪珮雲
+memberId  : 63558
+roomId    : 5771863
+
+memberName: 胡晓慧
+memberId  : 63559
+roomId    : 5779217
+
+memberName: 姜杉
+memberId  : 63560
+roomId    : 5778533
+
+memberName: 蒋舒婷
+memberId  : 63561
+roomId    : 5778534
+
+memberName: 林嘉佩
+memberId  : 63562
+roomId    : 5777232
+
+memberName: 李沁洁
+memberId  : 63564
+roomId    : 5774523
+
+memberName: 刘增艳
+memberId  : 63566
+roomId    : 5783215
+
+memberName: 潘瑛琪
+memberId  : 63567
+roomId    : 5777235
+
+memberName: 宋思娴
+memberId  : 63568
+roomId    : 5774524
+
+memberName: 宋雨珊
+memberId  : 63570
+roomId    : 5776953
+
+memberName: 田姝丽
+memberId  : 63571
+roomId    : 5771865
+
+memberName: 谢蕾蕾
+memberId  : 63572
+roomId    : 5783256
+
+memberName: 熊素君
+memberId  : 63573
+roomId    : 5778537
+
+memberName: 严佼君
+memberId  : 63574
+roomId    : 5783217
+
+memberName: 於佳怡
+memberId  : 63575
+roomId    : 5773799
+
+memberName: 阳青颖
+memberId  : 63576
+roomId    : 5779228
+
+memberName: 曾艾佳
+memberId  : 63577
+roomId    : 5774530
+
+memberName: 张文静
+memberId  : 63581
+roomId    : 5783221
+
+memberName: 张怡
+memberId  : 63582
+roomId    : 5777238
+
+memberName: 成珏
+memberId  : 286973
+roomId    : 5776958
+
+memberName: 黄彤扬
+memberId  : 286976
+roomId    : 5782036
+
+memberName: 孙珍妮
+memberId  : 286977
+roomId    : 5777239
+
+memberName: 张嘉予
+memberId  : 286979
+roomId    : 5770633
+
+memberName: 吕梦莹
+memberId  : 286982
+roomId    : 5776960
+
+memberName: 李佳恩
+memberId  : 286983
+roomId    : 5783222
+
+memberName: 罗寒月
+memberId  : 327558
+roomId    : 5758967
+
+memberName: 张琼予
+memberId  : 327560
+roomId    : 5783223
+
+memberName: 陈慧婧
+memberId  : 327562
+roomId    : 5776961
+
+memberName: 陈楠茜
+memberId  : 327563
+roomId    : 5777241
+
+memberName: 陈欣妤
+memberId  : 327564
+roomId    : 5771868
+
+memberName: 冯嘉希
+memberId  : 327565
+roomId    : 5779220
+
+memberName: 洪静雯
+memberId  : 327566
+roomId    : 5776962
+
+memberName: 刘力菲
+memberId  : 327567
+roomId    : 5770634
+
+memberName: 刘倩倩
+memberId  : 327568
+roomId    : 5758968
+
+memberName: 卢静
+memberId  : 327569
+roomId    : 5777242
+
+memberName: 孙馨
+memberId  : 327570
+roomId    : 5771870
+
+memberName: 唐莉佳
+memberId  : 327571
+roomId    : 5771871
+
+memberName: 冼燊楠
+memberId  : 327572
+roomId    : 5771872
+
+memberName: 肖文铃
+memberId  : 327573
+roomId    : 5777243
+
+memberName: 熊心瑶
+memberId  : 327574
+roomId    : 5771873
+
+memberName: 郑丹妮
+memberId  : 327575
+roomId    : 5776963
+
+memberName: 左嘉欣
+memberId  : 327576
+roomId    : 5758969
+
+memberName: 左婧媛
+memberId  : 327577
+roomId    : 5782038
+
+memberName: 林溪荷
+memberId  : 327578
+roomId    : 5771874
+
+memberName: 刘姝贤
+memberId  : 327579
+roomId    : 5771875
+
+memberName: 张梦慧
+memberId  : 327580
+roomId    : 5782039
+
+memberName: 青钰雯
+memberId  : 327581
+roomId    : 5758970
+
+memberName: 夏越
+memberId  : 327585
+roomId    : 5758971
+
+memberName: 冯思佳
+memberId  : 327587
+roomId    : 5771876
+
+memberName: 陈姣荷
+memberId  : 327588
+roomId    : 5777246
+
+memberName: 罗雪丽
+memberId  : 327589
+roomId    : 5773805
+
+memberName: 李梓
+memberId  : 327591
+roomId    : 5777247
+
+memberName: 李媛媛
+memberId  : 327592
+roomId    : 5777248
+
+memberName: 李想
+memberId  : 327594
+roomId    : 5780835
+
+memberName: 郑一凡
+memberId  : 327595
+roomId    : 5777250
+
+memberName: 马玉灵
+memberId  : 327596
+roomId    : 5780836
+
+memberName: 苏杉杉
+memberId  : 327597
+roomId    : 5776964
+
+memberName: 张笑盈
+memberId  : 327598
+roomId    : 5780837
+
+memberName: 顼凘炀
+memberId  : 327600
+roomId    : 5780839
+
+memberName: 陈倩楠
+memberId  : 327601
+roomId    : 5770635
+
+memberName: 刘胜男
+memberId  : 327602
+roomId    : 5776965
+
+memberName: BEJ48
+memberId  : 327682
+roomId    : 9073567
+
+memberName: GNZ48
+memberId  : 327683
+roomId    : 9297138
+
+memberName: 吕一
+memberId  : 399631
+roomId    : 5758972
+
+memberName: 潘燕琦
+memberId  : 399652
+roomId    : 5780841
+
+memberName: 赵韩倩
+memberId  : 399654
+roomId    : 5776966
+
+memberName: 江真仪
+memberId  : 399662
+roomId    : 5773813
+
+memberName: 刘菊子
+memberId  : 399664
+roomId    : 5779222
+
+memberName: 刘瀛
+memberId  : 399667
+roomId    : 5770636
+
+memberName: 许逸
+memberId  : 399668
+roomId    : 5777251
+
+memberName: 袁一琦
+memberId  : 399669
+roomId    : 5776968
+
+memberName: 祁静
+memberId  : 399672
+roomId    : 5777252
+
+memberName: 曾晓雯
+memberId  : 399673
+roomId    : 5771879
+
+memberName: 徐诗琪
+memberId  : 399674
+roomId    : 5771880
+
+memberName: 陈雅钰
+memberId  : 407101
+roomId    : 5758973
+
+memberName: 房蕾
+memberId  : 407103
+roomId    : 5777253
+
+memberName: 葛司琪
+memberId  : 407104
+roomId    : 5780843
+
+memberName: 黄恩茹
+memberId  : 407106
+roomId    : 5770638
+
+memberName: 李泓瑶
+memberId  : 407108
+roomId    : 5777254
+
+memberName: 刘闲
+memberId  : 407110
+roomId    : 5777255
+
+memberName: 任心怡
+memberId  : 407112
+roomId    : 5771882
+
+memberName: 任玥霖
+memberId  : 407114
+roomId    : 5771883
+
+memberName: 孙语姗
+memberId  : 407121
+roomId    : 5776969
+
+memberName: 叶苗苗
+memberId  : 407124
+roomId    : 5771885
+
+memberName: 杨晔
+memberId  : 407126
+roomId    : 5777257
+
+memberName: 张怀瑾
+memberId  : 407127
+roomId    : 5779224
+
+memberName: 张韩紫陌
+memberId  : 407130
+roomId    : 5782041
+
+memberName: 李娜
+memberId  : 407132
+roomId    : 5776971
+
+memberName: 杨一帆
+memberId  : 407135
+roomId    : 5773820
+
+memberName: 王雨煊
+memberId  : 407168
+roomId    : 5783234
+
+memberName: 黄黎蓉
+memberId  : 410175
+roomId    : 5771886
+
+memberName: 陈桂君
+memberId  : 417311
+roomId    : 5779225
+
+memberName: 陈梓荧
+memberId  : 417315
+roomId    : 5758974
+
+memberName: 杜秋霖
+memberId  : 417317
+roomId    : 5773822
+
+memberName: 龙亦瑞
+memberId  : 417320
+roomId    : 5770640
+
+memberName: 农燕萍
+memberId  : 417321
+roomId    : 5770641
+
+memberName: 王翠菲
+memberId  : 417324
+roomId    : 5770642
+
+memberName: 王偲越
+memberId  : 417326
+roomId    : 5773823
+
+memberName: 杨可璐
+memberId  : 417330
+roomId    : 5783238
+
+memberName: 杨媛媛
+memberId  : 417331
+roomId    : 5776973
+
+memberName: 赵欣雨
+memberId  : 417335
+roomId    : 5776974
+
+memberName: 姚祎纯
+memberId  : 419966
+roomId    : 5783243
+
+memberName: 许婉玉
+memberId  : 444081
+roomId    : 5783244
+
+memberName: 李慧
+memberId  : 458335
+roomId    : 8014885
+
+memberName: 王诗蒙
+memberId  : 459989
+roomId    : 7969870
+
+memberName: 卢天惠
+memberId  : 459991
+roomId    : 7975343
+
+memberName: 刘娜
+memberId  : 459992
+roomId    : 8042233
+
+memberName: 刘娇
+memberId  : 459993
+roomId    : 7991480
+
+memberName: 赖梓惜
+memberId  : 459995
+roomId    : 7987397
+
+memberName: 关思雨
+memberId  : 459996
+roomId    : 8020430
+
+memberName: 韩家乐
+memberId  : 459999
+roomId    : 7981599
+
+memberName: 付紫琪
+memberId  : 460002
+roomId    : 7976494
+
+memberName: 冯译莹
+memberId  : 460003
+roomId    : 7986267
+
+memberName: 杨允涵
+memberId  : 460004
+roomId    : 8016995
+
+memberName: 赵佳蕊
+memberId  : 460005
+roomId    : 7987195
+
+memberName: 孙敏
+memberId  : 460007
+roomId    : 7964959
+
+memberName: SHY48
+memberId  : 460933
+roomId    : 8078734
+
+memberName: 董思佳
+memberId  : 480656
+roomId    : 7900792
+
+memberName: 高志娴
+memberId  : 480665
+roomId    : 7906419
+
+memberName: 刘静晗
+memberId  : 480667
+roomId    : 8165372
+
+memberName: 李晴
+memberId  : 480668
+roomId    : 8150116
+
+memberName: 李熙凝
+memberId  : 480670
+roomId    : 8154548
+
+memberName: 曲悦萌
+memberId  : 480671
+roomId    : 8150670
+
+memberName: 任雨情
+memberId  : 480672
+roomId    : 8164514
+
+memberName: 徐斐然
+memberId  : 480673
+roomId    : 8164534
+
+memberName: 张爱静
+memberId  : 480675
+roomId    : 8163318
+
+memberName: 郑洁丽
+memberId  : 480676
+roomId    : 8200539
+
+memberName: SNH48-星梦剧院
+memberId  : 526172
+roomId    : 9835470
+
+memberName: 胡丽芝
+memberId  : 528094
+roomId    : 9046692
+
+memberName: 刘崇恬
+memberId  : 528101
+roomId    : 9066006
+
+memberName: 毛其羽
+memberId  : 528118
+roomId    : 9046720
+
+memberName: 孙晓艳 
+memberId  : 528329
+roomId    : 9021937
+
+memberName: 黄子璇
+memberId  : 528331
+roomId    : 9108720
+
+memberName: 金锣赛
+memberId  : 528335
+roomId    : 8967027
+
+memberName: 兰昊
+memberId  : 528336
+roomId    : 8951607
+
+memberName: 刘一菲 
+memberId  : 528337
+roomId    : 8960034
+
+memberName: 乔钰珂
+memberId  : 528339
+roomId    : 8961080
+
+memberName: 郑心雨
+memberId  : 528340
+roomId    : 9094478
+
+memberName: 48WAN游戏平台
+memberId  : 529287
+roomId    : 9401875
+
+memberName: 菅瑞静
+memberId  : 530378
+roomId    : 9190558
+
+memberName: 臧聪
+memberId  : 530381
+roomId    : 9196677
+
+memberName: 郑诗琪
+memberId  : 530383
+roomId    : 9164598
+
+memberName: 方诗涵
+memberId  : 530384
+roomId    : 9167795
+
+memberName: 高崇
+memberId  : 530385
+roomId    : 9177989
+
+memberName: 逯芳竹
+memberId  : 530387
+roomId    : 9178937
+
+memberName: 王菲妍
+memberId  : 530388
+roomId    : 9186193
+
+memberName: 张羽涵
+memberId  : 530392
+roomId    : 9175616
+
+memberName: 陈佳莹
+memberId  : 530431
+roomId    : 9342446
+
+memberName: 陈俊宏
+memberId  : 530433
+roomId    : 9337363
+
+memberName: 方晓瑜
+memberId  : 530436
+roomId    : 9341101
+
+memberName: 高雪逸
+memberId  : 530439
+roomId    : 9338140
+
+memberName: 赖俊亦
+memberId  : 530440
+roomId    : 9332797
+
+memberName: 梁可
+memberId  : 530443
+roomId    : 9335784
+
+memberName: 谢艾琳
+memberId  : 530447
+roomId    : 9339220
+
+memberName: 张秋怡
+memberId  : 530450
+roomId    : 9342380
+
+memberName: 郑悦
+memberId  : 530451
+roomId    : 9333412
+
+memberName: 朱怡欣
+memberId  : 530452
+roomId    : 9340808
+
+memberName: 郭倩芸
+memberId  : 530584
+roomId    : 9011537
+
+memberName: 陶波尔
+memberId  : 533852
+roomId    : 9125456
+
+memberName: 沈小爱
+memberId  : 538697
+roomId    : 9255077
+
+memberName: 金莹玥
+memberId  : 538735
+roomId    : 9225254
+
+memberName: CKG48
+memberId  : 565225
+roomId    : 18304811
+
+memberName: 孙亚萍
+memberId  : 593820
+roomId    : 11190812
+
+memberName: 姜涵
+memberId  : 594002
+roomId    : 17928298
+
+memberName: 王奕
+memberId  : 594003
+roomId    : 17877365
+
+memberName: 熊沁娴
+memberId  : 594005
+roomId    : 17870659
+
+memberName: 梁婉琳
+memberId  : 601302
+roomId    : 18706972
+
+memberName: 马凡
+memberId  : 606343
+roomId    : 18054323
+
+memberName: 毕瑞珊
+memberId  : 607507
+roomId    : 18709668
+
+memberName: 程子钰
+memberId  : 607510
+roomId    : 18724509
+
+memberName: 邓惠恩
+memberId  : 607511
+roomId    : 18716764
+
+memberName: 符冰冰
+memberId  : 607513
+roomId    : 18702980
+
+memberName: 黄楚茵
+memberId  : 607515
+roomId    : 18721105
+
+memberName: 何梦瑶
+memberId  : 607516
+roomId    : 18717305
+
+memberName: 罗可嘉
+memberId  : 607521
+roomId    : 18716506
+
+memberName: 林芝
+memberId  : 607523
+roomId    : 18712468
+
+memberName: 汪慕远
+memberId  : 607524
+roomId    : 18710871
+
+memberName: 吴羽霏
+memberId  : 607591
+roomId    : 18709707
+
+memberName: 叶晓梦
+memberId  : 607592
+roomId    : 18713709
+
+memberName: 余芷媛
+memberId  : 607594
+roomId    : 18696906
+
+memberName: 司珀琳
+memberId  : 608997
+roomId    : 19375742
+
+memberName: 周佳怡
+memberId  : 609001
+roomId    : 19376836
+
+memberName: 赵天杨
+memberId  : 609002
+roomId    : 19373976
+
+memberName: 相望
+memberId  : 610040
+roomId    : 19821117
+
+memberName: 唐霖
+memberId  : 610042
+roomId    : 18932438
+
+memberName: 柏欣妤
+memberId  : 614528
+roomId    : 18874571
+
+memberName: 李恩锐
+memberId  : 614725
+roomId    : 18876868
+
+memberName: 李姗姗
+memberId  : 614727
+roomId    : 18863978
+
+memberName: 雷宇霄
+memberId  : 614728
+roomId    : 18925326
+
+memberName: 孟玥
+memberId  : 614730
+roomId    : 18933202
+
+memberName: 毛译晗
+memberId  : 614731
+roomId    : 18931527
+
+memberName: 谯玉珍
+memberId  : 614733
+roomId    : 18876438
+
+memberName: 冉蔚
+memberId  : 614734
+roomId    : 18931469
+
+memberName: 田倩兰
+memberId  : 614735
+roomId    : 18866539
+
+memberName: 陶菀瑞
+memberId  : 614736
+roomId    : 18863833
+
+memberName: 伍寒琪
+memberId  : 614738
+roomId    : 18872373
+
+memberName: 王梦竹
+memberId  : 614739
+roomId    : 18869478
+
+memberName: 王娱博
+memberId  : 614740
+roomId    : 18931483
+
+memberName: 曾佳
+memberId  : 614741
+roomId    : 18868708
+
+memberName: 左欣
+memberId  : 614742
+roomId    : 18865486
+
+memberName: 艾芷亦
+memberId  : 614749
+roomId    : 18925515
+
+memberName: 邓倩
+memberId  : 614750
+roomId    : 19006904
+
+memberName: 郝婧怡
+memberId  : 614753
+roomId    : 18929102
+
+memberName: 韩林芹
+memberId  : 614754
+roomId    : 18878868
+
+memberName: 黄琬璎
+memberId  : 614755
+roomId    : 18936316
+
+memberName: 林舒晴
+memberId  : 614756
+roomId    : 18864508
+
+memberName: 李瑜璇
+memberId  : 614757
+roomId    : 18926936
+
+memberName: 田祯臻
+memberId  : 614760
+roomId    : 19174730
+
+memberName: 吴学雨
+memberId  : 614761
+roomId    : 19308165
+
+memberName: 夏文倩
+memberId  : 614762
+roomId    : 18920665
+
+memberName: 章宇阳
+memberId  : 614770
+roomId    : 18872322
+
+memberName: 赵泽慧
+memberId  : 614773
+roomId    : 18915966
+
+memberName: 吴晶晶
+memberId  : 614776
+roomId    : 18874489
+
+memberName: 金鑫
+memberId  : 617948
+roomId    : 20899897
+
+memberName: 程戈
+memberId  : 618319
+roomId    : 19812475
+
+memberName: 李娜(三期生)
+memberId  : 623828
+roomId    : 20939691
+
+memberName: 李宗颐
+memberId  : 623832
+roomId    : 20899904
+
+memberName: 何阳青青
+memberId  : 624121
+roomId    : 19412890
+
+memberName: 李晨曦
+memberId  : 624311
+roomId    : 21673709
+
+memberName: 舒湘
+memberId  : 624312
+roomId    : 21519222
+
+memberName: 王梦媛
+memberId  : 624313
+roomId    : 21536978
+
+memberName: 肖文静
+memberId  : 624315
+roomId    : 21545705
+
+memberName: 张紫颖
+memberId  : 624318
+roomId    : 21529013
+
+memberName: 杨鑫
+memberId  : 652650
+roomId    : 21329021
+
+memberName: 周洁艺
+memberId  : 652652
+roomId    : 21540553
+
+memberName: 青春大本营
+memberId  : 654707
+roomId    : 21359614
+
+memberName: 陈盼
+memberId  : 677395
+roomId    : 25309899
+
+memberName: 李美琪
+memberId  : 677396
+roomId    : 25493049
+
+memberName: 李星羽
+memberId  : 677397
+roomId    : 25482881
+
+memberName: 李玉倩
+memberId  : 677398
+roomId    : 25359178
+
+memberName: 王溪源
+memberId  : 677399
+roomId    : 25492977
+
+memberName: 王欣颜甜甜
+memberId  : 677400
+roomId    : 25309839
+
+memberName: 杨令仪
+memberId  : 677401
+roomId    : 25299785
+
+memberName: 杨美琪
+memberId  : 677402
+roomId    : 25510272
+
+memberName: 张茜
+memberId  : 677403
+roomId    : 25416425
+
+memberName: 周诗雨
+memberId  : 677404
+roomId    : 25309902
+
+memberName: 朱小丹
+memberId  : 677405
+roomId    : 25289897
+
+memberName: 张馨月
+memberId  : 677406
+roomId    : 25454085
+
+memberName: 陈俊羽
+memberId  : 679448
+roomId    : 22634320
+
+memberName: 刁滢
+memberId  : 679455
+roomId    : 22674623
+
+memberName: 黄嘉怡
+memberId  : 679459
+roomId    : 22595567
+
+memberName: 李苏洪
+memberId  : 679462
+roomId    : 22664252
+
+memberName: 王嘉瑜
+memberId  : 679464
+roomId    : 22576259
+
+memberName: 王雨兰
+memberId  : 679466
+roomId    : 22537562
+
+memberName: 朱敏
+memberId  : 679467
+roomId    : 22674618
+
+memberName: 戴紫薇
+memberId  : 707365
+roomId    : 25549446
+
+memberName: 魏小燕
+memberId  : 707369
+roomId    : 25646712
+
+memberName: 徐楚雯
+memberId  : 707371
+roomId    : 25646704
+
+memberName: 徐慧玲
+memberId  : 707372
+roomId    : 25723068
+
+memberName: 余梦露
+memberId  : 707373
+roomId    : 25559669
+
+memberName: 周桐冉
+memberId  : 707375
+roomId    : 25549423
+
+memberName: 付奕萱
+memberId  : 711725
+roomId    : 24737757
+
+memberName: 高蔚然
+memberId  : 711726
+roomId    : 24679646
+
+memberName: 李清雨
+memberId  : 711728
+roomId    : 24679663
+
+memberName: 楼澍
+memberId  : 711730
+roomId    : 24767422
+
+memberName: 彭嘉敏
+memberId  : 711732
+roomId    : 24890786
+
+memberName: 曲美霖
+memberId  : 711735
+roomId    : 24852183
+
+memberName: 熊鑫
+memberId  : 711739
+roomId    : 24737771
+
+memberName: 杨宇馨
+memberId  : 711741
+roomId    : 24795114
+
+memberName: 张丹丹
+memberId  : 711745
+roomId    : 24870598
+
+memberName: 周湘
+memberId  : 711746
+roomId    : 24813484
+
