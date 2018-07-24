@@ -4,17 +4,17 @@ import { Button } from 'antd';
 import style from './style.sass';
 import { copy } from '../../../utils';
 
-const Index: Function = (props: Object): Array=>{
+const Index: Function = (props: Object): React.ChildrenArray<React.Element>=>{
   return [
     /* 返回 */
-    <Link key={ 0 } className={ style.back } to="/">
+    <Link key="0" className={ style.back } to="/">
       <Button type="danger" icon="poweroff">返回</Button>
     </Link>,
     /* 正文 */
-    <h1 key={ 1 } className={ style.title }>帮助</h1>,
+    <h1 key="1" className={ style.title }>帮助</h1>,
     /* 基础命令 */
-    <h4 key={ 2 } className={ style.seconeTitle }>命令</h4>,
-    <div key={ 3 } className={ style.body }>
+    <h4 key="2" className={ style.seconeTitle }>命令</h4>,
+    <div key="3" className={ style.body }>
       <p className={ style.p }>
         [
         <b className={ style.b }>摩点</b>
@@ -101,8 +101,8 @@ const Index: Function = (props: Object): Array=>{
       </p>
     </div>,
     /* 自定义命令 */
-    <h4 key={ 4 } className={ style.seconeTitle }>自定义命令</h4>,
-    <div key={ 5 } className={ style.body }>
+    <h4 key="4" className={ style.seconeTitle }>自定义命令</h4>,
+    <div key="5" className={ style.body }>
       <p className={ style.p }>
         [
         <b className={ style.b }>自定义命令</b>
@@ -111,8 +111,8 @@ const Index: Function = (props: Object): Array=>{
       <p className={ style.p }>如果当前配置项有该命令，则会返回该命令对应的内容。</p>
     </div>,
     /* 天气 */
-    <h4 key={ 6 } className={ style.seconeTitle }>天气接口</h4>,
-    <div key={ 7 } className={ style.body }>
+    <h4 key="6" className={ style.seconeTitle }>天气接口</h4>,
+    <div key="7" className={ style.body }>
       <p className={ style.p }>
         请自行到心知天气的官方网站&nbsp;
         <b className={ style.url } id="copy-help-xinzhitianqi" onClick={ copy.bind(this, 'copy-help-xinzhitianqi') }>
@@ -124,8 +124,8 @@ const Index: Function = (props: Object): Array=>{
       </p>
     </div>,
     /* 机器人 */
-    <h4 key={ 8 } className={ style.seconeTitle }>图灵机器人</h4>,
-    <div key={ 9 } className={ style.body }>
+    <h4 key="8" className={ style.seconeTitle }>图灵机器人</h4>,
+    <div key="9" className={ style.body }>
       <p className={ style.p }>
         请自行到图灵机器人的官方网站&nbsp;
         <b className={ style.url } id="copy-help-tuling" onClick={ copy.bind(this, 'copy-help-tuling') }>

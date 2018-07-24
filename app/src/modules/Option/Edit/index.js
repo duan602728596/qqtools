@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
@@ -56,6 +57,14 @@ class Add extends Component{
     }
   };
 
+  static propTypes: Object = {
+    action: PropTypes.objectOf(PropTypes.func),
+    form: PropTypes.object,
+    history: PropTypes.object,
+    location: PropTypes.object,
+    match: PropTypes.object
+  };
+
   constructor(): void{
     super(...arguments);
 
@@ -88,7 +97,7 @@ class Add extends Component{
         dataIndex: 'text',
         key: 'text',
         width: '60%',
-        render: (text: string, item: Object, index: number): Object=>{
+        render: (text: string, item: Object, index: number): React.Element=>{
           return (
             <pre>{ text }</pre>
           );
@@ -98,10 +107,10 @@ class Add extends Component{
         title: '操作',
         key: 'handle',
         width: '20%',
-        render: (text: string, item: Object, index: number): Array=>{
+        render: (text: string, item: Object, index: number): React.ChildrenArray<React.Element>=>{
           return [
-            <Button key={ 0 } className={ style.mr10 } size="small" onClick={ this.onEdit.bind(this, item) }>修改</Button>,
-            <Popconfirm key={ 1 } title="确认要删除吗？" onConfirm={ this.onDelete.bind(this, item) }>
+            <Button key="edit" className={ style.mr10 } size="small" onClick={ this.onEdit.bind(this, item) }>修改</Button>,
+            <Popconfirm key="delete" title="确认要删除吗？" onConfirm={ this.onDelete.bind(this, item) }>
               <Button size="small">删除</Button>
             </Popconfirm>
           ];
@@ -196,7 +205,7 @@ class Add extends Component{
       }
     });
   }
-  render(): Array{
+  render(): React.ChildrenArray<React.Element>{
     const detail: ?Object = 'query' in this.props.location ? this.props.location.query.detail : null;
     const { getFieldDecorator }: { getFieldDecorator: Function } = this.props.form;
     // checkbox的值
@@ -211,7 +220,7 @@ class Add extends Component{
     const isXinZhiTianQi: boolean = detail?.basic?.isXinZhiTianQi;             // 心知天气
     const isTuLing: boolean =  detail?.basic?.isTuLing;                        // 图灵机器人
     return [
-      <Form key={ 0 } className={ style.form } layout="inline" onSubmit={ this.onSubmit.bind(this) }>
+      <Form key="form" className={ style.form } layout="inline" onSubmit={ this.onSubmit.bind(this) }>
         <Affix className={ style.affix }>
           <Button className={ style.saveBtn } type="primary" htmlType="submit" size="default" icon="hdd">保存</Button>
           <br />
@@ -580,7 +589,7 @@ class Add extends Component{
         />
       </Form>,
       /* 添加或修改自定义命令 */
-      <Modal key={ 1 }
+      <Modal key="modal"
         title={ this.state.item ? '修改' : '添加' + '自定义命令' }
         visible={ this.state.modalDisplay }
         width="500px"

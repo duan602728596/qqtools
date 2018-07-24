@@ -1,10 +1,12 @@
 /* 口袋48登录和房间抓取 */
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
 import { Affix, Table, Button, Card, message, Form, Row, Col, Input, Popconfirm } from 'antd';
+import classNames from 'classnames';
 import publicStyle from '../../../components/publicStyle/public.sass';
 import style from './style.sass';
 import { loginInformation, getLoginInformation, putLoginInformation, cursorMemberInformation, clearLoginInformation, clearMemberInformation } from '../store/reducer';
@@ -61,6 +63,12 @@ class KouDai48 extends Component{
     searchResult: Array
   };
 
+  static propTypes: Object = {
+    loginInformation: PropTypes.object,
+    action: PropTypes.objectOf(PropTypes.func),
+    form: PropTypes.object
+  };
+
   constructor(): void{
     super(...arguments);
 
@@ -87,7 +95,7 @@ class KouDai48 extends Component{
         title: 'information',
         key: 'information',
         width: '80%',
-        render: (text: string, item: Object, index: number): Object => <MemberInformation item={ item } />
+        render: (text: string, item: Object, index: number): React.Element => <MemberInformation item={ item } />
       }
     ];
     return columns;
@@ -145,7 +153,7 @@ class KouDai48 extends Component{
       data: null
     });
   }
-  render(): Object{
+  render(): React.Element{
     const { getFieldDecorator }: { getFieldDecorator: Function } = this.props.form;
     const loginInformation: ?Object = this.props.loginInformation;
 
@@ -163,8 +171,8 @@ class KouDai48 extends Component{
 
     return (
       <Fragment>
-        <Affix key={ 0 } className={ publicStyle.affix }>
-          <div className={ `${ publicStyle.toolsBox } clearfix` }>
+        <Affix className={ publicStyle.affix }>
+          <div className={ classNames(publicStyle.toolsBox, 'clearfix') }>
             <div className={ publicStyle.fr }>
               <Popconfirm title="确定退出登录并清除缓存吗？" onConfirm={ this.onExitAndClear.bind(this) }>
                 <Button icon="warning">退出登录并清除缓存</Button>

@@ -8,6 +8,7 @@ module.exports = {
   entry: {
     'dll': [
       'react',
+      'prop-types',
       'react-dom',
       'react-router-dom',
       'redux',

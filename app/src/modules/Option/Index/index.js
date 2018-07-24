@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
 import { Affix, Table, Button, Popconfirm, Modal, message } from 'antd';
+import classNames from 'classnames';
 import $ from 'jquery';
 import style from './style.sass';
 import publicStyle from '../../../components/publicStyle/public.sass';
@@ -34,6 +36,11 @@ class Index extends Component{
   state: {
     visible1: boolean,
     visible2: boolean
+  };
+
+  static propTypes: Object = {
+    optionList: PropTypes.array,
+    action: PropTypes.objectOf(PropTypes.func)
   };
 
   constructor(): void{
@@ -68,9 +75,9 @@ class Index extends Component{
         title: '操作',
         key: 'handle',
         width: '25%',
-        render: (text: string, item: Object, index: number): Array=>{
+        render: (text: string, item: Object, index: number): React.ChildrenArray<React.Element>=>{
           return [
-            <Link key={ 0 } to={{
+            <Link key="link" to={{
               pathname: '/Option/Edit',
               query: {
                 detail: item
@@ -78,7 +85,7 @@ class Index extends Component{
             }}>
               <Button className={ style.mr10 } size="small">修改</Button>
             </Link>,
-            <Popconfirm key={ 1 } title="确认要删除该配置项吗？" onConfirm={ this.onDeleteOption.bind(this, item) }>
+            <Popconfirm key="delete" title="确认要删除该配置项吗？" onConfirm={ this.onDeleteOption.bind(this, item) }>
               <Button type="danger" size="small">删除</Button>
             </Popconfirm>
           ];
@@ -112,16 +119,16 @@ class Index extends Component{
     });
   }
   // 导入配置
-  onExportConfiguration(event: Event): ?boolean{
+  onExportConfiguration(event: Event): void{
     const files: jQuery = $('#exportConfiguration').val();
     if(files === ''){
       message.error('必须选择一个保存位置！');
-      return false;
+      return void 0;
     }
     const { ext }: { ext: string } = path.parse(files);
     if(ext !== '.json'){
       message.error('导出的必须是一个json文件！');
-      return false;
+      return void 0;
     }
     const jsonStr: string = JSON.stringify({
       configuration: this.props.optionList
@@ -174,10 +181,10 @@ class Index extends Component{
     });
 
   }
-  render(): Array{
+  render(): React.ChildrenArray<React.Element>{
     return [
-      <Affix key={ 0 } className={ publicStyle.affix }>
-        <div className={ `${ publicStyle.toolsBox } clearfix` }>
+      <Affix key="affix" className={ publicStyle.affix }>
+        <div className={ classNames(publicStyle.toolsBox, 'clearfix') }>
           <div className={ publicStyle.fl }>
             <Link className={ style.mr10 } to="/Option/Edit">
               <Button type="primary" icon="plus-circle-o">添加新配置</Button>
@@ -193,7 +200,7 @@ class Index extends Component{
         </div>
       </Affix>,
       /* 显示列表 */
-      <div key={ 1 } className={ publicStyle.tableBox }>
+      <div key="tableBox" className={ publicStyle.tableBox }>
         <Table dataSource={ this.props.optionList }
           columns={ this.columns() }
           bordered={ true }
@@ -205,7 +212,7 @@ class Index extends Component{
         />
       </div>,
       /* 导出配置 */
-      <Modal key={ 2 }
+      <Modal key="modal1"
         title="导出配置"
         visible={ this.state.visible1 }
         onOk={ this.onExportConfiguration.bind(this) }
@@ -214,7 +221,7 @@ class Index extends Component{
         <input id="exportConfiguration" type="file" nwsaveas={ `backup_${ new Date().getTime() }.json` } />
       </Modal>,
       /* 导入配置 */
-      <Modal key={ 3 }
+      <Modal key="modal2"
         title="导入配置"
         visible={ this.state.visible2 }
         onOk={ this.onImportConfiguration.bind(this) }

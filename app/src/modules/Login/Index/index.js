@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
 import { Affix, Table, Button, Popconfirm } from 'antd';
+import classNames from 'classnames';
 import publicStyle from '../../../components/publicStyle/public.sass';
 import { changeQQLoginList, kd48LiveListenerTimer } from '../store/reducer';
 
@@ -31,6 +33,12 @@ const dispatch: Function = (dispatch: Function): Object=>({
 
 @connect(state, dispatch)
 class Index extends Component{
+  static propTypes: Object = {
+    qqLoginList: PropTypes.array,
+    kd48LiveListenerTimer: PropTypes.number,
+    action: PropTypes.objectOf(PropTypes.func)
+  };
+
   // 表格配置
   columus(): Array{
     const columns: Array = [
@@ -56,7 +64,7 @@ class Index extends Component{
         title: '操作',
         key: 'handle',
         width: '25%',
-        render: (text: ?string, item: CoolQ): Object=>{
+        render: (text: ?string, item: CoolQ): React.Element=>{
           return (
             <Popconfirm title="确认要退出吗？" onConfirm={ this.onLogOut.bind(this, item) }>
               <Button type="danger" size="small" icon="logout">退出</Button>
@@ -95,10 +103,10 @@ class Index extends Component{
       }
     }
   }
-  render(): Array{
+  render(): React.ChildrenArray<React.Element>{
     return [
-      <Affix key={ 0 } className={ publicStyle.affix }>
-        <div className={ `${ publicStyle.toolsBox } clearfix` }>
+      <Affix key="affix" className={ publicStyle.affix }>
+        <div className={ classNames(publicStyle.toolsBox, clearfix) }>
           <div className={ publicStyle.fl }>
             <Link className={ publicStyle.mr10 } to="/Login/Login">
               <Button type="primary" icon="windows-o">登录</Button>
@@ -112,7 +120,7 @@ class Index extends Component{
         </div>
       </Affix>,
       /* 显示列表 */
-      <div key={ 1 } className={ publicStyle.tableBox }>
+      <div key="tableBox" className={ publicStyle.tableBox }>
         <Table bordered={ true }
           columns={ this.columus() }
           rowKey={ (item: Object): string => item.time }

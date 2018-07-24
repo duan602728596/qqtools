@@ -1,7 +1,8 @@
 /* 当前配置的具体内容 */
 import React, { Component } from 'react';
-import style from './style.sass';
+import classNames from 'classnames';
 import $ from 'jquery';
+import style from './style.sass';
 
 /* 将Obj转换成Array */
 function customProfiles(customProfiles: Object): Array{
@@ -32,7 +33,7 @@ function customProfiles(customProfiles: Object): Array{
   }
 }
 
-const Detail: ?Object = (props: ?Object): ?Object=>{
+const Detail: ?Object = (props: ?Object): ?React.Element=>{
   if(!props.detail){
     return null;
   }
@@ -43,15 +44,15 @@ const Detail: ?Object = (props: ?Object): ?Object=>{
       <tbody>
         {/* 基础 */}
         <tr>
-          <td className={ `${ style.td1 } ${ style.tdTitle }` }>配置名称</td>
+          <td className={ classNames(style.td1, style.tdTitle) }>配置名称</td>
           <td className={ style.td2 }>{ detail.name }</td>
-          <td className={ `${ style.td1 } ${ style.tdTitle }` }>QQ号</td>
+          <td className={ classNames(style.td1, style.tdTitle) }>QQ号</td>
           <td className={ style.td2 }>{ detail.qqNumber }</td>
         </tr>
         <tr>
-          <td className={ `${ style.td1 } ${ style.tdTitle }` }>群号</td>
+          <td className={ classNames(style.td1, style.tdTitle) }>群号</td>
           <td className={ style.td2 }>{ detail.groupNumber }</td>
-          <td className={ `${ style.td1 } ${ style.tdTitle }` }>socket端口</td>
+          <td className={ classNames(style.td1, style.tdTitle) }>socket端口</td>
           <td className={ style.td2 }>{ detail.socketPort }</td>
         </tr>
         {/* 摩点 */}

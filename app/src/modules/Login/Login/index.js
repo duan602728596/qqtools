@@ -1,5 +1,6 @@
 /* 登录页 */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
@@ -59,6 +60,16 @@ class Login extends Component{
     optionItemIndex: ?number
   };
 
+  static propTypes: Object = {
+    qqLoginList: PropTypes.array,
+    optionList: PropTypes.array,
+    kd48LiveListenerTimer: PropTypes.number,
+    action: PropTypes.object(PropTypes.func),
+    history: PropTypes.object,
+    location: PropTypes.object,
+    match: PropTypes.object
+  };
+
   constructor(): void{
     super(...arguments);
 
@@ -75,8 +86,8 @@ class Login extends Component{
     });
   }
   // select
-  selectOption(): Array{
-    return this.props.optionList.map((item: Object, index: number): void=>{
+  selectOption(): React.ChildrenArray<React.Element>{
+    return this.props.optionList.map((item: Object, index: number): React.Element=>{
       const index1: string = `${ index }`;
       return (
         <Select.Option key={ index1 } value={ index1 }>
@@ -212,7 +223,7 @@ class Login extends Component{
       qq = null;
     }
   }
-  render(): Object{
+  render(): React.Element{
     const index: ?number = this.state.optionItemIndex ? Number(this.state.optionItemIndex) : null;
     return (
       <div className={ style.body }>
