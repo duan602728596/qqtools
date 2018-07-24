@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
 import { Affix, Table, Button, Card, message, Form, Row, Col, Input, Popconfirm } from 'antd';
-import publicStyle from '../../publicMethod/public.sass';
+import publicStyle from '../../../components/publicStyle/public.sass';
 import style from './style.sass';
 import { loginInformation, getLoginInformation, putLoginInformation, cursorMemberInformation, clearLoginInformation, clearMemberInformation } from '../store/reducer';
 import LoginInformation from './LoginInformation';

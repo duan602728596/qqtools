@@ -1,6 +1,6 @@
 /* 天气查询接口 */
 import $ from 'jquery';
-import { templateReplace } from '../../function';
+import { templateReplace } from '../../utils';
 
 function getTianQi(command: string[], qq: CoolQ): void{
   $.ajax({

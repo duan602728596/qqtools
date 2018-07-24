@@ -1,17 +1,5 @@
 /* 公共函数 */
-
-/**
- * 将对象转换成一个数组
- * @param { Object } obj
- * @return { Array }
- */
-export function objectToArray(obj: Object): Function[]{
-  const arr: Array = [];
-  for(const key: string in obj){
-    arr.push(obj[key]);
-  }
-  return arr;
-}
+import { message } from 'antd';
 
 /**
  * 自动补0
@@ -79,4 +67,19 @@ export function str2reg(str: string): ?RegExp{
     }
   }
   return str2.length === 0 ? null : new RegExp(`(${ str2.join('|') })`);
+}
+
+/**
+ * 复制指定区域文本
+ */
+export function copy(id: string, event: Event): void{
+  const range: Object = document.createRange();
+  range.selectNode(document.getElementById(id));
+
+  const selection: Object = window.getSelection();
+  if(selection.rangeCount > 0) selection.removeAllRanges();
+  selection.addRange(range);
+  document.execCommand('copy');
+
+  message.info('复制到剪贴板。');
 }

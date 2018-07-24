@@ -6,7 +6,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import { Affix, Table, Button, Popconfirm, Modal, message } from 'antd';
 import $ from 'jquery';
 import style from './style.sass';
-import publicStyle from '../../publicMethod/public.sass';
+import publicStyle from '../../../components/publicStyle/public.sass';
 import { optionList, cursorOption, deleteOption, importOption } from '../store/reducer';
 const path: Object = global.require('path');
 const fs: Object = global.require('fs');

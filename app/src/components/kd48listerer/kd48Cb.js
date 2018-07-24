@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import post from './post';
-import { time } from '../../function';
+import { time } from '../../utils';
 
 async function getList(qq: CoolQ): Promise<void>{
   const data: string = await post();

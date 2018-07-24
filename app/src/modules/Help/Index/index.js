@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 import style from './style.sass';
-import { copy } from '../../publicMethod/editOperation';
+import { copy } from '../../../utils';
 
 const Index: Function = (props: Object): Array=>{
   return [

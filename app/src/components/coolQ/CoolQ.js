@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import { requestRoomMessage, requestUserInformation } from '../kd48listerer/roomListener';
-import { templateReplace } from '../../function';
+import { templateReplace } from '../../utils';
 
 class CoolQ{
   time: number;

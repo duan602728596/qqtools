@@ -1,6 +1,6 @@
 import IndexedDB from 'indexeddb-tools';
 import IndexedDBRedux from 'indexeddb-tools-redux';
-import option from './option';
+import option from '../option/option';
 
 /* 初始化所有的数据库 */
 IndexedDB(option.indexeddb.name, option.indexeddb.version, {

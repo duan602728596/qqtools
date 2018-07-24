@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
 import { Affix, Table, Button, Popconfirm } from 'antd';
-import publicStyle from '../../publicMethod/public.sass';
+import publicStyle from '../../../components/publicStyle/public.sass';
 import { changeQQLoginList, kd48LiveListenerTimer } from '../store/reducer';
 
 /* 初始化数据 */

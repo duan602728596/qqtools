@@ -1,7 +1,7 @@
 import { createAction, handleActions } from 'redux-actions';
 import { fromJS } from 'immutable';
-import option from '../../publicMethod/option';
-import { db } from '../../publicMethod/initIndexedDB';
+import option from '../../../components/option/option';
+import { db } from '../../../components/indexedDB/initIndexedDB';
 
 /* 使用immutable初始化基础数据 */
 const initData: {
