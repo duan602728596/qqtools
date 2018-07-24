@@ -15,7 +15,7 @@ const HelpBundle: Function = asyncModule(Help);
 
 /* 路由模块 */
 class Routers extends Component{
-  render(): Object{
+  render(): React.Element{
     return (
       <Switch>
         {/* 首页 */}

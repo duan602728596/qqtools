@@ -20,7 +20,7 @@ function customProfiles(customProfiles: Object): Array{
       </tr>
     );
   }else{
-    return custom.map((item: Object, index: number): Object=>{
+    return custom.map((item: Object, index: number): React.Element=>{
       return (
         <tr key={ item.command }>
           <td>{ item.command }</td>

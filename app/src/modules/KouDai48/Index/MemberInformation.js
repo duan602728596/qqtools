@@ -72,10 +72,10 @@ class MemberInformation extends Component{
     if(this.state.memberName !== null && this.state.roomId !== null){
       if(this.state.memberName !== '' && this.state.roomId !== ''){
         return [
-          <b key={ 0 } className={ style.keyName }>memberName:</b>,
-          <span key={ 1 } className={ style.mr20 }>{ this.state.memberName }</span>,
-          <b key={ 2 } className={ style.keyName }>roomId:</b>,
-          <span key={ 3 }>{ this.state.roomId }</span>
+          <b key="0" className={ style.keyName }>memberName:</b>,
+          <span key="1" className={ style.mr20 }>{ this.state.memberName }</span>,
+          <b key="2" className={ style.keyName }>roomId:</b>,
+          <span key="3">{ this.state.roomId }</span>
         ];
       }else{
         return null;
