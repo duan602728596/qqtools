@@ -101,7 +101,7 @@ class KouDai48 extends Component{
     return columns;
   }
   // 登录
-  onSubmit(event: Event): void{
+  handleSubmit(event: Event): void{
     event.preventDefault();
     this.props.form.validateFields(async(err: any, value: Object): Promise<void>=>{
       if(!err){
@@ -129,12 +129,12 @@ class KouDai48 extends Component{
     });
   }
   // 搜索
-  onInputChange(event: Event): void{
+  handleInputChange(event: Event): void{
     this.setState({
       searchString: event.target.value
     });
   }
-  async onSearchInformation(event: Event): Promise<void>{
+  async handleSearchInformation(event: Event): Promise<void>{
     const data: Object = await this.props.action.cursorMemberInformation({
       query: {
         indexName: 'memberName',    // 索引
@@ -146,7 +146,7 @@ class KouDai48 extends Component{
     });
   }
   // 退出并清除缓存
-  async onExitAndClear(event: Event): Promise<void>{
+  async handleExitAndClear(event: Event): Promise<void>{
     await this.props.action.clearLoginInformation();
     await this.props.action.clearMemberInformation();
     this.props.action.loginInformation({
@@ -174,7 +174,7 @@ class KouDai48 extends Component{
         <Affix className={ publicStyle.affix }>
           <div className={ classNames(publicStyle.toolsBox, 'clearfix') }>
             <div className={ publicStyle.fr }>
-              <Popconfirm title="确定退出登录并清除缓存吗？" onConfirm={ this.onExitAndClear.bind(this) }>
+              <Popconfirm title="确定退出登录并清除缓存吗？" onConfirm={ this.handleExitAndClear.bind(this) }>
                 <Button icon="warning">退出登录并清除缓存</Button>
               </Popconfirm>
               <Link className={ publicStyle.ml10 } to="/">
@@ -189,7 +189,7 @@ class KouDai48 extends Component{
               <Card className={ style.mb10 } title="口袋48登录">
                 <p className={ style.mb10 }>在使用口袋48的房间监听功能前，必须先登录，获取token，否则无法获取到房间信息。</p>
                 <p className={ style.mb10 }>登录一次后，token会储存在本地，不需要重复登录。</p>
-                <Form onSubmit={ this.onSubmit.bind(this) }>
+                <Form onSubmit={ this.handleSubmit.bind(this) }>
                   <Form.Item label="用户名">
                     {
                       getFieldDecorator('account', {
@@ -228,10 +228,10 @@ class KouDai48 extends Component{
                   <Input className={ style.searchId }
                     id="koudai48-search"
                     value={ this.state.searchString }
-                    onChange={ this.onInputChange.bind(this) }
-                    onPressEnter={ this.onSearchInformation.bind(this) }
+                    onChange={ this.handleInputChange.bind(this) }
+                    onPressEnter={ this.handleSearchInformation.bind(this) }
                   />
-                  <Button className={ publicStyle.ml10 } type="primary" onClick={ this.onSearchInformation.bind(this) }>搜索</Button>
+                  <Button className={ publicStyle.ml10 } type="primary" onClick={ this.handleSearchInformation.bind(this) }>搜索</Button>
                   { resultEle }
                 </div>
               </Card>

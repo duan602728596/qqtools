@@ -86,7 +86,7 @@ class Login extends Component{
     });
   }
   // select
-  selectOption(): React.ChildrenArray<React.Element>{
+  selectOptionView(): React.ChildrenArray<React.Element>{
     return this.props.optionList.map((item: Object, index: number): React.Element=>{
       const index1: string = `${ index }`;
       return (
@@ -96,7 +96,7 @@ class Login extends Component{
       );
     });
   }
-  onOptionSelect(value: number, option: any): void{
+  handleOptionSelect(value: number, option: any): void{
     this.setState({
       optionItemIndex: value
     });
@@ -186,7 +186,7 @@ class Login extends Component{
     }
   }
   // 登录连接
-  onLogin(event: Event): void{
+  handleLogin(event: Event): void{
     this.setState({
       btnLoading: true
     });
@@ -233,9 +233,9 @@ class Login extends Component{
           <Select className={ style.select }
             dropdownClassName={ style.select }
             value={ this.state.optionItemIndex }
-            onSelect={ this.onOptionSelect.bind(this) }
+            onSelect={ this.handleOptionSelect.bind(this) }
           >
-            { this.selectOption() }
+            { this.selectOptionView() }
           </Select>
           <Link className={ publicStyle.ml10 } to="/Login">
             <Button type="danger">返回</Button>
@@ -244,7 +244,7 @@ class Login extends Component{
             type="primary"
             loading={ this.state.btnLoading }
             disabled={ !this.state.optionItemIndex }
-            onClick={ this.onLogin.bind(this) }
+            onClick={ this.handleLogin.bind(this) }
           >
             连接
           </Button>
