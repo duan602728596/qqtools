@@ -89,10 +89,14 @@ class CoolQ{
     if(type === 'event' && 'group_id' in dataJson && dataJson.group_id === gn && dataJson.self_id === Number(this.qq)){
       // 群聊天
       if(dataJson.message_type === 'group'){
-        this.callback(dataJson.message, this);
+        this.callback(dataJson?.raw_message || dataJson.message, this);
       }
       // 新成员加入群
-      if(dataJson.post_type === 'event' && dataJson.event === 'group_increase' && this.option.basic.isNewGroupMember){
+      if(
+        (dataJson.post_type === 'notice' || dataJson.post_type === 'event')
+        && (dataJson.notice_type === 'group_increase' || dataJson.event === 'group_increase')
+        && this.option.basic.isNewGroupMember
+      ){
         this.getGroupMemberInfo(dataJson.user_id);
       }
     }
