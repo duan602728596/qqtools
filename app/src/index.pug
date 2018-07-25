@@ -7,4 +7,5 @@ html
     div#react-app
     script(type='text/javascript' src=require('./appInit'))
     script(type='text/javascript' src=require('jquery/dist/jquery.min'))
-    script(type='text/javascript' src=require('../.dll/dll'))
+    if process.env.NODE_ENV === 'development'
+      script(type='text/javascript' src=require('../.dll/dll'))
