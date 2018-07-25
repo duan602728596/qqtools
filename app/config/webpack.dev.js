@@ -1,4 +1,5 @@
 /* 开发环境 */
+const process = require('process');
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -38,7 +39,8 @@ module.exports = config({
     new HtmlWebpackPlugin({
       inject: true,
       hash: true,
-      template: path.join(__dirname, '../src/index.pug')
+      template: path.join(__dirname, '../src/index.pug'),
+      NODE_ENV: process.env.NODE_ENV
     })
   ]
 });

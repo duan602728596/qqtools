@@ -1,4 +1,5 @@
 /* 生产环境 */
+const process = require('process');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -36,7 +37,8 @@ module.exports = config({
       minify: {
         minifyCSS: true,
         minifyJS: true
-      }
+      },
+      NODE_ENV: process.env.NODE_ENV
     }),
     new MiniCssExtractPlugin({
       filename: 'style/[name].[chunkhash].css',
