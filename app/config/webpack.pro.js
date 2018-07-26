@@ -1,4 +1,5 @@
 /* 生产环境 */
+const process = require('process');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -13,7 +14,7 @@ module.exports = config({
   output: {
     path: path.join(__dirname, '../build'),
     filename: 'script/[name].[chunkhash].js',
-    chunkFilename: 'script/[name].[chunkhash]_chunk.js'
+    chunkFilename: 'script/[name].[chunkhash].js'
   },
   module: {
     rules: [
@@ -36,12 +37,19 @@ module.exports = config({
       minify: {
         minifyCSS: true,
         minifyJS: true
-      }
+      },
+      NODE_ENV: process.env.NODE_ENV
     }),
     new MiniCssExtractPlugin({
       filename: 'style/[name].[chunkhash].css',
-      chunkFilename: 'style/[name].[chunkhash]_chunk.css'
+      chunkFilename: 'style/[name].[chunkhash].css'
     }),
     new OptimizeCssAssets()
-  ]
+  ],
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      automaticNameDelimiter: '.'
+    }
+  }
 });
