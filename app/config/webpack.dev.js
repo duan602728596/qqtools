@@ -38,7 +38,6 @@ module.exports = config({
     // html模板
     new HtmlWebpackPlugin({
       inject: true,
-      hash: true,
       template: path.join(__dirname, '../src/index.pug'),
       NODE_ENV: process.env.NODE_ENV
     })
