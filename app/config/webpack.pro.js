@@ -1,7 +1,5 @@
 /* 生产环境 */
-const process = require('process');
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssets = require('optimize-css-assets-webpack-plugin');
 const config = require('./webpack.config');
@@ -29,16 +27,6 @@ module.exports = config({
     ]
   },
   plugins: [
-    // html模板
-    new HtmlWebpackPlugin({
-      inject: true,
-      template: path.join(__dirname, '../src/index.pug'),
-      minify: {
-        minifyCSS: true,
-        minifyJS: true
-      },
-      NODE_ENV: process.env.NODE_ENV
-    }),
     new MiniCssExtractPlugin({
       filename: 'style/[name].[chunkhash:5].css',
       chunkFilename: 'style/[name].[chunkhash:5].css'

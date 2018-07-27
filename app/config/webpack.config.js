@@ -1,6 +1,7 @@
 const process = require('process');
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const babelConfig = require('./babel.config');
 
 function config(options){
@@ -71,6 +72,12 @@ function config(options){
       ]
     },
     plugins: [
+      // html模板
+      new HtmlWebpackPlugin({
+        inject: true,
+        template: path.join(__dirname, '../src/index.pug'),
+        NODE_ENV: process.env.NODE_ENV
+      }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
     ]
   };
