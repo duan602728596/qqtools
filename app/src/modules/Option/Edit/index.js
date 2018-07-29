@@ -14,10 +14,8 @@ import { copy } from '../../../utils';
  * 预留命令：摩点、直播、天气、机器人
  * 微打赏：摩点、mod
  * 直播：直播列表、zb
- * 天气：天气预报、tq
- * 机器人：say
  */
-const COMMAND: string = '摩点|mod|直播列表|zb|天气预报|tq|say|help';
+const COMMAND: string = '摩点|mod|直播列表|zb|help';
 
 /* 判断当前的cmd是否存在，并且返回index */
 function getIndex(lists: Array, cmd: string): ?number{
@@ -97,9 +95,9 @@ class Add extends Component{
         dataIndex: 'text',
         key: 'text',
         width: '60%',
-        render: (text: string, item: Object, index: number): React.Element=>{
+        render: (value: string, item: Object, index: number): React.Element=>{
           return (
-            <pre>{ text }</pre>
+            <pre>{ value }</pre>
           );
         }
       },
@@ -107,7 +105,7 @@ class Add extends Component{
         title: '操作',
         key: 'handle',
         width: '20%',
-        render: (text: string, item: Object, index: number): React.ChildrenArray<React.Element>=>{
+        render: (value: any, item: Object, index: number): React.ChildrenArray<React.Element>=>{
           return [
             <Button key="edit" className={ style.mr10 } size="small" onClick={ this.handleEdit.bind(this, item) }>修改</Button>,
             <Popconfirm key="delete" title="确认要删除吗？" onConfirm={ this.handleDelete.bind(this, item) }>
@@ -217,8 +215,6 @@ class Add extends Component{
     const isWeiboListener: boolean = detail?.basic?.isWeiboListener;           // 微博监听
     const isNewGroupMember: boolean = detail?.basic?.isNewGroupMember;         // 新成员欢迎
     const isTimingMessagePush: boolean = detail?.basic?.isTimingMessagePush;   // 定时推送
-    const isXinZhiTianQi: boolean = detail?.basic?.isXinZhiTianQi;             // 心知天气
-    const isTuLing: boolean =  detail?.basic?.isTuLing;                        // 图灵机器人
     return [
       <Form key="form" className={ style.form } layout="inline" onSubmit={ this.handleSubmit.bind(this) }>
         <Affix className={ style.affix }>
@@ -520,62 +516,6 @@ class Add extends Component{
                 })(<Input.TextArea className={ style.template } rows={ 10 } />)
               }
             </div>
-          </Form.Item>
-        </div>
-        {/* 心知天气 */}
-        <h4 className={ style.title }>心知天气：</h4>
-        <div>
-          <p className={ style.mb15 }>该接口用来查询天气情况，目前官方的个人查询限制为400次/时。</p>
-          <p className={ style.mb15 }>
-            请自行到心知天气的官方网站&nbsp;
-            <b className={ style.url } id="copy-option-xinzhitianqi" onClick={ copy.bind(this, 'copy-option-xinzhitianqi') }>
-              https://www.seniverse.com/
-            </b>
-            &nbsp;
-            <Button icon="copy" title="复制" onClick={ copy.bind(this, 'copy-option-xinzhitianqi') } />
-            &nbsp;注册账号并填写appKey。
-          </p>
-          <Form.Item className={ style.mb15 } label="开启心知天气的查询天气功能">
-            {
-              getFieldDecorator('isXinZhiTianQi', {
-                initialValue: isXinZhiTianQi
-              })(<Checkbox defaultChecked={ isXinZhiTianQi } />)
-            }
-          </Form.Item>
-          <Form.Item className={ style.mb15 } label="心知天气APIKey">
-            {
-              getFieldDecorator('xinZhiTianQiAPIKey', {
-                initialValue: detail ? detail.basic.xinZhiTianQiAPIKey : ''
-              })(<Input className={ style.w600 } placeholder="请输入您的APIKey" />)
-            }
-          </Form.Item>
-        </div>
-        {/* 图灵机器人 */}
-        <h4 className={ style.title }>图灵机器人：</h4>
-        <div>
-          <p className={ style.mb15 }>该接口用来和机器人对话，目前官方的个人查询限制为1000次/日。</p>
-          <p className={ style.mb15 }>
-            请自行到图灵机器人的官方网站&nbsp;
-            <b className={ style.url } id="copy-option-tuling" onClick={ copy.bind(this, 'copy-option-tuling') }>
-              http://www.tuling123.com/
-            </b>
-            &nbsp;
-            <Button icon="copy" title="复制" onClick={ copy.bind(this, 'copy-option-tuling') } />
-            &nbsp;注册账号并填写appKey。
-          </p>
-          <Form.Item className={ style.mb15 } label="开启图灵机器人功能">
-            {
-              getFieldDecorator('isTuLing', {
-                initialValue: isTuLing
-              })(<Checkbox defaultChecked={ isTuLing } />)
-            }
-          </Form.Item>
-          <Form.Item className={ style.mb15 } label="图灵机器人APIKey">
-            {
-              getFieldDecorator('tuLingAPIKey', {
-                initialValue: detail ? detail.basic.tuLingAPIKey : ''
-              })(<Input className={ style.w600 } placeholder="请输入您的APIKey" />)
-            }
           </Form.Item>
         </div>
         <hr className={ style.line } />

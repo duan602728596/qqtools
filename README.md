@@ -15,8 +15,8 @@ SmartQQ版本请查看[https://github.com/duan602728596/qqtools/tree/smartQQ](ht
 * 微博监听（[微博的lfid查找方法](#微博的lfid查找方法)）
 * 新成员自动欢迎
 * 定时喊话
-* 天气预报查询
-* 图灵机器人
+* <del>天气预报查询</del>
+* <del>图灵机器人</del>
 * 自定义命令
 * 配置导入和导出
 

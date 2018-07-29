@@ -9,8 +9,6 @@ async function helpCb(qq: CoolQ): Promise<void>{
 · [(摩点 或 mod) (2 或 打卡榜) ?number]:查看打卡榜
 · [(摩点 或 mod) (3 或 订单) ?number]:订单查询
 · [直播列表 或 zb]:查看当前的口袋48直播列表
-· [(天气预报 或 tq) 城市]:查询天气情况
-· [say 你想说的话]:机器人
 · [help]：帮助`;
 
   let text2: string = '【自定义命令】';

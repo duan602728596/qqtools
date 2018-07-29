@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 import style from './style.sass';
-import { copy } from '../../../utils';
 
 const Index: Function = (props: Object): React.ChildrenArray<React.Element>=>{
   return [
@@ -109,32 +108,6 @@ const Index: Function = (props: Object): React.ChildrenArray<React.Element>=>{
         ]
       </p>
       <p className={ style.p }>如果当前配置项有该命令，则会返回该命令对应的内容。</p>
-    </div>,
-    /* 天气 */
-    <h4 key="6" className={ style.seconeTitle }>天气接口</h4>,
-    <div key="7" className={ style.body }>
-      <p className={ style.p }>
-        请自行到心知天气的官方网站&nbsp;
-        <b className={ style.url } id="copy-help-xinzhitianqi" onClick={ copy.bind(this, 'copy-help-xinzhitianqi') }>
-          https://www.seniverse.com/
-        </b>
-        &nbsp;
-        <Button icon="copy" title="复制" onClick={ copy.bind(this, 'copy-help-xinzhitianqi') } />
-        &nbsp;注册账号并填写appKey。
-      </p>
-    </div>,
-    /* 机器人 */
-    <h4 key="8" className={ style.seconeTitle }>图灵机器人</h4>,
-    <div key="9" className={ style.body }>
-      <p className={ style.p }>
-        请自行到图灵机器人的官方网站&nbsp;
-        <b className={ style.url } id="copy-help-tuling" onClick={ copy.bind(this, 'copy-help-tuling') }>
-          http://www.tuling123.com/
-        </b>
-        &nbsp;
-        <Button icon="copy" title="复制" onClick={ copy.bind(this, 'copy-help-tuling') } />
-        &nbsp;注册账号并填写appKey。
-      </p>
     </div>
   ];
 };

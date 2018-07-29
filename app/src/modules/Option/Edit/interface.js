@@ -23,16 +23,15 @@ type interfaceOptionType = {
     kd48LiveListenerMembers: string,
     isRoomListener: boolean,
     roomId: string,
+    isRoomSendImage: boolean,
     isWeiboListener: boolean,
     lfid: string,
+    isNewGroupMember: boolean,
+    welcomeNewGroupMember: string,
     isTimingMessagePush: boolean,
+    timingMessagePushTime: string,
     timingMessagePushFormat: string,
-    timingMessagePushText: string,
-    isXinZhiTianQi: boolean,
-    xinZhiTianQiAPIKey: string,
-    xinZhiTianQiTemplate: string,
-    isTuLing: boolean,
-    tuLingAPIKey: string
+    timingMessagePushText: string
   },
   custom: Object
 };
@@ -69,13 +68,7 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
       isTimingMessagePush: value.isTimingMessagePush,
       timingMessagePushTime: value.timingMessagePushTime,
       timingMessagePushFormat: value.timingMessagePushFormat,
-      timingMessagePushText: value.timingMessagePushText,
-      // 天气
-      isXinZhiTianQi: value.isXinZhiTianQi,
-      xinZhiTianQiAPIKey: value.xinZhiTianQiAPIKey,
-      // 图灵机器人
-      isTuLing: value.isTuLing,
-      tuLingAPIKey: value.tuLingAPIKey
+      timingMessagePushText: value.timingMessagePushText
     },
     custom
   };

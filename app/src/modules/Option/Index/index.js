@@ -75,7 +75,7 @@ class Index extends Component{
         title: '操作',
         key: 'handle',
         width: '25%',
-        render: (text: string, item: Object, index: number): React.ChildrenArray<React.Element>=>{
+        render: (value: any, item: Object, index: number): React.ChildrenArray<React.Element>=>{
           return [
             <Link key="link" to={{
               pathname: '/Option/Edit',

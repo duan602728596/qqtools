@@ -46,25 +46,25 @@ class Index extends Component{
         title: '配置名称',
         key: 'optionName',
         width: '25%',
-        render: (text: ?string, item: CoolQ): string => item.option.name
+        render: (value: any, item: CoolQ): string => item.option.name
       },
       {
         title: 'QQ号',
         key: 'qqNumber',
         width: '25%',
-        render: (text: ?string, item: CoolQ): string => item.qq
+        render: (value: any, item: CoolQ): string => item.qq
       },
       {
         title: '监听群号',
         key: 'groupNumber',
         width: '25%',
-        render: (text: ?string, item: CoolQ): string => item.option.groupNumber
+        render: (value: any, item: CoolQ): string => item.option.groupNumber
       },
       {
         title: '操作',
         key: 'handle',
         width: '25%',
-        render: (text: ?string, item: CoolQ): React.Element=>{
+        render: (value: any, item: CoolQ): React.Element=>{
           return (
             <Popconfirm title="确认要退出吗？" onConfirm={ this.handleLogOut.bind(this, item) }>
               <Button type="danger" size="small" icon="logout">退出</Button>
@@ -106,7 +106,7 @@ class Index extends Component{
   render(): React.ChildrenArray<React.Element>{
     return [
       <Affix key="affix" className={ publicStyle.affix }>
-        <div className={ classNames(publicStyle.toolsBox, clearfix) }>
+        <div className={ classNames(publicStyle.toolsBox, 'clearfix') }>
           <div className={ publicStyle.fl }>
             <Link className={ publicStyle.mr10 } to="/Login/Login">
               <Button type="primary" icon="windows-o">登录</Button>

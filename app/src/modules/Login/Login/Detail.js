@@ -125,6 +125,16 @@ const Detail: ?Object = (props: ?Object): ?React.Element=>{
           <td className={ style.tdTitle }>房间ID</td>
           <td>{ detail.basic.roomId }</td>
         </tr>
+        <td className={ style.tdTitle }>发送图片和图片链接（只限于酷QPro版本）</td>
+        <td colSpan={ 3 }>
+          {
+            detail.basic.isRoomSendImage ? (
+              <span className={ style.on }>开启</span>
+            ) : (
+              <span className={ style.off }>未开启</span>
+            )
+          }
+        </td>
         {/* 微博监听 */}
         <tr>
           <td className={ style.tdGTitle } colSpan={ 4 }>微博监听</td>
@@ -188,42 +198,6 @@ const Detail: ?Object = (props: ?Object): ?React.Element=>{
           <td colSpan={ 3 }>
             <pre>{ detail.basic.timingMessagePushText }</pre>
           </td>
-        </tr>
-        {/* 心知天气 */}
-        <tr>
-          <td className={ style.tdGTitle } colSpan={ 4 }>心知天气</td>
-        </tr>
-        <tr>
-          <td className={ style.tdTitle }>开启心知天气的查询天气功能</td>
-          <td>
-            {
-              detail.basic.isXinZhiTianQi ? (
-                <span className={ style.on }>开启</span>
-              ) : (
-                <span className={ style.off }>未开启</span>
-              )
-            }
-          </td>
-          <td className={ style.tdTitle }>心知天气APIKey</td>
-          <td>{ detail.basic.xinZhiTianQiAPIKey }</td>
-        </tr>
-        {/* 图灵机器人 */}
-        <tr>
-          <td className={ style.tdGTitle } colSpan={ 4 }>图灵机器人</td>
-        </tr>
-        <tr>
-          <td className={ style.tdTitle }>开启图灵机器人功能</td>
-          <td>
-            {
-              detail.basic.isTuLing ? (
-                <span className={ style.on }>开启</span>
-              ) : (
-                <span className={ style.off }>未开启</span>
-              )
-            }
-          </td>
-          <td className={ style.tdTitle }>图灵机器人APIKey</td>
-          <td>{ detail.basic.tuLingAPIKey }</td>
         </tr>
         {/* 自定义命令 */}
         <tr>

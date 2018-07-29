@@ -64,7 +64,7 @@ class Login extends Component{
     qqLoginList: PropTypes.array,
     optionList: PropTypes.array,
     kd48LiveListenerTimer: PropTypes.number,
-    action: PropTypes.object(PropTypes.func),
+    action: PropTypes.objectOf(PropTypes.func),
     history: PropTypes.object,
     location: PropTypes.object,
     match: PropTypes.object
