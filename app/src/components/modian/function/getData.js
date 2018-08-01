@@ -12,6 +12,8 @@ function getData(method: string, url: string, data: string): Promise{
       }
     });
     xhr.send(data);
+  }).catch((err: any): void=>{
+    console.error(err);
   });
 }
 

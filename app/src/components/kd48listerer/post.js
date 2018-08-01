@@ -58,6 +58,8 @@ function post(number: number = 0): Promise{
 
     req.write(postData(number));
     req.end();
+  }).catch((err: any): void=>{
+    console.error(err);
   });
 }
 

@@ -103,14 +103,18 @@ class Index extends Component{
   }
   // 删除
   async handleDeleteOption(item: Object, event: Event): Promise<void>{
-    const index: number = this.props.optionList.indexOf(item);
-    await this.props.action.deleteOption({
-      query: item.name
-    });
-    this.props.optionList.splice(index, 1);
-    this.props.action.optionList({
-      optionList: this.props.optionList.slice()
-    });
+    try{
+      const index: number = this.props.optionList.indexOf(item);
+      await this.props.action.deleteOption({
+        query: item.name
+      });
+      this.props.optionList.splice(index, 1);
+      this.props.action.optionList({
+        optionList: this.props.optionList.slice()
+      });
+    }catch(err){
+      console.error(err);
+    }
   }
   // 显示弹出层
   handleModalDisplay(key: string, value: boolean, event: Event): void{

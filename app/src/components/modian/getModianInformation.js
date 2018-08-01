@@ -29,6 +29,8 @@ function getModianInformation(modianId: string): Promise{
         reject(err);
       }
     });
+  }).catch((err: any): void=>{
+    console.error(err);
   });
 }
 

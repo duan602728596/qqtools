@@ -28,44 +28,48 @@ class MemberInformation extends Component{
     };
   }
   async UNSAFE_componentWillMount(): Promise<void>{
-    const memberId: number = this.props.item.memberId;
-    const infor: Object = await this.props.action.getMemberInformation({
-      query: memberId
-    });
+    try{
+      const memberId: number = this.props.item.memberId;
+      const infor: Object = await this.props.action.getMemberInformation({
+        query: memberId
+      });
 
-    if(infor.result !== undefined){
-      // 从数据库查找缓存
-      this.setState({
-        memberName: infor.result.memberName,
-        roomId: infor.result.roomId
-      });
-    }else{
-      // 从接口获取数据
-      const data: Object = await requestMemberInformation(memberId);
-      let roomInfo: Object = data.content.roomInfo;
-      // 兼容
-      if(!(roomInfo && ('memberName' in roomInfo) && ('roomId' in roomInfo))){
-        roomInfo = {};
-        roomInfo.memberName = '';
-        roomInfo.roomId = '';
+      if(infor.result !== undefined){
+        // 从数据库查找缓存
+        this.setState({
+          memberName: infor.result.memberName,
+          roomId: infor.result.roomId
+        });
+      }else{
+        // 从接口获取数据
+        const data: Object = await requestMemberInformation(memberId);
+        let roomInfo: Object = data.content.roomInfo;
+        // 兼容
+        if(!(roomInfo && ('memberName' in roomInfo) && ('roomId' in roomInfo))){
+          roomInfo = {};
+          roomInfo.memberName = '';
+          roomInfo.roomId = '';
+        }
+        const { memberName, roomId }: {
+          memberName: string,
+          roomId: string
+        } = roomInfo;
+        const memberName2: string = memberName.replace(/\s/g, '');
+        const value2: Object = {
+          memberId,
+          memberName: memberName2,
+          roomId
+        };
+        await this.props.action.addMemberInformation({
+          data: value2
+        });
+        this.setState({
+          memberName: memberName2,
+          roomId
+        });
       }
-      const { memberName, roomId }: {
-        memberName: string,
-        roomId: string
-      } = roomInfo;
-      const memberName2: string = memberName.replace(/\s/g, '');
-      const value2: Object = {
-        memberId,
-        memberName: memberName2,
-        roomId
-      };
-      await this.props.action.addMemberInformation({
-        data: value2
-      });
-      this.setState({
-        memberName: memberName2,
-        roomId
-      });
+    }catch(err){
+      console.error(err);
     }
   }
   render(): ?(Array | Object){

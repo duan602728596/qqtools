@@ -8,72 +8,84 @@ let timer: ?number = null;        // 定时器
 const t: number = 1.5 * 60 * (10 ** 3);
 
 addEventListener('message', async function(event: Event): Promise<boolean>{
-  const data: Object = event.data;
-  if(data.type === 'init'){
-    containerid = data.containerid;
-    weiboUrl = weiboUrl + containerid;
+  try{
+    const data: Object = event.data;
+    if(data.type === 'init'){
+      containerid = data.containerid;
+      weiboUrl = weiboUrl + containerid;
 
-    // 初始化
-    // 开启轮询
-    await initId();
-    timer = setInterval(polling, t);
-    return true;
-  }
-  // 关闭
-  if(data.type === 'cancel'){
-    if(timer){
-      clearInterval(timer);
+      // 初始化
+      // 开启轮询
+      await initId();
+      timer = setInterval(polling, t);
+      return true;
     }
-    return true;
+    // 关闭
+    if(data.type === 'cancel'){
+      if(timer){
+        clearInterval(timer);
+      }
+      return true;
+    }
+  }catch(err){
+    console.error(err);
   }
 }, false);
 
 // 轮询
 async function polling(): Promise<void>{
-  const res: Object = await getData('GET', weiboUrl);
-  if(res.ok === 1){
-    const cards: Array = res.data.cards;
-    // 循环数据
-    const newWeiBo: Object[] = [];
-    for(let i: number = 0, j: number = cards.length; i < j; i++){
-      const item: Object = cards[i];
-      if(item.card_type === 9 && 'mblog' in item){
-        if(!('title' in item.mblog)){
-          if(Number(item.mblog.id) > lastId){
-            newWeiBo.push(item);
-          }else{
-            break;
+  try{
+    const res: Object = await getData('GET', weiboUrl);
+    if(res.ok === 1){
+      const cards: Array = res.data.cards;
+      // 循环数据
+      const newWeiBo: Object[] = [];
+      for(let i: number = 0, j: number = cards.length; i < j; i++){
+        const item: Object = cards[i];
+        if(item.card_type === 9 && 'mblog' in item){
+          if(!('title' in item.mblog)){
+            if(Number(item.mblog.id) > lastId){
+              newWeiBo.push(item);
+            }else{
+              break;
+            }
           }
         }
       }
+      // 构建发送数据
+      if(newWeiBo.length > 0){
+        lastId = Number(newWeiBo[0].mblog.id);
+        const sendData: string[] = formatText(newWeiBo);
+        postMessage({
+          type: 'change',
+          data: sendData
+        });
+      }
     }
-    // 构建发送数据
-    if(newWeiBo.length > 0){
-      lastId = Number(newWeiBo[0].mblog.id);
-      const sendData: string[] = formatText(newWeiBo);
-      postMessage({
-        type: 'change',
-        data: sendData
-      });
-    }
+  }catch(err){
+    console.error(err);
   }
 }
 
 // 获取初始ID
 async function initId(): Promise<number>{
-  const res: Object = await getData('GET', weiboUrl);
-  const cards: Array = res.data.cards;
-  if(res.ok === 1){
-    for(let i: number = 0, j: number = cards.length; i < j; i++){
-      const item: Object = cards[i];
-      // 微博，不是关注人，不是置顶
-      if(item.card_type === 9 && 'mblog' in item){
-        if(!('title' in item.mblog)){
-          lastId = Number(item.mblog.id);
-          break;
+  try{
+    const res: Object = await getData('GET', weiboUrl);
+    const cards: Array = res.data.cards;
+    if(res.ok === 1){
+      for(let i: number = 0, j: number = cards.length; i < j; i++){
+        const item: Object = cards[i];
+        // 微博，不是关注人，不是置顶
+        if(item.card_type === 9 && 'mblog' in item){
+          if(!('title' in item.mblog)){
+            lastId = Number(item.mblog.id);
+            break;
+          }
         }
       }
     }
+  }catch(err){
+    console.error(err);
   }
 }
 
@@ -107,5 +119,7 @@ function getData(method: string, url: string): Promise{
       }
     });
     xhr.send();
+  }).catch((err: any): void=>{
+    console.error(err);
   });
 }

@@ -103,74 +103,78 @@ class Login extends Component{
   }
   // 登录成功
   async loginSuccess(): Promise<void>{
-    const basic: Object = qq.option.basic;
-    qq.time = moment().unix();
-    // 获取微打赏相关信息
-    if(basic.isModian){
-      const { title, goal }: {
-        title: string,
-        goal: string
-      } = await getModianInformation(basic.modianId);
-      qq.modianTitle = title;
-      qq.modianGoal = goal;
-      // 创建新的摩点webWorker
-      qq.modianWorker = new ModianWorker();
-      qq.modianWorker.postMessage({
-        type: 'init',
-        modianId: basic.modianId,
-        title,
-        goal
-      });
-      qq.modianWorker.addEventListener('message', qq.listenModianWorkerCbInformation.bind(qq), false);
-    }
-    // 口袋48直播监听
-    if(basic.is48LiveListener){
-      const memberReg: RegExp = str2reg(basic.kd48LiveListenerMembers);
-      qq.members = memberReg;
-      // 开启口袋48监听
-      await init();
-      if(this.props.kd48LiveListenerTimer === null){
-        this.props.action.kd48LiveListenerTimer({
-          timer: global.setInterval(kd48timer, 15000)
+    try{
+      const basic: Object = qq.option.basic;
+      qq.time = moment().unix();
+      // 获取微打赏相关信息
+      if(basic.isModian){
+        const { title, goal }: {
+          title: string,
+          goal: string
+        } = await getModianInformation(basic.modianId);
+        qq.modianTitle = title;
+        qq.modianGoal = goal;
+        // 创建新的摩点webWorker
+        qq.modianWorker = new ModianWorker();
+        qq.modianWorker.postMessage({
+          type: 'init',
+          modianId: basic.modianId,
+          title,
+          goal
         });
+        qq.modianWorker.addEventListener('message', qq.listenModianWorkerCbInformation.bind(qq), false);
       }
-    }
-    // 房间信息监听
-    if(basic.isRoomListener){
-      // 数据库读取token
-      const res: Object = await this.props.action.getLoginInformation({
-        query: 'loginInformation'
-      });
-      if(res.result !== undefined){
-        qq.kouDai48Token = res.result.value.token;
-        const req: Object = await requestRoomMessage(basic.roomId, qq.kouDai48Token);
-        qq.roomLastTime = req.content.data[0].msgTime;
-        qq.roomListenerTimer = global.setTimeout(qq.listenRoomMessage.bind(qq), 15000);
+      // 口袋48直播监听
+      if(basic.is48LiveListener){
+        const memberReg: RegExp = str2reg(basic.kd48LiveListenerMembers);
+        qq.members = memberReg;
+        // 开启口袋48监听
+        await init();
+        if(this.props.kd48LiveListenerTimer === null){
+          this.props.action.kd48LiveListenerTimer({
+            timer: global.setInterval(kd48timer, 15000)
+          });
+        }
       }
-    }
-    // 微博监听
-    if(basic.isWeiboListener){
-      qq.weiboWorker = new WeiBoWorker();
-      qq.weiboWorker.postMessage({
-        type: 'init',
-        containerid: basic.lfid
+      // 房间信息监听
+      if(basic.isRoomListener){
+        // 数据库读取token
+        const res: Object = await this.props.action.getLoginInformation({
+          query: 'loginInformation'
+        });
+        if(res.result !== undefined){
+          qq.kouDai48Token = res.result.value.token;
+          const req: Object = await requestRoomMessage(basic.roomId, qq.kouDai48Token);
+          qq.roomLastTime = req.content.data[0].msgTime;
+          qq.roomListenerTimer = global.setTimeout(qq.listenRoomMessage.bind(qq), 15000);
+        }
+      }
+      // 微博监听
+      if(basic.isWeiboListener){
+        qq.weiboWorker = new WeiBoWorker();
+        qq.weiboWorker.postMessage({
+          type: 'init',
+          containerid: basic.lfid
+        });
+        qq.weiboWorker.addEventListener('message', qq.listenWeiboWorkerCbInformation.bind(qq), false);
+      }
+      // 群内定时消息推送
+      if(basic.isTimingMessagePush){
+        qq.timingMessagePushTimer = schedule.scheduleJob(
+          basic.timingMessagePushFormat,
+          qq.timingMessagePush.bind(qq, basic.timingMessagePushText)
+        );
+      }
+      const ll: Array = this.props.qqLoginList;
+      ll.push(qq);
+      this.props.action.changeQQLoginList({
+        qqLoginList: ll
       });
-      qq.weiboWorker.addEventListener('message', qq.listenWeiboWorkerCbInformation.bind(qq), false);
+      qq = null;
+      this.props.history.push('/Login');
+    }catch(err){
+      console.error(err);
     }
-    // 群内定时消息推送
-    if(basic.isTimingMessagePush){
-      qq.timingMessagePushTimer = schedule.scheduleJob(
-        basic.timingMessagePushFormat,
-        qq.timingMessagePush.bind(qq, basic.timingMessagePushText)
-      );
-    }
-    const ll: Array = this.props.qqLoginList;
-    ll.push(qq);
-    this.props.action.changeQQLoginList({
-      qqLoginList: ll
-    });
-    qq = null;
-    this.props.history.push('/Login');
   }
   // 登录轮询
   loginCb(): void{

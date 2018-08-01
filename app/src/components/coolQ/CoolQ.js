@@ -190,27 +190,31 @@ class CoolQ{
   // web worker监听到微打赏的返回信息
   async listenModianWorkerCbInformation(event: Event): Promise<void>{
     if(event.data.type === 'change'){
-      const { data, alreadyRaised, backerCount, endTime }: {
-        data: Array,
-        alreadyRaised: string,
-        backerCount: number,
-        endTime: string
-      } = event.data;
-      const { modianTemplate }: { modianTemplate: string } = this.option.basic;
-      // 倒序发送消息
-      for(let i: number = data.length - 1; i >= 0; i--){
-        const item: Object = data[i];
-        const msg: string = templateReplace(modianTemplate, {
-          id: item.nickname,
-          money: item.pay_amount,
-          modianname: this.modianTitle,
-          modianid: this.option.basic.modianId,
-          goal: this.modianGoal,
-          alreadyraised: alreadyRaised,
-          backercount: backerCount,
-          endtime: endTime
-        });
-        await this.sendMessage(msg);
+      try{
+        const {data, alreadyRaised, backerCount, endTime}: {
+          data: Array,
+          alreadyRaised: string,
+          backerCount: number,
+          endTime: string
+        } = event.data;
+        const {modianTemplate}: { modianTemplate: string } = this.option.basic;
+        // 倒序发送消息
+        for (let i: number = data.length - 1; i >= 0; i--) {
+          const item: Object = data[i];
+          const msg: string = templateReplace(modianTemplate, {
+            id: item.nickname,
+            money: item.pay_amount,
+            modianname: this.modianTitle,
+            modianid: this.option.basic.modianId,
+            goal: this.modianGoal,
+            alreadyraised: alreadyRaised,
+            backercount: backerCount,
+            endtime: endTime
+          });
+          await this.sendMessage(msg);
+        }
+      }catch(err){
+        console.error(err);
       }
     }
   }
@@ -305,17 +309,25 @@ class CoolQ{
   // web worker监听到微博的返回信息
   async listenWeiboWorkerCbInformation(event: Event): Promise<void>{
     if(event.data.type === 'change'){
-      const { data }: { data: Array } = event.data;
-      // 倒序发送消息
-      for(let i: number = data.length - 1; i >= 0; i--){
-        const item: string = data[i];
-        await this.sendMessage(item);
+      try{
+        const { data }: { data: Array } = event.data;
+        // 倒序发送消息
+        for(let i: number = data.length - 1; i >= 0; i--){
+          const item: string = data[i];
+          await this.sendMessage(item);
+        }
+      }catch(err){
+        console.error(err);
       }
     }
   }
   // 群内定时推送消息
   async timingMessagePush(msg: string): Promise<void>{
-    await this.sendMessage(msg);
+    try{
+      await this.sendMessage(msg);
+    }catch(err){
+      console.error(err);
+    }
   }
 }
 

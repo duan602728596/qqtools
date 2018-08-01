@@ -1,8 +1,6 @@
 /* 轮询的回调函数 */
 import modianCb from '../modian/modianCb';
 import kd48Cb from '../kd48listerer/kd48Cb';
-import tianQiCb from '../xinZhiTianQi/tianQiCb';
-import tuLingCb from '../tuLing/tuLingCb';
 import customCb from '../custom/customCb';
 import helpCb from '../help/helpCb';
 
@@ -28,15 +26,6 @@ function fn(command: string[], qq: CoolQ): void{
     case '直播列表':
     case 'zb':
       kd48Cb(qq);
-      break;
-    // 天气
-    case '天气预报':
-    case 'tq':
-      tianQiCb(command, qq);
-      break;
-    // 机器人
-    case 'say':
-      tuLingCb(command, qq);
       break;
     // 帮助
     case 'help':

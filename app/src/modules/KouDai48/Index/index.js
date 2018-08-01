@@ -135,23 +135,31 @@ class KouDai48 extends Component{
     });
   }
   async handleSearchInformation(event: Event): Promise<void>{
-    const data: Object = await this.props.action.cursorMemberInformation({
-      query: {
-        indexName: 'memberName',    // 索引
-        range: this.state.searchString
-      }
-    });
-    this.setState({
-      searchResult: data.result
-    });
+    try{
+      const data: Object = await this.props.action.cursorMemberInformation({
+        query: {
+          indexName: 'memberName',    // 索引
+          range: this.state.searchString
+        }
+      });
+      this.setState({
+        searchResult: data.result
+      });
+    }catch(err){
+      console.error(err);
+    }
   }
   // 退出并清除缓存
   async handleExitAndClear(event: Event): Promise<void>{
-    await this.props.action.clearLoginInformation();
-    await this.props.action.clearMemberInformation();
-    this.props.action.loginInformation({
-      data: null
-    });
+    try{
+      await this.props.action.clearLoginInformation();
+      await this.props.action.clearMemberInformation();
+      this.props.action.loginInformation({
+        data: null
+      });
+    }catch(err){
+      console.error(err);
+    }
   }
   render(): React.Element{
     const { getFieldDecorator }: { getFieldDecorator: Function } = this.props.form;

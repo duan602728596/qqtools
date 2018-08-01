@@ -16,29 +16,33 @@ let timer: ?number = null;       // 轮询定时器
 let oldTime: ?number = null;     // 最后一次的打赏时间
 
 addEventListener('message', async function(event: Event): Promise<boolean>{
-  const data: Object = event.data;
-  // 初始化
-  if(data.type === 'init'){
-    modianId = data.modianId;
-    title = data.title;
-    goal = data.goal;
-
+  try{
+    const data: Object = event.data;
     // 初始化
-    queryData = sign(`page=1&pro_id=${ modianId }&sort_by=1`);
-    queryInfor = sign(`pro_id=${ modianId }`);
-    const res: Object = await getData('POST', dingDanUrl + '?t=' + new Date().getTime(), queryData);
-    oldTime = res.data === null ? new Date().getTime() : new Date(res.data[0].pay_success_time).getTime();
+    if(data.type === 'init'){
+      modianId = data.modianId;
+      title = data.title;
+      goal = data.goal;
 
-    // 开启轮询
-    timer = setInterval(polling, 13000);
-    return true;
-  }
-  // 关闭
-  if(data.type === 'cancel'){
-    if(timer){
-      clearInterval(timer);
+      // 初始化
+      queryData = sign(`page=1&pro_id=${ modianId }&sort_by=1`);
+      queryInfor = sign(`pro_id=${ modianId }`);
+      const res: Object = await getData('POST', dingDanUrl + '?t=' + new Date().getTime(), queryData);
+      oldTime = res.data === null ? new Date().getTime() : new Date(res.data[0].pay_success_time).getTime();
+
+      // 开启轮询
+      timer = setInterval(polling, 13000);
+      return true;
     }
-    return true;
+    // 关闭
+    if(data.type === 'cancel'){
+      if(timer){
+        clearInterval(timer);
+      }
+      return true;
+    }
+  }catch(err){
+    console.error(err);
   }
 }, false);
 

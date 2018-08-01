@@ -48,28 +48,36 @@ function modianCb(command: string[], qq: CoolQ): void{
 
 /* 发送信息 */
 async function sendModianInfor(qq: CoolQ): Promise<void>{
-  const text: string = templateReplace(qq.option.basic.modianUrlTemplate, {
-    modianname: qq.modianTitle,
-    modianid: qq.option.basic.modianId
-  });
-  await qq.sendMessage(text);
+  try{
+    const text: string = templateReplace(qq.option.basic.modianUrlTemplate, {
+      modianname: qq.modianTitle,
+      modianid: qq.option.basic.modianId
+    });
+    await qq.sendMessage(text);
+  }catch(err){
+    console.error(err);
+  }
 }
 
 /* 新线程计算排名 */
 async function list(proId: string, type: string, size: string, qq: CoolQ): Promise<void>{
-  const worker: Worker = new ModianListWorker();
-  const cb: Function = async(event: Event): Promise<void>=>{
-    await qq.sendMessage(event.data.text);
-    worker.removeEventListener('message', cb);
-    worker.terminate();
-  };
-  worker.addEventListener('message', cb, false);
-  worker.postMessage({
-    proId,
-    type,
-    size,
-    title: qq.modianTitle
-  });
+  try{
+    const worker: Worker = new ModianListWorker();
+    const cb: Function = async(event: Event): Promise<void>=>{
+      await qq.sendMessage(event.data.text);
+      worker.removeEventListener('message', cb);
+      worker.terminate();
+    };
+    worker.addEventListener('message', cb, false);
+    worker.postMessage({
+      proId,
+      type,
+      size,
+      title: qq.modianTitle
+    });
+  }catch(err){
+    console.error(err);
+  }
 }
 
 /* 获取订单信息 */
@@ -97,7 +105,7 @@ async function getAllMount(qq: CoolQ): Promise<void>{
     end_time: string
   } = await getModianInformation(qq.option.basic.modianId);
   await qq.sendMessage(`${ qq.modianTitle }: ￥${ data.already_raised } / ￥${ qq.modianGoal }，`
-    + `\n集资人数：${ data.backer_count }\n项目截至日期：${ data.end_time }`);
+                     + `\n集资人数：${ data.backer_count }\n项目截至日期：${ data.end_time }`);
 }
 
 export default modianCb;
