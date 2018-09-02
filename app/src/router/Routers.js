@@ -3,15 +3,11 @@ import { Route, Switch } from 'react-router-dom';
 import asyncModule from './asyncModule';
 /* 加载模块 */
 import Index from '../modules/Index/Layout';
-import Login from 'bundle-loader?lazy&name=login!../modules/Login/Layout';
-import Option from 'bundle-loader?lazy&name=option!../modules/Option/Layout';
-import KouDai48 from 'bundle-loader?lazy&name=koudai48!../modules/KouDai48/Layout';
-import Help from 'bundle-loader?lazy&name=help!../modules/Help/Layout';
 
-const LoginBundle: Function = asyncModule(Login);
-const OptionBundle: Function = asyncModule(Option);
-const KouDai48Bundle: Function = asyncModule(KouDai48);
-const HelpBundle: Function = asyncModule(Help);
+const LoginBundle: Function = asyncModule((): Promise => import('../modules/Login/Layout'));
+const OptionBundle: Function = asyncModule((): Promise => import('../modules/Option/Layout'));
+const KouDai48Bundle: Function = asyncModule((): Promise => import('../modules/KouDai48/Layout'));
+const HelpBundle: Function = asyncModule((): Promise => import('../modules/Help/Layout'));
 
 /* 路由模块 */
 class Routers extends Component{
