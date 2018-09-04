@@ -1,7 +1,7 @@
 /* 全局的store */
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import { Map } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import { createReducer } from './reducers';
 
 /* reducer列表 */
