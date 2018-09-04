@@ -14,8 +14,19 @@ const $$initialState: Immutable.Map = Map();
 const middlewares: Function = applyMiddleware(thunk);
 
 /* store */
-const store: Object = createStore(reducer, $$initialState, compose(middlewares));
-store.asyncReducers = {};
+const store: Object = {
+  asyncReducers: {}
+};
+
+export function storeFactory(initialState: ?Object): Object{
+  /* initialState */
+  const $$initialState: Immutable.Map = Map(fromJS(initialState));
+
+  /* store */
+  Object.assign(store, createStore(reducer, $$initialState, compose(middlewares)));
+
+  return store;
+}
 
 export default store;
 
