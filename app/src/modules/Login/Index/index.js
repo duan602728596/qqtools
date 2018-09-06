@@ -66,7 +66,7 @@ class Index extends Component{
         width: '25%',
         render: (value: any, item: CoolQ): React.Element=>{
           return (
-            <Popconfirm title="确认要退出吗？" onConfirm={ this.handleLogOut.bind(this, item) }>
+            <Popconfirm title="确认要退出吗？" onConfirm={ this.handleLogOutClick.bind(this, item) }>
               <Button type="danger" size="small" icon="logout">退出</Button>
             </Popconfirm>
           );
@@ -76,7 +76,7 @@ class Index extends Component{
     return columns;
   }
   // 退出
-  handleLogOut(item: CoolQ, event: Event): void{
+  handleLogOutClick(item: CoolQ, event: Event): void{
     const index: number = this.props.qqLoginList.indexOf(item);
     item.outAndClear();
 

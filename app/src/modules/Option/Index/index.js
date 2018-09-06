@@ -85,7 +85,7 @@ class Index extends Component{
             }}>
               <Button className={ style.mr10 } size="small">修改</Button>
             </Link>,
-            <Popconfirm key="delete" title="确认要删除该配置项吗？" onConfirm={ this.handleDeleteOption.bind(this, item) }>
+            <Popconfirm key="delete" title="确认要删除该配置项吗？" onConfirm={ this.handleDeleteOptionClick.bind(this, item) }>
               <Button type="danger" size="small">删除</Button>
             </Popconfirm>
           ];
@@ -102,7 +102,7 @@ class Index extends Component{
     });
   }
   // 删除
-  async handleDeleteOption(item: Object, event: Event): Promise<void>{
+  async handleDeleteOptionClick(item: Object, event: Event): Promise<void>{
     try{
       const index: number = this.props.optionList.indexOf(item);
       await this.props.action.deleteOption({
@@ -117,13 +117,13 @@ class Index extends Component{
     }
   }
   // 显示弹出层
-  handleModalDisplay(key: string, value: boolean, event: Event): void{
+  handleModalDisplayClick(key: string, value: boolean, event: Event): void{
     this.setState({
       [key]: value
     });
   }
   // 导入配置
-  handleExportConfiguration(event: Event): void{
+  handleExportConfigurationClick(event: Event): void{
     const files: jQuery = $('#exportConfiguration').val();
     if(files === ''){
       message.error('必须选择一个保存位置！');
@@ -142,11 +142,11 @@ class Index extends Component{
         message.error('导出失败！');
       }else{
         message.success('导出成功');
-        this.handleModalDisplay('visible1', false);
+        this.handleModalDisplayClick('visible1', false);
       }
     });
   }
-  handleImportConfiguration(event: Event): ?boolean{
+  handleImportConfigurationClick(event: Event): ?boolean{
     const files: jQuery = $('#importConfiguration').val();
     if(files === ''){
       message.error('必须选择一个文件！');
@@ -175,7 +175,7 @@ class Index extends Component{
               }
             });
             message.success('导入成功');
-            this.handleModalDisplay('visible2', false);
+            this.handleModalDisplayClick('visible2', false);
           }catch(err){
             console.error(err);
             message.error('导入失败！');
@@ -193,8 +193,8 @@ class Index extends Component{
             <Link className={ style.mr10 } to="/Option/Edit">
               <Button type="primary" icon="plus-circle-o">添加新配置</Button>
             </Link>
-            <Button className={ style.mr10 } icon="export" onClick={ this.handleModalDisplay.bind(this, 'visible1', true) }>导出所有配置</Button>
-            <Button icon="select" onClick={ this.handleModalDisplay.bind(this, 'visible2', true) }>导入所有配置</Button>
+            <Button className={ style.mr10 } icon="export" onClick={ this.handleModalDisplayClick.bind(this, 'visible1', true) }>导出所有配置</Button>
+            <Button icon="select" onClick={ this.handleModalDisplayClick.bind(this, 'visible2', true) }>导入所有配置</Button>
           </div>
           <div className={ publicStyle.fr }>
             <Link className={ publicStyle.ml10 } to="/">
@@ -219,8 +219,8 @@ class Index extends Component{
       <Modal key="modal1"
         title="导出配置"
         visible={ this.state.visible1 }
-        onOk={ this.handleExportConfiguration.bind(this) }
-        onCancel={ this.handleModalDisplay.bind(this, 'visible1', false) }
+        onOk={ this.handleExportConfigurationClick.bind(this) }
+        onCancel={ this.handleModalDisplayClick.bind(this, 'visible1', false) }
       >
         <input id="exportConfiguration" type="file" nwsaveas={ `backup_${ new Date().getTime() }.json` } />
       </Modal>,
@@ -228,8 +228,8 @@ class Index extends Component{
       <Modal key="modal2"
         title="导入配置"
         visible={ this.state.visible2 }
-        onOk={ this.handleImportConfiguration.bind(this) }
-        onCancel={ this.handleModalDisplay.bind(this, 'visible2', false) }
+        onOk={ this.handleImportConfigurationClick.bind(this) }
+        onCancel={ this.handleModalDisplayClick.bind(this, 'visible2', false) }
       >
         <p className={ style.tishi }>同一配置名称会覆盖原有的配置。</p>
         <input id="importConfiguration" type="file" />

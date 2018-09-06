@@ -190,7 +190,7 @@ class Login extends Component{
     }
   }
   // 登录连接
-  handleLogin(event: Event): void{
+  handleLoginClick(event: Event): void{
     this.setState({
       btnLoading: true
     });
@@ -248,7 +248,7 @@ class Login extends Component{
             type="primary"
             loading={ this.state.btnLoading }
             disabled={ !this.state.optionItemIndex }
-            onClick={ this.handleLogin.bind(this) }
+            onClick={ this.handleLoginClick.bind(this) }
           >
             连接
           </Button>

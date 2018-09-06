@@ -134,7 +134,7 @@ class KouDai48 extends Component{
       searchString: event.target.value
     });
   }
-  async handleSearchInformation(event: Event): Promise<void>{
+  async handleSearchInformationClick(event: Event): Promise<void>{
     try{
       const data: Object = await this.props.action.cursorMemberInformation({
         query: {
@@ -150,7 +150,7 @@ class KouDai48 extends Component{
     }
   }
   // 退出并清除缓存
-  async handleExitAndClear(event: Event): Promise<void>{
+  async handleExitAndClearClick(event: Event): Promise<void>{
     try{
       await this.props.action.clearLoginInformation();
       await this.props.action.clearMemberInformation();
@@ -182,7 +182,7 @@ class KouDai48 extends Component{
         <Affix className={ publicStyle.affix }>
           <div className={ classNames(publicStyle.toolsBox, 'clearfix') }>
             <div className={ publicStyle.fr }>
-              <Popconfirm title="确定退出登录并清除缓存吗？" onConfirm={ this.handleExitAndClear.bind(this) }>
+              <Popconfirm title="确定退出登录并清除缓存吗？" onConfirm={ this.handleExitAndClearClick.bind(this) }>
                 <Button icon="warning">退出登录并清除缓存</Button>
               </Popconfirm>
               <Link className={ publicStyle.ml10 } to="/">
@@ -237,9 +237,9 @@ class KouDai48 extends Component{
                     id="koudai48-search"
                     value={ this.state.searchString }
                     onChange={ this.handleInputChange.bind(this) }
-                    onPressEnter={ this.handleSearchInformation.bind(this) }
+                    onPressEnter={ this.handleSearchInformationClick.bind(this) }
                   />
-                  <Button className={ publicStyle.ml10 } type="primary" onClick={ this.handleSearchInformation.bind(this) }>搜索</Button>
+                  <Button className={ publicStyle.ml10 } type="primary" onClick={ this.handleSearchInformationClick.bind(this) }>搜索</Button>
                   { resultEle }
                 </div>
               </Card>

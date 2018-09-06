@@ -107,8 +107,8 @@ class Add extends Component{
         width: '20%',
         render: (value: any, item: Object, index: number): React.ChildrenArray<React.Element>=>{
           return [
-            <Button key="edit" className={ style.mr10 } size="small" onClick={ this.handleEdit.bind(this, item) }>修改</Button>,
-            <Popconfirm key="delete" title="确认要删除吗？" onConfirm={ this.handleDelete.bind(this, item) }>
+            <Button key="edit" className={ style.mr10 } size="small" onClick={ this.handleEditClick.bind(this, item) }>修改</Button>,
+            <Popconfirm key="delete" title="确认要删除吗？" onConfirm={ this.handleDeleteClick.bind(this, item) }>
               <Button size="small">删除</Button>
             </Popconfirm>
           ];
@@ -124,13 +124,13 @@ class Add extends Component{
     });
   }
   // modal显示
-  handleModalOpen(event: Event): void{
+  handleModalOpenClick(event: Event): void{
     this.setState({
       modalDisplay: true
     });
   }
   // modal关闭事件
-  handleModalClose(event: Event): void{
+  handleModalCloseClick(event: Event): void{
     this.setState({
       modalDisplay: false,
       cmd: '',
@@ -139,7 +139,7 @@ class Add extends Component{
     });
   }
   // 添加
-  handleAdd(event: Event): void{
+  handleAddClick(event: Event): void{
     if(getIndex(this.state.customProfiles, this.state.cmd) === null){
       this.state.customProfiles.push({
         command: this.state.cmd,
@@ -156,7 +156,7 @@ class Add extends Component{
     }
   }
   // 编辑
-  handleEdit(item: Object, event: Event): void{
+  handleEditClick(item: Object, event: Event): void{
     this.setState({
       modalDisplay: true,
       cmd: item.command,
@@ -165,7 +165,7 @@ class Add extends Component{
     });
   }
   // 保存编辑
-  handleSave(event: Event): void{
+  handleSaveClick(event: Event): void{
     if(getIndex(this.state.customProfiles, this.state.cmd) === null || this.state.cmd === this.state.item.command){
       const index: number = getIndex(this.state.customProfiles, this.state.item.command);
       this.state.customProfiles[index] = {
@@ -183,7 +183,7 @@ class Add extends Component{
     }
   }
   // 删除
-  handleDelete(item: Object, event: Event): void{
+  handleDeleteClick(item: Object, event: Event): void{
     const index: number = getIndex(this.state.customProfiles, item.command);
     this.state.customProfiles.splice(index, 1);
     this.setState({
@@ -521,7 +521,7 @@ class Add extends Component{
         <hr className={ style.line } />
         {/* 自定义命令 */}
         <h4 className={ style.title }>自定义命令：</h4>
-        <Button className={ style.addCustom } size="small" onClick={ this.handleModalOpen.bind(this) }>添加新自定义命令</Button>
+        <Button className={ style.addCustom } size="small" onClick={ this.handleModalOpenClick.bind(this) }>添加新自定义命令</Button>
         <Table columns={ this.columns() }
           dataSource={ this.state.customProfiles }
           size="small"
@@ -534,8 +534,8 @@ class Add extends Component{
         visible={ this.state.modalDisplay }
         width="500px"
         maskClosable={ false }
-        onOk={ this.state.item ? this.handleSave.bind(this) : this.handleAdd.bind(this) }
-        onCancel={ this.handleModalClose.bind(this) }
+        onOk={ this.state.item ? this.handleSaveClick.bind(this) : this.handleAddClick.bind(this) }
+        onCancel={ this.handleModalCloseClick.bind(this) }
       >
         <div className={ style.customProfiles }>
           <label className={ style.customLine } htmlFor="customCmd">命令：</label>
