@@ -1,4 +1,12 @@
-1、进入到CoolQ\app\io.github.richardchien.coolqhttpapi文件夹下，使用记事本打开config.cfg文件，添加如下文字
+1、进入到CoolQ\app\io.github.richardchien.coolqhttpapi文件夹下，使用记事本打开config.cfg文件，
+修改
+=====================
+
+use_ws=yes
+
+=====================
+
+然后添加如下文字
 =====================
 
 [QQ号]
