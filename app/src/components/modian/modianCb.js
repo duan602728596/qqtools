@@ -1,7 +1,7 @@
 /* 微打赏监听回调函数 */
 import getModianInformation from './getModianInformation';
 import { templateReplace } from '../../utils';
-import ModianListWorker from 'worker-loader?name=script/modianList_[hash]_worker.js!./modianList.worker';
+import ModianListWorker from 'worker-loader?name=script/[hash:5].worker.js!./modianList.worker';
 
 function modianCb(command: string[], qq: CoolQ): void{
   if(!command[2]){
