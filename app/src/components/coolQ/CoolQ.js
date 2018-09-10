@@ -20,6 +20,7 @@ class CoolQ{
   modianGoal: ?string;
   modianWorker: ?Worker;
   members: ?RegExp;
+  memberId: ?Array;
   roomListenerTimer: ?number;
   roomLastTime: ?number;
   kouDai48Token: ?string;
@@ -53,6 +54,7 @@ class CoolQ{
     this.modianWorker = null;            // 摩点新线程
     // 口袋48监听相关
     this.members = null;                 // 监听指定成员
+    this.memberId = null;                // 坚听成员id
     // 房间信息监听相关
     this.roomListenerTimer = null;       // 轮询定时器
     this.roomLastTime = null;            // 最后一次发言
@@ -191,15 +193,15 @@ class CoolQ{
   async listenModianWorkerCbInformation(event: Event): Promise<void>{
     if(event.data.type === 'change'){
       try{
-        const {data, alreadyRaised, backerCount, endTime}: {
+        const { data, alreadyRaised, backerCount, endTime }: {
           data: Array,
           alreadyRaised: string,
           backerCount: number,
           endTime: string
         } = event.data;
-        const {modianTemplate}: { modianTemplate: string } = this.option.basic;
+        const { modianTemplate }: { modianTemplate: string } = this.option.basic;
         // 倒序发送消息
-        for (let i: number = data.length - 1; i >= 0; i--) {
+        for(let i: number = data.length - 1; i >= 0; i--){
           const item: Object = data[i];
           const msg: string = templateReplace(modianTemplate, {
             id: item.nickname,

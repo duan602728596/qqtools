@@ -14,7 +14,7 @@ import { changeQQLoginList, cursorOption, kd48LiveListenerTimer, getLoginInforma
 import callback from '../../../components/callback/index';
 import Detail from './Detail';
 import getModianInformation from '../../../components/modian/getModianInformation';
-import { str2reg } from '../../../utils';
+import { str2reg, str2numberArray } from '../../../utils';
 import kd48timer, { init } from '../../../components/kd48listerer/timer';
 import ModianWorker from 'worker-loader?name=script/modian_[hash]_worker.js!../../../components/modian/modian.worker';
 import WeiBoWorker from 'worker-loader?name=script/weibo_[hash]_worker.js!../../../components/weibo/weibo.worker';
@@ -126,8 +126,8 @@ class Login extends Component{
       }
       // 口袋48直播监听
       if(basic.is48LiveListener){
-        const memberReg: RegExp = str2reg(basic.kd48LiveListenerMembers);
-        qq.members = memberReg;
+        qq.members = str2reg(basic.kd48LiveListenerMembers); // 正则匹配
+        qq.memberId = str2numberArray(basic.kd48LiveListenerMembers); // 获取id
         // 开启口袋48监听
         await init();
         if(this.props.kd48LiveListenerTimer === null){

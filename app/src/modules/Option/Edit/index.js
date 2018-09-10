@@ -394,7 +394,7 @@ class Add extends Component{
                   initialValue: detail ? detail.basic.kd48LiveListenerMembers : ''
                 })(<Input.TextArea className={ style.template } rows={ 5 } />)
               }
-              <p className={ style.shuoming }>多个成员名字之间用","（半角逗号）分隔。</p>
+              <p className={ style.shuoming }>多个成员名字或成员ID之间用","（半角逗号）分隔。</p>
             </div>
           </Form.Item>
         </div>

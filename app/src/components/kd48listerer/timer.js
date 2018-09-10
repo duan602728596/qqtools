@@ -61,7 +61,8 @@ async function kd48timer(): Promise<void>{
               item2.option.basic.is48LiveListener // 开启直播功能
               && (
                 item2.option.basic.isListenerAll                       // 监听所有成员
-                || (item2.members && item2.members.test(item1.title))  // 监听指定成员
+                || (item2.members && item2.members.test(item1.title))  // 正则匹配监听指定成员
+                || (item2.memberId && item2.memberId.includes(item1.memberId)) // id精确匹配监听指定成员
               )
             ){
               const member: string = item1.title.split('的')[0],

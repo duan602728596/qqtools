@@ -59,14 +59,31 @@ export function templateReplace(template: string, data: Object): string{
  * @return { ?RegExp }
  */
 export function str2reg(str: string): ?RegExp{
-  const str2: string[] = str.replace(/\s+/g, '').split(/\s*,\s*/g);
-  // 去掉空字符串
+  const str2: string[] = str.replace(/\s+/g, '').split(/\s*[,，]\s*/g); // 避免失误，所以使用了中文和英文字符
+  // 去掉空字符串和纯数字
   for(let i: number = str2.length - 1; i >= 0; i--){
-    if(str2[i] === ''){
+    if(str2[i] === '' || /^[0-9]+$/.test(str2[i])){
       str2.splice(i, 1);
     }
   }
   return str2.length === 0 ? null : new RegExp(`(${ str2.join('|') })`);
+}
+
+/**
+ * 字符串转换成id的数组
+ * @param { string } str
+ * @return { Array<number> }
+ */
+export function str2numberArray(str: string): Array<number>{
+  const str2: string[] = str.replace(/\s+/g, '').split(/\s*[,，]\s*/g); // 避免失误，所以使用了中文和英文字符
+  const result: [] = [];
+  // 去掉空字符串和纯数字
+  for(let i: number = str2.length - 1; i >= 0; i--){
+    if(/^[0-9]+$/.test(str2[i])){
+      result.push(Number(str2[i]));
+    }
+  }
+  return result;
 }
 
 /**
