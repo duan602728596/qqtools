@@ -6,8 +6,8 @@ html
     meta(charset='utf-8')
     meta(name='viewport' content='width=device-width, initial-scale=1')
   body
-    div#react-app
+    div.app#app
     script(type='text/javascript' src=require('./appInit'))
     script(type='text/javascript' src=require('jquery/dist/jquery.min'))
-    if htmlWebpackPlugin.options.NODE_ENV === 'development'
+    if htmlWebpackPlugin.options.mode === 'development'
       script(type='text/javascript' src=imports.dll)

@@ -79,21 +79,6 @@ const Index: Function = (props: Object): React.ChildrenArray<React.Element>=>{
         ]：查看当前的口袋48直播列表
       </p>
       <p className={ style.p }>
-        [(
-        <b className={ style.b }>天气预报</b>
-        &nbsp;或&nbsp;
-        <b className={ style.b }>tq</b>
-        )&nbsp;
-        <span className={ style.c1 }>城市</span>
-        ]：查询天气情况
-      </p>
-      <p className={ style.p }>
-        [
-        <b className={ style.b }>say</b>
-        &nbsp;<span className={ style.c1 }>你想说的话</span>
-        ]：机器人
-      </p>
-      <p className={ style.p }>
         [
         <b className={ style.b }>help</b>
         ]：帮助

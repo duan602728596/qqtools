@@ -1,5 +1,6 @@
 /* 公共函数 */
 import { message } from 'antd';
+const gui: Object = global.require('nw.gui');
 
 /**
  * 自动补0
@@ -89,7 +90,7 @@ export function str2numberArray(str: string): Array<number>{
 /**
  * 复制指定区域文本
  */
-export function copy(id: string, event: Event): void{
+export function handleCopyClick(id: string, event: Event): void{
   const range: Object = document.createRange();
   range.selectNode(document.getElementById(id));
 
@@ -99,4 +100,10 @@ export function copy(id: string, event: Event): void{
   document.execCommand('copy');
 
   message.info('复制到剪贴板。');
+}
+
+/* 在浏览器上打开页面 */
+export function handleOpenBrowser(href: string, event: Event): void{
+  event.preventDefault();
+  gui.Shell.openExternal(href);
 }

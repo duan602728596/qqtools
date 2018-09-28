@@ -8,7 +8,7 @@ import { Form, Input, Checkbox, Affix, Button, Table, Modal, message, Popconfirm
 import interfaceOption, { customProfilesObj2Array } from './interface';
 import style from './style.sass';
 import { putOption } from '../store/reducer';
-import { copy } from '../../../utils';
+import { handleCopyClick, handleOpenBrowser } from '../../../utils';
 
 /**
  * 预留命令：摩点、直播、天气、机器人
@@ -296,7 +296,7 @@ class Add extends Component{
             rows={ 4 }
             readOnly={ true }
           />
-          <Button icon="copy" title="复制" onClick={ copy.bind(this, 'copy-option-shuoming') } />
+          <Button icon="copy" title="复制" onClick={ handleCopyClick.bind(this, 'copy-option-shuoming') } />
           <hr className={ style.line } />
         </div>
         {/* 摩点项目配置 */}
@@ -426,7 +426,10 @@ class Add extends Component{
         </div>
         {/* 成员微博监听配置 */}
         <h4 className={ style.title }>成员微博监听配置：</h4>
-        <p>微博lfid配置方法：https://github.com/duan602728596/qqtools/tree/master#微博的lfid查找方法</p>
+        <p>
+          微博lfid配置方法：
+          <a onClick={ handleOpenBrowser.bind(this, 'https://github.com/duan602728596/qqtools/tree/master#微博的lfid查找方法') }>https://github.com/duan602728596/qqtools/tree/master#微博的lfid查找方法</a>
+        </p>
         <div>
           <Form.Item className={ style.mb15 } label="开启成员微博监听">
             {
@@ -506,7 +509,7 @@ class Add extends Component{
             <var className={ style.var }>*/5</var>
             表示；
           </p>
-          <p>每个规则不要有空格。</p>
+          <p>每个规则不要有空格，规则和规则之间要有空格。</p>
           <br />
           <Form.Item label="推送消息">
             <div className="clearfix">

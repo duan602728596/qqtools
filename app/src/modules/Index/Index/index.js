@@ -5,6 +5,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { Row, Col, Icon, Button, message } from 'antd';
 import style from './style.sass';
 import '../../../components/indexedDB/initIndexedDB';
+import { handleOpenBrowser } from '../../../utils';
 const gui: Object = global.require('nw.gui');
 
 @withRouter
@@ -25,8 +26,12 @@ class Index extends Component{
         </p>
         <p className={ style.text }>
           源代码托管地址：
-          <Icon type="github" />
-          <span className={ style.url }>https://github.com/duan602728596/qqtools</span>
+          <Icon type="github" theme="filled" />
+          <a className={ style.url }
+            onClick={ handleOpenBrowser.bind(this, 'https://github.com/duan602728596/qqtools') }
+          >
+            https://github.com/duan602728596/qqtools
+          </a>
           。
         </p>
         <div className={ style.test }>
