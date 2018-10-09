@@ -125,16 +125,20 @@ const Detail: ?Object = (props: ?Object): ?React.Element=>{
           <td className={ style.tdTitle }>房间ID</td>
           <td>{ detail.basic.roomId }</td>
         </tr>
-        <td className={ style.tdTitle }>发送图片和图片链接（只限于酷QPro版本）</td>
-        <td colSpan={ 3 }>
-          {
-            detail.basic.isRoomSendImage ? (
-              <span className={ style.on }>开启</span>
-            ) : (
-              <span className={ style.off }>未开启</span>
-            )
-          }
-        </td>
+        <tr>
+          <td className={ style.tdTitle }>发送图片和图片链接（只限于酷QPro版本）</td>
+          <td>
+            {
+              detail.basic.isRoomSendImage ? (
+                <span className={ style.on }>开启</span>
+              ) : (
+                <span className={ style.off }>未开启</span>
+              )
+            }
+          </td>
+          <td className={ style.tdTitle }>监听间隔（秒）</td>
+          <td>{ detail.basic.liveListeningInterval }</td>
+        </tr>
         {/* 微博监听 */}
         <tr>
           <td className={ style.tdGTitle } colSpan={ 4 }>微博监听</td>

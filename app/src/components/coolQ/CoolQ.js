@@ -27,12 +27,12 @@ class CoolQ{
   weiboWorker: ?Worker;
   timingMessagePushTimer: ?Object;
 
-  onOpenEventSocket: Function;
-  onEventSocketError: Function;
-  onListenerEventMessage: Function;
-  onOpenApiSocket: Function;
-  onApiSocketError: Function;
-  onListenerApiMessage: Function;
+  handleOpenEventSocket: Function;
+  handleEventSocketError: Function;
+  handleListenerEventMessage: Function;
+  handleOpenApiSocket: Function;
+  handleApiSocketError: Function;
+  handleListenerApiMessage: Function;
 
   constructor(qq: string, port: string, callback: Function): void{
     this.time = null;                                         // 登录时间戳
@@ -64,26 +64,26 @@ class CoolQ{
     // 群内定时消息推送
     this.timingMessagePushTimer = null;  // 群内定时消息推送定时器
 
-    this.onOpenEventSocket = this._onOpenSocket.bind(this, 'isEventSuccess', 'event');
-    this.onEventSocketError = this._onSocketError.bind(this, 'event');
-    this.onListenerEventMessage = this._onListenerMessage.bind(this, 'event');
-    this.onOpenApiSocket = this._onOpenSocket.bind(this, 'isApiSuccess', 'api');
-    this.onApiSocketError = this._onSocketError.bind(this, 'api');
-    this.onListenerApiMessage = this._onListenerMessage.bind(this, 'api');
+    this.handleOpenEventSocket = this._handleOpenSocket.bind(this, 'isEventSuccess', 'event');
+    this.handleEventSocketError = this._handleSocketError.bind(this, 'event');
+    this.handleListenerEventMessage = this._handleListenerMessage.bind(this, 'event');
+    this.handleOpenApiSocket = this._handleOpenSocket.bind(this, 'isApiSuccess', 'api');
+    this.handleApiSocketError = this._handleSocketError.bind(this, 'api');
+    this.handleListenerApiMessage = this._handleListenerMessage.bind(this, 'api');
 
   }
   // 初始化连接
-  _onOpenSocket(key: string, type: string, event: Event): void{
+  _handleOpenSocket(key: string, type: string, event: Event): void{
     this[key] = true;
     message.success(`【${ this.qq }】 Socket: ${ type }连接成功！`);
   }
   // 连接失败
-  _onSocketError(type: string, event: Event): void{
+  _handleSocketError(type: string, event: Event): void{
     this.isError = true;
     message.error(`【${ this.qq }】 Socket: ${ type }连接失败！请检查酷Q的配置是否正确！`);
   }
   // 接收消息
-  _onListenerMessage(type: string, event: Event): void{
+  _handleListenerMessage(type: string, event: Event): void{
     const dataJson: Object = JSON.parse(event.data);
     const gn: number = Number(this.option.groupNumber);
     console.log(dataJson);
@@ -134,14 +134,14 @@ class CoolQ{
   init(): void{
     // event
     this.eventSocket = new WebSocket(this.eventUrl);
-    this.eventSocket.addEventListener('open', this.onOpenEventSocket, false);
-    this.eventSocket.addEventListener('error', this.onEventSocketError, false);
-    this.eventSocket.addEventListener('message', this.onListenerEventMessage, false);
+    this.eventSocket.addEventListener('open', this.handleOpenEventSocket, false);
+    this.eventSocket.addEventListener('error', this.handleEventSocketError, false);
+    this.eventSocket.addEventListener('message', this.handleListenerEventMessage, false);
     // api
     this.apiSocket = new WebSocket(this.apiUrl);
-    this.apiSocket.addEventListener('open', this.onOpenApiSocket, false);
-    this.apiSocket.addEventListener('error', this.onApiSocketError, false);
-    this.apiSocket.addEventListener('message', this.onListenerApiMessage, false);
+    this.apiSocket.addEventListener('open', this.handleOpenApiSocket, false);
+    this.apiSocket.addEventListener('error', this.handleApiSocketError, false);
+    this.apiSocket.addEventListener('message', this.handleListenerApiMessage, false);
   }
   // 退出
   outAndClear(): void{
@@ -175,13 +175,13 @@ class CoolQ{
 
     // --- 关闭socket ---
     // event
-    this.eventSocket.removeEventListener('open', this.onOpenEventSocket);
-    this.eventSocket.removeEventListener('error', this.onEventSocketError);
-    this.eventSocket.removeEventListener('message', this.onListenerEventMessage);
+    this.eventSocket.removeEventListener('open', this.handleOpenEventSocket);
+    this.eventSocket.removeEventListener('error', this.handleEventSocketError);
+    this.eventSocket.removeEventListener('message', this.handleListenerEventMessage);
     // api
-    this.apiSocket.removeEventListener('open', this.onOpenApiSocket);
-    this.apiSocket.removeEventListener('error', this.onApiSocketError);
-    this.apiSocket.removeEventListener('message', this.onListenerApiMessage);
+    this.apiSocket.removeEventListener('open', this.handleOpenApiSocket);
+    this.apiSocket.removeEventListener('error', this.handleApiSocketError);
+    this.apiSocket.removeEventListener('message', this.handleListenerApiMessage);
 
     this.eventSocket.close();
     this.apiSocket.close();
@@ -222,21 +222,24 @@ class CoolQ{
   }
   // 监听信息
   async listenRoomMessage(): Promise<void>{
+    const basic: Object = this.option.basic;
+    const times: number = basic.liveListeningInterval * 1000;
+
     try{
       const data2: Object = await requestRoomMessage(this.option.basic.roomId, this.kouDai48Token);
       if(!(data2.status === 200 && 'content' in data2)){
-        this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), 15000);
+        this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
         return;
       }
       const newTime: number = data2.content.data[0].msgTime;
       // 新时间大于旧时间，获取25条数据
       if(!(newTime > this.roomLastTime)){
-        this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), 15000);
+        this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
         return;
       }
       const data3: Object = await requestRoomMessage(this.option.basic.roomId, this.kouDai48Token, 25);  // 重新获取数据
       if(!(data3.status === 200 && 'content' in data3)){
-        this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), 15000);
+        this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
         return;
       }
       // 格式化发送消息
@@ -306,7 +309,7 @@ class CoolQ{
     }catch(err){
       console.error(err);
     }
-    this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), 15000);
+    this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
   }
   // web worker监听到微博的返回信息
   async listenWeiboWorkerCbInformation(event: Event): Promise<void>{

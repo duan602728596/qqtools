@@ -20,6 +20,7 @@ type interfaceOptionType = {
     modianTemplate: string,
     is48LiveListener: boolean,
     isListenerAll: boolean,
+    liveListeningInterval: number,
     kd48LiveListenerMembers: string,
     isRoomListener: boolean,
     roomId: string,
@@ -53,6 +54,7 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
       // 口袋48监听
       is48LiveListener: value.is48LiveListener,
       isListenerAll: value.isListenerAll,
+      liveListeningInterval: value.liveListeningInterval,
       kd48LiveListenerMembers: value.kd48LiveListenerMembers,
       // 成员房间信息监听
       isRoomListener: value.isRoomListener,
