@@ -42,7 +42,7 @@ class Index extends Component{
             <dl className={ style.linkGroup }>
               <dt className={ style.bTest }>
                 <Link to="/Login" title="QQ登录">
-                  <img src={ require('../image/dyx1.jpg') } alt="QQ登录" />
+                  <img src={ require('../image/dyx1.webp') } alt="QQ登录" />
                 </Link>
               </dt>
               <dd>
@@ -54,7 +54,7 @@ class Index extends Component{
             <dl className={ style.linkGroup }>
               <dt className={ style.bTest }>
                 <Link to="/Option" title="群功能配置">
-                  <img src={ require('../image/lyn1.jpg') } alt="群功能配置" />
+                  <img src={ require('../image/lyn1.webp') } alt="群功能配置" />
                 </Link>
               </dt>
               <dd>
@@ -66,7 +66,7 @@ class Index extends Component{
             <dl className={ style.linkGroup }>
               <dt className={ style.bTest }>
                 <Link to="/KouDai48" title="口袋48登录和房间ID查询">
-                  <img src={ require('../image/kd481.jpg') } alt="口袋48登录和房间ID查询" />
+                  <img src={ require('../image/kd481.webp') } alt="口袋48登录和房间ID查询" />
                 </Link>
               </dt>
               <dd>
@@ -78,7 +78,7 @@ class Index extends Component{
             <dl className={ style.linkGroup }>
               <dt className={ style.bTest }>
                 <Link to="/Help" title="帮助">
-                  <img src={ require('../image/pyq1.jpg') } alt="帮助" />
+                  <img src={ require('../image/pyq1.webp') } alt="帮助" />
                 </Link>
               </dt>
               <dd>

@@ -491,7 +491,7 @@ class Add extends Component{
           </Form.Item>
           <p>
             规则格式：
-            <img className={ style.nodeScheduleFormat } src={ require('./node-schedule-format.jpg') } />
+            <img className={ style.nodeScheduleFormat } src={ require('./node-schedule-format.webp') } />
           </p>
           <p>如果不配置该位置，则用“*”占位；</p>
           <p>
