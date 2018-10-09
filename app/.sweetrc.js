@@ -24,11 +24,6 @@ export default {
   entry: {
     app: [path.join(__dirname, 'src/app.js')]
   },
-  output: {
-    path: path.join(__dirname, 'build'),
-    filename: isDevelopment ? 'script/[name].js' : 'script/[chunkhash:5].js',
-    chunkFilename: isDevelopment ? 'script/[name].js' : 'script/[chunkhash:5].js'
-  },
   externals: {
     jquery: 'window.jQuery'
   },
