@@ -223,7 +223,7 @@ class CoolQ{
   // 监听信息
   async listenRoomMessage(): Promise<void>{
     const basic: Object = this.option.basic;
-    const times: number = basic.liveListeningInterval * 1000;
+    const times: number = basic.liveListeningInterval ? (basic.liveListeningInterval * 1000) : 15000;
 
     try{
       const data2: Object = await requestRoomMessage(this.option.basic.roomId, this.kouDai48Token);

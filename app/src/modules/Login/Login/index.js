@@ -146,7 +146,10 @@ class Login extends Component{
           qq.kouDai48Token = res.result.value.token;
           const req: Object = await requestRoomMessage(basic.roomId, qq.kouDai48Token);
           qq.roomLastTime = req.content.data[0].msgTime;
-          qq.roomListenerTimer = global.setTimeout(qq.listenRoomMessage.bind(qq), basic.liveListeningInterval * 1000);
+          qq.roomListenerTimer = global.setTimeout(
+            qq.listenRoomMessage.bind(qq),
+            basic.liveListeningInterval ? (basic.liveListeningInterval * 1000) : 15000
+          );
         }
       }
       // 微博监听

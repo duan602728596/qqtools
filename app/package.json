@@ -1,6 +1,6 @@
 {
   "name": "qqtools2",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "QQ群工具，配合酷Q使用。",
   "license": "GNU General Public License v3.0",
   "scripts": {
