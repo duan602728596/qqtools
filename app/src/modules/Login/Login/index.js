@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
-import { Button, Select } from 'antd';
+import { Button, Select, message } from 'antd';
 import moment from 'moment';
 import style from './style.sass';
 import publicStyle from '../../../components/publicStyle/public.sass';
@@ -106,7 +106,7 @@ class Login extends Component{
     try{
       const basic: Object = qq.option.basic;
       qq.time = moment().unix();
-      // 获取微打赏相关信息
+      // 获取摩点相关信息
       if(basic.isModian){
         const { title, goal }: {
           title: string,
@@ -123,7 +123,9 @@ class Login extends Component{
           goal
         });
         qq.modianWorker.addEventListener('message', qq.listenModianWorkerCbInformation.bind(qq), false);
+        message.success('摩点监听已就绪。');
       }
+
       // 口袋48直播监听
       if(basic.is48LiveListener){
         qq.members = str2reg(basic.kd48LiveListenerMembers); // 正则匹配
@@ -135,7 +137,9 @@ class Login extends Component{
             timer: global.setInterval(kd48timer, 15000)
           });
         }
+        message.success('口袋48直播监听已就绪。');
       }
+
       // 房间信息监听
       if(basic.isRoomListener){
         // 数据库读取token
@@ -151,7 +155,9 @@ class Login extends Component{
             basic.liveListeningInterval ? (basic.liveListeningInterval * 1000) : 15000
           );
         }
+        message.success('口袋48房间监听已就绪。');
       }
+
       // 微博监听
       if(basic.isWeiboListener){
         qq.weiboWorker = new WeiBoWorker();
@@ -160,14 +166,18 @@ class Login extends Component{
           containerid: basic.lfid
         });
         qq.weiboWorker.addEventListener('message', qq.listenWeiboWorkerCbInformation.bind(qq), false);
+        message.success('微博监听已就绪。');
       }
+
       // 群内定时消息推送
       if(basic.isTimingMessagePush){
         qq.timingMessagePushTimer = schedule.scheduleJob(
           basic.timingMessagePushFormat,
           qq.timingMessagePush.bind(qq, basic.timingMessagePushText)
         );
+        message.success('群内定时消息推送已就绪。');
       }
+
       const ll: Array = this.props.qqLoginList;
       ll.push(qq);
       this.props.action.changeQQLoginList({
