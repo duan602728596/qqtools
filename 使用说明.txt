@@ -1,26 +1,43 @@
+使用v4版本的httpapi插件：
+
+
+1、酷Q开启httpapi插件
+
+2、进入到CoolQ\app\io.github.richardchien.coolqhttpapi/config文件夹下，使用记事本打开xxxx.json文件，
+修改
+=====================
+"ws_port": 15000,
+"use_ws": true,
+=====================
+ws_port是作为软件监听当前QQ的消息的端口号，可以随意配置，不过要避免80、443、8080等端口
+
+3、运行时，先登录酷Q，后运行qqtools
+
+
+
+
+
+
+使用v3版本的httpapi插件：
+
+
 1、进入到CoolQ\app\io.github.richardchien.coolqhttpapi文件夹下，使用记事本打开config.cfg文件，
 修改
 =====================
-
 use_ws=yes
-
 =====================
 
 然后添加如下文字
 =====================
-
 [QQ号]
 ws_port=6800
-
 =====================
 其中，QQ号是你作为机器人的QQ号
-ws_port=6800，6800是作为软件监听当前QQ的消息的端口号，可以随意配置，不过要避免80、443、8080等端口
-
+ws_port是作为软件监听当前QQ的消息的端口号，可以随意配置，不过要避免80、443、8080等端口
 
 2、运行qqtools.exe，进入到群功能配置，添加新配置
 其中，QQ号就是你作为机器人的QQ号，
 监视群号就是你要监听的群号，
 Socket端口号就是你配置config.cfg时对应的端口号
-
 
 3、运行时，先登录酷Q，后运行qqtools
