@@ -7,6 +7,7 @@ import sign from './function/signInWorker';
 
 const dingDanUrl: string = 'https://wds.modian.com/api/project/sorted_orders';
 const inforUrl: string = 'https://wds.modian.com/api/project/detail';
+
 let queryData: ?string = null;   // 查询条件
 let queryInfor: ?string = null;  // 查询摩点项目信息条件
 let modianId: ?string = null;    // 摩点id
@@ -52,11 +53,13 @@ async function polling(): Promise<void>{
     // 获取新信息
     const res: Object = await getData('POST', dingDanUrl + '?t=' + new Date().getTime(), queryData);
     const inf: Object = await getData('POST', inforUrl + '?t=' + new Date().getTime(), queryInfor);
+
     if(res.status === '0'){
       // 计算打赏金额和排名
       const newData: Array = res.data;
       const jizi: Array = [];
-      let ot: ?number = null;
+      let ot: ?number = null; // 最新集资时间
+
       for(let i: number = 0, j: number = newData.length; i < j; i++){
         const item: Object = newData[i];
         const pay_time: number = new Date(item.pay_success_time).getTime();
@@ -70,10 +73,13 @@ async function polling(): Promise<void>{
           break;
         }
       }
+
       if(jizi.length > 0){
         if(ot) oldTime = ot;
+
         // 将数据发送回主线程
         const infData: Object = inf.data[0];
+
         postMessage({
           type: 'change',
           data: jizi,

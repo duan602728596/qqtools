@@ -31,11 +31,9 @@ async function getList(qq: CoolQ): Promise<void>{
 }
 
 function kd48Cb(qq: CoolQ): void{
-  if(qq.option.basic.is48LiveListener){
-    getList(qq);
-  }else{
-    qq.sendMessage('[WARNING] 口袋48直播相关功能未开启。');
-  }
+  if(!qq.option.basic.is48LiveListener) return void 0;
+
+  getList(qq);
 }
 
 export default kd48Cb;
