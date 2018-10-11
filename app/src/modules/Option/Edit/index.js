@@ -386,29 +386,6 @@ class Add extends Component{
               })(<Checkbox defaultChecked={ isListenerAll } />)
             }
           </Form.Item>
-          <Form.Item className={ style.mb15 } label="监听间隔（秒）">
-            {
-              getFieldDecorator('liveListeningInterval', {
-                initialValue: detail ? detail.basic.liveListeningInterval : 15,
-                rules: [
-                  {
-                    message: '必须输入监听间隔',
-                    required: true
-                  },
-                  {
-                    validator: (rule: Object, value: number, callback: Function): void =>{
-                      if(value < 15){
-                        callback(rule.message);
-                      }else{
-                        callback();
-                      }
-                    },
-                    message: '监听间隔必须大于15秒'
-                  }
-                ]
-              })(<InputNumber className={ style.w200 } />)
-            }
-          </Form.Item>
           <br />
           <Form.Item label="监听成员">
             <div className="clearfix">
@@ -444,6 +421,29 @@ class Add extends Component{
               getFieldDecorator('isRoomSendImage', {
                 initialValue: isRoomSendImage
               })(<Checkbox defaultChecked={ isRoomSendImage } />)
+            }
+          </Form.Item>
+          <Form.Item className={ style.mb15 } label="监听间隔（秒）">
+            {
+              getFieldDecorator('liveListeningInterval', {
+                initialValue: detail ? detail.basic.liveListeningInterval : 15,
+                rules: [
+                  {
+                    message: '必须输入监听间隔',
+                    required: true
+                  },
+                  {
+                    validator: (rule: Object, value: number, callback: Function): void =>{
+                      if(value < 15){
+                        callback(rule.message);
+                      }else{
+                        callback();
+                      }
+                    },
+                    message: '监听间隔必须大于15秒'
+                  }
+                ]
+              })(<InputNumber className={ style.w200 } />)
             }
           </Form.Item>
         </div>
