@@ -4,7 +4,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import { Link, withRouter } from 'react-router-dom';
 import { Row, Col, Icon, Button, message } from 'antd';
 import style from './style.sass';
-import '../../../components/indexedDB/initIndexedDB';
+import '../../../components/indexedDB/indexedDB-init';
 import { handleOpenBrowser } from '../../../utils';
 const gui: Object = global.require('nw.gui');
 
