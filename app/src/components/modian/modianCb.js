@@ -8,14 +8,21 @@ function modianCb(command: string[], qq: CoolQ): void{
     command[2] = '20';
   }
 
+  const { basic }: { basic: Object } = qq.option;
+
   // 摩点功能未开启
-  if(!qq.option.basic.isModian) return void 0;
+  if(!basic.isModian) return void 0;
+
+  const { isModianLeaderboard, modianId }: {
+    isModianLeaderboard: boolean,
+    modianId: string
+  } = basic;
 
   switch(command[1]){
     // 获取整体信息
     case '0':
     case '项目信息':
-      getAllMount(qq);
+      isModianLeaderboard && getAllMount(qq);
       break;
     // 获取聚聚榜
     case '1':
@@ -23,18 +30,18 @@ function modianCb(command: string[], qq: CoolQ): void{
     // 获取打卡榜
     case '2':
     case '打卡榜':
-    // 命令兼容
+      // 命令兼容
       if(command[1] === '聚聚榜'){
         command[1] = '1';
       }else if(command[1] === '打卡榜'){
         command[1] = '2';
       }
-      list(qq.option.basic.modianId, command[1], command[2], qq);
+      isModianLeaderboard && list(modianId, command[1], command[2], qq);
       break;
     // 获取订单信息
     case '3':
     case '订单':
-      dingDan(qq.option.basic.modianId, command[2], qq);
+      isModianLeaderboard && dingDan(modianId, command[2], qq);
       break;
     // 发送微打赏相关信息
     default:

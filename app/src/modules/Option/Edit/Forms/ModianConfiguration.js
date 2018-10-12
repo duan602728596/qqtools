@@ -18,6 +18,7 @@ class ModianConfiguration extends Component{
     const colsArea1: Object = { labelCol: { span: 4 }, wrapperCol: { span: 20 } };
 
     const isModian: boolean = detail?.basic?.isModian; // 开启摩点
+    const isModianLeaderboard: boolean = detail?.basic?.isModianLeaderboard; // 群内摩点排行榜查询
 
     return (
       <Card className={ style.mb10 } title="摩点项目配置">
@@ -27,6 +28,14 @@ class ModianConfiguration extends Component{
               initialValue: isModian
             })(<Checkbox defaultChecked={ isModian } />)
           }
+        </Form.Item>
+        <Form.Item label="开启排行榜查询" { ...colsArea1 }>
+          {
+            getFieldDecorator('isModianLeaderboard', {
+              initialValue: isModianLeaderboard
+            })(<Checkbox defaultChecked={ isModianLeaderboard } />)
+          }
+          <ShuoMing.IsModianLeaderboard />
         </Form.Item>
         <Form.Item label="摩点ID" { ...colsArea1 }>
           {

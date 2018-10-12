@@ -87,6 +87,7 @@ class CoolQ{
     const dataJson: Object = JSON.parse(event.data);
     const gn: number = Number(this.option.groupNumber);
     console.log(dataJson);
+
     // 群消息
     if(type === 'event' && 'group_id' in dataJson && dataJson.group_id === gn && dataJson.self_id === Number(this.qq)){
       // 群聊天

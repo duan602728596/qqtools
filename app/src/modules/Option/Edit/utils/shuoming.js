@@ -4,6 +4,10 @@ import classNames from 'classnames';
 import style from '../style.sass';
 import { handleOpenBrowser } from '../../../../utils';
 
+export const IsModianLeaderboard: Function = (props: Object): React.Element => (
+  <span className={ style.ml10 }>可以在群内查询摩点项目的相关信息、聚聚榜、打卡榜、订单。</span>
+);
+
 export const ModianUrlTemplate: Function = (props: Object): React.Element => (
   <div className={ style.shuoming }>
     <h6>模板关键字：</h6>

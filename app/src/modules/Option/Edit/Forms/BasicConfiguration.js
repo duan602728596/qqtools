@@ -22,7 +22,13 @@ class BasicConfiguration extends Component{
           {
             getFieldDecorator('name', {
               initialValue: detail ? detail.name : '',
-              rules: [{ message: '必须输入配置名称', required: true, whitespace: true }]
+              rules: [
+                {
+                  message: '必须输入配置名称',
+                  required: true,
+                  whitespace: true
+                }
+              ]
             })(<Input placeholder="输入配置名称" readOnly={ detail } />)
           }
         </Form.Item>
@@ -30,7 +36,13 @@ class BasicConfiguration extends Component{
           {
             getFieldDecorator('qqNumber', {
               initialValue: detail ? detail.qqNumber : '',
-              rules: [{ message: '必须输入QQ号', required: true, whitespace: true }]
+              rules: [
+                {
+                  message: '必须输入QQ号',
+                  required: true,
+                  whitespace: true
+                }
+              ]
             })(<Input placeholder="输入配置名称" />)
           }
         </Form.Item>
@@ -38,7 +50,13 @@ class BasicConfiguration extends Component{
           {
             getFieldDecorator('socketPort', {
               initialValue: detail ? detail.socketPort : '6700',
-              rules: [{ message: '必须输入Socket端口号', required: true, whitespace: true }]
+              rules: [
+                {
+                  message: '必须输入Socket端口号',
+                  required: true,
+                  whitespace: true
+                }
+              ]
             })(<Input placeholder="输入配置名称" />)
           }
         </Form.Item>
@@ -46,7 +64,13 @@ class BasicConfiguration extends Component{
           {
             getFieldDecorator('groupNumber', {
               initialValue: detail ? detail.groupNumber : '',
-              rules: [{ message: '必须输入要监听的群号', required: true, whitespace: true }]
+              rules: [
+                {
+                  message: '必须输入要监听的群号',
+                  required: true,
+                  whitespace: true
+                }
+              ]
             })(<Input placeholder="输入群号" />)
           }
         </Form.Item>

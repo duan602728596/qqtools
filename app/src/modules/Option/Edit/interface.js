@@ -48,6 +48,7 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
     basic: {
       // 摩点
       isModian: value.isModian,
+      isModianLeaderboard: value.isModianLeaderboard,
       modianId: value.modianId,
       modianUrlTemplate: value.modianUrlTemplate,
       modianTemplate: value.modianTemplate,
