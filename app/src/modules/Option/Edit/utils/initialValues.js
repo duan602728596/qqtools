@@ -6,7 +6,7 @@ export const modianTemplate: string = '@{{ id }} 刚刚在【{{ modianname }}】
   + '当前进度：￥{{ alreadyraised }} / ￥{{ goal }}\n'
   + '相差金额：¥{{ amountdifference }}\n'
   + '集资参与人数：{{ backercount }}人\n'
-  + '项目截止时间：{{ endtime }}'
+  + '项目截止时间：{{ endtime }}\n'
   + '距离项目截止还有：{{ timedifference }}';
 
 export const welcomeNewGroupMember: string = '欢迎{{ nickname }}加入。';
