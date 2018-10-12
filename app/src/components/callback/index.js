@@ -17,8 +17,9 @@ function callback(content: string, qq: CoolQ): void{
 
 function fn(command: string[], qq: CoolQ): void{
   switch(command[0]){
-    // 微打赏判断
+    // 摩点判断
     case '摩点':
+    case '集资':
     case 'mod':
       modianCb(command, qq);
       break;

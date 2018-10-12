@@ -21,8 +21,10 @@ export const ModianTemplate: Function = (props: Object): React.Element => (
     <p>modianid：摩点项目的ID</p>
     <p>goal：摩点项目目标</p>
     <p>alreadyraised：当前已打赏金额</p>
+    <p>amountdifference：相差金额</p>
     <p>backercount：集资参与人数</p>
     <p>endtime：项目截止时间</p>
+    <p>timedifference：项目截止相差时间（格式：【x天x时x分x秒】）</p>
   </div>
 );
 

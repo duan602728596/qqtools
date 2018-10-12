@@ -85,11 +85,57 @@ async function polling(): Promise<void>{
           data: jizi,
           alreadyRaised: infData.already_raised,
           backerCount: infData.backer_count,
-          endTime: infData.end_time
+          endTime: infData.end_time,
+          timedifference: timeDifference(infData.end_time)
         });
       }
     }
   }catch(err){
     console.log(err);
   }
+}
+
+function timeDifference(endTime: string): string{
+  const endTimeDate: Date = new Date(endTime);
+  const nowTimeDate: Date = new Date();
+  // time
+  const endTimeNumber: number = endTimeDate.getTime();
+  const nowTimeNumber: number = nowTimeDate.getTime();
+
+  let day: number = 0;
+  let hour: number = 0;
+  let minute: number = 0;
+  let second: number = 0;
+
+  if(nowTimeNumber >= endTimeNumber){
+    return '0秒';
+  }
+
+  const cha: number = parseInt((endTimeDate - nowTimeDate) / 1000);
+
+  // 计算天数
+  day = Math.floor(cha / 86400);
+
+  // 计算小时
+  const dayRemainder: number = cha % 86400;
+  hour = Math.floor(dayRemainder / 3600);
+
+  // 计算分钟
+  const hourRemainder: number = dayRemainder % 3600;
+  minute = Math.floor(hourRemainder / 60);
+
+  // 计算秒
+  second = hourRemainder % 60;
+
+  let str: string = '';
+
+  if(day > 0) str += `${ day }天${ hour }时${ minute }分`;
+
+  if(hour > 0) str += `${ hour }时${ minute }分`;
+
+  if(minute > 0) str += `${ minute }分`;
+
+  str += `${ second }秒`;
+
+  return str;
 }

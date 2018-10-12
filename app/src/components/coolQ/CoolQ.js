@@ -189,17 +189,20 @@ class CoolQ{
 
   /* === 从此往下是业务相关 === */
 
-  // web worker监听到微打赏的返回信息
+  // web worker监听到摩点的返回信息
   async listenModianWorkerCbInformation(event: Event): Promise<void>{
     if(event.data.type === 'change'){
       try{
-        const { data, alreadyRaised, backerCount, endTime }: {
+        const { data, alreadyRaised, backerCount, endTime, timedifference }: {
           data: Array,
           alreadyRaised: string,
           backerCount: number,
-          endTime: string
+          endTime: string,
+          timedifference: string
         } = event.data;
         const { modianTemplate }: { modianTemplate: string } = this.option.basic;
+        const amountDifference: number = (Number(this.modianGoal) - Number(alreadyRaised)).toFixed(2);
+
         // 倒序发送消息
         for(let i: number = data.length - 1; i >= 0; i--){
           const item: Object = data[i];
@@ -211,8 +214,11 @@ class CoolQ{
             goal: this.modianGoal,
             alreadyraised: alreadyRaised,
             backercount: backerCount,
-            endtime: endTime
+            amountdifference: amountDifference,
+            endtime: endTime,
+            timedifference
           });
+
           await this.sendMessage(msg);
         }
       }catch(err){
