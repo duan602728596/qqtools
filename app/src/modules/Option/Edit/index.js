@@ -4,12 +4,17 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
-import { Form, Input, Checkbox, Affix, Button, Table, Modal, message, Popconfirm, InputNumber, Card } from 'antd';
+import { Form, Input, Affix, Button, Table, Modal, message, Popconfirm, Card } from 'antd';
 import interfaceOption, { customProfilesObj2Array } from './interface';
 import style from './style.sass';
 import { putOption } from '../store/reducer';
-import * as initialValues from './initialValues';
-import * as ShuoMing from './shuoming';
+import BasicConfiguration from './Forms/BasicConfiguration';
+import ModianConfiguration from './Forms/ModianConfiguration';
+import Koudai48LiveListener from './Forms/Koudai48LiveListener';
+import Koudai48RoomListener from './Forms/Koudai48RoomListener';
+import WeiboConfiguration from './Forms/WeiboConfiguration';
+import NewGroupMember from './Forms/NewGroupMember';
+import TimingMessagePush from './Forms/TimingMessagePush';
 
 /**
  * 预留命令：摩点、直播、天气、机器人
@@ -205,20 +210,8 @@ class Add extends Component{
     });
   }
   render(): React.ChildrenArray<React.Element>{
-    const detail: ?Object = 'query' in this.props.location ? this.props.location.query.detail : null;
-    const { getFieldDecorator }: { getFieldDecorator: Function } = this.props.form;
-    const colsArea1: Object = { labelCol: { span: 4 }, wrapperCol: { span: 20 } };
-    const colsArea2: Object = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };
-
-    // checkbox的值
-    const isModian: boolean = detail?.basic?.isModian;                         // 摩点
-    const is48LiveListener: boolean = detail?.basic?.is48LiveListener;         // 口袋48直播
-    const isListenerAll: boolean = detail?.basic?.isListenerAll;               // 监听所有成员
-    const isRoomListener: boolean = detail?.basic?.isRoomListener;             // 房间监听
-    const isRoomSendImage: boolean = detail?.basic?.isRoomSendImage;           // 房间信息发送图片和链接
-    const isWeiboListener: boolean = detail?.basic?.isWeiboListener;           // 微博监听
-    const isNewGroupMember: boolean = detail?.basic?.isNewGroupMember;         // 新成员欢迎
-    const isTimingMessagePush: boolean = detail?.basic?.isTimingMessagePush;   // 定时推送
+    const { props }: { props: Object } = this;
+    const detail: ?Object = 'query' in props.location ? props.location.query.detail : null;
 
     return [
       <Form key="form" className={ style.form } onSubmit={ this.handleSubmit.bind(this) }>
@@ -229,212 +222,20 @@ class Add extends Component{
             <Button type="danger" size="default" icon="poweroff">返回</Button>
           </Link>
         </Affix>
-        <Card className={ style.mb10 } title="基础配置">
-          {/* 基础配置 */}
-          <Form.Item label="配置名称" { ...colsArea1 }>
-            {
-              getFieldDecorator('name', {
-                initialValue: detail ? detail.name : '',
-                rules: [{ message: '必须输入配置名称', required: true, whitespace: true }]
-              })(<Input placeholder="输入配置名称" readOnly={ detail } />)
-            }
-          </Form.Item>
-          <Form.Item label="QQ号" { ...colsArea1 }>
-            {
-              getFieldDecorator('qqNumber', {
-                initialValue: detail ? detail.qqNumber : '',
-                rules: [{ message: '必须输入QQ号', required: true, whitespace: true }]
-              })(<Input placeholder="输入配置名称" />)
-            }
-          </Form.Item>
-          <Form.Item label="Socket端口号" { ...colsArea1 }>
-            {
-              getFieldDecorator('socketPort', {
-                initialValue: detail ? detail.socketPort : '6700',
-                rules: [{ message: '必须输入Socket端口号', required: true, whitespace: true }]
-              })(<Input placeholder="输入配置名称" />)
-            }
-          </Form.Item>
-          <Form.Item label="监听群号" { ...colsArea1 }>
-            {
-              getFieldDecorator('groupNumber', {
-                initialValue: detail ? detail.groupNumber : '',
-                rules: [{ message: '必须输入要监听的群号', required: true, whitespace: true }]
-              })(<Input placeholder="输入群号" />)
-            }
-          </Form.Item>
-        </Card>
+        {/* 基础配置 */}
+        <BasicConfiguration detail={ detail } { ...props } />
         {/* 摩点项目配置 */}
-        <Card className={ style.mb10 } title="摩点项目配置">
-          <Form.Item label="开启摩点相关功能" { ...colsArea1 }>
-            {
-              getFieldDecorator('isModian', {
-                initialValue: isModian
-              })(<Checkbox defaultChecked={ isModian } />)
-            }
-          </Form.Item>
-          <Form.Item label="摩点ID" { ...colsArea1 }>
-            {
-              getFieldDecorator('modianId', {
-                initialValue: detail ? detail.basic.modianId : ''
-              })(<Input />)
-            }
-          </Form.Item>
-          <Form.Item label="摩点命令" { ...colsArea1 }>
-            {
-              getFieldDecorator('modianUrlTemplate', {
-                initialValue: detail ? detail.basic.modianUrlTemplate : initialValues.modianUrlTemplate
-              })(<Input.TextArea className={ style.template } rows={ 5 } />)
-            }
-            <ShuoMing.ModianUrlTemplate />
-          </Form.Item>
-          <Form.Item label="集资提示" { ...colsArea1 }>
-            {
-              getFieldDecorator('modianTemplate', {
-                initialValue: detail ? detail.basic.modianTemplate : initialValues.modianTemplate
-              })(<Input.TextArea className={ style.template } rows={ 10 } />)
-            }
-            <ShuoMing.ModianTemplate />
-          </Form.Item>
-        </Card>
+        <ModianConfiguration detail={ detail } { ...props } />
         {/* 口袋48直播监听配置 */}
-        <Card className={ style.mb10 } title="口袋48直播监听">
-          <Form.Item label="开启口袋48直播监听功能" { ...colsArea2 }>
-            {
-              getFieldDecorator('is48LiveListener', {
-                initialValue: is48LiveListener
-              })(<Checkbox defaultChecked={ is48LiveListener } />)
-            }
-          </Form.Item>
-          <Form.Item label="监听所有成员" { ...colsArea2 }>
-            {
-              getFieldDecorator('isListenerAll', {
-                initialValue: isListenerAll
-              })(<Checkbox defaultChecked={ isListenerAll } />)
-            }
-          </Form.Item>
-          <Form.Item label="监听成员" { ...colsArea2 }>
-            {
-              getFieldDecorator('kd48LiveListenerMembers', {
-                initialValue: detail ? detail.basic.kd48LiveListenerMembers : ''
-              })(<Input.TextArea className={ style.template } rows={ 5 } />)
-            }
-            <ShuoMing.Kd48LiveListenerMembers />
-          </Form.Item>
-        </Card>
-        {/* 成员房间信息监听配置 */}
-        <Card className={ style.mb10 } title="成员房间信息监听配置" extra="如果未登录，无法监听成员房间信息。">
-          <Form.Item label="开启成员房间信息监听" { ...colsArea2 }>
-            {
-              getFieldDecorator('isRoomListener', {
-                initialValue: isRoomListener
-              })(<Checkbox defaultChecked={ isRoomListener } />)
-            }
-          </Form.Item>
-          <Form.Item label="房间ID" { ...colsArea2 }>
-            {
-              getFieldDecorator('roomId', {
-                initialValue: detail ? detail.basic.roomId : ''
-              })(<Input />)
-            }
-          </Form.Item>
-          <Form.Item label="发送图片和图片链接" { ...colsArea2 }>
-            {
-              getFieldDecorator('isRoomSendImage', {
-                initialValue: isRoomSendImage
-              })(<Checkbox defaultChecked={ isRoomSendImage } />)
-            }
-            <ShuoMing.IsRoomSendImage />
-          </Form.Item>
-          <Form.Item label="监听间隔（秒）" { ...colsArea2 }>
-            {
-              getFieldDecorator('liveListeningInterval', {
-                initialValue: detail ? detail.basic.liveListeningInterval : 15,
-                rules: [
-                  {
-                    message: '必须输入监听间隔',
-                    required: true
-                  },
-                  {
-                    validator: (rule: Object, value: number, callback: Function): void =>{
-                      if(value < 15){
-                        callback(rule.message);
-                      }else{
-                        callback();
-                      }
-                    },
-                    message: '监听间隔必须大于15秒'
-                  }
-                ]
-              })(<InputNumber />)
-            }
-          </Form.Item>
-        </Card>
+        <Koudai48LiveListener detail={ detail } { ...props } />
+        {/* 口袋48成员房间信息监听配置 */}
+        <Koudai48RoomListener detail={ detail } { ...props } />
         {/* 成员微博监听配置 */}
-        <Card className={ style.mb10 } title="成员微博监听配置">
-          <ShuoMing.WeiBo />
-          <Form.Item label="开启成员微博监听" { ...colsArea2 }>
-            {
-              getFieldDecorator('isWeiboListener', {
-                initialValue: isWeiboListener
-              })(<Checkbox defaultChecked={ isWeiboListener } />)
-            }
-          </Form.Item>
-          <Form.Item label="微博lfid" { ...colsArea2 }>
-            {
-              getFieldDecorator('lfid', {
-                initialValue: detail ? detail.basic.lfid : ''
-              })(<Input />)
-            }
-          </Form.Item>
-        </Card>
+        <WeiboConfiguration detail={ detail } { ...props } />
         {/* 欢迎新成员 */}
-        <Card className={ style.mb10 } title="欢迎新成员配置">
-          <Form.Item label="开启新成员欢迎功能" { ...colsArea2 }>
-            {
-              getFieldDecorator('isNewGroupMember', {
-                initialValue: isNewGroupMember
-              })(<Checkbox defaultChecked={ isNewGroupMember } />)
-            }
-          </Form.Item>
-          <Form.Item label="欢迎词" { ...colsArea2 }>
-            <div className="clearfix">
-              {
-                getFieldDecorator('welcomeNewGroupMember', {
-                  initialValue: detail ? detail.basic.welcomeNewGroupMember : initialValues.welcomeNewGroupMember
-                })(<Input.TextArea className={ style.template } rows={ 5 } />)
-              }
-              <ShuoMing.WelcomeNewGroupMember />
-            </div>
-          </Form.Item>
-        </Card>
+        <NewGroupMember detail={ detail } { ...props } />
         {/* 群内定时消息推送 */}
-        <Card className={ style.mb10 } title="群内定时消息推送">
-          <Form.Item label="开启群内定时消息推送功能" { ...colsArea2 }>
-            {
-              getFieldDecorator('isTimingMessagePush', {
-                initialValue: isTimingMessagePush
-              })(<Checkbox defaultChecked={ isTimingMessagePush } />)
-            }
-          </Form.Item>
-          <Form.Item label="规则配置" { ...colsArea2 }>
-            {
-              getFieldDecorator('timingMessagePushFormat', {
-                initialValue: detail ? detail.basic.timingMessagePushFormat : ''
-              })(<Input />)
-            }
-            <ShuoMing.TimingMessagePushFormat />
-          </Form.Item>
-          <Form.Item label="推送消息" { ...colsArea2 }>
-            <div className="clearfix">
-              {
-                getFieldDecorator('timingMessagePushText', {
-                  initialValue: detail ? detail.basic.timingMessagePushText : ''
-                })(<Input.TextArea className={ style.template } rows={ 10 } />)
-              }
-            </div>
-          </Form.Item>
-        </Card>
+        <TimingMessagePush detail={ detail } { ...props } />
         {/* 自定义命令 */}
         <Card title="自定义命令"
           extra={
