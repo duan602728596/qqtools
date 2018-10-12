@@ -131,9 +131,9 @@ function timeDifference(endTime: string): string{
 
   if(day > 0) str += `${ day }天${ hour }时${ minute }分`;
 
-  if(hour > 0) str += `${ hour }时${ minute }分`;
+  else if(hour > 0) str += `${ hour }时${ minute }分`;
 
-  if(minute > 0) str += `${ minute }分`;
+  else if(minute > 0) str += `${ minute }分`;
 
   str += `${ second }秒`;
 
