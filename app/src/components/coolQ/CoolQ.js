@@ -70,7 +70,6 @@ class CoolQ{
     this.handleOpenApiSocket = this._handleOpenSocket.bind(this, 'isApiSuccess', 'api');
     this.handleApiSocketError = this._handleSocketError.bind(this, 'api');
     this.handleListenerApiMessage = this._handleListenerMessage.bind(this, 'api');
-
   }
   // 初始化连接
   _handleOpenSocket(key: string, type: string, event: Event): void{
