@@ -1,8 +1,8 @@
 /* 提示说明 */
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import style from './style.sass';
-import { handleOpenBrowser } from '../../../utils';
+import style from '../style.sass';
+import { handleOpenBrowser } from '../../../../utils';
 
 export const ModianUrlTemplate: Function = (props: Object): React.Element => (
   <div className={ style.shuoming }>

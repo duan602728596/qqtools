@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Checkbox, Form, Input } from 'antd';
 import style from '../style.sass';
-import * as initialValues from '../initialValues';
-import * as ShuoMing from '../shuoming';
+import * as initialValues from '../utils/initialValues';
+import * as ShuoMing from '../utils/shuoming';
 
 class NewGroupMember extends Component{
   static propTypes: Object = {

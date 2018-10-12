@@ -18,6 +18,8 @@ const Index: Function = (props: Object): React.ChildrenArray<React.Element>=>{
         [
         <b className={ style.b }>摩点</b>
         &nbsp;或&nbsp;
+        <b className={ style.b }>集资</b>
+        &nbsp;或&nbsp;
         <b className={ style.b }>mod</b>
         ]：查看当前摩点项目链接
       </p>
@@ -25,8 +27,12 @@ const Index: Function = (props: Object): React.ChildrenArray<React.Element>=>{
         [(
         <b className={ style.b }>摩点</b>
         &nbsp;或&nbsp;
+        <b className={ style.b }>集资</b>
+        &nbsp;或&nbsp;
         <b className={ style.b }>mod</b>
-        )&nbsp;(
+        )
+        <span className={ style.space }>空格</span>
+        (
         <span className={ style.c1 }>0</span>
         &nbsp;或&nbsp;
         <span className={ style.c1 }>项目信息</span>
@@ -36,12 +42,17 @@ const Index: Function = (props: Object): React.ChildrenArray<React.Element>=>{
         [(
         <b className={ style.b }>摩点</b>
         &nbsp;或&nbsp;
+        <b className={ style.b }>集资</b>
+        &nbsp;或&nbsp;
         <b className={ style.b }>mod</b>
-        )&nbsp;(
+        )
+        <span className={ style.space }>空格</span>
+        (
         <span className={ style.c1 }>1</span>
         &nbsp;或&nbsp;
         <span className={ style.c1 }>聚聚榜</span>
-        )&nbsp;
+        )
+        <span className={ style.space }>空格</span>
         <span className={ style.c2 }>?number</span>
         ]：查看聚聚榜
       </p>
@@ -49,12 +60,17 @@ const Index: Function = (props: Object): React.ChildrenArray<React.Element>=>{
         [(
         <b className={ style.b }>摩点</b>
         &nbsp;或&nbsp;
+        <b className={ style.b }>集资</b>
+        &nbsp;或&nbsp;
         <b className={ style.b }>mod</b>
-        )&nbsp;(
+        )
+        <span className={ style.space }>空格</span>
+        (
         <span className={ style.c1 }>2</span>
         &nbsp;或&nbsp;
         <span className={ style.c1 }>打卡榜</span>
-        )&nbsp;
+        )
+        <span className={ style.space }>空格</span>
         <span className={ style.c2 }>?number</span>
         ]：查看打卡榜
       </p>
@@ -62,12 +78,17 @@ const Index: Function = (props: Object): React.ChildrenArray<React.Element>=>{
         [(
         <b className={ style.b }>摩点</b>
         &nbsp;或&nbsp;
+        <b className={ style.b }>集资</b>
+        &nbsp;或&nbsp;
         <b className={ style.b }>mod</b>
-        )&nbsp;(
+        )
+        <span className={ style.space }>空格</span>
+        (
         <span className={ style.c1 }>3</span>
         &nbsp;或&nbsp;
         <span className={ style.c1 }>订单</span>
-        )&nbsp;
+        )
+        <span className={ style.space }>空格</span>
         <span className={ style.c2 }>?number</span>
         ]：订单查询
       </p>

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Checkbox, Form, Input } from 'antd';
 import style from '../style.sass';
-import * as ShuoMing from '../shuoming';
+import * as ShuoMing from '../utils/shuoming';
 
 class Koudai48LiveListener extends Component{
   static propTypes: Object = {
