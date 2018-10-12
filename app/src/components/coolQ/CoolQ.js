@@ -92,7 +92,7 @@ class CoolQ{
     if(type === 'event' && 'group_id' in dataJson && dataJson.group_id === gn && dataJson.self_id === Number(this.qq)){
       // 群聊天
       if(dataJson.message_type === 'group'){
-        this.callback(dataJson?.raw_message || dataJson.message, this);
+        this.callback(dataJson, this);
       }
       // 新成员加入群
       if(
@@ -100,7 +100,7 @@ class CoolQ{
         && (dataJson.notice_type === 'group_increase' || dataJson.event === 'group_increase')
         && this.option.basic.isNewGroupMember
       ){
-        this.getGroupMemberInfo(dataJson.user_id);
+        this.getGroupMemberInfo(dataJson);
       }
     }
     // 群名片
@@ -121,7 +121,9 @@ class CoolQ{
     }));
   }
   // 查找群成员的名片
-  getGroupMemberInfo(userId: number): void{
+  getGroupMemberInfo(dataJson: Object): void{
+    const userId: number = dataJson.user_id;
+
     this.apiSocket.send(JSON.stringify({
       action: 'get_group_member_info',
       params: {
