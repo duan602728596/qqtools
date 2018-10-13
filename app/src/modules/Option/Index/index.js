@@ -94,7 +94,7 @@ class Index extends Component{
     ];
     return columns;
   }
-  UNSAFE_componentWillMount(): void{
+  componentDidMount(): void{
     this.props.action.cursorOption({
       query: {
         indexName: 'time'

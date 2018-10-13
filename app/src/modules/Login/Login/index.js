@@ -78,7 +78,7 @@ class Login extends Component{
       optionItemIndex: null // 当前选择的配置索引
     };
   }
-  UNSAFE_componentWillMount(): void{
+  componentDidMount(): void{
     this.props.action.cursorOption({
       query: {
         indexName: 'time'

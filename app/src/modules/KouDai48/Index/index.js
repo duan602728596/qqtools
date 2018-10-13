@@ -77,7 +77,7 @@ class KouDai48 extends Component{
       searchResult: []    // 搜索结果
     };
   }
-  UNSAFE_componentWillMount(): void{
+  componentDidMount(): void{
     this.props.action.getLoginInformation({
       query: 'loginInformation'
     });

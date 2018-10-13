@@ -27,7 +27,7 @@ class MemberInformation extends Component{
       roomId: null        // 房间姓名
     };
   }
-  async UNSAFE_componentWillMount(): Promise<void>{
+  async componentDidMount(): Promise<void>{
     try{
       const memberId: number = this.props.item.memberId;
       const infor: Object = await this.props.action.getMemberInformation({
