@@ -14,25 +14,34 @@ type interfaceOptionType = {
   socketPort: string,
   time: number,
   basic: {
+    // 摩点
     isModian: boolean,
+    isModianLeaderboard: boolean,
     modianId: string,
     modianUrlTemplate: string,
     modianTemplate: string,
+    // 口袋48监听
     is48LiveListener: boolean,
     isListenerAll: boolean,
     liveListeningInterval: number,
+    // 成员房间信息监听
     kd48LiveListenerMembers: string,
     isRoomListener: boolean,
     roomId: string,
     isRoomSendImage: boolean,
+    // 微博监听
     isWeiboListener: boolean,
     lfid: string,
+    // 新成员欢迎
     isNewGroupMember: boolean,
     welcomeNewGroupMember: string,
+    // 群内定时消息推送
     isTimingMessagePush: boolean,
     timingMessagePushTime: string,
     timingMessagePushFormat: string,
-    timingMessagePushText: string
+    timingMessagePushText: string,
+    // 群内帮助命令
+    isHelpCommend: boolean
   },
   custom: Object
 };
@@ -71,7 +80,9 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
       isTimingMessagePush: value.isTimingMessagePush,
       timingMessagePushTime: value.timingMessagePushTime,
       timingMessagePushFormat: value.timingMessagePushFormat,
-      timingMessagePushText: value.timingMessagePushText
+      timingMessagePushText: value.timingMessagePushText,
+      // 群内帮助命令
+      isHelpCommend: value.isHelpCommend
     },
     custom
   };

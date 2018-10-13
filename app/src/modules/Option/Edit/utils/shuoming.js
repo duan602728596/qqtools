@@ -81,3 +81,7 @@ export const TimingMessagePushFormat: Function = (props: Object): React.Element 
     <p>每个规则不要有空格，规则和规则之间要有空格。</p>
   </div>
 );
+
+export const IsHelpCommend: Function = (props: Object): React.Element => (
+  <span className={ style.ml10 }>允许群内使用帮助命令查看功能。</span>
+);

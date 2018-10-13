@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
-import { Form, Input, Affix, Button, Table, Modal, message, Popconfirm, Card } from 'antd';
+import { Form, Input, Affix, Button, Table, Modal, message, Popconfirm, Card, Checkbox } from 'antd';
 import interfaceOption, { customProfilesObj2Array } from './interface';
 import style from './style.sass';
 import { putOption } from '../store/reducer';
@@ -15,6 +15,7 @@ import Koudai48RoomListener from './Forms/Koudai48RoomListener';
 import WeiboConfiguration from './Forms/WeiboConfiguration';
 import NewGroupMember from './Forms/NewGroupMember';
 import TimingMessagePush from './Forms/TimingMessagePush';
+import * as ShuoMing from './utils/shuoming';
 
 /**
  * 预留命令：摩点、集资、直播、天气、机器人
@@ -212,6 +213,11 @@ class Add extends Component{
   render(): React.ChildrenArray<React.Element>{
     const { props }: { props: Object } = this;
     const detail: ?Object = 'query' in props.location ? props.location.query.detail : null;
+    const { form }: { form: Object } = props;
+    const { getFieldDecorator }: { getFieldDecorator: Function } = form;
+    const colsArea1: Object = { labelCol: { span: 4 }, wrapperCol: { span: 20 } };
+
+    const isHelpCommend: boolean = detail?.basic?.isHelpCommend; // 开启群内帮助命令
 
     return [
       <Form key="form" className={ style.form } onSubmit={ this.handleSubmit.bind(this) }>
@@ -236,6 +242,17 @@ class Add extends Component{
         <NewGroupMember detail={ detail } { ...props } />
         {/* 群内定时消息推送 */}
         <TimingMessagePush detail={ detail } { ...props } />
+        {/* 帮助 */}
+        <Card className={ style.mb10 } title="帮助命令">
+          <Form.Item label="群内帮助命令" { ...colsArea1 }>
+            {
+              getFieldDecorator('isHelpCommend', {
+                initialValue: isHelpCommend
+              })(<Checkbox defaultChecked={ isHelpCommend } />)
+            }
+            <ShuoMing.IsHelpCommend />
+          </Form.Item>
+        </Card>
         {/* 自定义命令 */}
         <Card title="自定义命令"
           extra={

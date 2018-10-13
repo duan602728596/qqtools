@@ -1,5 +1,4 @@
 /* 公共函数 */
-import { message } from 'antd';
 const gui: Object = global.require('nw.gui');
 
 /**

@@ -2,6 +2,15 @@
 import $ from 'jquery';
 
 async function helpCb(qq: CoolQ): Promise<void>{
+  const { basic, custom }: {
+    basic: Object,
+    custom: Object
+  } = qq.option;
+
+  if(!basic.isHelpCommend){
+    return void 0;
+  }
+
   try{
     const text1: string = `【帮助】
   · [摩点 或 集资 或 mod]:查看当前微打赏链接
@@ -12,13 +21,18 @@ async function helpCb(qq: CoolQ): Promise<void>{
   · [直播列表 或 zb]:查看当前的口袋48直播列表
   · [help]：帮助`;
 
-    let text2: string = '【自定义命令】';
-    $.each(qq.option.custom, (key: string, value: string): void=>{
-      text2 += '\n · ' + key;
-    });
-
     await qq.sendMessage(text1);
-    await qq.sendMessage(text2);
+
+    if(Object.values(custom).length > 0){
+      let text2: string = '【自定义命令】';
+
+      $.each(custom, (key: string, value: string): void=>{
+        text2 += '\n · ' + key;
+      });
+
+      await qq.sendMessage(text2);
+    }
+
   }catch(err){
     console.error(err);
   }
