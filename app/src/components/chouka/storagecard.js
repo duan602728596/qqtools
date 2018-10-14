@@ -27,6 +27,32 @@ export function query(db: Object, userid: string): Promise{
   });
 }
 
+export function query2(db: Object, useridOrNickname: string): Promise{
+  const connection: Object = mysql.createConnection({
+    host: db.hostname,
+    port: db.port,
+    user: db.user,
+    password: db.password,
+    database: db.database
+  });
+  connection.connect();
+
+  return new Promise((resolve: Function, reject: Function): void=>{
+    connection.query(
+      `SELECT id, userid, nickname, record from ${ db.table } WHERE userid=? OR nickname=?`,
+      [useridOrNickname, useridOrNickname],
+      (err: Error, results: Array, fields: any): void=>{
+        if(err){
+          reject(err);
+        }else{
+          resolve(results);
+        }
+        connection.end();
+      }
+    );
+  });
+}
+
 /* 插入数据库信息 */
 export function insert(db: Object, userid: string, nickname: string, record: string): Promise{
   const connection: Object = mysql.createConnection({

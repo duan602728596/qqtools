@@ -26,7 +26,7 @@
           "image": "image/sr1.jpg"
         },
         {
-          "id": "srr2",
+          "id": "sr2",
           "name": "r卡2",
           "image": "image/sr2.jpg"
         }
@@ -37,25 +37,27 @@
     "host": "localhost",
     "port": 3306,
     "user": "root",
-    "password": "password",
+    "password": "数据库密码",
     "database": "数据库库名",
     "table": "数据库表名"
   },
-  "money": 1,
-  "multiple": 0,
-  "image": -1,
+  "money": 0.1,
+  "multiple": 5,
   "注释": {
     "_cards": {
       "_note": "cards字段是配置卡组信息的，类型为数组。数组内位置从小到大对应卡的等级从低到高，卡牌的等级从0开始",
-      "items": {
-        "id": "卡牌的唯一id，不能重复",
-        "name": "卡牌的名字",
-        "image": "图片的地址"
+      "_items": {
+        "_level": "level字段是卡牌的等级名称。例如R、SR、SSR",
+        "_length": "length字段是配置抽卡混合卡组时的数量",
+        "_data": {
+          "_id": "id字段是卡牌的唯一id，不能重复",
+          "_name": "name字段是卡牌的名字",
+          "_image": "image字段是图片的地址"
+        }
       }
     },
     "_db": "db字段是抽卡信息存储的数据库的连接配置。数据库默认使用MariaDB，兼容MySQL",
     "_money": "money字段是抽卡钱数",
-    "_multiple": "multiple是多抽倍数的配置。比如集资金额是抽卡钱数的5倍，则多抽一次，则配置为5。配置为0时没有多抽",
-    "_image": "image字段表示发送图片的最低等级（需要酷Q的pro版本）。比如-1为只发送一张等级最高的图片，3为卡牌等级为3或3以上的发送"
+    "_multiple": "multiple是多抽倍数的配置。比如集资金额是抽卡钱数的5倍，则多抽一次，则配置为5。配置为0时没有多抽"
   }
 }

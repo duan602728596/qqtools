@@ -19,11 +19,11 @@ import TimingMessagePush from './Forms/TimingMessagePush';
 import * as ShuoMing from './utils/shuoming';
 
 /**
- * 预留命令：摩点、集资、直播、天气、机器人
+ * 预留命令：摩点、集资、补卡、查卡、直播
  * 微打赏：摩点、mod
  * 直播：直播列表、zb
  */
-const COMMAND: string = '摩点|集资|mod|直播列表|zb|help';
+const COMMAND: string = '摩点|集资|mod|补卡|查卡直播列表|zb|help';
 
 /* 判断当前的cmd是否存在，并且返回index */
 function getIndex(lists: Array, cmd: string): ?number{

@@ -1,6 +1,7 @@
 /* 轮询的回调函数 */
 import modianCb from '../modian/modianCb';
 import bukaCb from '../chouka/bukaCb';
+import chakaCb from '../chouka/chakaCb';
 import kd48Cb from '../kd48listerer/kd48Cb';
 import customCb from '../custom/customCb';
 import helpCb from '../help/helpCb';
@@ -28,6 +29,10 @@ function fn(command: string[], qq: CoolQ, dataJson: Object): void{
     // 补卡
     case '补卡':
       bukaCb(command, qq, dataJson);
+      break;
+    // 查卡
+    case '查卡':
+      chakaCb(command, qq);
       break;
     // 口袋当前直播
     case '直播列表':

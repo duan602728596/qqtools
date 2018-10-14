@@ -74,7 +74,7 @@ export function chouka(
   const isBuKa: boolean = !(buka === null || buka === undefined);
 
   // 正常抽卡次数
-  const zhengchangchouka: number = isBuKa ? buka : Math.floor(choukaMoney / money);
+  const zhengchangchouka: number = isBuKa ? buka : Math.floor(money / choukaMoney);
 
   // 多抽卡次数
   let duochoukacishu: number = 0;

@@ -94,6 +94,26 @@ const Index: Function = (props: Object): React.ChildrenArray<React.Element>=>{
       </p>
       <p className={ style.p }>
         [
+        <b className={ style.b }>补卡</b>
+        <span className={ style.space }>空格</span>
+        <b className={ style.c1 }>摩点ID</b>
+        <span className={ style.space }>空格</span>
+        <b className={ style.c2 }>number</b>
+        ]：补卡
+      </p>
+      <p className={ style.p }>
+        [
+        <b className={ style.b }>查卡</b>
+        <span className={ style.space }>空格</span>
+        (
+        <b className={ style.c1 }>摩点ID</b>
+        &nbsp;或&nbsp;
+        <b className={ style.c1 }>摩点昵称</b>
+        )
+        ]：查卡
+      </p>
+      <p className={ style.p }>
+        [
         <b className={ style.b }>直播列表</b>
         &nbsp;或&nbsp;
         <b className={ style.b }>zb</b>

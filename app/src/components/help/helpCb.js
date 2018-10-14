@@ -18,6 +18,8 @@ async function helpCb(qq: CoolQ): Promise<void>{
   · [(摩点 或 集资 或 mod) (1 或 聚聚榜) ?number]:查看聚聚榜
   · [(摩点 或 集资 或 mod) (2 或 打卡榜) ?number]:查看打卡榜
   · [(摩点 或 集资 或 mod) (3 或 订单) ?number]:订单查询
+  · [补卡 摩点ID number]:补卡
+  · [查卡 (摩点ID 或 摩点昵称)]:查卡
   · [直播列表 或 zb]:查看当前的口袋48直播列表
   · [help]：帮助`;
 
