@@ -10,6 +10,7 @@ import style from './style.sass';
 import { putOption } from '../store/reducer';
 import BasicConfiguration from './Forms/BasicConfiguration';
 import ModianConfiguration from './Forms/ModianConfiguration';
+import ChoukaConfiguration from './Forms/ChoukaConfiguration';
 import Koudai48LiveListener from './Forms/Koudai48LiveListener';
 import Koudai48RoomListener from './Forms/Koudai48RoomListener';
 import WeiboConfiguration from './Forms/WeiboConfiguration';
@@ -215,7 +216,7 @@ class Add extends Component{
     const detail: ?Object = 'query' in props.location ? props.location.query.detail : null;
     const { form }: { form: Object } = props;
     const { getFieldDecorator }: { getFieldDecorator: Function } = form;
-    const colsArea1: Object = { labelCol: { span: 4 }, wrapperCol: { span: 20 } };
+    const colsArea1: Object = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };
 
     const isHelpCommend: boolean = detail?.basic?.isHelpCommend; // 开启群内帮助命令
 
@@ -232,6 +233,8 @@ class Add extends Component{
         <BasicConfiguration detail={ detail } { ...props } />
         {/* 摩点项目配置 */}
         <ModianConfiguration detail={ detail } { ...props } />
+        {/* 摩点抽卡配置 */}
+        <ChoukaConfiguration detail={ detail } { ...props } />
         {/* 口袋48直播监听配置 */}
         <Koudai48LiveListener detail={ detail } { ...props } />
         {/* 口袋48成员房间信息监听配置 */}

@@ -6,7 +6,7 @@ type CardsInformation = Array<{
   data: Array<{
     id: string,
     name: string,
-    url: string
+    image: string
   }>
 }>;
 
@@ -58,10 +58,10 @@ function randomCards(cardsInformation: CardsInformation): Array{
 
 /**
  * @param { Array } cardsInformation: 卡组信息
- * @param { number } choukaMoney   : 抽卡钱数
- * @param { number } money         : 钱数
- * @param { number } multiple      : 多抽倍数
- * @param { ?number } buka         : 补卡次数
+ * @param { number } choukaMoney    : 抽卡钱数
+ * @param { number } money          : 钱数
+ * @param { number } multiple       : 多抽倍数
+ * @param { ?number } buka          : 补卡次数
  */
 export function chouka(
   cardsInformation: CardsInformation,
