@@ -3,6 +3,7 @@ import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Form, Input, Checkbox, message } from 'antd';
 import style from '../style.sass';
+import * as ShuoMing from '../utils/shuoming';
 const path: Object = global.require('path');
 
 class ChoukaConfiguration extends Component{
@@ -35,7 +36,8 @@ class ChoukaConfiguration extends Component{
     const { getFieldDecorator }: { getFieldDecorator: Function } = form;
     const colsArea3: Object = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };
 
-    const isChouka: boolean = detail?.basic?.isChouka; // 开启抽卡功能
+    const isChouka: boolean = detail?.basic?.isChouka;                   // 开启抽卡功能
+    const isChoukaSendImage: boolean = detail?.basic?.isChoukaSendImage; // 抽卡发送图片
 
     return (
       <Card className={ style.mb10 } title="摩点抽卡配置">
@@ -45,6 +47,14 @@ class ChoukaConfiguration extends Component{
               initialValue: isChouka
             })(<Checkbox defaultChecked={ isChouka } />)
           }
+        </Form.Item>
+        <Form.Item label="发送图片" { ...colsArea3 }>
+          {
+            getFieldDecorator('isChoukaSendImage', {
+              initialValue: isChoukaSendImage
+            })(<Checkbox defaultChecked={ isChoukaSendImage } />)
+          }
+          <ShuoMing.IsChoukaSendImage />
         </Form.Item>
         <Form.Item label="卡牌信息文件地址" { ...colsArea3 }>
           {
@@ -58,6 +68,14 @@ class ChoukaConfiguration extends Component{
             accept=".json"
             onChange={ this.handleChangeJsonChange }
           />
+        </Form.Item>
+        <Form.Item label="允许补卡的QQ号" { ...colsArea3 }>
+          {
+            getFieldDecorator('bukaQQNumber', {
+              initialValue: detail ? detail.basic.bukaQQNumber : ''
+            })(<Input.TextArea className={ style.template } rows={ 5 } />)
+          }
+          <ShuoMing.BukaQQNumber />
         </Form.Item>
       </Card>
     );

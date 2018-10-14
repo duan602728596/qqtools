@@ -29,7 +29,12 @@ export const ModianTemplate: Function = (props: Object): React.Element => (
     <p>backercount：集资参与人数</p>
     <p>endtime：项目截止时间</p>
     <p>timedifference：项目截止相差时间（格式：【x天x时x分x秒】）</p>
+    <p>chouka: 当你配置了抽卡时，会输出抽卡信息</p>
   </div>
+);
+
+export const IsChoukaSendImage: Function = (props: Object): React.Element => (
+  <span className={ style.ml10 }>该功能只限于酷QPro版本，在抽卡时发送卡牌图片。</span>
 );
 
 export const Kd48LiveListenerMembers: Function = (props: Object): React.Element => (
@@ -38,6 +43,10 @@ export const Kd48LiveListenerMembers: Function = (props: Object): React.Element 
 
 export const IsRoomSendImage: Function = (props: Object): React.Element => (
   <span className={ style.ml10 }>该功能只限于酷QPro版本。</span>
+);
+
+export const BukaQQNumber: Function = (props: Object): React.Element => (
+  <div className={ style.shuoming }>多个QQ号之间用","（半角逗号）分隔。</div>
 );
 
 export const WeiBo: Function = (props: Object): React.Element => (

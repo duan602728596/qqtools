@@ -48,20 +48,6 @@ const option: {
         // 登录信息存储
         name: 'loginInformation',
         key: 'key'
-      },
-      {
-        name: 'chouka',
-        key: 'chouka',
-        data: [
-          {
-            name: 'choukaObjectStoreList',
-            index: 'choukaObjectStoreList'
-          },
-          {
-            name: 'version',
-            index: 'version'
-          }
-        ]
       }
     ]
   }

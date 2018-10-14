@@ -20,6 +20,11 @@ type interfaceOptionType = {
     modianId: string,
     modianUrlTemplate: string,
     modianTemplate: string,
+    // 抽卡
+    isChouka: boolean,
+    isChoukaSendImage: boolean,
+    choukaJson: string,
+    bukaQQNumber: string,
     // 口袋48监听
     is48LiveListener: boolean,
     isListenerAll: boolean,
@@ -61,6 +66,11 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
       modianId: value.modianId,
       modianUrlTemplate: value.modianUrlTemplate,
       modianTemplate: value.modianTemplate,
+      // 抽卡
+      isChouka: value.isChouka,
+      isChoukaSendImage: value.isChoukaSendImage,
+      choukaJson: value.choukaJson,
+      bukaQQNumber: value.bukaQQNumber,
       // 口袋48监听
       is48LiveListener: value.is48LiveListener,
       isListenerAll: value.isListenerAll,

@@ -91,3 +91,14 @@ export function handleOpenBrowser(href: string, event: Event): void{
   event.preventDefault();
   gui.Shell.openExternal(href);
 }
+
+/* 清除node的缓存 */
+export function cleanRequireCache(id: string): void{
+  const modulePath: string = global.require.resolve(id);
+
+  if(module.parent){
+    module.parent.children.splice(module.parent.children.indexOf(id), 1);
+  }
+
+  global.require.cache[modulePath] = null;
+}

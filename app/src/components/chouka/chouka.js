@@ -69,12 +69,12 @@ export function chouka(
   money: number,
   multiple: number = 0,
   buka: ?number = null
-): Array{
+): Object{
   // 是否为补卡
-  const isBuKa: boolean = buka === null || buka === undefined;
+  const isBuKa: boolean = !(buka === null || buka === undefined);
 
   // 正常抽卡次数
-  const zhengchangchouka: number = isBuKa ? Math.floor(choukaMoney / money) : buka;
+  const zhengchangchouka: number = isBuKa ? buka : Math.floor(choukaMoney / money);
 
   // 多抽卡次数
   let duochoukacishu: number = 0;
@@ -87,8 +87,7 @@ export function chouka(
   const allchouka: number = zhengchangchouka + duochoukacishu;
 
   // 抽卡
-  const result: [] = [];
-  let best: ?number = null;  // 最好的卡
+  const result: Object = {};
 
   for(let i: number = 0, rc: [] = randomCards(cardsInformation); i < allchouka; i++){
     // 5的倍数时重新随机卡组
@@ -96,21 +95,16 @@ export function chouka(
       rc = randomCards(cardsInformation);
     }
 
-    const item: Object = { ...rc[random(rc.length)] };
+    const item: Object = {
+      ...rc[random(rc.length)]
+    };
 
-    // 查找最好的卡并做标记
-    if(best){
-      if(item.level > result[best].level){
-        best = i;
-        item.isBest = true;
-        delete result[best].isBest;
-      }
+    if(item.id in result){
+      result[item.id].length += 1;
     }else{
-      best = i;
-      item.isBest = true;
+      item.length = 1;
+      result[item.id] = item;
     }
-
-    result.push(item);
   }
 
   return result;

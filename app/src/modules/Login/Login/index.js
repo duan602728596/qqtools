@@ -14,7 +14,7 @@ import { changeQQLoginList, cursorOption, kd48LiveListenerTimer, getLoginInforma
 import callback from '../../../components/callback/index';
 import Detail from './Detail';
 import getModianInformation from '../../../components/modian/getModianInformation';
-import { str2reg, str2numberArray } from '../../../utils';
+import { str2reg, str2numberArray, cleanRequireCache } from '../../../utils';
 import kd48timer, { init } from '../../../components/kd48listerer/timer';
 import ModianWorker from 'worker-loader?name=script/[hash:5].worker.js!../../../components/modian/modian.worker';
 import WeiBoWorker from 'worker-loader?name=script/[hash:5].worker.js!../../../components/weibo/weibo.worker';
@@ -106,6 +106,7 @@ class Login extends Component{
     try{
       const basic: Object = qq.option.basic;
       qq.time = moment().unix();
+
       // 获取摩点相关信息
       if(basic.isModian){
         const { title, goal }: {
@@ -124,6 +125,13 @@ class Login extends Component{
         });
         qq.modianWorker.addEventListener('message', qq.listenModianWorkerCbInformation.bind(qq), false);
         message.success('摩点监听已就绪。');
+      }
+
+      // 抽卡
+      if(basic.isChouka){
+        cleanRequireCache(basic.choukaJson);
+        qq.choukaJson = global.require(basic.choukaJson);
+        qq.bukaQQNumber = str2numberArray(basic.bukaQQNumber);
       }
 
       // 口袋48直播监听

@@ -65,6 +65,7 @@ async function polling(): Promise<void>{
         const pay_time: number = new Date(item.pay_success_time).getTime();
         if(pay_time > oldTime){
           jizi.push({
+            userid: item.user_id,
             pay_amount: item.backer_money,
             nickname: item.nickname
           });

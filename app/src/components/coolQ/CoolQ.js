@@ -1,6 +1,8 @@
 import { message } from 'antd';
 import { requestRoomMessage, requestUserInformation } from '../kd48listerer/roomListener';
 import { templateReplace } from '../../utils';
+import { chouka } from '../chouka/chouka';
+import * as storagecard from '../chouka/storagecard';
 
 class CoolQ{
   time: number;
@@ -19,6 +21,8 @@ class CoolQ{
   modianTitle: ?string;
   modianGoal: ?string;
   modianWorker: ?Worker;
+  choukaJson: ?Object;
+  bukaQQNumber: ?Array;
   members: ?RegExp;
   memberId: ?Array;
   roomListenerTimer: ?number;
@@ -52,6 +56,8 @@ class CoolQ{
     this.modianTitle = null;             // 摩点项目标题
     this.modianGoal = null;              // 摩点项目目标
     this.modianWorker = null;            // 摩点新线程
+    this.choukaJson = null;              // 抽卡配置
+    this.bukaQQNumber = null;            // 允许群里补卡的qq号
     // 口袋48监听相关
     this.members = null;                 // 监听指定成员
     this.memberId = null;                // 坚听成员id
@@ -202,12 +208,54 @@ class CoolQ{
           endTime: string,
           timedifference: string
         } = event.data;
-        const { modianTemplate }: { modianTemplate: string } = this.option.basic;
+        const { modianTemplate, isChouka, isChoukaSendImage }: {
+          modianTemplate: string,
+          isChouka: boolean,
+          isChoukaSendImage: boolean
+        } = this.option.basic;
         const amountDifference: number = (Number(this.modianGoal) - Number(alreadyRaised)).toFixed(2);
+        const { cards, money, multiple, db }: {
+          cards: Array,
+          money: number,
+          multiple: number,
+          db: Object
+        } = this.choukaJson;
 
         // 倒序发送消息
         for(let i: number = data.length - 1; i >= 0; i--){
           const item: Object = data[i];
+
+          // 抽卡
+          const choukaStr: string[] = [];
+
+          if(isChouka){
+            // 把卡存入数据库
+            const kaResult: [] = await storagecard.query(db, item.userid);
+            const record: Object = kaResult.length === 0 ? {} : JSON.parse(kaResult[0].record);
+
+            const choukaResult: Object = chouka(cards, money, Number(item.pay_amount), multiple);
+            let len: number = 0;  // 输出卡牌数量
+
+            for(const key: string in choukaResult){
+              const item2: Object = choukaResult[key];
+              let str: string = `【${ item2.level }】${ item2.name } * ${ item2.length }`;
+              if(isChoukaSendImage && len < 5) str += `[CQ:image,file=${ item2.image }]`;
+              choukaStr.push(str);
+
+              if(item2.id in record){
+                record[item2.id] += item2.length;
+              }else{
+                record[item2.id] = item2.length;
+              }
+
+              len += 1;
+            }
+
+            // 把卡存入数据库
+            if(kaResult.length === 0) await storagecard.insert(db, item.userid, item.nickname, record);
+            else await storagecard.update(db, item.userid, item.nickname, record);
+          }
+
           const msg: string = templateReplace(modianTemplate, {
             id: item.nickname,
             money: item.pay_amount,
@@ -218,7 +266,8 @@ class CoolQ{
             backercount: backerCount,
             amountdifference: amountDifference,
             endtime: endTime,
-            timedifference
+            timedifference,
+            chouka: choukaStr.join('\n')
           });
 
           await this.sendMessage(msg);

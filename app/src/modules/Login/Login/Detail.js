@@ -70,6 +70,18 @@ const Detail: ?Object = (props: ?Object): ?React.Element=>{
               )
             }
           </td>
+          <td className={ style.tdTitle }>开启排行榜查询</td>
+          <td>
+            {
+              detail.basic.isModianLeaderboard ? (
+                <span className={ style.on }>开启</span>
+              ) : (
+                <span className={ style.off }>未开启</span>
+              )
+            }
+          </td>
+        </tr>
+        <tr>
           <td className={ style.tdTitle }>摩点项目ID</td>
           <td>{ detail.basic.modianId }</td>
         </tr>
@@ -83,6 +95,44 @@ const Detail: ?Object = (props: ?Object): ?React.Element=>{
           <td className={ style.tdTitle }>摩点项目模板</td>
           <td colSpan={ 3 }>
             <pre>{ detail.basic.modianTemplate }</pre>
+          </td>
+        </tr>
+        {/* 抽卡 */}
+        <tr>
+          <td className={ style.tdGTitle } colSpan={ 4 }>摩点抽卡配置：</td>
+        </tr>
+        <tr>
+          <td className={ style.tdTitle }>开启摩点抽卡功能</td>
+          <td>
+            {
+              detail.basic.isChouka ? (
+                <span className={ style.on }>开启</span>
+              ) : (
+                <span className={ style.off }>未开启</span>
+              )
+            }
+          </td>
+          <td className={ style.tdTitle }>发送图片</td>
+          <td>
+            {
+              detail.basic.isChoukaSendImage ? (
+                <span className={ style.on }>开启</span>
+              ) : (
+                <span className={ style.off }>未开启</span>
+              )
+            }
+          </td>
+        </tr>
+        <tr>
+          <td className={ style.tdTitle }>卡牌信息文件地址</td>
+          <td colSpan={ 3 }>
+            <pre>{ detail.basic.choukaJson }</pre>
+          </td>
+        </tr>
+        <tr>
+          <td className={ style.tdTitle }>允许补卡的QQ号</td>
+          <td colSpan={ 3 }>
+            <pre>{ detail.basic.bukaQQNumber }</pre>
           </td>
         </tr>
         {/* 直播监听 */}
