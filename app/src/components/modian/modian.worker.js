@@ -92,7 +92,7 @@ async function polling(): Promise<void>{
       }
     }
   }catch(err){
-    console.log(err);
+    console.error(err);
   }
 }
 
