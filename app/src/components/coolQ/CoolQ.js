@@ -219,7 +219,7 @@ class CoolQ{
           money: number,
           multiple: number,
           db: Object
-        } = this.choukaJson;
+        } = this.choukaJson || {};
 
         // 倒序发送消息
         for(let i: number = data.length - 1; i >= 0; i--){

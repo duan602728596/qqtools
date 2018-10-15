@@ -132,6 +132,7 @@ class Login extends Component{
         cleanRequireCache(basic.choukaJson);
         qq.choukaJson = global.require(basic.choukaJson);
         qq.bukaQQNumber = str2numberArray(basic.bukaQQNumber);
+        message.success('抽卡已就绪。');
       }
 
       // 口袋48直播监听
