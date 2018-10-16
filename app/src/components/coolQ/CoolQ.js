@@ -3,6 +3,7 @@ import { requestRoomMessage, requestUserInformation } from '../kd48listerer/room
 import { templateReplace } from '../../utils';
 import { chouka } from '../chouka/chouka';
 import * as storagecard from '../chouka/storagecard';
+import bestCards from '../chouka/bestCards';
 
 class CoolQ{
   time: number;
@@ -227,6 +228,7 @@ class CoolQ{
 
           // 抽卡
           const choukaStr: string[] = [];
+          let cqImage: string = '';
 
           if(isChouka){
             // 把卡存入数据库
@@ -238,8 +240,7 @@ class CoolQ{
 
             for(const key: string in choukaResult){
               const item2: Object = choukaResult[key];
-              let str: string = `【${ item2.level }】${ item2.name } * ${ item2.length }`;
-              if(isChoukaSendImage && len < 5) str += `[CQ:image,file=${ item2.image }]`;
+              const str: string = `【${ item2.level }】${ item2.name } * ${ item2.length }`;
               choukaStr.push(str);
 
               if(item2.id in record){
@@ -249,6 +250,10 @@ class CoolQ{
               }
 
               len += 1;
+            }
+
+            if(isChoukaSendImage){
+              cqImage = bestCards(choukaResult, 2);
             }
 
             // 把卡存入数据库
@@ -267,7 +272,7 @@ class CoolQ{
             amountdifference: amountDifference,
             endtime: endTime,
             timedifference,
-            chouka: choukaStr.join('\n')
+            chouka: `${ choukaStr.join('\n') }${ cqImage }`
           });
 
           await this.sendMessage(msg);

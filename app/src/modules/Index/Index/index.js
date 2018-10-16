@@ -34,6 +34,26 @@ class Index extends Component{
           </a>
           。
         </p>
+        <p className={ style.text }>
+          酷Q下载地址：
+          <Icon type="qq" theme="outlined" />
+          <a className={ style.url }
+            onClick={ handleOpenBrowser.bind(this, 'https://cqp.cc/') }
+          >
+            https://cqp.cc/
+          </a>
+          。
+        </p>
+        <p className={ style.text }>
+          coolq-http-api：
+          <Icon type="build" theme="filled" />
+          <a className={ style.url }
+            onClick={ handleOpenBrowser.bind(this, 'https://github.com/richardchien/coolq-http-api/releases') }
+          >
+            https://github.com/richardchien/coolq-http-api/releases
+          </a>
+          。
+        </p>
         <div className={ style.test }>
           <Button className={ style.clearCache } onClick={ this.handleClearCacheClick.bind(this) }>清除缓存</Button>
         </div>
