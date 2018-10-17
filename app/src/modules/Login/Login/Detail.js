@@ -253,6 +253,22 @@ const Detail: ?Object = (props: ?Object): ?React.Element=>{
             <pre>{ detail.basic.timingMessagePushText }</pre>
           </td>
         </tr>
+        {/* 群内帮助命令 */}
+        <tr>
+          <td className={ style.tdGTitle } colSpan={ 4 }>帮助：</td>
+        </tr>
+        <tr>
+          <td className={ style.tdTitle }>群内帮助命令</td>
+          <td colSpan={ 3 }>
+            {
+              detail.basic.isHelpCommend ? (
+                <span className={ style.on }>开启</span>
+              ) : (
+                <span className={ style.off }>未开启</span>
+              )
+            }
+          </td>
+        </tr>
         {/* 自定义命令 */}
         <tr>
           <td className={ style.tdGTitle } colSpan={ 4 }>自定义命令</td>
