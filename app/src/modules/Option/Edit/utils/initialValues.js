@@ -9,4 +9,4 @@ export const modianTemplate: string = '@{{ id }} 刚刚在【{{ modianname }}】
   + '项目截止时间：{{ endtime }}\n'
   + '距离项目截止还有：{{ timedifference }}';
 
-export const welcomeNewGroupMember: string = '欢迎{{ nickname }}加入。';
+export const welcomeNewGroupMember: string = '欢迎[CQ:at,qq={{ userid }}]【{{ nickname }}】加入。';

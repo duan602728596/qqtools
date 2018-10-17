@@ -61,7 +61,8 @@ export const WeiBo: Function = (props: Object): React.Element => (
 export const WelcomeNewGroupMember: Function = (props: Object): React.Element => (
   <div className={ style.shuoming }>
     <h6>模板关键字：</h6>
-    <p>nickname：群成员的昵称</p>
+    <p>nickname：新加入成员的昵称</p>
+    <p>userid：新加入成员的QQ号</p>
   </div>
 );
 

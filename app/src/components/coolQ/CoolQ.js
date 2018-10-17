@@ -111,8 +111,11 @@ class CoolQ{
     }
     // 群名片
     if('data' in dataJson && 'nickname' in dataJson.data && 'group_id' in dataJson.data && dataJson.data.group_id === gn){
+      const { nickname, user_id }: { nickname: string, user_id: number } = dataJson.data;
+
       this.sendMessage(templateReplace(this.option.basic.welcomeNewGroupMember, {
-        nickname: dataJson.data.nickname
+        nickname,
+        userid: user_id
       }));
     }
   }
