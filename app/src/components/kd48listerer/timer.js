@@ -49,7 +49,7 @@ async function kd48timer(): Promise<void>{
       oldList = newDataObj; // 覆盖旧数据
       // 当有新直播时，遍历已登录的CoolQ，并发送数据
       if(newLive.length > 0){
-        const ll: Object | Array = store.getState().get('login').get('qqLoginList');
+        const ll: Immutable.Map | Array = store.getState().get('login').get('qqLoginList');
         const ll2: Array = ll instanceof Array ? ll : ll.toJS();
 
         // 发送数据
@@ -57,10 +57,12 @@ async function kd48timer(): Promise<void>{
           const item1: Object = newLive[i1];
           for(let i2: number = 0; i2 < j2; i2++){
             const item2: Object = ll2[i2];
+            const basic: Object = item2.option.basic;
+
             if(
-              item2.option.basic.is48LiveListener // 开启直播功能
+              basic.is48LiveListener // 开启直播功能
               && (
-                item2.option.basic.isListenerAll                       // 监听所有成员
+                basic.isListenerAll                       // 监听所有成员
                 || (item2.members && item2.members.test(item1.title))  // 正则匹配监听指定成员
                 || (item2.memberId && item2.memberId.includes(item1.memberId)) // id精确匹配监听指定成员
               )
@@ -70,10 +72,14 @@ async function kd48timer(): Promise<void>{
                 time1: string = time('YY-MM-DD hh:mm:ss', item1.startTime),
                 streamPath: string = item1.streamPath,
                 qq: CoolQ = item2;
-              const text: string = `${ member } 开启了一个${ item1.liveType === 1 ? '直播' : '电台' }。\n`
+              let text: string = `${ member } 开启了一个${ item1.liveType === 1 ? '直播' : '电台' }。\n`
                                  + `直播标题：${ subTitle }\n`
                                  + `开始时间：${ time1 }\n`
                                  + `视频地址：${ streamPath }`;
+
+              // @所有人的功能
+              if(basic.is48LiveAtAll) text = `[CQ:at,qq=all] ${ text }`;
+
               await qq.sendMessage(text);
             }
           }

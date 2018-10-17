@@ -17,6 +17,7 @@ class Koudai48LiveListener extends Component{
     const colsArea2: Object = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };
 
     const is48LiveListener: boolean = detail?.basic?.is48LiveListener; // 口袋48直播
+    const is48LiveAtAll: boolean = detail?.basic?.is48LiveAtAll;       // @所有成员
     const isListenerAll: boolean = detail?.basic?.isListenerAll;       // 监听所有成员
 
     return (
@@ -33,6 +34,13 @@ class Koudai48LiveListener extends Component{
             getFieldDecorator('isListenerAll', {
               initialValue: isListenerAll
             })(<Checkbox defaultChecked={ isListenerAll } />)
+          }
+        </Form.Item>
+        <Form.Item label="@所有成员" { ...colsArea2 }>
+          {
+            getFieldDecorator('is48LiveAtAll', {
+              initialValue: is48LiveAtAll
+            })(<Checkbox defaultChecked={ is48LiveAtAll } />)
           }
         </Form.Item>
         <Form.Item label="监听成员" { ...colsArea2 }>

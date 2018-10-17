@@ -28,6 +28,7 @@ type interfaceOptionType = {
     // 口袋48监听
     is48LiveListener: boolean,
     isListenerAll: boolean,
+    is48LiveAtAll: boolean,
     liveListeningInterval: number,
     // 成员房间信息监听
     kd48LiveListenerMembers: string,
@@ -36,6 +37,7 @@ type interfaceOptionType = {
     isRoomSendImage: boolean,
     // 微博监听
     isWeiboListener: boolean,
+    isWeiboAtAll: boolean,
     lfid: string,
     // 新成员欢迎
     isNewGroupMember: boolean,
@@ -74,6 +76,7 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
       // 口袋48监听
       is48LiveListener: value.is48LiveListener,
       isListenerAll: value.isListenerAll,
+      is48LiveAtAll: value.is48LiveAtAll,
       kd48LiveListenerMembers: value.kd48LiveListenerMembers,
       // 成员房间信息监听
       isRoomListener: value.isRoomListener,
@@ -82,6 +85,7 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
       liveListeningInterval: value.liveListeningInterval,
       // 微博监听
       isWeiboListener: value.isWeiboListener,
+      isWeiboAtAll: value.isWeiboAtAll,
       lfid: value.lfid,
       // 新成员欢迎
       isNewGroupMember: value.isNewGroupMember,

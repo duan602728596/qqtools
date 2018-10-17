@@ -33,12 +33,18 @@ function customProfiles(customProfiles: Object): Array{
   }
 }
 
+function isOpen(data: boolean): React.Element{
+  return data ? <span className={ style.on }>开启</span> : <span className={ style.off }>未开启</span>;
+}
+
 const Detail: ?Object = (props: ?Object): ?React.Element=>{
   if(!props.detail){
     return null;
   }
 
   const { detail }: { detail: Object } = props;
+  const { basic }: { basic: Object } = detail;
+
   return (
     <table className={ style.detail }>
       <tbody>
@@ -61,40 +67,24 @@ const Detail: ?Object = (props: ?Object): ?React.Element=>{
         </tr>
         <tr>
           <td className={ style.tdTitle }>开启摩点项目监听功能</td>
-          <td>
-            {
-              detail.basic.isModian ? (
-                <span className={ style.on }>开启</span>
-              ) : (
-                <span className={ style.off }>未开启</span>
-              )
-            }
-          </td>
+          <td>{ isOpen(basic.isModian) }</td>
           <td className={ style.tdTitle }>开启排行榜查询</td>
-          <td>
-            {
-              detail.basic.isModianLeaderboard ? (
-                <span className={ style.on }>开启</span>
-              ) : (
-                <span className={ style.off }>未开启</span>
-              )
-            }
-          </td>
+          <td>{ isOpen(basic.isModianLeaderboard) }</td>
         </tr>
         <tr>
           <td className={ style.tdTitle }>摩点项目ID</td>
-          <td>{ detail.basic.modianId }</td>
+          <td colSpan={ 3 }>{ basic.modianId }</td>
         </tr>
         <tr>
           <td className={ style.tdTitle }>摩点项目命令</td>
           <td colSpan={ 3 }>
-            <pre>{ detail.basic.modianUrlTemplate }</pre>
+            <pre>{ basic.modianUrlTemplate }</pre>
           </td>
         </tr>
         <tr>
           <td className={ style.tdTitle }>摩点项目模板</td>
           <td colSpan={ 3 }>
-            <pre>{ detail.basic.modianTemplate }</pre>
+            <pre>{ basic.modianTemplate }</pre>
           </td>
         </tr>
         {/* 抽卡 */}
@@ -103,36 +93,20 @@ const Detail: ?Object = (props: ?Object): ?React.Element=>{
         </tr>
         <tr>
           <td className={ style.tdTitle }>开启摩点抽卡功能</td>
-          <td>
-            {
-              detail.basic.isChouka ? (
-                <span className={ style.on }>开启</span>
-              ) : (
-                <span className={ style.off }>未开启</span>
-              )
-            }
-          </td>
+          <td>{ isOpen(basic.isChouka) }</td>
           <td className={ style.tdTitle }>发送图片</td>
-          <td>
-            {
-              detail.basic.isChoukaSendImage ? (
-                <span className={ style.on }>开启</span>
-              ) : (
-                <span className={ style.off }>未开启</span>
-              )
-            }
-          </td>
+          <td>{ isOpen(basic.isChoukaSendImage) }</td>
         </tr>
         <tr>
           <td className={ style.tdTitle }>卡牌信息文件地址</td>
           <td colSpan={ 3 }>
-            <pre>{ detail.basic.choukaJson }</pre>
+            <pre>{ basic.choukaJson }</pre>
           </td>
         </tr>
         <tr>
           <td className={ style.tdTitle }>允许补卡的QQ号</td>
           <td colSpan={ 3 }>
-            <pre>{ detail.basic.bukaQQNumber }</pre>
+            <pre>{ basic.bukaQQNumber }</pre>
           </td>
         </tr>
         {/* 直播监听 */}
@@ -141,20 +115,18 @@ const Detail: ?Object = (props: ?Object): ?React.Element=>{
         </tr>
         <tr>
           <td className={ style.tdTitle }>开启口袋48直播监听功能</td>
-          <td>
-            {
-              detail.basic.is48LiveListener ? (
-                <span className={ style.on }>开启</span>
-              ) : (
-                <span className={ style.off }>未开启</span>
-              )
-            }
-          </td>
+          <td>{ isOpen(basic.is48LiveListener) }</td>
+          <td className={ style.tdTitle }>监听所有成员</td>
+          <td>{ isOpen(basic.isListenerAll) }</td>
+        </tr>
+        <tr>
+          <td className={ style.tdTitle }>@所有成员</td>
+          <td colSpan={ 3 }>{ isOpen(basic.is48LiveAtAll) }</td>
         </tr>
         <tr>
           <td className={ style.tdTitle }>监听成员</td>
           <td colSpan={ 3 }>
-            <pre>{ detail.basic.kd48LiveListenerMembers }</pre>
+            <pre>{ basic.kd48LiveListenerMembers }</pre>
           </td>
         </tr>
         {/* 成员房间信息监听 */}
@@ -163,31 +135,15 @@ const Detail: ?Object = (props: ?Object): ?React.Element=>{
         </tr>
         <tr>
           <td className={ style.tdTitle }>开启成员房间信息监听功能</td>
-          <td>
-            {
-              detail.basic.isRoomListener ? (
-                <span className={ style.on }>开启</span>
-              ) : (
-                <span className={ style.off }>未开启</span>
-              )
-            }
-          </td>
+          <td>{ isOpen(basic.isRoomListener) }</td>
           <td className={ style.tdTitle }>房间ID</td>
-          <td>{ detail.basic.roomId }</td>
+          <td>{ basic.roomId }</td>
         </tr>
         <tr>
           <td className={ style.tdTitle }>发送图片和图片链接（只限于酷QPro版本）</td>
-          <td>
-            {
-              detail.basic.isRoomSendImage ? (
-                <span className={ style.on }>开启</span>
-              ) : (
-                <span className={ style.off }>未开启</span>
-              )
-            }
-          </td>
+          <td>{ isOpen(basic.isRoomSendImage) }</td>
           <td className={ style.tdTitle }>监听间隔（秒）</td>
-          <td>{ detail.basic.liveListeningInterval }</td>
+          <td>{ basic.liveListeningInterval }</td>
         </tr>
         {/* 微博监听 */}
         <tr>
@@ -195,17 +151,13 @@ const Detail: ?Object = (props: ?Object): ?React.Element=>{
         </tr>
         <tr>
           <td className={ style.tdTitle }>开启微博监听功能</td>
-          <td>
-            {
-              detail.basic.isWeiboListener ? (
-                <span className={ style.on }>开启</span>
-              ) : (
-                <span className={ style.off }>未开启</span>
-              )
-            }
-          </td>
+          <td>{ isOpen(basic.isWeiboListener) }</td>
+          <td className={ style.tdTitle }>@所有成员</td>
+          <td>{ isOpen(basic.isWeiboAtAll) }</td>
+        </tr>
+        <tr>
           <td className={ style.tdTitle }>微博lfid</td>
-          <td>{ detail.basic.lfid }</td>
+          <td colSpan={ 3 }>{ basic.lfid }</td>
         </tr>
         {/* 欢迎新成员 */}
         <tr>
@@ -213,20 +165,12 @@ const Detail: ?Object = (props: ?Object): ?React.Element=>{
         </tr>
         <tr>
           <td className={ style.tdTitle }>开启欢迎新成员功能</td>
-          <td>
-            {
-              detail.basic.isNewGroupMember ? (
-                <span className={ style.on }>开启</span>
-              ) : (
-                <span className={ style.off }>未开启</span>
-              )
-            }
-          </td>
+          <td colSpan={ 3 }>{ isOpen(basic.isNewGroupMember) }</td>
         </tr>
         <tr>
           <td className={ style.tdTitle }>欢迎词</td>
           <td colSpan={ 3 }>
-            <pre>{ detail.basic.welcomeNewGroupMember }</pre>
+            <pre>{ basic.welcomeNewGroupMember }</pre>
           </td>
         </tr>
         {/* 群内定时消息推送功能 */}
@@ -235,22 +179,14 @@ const Detail: ?Object = (props: ?Object): ?React.Element=>{
         </tr>
         <tr>
           <td className={ style.tdTitle }>开启群内定时消息推送功能</td>
-          <td>
-            {
-              detail.basic.isTimingMessagePush ? (
-                <span className={ style.on }>开启</span>
-              ) : (
-                <span className={ style.off }>未开启</span>
-              )
-            }
-          </td>
+          <td>{ isOpen(basic.isTimingMessagePush) }</td>
           <td className={ style.tdTitle }>规则配置</td>
-          <td>{ detail.basic.timingMessagePushFormat }</td>
+          <td>{ basic.timingMessagePushFormat }</td>
         </tr>
         <tr>
           <td className={ style.tdTitle }>推送消息</td>
           <td colSpan={ 3 }>
-            <pre>{ detail.basic.timingMessagePushText }</pre>
+            <pre>{ basic.timingMessagePushText }</pre>
           </td>
         </tr>
         {/* 群内帮助命令 */}
@@ -259,15 +195,7 @@ const Detail: ?Object = (props: ?Object): ?React.Element=>{
         </tr>
         <tr>
           <td className={ style.tdTitle }>群内帮助命令</td>
-          <td colSpan={ 3 }>
-            {
-              detail.basic.isHelpCommend ? (
-                <span className={ style.on }>开启</span>
-              ) : (
-                <span className={ style.off }>未开启</span>
-              )
-            }
-          </td>
+          <td colSpan={ 3 }>{ isOpen(basic.isHelpCommend) }</td>
         </tr>
         {/* 自定义命令 */}
         <tr>

@@ -17,6 +17,7 @@ class WeiboConfiguration extends Component{
     const colsArea2: Object = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };
 
     const isWeiboListener: boolean = detail?.basic?.isWeiboListener; // 微博监听
+    const isWeiboAtAll: boolean = detail?.basic?.isWeiboAtAll;       // @所有成员
 
     return (
       <Card className={ style.mb10 } title="成员微博监听配置">
@@ -26,6 +27,13 @@ class WeiboConfiguration extends Component{
             getFieldDecorator('isWeiboListener', {
               initialValue: isWeiboListener
             })(<Checkbox defaultChecked={ isWeiboListener } />)
+          }
+        </Form.Item>
+        <Form.Item label="@所有成员" { ...colsArea2 }>
+          {
+            getFieldDecorator('isWeiboAtAll', {
+              initialValue: isWeiboAtAll
+            })(<Checkbox defaultChecked={ isWeiboAtAll } />)
           }
         </Form.Item>
         <Form.Item label="微博lfid" { ...colsArea2 }>

@@ -378,12 +378,18 @@ class CoolQ{
   }
   // web worker监听到微博的返回信息
   async listenWeiboWorkerCbInformation(event: Event): Promise<void>{
+    const { isWeiboAtAll }: { isWeiboAtAll: boolean } = this.option.basic;
+
     if(event.data.type === 'change'){
       try{
         const { data }: { data: Array } = event.data;
         // 倒序发送消息
         for(let i: number = data.length - 1; i >= 0; i--){
-          const item: string = data[i];
+          let item: string = data[i];
+
+          // @所有人的功能
+          if(isWeiboAtAll) item = `[CQ:at,qq=all] ${ item }`;
+
           await this.sendMessage(item);
         }
       }catch(err){
