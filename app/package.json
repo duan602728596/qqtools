@@ -59,7 +59,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
-    "react-redux": "^5.0.7",
+    "react-redux": "^5.1.0",
     "react-router-dom": "^4.4.0-beta.4",
     "redux": "^4.0.1",
     "redux-actions": "^2.6.3",
