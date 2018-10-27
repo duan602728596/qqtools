@@ -26,21 +26,14 @@ async function bukaCb(command: string[], qq: CoolQ, dataJson: Object): Promise<v
     const record: Object = kaResult.length === 0 ? {} : JSON.parse(kaResult[0].record);
 
     const choukaResult: Object = chouka(cards, money, null, multiple, command[2] ? Number(command[2]) : 1);
-    let len: number = 0;  // 输出卡牌数量
 
     for(const key: string in choukaResult){
       const item2: Object = choukaResult[key];
-      let str: string = `【${ item2.level }】${ item2.name } * ${ item2.length }`;
-      if(basic.isChoukaSendImage && len < 5) str += `[CQ:image,file=${ item2.image }]`;
+      const str: string = `【${ item2.level }】${ item2.name } * ${ item2.length }`;
       choukaStr.push(str);
 
-      if(item2.id in record){
-        record[item2.id] += item2.length;
-      }else{
-        record[item2.id] = item2.length;
-      }
-
-      len += 1;
+      if(item2.id in record) record[item2.id] += item2.length;
+      else record[item2.id] = item2.length;
     }
 
     if(basic.isChoukaSendImage){

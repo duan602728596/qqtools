@@ -239,20 +239,14 @@ class CoolQ{
             const record: Object = kaResult.length === 0 ? {} : JSON.parse(kaResult[0].record);
 
             const choukaResult: Object = chouka(cards, money, Number(item.pay_amount), multiple);
-            let len: number = 0;  // 输出卡牌数量
 
             for(const key: string in choukaResult){
               const item2: Object = choukaResult[key];
               const str: string = `【${ item2.level }】${ item2.name } * ${ item2.length }`;
               choukaStr.push(str);
 
-              if(item2.id in record){
-                record[item2.id] += item2.length;
-              }else{
-                record[item2.id] = item2.length;
-              }
-
-              len += 1;
+              if(item2.id in record) record[item2.id] += item2.length;
+              else record[item2.id] = item2.length;
             }
 
             if(isChoukaSendImage){
