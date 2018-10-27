@@ -1,6 +1,6 @@
 {
   "name": "qqtools2",
-  "version": "2.4.3",
+  "version": "2.5.0",
   "description": "QQ群工具，配合酷Q使用。",
   "license": "GNU General Public License v3.0",
   "scripts": {
@@ -17,7 +17,7 @@
   "main": "./build/index.html",
   "nodejs": true,
   "window": {
-    "title": "QQ群工具-酷Q（v2.4.3）",
+    "title": "QQ群工具-酷Q（v2.5.0）",
     "position": "center",
     "toolbar": true,
     "frame": true,
