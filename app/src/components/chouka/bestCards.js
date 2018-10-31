@@ -24,15 +24,15 @@ function bestCards(cards: Object, len: number): string{
   }
 
   // 返回数据
-  let str: string = '';
+  const str: string[] = [];
 
   for(let i: number = 0, j: number = len > result.length ? result.length : len; i < j; i++){
     const item: Object = result[i];
 
-    str += `[CQ:image,file=${ item.image }]`;
+    str.push(`[CQ:image,file=${ item.image }]`);
   }
 
-  return str;
+  return str.join(' ');
 }
 
 export default bestCards;
