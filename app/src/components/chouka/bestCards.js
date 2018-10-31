@@ -18,6 +18,8 @@ function bestCards(cards: Object, len: number): string{
         result.splice(i, 0, item);
         break;
       }
+      // 当卡是最后一个时
+      if(i === j - 1) result.push(item);
     }
   }
 

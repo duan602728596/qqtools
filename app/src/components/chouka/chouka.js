@@ -79,7 +79,7 @@ export function chouka(
   // 多抽卡次数
   let duochoukacishu: number = 0;
 
-  if(!isBuKa && multiple > 0 && zhengchangchouka > multiple){
+  if(!isBuKa && multiple > 0 && zhengchangchouka >= multiple){
     duochoukacishu = Math.floor(zhengchangchouka / multiple);
   }
 

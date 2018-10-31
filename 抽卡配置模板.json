@@ -7,12 +7,12 @@
         {
           "id": "r1",
           "name": "r卡1",
-          "image": "image/r1.jpg"
+          "image": "r\\r1.jpg"
         },
         {
           "id": "r2",
           "name": "r卡2",
-          "image": "image/r2.jpg"
+          "image": "r\\r2.jpg"
         }
       ]
     },
@@ -23,12 +23,12 @@
         {
           "id": "sr1",
           "name": "sr卡1",
-          "image": "image/sr1.jpg"
+          "image": "sr\\sr1.jpg"
         },
         {
           "id": "sr2",
           "name": "sr卡2",
-          "image": "image/sr2.jpg"
+          "image": "sr\\sr2.jpg"
         }
       ]
     }
