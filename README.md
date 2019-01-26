@@ -28,7 +28,6 @@
   * version: 5.0.0
   * Content-Type: application/json
   * Connection: Keep-Alive
-  * <del>token: 登录后获得的token</del>
 * body:
   * memberId: 成员Id（测试：417331，GNZ48-杨媛媛）
 
@@ -57,8 +56,22 @@
   * version: 5.0.0
   * Content-Type: application/json
   * Connection: Keep-Alive
-  * <del>token: 登录后获得的token</del>
 * body:
   * needRecommend: false
   * needChatInfo: false
   * needFriendsNum: false
+
+## 翻牌信息（来自：[https://github.com/xsaiting/pocket48-grab](https://github.com/xsaiting/pocket48-grab)）
+* url: https://ppayqa.48.cn/idolanswersystem/api/idolanswer/v1/question_answer/detail
+* method: POST
+* headers:
+  * os: android
+  * IMEI: 864394020501237
+  * version: 5.0.0
+  * Content-Type: application/json
+  * Connection: Keep-Alive
+  * token: 登录后获得的token
+* body:
+  * idolFlipSource
+  * questionId
+  * answerId
