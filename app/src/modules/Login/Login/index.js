@@ -21,9 +21,6 @@ import WeiBoWorker from 'worker-loader?name=script/[hash:5].worker.js!../../../c
 import { requestRoomMessage } from '../../../components/kd48listerer/roomListener';
 const schedule: Object = global.require('node-schedule');
 
-let qq: ?CoolQ = null;
-let timer: ?number = null;
-
 /* 初始化数据 */
 const getState: Function = ($$state: Immutable.Map): ?Immutable.Map => $$state.has('login') ? $$state.get('login') : null;
 
@@ -55,6 +52,8 @@ const dispatch: Function = (dispatch: Function): Object=>({
 @withRouter
 @connect(state, dispatch)
 class Login extends Component{
+  qq: ?CoolQ;
+  timer: ?number;
   state: {
     btnLoading: boolean,
     optionItemIndex: ?number
@@ -73,6 +72,8 @@ class Login extends Component{
   constructor(): void{
     super(...arguments);
 
+    this.qq = null;
+    this.timer = null;
     this.state = {
       btnLoading: false,    // 按钮loading动画
       optionItemIndex: null // 当前选择的配置索引
@@ -104,8 +105,11 @@ class Login extends Component{
   // 登录成功
   async loginSuccess(): Promise<void>{
     try{
-      const basic: Object = qq.option.basic;
-      qq.time = moment().unix();
+      const basic: Object = this.qq.option.basic;
+      this.qq.time = moment().unix();
+
+      // 获取酷Q的相关信息
+      this.qq.getCoolQVersionInfo();
 
       // 获取摩点相关信息
       if(basic.isModian){
@@ -113,32 +117,36 @@ class Login extends Component{
           title: string,
           goal: string
         } = await getModianInformation(basic.modianId);
-        qq.modianTitle = title;
-        qq.modianGoal = goal;
+        this.qq.modianTitle = title;
+        this.qq.modianGoal = goal;
         // 创建新的摩点webWorker
-        qq.modianWorker = new ModianWorker();
-        qq.modianWorker.postMessage({
+        this.qq.modianWorker = new ModianWorker();
+        this.qq.modianWorker.postMessage({
           type: 'init',
           modianId: basic.modianId,
           title,
           goal
         });
-        qq.modianWorker.addEventListener('message', qq.listenModianWorkerCbInformation.bind(qq), false);
+        this.qq.modianWorker.addEventListener(
+          'message',
+          this.qq.listenModianWorkerCbInformation.bind(this.qq),
+          false
+        );
         message.success('摩点监听已就绪。');
       }
 
       // 抽卡
       if(basic.isChouka){
         cleanRequireCache(basic.choukaJson);
-        qq.choukaJson = global.require(basic.choukaJson);
-        qq.bukaQQNumber = str2numberArray(basic.bukaQQNumber);
+        this.qq.choukaJson = global.require(basic.choukaJson);
+        this.qq.bukaQQNumber = str2numberArray(basic.bukaQQNumber);
         message.success('抽卡已就绪。');
       }
 
       // 口袋48直播监听
       if(basic.is48LiveListener){
-        qq.members = str2reg(basic.kd48LiveListenerMembers); // 正则匹配
-        qq.memberId = str2numberArray(basic.kd48LiveListenerMembers); // 获取id
+        this.qq.members = str2reg(basic.kd48LiveListenerMembers); // 正则匹配
+        this.qq.memberId = str2numberArray(basic.kd48LiveListenerMembers); // 获取id
         // 开启口袋48监听
         await init();
         if(this.props.kd48LiveListenerTimer === null){
@@ -156,11 +164,11 @@ class Login extends Component{
           query: 'loginInformation'
         });
         if(res.result !== undefined){
-          qq.kouDai48Token = res.result.value.token;
-          const req: Object = await requestRoomMessage(basic.roomId, qq.kouDai48Token);
-          qq.roomLastTime = req.content.data[0].msgTime;
-          qq.roomListenerTimer = global.setTimeout(
-            qq.listenRoomMessage.bind(qq),
+          this.qq.kouDai48Token = res.result.value.token;
+          const req: Object = await requestRoomMessage(basic.roomId, this.qq.kouDai48Token);
+          this.qq.roomLastTime = req.content.data[0].msgTime;
+          this.qq.roomListenerTimer = global.setTimeout(
+            this.qq.listenRoomMessage.bind(this.qq),
             basic.liveListeningInterval ? (basic.liveListeningInterval * 1000) : 15000
           );
         }
@@ -169,30 +177,34 @@ class Login extends Component{
 
       // 微博监听
       if(basic.isWeiboListener){
-        qq.weiboWorker = new WeiBoWorker();
-        qq.weiboWorker.postMessage({
+        this.qq.weiboWorker = new WeiBoWorker();
+        this.qq.weiboWorker.postMessage({
           type: 'init',
           containerid: basic.lfid
         });
-        qq.weiboWorker.addEventListener('message', qq.listenWeiboWorkerCbInformation.bind(qq), false);
+        this.qq.weiboWorker.addEventListener(
+          'message',
+          this.qq.listenWeiboWorkerCbInformation.bind(this.qq),
+          false
+        );
         message.success('微博监听已就绪。');
       }
 
       // 群内定时消息推送
       if(basic.isTimingMessagePush){
-        qq.timingMessagePushTimer = schedule.scheduleJob(
+        this.qq.timingMessagePushTimer = schedule.scheduleJob(
           basic.timingMessagePushFormat,
-          qq.timingMessagePush.bind(qq, basic.timingMessagePushText)
+          this.qq.timingMessagePush.bind(this.qq, basic.timingMessagePushText)
         );
         message.success('群内定时消息推送已就绪。');
       }
 
       const ll: Array = this.props.qqLoginList;
-      ll.push(qq);
+      ll.push(this.qq);
       this.props.action.changeQQLoginList({
         qqLoginList: ll
       });
-      qq = null;
+      this.qq = null;
       this.props.history.push('/Login');
     }catch(err){
       console.error(err);
@@ -200,15 +212,15 @@ class Login extends Component{
   }
   // 登录轮询
   loginCb(): void{
-    if(qq.isEventSuccess === true && qq.isApiSuccess === true){  // 判断登录成功
+    if(this.qq.isEventSuccess === true && this.qq.isApiSuccess === true){  // 判断登录成功
       this.loginSuccess();
-    }else if(qq.isError === true){                               // 判断是否有错误
-      qq = null;
+    }else if(this.qq.isError === true){                               // 判断是否有错误
+      this.qq = null;
       this.setState({
         btnLoading: false
       });
     }else{
-      timer = setTimeout(this.loginCb.bind(this), 100);
+      this.timer = setTimeout(this.loginCb.bind(this), 100);
     }
   }
   // 登录连接
@@ -217,17 +229,17 @@ class Login extends Component{
       btnLoading: true
     });
     const option: Object = this.props.optionList[Number(this.state.optionItemIndex)];
-    qq = new CoolQ(option.qqNumber, option.socketPort, callback);
-    qq.option = option;
-    qq.init();
+    this.qq = new CoolQ(option.qqNumber, option.socketPort, callback);
+    this.qq.option = option;
+    this.qq.init();
     // 登录成功
     this.loginCb();
   }
   componentWillUnmount(): void{
-    if(timer) global.clearInterval(timer); // 清除定时器
+    if(this.timer) global.clearInterval(this.timer); // 清除定时器
     // 清除qq相关
-    if(qq !== null){
-      qq.outAndClear();
+    if(this.qq !== null){
+      this.qq.outAndClear();
       // 判断是否需要关闭直播监听
       if(this.props.kd48LiveListenerTimer !== null){
         let isListener: boolean = false;
@@ -246,7 +258,7 @@ class Login extends Component{
         }
       }
 
-      qq = null;
+      this.qq = null;
     }
   }
   render(): React.Element{

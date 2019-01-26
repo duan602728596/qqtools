@@ -17,6 +17,7 @@ class CoolQ{
   apiSocket: ?WebSocket;
   isApiSuccess: boolean;
   callback: ?Function;
+  coolqEdition: string;
 
   option: ?Object;
   modianTitle: ?string;
@@ -40,36 +41,37 @@ class CoolQ{
   handleListenerApiMessage: Function;
 
   constructor(qq: string, port: string, callback: Function): void{
-    this.time = null;                                         // 登录时间戳
-    this.qq = qq;                                             // qq号
-    this.port = port;                                         // socket端口
-    this.isError = false;                                     // 判断是否错误
-    this.eventUrl = `ws://127.0.0.1:${ this.port }/event/`;   // 地址
-    this.eventSocket = null;                                  // socket
-    this.isEventSuccess = false;                              // 判断是否连接成功
-    this.apiUrl = `ws://127.0.0.1:${ this.port }/api/`;       // 地址
-    this.apiSocket = null;                                    // socket
-    this.isApiSuccess = false;                                // 判断是否连接成功
-    this.callback = callback;                                 // 获得信息后的回调
+    this.time = null;                                       // 登录时间戳
+    this.qq = qq;                                           // qq号
+    this.port = port;                                       // socket端口
+    this.isError = false;                                   // 判断是否错误
+    this.eventUrl = `ws://127.0.0.1:${ this.port }/event/`; // 地址
+    this.eventSocket = null;                                // socket
+    this.isEventSuccess = false;                            // 判断是否连接成功
+    this.apiUrl = `ws://127.0.0.1:${ this.port }/api/`;     // 地址
+    this.apiSocket = null;                                  // socket
+    this.isApiSuccess = false;                              // 判断是否连接成功
+    this.callback = callback;                               // 获得信息后的回调
+    this.coolqEdition = 'air';                              // 酷Q的版本
 
-    this.option = null;                  // 配置
+    this.option = null;                 // 配置
     // 摩点项目相关
-    this.modianTitle = null;             // 摩点项目标题
-    this.modianGoal = null;              // 摩点项目目标
-    this.modianWorker = null;            // 摩点新线程
-    this.choukaJson = null;              // 抽卡配置
-    this.bukaQQNumber = null;            // 允许群里补卡的qq号
+    this.modianTitle = null;            // 摩点项目标题
+    this.modianGoal = null;             // 摩点项目目标
+    this.modianWorker = null;           // 摩点新线程
+    this.choukaJson = null;             // 抽卡配置
+    this.bukaQQNumber = null;           // 允许群里补卡的qq号
     // 口袋48监听相关
-    this.members = null;                 // 监听指定成员
-    this.memberId = null;                // 坚听成员id
+    this.members = null;                // 监听指定成员
+    this.memberId = null;               // 坚听成员id
     // 房间信息监听相关
-    this.roomListenerTimer = null;       // 轮询定时器
-    this.roomLastTime = null;            // 最后一次发言
-    this.kouDai48Token = null;           // token
+    this.roomListenerTimer = null;      // 轮询定时器
+    this.roomLastTime = null;           // 最后一次发言
+    this.kouDai48Token = null;          // token
     // 微博监听相关
-    this.weiboWorker = null;             // 微博监听新线程
+    this.weiboWorker = null;            // 微博监听新线程
     // 群内定时消息推送
-    this.timingMessagePushTimer = null;  // 群内定时消息推送定时器
+    this.timingMessagePushTimer = null; // 群内定时消息推送定时器
 
     this.handleOpenEventSocket = this._handleOpenSocket.bind(this, 'isEventSuccess', 'event');
     this.handleEventSocketError = this._handleSocketError.bind(this, 'event');
@@ -118,6 +120,10 @@ class CoolQ{
         userid: user_id
       }));
     }
+    // 酷Q版本
+    if('data' in dataJson && 'coolq_edition' in dataJson.data){
+      this.coolqEdition = dataJson.data.coolq_edition;
+    }
   }
   // 发送信息
   sendMessage(message: string): void{
@@ -140,6 +146,12 @@ class CoolQ{
         user_id: userId,
         type: 'group_member_info'
       }
+    }));
+  }
+  // 查询酷Q的信息
+  getCoolQVersionInfo(): void{
+    this.apiSocket.send(JSON.stringify({
+      action: 'get_version_info'
     }));
   }
   // 初始化
@@ -249,7 +261,7 @@ class CoolQ{
               else record[item2.id] = item2.length;
             }
 
-            if(isChoukaSendImage){
+            if(isChoukaSendImage && this.coolqEdition === 'pro'){
               cqImage = bestCards(choukaResult, 2);
             }
 
@@ -269,7 +281,7 @@ class CoolQ{
             amountdifference: amountDifference,
             endtime: endTime,
             timedifference,
-            chouka: `${ choukaStr.join('\n') }${ cqImage }`
+            chouka: `抽卡结果：\n${ choukaStr.join('\n') }${ cqImage }`
           });
 
           await this.sendMessage(msg);
@@ -286,26 +298,34 @@ class CoolQ{
 
     try{
       const data2: Object = await requestRoomMessage(this.option.basic.roomId, this.kouDai48Token);
+
       if(!(data2.status === 200 && 'content' in data2)){
         this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
         return;
       }
+
       const newTime: number = data2.content.data[0].msgTime;
+
       // 新时间大于旧时间，获取25条数据
       if(!(newTime > this.roomLastTime)){
         this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
         return;
       }
+
       const data3: Object = await requestRoomMessage(this.option.basic.roomId, this.kouDai48Token, 25);  // 重新获取数据
+
       if(!(data3.status === 200 && 'content' in data3)){
         this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
         return;
       }
+
       // 格式化发送消息
       const sendStr: string[] = [];
       const data: Array = data3.content.data;
+
       for(let i: number = 0, j: number = data.length; i < j; i++){
         const item: Object = data[i];
+
         if(item.msgTime > this.roomLastTime){
           const extInfo: Object = JSON.parse(item.extInfo);
           switch(extInfo.messageObject){
@@ -325,8 +345,11 @@ class CoolQ{
             case 'image':
               const url: string = JSON.parse(item.bodys).url;
               let txt: string = `${ extInfo.senderName }：`;
-              if(this.option.basic.isRoomSendImage) txt += `\n[CQ:image,file=${ url }]\n`;
-              txt += `${ url }\n`;
+
+              // 判断是否是air还是pro
+              if(this.option.basic.isRoomSendImage && this.coolqEdition === 'pro') txt += `\n[CQ:image,file=${ url }]\n`;
+              else txt += `${ url }\n`;
+
               sendStr.push(`${ txt }时间：${ item.msgTimeStr }`);
               break;
             // 发送语音
@@ -359,6 +382,7 @@ class CoolQ{
           break;
         }
       }
+
       // 倒序数组发送消息
       for(let i: number = sendStr.length - 1; i >= 0; i--){
         await this.sendMessage(sendStr[i]);
