@@ -371,7 +371,7 @@ class CoolQ{
                          + `直播标题：${ extInfo.referenceContent }\n`
                          + `时间：${ item.msgTimeStr }`);
               break;
-            // 花50个鸡腿的翻牌？不清楚是什么新功能，暂时先提示这么多
+            // 花50个鸡腿的翻牌。获得参数：idolFlipQuestionId, idolFlipAnswerId, idolFlipSource
             case 'idolFlip':
               sendStr.push(`${ extInfo.senderName } 翻牌了 ${ extInfo.idolFlipUserName }的问题：\n`
                          + `${ extInfo.idolFlipContent }\n`
