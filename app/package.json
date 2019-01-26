@@ -42,7 +42,7 @@
     "@sweet/milktea": "github:duan602728596/sweet#build-milktea",
     "@sweet/milktea-cli": "github:duan602728596/sweet#build-milktea-cli",
     "@sweet/util-tools": "github:duan602728596/sweet#build-util-tools",
-    "antd": "^3.12.4",
+    "antd": "^3.13.0",
     "babel-eslint": "^10.0.1",
     "babel-plugin-import": "^1.11.0",
     "classnames": "^2.2.6",
