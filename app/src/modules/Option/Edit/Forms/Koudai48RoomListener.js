@@ -35,7 +35,7 @@ class Koudai48RoomListener extends Component{
             })(<Input />)
           }
         </Form.Item>
-        <Form.Item label="发送图片和图片链接" { ...colsArea2 }>
+        <Form.Item label="发送图片" { ...colsArea2 }>
           {
             getFieldDecorator('isRoomSendImage', {
               initialValue: isRoomSendImage
