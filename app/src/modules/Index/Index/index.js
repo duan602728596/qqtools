@@ -8,7 +8,9 @@ import Navs from './Navs';
 
 function Index(): React.Element{
   const upgradeReminder: string = localStorage.getItem('upgradeReminder');
-  const [isUpgradeReminder, setUpgradeReminder]: [boolean, Function] = useState(upgradeReminder === true);
+  const [isUpgradeReminder, setUpgradeReminder]: [boolean, Function] = useState(
+    upgradeReminder === 'true' || !upgradeReminder
+  );
 
   // 状态变化
   function handleUpgradeReminderChange(event: Event): void{
@@ -57,7 +59,7 @@ function Index(): React.Element{
       </p>
       <div className={ style.update }>
         <Switch checked={ isUpgradeReminder } onChange={ handleUpgradeReminderChange } />
-        <label>软件升级提醒</label>
+        <label className={ style.updateLabel }>软件升级提醒</label>
       </div>
       <Navs />
     </div>
