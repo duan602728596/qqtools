@@ -44,12 +44,14 @@ class MemberInformation extends Component{
         // 从接口获取数据
         const data: Object = await requestMemberInformation(memberId);
         let roomInfo: Object = data.content.roomInfo;
+
         // 兼容
         if(!(roomInfo && ('memberName' in roomInfo) && ('roomId' in roomInfo))){
           roomInfo = {};
           roomInfo.memberName = '';
           roomInfo.roomId = '';
         }
+
         const { memberName, roomId }: {
           memberName: string,
           roomId: string
@@ -60,6 +62,7 @@ class MemberInformation extends Component{
           memberName: memberName2,
           roomId
         };
+
         await this.props.action.addMemberInformation({
           data: value2
         });

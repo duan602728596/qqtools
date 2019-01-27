@@ -37,10 +37,8 @@ function isOpen(data: boolean): React.Element{
   return data ? <span className={ style.on }>开启</span> : <span className={ style.off }>未开启</span>;
 }
 
-const Detail: ?Object = (props: ?Object): ?React.Element=>{
-  if(!props.detail){
-    return null;
-  }
+function Detail(props: ?Object): ?React.Element{
+  if(!props.detail) return null;
 
   const { detail }: { detail: Object } = props;
   const { basic }: { basic: Object } = detail;
@@ -205,6 +203,6 @@ const Detail: ?Object = (props: ?Object): ?React.Element=>{
       </tbody>
     </table>
   );
-};
+}
 
 export default Detail;

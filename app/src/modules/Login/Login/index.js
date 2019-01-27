@@ -11,7 +11,7 @@ import style from './style.sass';
 import publicStyle from '../../../components/publicStyle/public.sass';
 import CoolQ from '../../../components/coolQ/CoolQ';
 import { changeQQLoginList, cursorOption, kd48LiveListenerTimer, getLoginInformation } from '../store/reducer';
-import callback from '../../../components/callback/index';
+import callback from '../../../components/callback/callback';
 import Detail from './Detail';
 import getModianInformation from '../../../components/modian/getModianInformation';
 import { str2reg, str2numberArray, cleanRequireCache } from '../../../utils';

@@ -2,8 +2,9 @@ import React from 'react';
 import { Card } from 'antd';
 import style from './style.sass';
 
-const LoginInformation: Function = (props: Object): React.ChildrenArray<React.Element> | React.Element=>{
+function LoginInformation(props: Object): React.ChildrenArray<React.Element> | React.Element{
   const item: ?Object = props.loginInformation;
+
   return (
     <Card title="登录信息">
       {
@@ -21,6 +22,6 @@ const LoginInformation: Function = (props: Object): React.ChildrenArray<React.El
       }
     </Card>
   );
-};
+}
 
 export default LoginInformation;

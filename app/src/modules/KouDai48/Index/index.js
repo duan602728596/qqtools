@@ -84,7 +84,7 @@ class KouDai48 extends Component{
   }
   // 表格配置
   columns(): Array{
-    const columns: Array = [
+    return [
       {
         title: 'memberId',
         dataIndex: 'memberId',
@@ -98,11 +98,11 @@ class KouDai48 extends Component{
         render: (value: any, item: Object, index: number): React.Element => <MemberInformation item={ item } />
       }
     ];
-    return columns;
   }
   // 登录
   handleSubmit(event: Event): void{
     event.preventDefault();
+
     this.props.form.validateFields(async(err: any, value: Object): Promise<void>=>{
       if(!err){
         try{
@@ -116,6 +116,7 @@ class KouDai48 extends Component{
               userInfo: content.userInfo  // 本人信息
             }
           };
+
           await this.props.action.putLoginInformation({
             data: value2
           });
@@ -167,6 +168,7 @@ class KouDai48 extends Component{
 
     // 渲染搜索结果
     const resultEle: Array = [];
+
     this.state.searchResult.map((item: Object, index: number): void=>{
       resultEle.push(
         <div key={ item.memberId } className={ style.searchGroup }>

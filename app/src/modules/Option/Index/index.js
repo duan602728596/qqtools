@@ -52,7 +52,7 @@ class Index extends Component{
     };
   }
   columns(): Array{
-    const columns: Array = [
+    return [
       {
         title: '配置名称',
         dataIndex: 'name',
@@ -92,7 +92,6 @@ class Index extends Component{
         }
       }
     ];
-    return columns;
   }
   componentDidMount(): void{
     this.props.action.cursorOption({
@@ -125,18 +124,23 @@ class Index extends Component{
   // 导入配置
   handleExportConfigurationClick(event: Event): void{
     const files: jQuery = $('#exportConfiguration').val();
+
     if(files === ''){
       message.error('必须选择一个保存位置！');
       return void 0;
     }
+
     const { ext }: { ext: string } = path.parse(files);
+
     if(ext !== '.json'){
       message.error('导出的必须是一个json文件！');
       return void 0;
     }
+
     const jsonStr: string = JSON.stringify({
       configuration: this.props.optionList
     }, null, 2);
+
     fs.writeFile(files, jsonStr, (err: any): void=>{
       if(err){
         message.error('导出失败！');

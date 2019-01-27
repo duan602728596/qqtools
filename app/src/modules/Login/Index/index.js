@@ -41,7 +41,7 @@ class Index extends Component{
 
   // 表格配置
   columus(): Array{
-    const columns: Array = [
+    return [
       {
         title: '配置名称',
         key: 'optionName',
@@ -73,7 +73,6 @@ class Index extends Component{
         }
       }
     ];
-    return columns;
   }
   // 退出
   handleLogOutClick(item: CoolQ, event: Event): void{
