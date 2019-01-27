@@ -6,7 +6,7 @@ import Routers from './router/Routers';
 import { LocaleProvider } from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import { storeFactory } from './store/store';
-import './common.sass';
+import './components/upgradeDetection/upgradeDetection';
 
 /* app */
 ReactDOM.render(
