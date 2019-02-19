@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from 'antd';
 import style from './style.sass';
 
-function LoginInformation(props: Object): React.ChildrenArray<React.Element> | React.Element {
+function LoginInformation(props: Object): Array<React.Node> | React.Node {
   const item: ?Object = props.loginInformation;
 
   return (

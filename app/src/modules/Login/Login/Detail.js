@@ -21,7 +21,7 @@ function customProfiles(customProfiles: Object): Array {
       </tr>
     );
   } else {
-    return custom.map((item: Object, index: number): React.Element => {
+    return custom.map((item: Object, index: number): React.Node => {
       return (
         <tr key={ item.command }>
           <td>{ item.command }</td>
@@ -34,11 +34,11 @@ function customProfiles(customProfiles: Object): Array {
   }
 }
 
-function isOpen(data: boolean): React.Element {
+function isOpen(data: boolean): React.Node {
   return data ? <span className={ style.on }>开启</span> : <span className={ style.off }>未开启</span>;
 }
 
-function Detail(props: ?Object): ?React.Element {
+function Detail(props: ?Object): ?React.Node {
   if (!props.detail) return null;
 
   const { detail }: { detail: Object } = props;

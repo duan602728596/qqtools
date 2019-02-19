@@ -110,7 +110,7 @@ class Add extends Component {
         title: '操作',
         key: 'handle',
         width: '20%',
-        render: (value: any, item: Object, index: number): React.ChildrenArray<React.Element> => {
+        render: (value: any, item: Object, index: number): Array<React.Node> => {
           return [
             <Button key="edit" size="small" onClick={ this.handleEditClick.bind(this, item) }>修改</Button>,
             <Popconfirm key="delete" title="确认要删除吗？" onConfirm={ this.handleDeleteClick.bind(this, item) }>
@@ -212,7 +212,7 @@ class Add extends Component {
       }
     });
   }
-  render(): React.ChildrenArray<React.Element> {
+  render(): Array<React.Node> {
     const { props }: { props: Object } = this;
     const detail: ?Object = 'query' in props.location ? props.location.query.detail : null;
     const { form }: { form: Object } = props;

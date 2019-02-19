@@ -75,7 +75,7 @@ class Index extends Component {
         title: '操作',
         key: 'handle',
         width: '25%',
-        render: (value: any, item: Object, index: number): React.ChildrenArray<React.Element> => {
+        render: (value: any, item: Object, index: number): Array<React.Node> => {
           return [
             <Link key="link" to={{
               pathname: '/Option/Edit',
@@ -197,7 +197,7 @@ class Index extends Component {
     });
 
   }
-  render(): React.ChildrenArray<React.Element> {
+  render(): Array<React.Node> {
     return [
       <Affix key="affix" className={ publicStyle.affix }>
         <div className={ classNames(publicStyle.toolsBox, 'clearfix') }>

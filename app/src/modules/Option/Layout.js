@@ -7,7 +7,7 @@ import Edit from './Edit/index';
 
 @loadReducer(reducer)
 class ModuleLayout extends Component {
-  render(): React.Element {
+  render(): React.Node {
     return (
       <Switch>
         <Route path="/Option" component={ Index } exact={ true } />

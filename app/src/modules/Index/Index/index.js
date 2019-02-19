@@ -6,7 +6,7 @@ import '../../../components/indexedDB/indexedDB-init';
 import { handleOpenBrowser } from '../../../utils';
 import Navs from './Navs';
 
-function Index(props: Object): React.Element {
+function Index(props: Object): React.Node {
   const upgradeReminder: string = localStorage.getItem('upgradeReminder');
   const [isUpgradeReminder, setUpgradeReminder]: [boolean, Function] = useState(
     upgradeReminder === 'true' || !upgradeReminder

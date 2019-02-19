@@ -6,7 +6,7 @@ import Index from './Index/index';
 
 @loadReducer(reducer)
 class ModuleLayout extends Component {
-  render(): React.Element {
+  render(): React.Node {
     return (
       <Switch>
         <Route path="/KouDai48" component={ Index } exact={ true } />

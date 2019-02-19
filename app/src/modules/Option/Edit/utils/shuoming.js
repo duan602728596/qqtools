@@ -4,11 +4,11 @@ import classNames from 'classnames';
 import style from '../style.sass';
 import { handleOpenBrowser } from '../../../../utils';
 
-export const IsModianLeaderboard: Function = (props: Object): React.Element => (
+export const IsModianLeaderboard: Function = (props: Object): React.Node => (
   <span className={ style.ml10 }>可以在群内查询摩点项目的相关信息、聚聚榜、打卡榜、订单。</span>
 );
 
-export const ModianUrlTemplate: Function = (props: Object): React.Element => (
+export const ModianUrlTemplate: Function = (props: Object): React.Node => (
   <div className={ style.shuoming }>
     <h6>模板关键字：</h6>
     <p>modianname：摩点项目的名称</p>
@@ -16,7 +16,7 @@ export const ModianUrlTemplate: Function = (props: Object): React.Element => (
   </div>
 );
 
-export const ModianTemplate: Function = (props: Object): React.Element => (
+export const ModianTemplate: Function = (props: Object): React.Node => (
   <div className={ style.shuoming }>
     <h6>模板关键字：</h6>
     <p>id：打赏人的ID</p>
@@ -33,23 +33,23 @@ export const ModianTemplate: Function = (props: Object): React.Element => (
   </div>
 );
 
-export const IsChoukaSendImage: Function = (props: Object): React.Element => (
+export const IsChoukaSendImage: Function = (props: Object): React.Node => (
   <span className={ style.ml10 }>该功能只限于酷QPro版本，在抽卡时发送卡牌图片。</span>
 );
 
-export const Kd48LiveListenerMembers: Function = (props: Object): React.Element => (
+export const Kd48LiveListenerMembers: Function = (props: Object): React.Node => (
   <div className={ style.shuoming }>多个成员名字或成员ID之间用","（半角逗号）分隔。</div>
 );
 
-export const IsRoomSendImage: Function = (props: Object): React.Element => (
+export const IsRoomSendImage: Function = (props: Object): React.Node => (
   <span className={ style.ml10 }>该功能只限于酷QPro版本。</span>
 );
 
-export const BukaQQNumber: Function = (props: Object): React.Element => (
+export const BukaQQNumber: Function = (props: Object): React.Node => (
   <div className={ style.shuoming }>多个QQ号之间用","（半角逗号）分隔。</div>
 );
 
-export const WeiBo: Function = (props: Object): React.Element => (
+export const WeiBo: Function = (props: Object): React.Node => (
   <div className={ classNames(style.shuoming, style.url) }>
     微博lfid配置方法：
     <a onClick={ handleOpenBrowser.bind(this, 'https://github.com/duan602728596/qqtools/tree/master#微博的lfid查找方法') }>
@@ -58,7 +58,7 @@ export const WeiBo: Function = (props: Object): React.Element => (
   </div>
 );
 
-export const WelcomeNewGroupMember: Function = (props: Object): React.Element => (
+export const WelcomeNewGroupMember: Function = (props: Object): React.Node => (
   <div className={ style.shuoming }>
     <h6>模板关键字：</h6>
     <p>nickname：新加入成员的昵称</p>
@@ -66,7 +66,7 @@ export const WelcomeNewGroupMember: Function = (props: Object): React.Element =>
   </div>
 );
 
-export const TimingMessagePushFormat: Function = (props: Object): React.Element => (
+export const TimingMessagePushFormat: Function = (props: Object): React.Node => (
   <div className={ style.shuoming }>
     <p>
       规则格式：
@@ -92,6 +92,6 @@ export const TimingMessagePushFormat: Function = (props: Object): React.Element 
   </div>
 );
 
-export const IsHelpCommend: Function = (props: Object): React.Element => (
+export const IsHelpCommend: Function = (props: Object): React.Node => (
   <span className={ style.ml10 }>允许群内使用帮助命令查看功能。</span>
 );

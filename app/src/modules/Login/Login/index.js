@@ -87,8 +87,8 @@ class Login extends Component {
     });
   }
   // select
-  selectOptionView(): React.ChildrenArray<React.Element> {
-    return this.props.optionList.map((item: Object, index: number): React.Element => {
+  selectOptionView(): Array<React.Node> {
+    return this.props.optionList.map((item: Object, index: number): React.Node => {
       const index1: string = `${ index }`;
 
       return (
@@ -270,7 +270,7 @@ class Login extends Component {
       this.qq = null;
     }
   }
-  render(): React.Element {
+  render(): React.Node {
     const index: ?number = this.state.optionItemIndex ? Number(this.state.optionItemIndex) : null;
 
     return (

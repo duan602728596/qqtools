@@ -64,7 +64,7 @@ class Index extends Component {
         title: '操作',
         key: 'handle',
         width: '25%',
-        render: (value: any, item: CoolQ): React.Element => {
+        render: (value: any, item: CoolQ): React.Node => {
           return (
             <Popconfirm title="确认要退出吗？" onConfirm={ this.handleLogOutClick.bind(this, item) }>
               <Button type="danger" size="small" icon="logout">退出</Button>
@@ -105,7 +105,7 @@ class Index extends Component {
       }
     }
   }
-  render(): React.ChildrenArray<React.Element> {
+  render(): Array<React.Node> {
     return [
       <Affix key="affix" className={ publicStyle.affix }>
         <div className={ classNames(publicStyle.toolsBox, 'clearfix') }>

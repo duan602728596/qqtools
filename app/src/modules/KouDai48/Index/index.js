@@ -95,7 +95,7 @@ class KouDai48 extends Component {
         title: 'information',
         key: 'information',
         width: '80%',
-        render: (value: any, item: Object, index: number): React.Element => <MemberInformation item={ item } />
+        render: (value: any, item: Object, index: number): React.Node => <MemberInformation item={ item } />
       }
     ];
   }
@@ -163,7 +163,7 @@ class KouDai48 extends Component {
       console.error(err);
     }
   }
-  render(): React.Element {
+  render(): React.Node {
     const { getFieldDecorator }: { getFieldDecorator: Function } = this.props.form;
     const loginInformation: ?Object = this.props.loginInformation;
 

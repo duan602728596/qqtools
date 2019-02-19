@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import Index from './Index/index';
 
 class ModuleLayout extends Component {
-  render(): React.Element {
+  render(): React.Node {
     return (
       <Switch>
         <Route path="/Help" component={ Index } exact={ true } />

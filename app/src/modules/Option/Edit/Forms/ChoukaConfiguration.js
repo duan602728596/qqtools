@@ -31,7 +31,7 @@ class ChoukaConfiguration extends Component {
       });
     }
   };
-  render(): React.Element {
+  render(): React.Node {
     const { detail, form }: { detail: ?Object, form: Object } = this.props;
     const { getFieldDecorator }: { getFieldDecorator: Function } = form;
     const colsArea3: Object = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };

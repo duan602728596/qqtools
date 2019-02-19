@@ -10,7 +10,7 @@ class BasicConfiguration extends Component {
     detail: PropTypes.object
   };
 
-  render(): React.Element {
+  render(): React.Node {
     const { detail, form }: { detail: ?Object, form: Object } = this.props;
     const { getFieldDecorator }: { getFieldDecorator: Function } = form;
     const colsArea1: Object = { labelCol: { span: 4 }, wrapperCol: { span: 20 } };
