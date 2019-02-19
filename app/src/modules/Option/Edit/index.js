@@ -104,13 +104,7 @@ class Add extends Component {
       {
         title: '文本',
         dataIndex: 'text',
-        key: 'text',
-        width: '60%',
-        render: (value: string, item: Object, index: number): React.Element => {
-          return (
-            <pre>{ value }</pre>
-          );
-        }
+        key: 'text'
       },
       {
         title: '操作',
@@ -118,9 +112,9 @@ class Add extends Component {
         width: '20%',
         render: (value: any, item: Object, index: number): React.ChildrenArray<React.Element> => {
           return [
-            <Button key="edit" className={ style.mr10 } size="small" onClick={ this.handleEditClick.bind(this, item) }>修改</Button>,
+            <Button key="edit" size="small" onClick={ this.handleEditClick.bind(this, item) }>修改</Button>,
             <Popconfirm key="delete" title="确认要删除吗？" onConfirm={ this.handleDeleteClick.bind(this, item) }>
-              <Button size="small">删除</Button>
+              <Button className={ style.ml10 } size="small">删除</Button>
             </Popconfirm>
           ];
         }
