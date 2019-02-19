@@ -1,3 +1,4 @@
+// @flow
 import $ from 'jquery';
 
 /* 将Array转换成Obj */
@@ -32,7 +33,7 @@ export function customProfilesObj2Array(customProfiles: Object): { command: stri
  * basic      基础配置
  * custom     自定义配置
  */
-type interfaceOptionType = {
+type InterfaceOptionType = {
   name: string,
   qqNumber: string,
   groupNumber: string,
@@ -54,12 +55,13 @@ type interfaceOptionType = {
     is48LiveListener: boolean,
     isListenerAll: boolean,
     is48LiveAtAll: boolean,
-    liveListeningInterval: number,
     // 成员房间信息监听
     kd48LiveListenerMembers: string,
     isRoomListener: boolean,
     roomId: string,
     isRoomSendImage: boolean,
+    isRoomSendRecord: boolean,
+    liveListeningInterval: number,
     // 微博监听
     isWeiboListener: boolean,
     isWeiboAtAll: boolean,
@@ -78,9 +80,9 @@ type interfaceOptionType = {
   custom: Object
 };
 
-function interfaceOption(value: Object, customProfiles: { command: string, text: string }[]): interfaceOptionType {
+function interfaceOption(value: Object, customProfiles: { command: string, text: string }[]): InterfaceOptionType {
   const custom: Object = customProfilesArray2Obj(customProfiles);
-  const inter: interfaceOption = {
+  const inter: InterfaceOptionType = {
     name: value.name,
     qqNumber: value.qqNumber,
     groupNumber: value.groupNumber,
@@ -107,6 +109,7 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
       isRoomListener: value.isRoomListener,
       roomId: value.roomId,
       isRoomSendImage: value.isRoomSendImage,
+      isRoomSendRecord: value.isRoomSendRecord,
       liveListeningInterval: value.liveListeningInterval,
       // 微博监听
       isWeiboListener: value.isWeiboListener,
