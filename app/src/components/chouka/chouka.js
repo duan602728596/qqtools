@@ -14,14 +14,14 @@ type CardsInformation = Array<{
  * 生成随机数
  * @param { number } len: 长度
  */
-function random(len: number): number{
+function random(len: number): number {
   return Math.floor(Math.random() * len);
 }
 
-function randomCards(cardsInformation: CardsInformation): Array{
+function randomCards(cardsInformation: CardsInformation): Array {
   const result: [] = [];
 
-  for(let i: number = 0, j: number = cardsInformation.length; i < j; i++){
+  for (let i: number = 0, j: number = cardsInformation.length; i < j; i++) {
     const { level = '', length = 0, data }: {
       level: string,
       length: number,
@@ -29,12 +29,12 @@ function randomCards(cardsInformation: CardsInformation): Array{
     } = cardsInformation[i];
     const len: number = data.length;
 
-    if(!(data && Array.isArray(data) && data.length > 0)){
+    if (!(data && Array.isArray(data) && data.length > 0)) {
       break;
     }
 
     // 生成每个等级的卡组
-    for(let i1: number = 0; i1 < length; i1++){
+    for (let i1: number = 0; i1 < length; i1++) {
       result.push({
         ...data[random(len)],
         level,
@@ -46,7 +46,7 @@ function randomCards(cardsInformation: CardsInformation): Array{
   // 对卡组进行打乱
   const kazu: [] = [];
 
-  while(result.length > 0){
+  while (result.length > 0) {
     const index: number = random(result.length);
 
     kazu.push(result[index]);
@@ -69,7 +69,7 @@ export function chouka(
   money: number,
   multiple: number = 0,
   buka: ?number = null
-): Object{
+): Object {
   // 是否为补卡
   const isBuKa: boolean = !(buka === null || buka === undefined);
 
@@ -79,7 +79,7 @@ export function chouka(
   // 多抽卡次数
   let duochoukacishu: number = 0;
 
-  if(!isBuKa && multiple > 0 && zhengchangchouka >= multiple){
+  if (!isBuKa && multiple > 0 && zhengchangchouka >= multiple) {
     duochoukacishu = Math.floor(zhengchangchouka / multiple);
   }
 
@@ -89,9 +89,9 @@ export function chouka(
   // 抽卡
   const result: Object = {};
 
-  for(let i: number = 0, rc: [] = randomCards(cardsInformation); i < allchouka; i++){
+  for (let i: number = 0, rc: [] = randomCards(cardsInformation); i < allchouka; i++) {
     // 5的倍数时重新随机卡组
-    if(i % 5 === 0 && i !== 0){
+    if (i % 5 === 0 && i !== 0) {
       rc = randomCards(cardsInformation);
     }
 
@@ -99,9 +99,9 @@ export function chouka(
       ...rc[random(rc.length)]
     };
 
-    if(item.id in result){
+    if (item.id in result) {
       result[item.id].length += 1;
-    }else{
+    } else {
       item.length = 1;
       result[item.id] = item;
     }

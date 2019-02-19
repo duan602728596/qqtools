@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { Card, Form, Input } from 'antd';
 import style from '../style.sass';
 
-class BasicConfiguration extends Component{
+class BasicConfiguration extends Component {
   static propTypes: Object = {
     form: PropTypes.object,
     detail: PropTypes.object
   };
 
-  render(): React.Element{
+  render(): React.Element {
     const { detail, form }: { detail: ?Object, form: Object } = this.props;
     const { getFieldDecorator }: { getFieldDecorator: Function } = form;
     const colsArea1: Object = { labelCol: { span: 4 }, wrapperCol: { span: 20 } };

@@ -5,18 +5,18 @@ import { Card, Checkbox, Form, Input, InputNumber } from 'antd';
 import style from '../style.sass';
 import * as ShuoMing from '../utils/shuoming';
 
-class Koudai48RoomListener extends Component{
+class Koudai48RoomListener extends Component {
   static propTypes: Object = {
     form: PropTypes.object,
     detail: PropTypes.object
   };
 
-  render(): React.Element{
+  render(): React.Element {
     const { detail, form }: { detail: ?Object, form: Object } = this.props;
     const { getFieldDecorator }: { getFieldDecorator: Function } = form;
     const colsArea2: Object = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };
 
-    const isRoomListener: boolean = detail?.basic?.isRoomListener;   // 房间监听
+    const isRoomListener: boolean = detail?.basic?.isRoomListener; // 房间监听
     const isRoomSendImage: boolean = detail?.basic?.isRoomSendImage; // 房间信息发送图片和链接
 
     return (
@@ -53,10 +53,10 @@ class Koudai48RoomListener extends Component{
                   required: true
                 },
                 {
-                  validator: (rule: Object, value: number, callback: Function): void =>{
-                    if(value < 15){
+                  validator: (rule: Object, value: number, callback: Function): void => {
+                    if (value < 15) {
                       callback(rule.message);
-                    }else{
+                    } else {
                       callback();
                     }
                   },

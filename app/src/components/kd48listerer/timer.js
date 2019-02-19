@@ -5,68 +5,74 @@ import { time } from '../../utils';
 import store from '../../store/store';
 import Kd48listenerWorker from 'worker-loader?name=script/[hash:5].worker.js!./kd48listener.worker';
 
-let oldList: Object = {};  // 旧列表
+let oldList: Object = {}; // 旧列表
 
-function array2obj(rawArray: Array): Object{
+function array2obj(rawArray: Array): Object {
   const o: Object = {};
-  $.each(rawArray, (index: number, item: Object): void=>{
+
+  $.each(rawArray, (index: number, item: Object): void => {
     o[item.liveId] = item;
   });
+
   return o;
 }
 
 /* 初始化 */
-export async function init(): Promise<void>{
-  try{
+export async function init(): Promise<void> {
+  try {
     const data: string = await post();
     const data2: Object = JSON.parse(data);
-    if(data2.status === 200 && 'liveList' in data2.content){
+
+    if (data2.status === 200 && 'liveList' in data2.content) {
       // 以liveId作为键名，存成Object
       oldList = array2obj(data2.content.liveList);
     }
-  }catch(err){
+  } catch (err) {
     console.error(err);
   }
 }
 
 /* 轮询 */
-async function kd48timer(): Promise<void>{
-  try{
+async function kd48timer(): Promise<void> {
+  try {
     // 获取新数据
     const data: Object = await post();
     const data2: Object = JSON.parse(data);
     let newData: Array = [];
-    if(data2.status === 200 && 'liveList' in data2.content){
+
+    if (data2.status === 200 && 'liveList' in data2.content) {
       newData = data2.content.liveList;
     }
     // 开启新计算线程
     const worker: Worker = new Kd48listenerWorker();
-    const cb: Function = async(event: Event): Promise<void>=>{
+    const cb: Function = async (event: Event): Promise<void> => {
       const { newDataObj, newLive }: {
         newDataObj: Object,
         newLive: Array
       } = event.data;
+
       oldList = newDataObj; // 覆盖旧数据
       // 当有新直播时，遍历已登录的CoolQ，并发送数据
-      if(newLive.length > 0){
+      if (newLive.length > 0) {
         const ll: Immutable.Map | Array = store.getState().get('login').get('qqLoginList');
         const ll2: Array = ll instanceof Array ? ll : ll.toJS();
 
         // 发送数据
-        for(let i1: number = newLive.length - 1, j2: number = ll2.length; i1 >= 0; i1--){
+        for (let i1: number = newLive.length - 1, j2: number = ll2.length; i1 >= 0; i1--) {
           const item1: Object = newLive[i1];
-          for(let i2: number = 0; i2 < j2; i2++){
+
+          for (let i2: number = 0; i2 < j2; i2++) {
             const item2: Object = ll2[i2];
             const basic: Object = item2.option.basic;
 
-            if(
+            if (
               basic.is48LiveListener // 开启直播功能
               && (
-                basic.isListenerAll                       // 监听所有成员
-                || (item2.members && item2.members.test(item1.title))  // 正则匹配监听指定成员
+                basic.isListenerAll // 监听所有成员
+                || (item2.members && item2.members.test(item1.title)) // 正则匹配监听指定成员
                 || (item2.memberId && item2.memberId.includes(item1.memberId)) // id精确匹配监听指定成员
               )
-            ){
+            ) {
               const member: string = item1.title.split('的')[0],
                 subTitle: string = item1.subTitle,
                 time1: string = time('YY-MM-DD hh:mm:ss', item1.startTime),
@@ -78,7 +84,7 @@ async function kd48timer(): Promise<void>{
                                  + `视频地址：${ streamPath }`;
 
               // @所有人的功能
-              if(basic.is48LiveAtAll) text = `[CQ:at,qq=all] ${ text }`;
+              if (basic.is48LiveAtAll) text = `[CQ:at,qq=all] ${ text }`;
 
               await qq.sendMessage(text);
             }
@@ -89,12 +95,13 @@ async function kd48timer(): Promise<void>{
       worker.removeEventListener('message', cb);
       worker.terminate();
     };
+
     worker.addEventListener('message', cb, false);
     worker.postMessage({
       oldData: oldList,
       newData
     });
-  }catch(err){
+  } catch (err) {
     console.error(err);
   }
 }

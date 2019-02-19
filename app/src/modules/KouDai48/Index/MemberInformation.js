@@ -10,7 +10,7 @@ import { requestMemberInformation } from '../../../components/kd48listerer/roomL
 const state: Function = createStructuredSelector({});
 
 /* dispatch */
-const dispatch: Function = (dispatch: Function): Object=>({
+const dispatch: Function = (dispatch: Function): Object => ({
   action: bindActionCreators({
     getMemberInformation,
     addMemberInformation
@@ -18,35 +18,35 @@ const dispatch: Function = (dispatch: Function): Object=>({
 });
 
 @connect(state, dispatch)
-class MemberInformation extends Component{
-  constructor(): void{
+class MemberInformation extends Component {
+  constructor(): void {
     super(...arguments);
 
     this.state = {
-      memberName: null,   // 成员姓名
-      roomId: null        // 房间姓名
+      memberName: null, // 成员姓名
+      roomId: null // 房间姓名
     };
   }
-  async componentDidMount(): Promise<void>{
-    try{
+  async componentDidMount(): Promise<void> {
+    try {
       const memberId: number = this.props.item.memberId;
       const infor: Object = await this.props.action.getMemberInformation({
         query: memberId
       });
 
-      if(infor.result !== undefined){
+      if (infor.result !== undefined) {
         // 从数据库查找缓存
         this.setState({
           memberName: infor.result.memberName,
           roomId: infor.result.roomId
         });
-      }else{
+      } else {
         // 从接口获取数据
         const data: Object = await requestMemberInformation(memberId);
         let roomInfo: Object = data.content.roomInfo;
 
         // 兼容
-        if(!(roomInfo && ('memberName' in roomInfo) && ('roomId' in roomInfo))){
+        if (!(roomInfo && ('memberName' in roomInfo) && ('roomId' in roomInfo))) {
           roomInfo = {};
           roomInfo.memberName = '';
           roomInfo.roomId = '';
@@ -71,23 +71,23 @@ class MemberInformation extends Component{
           roomId
         });
       }
-    }catch(err){
+    } catch (err) {
       console.error(err);
     }
   }
-  render(): ?(Array | Object){
-    if(this.state.memberName !== null && this.state.roomId !== null){
-      if(this.state.memberName !== '' && this.state.roomId !== ''){
+  render(): ?(Array | Object) {
+    if (this.state.memberName !== null && this.state.roomId !== null) {
+      if (this.state.memberName !== '' && this.state.roomId !== '') {
         return [
           <b key="0" className={ style.keyName }>memberName:</b>,
           <span key="1" className={ style.mr20 }>{ this.state.memberName }</span>,
           <b key="2" className={ style.keyName }>roomId:</b>,
           <span key="3">{ this.state.roomId }</span>
         ];
-      }else{
+      } else {
         return null;
       }
-    }else{
+    } else {
       return (
         <span className={ style.loadingText }>加载中...</span>
       );

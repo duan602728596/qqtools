@@ -5,22 +5,23 @@ import $ from 'jquery';
 import style from './style.sass';
 
 /* 将Obj转换成Array */
-function customProfiles(customProfiles: Object): Array{
+function customProfiles(customProfiles: Object): Array {
   const custom: { command: string, text: string }[] = [];
-  $.each(customProfiles, (key: string, value: string): void=>{
+
+  $.each(customProfiles, (key: string, value: string): void => {
     custom.push({
       command: key,
       text: value
     });
   });
-  if(custom.length === 0){
+  if (custom.length === 0) {
     return (
       <tr>
         <td colSpan={ 4 }>无自定义命令</td>
       </tr>
     );
-  }else{
-    return custom.map((item: Object, index: number): React.Element=>{
+  } else {
+    return custom.map((item: Object, index: number): React.Element => {
       return (
         <tr key={ item.command }>
           <td>{ item.command }</td>
@@ -33,12 +34,12 @@ function customProfiles(customProfiles: Object): Array{
   }
 }
 
-function isOpen(data: boolean): React.Element{
+function isOpen(data: boolean): React.Element {
   return data ? <span className={ style.on }>开启</span> : <span className={ style.off }>未开启</span>;
 }
 
-function Detail(props: ?Object): ?React.Element{
-  if(!props.detail) return null;
+function Detail(props: ?Object): ?React.Element {
+  if (!props.detail) return null;
 
   const { detail }: { detail: Object } = props;
   const { basic }: { basic: Object } = detail;

@@ -26,15 +26,18 @@ import * as ShuoMing from './utils/shuoming';
 const COMMAND: string = '摩点|集资|mod|补卡|查卡直播列表|zb|help';
 
 /* 判断当前的cmd是否存在，并且返回index */
-function getIndex(lists: Array, cmd: string): ?number{
+function getIndex(lists: Array, cmd: string): ?number {
   let index: number = null;
-  for(let i: number = 0, j: number = lists.length; i < j; i++){
+
+  for (let i: number = 0, j: number = lists.length; i < j; i++) {
     const reg: RegExp = new RegExp(`^\\s*(${ lists[i].command }|${ COMMAND })\\s*$`, 'i');
-    if(reg.test(cmd)){
+
+    if (reg.test(cmd)) {
       index = i;
       break;
     }
   }
+
   return index;
 }
 
@@ -42,7 +45,7 @@ function getIndex(lists: Array, cmd: string): ?number{
 const state: Function = createStructuredSelector({});
 
 /* dispatch */
-const dispatch: Function = (dispatch: Function): Object=>({
+const dispatch: Function = (dispatch: Function): Object => ({
   action: bindActionCreators({
     putOption
   }, dispatch)
@@ -51,7 +54,7 @@ const dispatch: Function = (dispatch: Function): Object=>({
 @withRouter
 @Form.create()
 @connect(state, dispatch)
-class Add extends Component{
+class Add extends Component {
   state: {
     customProfiles: Object[],
     modalDisplay: boolean,
@@ -71,26 +74,26 @@ class Add extends Component{
     match: PropTypes.object
   };
 
-  constructor(): void{
+  constructor(): void {
     super(...arguments);
 
     this.state = {
-      customProfiles: [],  // 自定义配置
+      customProfiles: [], // 自定义配置
       modalDisplay: false, // modal显示
-      cmd: '',             // 表单cmd
-      text: '',            // 表单文字
-      item: null           // 被选中
+      cmd: '', // 表单cmd
+      text: '', // 表单文字
+      item: null // 被选中
     };
   }
-  componentDidMount(): void{
-    if('query' in this.props.location){
+  componentDidMount(): void {
+    if ('query' in this.props.location) {
       this.setState({
         customProfiles: customProfilesObj2Array(this.props.location.query.detail.custom)
       });
     }
   }
   // 图表配置
-  columns(): Array{
+  columns(): Array {
     const columns: Array = [
       {
         title: '命令',
@@ -103,7 +106,7 @@ class Add extends Component{
         dataIndex: 'text',
         key: 'text',
         width: '60%',
-        render: (value: string, item: Object, index: number): React.Element=>{
+        render: (value: string, item: Object, index: number): React.Element => {
           return (
             <pre>{ value }</pre>
           );
@@ -113,7 +116,7 @@ class Add extends Component{
         title: '操作',
         key: 'handle',
         width: '20%',
-        render: (value: any, item: Object, index: number): React.ChildrenArray<React.Element>=>{
+        render: (value: any, item: Object, index: number): React.ChildrenArray<React.Element> => {
           return [
             <Button key="edit" className={ style.mr10 } size="small" onClick={ this.handleEditClick.bind(this, item) }>修改</Button>,
             <Popconfirm key="delete" title="确认要删除吗？" onConfirm={ this.handleDeleteClick.bind(this, item) }>
@@ -123,22 +126,23 @@ class Add extends Component{
         }
       }
     ];
+
     return columns;
   }
   // 表单的change事件
-  handleInputChange(key: string, event: Event): void{
+  handleInputChange(key: string, event: Event): void {
     this.setState({
       [key]: event.target.value
     });
   }
   // modal显示
-  handleModalOpenClick(event: Event): void{
+  handleModalOpenClick(event: Event): void {
     this.setState({
       modalDisplay: true
     });
   }
   // modal关闭事件
-  handleModalCloseClick(event: Event): void{
+  handleModalCloseClick(event: Event): void {
     this.setState({
       modalDisplay: false,
       cmd: '',
@@ -147,8 +151,8 @@ class Add extends Component{
     });
   }
   // 添加
-  handleAddClick(event: Event): void{
-    if(getIndex(this.state.customProfiles, this.state.cmd) === null){
+  handleAddClick(event: Event): void {
+    if (getIndex(this.state.customProfiles, this.state.cmd) === null) {
       this.state.customProfiles.push({
         command: this.state.cmd,
         text: this.state.text
@@ -159,12 +163,12 @@ class Add extends Component{
         cmd: '',
         text: ''
       });
-    }else{
+    } else {
       message.error('该命令已存在！');
     }
   }
   // 编辑
-  handleEditClick(item: Object, event: Event): void{
+  handleEditClick(item: Object, event: Event): void {
     this.setState({
       modalDisplay: true,
       cmd: item.command,
@@ -173,9 +177,10 @@ class Add extends Component{
     });
   }
   // 保存编辑
-  handleSaveClick(event: Event): void{
-    if(getIndex(this.state.customProfiles, this.state.cmd) === null || this.state.cmd === this.state.item.command){
+  handleSaveClick(event: Event): void {
+    if (getIndex(this.state.customProfiles, this.state.cmd) === null || this.state.cmd === this.state.item.command) {
       const index: number = getIndex(this.state.customProfiles, this.state.item.command);
+
       this.state.customProfiles[index] = {
         command: this.state.cmd,
         text: this.state.text
@@ -186,24 +191,26 @@ class Add extends Component{
         cmd: '',
         text: ''
       });
-    }else{
+    } else {
       message.error('该命令已存在！');
     }
   }
   // 删除
-  handleDeleteClick(item: Object, event: Event): void{
+  handleDeleteClick(item: Object, event: Event): void {
     const index: number = getIndex(this.state.customProfiles, item.command);
+
     this.state.customProfiles.splice(index, 1);
     this.setState({
       customProfiles: this.state.customProfiles
     });
   }
   // 提交
-  handleSubmit(event: Event): void{
+  handleSubmit(event: Event): void {
     event.preventDefault();
-    this.props.form.validateFields(async(err: any, value: Object): Promise<void>=>{
-      if(!err){
+    this.props.form.validateFields(async (err: any, value: Object): Promise<void> => {
+      if (!err) {
         const data: Object = interfaceOption(value, this.state.customProfiles);
+
         await this.props.action.putOption({
           data
         });
@@ -211,7 +218,7 @@ class Add extends Component{
       }
     });
   }
-  render(): React.ChildrenArray<React.Element>{
+  render(): React.ChildrenArray<React.Element> {
     const { props }: { props: Object } = this;
     const detail: ?Object = 'query' in props.location ? props.location.query.detail : null;
     const { form }: { form: Object } = props;
@@ -270,7 +277,7 @@ class Add extends Component{
           <Table columns={ this.columns() }
             dataSource={ this.state.customProfiles }
             size="small"
-            rowKey={ (item: Object): string=>item.command }
+            rowKey={ (item: Object): string => item.command }
           />
         </Card>
       </Form>,

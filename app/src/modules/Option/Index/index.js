@@ -15,14 +15,14 @@ const fs: Object = global.require('fs');
 
 /* 初始化数据 */
 const state: Function = createStructuredSelector({
-  optionList: createSelector(         // 配置列表
+  optionList: createSelector( // 配置列表
     ($$state: Immutable.Map): ?Immutable.Map => $$state.has('option') ? $$state.get('option') : null,
     ($$data: ?Immutable.Map): Array => $$data !== null ? $$data.get('optionList').toJS() : []
   )
 });
 
 /* dispatch */
-const dispatch: Function = (dispatch: Function): Object=>({
+const dispatch: Function = (dispatch: Function): Object => ({
   action: bindActionCreators({
     optionList,
     cursorOption,
@@ -32,7 +32,7 @@ const dispatch: Function = (dispatch: Function): Object=>({
 });
 
 @connect(state, dispatch)
-class Index extends Component{
+class Index extends Component {
   state: {
     visible1: boolean,
     visible2: boolean
@@ -43,7 +43,7 @@ class Index extends Component{
     action: PropTypes.objectOf(PropTypes.func)
   };
 
-  constructor(): void{
+  constructor(): void {
     super(...arguments);
 
     this.state = {
@@ -51,7 +51,7 @@ class Index extends Component{
       visible2: false
     };
   }
-  columns(): Array{
+  columns(): Array {
     return [
       {
         title: '配置名称',
@@ -75,7 +75,7 @@ class Index extends Component{
         title: '操作',
         key: 'handle',
         width: '25%',
-        render: (value: any, item: Object, index: number): React.ChildrenArray<React.Element>=>{
+        render: (value: any, item: Object, index: number): React.ChildrenArray<React.Element> => {
           return [
             <Link key="link" to={{
               pathname: '/Option/Edit',
@@ -93,7 +93,7 @@ class Index extends Component{
       }
     ];
   }
-  componentDidMount(): void{
+  componentDidMount(): void {
     this.props.action.cursorOption({
       query: {
         indexName: 'time'
@@ -101,9 +101,10 @@ class Index extends Component{
     });
   }
   // 删除
-  async handleDeleteOptionClick(item: Object, event: Event): Promise<void>{
-    try{
+  async handleDeleteOptionClick(item: Object, event: Event): Promise<void> {
+    try {
       const index: number = this.props.optionList.indexOf(item);
+
       await this.props.action.deleteOption({
         query: item.name
       });
@@ -111,29 +112,31 @@ class Index extends Component{
       this.props.action.optionList({
         optionList: this.props.optionList.slice()
       });
-    }catch(err){
+    } catch (err) {
       console.error(err);
     }
   }
   // 显示弹出层
-  handleModalDisplayClick(key: string, value: boolean, event: Event): void{
+  handleModalDisplayClick(key: string, value: boolean, event: Event): void {
     this.setState({
       [key]: value
     });
   }
   // 导入配置
-  handleExportConfigurationClick(event: Event): void{
+  handleExportConfigurationClick(event: Event): void {
     const files: jQuery = $('#exportConfiguration').val();
 
-    if(files === ''){
+    if (files === '') {
       message.error('必须选择一个保存位置！');
+
       return void 0;
     }
 
     const { ext }: { ext: string } = path.parse(files);
 
-    if(ext !== '.json'){
+    if (ext !== '.json') {
       message.error('导出的必须是一个json文件！');
+
       return void 0;
     }
 
@@ -141,35 +144,40 @@ class Index extends Component{
       configuration: this.props.optionList
     }, null, 2);
 
-    fs.writeFile(files, jsonStr, (err: any): void=>{
-      if(err){
+    fs.writeFile(files, jsonStr, (err: any): void => {
+      if (err) {
         message.error('导出失败！');
-      }else{
+      } else {
         message.success('导出成功');
         this.handleModalDisplayClick('visible1', false);
       }
     });
   }
-  handleImportConfigurationClick(event: Event): ?boolean{
+  handleImportConfigurationClick(event: Event): ?boolean {
     const files: jQuery = $('#importConfiguration').val();
-    if(files === ''){
+
+    if (files === '') {
       message.error('必须选择一个文件！');
+
       return false;
     }
     const { ext }: { ext: string } = path.parse(files);
-    if(ext !== '.json'){
+
+    if (ext !== '.json') {
       message.error('导入的必须是一个json文件！');
+
       return false;
     }
     fs.readFile(files, {
       encoding: 'utf8'
-    }, async(err: any, chunk: any): Promise<void>=>{
-      if(err){
+    }, async (err: any, chunk: any): Promise<void> => {
+      if (err) {
         message.error('导入失败');
-      }else{
+      } else {
         const data: Object = JSON.parse(chunk);
-        if('configuration' in data){
-          try{
+
+        if ('configuration' in data) {
+          try {
             await this.props.action.importOption({
               data: data.configuration
             });
@@ -180,7 +188,7 @@ class Index extends Component{
             });
             message.success('导入成功');
             this.handleModalDisplayClick('visible2', false);
-          }catch(err){
+          } catch (err) {
             console.error(err);
             message.error('导入失败！');
           }
@@ -189,7 +197,7 @@ class Index extends Component{
     });
 
   }
-  render(): React.ChildrenArray<React.Element>{
+  render(): React.ChildrenArray<React.Element> {
     return [
       <Affix key="affix" className={ publicStyle.affix }>
         <div className={ classNames(publicStyle.toolsBox, 'clearfix') }>

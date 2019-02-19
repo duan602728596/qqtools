@@ -6,10 +6,10 @@ const gui: Object = global.require('nw.gui');
  * @param { number } num
  * @return { string }
  */
-export function patchZero(num: number): string{
-  if(num < 10){
+export function patchZero(num: number): string {
+  if (num < 10) {
     return `0${ num }`;
-  }else{
+  } else {
     return `${ num }`;
   }
 }
@@ -20,7 +20,7 @@ export function patchZero(num: number): string{
  * @param { number | null } timeStr: 时间戳
  * @return { string }
  */
-export function time(modules: string, timeStr: ?number): string{
+export function time(modules: string, timeStr: ?number): string {
   const date: Object = timeStr ? new Date(timeStr) : new Date();
   const YY: number = date.getFullYear(),
     MM: number = date.getMonth() + 1,
@@ -42,12 +42,13 @@ export function time(modules: string, timeStr: ?number): string{
  * @param { String } template: 模板
  * @param { Object } data    : 数据
  */
-export function templateReplace(template: string, data: Object): string{
-  return template.replace(/{{\s*[a-zA-Z0-9_]+\s*}}/g, (text: string): string=>{
+export function templateReplace(template: string, data: Object): string {
+  return template.replace(/{{\s*[a-zA-Z0-9_]+\s*}}/g, (text: string): string => {
     const key: string = text.match(/[a-zA-Z0-9_]+/g);
-    if(key in data){
+
+    if (key in data) {
       return data[key];
-    }else{
+    } else {
       return '';
     }
   });
@@ -58,14 +59,16 @@ export function templateReplace(template: string, data: Object): string{
  * @param { string } str
  * @return { ?RegExp }
  */
-export function str2reg(str: string): ?RegExp{
+export function str2reg(str: string): ?RegExp {
   const str2: string[] = str.replace(/\s+/g, '').split(/\s*[,，]\s*/g); // 避免失误，所以使用了中文和英文字符
+
   // 去掉空字符串和纯数字
-  for(let i: number = str2.length - 1; i >= 0; i--){
-    if(str2[i] === '' || /^[0-9]+$/.test(str2[i])){
+  for (let i: number = str2.length - 1; i >= 0; i--) {
+    if (str2[i] === '' || /^[0-9]+$/.test(str2[i])) {
       str2.splice(i, 1);
     }
   }
+
   return str2.length === 0 ? null : new RegExp(`(${ str2.join('|') })`);
 }
 
@@ -74,29 +77,31 @@ export function str2reg(str: string): ?RegExp{
  * @param { string } str
  * @return { Array<number> }
  */
-export function str2numberArray(str: string): Array<number>{
+export function str2numberArray(str: string): Array<number> {
   const str2: string[] = str.replace(/\s+/g, '').split(/\s*[,，]\s*/g); // 避免失误，所以使用了中文和英文字符
   const result: [] = [];
+
   // 去掉空字符串和纯数字
-  for(let i: number = str2.length - 1; i >= 0; i--){
-    if(/^[0-9]+$/.test(str2[i])){
+  for (let i: number = str2.length - 1; i >= 0; i--) {
+    if (/^[0-9]+$/.test(str2[i])) {
       result.push(Number(str2[i]));
     }
   }
+
   return result;
 }
 
 /* 在浏览器上打开页面 */
-export function handleOpenBrowser(href: string, event: Event): void{
+export function handleOpenBrowser(href: string, event: Event): void {
   event.preventDefault();
   gui.Shell.openExternal(href);
 }
 
 /* 清除node的缓存 */
-export function cleanRequireCache(id: string): void{
+export function cleanRequireCache(id: string): void {
   const modulePath: string = global.require.resolve(id);
 
-  if(module.parent){
+  if (module.parent) {
     module.parent.children.splice(module.parent.children.indexOf(id), 1);
   }
 

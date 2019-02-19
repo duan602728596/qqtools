@@ -6,7 +6,7 @@ import style from '../style.sass';
 import * as ShuoMing from '../utils/shuoming';
 const path: Object = global.require('path');
 
-class ChoukaConfiguration extends Component{
+class ChoukaConfiguration extends Component {
   static propTypes: Object = {
     form: PropTypes.object,
     detail: PropTypes.object
@@ -15,28 +15,28 @@ class ChoukaConfiguration extends Component{
   choukaJsonRef: Object = createRef();
 
   // 选择文件
-  handleChangeJsonClick: Function = (event: Event): void=>{
+  handleChangeJsonClick: Function = (event: Event): void => {
     this.choukaJsonRef.current.click();
   };
   // input change
-  handleChangeJsonChange: Function = (event: Event): void=>{
+  handleChangeJsonChange: Function = (event: Event): void => {
     const file: Object = event.target.files[0];
     const pp: Object = path.parse(file.path);
 
-    if(pp.ext !== '.json'){
+    if (pp.ext !== '.json') {
       message.error('文件格式错误，必须是*.json文件格式！');
-    }else{
+    } else {
       this.props.form.setFieldsValue({
         choukaJson: file.path
       });
     }
   };
-  render(): React.Element{
+  render(): React.Element {
     const { detail, form }: { detail: ?Object, form: Object } = this.props;
     const { getFieldDecorator }: { getFieldDecorator: Function } = form;
     const colsArea3: Object = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };
 
-    const isChouka: boolean = detail?.basic?.isChouka;                   // 开启抽卡功能
+    const isChouka: boolean = detail?.basic?.isChouka; // 开启抽卡功能
     const isChoukaSendImage: boolean = detail?.basic?.isChoukaSendImage; // 抽卡发送图片
 
     return (

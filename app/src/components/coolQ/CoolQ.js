@@ -5,7 +5,7 @@ import { chouka } from '../chouka/chouka';
 import * as storagecard from '../chouka/storagecard';
 import bestCards from '../chouka/bestCards';
 
-class CoolQ{
+class CoolQ {
   time: number;
   qq: string;
   port: string;
@@ -40,36 +40,36 @@ class CoolQ{
   handleApiSocketError: Function;
   handleListenerApiMessage: Function;
 
-  constructor(qq: string, port: string, callback: Function): void{
-    this.time = null;                                       // 登录时间戳
-    this.qq = qq;                                           // qq号
-    this.port = port;                                       // socket端口
-    this.isError = false;                                   // 判断是否错误
+  constructor(qq: string, port: string, callback: Function): void {
+    this.time = null; // 登录时间戳
+    this.qq = qq; // qq号
+    this.port = port; // socket端口
+    this.isError = false; // 判断是否错误
     this.eventUrl = `ws://127.0.0.1:${ this.port }/event/`; // 地址
-    this.eventSocket = null;                                // socket
-    this.isEventSuccess = false;                            // 判断是否连接成功
-    this.apiUrl = `ws://127.0.0.1:${ this.port }/api/`;     // 地址
-    this.apiSocket = null;                                  // socket
-    this.isApiSuccess = false;                              // 判断是否连接成功
-    this.callback = callback;                               // 获得信息后的回调
-    this.coolqEdition = 'air';                              // 酷Q的版本
+    this.eventSocket = null; // socket
+    this.isEventSuccess = false; // 判断是否连接成功
+    this.apiUrl = `ws://127.0.0.1:${ this.port }/api/`; // 地址
+    this.apiSocket = null; // socket
+    this.isApiSuccess = false; // 判断是否连接成功
+    this.callback = callback; // 获得信息后的回调
+    this.coolqEdition = 'air'; // 酷Q的版本
 
-    this.option = null;                 // 配置
+    this.option = null; // 配置
     // 摩点项目相关
-    this.modianTitle = null;            // 摩点项目标题
-    this.modianGoal = null;             // 摩点项目目标
-    this.modianWorker = null;           // 摩点新线程
-    this.choukaJson = null;             // 抽卡配置
-    this.bukaQQNumber = null;           // 允许群里补卡的qq号
+    this.modianTitle = null; // 摩点项目标题
+    this.modianGoal = null; // 摩点项目目标
+    this.modianWorker = null; // 摩点新线程
+    this.choukaJson = null; // 抽卡配置
+    this.bukaQQNumber = null; // 允许群里补卡的qq号
     // 口袋48监听相关
-    this.members = null;                // 监听指定成员
-    this.memberId = null;               // 坚听成员id
+    this.members = null; // 监听指定成员
+    this.memberId = null; // 坚听成员id
     // 房间信息监听相关
-    this.roomListenerTimer = null;      // 轮询定时器
-    this.roomLastTime = null;           // 最后一次发言
-    this.kouDai48Token = null;          // token
+    this.roomListenerTimer = null; // 轮询定时器
+    this.roomLastTime = null; // 最后一次发言
+    this.kouDai48Token = null; // token
     // 微博监听相关
-    this.weiboWorker = null;            // 微博监听新线程
+    this.weiboWorker = null; // 微博监听新线程
     // 群内定时消息推送
     this.timingMessagePushTimer = null; // 群内定时消息推送定时器
 
@@ -81,38 +81,39 @@ class CoolQ{
     this.handleListenerApiMessage = this._handleListenerMessage.bind(this, 'api');
   }
   // 初始化连接
-  _handleOpenSocket(key: string, type: string, event: Event): void{
+  _handleOpenSocket(key: string, type: string, event: Event): void {
     this[key] = true;
     message.success(`【${ this.qq }】 Socket: ${ type }连接成功！`);
   }
   // 连接失败
-  _handleSocketError(type: string, event: Event): void{
+  _handleSocketError(type: string, event: Event): void {
     this.isError = true;
     message.error(`【${ this.qq }】 Socket: ${ type }连接失败！请检查酷Q的配置是否正确！`);
   }
   // 接收消息
-  _handleListenerMessage(type: string, event: Event): void{
+  _handleListenerMessage(type: string, event: Event): void {
     const dataJson: Object = JSON.parse(event.data);
     const gn: number = Number(this.option.groupNumber);
+
     console.log(dataJson);
 
     // 群消息
-    if(type === 'event' && 'group_id' in dataJson && dataJson.group_id === gn && dataJson.self_id === Number(this.qq)){
+    if (type === 'event' && 'group_id' in dataJson && dataJson.group_id === gn && dataJson.self_id === Number(this.qq)) {
       // 群聊天
-      if(dataJson.message_type === 'group'){
+      if (dataJson.message_type === 'group') {
         this.callback(dataJson, this);
       }
       // 新成员加入群
-      if(
+      if (
         (dataJson.post_type === 'notice' || dataJson.post_type === 'event')
         && (dataJson.notice_type === 'group_increase' || dataJson.event === 'group_increase')
         && this.option.basic.isNewGroupMember
-      ){
+      ) {
         this.getGroupMemberInfo(dataJson);
       }
     }
     // 群名片
-    if('data' in dataJson && 'nickname' in dataJson.data && 'group_id' in dataJson.data && dataJson.data.group_id === gn){
+    if ('data' in dataJson && 'nickname' in dataJson.data && 'group_id' in dataJson.data && dataJson.data.group_id === gn) {
       const { nickname, user_id }: { nickname: string, user_id: number } = dataJson.data;
 
       this.sendMessage(templateReplace(this.option.basic.welcomeNewGroupMember, {
@@ -121,12 +122,12 @@ class CoolQ{
       }));
     }
     // 酷Q版本
-    if('data' in dataJson && 'coolq_edition' in dataJson.data){
+    if ('data' in dataJson && 'coolq_edition' in dataJson.data) {
       this.coolqEdition = dataJson.data.coolq_edition;
     }
   }
   // 发送信息
-  sendMessage(message: string): void{
+  sendMessage(message: string): void {
     this.apiSocket.send(JSON.stringify({
       action: 'send_group_msg',
       params: {
@@ -136,7 +137,7 @@ class CoolQ{
     }));
   }
   // 查找群成员的名片
-  getGroupMemberInfo(dataJson: Object): void{
+  getGroupMemberInfo(dataJson: Object): void {
     const userId: number = dataJson.user_id;
 
     this.apiSocket.send(JSON.stringify({
@@ -149,13 +150,13 @@ class CoolQ{
     }));
   }
   // 查询酷Q的信息
-  getCoolQVersionInfo(): void{
+  getCoolQVersionInfo(): void {
     this.apiSocket.send(JSON.stringify({
       action: 'get_version_info'
     }));
   }
   // 初始化
-  init(): void{
+  init(): void {
     // event
     this.eventSocket = new WebSocket(this.eventUrl);
     this.eventSocket.addEventListener('open', this.handleOpenEventSocket, false);
@@ -168,9 +169,9 @@ class CoolQ{
     this.apiSocket.addEventListener('message', this.handleListenerApiMessage, false);
   }
   // 退出
-  outAndClear(): void{
+  outAndClear(): void {
     // 删除摩点的web worker
-    if(this.modianWorker){
+    if (this.modianWorker) {
       this.modianWorker.postMessage({
         type: 'cancel'
       });
@@ -179,12 +180,12 @@ class CoolQ{
     }
 
     // 关闭房间信息监听
-    if(this.roomListenerTimer !== null){
+    if (this.roomListenerTimer !== null) {
       global.clearTimeout(this.roomListenerTimer);
     }
 
     // 删除微博的web worker
-    if(this.weiboWorker){
+    if (this.weiboWorker) {
       this.weiboWorker.postMessage({
         type: 'cancel'
       });
@@ -193,7 +194,7 @@ class CoolQ{
     }
 
     // 删除群消息推送定时器
-    if(this.timingMessagePushTimer){
+    if (this.timingMessagePushTimer) {
       this.timingMessagePushTimer.cancel();
     }
 
@@ -214,9 +215,9 @@ class CoolQ{
   /* === 从此往下是业务相关 === */
 
   // web worker监听到摩点的返回信息
-  async listenModianWorkerCbInformation(event: Event): Promise<void>{
-    if(event.data.type === 'change'){
-      try{
+  async listenModianWorkerCbInformation(event: Event): Promise<void> {
+    if (event.data.type === 'change') {
+      try {
         const { data, alreadyRaised, backerCount, endTime, timedifference }: {
           data: Array,
           alreadyRaised: string,
@@ -238,35 +239,36 @@ class CoolQ{
         } = this.choukaJson || {};
 
         // 倒序发送消息
-        for(let i: number = data.length - 1; i >= 0; i--){
+        for (let i: number = data.length - 1; i >= 0; i--) {
           const item: Object = data[i];
 
           // 抽卡
           const choukaStr: string[] = [];
           let cqImage: string = '';
 
-          if(isChouka){
+          if (isChouka) {
             // 把卡存入数据库
             const kaResult: [] = await storagecard.query(db, item.userid);
             const record: Object = kaResult.length === 0 ? {} : JSON.parse(kaResult[0].record);
 
             const choukaResult: Object = chouka(cards, money, Number(item.pay_amount), multiple);
 
-            for(const key: string in choukaResult){
+            for (const key: string in choukaResult) {
               const item2: Object = choukaResult[key];
               const str: string = `【${ item2.level }】${ item2.name } * ${ item2.length }`;
+
               choukaStr.push(str);
 
-              if(item2.id in record) record[item2.id] += item2.length;
+              if (item2.id in record) record[item2.id] += item2.length;
               else record[item2.id] = item2.length;
             }
 
-            if(isChoukaSendImage && this.coolqEdition === 'pro'){
+            if (isChoukaSendImage && this.coolqEdition === 'pro') {
               cqImage = bestCards(choukaResult, 2);
             }
 
             // 把卡存入数据库
-            if(kaResult.length === 0) await storagecard.insert(db, item.userid, item.nickname, record);
+            if (kaResult.length === 0) await storagecard.insert(db, item.userid, item.nickname, record);
             else await storagecard.update(db, item.userid, item.nickname, record);
           }
 
@@ -286,36 +288,39 @@ class CoolQ{
 
           await this.sendMessage(msg);
         }
-      }catch(err){
+      } catch (err) {
         console.error(err);
       }
     }
   }
   // 监听信息
-  async listenRoomMessage(): Promise<void>{
+  async listenRoomMessage(): Promise<void> {
     const basic: Object = this.option.basic;
     const times: number = basic.liveListeningInterval ? (basic.liveListeningInterval * 1000) : 15000;
 
-    try{
+    try {
       const data2: Object = await requestRoomMessage(this.option.basic.roomId, this.kouDai48Token);
 
-      if(!(data2.status === 200 && 'content' in data2)){
+      if (!(data2.status === 200 && 'content' in data2)) {
         this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
+
         return;
       }
 
       const newTime: number = data2.content.data[0].msgTime;
 
       // 新时间大于旧时间，获取25条数据
-      if(!(newTime > this.roomLastTime)){
+      if (!(newTime > this.roomLastTime)) {
         this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
+
         return;
       }
 
-      const data3: Object = await requestRoomMessage(this.option.basic.roomId, this.kouDai48Token, 25);  // 重新获取数据
+      const data3: Object = await requestRoomMessage(this.option.basic.roomId, this.kouDai48Token, 25); // 重新获取数据
 
-      if(!(data3.status === 200 && 'content' in data3)){
+      if (!(data3.status === 200 && 'content' in data3)) {
         this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
+
         return;
       }
 
@@ -323,12 +328,13 @@ class CoolQ{
       const sendStr: string[] = [];
       const data: Array = data3.content.data;
 
-      for(let i: number = 0, j: number = data.length; i < j; i++){
+      for (let i: number = 0, j: number = data.length; i < j; i++) {
         const item: Object = data[i];
 
-        if(item.msgTime > this.roomLastTime){
+        if (item.msgTime > this.roomLastTime) {
           const extInfo: Object = JSON.parse(item.extInfo);
-          switch(extInfo.messageObject){
+
+          switch (extInfo.messageObject) {
             // 普通信息
             case 'text':
               sendStr.push(`${ extInfo.senderName }：${ extInfo.text }\n`
@@ -337,6 +343,7 @@ class CoolQ{
             // 翻牌信息
             case 'faipaiText':
               const ui: Object = await requestUserInformation(extInfo.faipaiUserId);
+
               sendStr.push(`${ ui.content.userInfo.nickName }：${ extInfo.faipaiContent }\n`
                          + `${ extInfo.senderName }：${ extInfo.messageText }\n`
                          + `时间：${ item.msgTimeStr }`);
@@ -347,7 +354,7 @@ class CoolQ{
               let txt: string = `${ extInfo.senderName }：`;
 
               // 判断是否是air还是pro
-              if(this.option.basic.isRoomSendImage && this.coolqEdition === 'pro') txt += `\n[CQ:image,file=${ url }]\n`;
+              if (this.option.basic.isRoomSendImage && this.coolqEdition === 'pro') txt += `\n[CQ:image,file=${ url }]\n`;
               else txt += `${ url }\n`;
 
               sendStr.push(`${ txt }时间：${ item.msgTimeStr }`);
@@ -355,12 +362,14 @@ class CoolQ{
             // 发送语音
             case 'audio':
               const url2: string = JSON.parse(item.bodys).url;
+
               sendStr.push(`${ extInfo.senderName } 发送了一条语音：${ url2 }\n`
                          + `时间：${ item.msgTimeStr }`);
               break;
             // 发送短视频
             case 'videoRecord':
               const url3: string = JSON.parse(item.bodys).url;
+
               sendStr.push(`${ extInfo.senderName } 发送了一个视频：${ url3 }\n`
                          + `时间：${ item.msgTimeStr }`);
               break;
@@ -378,48 +387,49 @@ class CoolQ{
                          + `时间：${ item.msgTimeStr }`);
               break;
           }
-        }else{
+        } else {
           break;
         }
       }
 
       // 倒序数组发送消息
-      for(let i: number = sendStr.length - 1; i >= 0; i--){
+      for (let i: number = sendStr.length - 1; i >= 0; i--) {
         await this.sendMessage(sendStr[i]);
       }
       // 更新时间节点
       this.roomLastTime = data[0].msgTime;
-    }catch(err){
+    } catch (err) {
       console.error(err);
     }
     this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
   }
   // web worker监听到微博的返回信息
-  async listenWeiboWorkerCbInformation(event: Event): Promise<void>{
+  async listenWeiboWorkerCbInformation(event: Event): Promise<void> {
     const { isWeiboAtAll }: { isWeiboAtAll: boolean } = this.option.basic;
 
-    if(event.data.type === 'change'){
-      try{
+    if (event.data.type === 'change') {
+      try {
         const { data }: { data: Array } = event.data;
+
         // 倒序发送消息
-        for(let i: number = data.length - 1; i >= 0; i--){
+        for (let i: number = data.length - 1; i >= 0; i--) {
           let item: string = data[i];
 
           // @所有人的功能
-          if(isWeiboAtAll) item = `[CQ:at,qq=all] ${ item }`;
+          if (isWeiboAtAll) item = `[CQ:at,qq=all] ${ item }`;
 
           await this.sendMessage(item);
         }
-      }catch(err){
+      } catch (err) {
         console.error(err);
       }
     }
   }
   // 群内定时推送消息
-  async timingMessagePush(msg: string): Promise<void>{
-    try{
+  async timingMessagePush(msg: string): Promise<void> {
+    try {
       await this.sendMessage(msg);
-    }catch(err){
+    } catch (err) {
       console.error(err);
     }
   }

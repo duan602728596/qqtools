@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 import style from './style.sass';
 
-const Index: Function = (props: Object): React.ChildrenArray<React.Element>=>{
+const Index: Function = (props: Object): React.ChildrenArray<React.Element> => {
   return [
     /* 返回 */
     <Link key="0" className={ style.back } to="/">

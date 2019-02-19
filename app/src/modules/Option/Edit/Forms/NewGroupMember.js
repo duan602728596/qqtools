@@ -6,13 +6,13 @@ import style from '../style.sass';
 import * as initialValues from '../utils/initialValues';
 import * as ShuoMing from '../utils/shuoming';
 
-class NewGroupMember extends Component{
+class NewGroupMember extends Component {
   static propTypes: Object = {
     form: PropTypes.object,
     detail: PropTypes.object
   };
 
-  render(): React.Element{
+  render(): React.Element {
     const { detail, form }: { detail: ?Object, form: Object } = this.props;
     const { getFieldDecorator }: { getFieldDecorator: Function } = form;
     const colsArea2: Object = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };

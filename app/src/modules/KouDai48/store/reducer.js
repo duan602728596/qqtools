@@ -7,7 +7,7 @@ import { db } from '../../../components/indexedDB/indexedDB-init';
 const initData: {
   loginInformation: ?Object
 } = {
-  loginInformation: null  // 登录信息
+  loginInformation: null // 登录信息
 };
 
 /* Action */
@@ -15,11 +15,12 @@ type optType = {
   objectStoreName: string
 };
 const opt: optType = {
-  objectStoreName: option.indexeddb.objectStore[2].name  // loginInformation
+  objectStoreName: option.indexeddb.objectStore[2].name // loginInformation
 };
 const opt2: optType = {
-  objectStoreName: option.indexeddb.objectStore[1].name  // memberId
+  objectStoreName: option.indexeddb.objectStore[1].name // memberId
 };
+
 export const loginInformation: Function = createAction('登录信息');
 export const getLoginInformation: Function = db.getAction({
   ...opt,
@@ -38,8 +39,9 @@ export const clearMemberInformation: Function = db.clearAction(opt2);
 
 /* reducer */
 const reducer: Function = handleActions({
-  [loginInformation]: ($$state: Immutable.Map, action: Object): Immutable.Map=>{
+  [loginInformation]: ($$state: Immutable.Map, action: Object): Immutable.Map => {
     const data: Array = 'data' in action.payload ? action.payload.data : action.payload.result;
+
     return $$state.set('loginInformation', data ? data : null);
   }
 }, fromJS(initData));

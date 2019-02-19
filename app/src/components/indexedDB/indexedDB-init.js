@@ -6,20 +6,20 @@ const { indexeddb }: { indexeddb: Object } = option;
 
 /* 初始化所有的数据库 */
 IndexedDB(indexeddb.name, indexeddb.version, {
-  success(event: Event): void{
+  success(event: Event): void {
     this.close();
   },
-  upgradeneeded(event: Event): void{
+  upgradeneeded(event: Event): void {
     const objectStore: Array = indexeddb.objectStore;
 
-    for(let i: number = 0, j: number = objectStore.length; i < j; i++){
+    for (let i: number = 0, j: number = objectStore.length; i < j; i++) {
       const { name, key, data }: {
         name: string,
         key: string,
         data: ?Array
       } = objectStore[i];
 
-      if(!this.hasObjectStore(name)){
+      if (!this.hasObjectStore(name)) {
         this.createObjectStore(name, key, data);
       }
     }

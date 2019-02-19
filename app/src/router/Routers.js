@@ -10,8 +10,8 @@ const KouDai48Bundle: Function = asyncModule((): Promise => import('../modules/K
 const HelpBundle: Function = asyncModule((): Promise => import('../modules/Help/Layout'));
 
 /* 路由模块 */
-class Routers extends Component{
-  render(): React.Element{
+class Routers extends Component {
+  render(): React.Element {
     return (
       <Switch>
         {/* 首页 */}

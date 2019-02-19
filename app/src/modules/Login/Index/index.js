@@ -13,18 +13,18 @@ import { changeQQLoginList, kd48LiveListenerTimer } from '../store/reducer';
 const getState: Function = ($$state: Immutable.Map): ?Immutable.Map => $$state.has('login') ? $$state.get('login') : null;
 
 const state: Function = createStructuredSelector({
-  qqLoginList: createSelector(             // 已登录
+  qqLoginList: createSelector( // 已登录
     getState,
     ($$data: ?Immutable.Map): Array => $$data !== null ? $$data.get('qqLoginList').toJS() : []
   ),
-  kd48LiveListenerTimer: createSelector(   // 口袋直播
+  kd48LiveListenerTimer: createSelector( // 口袋直播
     getState,
     ($$data: ?Immutable.Map): ?number => $$data !== null ? $$data.get('kd48LiveListenerTimer') : null
   )
 });
 
 /* dispatch */
-const dispatch: Function = (dispatch: Function): Object=>({
+const dispatch: Function = (dispatch: Function): Object => ({
   action: bindActionCreators({
     changeQQLoginList,
     kd48LiveListenerTimer
@@ -32,7 +32,7 @@ const dispatch: Function = (dispatch: Function): Object=>({
 });
 
 @connect(state, dispatch)
-class Index extends Component{
+class Index extends Component {
   static propTypes: Object = {
     qqLoginList: PropTypes.array,
     kd48LiveListenerTimer: PropTypes.number,
@@ -40,7 +40,7 @@ class Index extends Component{
   };
 
   // 表格配置
-  columus(): Array{
+  columus(): Array {
     return [
       {
         title: '配置名称',
@@ -64,7 +64,7 @@ class Index extends Component{
         title: '操作',
         key: 'handle',
         width: '25%',
-        render: (value: any, item: CoolQ): React.Element=>{
+        render: (value: any, item: CoolQ): React.Element => {
           return (
             <Popconfirm title="确认要退出吗？" onConfirm={ this.handleLogOutClick.bind(this, item) }>
               <Button type="danger" size="small" icon="logout">退出</Button>
@@ -75,8 +75,9 @@ class Index extends Component{
     ];
   }
   // 退出
-  handleLogOutClick(item: CoolQ, event: Event): void{
+  handleLogOutClick(item: CoolQ, event: Event): void {
     const index: number = this.props.qqLoginList.indexOf(item);
+
     item.outAndClear();
 
     this.props.qqLoginList.splice(index, 1);
@@ -85,16 +86,18 @@ class Index extends Component{
     });
 
     // 判断是否需要关闭直播监听
-    if(this.props.kd48LiveListenerTimer !== null){
+    if (this.props.kd48LiveListenerTimer !== null) {
       let isListener: boolean = false;
-      for(let i: number = 0, j: number = this.props.qqLoginList.length; i < j; i++){
+
+      for (let i: number = 0, j: number = this.props.qqLoginList.length; i < j; i++) {
         const item: CoolQ = this.props.qqLoginList[i];
-        if(item.option.basic.is48LiveListener && item.members){
+
+        if (item.option.basic.is48LiveListener && item.members) {
           isListener = true;
           break;
         }
       }
-      if(isListener === false){
+      if (isListener === false) {
         global.clearInterval(this.props.kd48LiveListenerTimer);
         this.props.action.kd48LiveListenerTimer({
           timer: null
@@ -102,7 +105,7 @@ class Index extends Component{
       }
     }
   }
-  render(): React.ChildrenArray<React.Element>{
+  render(): React.ChildrenArray<React.Element> {
     return [
       <Affix key="affix" className={ publicStyle.affix }>
         <div className={ classNames(publicStyle.toolsBox, 'clearfix') }>

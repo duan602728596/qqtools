@@ -1,5 +1,30 @@
 import $ from 'jquery';
 
+/* 将Array转换成Obj */
+function customProfilesArray2Obj(customProfiles: { command: string, text: string }[]): Object {
+  const custom: Object = {};
+
+  $.each(customProfiles, (index: number, item: { command: string, text: string }): void => {
+    custom[item.command] = item.text;
+  });
+
+  return custom;
+}
+
+/* 将Obj转换成Array */
+export function customProfilesObj2Array(customProfiles: Object): { command: string, text: string }[] {
+  const custom: { command: string, text: string }[] = [];
+
+  $.each(customProfiles, (key: string, value: string): void => {
+    custom.push({
+      command: key,
+      text: value
+    });
+  });
+
+  return custom;
+}
+
 /**
  * name       配置名称
  * id         配置的id
@@ -53,7 +78,7 @@ type interfaceOptionType = {
   custom: Object
 };
 
-function interfaceOption(value: Object, customProfiles: { command: string, text: string }[]): interfaceOptionType{
+function interfaceOption(value: Object, customProfiles: { command: string, text: string }[]): interfaceOptionType {
   const custom: Object = customProfilesArray2Obj(customProfiles);
   const inter: interfaceOption = {
     name: value.name,
@@ -100,28 +125,8 @@ function interfaceOption(value: Object, customProfiles: { command: string, text:
     },
     custom
   };
+
   return inter;
-}
-
-/* 将Array转换成Obj */
-function customProfilesArray2Obj(customProfiles: { command: string, text: string }[]): Object{
-  const custom: Object = {};
-  $.each(customProfiles, (index: number, item: { command: string, text: string }): void=>{
-    custom[item.command] = item.text;
-  });
-  return custom;
-}
-
-/* 将Obj转换成Array */
-export function customProfilesObj2Array(customProfiles: Object): { command: string, text: string }[]{
-  const custom: { command: string, text: string }[] = [];
-  $.each(customProfiles, (key: string, value: string): void=>{
-    custom.push({
-      command: key,
-      text: value
-    });
-  });
-  return custom;
 }
 
 export default interfaceOption;

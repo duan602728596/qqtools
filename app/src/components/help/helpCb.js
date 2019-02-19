@@ -1,17 +1,17 @@
 /* 帮助命令 */
 import $ from 'jquery';
 
-async function helpCb(qq: CoolQ): Promise<void>{
+async function helpCb(qq: CoolQ): Promise<void> {
   const { basic, custom }: {
     basic: Object,
     custom: Object
   } = qq.option;
 
-  if(!basic.isHelpCommend){
+  if (!basic.isHelpCommend) {
     return void 0;
   }
 
-  try{
+  try {
     const text1: string = `【帮助】
   · [摩点 或 集资 或 mod]:查看当前微打赏链接
   · [(摩点 或 集资 或 mod) (0 或 项目信息)]:查看当前已集资数
@@ -25,17 +25,17 @@ async function helpCb(qq: CoolQ): Promise<void>{
 
     await qq.sendMessage(text1);
 
-    if(Object.values(custom).length > 0){
+    if (Object.values(custom).length > 0) {
       let text2: string = '【自定义命令】';
 
-      $.each(custom, (key: string, value: string): void=>{
+      $.each(custom, (key: string, value: string): void => {
         text2 += '\n · ' + key;
       });
 
       await qq.sendMessage(text2);
     }
 
-  }catch(err){
+  } catch (err) {
     console.error(err);
   }
 }

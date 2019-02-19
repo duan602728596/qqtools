@@ -6,8 +6,8 @@ import Index from './Index/index';
 import Login from './Login/index';
 
 @loadReducer(reducer)
-class ModuleLayout extends Component{
-  render(): React.Element{
+class ModuleLayout extends Component {
+  render(): React.Element {
     return (
       <Switch>
         <Route path="/Login" component={ Index } exact={ true } />

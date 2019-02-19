@@ -9,9 +9,9 @@ const initData: {
   optionList: Immutable.List,
   kd48LiveListenerTimer: number
 } = {
-  qqLoginList: List([]),        // QQ登录列表
-  optionList: List([]),         // QQ配置列表
-  kd48LiveListenerTimer: null   // 监听口袋48直播
+  qqLoginList: List([]), // QQ登录列表
+  optionList: List([]), // QQ配置列表
+  kd48LiveListenerTimer: null // 监听口袋48直播
 };
 
 /* Action */
@@ -29,14 +29,15 @@ export const kd48LiveListenerTimer: Function = createAction('口袋直播监听'
 
 /* reducer */
 const reducer: Function = handleActions({
-  [changeQQLoginList]: ($$state: Immutable.Map, action: Object): Immutable.Map=>{
+  [changeQQLoginList]: ($$state: Immutable.Map, action: Object): Immutable.Map => {
     return $$state.set('qqLoginList', List(action.payload.qqLoginList));
   },
-  [optionList]: ($$state: Immutable.Map, action: Object): Immutable.Map=>{
+  [optionList]: ($$state: Immutable.Map, action: Object): Immutable.Map => {
     const data: Array = 'optionList' in action.payload ? action.payload.optionList : action.payload.result;
+
     return $$state.set('optionList', List(data));
   },
-  [kd48LiveListenerTimer]: ($$state: Immutable.Map, action: Object): Immutable.Map=>{
+  [kd48LiveListenerTimer]: ($$state: Immutable.Map, action: Object): Immutable.Map => {
     return $$state.set('kd48LiveListenerTimer', action.payload.timer);
   }
 }, fromJS(initData));
