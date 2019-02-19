@@ -1,4 +1,8 @@
-/* 公共函数 */
+/**
+ * 公共函数
+ *
+ * @flow
+ */
 const gui: Object = global.require('nw.gui');
 
 /**
@@ -21,7 +25,7 @@ export function patchZero(num: number): string {
  * @return { string }
  */
 export function time(modules: string, timeStr: ?number): string {
-  const date: Object = timeStr ? new Date(timeStr) : new Date();
+  const date: Date = timeStr ? new Date(timeStr) : new Date();
   const YY: number = date.getFullYear(),
     MM: number = date.getMonth() + 1,
     DD: number = date.getDate(),
@@ -29,7 +33,7 @@ export function time(modules: string, timeStr: ?number): string {
     mm: number = date.getMinutes(),
     ss: number = date.getSeconds();
 
-  return modules.replace(/Y{2}/, YY)
+  return modules.replace(/Y{2}/, `${ YY }`)
     .replace(/M{2}/, patchZero(MM))
     .replace(/D{2}/, patchZero(DD))
     .replace(/h{2}/, patchZero(hh))
@@ -44,10 +48,10 @@ export function time(modules: string, timeStr: ?number): string {
  */
 export function templateReplace(template: string, data: Object): string {
   return template.replace(/{{\s*[a-zA-Z0-9_]+\s*}}/g, (text: string): string => {
-    const key: string = text.match(/[a-zA-Z0-9_]+/g);
+    const key: ?RegExp$matchResult = text.match(/[a-zA-Z0-9_]+/g);
 
-    if (key in data) {
-      return data[key];
+    if (key && key[0] in data) {
+      return data[key[0]];
     } else {
       return '';
     }
@@ -60,7 +64,8 @@ export function templateReplace(template: string, data: Object): string {
  * @return { ?RegExp }
  */
 export function str2reg(str: string): ?RegExp {
-  const str2: string[] = str.replace(/\s+/g, '').split(/\s*[,，]\s*/g); // 避免失误，所以使用了中文和英文字符
+  const str2: string[] = str.replace(/\s+/g, '')
+    .split(/\s*[,，]\s*/g); // 避免失误，所以使用了中文和英文字符
 
   // 去掉空字符串和纯数字
   for (let i: number = str2.length - 1; i >= 0; i--) {
@@ -78,8 +83,9 @@ export function str2reg(str: string): ?RegExp {
  * @return { Array<number> }
  */
 export function str2numberArray(str: string): Array<number> {
-  const str2: string[] = str.replace(/\s+/g, '').split(/\s*[,，]\s*/g); // 避免失误，所以使用了中文和英文字符
-  const result: [] = [];
+  const str2: string[] = str.replace(/\s+/g, '')
+    .split(/\s*[,，]\s*/g); // 避免失误，所以使用了中文和英文字符
+  const result: number[] = [];
 
   // 去掉空字符串和纯数字
   for (let i: number = str2.length - 1; i >= 0; i--) {
