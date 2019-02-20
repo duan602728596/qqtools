@@ -34,8 +34,8 @@ const dispatch: Function = (dispatch: Function): Object => ({
 @connect(state, dispatch)
 class Index extends Component {
   state: {
-    visible1: boolean,
-    visible2: boolean
+    visible1: boolean;
+    visible2: boolean;
   };
 
   static propTypes: Object = {

@@ -1,13 +1,13 @@
 /* 抽卡方法 */
 
 type CardsInformation = Array<{
-  level: string,
-  length: number,
+  level: string;
+  length: number;
   data: Array<{
-    id: string,
-    name: string,
-    image: string
-  }>
+    id: string;
+    name: string;
+    image: string;
+  }>;
 }>;
 
 /**
@@ -23,9 +23,9 @@ function randomCards(cardsInformation: CardsInformation): Array {
 
   for (let i: number = 0, j: number = cardsInformation.length; i < j; i++) {
     const { level = '', length = 0, data }: {
-      level: string,
-      length: number,
-      data: []
+      level: string;
+      length: number;
+      data: [];
     } = cardsInformation[i];
     const len: number = data.length;
 

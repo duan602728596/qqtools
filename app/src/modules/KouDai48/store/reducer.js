@@ -5,14 +5,14 @@ import { db } from '../../../components/indexedDB/indexedDB-init';
 
 /* 使用immutable初始化基础数据 */
 const initData: {
-  loginInformation: ?Object
+  loginInformation: ?Object;
 } = {
   loginInformation: null // 登录信息
 };
 
 /* Action */
 type optType = {
-  objectStoreName: string
+  objectStoreName: string;
 };
 const opt: optType = {
   objectStoreName: option.indexeddb.objectStore[2].name // loginInformation

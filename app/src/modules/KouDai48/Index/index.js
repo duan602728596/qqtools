@@ -59,8 +59,8 @@ const dispatch: Function = (dispatch: Function): Object => ({
 @connect(state, dispatch)
 class KouDai48 extends Component {
   state: {
-    searchString: string,
-    searchResult: Array
+    searchString: string;
+    searchResult: Array;
   };
 
   static propTypes: Object = {

@@ -12,7 +12,7 @@ class TimingMessagePush extends Component {
   };
 
   render(): React.Node {
-    const { detail, form }: { detail: ?Object, form: Object } = this.props;
+    const { detail, form }: { detail: ?Object; form: Object } = this.props;
     const { getFieldDecorator }: { getFieldDecorator: Function } = form;
     const colsArea2: Object = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };
 

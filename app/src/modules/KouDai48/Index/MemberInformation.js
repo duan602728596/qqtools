@@ -53,8 +53,8 @@ class MemberInformation extends Component {
         }
 
         const { memberName, roomId }: {
-          memberName: string,
-          roomId: string
+          memberName: string;
+          roomId: string;
         } = roomInfo;
         const memberName2: string = memberName.replace(/\s/g, '');
         const value2: Object = {

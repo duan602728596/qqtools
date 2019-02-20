@@ -55,8 +55,8 @@ class Login extends Component {
   qq: ?CoolQ;
   timer: ?number;
   state: {
-    btnLoading: boolean,
-    optionItemIndex: ?number
+    btnLoading: boolean;
+    optionItemIndex: ?number;
   };
 
   static propTypes: Object = {
@@ -116,8 +116,8 @@ class Login extends Component {
       // 获取摩点相关信息
       if (basic.isModian) {
         const { title, goal }: {
-          title: string,
-          goal: string
+          title: string;
+          goal: string;
         } = await getModianInformation(basic.modianId);
 
         this.qq.modianTitle = title;

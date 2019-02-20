@@ -120,7 +120,7 @@ class CoolQ {
     }
     // 群名片
     if ('data' in dataJson && 'nickname' in dataJson.data && 'group_id' in dataJson.data && dataJson.data.group_id === gn) {
-      const { nickname, user_id }: { nickname: string, user_id: number } = dataJson.data;
+      const { nickname, user_id }: { nickname: string; user_id: number } = dataJson.data;
 
       this.sendMessage(templateReplace(this.option ? this.option.basic.welcomeNewGroupMember : '', {
         nickname,
@@ -246,24 +246,24 @@ class CoolQ {
     if (event.data.type === 'change') {
       try {
         const { data, alreadyRaised, backerCount, endTime, timedifference }: {
-          data: Array<Object>,
-          alreadyRaised: string,
-          backerCount: number,
-          endTime: string,
-          timedifference: string
+          data: Array<Object>;
+          alreadyRaised: string;
+          backerCount: number;
+          endTime: string;
+          timedifference: string;
         } = event.data;
         const { modianTemplate, isChouka, isChoukaSendImage }: {
-          modianTemplate: string,
-          isChouka: boolean,
-          isChoukaSendImage: boolean
+          modianTemplate: string;
+          isChouka: boolean;
+          isChoukaSendImage: boolean;
           // $FlowFixMe
         } = this.option.basic;
         const amountDifference: string = (Number(this.modianGoal) - Number(alreadyRaised)).toFixed(2);
         const { cards, money, multiple, db }: {
-          cards: Array<Object>,
-          money: number,
-          multiple: number,
-          db: Object
+          cards: Array<Object>;
+          money: number;
+          multiple: number;
+          db: Object;
         } = this.choukaJson || {};
 
         // 倒序发送消息

@@ -25,8 +25,8 @@ function getNewLive(oldData: Object, newData: Object): Array {
 
 addEventListener('message', function(event: Event): void {
   const { oldData, newData }: {
-    oldData: Array,
-    newData: Array
+    oldData: Array;
+    newData: Array;
   } = event.data;
   // 先将新数据从Array转换成Object
   const newDataObj: Object = array2obj(newData);

@@ -14,9 +14,9 @@ IndexedDB(indexeddb.name, indexeddb.version, {
 
     for (let i: number = 0, j: number = objectStore.length; i < j; i++) {
       const { name, key, data }: {
-        name: string,
-        key: string,
-        data: ?Array
+        name: string;
+        key: string;
+        data: ?Array;
       } = objectStore[i];
 
       if (!this.hasObjectStore(name)) {

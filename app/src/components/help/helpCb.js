@@ -3,8 +3,8 @@ import $ from 'jquery';
 
 async function helpCb(qq: CoolQ): Promise<void> {
   const { basic, custom }: {
-    basic: Object,
-    custom: Object
+    basic: Object;
+    custom: Object;
   } = qq.option;
 
   if (!basic.isHelpCommend) {

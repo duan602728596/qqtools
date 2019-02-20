@@ -56,14 +56,14 @@ const dispatch: Function = (dispatch: Function): Object => ({
 @connect(state, dispatch)
 class Add extends Component {
   state: {
-    customProfiles: Object[],
-    modalDisplay: boolean,
-    cmd: string,
-    text: string,
+    customProfiles: Object[];
+    modalDisplay: boolean;
+    cmd: string;
+    text: string;
     item: ?{
-      command: string,
-      text: string
-    }
+      command: string;
+      text: string;
+    };
   };
 
   static propTypes: Object = {

@@ -58,10 +58,10 @@ function dingdan(backList: Array, title: string, len: number): string {
 addEventListener('message', async function(event: Event): void {
   try {
     const { proId, type, size, title }: {
-      proId: string,
-      type: string,
-      size: string,
-      title: string
+      proId: string;
+      type: string;
+      size: string;
+      title: string;
     } = event.data;
     const pageSize: number = Number(size);
 

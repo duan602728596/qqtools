@@ -47,8 +47,8 @@ async function kd48timer(): Promise<void> {
     const worker: Worker = new Kd48listenerWorker();
     const cb: Function = async (event: Event): Promise<void> => {
       const { newDataObj, newLive }: {
-        newDataObj: Object,
-        newLive: Array
+        newDataObj: Object;
+        newLive: Array;
       } = event.data;
 
       oldList = newDataObj; // 覆盖旧数据

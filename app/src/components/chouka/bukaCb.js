@@ -12,10 +12,10 @@ async function bukaCb(command: string[], qq: CoolQ, dataJson: Object): Promise<v
 
   try {
     const { cards, money, multiple, db }: {
-      cards: Array,
-      money: number,
-      multiple: number,
-      db: Object
+      cards: Array;
+      money: number;
+      multiple: number;
+      db: Object;
     } = qq.choukaJson;
 
     const choukaStr: string[] = [];

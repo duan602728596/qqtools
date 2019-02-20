@@ -6,7 +6,7 @@ import style from './style.sass';
 
 /* 将Obj转换成Array */
 function customProfiles(customProfiles: Object): Array {
-  const custom: { command: string, text: string }[] = [];
+  const custom: { command: string; text: string }[] = [];
 
   $.each(customProfiles, (key: string, value: string): void => {
     custom.push({

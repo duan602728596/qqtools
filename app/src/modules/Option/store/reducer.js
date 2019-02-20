@@ -5,14 +5,14 @@ import { db } from '../../../components/indexedDB/indexedDB-init';
 
 /* 使用immutable初始化基础数据 */
 const initData: {
-  optionList: Immutable.List
+  optionList: Immutable.List;
 } = {
   optionList: List([]) // QQ配置列表
 };
 
 /* Action */
 const opt: {
-  objectStoreName: string
+  objectStoreName: string;
 } = {
   objectStoreName: option.indexeddb.objectStore[0].name
 };

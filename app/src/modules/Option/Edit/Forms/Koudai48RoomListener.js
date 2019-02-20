@@ -10,14 +10,14 @@ import { Card, Checkbox, Form, Input, InputNumber } from 'antd';
 import style from '../style.sass';
 import * as ShuoMing from '../utils/shuoming';
 
-class Koudai48RoomListener extends Component<{ form: Object, detail: Object }> {
+class Koudai48RoomListener extends Component<{ form: Object; detail: Object }> {
   static propTypes: Object = {
     form: PropTypes.object,
     detail: PropTypes.object
   };
 
   render(): React.Node {
-    const { detail, form }: { detail: ?Object, form: Object } = this.props;
+    const { detail, form }: { detail: ?Object; form: Object } = this.props;
     const { getFieldDecorator }: { getFieldDecorator: Function } = form;
     const colsArea2: Object = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };
 

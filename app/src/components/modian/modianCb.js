@@ -60,9 +60,9 @@ function dingDan(proId: string, size: string, qq: CoolQ): void {
 /* 获取已集资金额 */
 async function getAllMount(qq: CoolQ): Promise<void> {
   const data: {
-    already_raised: number,
-    backer_count: number,
-    end_time: string
+    already_raised: number;
+    backer_count: number;
+    end_time: string;
   } = await getModianInformation(qq.option.basic.modianId);
 
   await qq.sendMessage(`${ qq.modianTitle }: ￥${ data.already_raised } / ￥${ qq.modianGoal }，`
@@ -80,8 +80,8 @@ function modianCb(command: string[], qq: CoolQ): void {
   if (!basic.isModian) return void 0;
 
   const { isModianLeaderboard, modianId }: {
-    isModianLeaderboard: boolean,
-    modianId: string
+    isModianLeaderboard: boolean;
+    modianId: string;
   } = basic;
 
   switch (command[1]) {

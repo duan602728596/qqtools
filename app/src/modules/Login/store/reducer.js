@@ -5,9 +5,9 @@ import { db } from '../../../components/indexedDB/indexedDB-init';
 
 /* 使用immutable初始化基础数据 */
 const initData: {
-  qqLoginList: Immutable.List,
-  optionList: Immutable.List,
-  kd48LiveListenerTimer: number
+  qqLoginList: Immutable.List;
+  optionList: Immutable.List;
+  kd48LiveListenerTimer: number;
 } = {
   qqLoginList: List([]), // QQ登录列表
   optionList: List([]), // QQ配置列表

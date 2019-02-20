@@ -9,8 +9,8 @@ async function chakaCb(command: string[], qq: CoolQ): Promise<void> {
   }
 
   const { db, cards }: {
-    db: Object,
-    cards: Array
+    db: Object;
+    cards: Array;
   } = qq.choukaJson;
   const kaResult: [] = await storagecard.query2(db, command[1]);
 
