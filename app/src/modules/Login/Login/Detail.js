@@ -139,7 +139,13 @@ function Detail(props) {
           <td>{ basic.roomId }</td>
         </tr>
         <tr>
+          <td className={ style.tdTitle }>发送翻牌信息</td>
+          <td>{ isOpen(basic.isFlipAnswerSend) }</td>
           <td className={ style.tdTitle }>发送图片和图片链接（只限于酷QPro版本）</td>
+          <td>{ isOpen(basic.isRoomSendImage) }</td>
+        </tr>
+        <tr>
+          <td className={ style.tdTitle }>发送语音和语音链接（只限于酷QPro版本）</td>
           <td>{ isOpen(basic.isRoomSendImage) }</td>
           <td className={ style.tdTitle }>监听间隔（秒）</td>
           <td>{ basic.liveListeningInterval }</td>
