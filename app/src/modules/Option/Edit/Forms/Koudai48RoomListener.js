@@ -17,7 +17,7 @@ class Koudai48RoomListener extends Component {
     const { detail, form } = this.props;
     const { getFieldDecorator } = form;
     const colsArea2 = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };
-
+    const isFlipAnswerSend = detail?.basic?.isFlipAnswerSend || false; // 发送翻牌信息
     const isRoomListener = detail?.basic?.isRoomListener || false; // 房间监听
     const isRoomSendImage = detail?.basic?.isRoomSendImage || false; // 房间信息发送图片和链接
     const isRoomSendRecord = detail?.basic?.isRoomSendRecord || false; // 房间信息发送语音
@@ -37,6 +37,14 @@ class Koudai48RoomListener extends Component {
               initialValue: detail ? detail.basic.roomId : ''
             })(<Input />)
           }
+        </Form.Item>
+        <Form.Item label="发送翻牌信息" { ...colsArea2 }>
+          {
+            getFieldDecorator('isFlipAnswerSend', {
+              initialValue: isFlipAnswerSend
+            })(<Checkbox defaultChecked={ isFlipAnswerSend } />)
+          }
+          <ShuoMing.IsRoomSendImage />
         </Form.Item>
         <Form.Item label="发送图片" { ...colsArea2 }>
           {
