@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { requestRoomMessage, requestUserInformation } from '../kd48listerer/roomListener';
+import { requestRoomMessage, requestUserInformation, requestFlipAnswer } from '../kd48listerer/roomListener';
 import { templateReplace } from '../../utils';
 import { chouka } from '../chouka/chouka';
 import * as storagecard from '../chouka/storagecard';
@@ -324,7 +324,7 @@ class CoolQ {
 
       const newTime = data2.content.data[0].msgTime;
 
-      // $FlowFixMe: 新时间大于旧时间，获取25条数据
+      // 新时间大于旧时间，获取25条数据
       if (!(newTime > this.roomLastTime)) {
         this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
 
@@ -408,9 +408,23 @@ class CoolQ {
               break;
             // 花50个鸡腿的翻牌。获得参数：idolFlipQuestionId, idolFlipAnswerId, idolFlipSource
             case 'idolFlip':
-              sendStr.push(`${ extInfo.senderName } 翻牌了 ${ extInfo.idolFlipUserName }的问题：\n`
-                         + `${ extInfo.idolFlipContent }\n`
-                         + `时间：${ item.msgTimeStr }`);
+              let msg = `${ extInfo.senderName } 翻牌了 ${ extInfo.idolFlipUserName }的问题：\n`
+                      + `${ extInfo.idolFlipContent }\n`
+                      + `时间：${ item.msgTimeStr }`;
+
+              // 判断是否查询并发送翻牌信息
+              if (this.option && this.option.basic.isFlipAnswerSend) {
+                const res = await requestFlipAnswer(
+                  this.kouDai48Token,
+                  extInfo.idolFlipSource,
+                  extInfo.idolFlipQuestionId,
+                  extInfo.idolFlipAnswerId
+                );
+
+                msg += `\n回答：${ res.content.answer }`;
+              }
+
+              sendStr.push(msg);
               break;
           }
         } else {

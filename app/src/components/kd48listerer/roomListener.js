@@ -127,3 +127,37 @@ export function requestRoomMessage(roomId, token, limit = 1) {
     console.error(err);
   });
 }
+
+/**
+ * 获取翻牌信息
+ * @param { string } token : 登陆后得到的token
+ * @param { number } idolFlipSource: 翻牌涞源
+ * @param { number } questionId: 问题id
+ * @param { number } answerId: 回答id
+ */
+export function requestFlipAnswer(token, idolFlipSource, questionId, answerId) {
+  return new Promise((resolve, reject) => {
+    request({
+      uri: 'https://ppayqa.48.cn/idolanswersystem/api/idolanswer/v1/question_answer/detail',
+      method: 'POST',
+      headers: {
+        ...HEADERS,
+        token
+      },
+      json: true,
+      body: {
+        idolFlipSource,
+        questionId,
+        answerId
+      }
+    }, (err, res, body) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(body); // content.answer
+      }
+    }).catch((err) => {
+      console.error(err);
+    });
+  });
+}
