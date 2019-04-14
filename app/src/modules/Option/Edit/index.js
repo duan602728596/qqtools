@@ -23,14 +23,14 @@ import * as ShuoMing from './utils/shuoming';
  * 微打赏：摩点、mod
  * 直播：直播列表、zb
  */
-const COMMAND: string = '摩点|集资|mod|补卡|查卡直播列表|zb|help';
+const COMMAND = '摩点|集资|mod|补卡|查卡直播列表|zb|help';
 
 /* 判断当前的cmd是否存在，并且返回index */
-function getIndex(lists: Array, cmd: string): ?number {
-  let index: number = null;
+function getIndex(lists, cmd) {
+  let index = null;
 
-  for (let i: number = 0, j: number = lists.length; i < j; i++) {
-    const reg: RegExp = new RegExp(`^\\s*(${ lists[i].command }|${ COMMAND })\\s*$`, 'i');
+  for (let i = 0, j = lists.length; i < j; i++) {
+    const reg = new RegExp(`^\\s*(${ lists[i].command }|${ COMMAND })\\s*$`, 'i');
 
     if (reg.test(cmd)) {
       index = i;
@@ -42,10 +42,10 @@ function getIndex(lists: Array, cmd: string): ?number {
 }
 
 /* 初始化数据 */
-const state: Function = createStructuredSelector({});
+const state = createStructuredSelector({});
 
 /* dispatch */
-const dispatch: Function = (dispatch: Function): Object => ({
+const dispatch = (dispatch) => ({
   action: bindActionCreators({
     putOption
   }, dispatch)
@@ -55,18 +55,7 @@ const dispatch: Function = (dispatch: Function): Object => ({
 @Form.create()
 @connect(state, dispatch)
 class Add extends Component {
-  state: {
-    customProfiles: Object[];
-    modalDisplay: boolean;
-    cmd: string;
-    text: string;
-    item: ?{
-      command: string;
-      text: string;
-    };
-  };
-
-  static propTypes: Object = {
+  static propTypes = {
     action: PropTypes.objectOf(PropTypes.func),
     form: PropTypes.object,
     history: PropTypes.object,
@@ -74,7 +63,7 @@ class Add extends Component {
     match: PropTypes.object
   };
 
-  constructor(): void {
+  constructor() {
     super(...arguments);
 
     this.state = {
@@ -85,16 +74,18 @@ class Add extends Component {
       item: null // 被选中
     };
   }
-  componentDidMount(): void {
+
+  componentDidMount() {
     if ('query' in this.props.location) {
       this.setState({
         customProfiles: customProfilesObj2Array(this.props.location.query.detail.custom)
       });
     }
   }
+
   // 图表配置
-  columns(): Array {
-    const columns: Array = [
+  columns() {
+    const columns = [
       {
         title: '命令',
         dataIndex: 'command',
@@ -110,7 +101,7 @@ class Add extends Component {
         title: '操作',
         key: 'handle',
         width: '20%',
-        render: (value: any, item: Object, index: number): Array<React.Node> => {
+        render: (value, item, index) => {
           return [
             <Button key="edit" size="small" onClick={ this.handleEditClick.bind(this, item) }>修改</Button>,
             <Popconfirm key="delete" title="确认要删除吗？" onConfirm={ this.handleDeleteClick.bind(this, item) }>
@@ -123,20 +114,23 @@ class Add extends Component {
 
     return columns;
   }
+
   // 表单的change事件
-  handleInputChange(key: string, event: Event): void {
+  handleInputChange(key, event) {
     this.setState({
       [key]: event.target.value
     });
   }
+
   // modal显示
-  handleModalOpenClick(event: Event): void {
+  handleModalOpenClick(event) {
     this.setState({
       modalDisplay: true
     });
   }
+
   // modal关闭事件
-  handleModalCloseClick(event: Event): void {
+  handleModalCloseClick(event) {
     this.setState({
       modalDisplay: false,
       cmd: '',
@@ -144,8 +138,9 @@ class Add extends Component {
       item: null
     });
   }
+
   // 添加
-  handleAddClick(event: Event): void {
+  handleAddClick(event) {
     if (getIndex(this.state.customProfiles, this.state.cmd) === null) {
       this.state.customProfiles.push({
         command: this.state.cmd,
@@ -161,8 +156,9 @@ class Add extends Component {
       message.error('该命令已存在！');
     }
   }
+
   // 编辑
-  handleEditClick(item: Object, event: Event): void {
+  handleEditClick(item, event) {
     this.setState({
       modalDisplay: true,
       cmd: item.command,
@@ -170,10 +166,11 @@ class Add extends Component {
       item
     });
   }
+
   // 保存编辑
-  handleSaveClick(event: Event): void {
+  handleSaveClick(event) {
     if (getIndex(this.state.customProfiles, this.state.cmd) === null || this.state.cmd === this.state.item.command) {
-      const index: number = getIndex(this.state.customProfiles, this.state.item.command);
+      const index = getIndex(this.state.customProfiles, this.state.item.command);
 
       this.state.customProfiles[index] = {
         command: this.state.cmd,
@@ -189,21 +186,24 @@ class Add extends Component {
       message.error('该命令已存在！');
     }
   }
+
   // 删除
-  handleDeleteClick(item: Object, event: Event): void {
-    const index: number = getIndex(this.state.customProfiles, item.command);
+  handleDeleteClick(item, event) {
+    const index = getIndex(this.state.customProfiles, item.command);
 
     this.state.customProfiles.splice(index, 1);
     this.setState({
       customProfiles: this.state.customProfiles
     });
   }
+
   // 提交
-  handleSubmit(event: Event): void {
+  handleSubmit(event) {
     event.preventDefault();
-    this.props.form.validateFields(async (err: any, value: Object): Promise<void> => {
+
+    this.props.form.validateFields(async (err, value) => {
       if (!err) {
-        const data: Object = interfaceOption(value, this.state.customProfiles);
+        const data = interfaceOption(value, this.state.customProfiles);
 
         await this.props.action.putOption({
           data
@@ -212,14 +212,13 @@ class Add extends Component {
       }
     });
   }
-  render(): Array<React.Node> {
-    const { props }: { props: Object } = this;
-    const detail: ?Object = 'query' in props.location ? props.location.query.detail : null;
-    const { form }: { form: Object } = props;
-    const { getFieldDecorator }: { getFieldDecorator: Function } = form;
-    const colsArea1: Object = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };
-
-    const isHelpCommend: boolean = detail?.basic?.isHelpCommend; // 开启群内帮助命令
+  render() {
+    const { props } = this;
+    const detail = 'query' in props.location ? props.location.query.detail : null;
+    const { form } = props;
+    const { getFieldDecorator } = form;
+    const colsArea1 = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };
+    const isHelpCommend = detail?.basic?.isHelpCommend; // 开启群内帮助命令
 
     return [
       <Form key="form" className={ style.form } onSubmit={ this.handleSubmit.bind(this) }>
@@ -271,7 +270,7 @@ class Add extends Component {
           <Table columns={ this.columns() }
             dataSource={ this.state.customProfiles }
             size="small"
-            rowKey={ (item: Object): string => item.command }
+            rowKey={ (item) => item.command }
           />
         </Card>
       </Form>,

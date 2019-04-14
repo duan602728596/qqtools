@@ -7,10 +7,10 @@ import { getMemberInformation, addMemberInformation } from '../store/reducer';
 import { requestMemberInformation } from '../../../components/kd48listerer/roomListener';
 
 /* 初始化数据 */
-const state: Function = createStructuredSelector({});
+const state = createStructuredSelector({});
 
 /* dispatch */
-const dispatch: Function = (dispatch: Function): Object => ({
+const dispatch = (dispatch) => ({
   action: bindActionCreators({
     getMemberInformation,
     addMemberInformation
@@ -19,7 +19,7 @@ const dispatch: Function = (dispatch: Function): Object => ({
 
 @connect(state, dispatch)
 class MemberInformation extends Component {
-  constructor(): void {
+  constructor() {
     super(...arguments);
 
     this.state = {
@@ -27,10 +27,11 @@ class MemberInformation extends Component {
       roomId: null // 房间姓名
     };
   }
-  async componentDidMount(): Promise<void> {
+
+  async componentDidMount() {
     try {
-      const memberId: number = this.props.item.memberId;
-      const infor: Object = await this.props.action.getMemberInformation({
+      const memberId = this.props.item.memberId;
+      const infor = await this.props.action.getMemberInformation({
         query: memberId
       });
 
@@ -42,8 +43,8 @@ class MemberInformation extends Component {
         });
       } else {
         // 从接口获取数据
-        const data: Object = await requestMemberInformation(memberId);
-        let roomInfo: Object = data.content.roomInfo;
+        const data = await requestMemberInformation(memberId);
+        let roomInfo = data.content.roomInfo;
 
         // 兼容
         if (!(roomInfo && ('memberName' in roomInfo) && ('roomId' in roomInfo))) {
@@ -52,12 +53,9 @@ class MemberInformation extends Component {
           roomInfo.roomId = '';
         }
 
-        const { memberName, roomId }: {
-          memberName: string;
-          roomId: string;
-        } = roomInfo;
-        const memberName2: string = memberName.replace(/\s/g, '');
-        const value2: Object = {
+        const { memberName, roomId } = roomInfo;
+        const memberName2 = memberName.replace(/\s/g, '');
+        const value2 = {
           memberId,
           memberName: memberName2,
           roomId
@@ -75,7 +73,8 @@ class MemberInformation extends Component {
       console.error(err);
     }
   }
-  render(): ?(Array | Object) {
+
+  render() {
     if (this.state.memberName !== null && this.state.roomId !== null) {
       if (this.state.memberName !== '' && this.state.roomId !== '') {
         return [

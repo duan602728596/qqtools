@@ -1,29 +1,26 @@
 /**
  * 口袋48成员房间信息监听配置
- *
- * @flow
  */
-import * as React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Checkbox, Form, Input, InputNumber } from 'antd';
 import style from '../style.sass';
 import * as ShuoMing from '../utils/shuoming';
 
-class Koudai48RoomListener extends Component<{ form: Object; detail: Object }> {
-  static propTypes: Object = {
+class Koudai48RoomListener extends Component {
+  static propTypes = {
     form: PropTypes.object,
     detail: PropTypes.object
   };
 
-  render(): React.Node {
-    const { detail, form }: { detail: ?Object; form: Object } = this.props;
-    const { getFieldDecorator }: { getFieldDecorator: Function } = form;
-    const colsArea2: Object = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };
+  render() {
+    const { detail, form } = this.props;
+    const { getFieldDecorator } = form;
+    const colsArea2 = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };
 
-    const isRoomListener: boolean = detail?.basic?.isRoomListener || false; // 房间监听
-    const isRoomSendImage: boolean = detail?.basic?.isRoomSendImage || false; // 房间信息发送图片和链接
-    const isRoomSendRecord: boolean = detail?.basic?.isRoomSendRecord || false; // 房间信息发送语音
+    const isRoomListener = detail?.basic?.isRoomListener || false; // 房间监听
+    const isRoomSendImage = detail?.basic?.isRoomSendImage || false; // 房间信息发送图片和链接
+    const isRoomSendRecord = detail?.basic?.isRoomSendRecord || false; // 房间信息发送语音
 
     return (
       <Card className={ style.mb10 } title="成员房间信息监听配置" extra="如果未登录，无法监听成员房间信息。">

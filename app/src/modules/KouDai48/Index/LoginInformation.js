@@ -2,8 +2,8 @@ import React from 'react';
 import { Card } from 'antd';
 import style from './style.sass';
 
-function LoginInformation(props: Object): Array<React.Node> | React.Node {
-  const item: ?Object = props.loginInformation;
+function LoginInformation(props) {
+  const item = props.loginInformation;
 
   return (
     <Card title="登录信息">

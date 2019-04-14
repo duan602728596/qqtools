@@ -1,11 +1,10 @@
-// @flow
 import $ from 'jquery';
 
 /* 将Array转换成Obj */
-function customProfilesArray2Obj(customProfiles: { command: string; text: string }[]): Object {
-  const custom: Object = {};
+function customProfilesArray2Obj(customProfiles) {
+  const custom = {};
 
-  $.each(customProfiles, (index: number, item: { command: string; text: string }): void => {
+  $.each(customProfiles, (index, item) => {
     custom[item.command] = item.text;
   });
 
@@ -13,10 +12,10 @@ function customProfilesArray2Obj(customProfiles: { command: string; text: string
 }
 
 /* 将Obj转换成Array */
-export function customProfilesObj2Array(customProfiles: Object): { command: string; text: string }[] {
-  const custom: { command: string; text: string }[] = [];
+export function customProfilesObj2Array(customProfiles) {
+  const custom = [];
 
-  $.each(customProfiles, (key: string, value: string): void => {
+  $.each(customProfiles, (key, value) => {
     custom.push({
       command: key,
       text: value
@@ -33,56 +32,9 @@ export function customProfilesObj2Array(customProfiles: Object): { command: stri
  * basic      基础配置
  * custom     自定义配置
  */
-type InterfaceOptionType = {
-  name: string;
-  qqNumber: string;
-  groupNumber: string;
-  socketPort: string;
-  time: number;
-  basic: {
-    // 摩点
-    isModian: boolean;
-    isModianLeaderboard: boolean;
-    modianId: string;
-    modianUrlTemplate: string;
-    modianTemplate: string;
-    // 抽卡
-    isChouka: boolean;
-    isChoukaSendImage: boolean;
-    choukaJson: string;
-    bukaQQNumber: string;
-    // 口袋48监听
-    is48LiveListener: boolean;
-    isListenerAll: boolean;
-    is48LiveAtAll: boolean;
-    // 成员房间信息监听
-    kd48LiveListenerMembers: string;
-    isRoomListener: boolean;
-    roomId: string;
-    isRoomSendImage: boolean;
-    isRoomSendRecord: boolean;
-    liveListeningInterval: number;
-    // 微博监听
-    isWeiboListener: boolean;
-    isWeiboAtAll: boolean;
-    lfid: string;
-    // 新成员欢迎
-    isNewGroupMember: boolean;
-    welcomeNewGroupMember: string;
-    // 群内定时消息推送
-    isTimingMessagePush: boolean;
-    timingMessagePushTime: string;
-    timingMessagePushFormat: string;
-    timingMessagePushText: string;
-    // 群内帮助命令
-    isHelpCommend: boolean;
-  };
-  custom: Object;
-};
-
-function interfaceOption(value: Object, customProfiles: { command: string; text: string }[]): InterfaceOptionType {
-  const custom: Object = customProfilesArray2Obj(customProfiles);
-  const inter: InterfaceOptionType = {
+function interfaceOption(value, customProfiles) {
+  const custom = customProfilesArray2Obj(customProfiles);
+  const inter = {
     name: value.name,
     qqNumber: value.qqNumber,
     groupNumber: value.groupNumber,

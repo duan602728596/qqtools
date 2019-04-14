@@ -5,15 +5,15 @@ import { Card, Form, Input } from 'antd';
 import style from '../style.sass';
 
 class BasicConfiguration extends Component {
-  static propTypes: Object = {
+  static propTypes = {
     form: PropTypes.object,
     detail: PropTypes.object
   };
 
-  render(): React.Node {
-    const { detail, form }: { detail: ?Object; form: Object } = this.props;
-    const { getFieldDecorator }: { getFieldDecorator: Function } = form;
-    const colsArea1: Object = { labelCol: { span: 4 }, wrapperCol: { span: 20 } };
+  render() {
+    const { detail, form } = this.props;
+    const { getFieldDecorator } = form;
+    const colsArea1 = { labelCol: { span: 4 }, wrapperCol: { span: 20 } };
 
     return (
       <Card className={ style.mb10 } title="基础配置">

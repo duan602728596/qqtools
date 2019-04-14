@@ -1,14 +1,14 @@
 /* 当前配置的具体内容 */
-import React, { Component } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import $ from 'jquery';
 import style from './style.sass';
 
 /* 将Obj转换成Array */
-function customProfiles(customProfiles: Object): Array {
-  const custom: { command: string; text: string }[] = [];
+function customProfiles(customProfiles) {
+  const custom = [];
 
-  $.each(customProfiles, (key: string, value: string): void => {
+  $.each(customProfiles, (key, value) => {
     custom.push({
       command: key,
       text: value
@@ -21,7 +21,7 @@ function customProfiles(customProfiles: Object): Array {
       </tr>
     );
   } else {
-    return custom.map((item: Object, index: number): React.Node => {
+    return custom.map((item, index) => {
       return (
         <tr key={ item.command }>
           <td>{ item.command }</td>
@@ -34,15 +34,15 @@ function customProfiles(customProfiles: Object): Array {
   }
 }
 
-function isOpen(data: boolean): React.Node {
+function isOpen(data) {
   return data ? <span className={ style.on }>开启</span> : <span className={ style.off }>未开启</span>;
 }
 
-function Detail(props: ?Object): ?React.Node {
+function Detail(props) {
   if (!props.detail) return null;
 
-  const { detail }: { detail: Object } = props;
-  const { basic }: { basic: Object } = detail;
+  const { detail } = props;
+  const { basic } = detail;
 
   return (
     <table className={ style.detail }>

@@ -7,18 +7,18 @@ import * as initialValues from '../utils/initialValues';
 import * as ShuoMing from '../utils/shuoming';
 
 class ModianConfiguration extends Component {
-  static propTypes: Object = {
+  static propTypes = {
     form: PropTypes.object,
     detail: PropTypes.object
   };
 
-  render(): React.Node {
-    const { detail, form }: { detail: ?Object; form: Object } = this.props;
-    const { getFieldDecorator }: { getFieldDecorator: Function } = form;
-    const colsArea1: Object = { labelCol: { span: 4 }, wrapperCol: { span: 20 } };
+  render() {
+    const { detail, form } = this.props;
+    const { getFieldDecorator } = form;
+    const colsArea1 = { labelCol: { span: 4 }, wrapperCol: { span: 20 } };
 
-    const isModian: boolean = detail?.basic?.isModian; // 开启摩点
-    const isModianLeaderboard: boolean = detail?.basic?.isModianLeaderboard; // 群内摩点排行榜查询
+    const isModian = detail?.basic?.isModian; // 开启摩点
+    const isModianLeaderboard = detail?.basic?.isModianLeaderboard; // 群内摩点排行榜查询
 
     return (
       <Card className={ style.mb10 } title="摩点项目配置">

@@ -1,7 +1,7 @@
 /* 微打赏监听回调函数 */
 import getModianInformation from './getModianInformation';
 import { templateReplace } from '../../utils';
-import ModianListWorker from 'worker-loader?name=script/[hash:5].worker.js!./modianList.worker';
+import ModianListWorker from 'worker-loader?name=[hash:5].worker.js!./modianList.worker';
 
 /* 发送信息 */
 async function sendModianInfor(qq) {

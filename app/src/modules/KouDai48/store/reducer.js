@@ -4,43 +4,38 @@ import option from '../../../components/option/option';
 import { db } from '../../../components/indexedDB/indexedDB-init';
 
 /* 使用immutable初始化基础数据 */
-const initData: {
-  loginInformation: ?Object;
-} = {
+const initData = {
   loginInformation: null // 登录信息
 };
 
 /* Action */
-type optType = {
-  objectStoreName: string;
-};
-const opt: optType = {
+const opt = {
   objectStoreName: option.indexeddb.objectStore[2].name // loginInformation
 };
-const opt2: optType = {
+const opt2 = {
   objectStoreName: option.indexeddb.objectStore[1].name // memberId
 };
 
-export const loginInformation: Function = createAction('登录信息');
-export const getLoginInformation: Function = db.getAction({
+export const loginInformation = createAction('登录信息');
+export const getLoginInformation = db.getAction({
   ...opt,
   successAction: loginInformation
 });
-export const putLoginInformation: Function = db.putAction({
+export const putLoginInformation = db.putAction({
   ...opt,
   successAction: loginInformation
 });
-export const clearLoginInformation: Function = db.clearAction(opt);
+export const clearLoginInformation = db.clearAction(opt);
 
-export const getMemberInformation: Function = db.getAction(opt2);
-export const addMemberInformation: Function = db.addAction(opt2);
-export const cursorMemberInformation: Function = db.cursorAction(opt2);
-export const clearMemberInformation: Function = db.clearAction(opt2);
+export const getMemberInformation = db.getAction(opt2);
+export const addMemberInformation = db.addAction(opt2);
+export const cursorMemberInformation = db.cursorAction(opt2);
+export const clearMemberInformation = db.clearAction(opt2);
 
 /* reducer */
-const reducer: Function = handleActions({
-  [loginInformation]: ($$state: Immutable.Map, action: Object): Immutable.Map => {
-    const data: Array = 'data' in action.payload ? action.payload.data : action.payload.result;
+const reducer = handleActions({
+  [loginInformation]: ($$state, action) => {
+    const data = 'data' in action.payload ? action.payload.data : action.payload.result;
 
     return $$state.set('loginInformation', data ? data : null);
   }

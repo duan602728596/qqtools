@@ -7,17 +7,17 @@ import * as initialValues from '../utils/initialValues';
 import * as ShuoMing from '../utils/shuoming';
 
 class NewGroupMember extends Component {
-  static propTypes: Object = {
+  static propTypes = {
     form: PropTypes.object,
     detail: PropTypes.object
   };
 
-  render(): React.Node {
-    const { detail, form }: { detail: ?Object; form: Object } = this.props;
-    const { getFieldDecorator }: { getFieldDecorator: Function } = form;
-    const colsArea2: Object = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };
+  render() {
+    const { detail, form } = this.props;
+    const { getFieldDecorator } = form;
+    const colsArea2 = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };
 
-    const isNewGroupMember: boolean = detail?.basic?.isNewGroupMember; // 新成员欢迎
+    const isNewGroupMember = detail?.basic?.isNewGroupMember; // 新成员欢迎
 
     return (
       <Card className={ style.mb10 } title="欢迎新成员配置">

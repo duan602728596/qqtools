@@ -16,31 +16,31 @@ import Detail from './Detail';
 import getModianInformation from '../../../components/modian/getModianInformation';
 import { str2reg, str2numberArray, cleanRequireCache } from '../../../utils';
 import kd48timer, { init } from '../../../components/kd48listerer/timer';
-import ModianWorker from 'worker-loader?name=script/[hash:5].worker.js!../../../components/modian/modian.worker';
-import WeiBoWorker from 'worker-loader?name=script/[hash:5].worker.js!../../../components/weibo/weibo.worker';
+import ModianWorker from 'worker-loader?name=[hash:5].worker.js!../../../components/modian/modian.worker';
+import WeiBoWorker from 'worker-loader?name=[hash:5].worker.js!../../../components/weibo/weibo.worker';
 import { requestRoomMessage } from '../../../components/kd48listerer/roomListener';
-const schedule: Object = global.require('node-schedule');
+const schedule = global.require('node-schedule');
 
 /* 初始化数据 */
-const getState: Function = ($$state: Immutable.Map): ?Immutable.Map => $$state.has('login') ? $$state.get('login') : null;
+const getState = ($$state) => $$state.has('login') ? $$state.get('login') : null;
 
-const state: Function = createStructuredSelector({
+const state = createStructuredSelector({
   qqLoginList: createSelector( // QQ登录列表
     getState,
-    ($$data: ?Immutable.Map): Array => $$data !== null ? $$data.get('qqLoginList').toJS() : []
+    ($$data) => $$data !== null ? $$data.get('qqLoginList').toJS() : []
   ),
   optionList: createSelector( // QQ配置列表
     getState,
-    ($$data: ?Immutable.Map): Array => $$data !== null ? $$data.get('optionList').toJS() : []
+    ($$data) => $$data !== null ? $$data.get('optionList').toJS() : []
   ),
   kd48LiveListenerTimer: createSelector( // 口袋直播
     getState,
-    ($$data: ?Immutable.Map): ?number => $$data !== null ? $$data.get('kd48LiveListenerTimer') : null
+    ($$data) => $$data !== null ? $$data.get('kd48LiveListenerTimer') : null
   )
 });
 
 /* dispatch */
-const dispatch: Function = (dispatch: Function): Object => ({
+const dispatch = (dispatch) => ({
   action: bindActionCreators({
     changeQQLoginList,
     cursorOption,
@@ -52,14 +52,7 @@ const dispatch: Function = (dispatch: Function): Object => ({
 @withRouter
 @connect(state, dispatch)
 class Login extends Component {
-  qq: ?CoolQ;
-  timer: ?number;
-  state: {
-    btnLoading: boolean;
-    optionItemIndex: ?number;
-  };
-
-  static propTypes: Object = {
+  static propTypes = {
     qqLoginList: PropTypes.array,
     optionList: PropTypes.array,
     kd48LiveListenerTimer: PropTypes.number,
@@ -69,7 +62,7 @@ class Login extends Component {
     match: PropTypes.object
   };
 
-  constructor(): void {
+  constructor() {
     super(...arguments);
 
     this.qq = null;
@@ -79,17 +72,19 @@ class Login extends Component {
       optionItemIndex: null // 当前选择的配置索引
     };
   }
-  componentDidMount(): void {
+
+  componentDidMount() {
     this.props.action.cursorOption({
       query: {
         indexName: 'time'
       }
     });
   }
+
   // select
-  selectOptionView(): Array<React.Node> {
-    return this.props.optionList.map((item: Object, index: number): React.Node => {
-      const index1: string = `${ index }`;
+  selectOptionView() {
+    return this.props.optionList.map((item, index) => {
+      const index1 = `${ index }`;
 
       return (
         <Select.Option key={ index1 } value={ index1 }>
@@ -98,15 +93,17 @@ class Login extends Component {
       );
     });
   }
-  handleOptionSelect(value: number, option: any): void {
+
+  handleOptionSelect(value, option) {
     this.setState({
       optionItemIndex: value
     });
   }
+
   // 登录成功
-  async loginSuccess(): Promise<void> {
+  async loginSuccess() {
     try {
-      const basic: Object = this.qq.option.basic;
+      const basic = this.qq.option.basic;
 
       this.qq.time = moment().unix();
 
@@ -115,10 +112,7 @@ class Login extends Component {
 
       // 获取摩点相关信息
       if (basic.isModian) {
-        const { title, goal }: {
-          title: string;
-          goal: string;
-        } = await getModianInformation(basic.modianId);
+        const { title, goal } = await getModianInformation(basic.modianId);
 
         this.qq.modianTitle = title;
         this.qq.modianGoal = goal;
@@ -163,13 +157,13 @@ class Login extends Component {
       // 房间信息监听
       if (basic.isRoomListener) {
         // 数据库读取token
-        const res: Object = await this.props.action.getLoginInformation({
+        const res = await this.props.action.getLoginInformation({
           query: 'loginInformation'
         });
 
         if (res.result !== undefined) {
           this.qq.kouDai48Token = res.result.value.token;
-          const req: Object = await requestRoomMessage(basic.roomId, this.qq.kouDai48Token);
+          const req = await requestRoomMessage(basic.roomId, this.qq.kouDai48Token);
 
           this.qq.roomLastTime = req.content.data[0].msgTime;
           this.qq.roomListenerTimer = global.setTimeout(
@@ -204,7 +198,7 @@ class Login extends Component {
         message.success('群内定时消息推送已就绪。');
       }
 
-      const ll: Array = this.props.qqLoginList;
+      const ll = this.props.qqLoginList;
 
       ll.push(this.qq);
       this.props.action.changeQQLoginList({
@@ -216,8 +210,9 @@ class Login extends Component {
       console.error(err);
     }
   }
+
   // 登录轮询
-  loginCb(): void {
+  loginCb() {
     if (this.qq.isEventSuccess === true && this.qq.isApiSuccess === true) { // 判断登录成功
       this.loginSuccess();
     } else if (this.qq.isError === true) { // 判断是否有错误
@@ -229,12 +224,13 @@ class Login extends Component {
       this.timer = setTimeout(this.loginCb.bind(this), 100);
     }
   }
+
   // 登录连接
-  handleLoginClick(event: Event): void {
+  handleLoginClick(event) {
     this.setState({
       btnLoading: true
     });
-    const option: Object = this.props.optionList[Number(this.state.optionItemIndex)];
+    const option = this.props.optionList[Number(this.state.optionItemIndex)];
 
     this.qq = new CoolQ(option.qqNumber, option.socketPort, callback);
     this.qq.option = option;
@@ -242,17 +238,19 @@ class Login extends Component {
     // 登录成功
     this.loginCb();
   }
-  componentWillUnmount(): void {
+
+  componentWillUnmount() {
     if (this.timer) global.clearInterval(this.timer); // 清除定时器
+
     // 清除qq相关
     if (this.qq !== null) {
       this.qq.outAndClear();
       // 判断是否需要关闭直播监听
       if (this.props.kd48LiveListenerTimer !== null) {
-        let isListener: boolean = false;
+        let isListener = false;
 
-        for (let i: number = 0, j: number = this.props.qqLoginList.length; i < j; i++) {
-          const item: CoolQ = this.props.qqLoginList[i];
+        for (let i = 0, j = this.props.qqLoginList.length; i < j; i++) {
+          const item = this.props.qqLoginList[i];
 
           if (item.option.basic.is48LiveListener && item.members) {
             isListener = true;
@@ -270,8 +268,9 @@ class Login extends Component {
       this.qq = null;
     }
   }
-  render(): React.Node {
-    const index: ?number = this.state.optionItemIndex ? Number(this.state.optionItemIndex) : null;
+
+  render() {
+    const index = this.state.optionItemIndex ? Number(this.state.optionItemIndex) : null;
 
     return (
       <div className={ style.body }>

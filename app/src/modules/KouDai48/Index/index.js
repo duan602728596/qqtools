@@ -15,7 +15,7 @@ import MemberInformation from './MemberInformation';
 import { login } from '../../../components/kd48listerer/roomListener';
 
 // 格式化数组
-export function format(rawArray: Array, from: number, to: number): Array {
+export function format(rawArray, from, to) {
   if (rawArray.length === 0) {
     return [];
   }
@@ -28,23 +28,23 @@ export function format(rawArray: Array, from: number, to: number): Array {
     ];
   }
 
-  const middle: number = Math.floor((to - from) / 2) + from;
-  const left: Array = format(rawArray, from, middle);
-  const right: Array = format(rawArray, middle + 1, to);
+  const middle = Math.floor((to - from) / 2) + from;
+  const left = format(rawArray, from, middle);
+  const right = format(rawArray, middle + 1, to);
 
   return left.concat(right);
 }
 
 /* 初始化数据 */
-const state: Function = createStructuredSelector({
+const state = createStructuredSelector({
   loginInformation: createSelector( // 登录信息
-    ($$state: Immutable.Map): ?Immutable.Map => $$state.has('kouDai48') ? $$state.get('kouDai48') : null,
-    ($$data: ?Immutable.Map): ?Object => $$data !== null ? $$data.get('loginInformation') : null
+    ($$state) => $$state.has('kouDai48') ? $$state.get('kouDai48') : null,
+    ($$data) => $$data !== null ? $$data.get('loginInformation') : null
   )
 });
 
 /* dispatch */
-const dispatch: Function = (dispatch: Function): Object => ({
+const dispatch = (dispatch) => ({
   action: bindActionCreators({
     loginInformation,
     getLoginInformation,
@@ -58,18 +58,13 @@ const dispatch: Function = (dispatch: Function): Object => ({
 @Form.create()
 @connect(state, dispatch)
 class KouDai48 extends Component {
-  state: {
-    searchString: string;
-    searchResult: Array;
-  };
-
-  static propTypes: Object = {
+  static propTypes = {
     loginInformation: PropTypes.object,
     action: PropTypes.objectOf(PropTypes.func),
     form: PropTypes.object
   };
 
-  constructor(): void {
+  constructor() {
     super(...arguments);
 
     this.state = {
@@ -77,13 +72,15 @@ class KouDai48 extends Component {
       searchResult: [] // 搜索结果
     };
   }
-  componentDidMount(): void {
+
+  componentDidMount() {
     this.props.action.getLoginInformation({
       query: 'loginInformation'
     });
   }
+
   // 表格配置
-  columns(): Array {
+  columns() {
     return [
       {
         title: 'memberId',
@@ -95,20 +92,21 @@ class KouDai48 extends Component {
         title: 'information',
         key: 'information',
         width: '80%',
-        render: (value: any, item: Object, index: number): React.Node => <MemberInformation item={ item } />
+        render: (value, item, index) => <MemberInformation item={ item } />
       }
     ];
   }
+
   // 登录
-  handleSubmit(event: Event): void {
+  handleSubmit(event) {
     event.preventDefault();
 
-    this.props.form.validateFields(async (err: any, value: Object): Promise<void> => {
+    this.props.form.validateFields(async (err, value) => {
       if (!err) {
         try {
-          const data: Object = await login(value.account, value.password);
-          const content: Object = data.content;
-          const value2: Object = {
+          const data = await login(value.account, value.password);
+          const content = data.content;
+          const value2 = {
             key: 'loginInformation',
             value: {
               friends: content.friends, // 关注列表
@@ -129,15 +127,17 @@ class KouDai48 extends Component {
       }
     });
   }
+
   // 搜索
-  handleInputChange(event: Event): void {
+  handleInputChange(event) {
     this.setState({
       searchString: event.target.value
     });
   }
-  async handleSearchInformationClick(event: Event): Promise<void> {
+
+  async handleSearchInformationClick(event) {
     try {
-      const data: Object = await this.props.action.cursorMemberInformation({
+      const data = await this.props.action.cursorMemberInformation({
         query: {
           indexName: 'memberName', // 索引
           range: this.state.searchString
@@ -151,8 +151,9 @@ class KouDai48 extends Component {
       console.error(err);
     }
   }
+
   // 退出并清除缓存
-  async handleExitAndClearClick(event: Event): Promise<void> {
+  async handleExitAndClearClick(event) {
     try {
       await this.props.action.clearLoginInformation();
       await this.props.action.clearMemberInformation();
@@ -163,14 +164,15 @@ class KouDai48 extends Component {
       console.error(err);
     }
   }
-  render(): React.Node {
-    const { getFieldDecorator }: { getFieldDecorator: Function } = this.props.form;
-    const loginInformation: ?Object = this.props.loginInformation;
+
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    const loginInformation = this.props.loginInformation;
 
     // 渲染搜索结果
-    const resultEle: Array = [];
+    const resultEle = [];
 
-    this.state.searchResult.map((item: Object, index: number): void => {
+    this.state.searchResult.map((item, index) => {
       resultEle.push(
         <div key={ item.memberId } className={ style.searchGroup }>
           <p className={ style.searchText }>memberId:&nbsp;{ item.memberId }</p>
@@ -242,15 +244,23 @@ class KouDai48 extends Component {
                     onChange={ this.handleInputChange.bind(this) }
                     onPressEnter={ this.handleSearchInformationClick.bind(this) }
                   />
-                  <Button className={ publicStyle.ml10 } type="primary" onClick={ this.handleSearchInformationClick.bind(this) }>搜索</Button>
+                  <Button className={ publicStyle.ml10 }
+                    type="primary"
+                    onClick={ this.handleSearchInformationClick.bind(this) }
+                  >
+                    搜索
+                  </Button>
                   { resultEle }
                 </div>
               </Card>
               <Table columns={ this.columns() }
                 size="middle"
-                rowKey={ (item: Object): number => item.memberId }
+                rowKey={ (item) => item.memberId }
                 bordered={ true }
-                dataSource={ loginInformation ? format(loginInformation.value.friends, 0, loginInformation.value.friends.length - 1) : [] }
+                dataSource={ loginInformation
+                  ? format(loginInformation.value.friends, 0, loginInformation.value.friends.length - 1)
+                  : []
+                }
                 pagination={{
                   defaultPageSize: 10,
                   showQuickJumper: true

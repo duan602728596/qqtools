@@ -27,25 +27,13 @@ module.exports = {
   externals: {
     jquery: 'window.jQuery'
   },
-  loaders: {
-    svg: {
-      test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-      use: [
-        { loader: 'babel-loader' },
-        {
-          loader: '@svgr/webpack',
-          options: { babel: false, icon: true }
-        }
-      ]
-    }
-  },
   rules: [
     {
-      test: /(dll\.js|appInit\.js|jquery)/,
+      test: /(appInit\.js|jquery)/,
       use: [{
         loader: 'file-loader',
         options: {
-          name: isDevelopment ? '[name].[ext]' : '[hash:5].[ext]',
+          name: isDevelopment ? '[name].[hash:5].[ext]' : '[hash:5].[ext]',
           outputPath: 'script/'
         }
       }]
@@ -53,9 +41,8 @@ module.exports = {
   ],
   js: {
     ecmascript: true,
-    presets: ['@babel/preset-flow'],
     plugins: [['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }]],
-    exclude: /(dll\.js|appInit\.js|jquery|node_modules)/
+    exclude: /(appInit\.js|jquery|node_modules)/
   },
   sass: { include: /src/ },
   css: {
@@ -66,8 +53,7 @@ module.exports = {
       '@layout-body-background': '#fff',
       '@layout-header-background': '@primary-color'
     },
-    include: /node_modules[\\/]antd/,
-    publicPath: '../'
+    include: /node_modules[\\/]antd/
   },
   html: [{ template: path.join(__dirname, 'src/index.pug') }]
 };

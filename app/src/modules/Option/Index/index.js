@@ -10,19 +10,19 @@ import $ from 'jquery';
 import style from './style.sass';
 import publicStyle from '../../../components/publicStyle/public.sass';
 import { optionList, cursorOption, deleteOption, importOption } from '../store/reducer';
-const path: Object = global.require('path');
-const fs: Object = global.require('fs');
+const path = global.require('path');
+const fs = global.require('fs');
 
 /* 初始化数据 */
-const state: Function = createStructuredSelector({
+const state = createStructuredSelector({
   optionList: createSelector( // 配置列表
-    ($$state: Immutable.Map): ?Immutable.Map => $$state.has('option') ? $$state.get('option') : null,
-    ($$data: ?Immutable.Map): Array => $$data !== null ? $$data.get('optionList').toJS() : []
+    ($$state) => $$state.has('option') ? $$state.get('option') : null,
+    ($$data) => $$data !== null ? $$data.get('optionList').toJS() : []
   )
 });
 
 /* dispatch */
-const dispatch: Function = (dispatch: Function): Object => ({
+const dispatch = (dispatch) => ({
   action: bindActionCreators({
     optionList,
     cursorOption,
@@ -33,17 +33,12 @@ const dispatch: Function = (dispatch: Function): Object => ({
 
 @connect(state, dispatch)
 class Index extends Component {
-  state: {
-    visible1: boolean;
-    visible2: boolean;
-  };
-
-  static propTypes: Object = {
+  static propTypes = {
     optionList: PropTypes.array,
     action: PropTypes.objectOf(PropTypes.func)
   };
 
-  constructor(): void {
+  constructor() {
     super(...arguments);
 
     this.state = {
@@ -51,7 +46,8 @@ class Index extends Component {
       visible2: false
     };
   }
-  columns(): Array {
+
+  columns() {
     return [
       {
         title: '配置名称',
@@ -75,7 +71,7 @@ class Index extends Component {
         title: '操作',
         key: 'handle',
         width: '25%',
-        render: (value: any, item: Object, index: number): Array<React.Node> => {
+        render: (value, item, index) => {
           return [
             <Link key="link" to={{
               pathname: '/Option/Edit',
@@ -93,17 +89,19 @@ class Index extends Component {
       }
     ];
   }
-  componentDidMount(): void {
+
+  componentDidMount() {
     this.props.action.cursorOption({
       query: {
         indexName: 'time'
       }
     });
   }
+
   // 删除
-  async handleDeleteOptionClick(item: Object, event: Event): Promise<void> {
+  async handleDeleteOptionClick(item, event) {
     try {
-      const index: number = this.props.optionList.indexOf(item);
+      const index = this.props.optionList.indexOf(item);
 
       await this.props.action.deleteOption({
         query: item.name
@@ -116,15 +114,17 @@ class Index extends Component {
       console.error(err);
     }
   }
+
   // 显示弹出层
-  handleModalDisplayClick(key: string, value: boolean, event: Event): void {
+  handleModalDisplayClick(key, value, event) {
     this.setState({
       [key]: value
     });
   }
+
   // 导入配置
-  handleExportConfigurationClick(event: Event): void {
-    const files: jQuery = $('#exportConfiguration').val();
+  handleExportConfigurationClick(event) {
+    const files = $('#exportConfiguration').val();
 
     if (files === '') {
       message.error('必须选择一个保存位置！');
@@ -132,7 +132,7 @@ class Index extends Component {
       return void 0;
     }
 
-    const { ext }: { ext: string } = path.parse(files);
+    const { ext } = path.parse(files);
 
     if (ext !== '.json') {
       message.error('导出的必须是一个json文件！');
@@ -140,11 +140,11 @@ class Index extends Component {
       return void 0;
     }
 
-    const jsonStr: string = JSON.stringify({
+    const jsonStr = JSON.stringify({
       configuration: this.props.optionList
     }, null, 2);
 
-    fs.writeFile(files, jsonStr, (err: any): void => {
+    fs.writeFile(files, jsonStr, (err) => {
       if (err) {
         message.error('导出失败！');
       } else {
@@ -153,15 +153,15 @@ class Index extends Component {
       }
     });
   }
-  handleImportConfigurationClick(event: Event): ?boolean {
-    const files: jQuery = $('#importConfiguration').val();
+  handleImportConfigurationClick(event) {
+    const files = $('#importConfiguration').val();
 
     if (files === '') {
       message.error('必须选择一个文件！');
 
       return false;
     }
-    const { ext }: { ext: string } = path.parse(files);
+    const { ext } = path.parse(files);
 
     if (ext !== '.json') {
       message.error('导入的必须是一个json文件！');
@@ -170,11 +170,11 @@ class Index extends Component {
     }
     fs.readFile(files, {
       encoding: 'utf8'
-    }, async (err: any, chunk: any): Promise<void> => {
+    }, async (err, chunk) => {
       if (err) {
         message.error('导入失败');
       } else {
-        const data: Object = JSON.parse(chunk);
+        const data = JSON.parse(chunk);
 
         if ('configuration' in data) {
           try {
@@ -195,9 +195,9 @@ class Index extends Component {
         }
       }
     });
-
   }
-  render(): Array<React.Node> {
+
+  render() {
     return [
       <Affix key="affix" className={ publicStyle.affix }>
         <div className={ classNames(publicStyle.toolsBox, 'clearfix') }>
@@ -205,7 +205,12 @@ class Index extends Component {
             <Link className={ style.mr10 } to="/Option/Edit">
               <Button type="primary" icon="plus-circle-o">添加新配置</Button>
             </Link>
-            <Button className={ style.mr10 } icon="export" onClick={ this.handleModalDisplayClick.bind(this, 'visible1', true) }>导出所有配置</Button>
+            <Button className={ style.mr10 }
+              icon="export"
+              onClick={ this.handleModalDisplayClick.bind(this, 'visible1', true) }
+            >
+              导出所有配置
+            </Button>
             <Button icon="select" onClick={ this.handleModalDisplayClick.bind(this, 'visible2', true) }>导入所有配置</Button>
           </div>
           <div className={ publicStyle.fr }>
@@ -220,7 +225,7 @@ class Index extends Component {
         <Table dataSource={ this.props.optionList }
           columns={ this.columns() }
           bordered={ true }
-          rowKey={ (item: Object): string => item.time }
+          rowKey={ (item) => item.time }
           pagination={{
             pageSize: 20,
             showQuickJumper: true

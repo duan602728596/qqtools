@@ -6,14 +6,14 @@ import '../../../components/indexedDB/indexedDB-init';
 import { handleOpenBrowser } from '../../../utils';
 import Navs from './Navs';
 
-function Index(props: Object): React.Node {
-  const upgradeReminder: string = localStorage.getItem('upgradeReminder');
-  const [isUpgradeReminder, setUpgradeReminder]: [boolean, Function] = useState(
+function Index(props) {
+  const upgradeReminder = localStorage.getItem('upgradeReminder');
+  const [isUpgradeReminder, setUpgradeReminder] = useState(
     upgradeReminder === 'true' || !upgradeReminder
   );
 
   // 状态变化
-  function handleUpgradeReminderChange(event: Event): void {
+  function handleUpgradeReminderChange(event) {
     localStorage.setItem('upgradeReminder', String(!isUpgradeReminder));
 
     setUpgradeReminder(!isUpgradeReminder);
