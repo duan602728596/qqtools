@@ -1,19 +1,17 @@
-// @flow
-import * as React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import asyncModule from './asyncModule';
 /* 加载模块 */
 import Index from '../modules/Index/Layout';
 
-const LoginBundle: Function = asyncModule((): Promise<Function> => import('../modules/Login/Layout'));
-const OptionBundle: Function = asyncModule((): Promise<Function> => import('../modules/Option/Layout'));
-const KouDai48Bundle: Function = asyncModule((): Promise<Function> => import('../modules/KouDai48/Layout'));
-const HelpBundle: Function = asyncModule((): Promise<Function> => import('../modules/Help/Layout'));
+const LoginBundle = asyncModule(() => import('../modules/Login/Layout'));
+const OptionBundle = asyncModule(() => import('../modules/Option/Layout'));
+const KouDai48Bundle = asyncModule(() => import('../modules/KouDai48/Layout'));
+const HelpBundle = asyncModule(() => import('../modules/Help/Layout'));
 
 /* 路由模块 */
-class Routers extends Component<{}> {
-  render(): React.Node {
+class Routers extends Component {
+  render() {
     return (
       <Switch>
         {/* 首页 */}

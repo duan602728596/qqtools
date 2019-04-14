@@ -1,6 +1,6 @@
 /* 自定义命令 */
 
-function customCb(command: string, qq: CoolQ): void {
+function customCb(command, qq) {
   if (command[0] in qq.option.custom) {
     qq.sendMessage(qq.option.custom[command[0]]);
   }

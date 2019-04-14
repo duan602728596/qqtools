@@ -1,8 +1,8 @@
-const mysql: Object = global.require('mysql');
+const mysql = global.require('mysql');
 
 /* 根据id查找信息 */
-export function query(db: Object, userid: string): Promise {
-  const connection: Object = mysql.createConnection({
+export function query(db, userid) {
+  const connection = mysql.createConnection({
     host: db.hostname,
     port: db.port,
     user: db.user,
@@ -12,11 +12,11 @@ export function query(db: Object, userid: string): Promise {
 
   connection.connect();
 
-  return new Promise((resolve: Function, reject: Function): void => {
+  return new Promise((resolve, reject) => {
     connection.query(
       `SELECT id, userid, nickname, record from ${ db.table } WHERE userid=?`,
       [userid],
-      (err: Error, results: Array, fields: any): void => {
+      (err, results, fields) => {
         if (err) {
           reject(err);
         } else {
@@ -28,8 +28,8 @@ export function query(db: Object, userid: string): Promise {
   });
 }
 
-export function query2(db: Object, useridOrNickname: string): Promise {
-  const connection: Object = mysql.createConnection({
+export function query2(db, useridOrNickname) {
+  const connection = mysql.createConnection({
     host: db.hostname,
     port: db.port,
     user: db.user,
@@ -39,11 +39,11 @@ export function query2(db: Object, useridOrNickname: string): Promise {
 
   connection.connect();
 
-  return new Promise((resolve: Function, reject: Function): void => {
+  return new Promise((resolve, reject) => {
     connection.query(
       `SELECT id, userid, nickname, record from ${ db.table } WHERE userid=? OR nickname=?`,
       [useridOrNickname, useridOrNickname],
-      (err: Error, results: Array, fields: any): void => {
+      (err, results, fields) => {
         if (err) {
           reject(err);
         } else {
@@ -56,8 +56,8 @@ export function query2(db: Object, useridOrNickname: string): Promise {
 }
 
 /* 插入数据库信息 */
-export function insert(db: Object, userid: string, nickname: string, record: string): Promise {
-  const connection: Object = mysql.createConnection({
+export function insert(db, userid, nickname, record) {
+  const connection = mysql.createConnection({
     host: db.hostname,
     port: db.port,
     user: db.user,
@@ -67,10 +67,10 @@ export function insert(db: Object, userid: string, nickname: string, record: str
 
   connection.connect();
 
-  return new Promise((resolve: Function, reject: Function): void => {
+  return new Promise((resolve, reject) => {
     connection.query(`INSERT INTO ${ db.table } (userid, nickname, record) VALUES (?, ?, ?)`,
       [userid, nickname, JSON.stringify(record)],
-      (err: Error, results: Array, fields: any): void => {
+      (err, results, fields) => {
         if (err) {
           reject(err);
         } else {
@@ -83,8 +83,8 @@ export function insert(db: Object, userid: string, nickname: string, record: str
 }
 
 /* 更新数据库数据 */
-export function update(db: Object, userid: string, nickname: string, record: string): Promise {
-  const connection: Object = mysql.createConnection({
+export function update(db, userid, nickname, record) {
+  const connection = mysql.createConnection({
     host: db.hostname,
     port: db.port,
     user: db.user,
@@ -94,10 +94,10 @@ export function update(db: Object, userid: string, nickname: string, record: str
 
   connection.connect();
 
-  return new Promise((resolve: Function, reject: Function): void => {
+  return new Promise((resolve, reject) => {
     connection.query(`UPDATE ${ db.table } SET nickname=?, record=? WHERE userid=?`,
       [nickname, JSON.stringify(record), userid],
-      (err: Error, results: Array, fields: any): void => {
+      (err, results, fields) => {
         if (err) {
           reject(err);
         } else {
@@ -110,8 +110,8 @@ export function update(db: Object, userid: string, nickname: string, record: str
 }
 
 /* 补卡时更新的数据库 */
-export function update2(db: Object, userid: string, record: string): Promise {
-  const connection: Object = mysql.createConnection({
+export function update2(db, userid, record) {
+  const connection = mysql.createConnection({
     host: db.hostname,
     port: db.port,
     user: db.user,
@@ -121,10 +121,10 @@ export function update2(db: Object, userid: string, record: string): Promise {
 
   connection.connect();
 
-  return new Promise((resolve: Function, reject: Function): void => {
+  return new Promise((resolve, reject) => {
     connection.query(`UPDATE ${ db.table } SET record=? WHERE userid=?`,
       [JSON.stringify(record), userid],
-      (err: Error, results: Array, fields: any): void => {
+      (err, results, fields) => {
         if (err) {
           reject(err);
         } else {

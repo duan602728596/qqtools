@@ -1,16 +1,16 @@
 /* 房间信息监听相关 */
-const request: Function = global.require('request');
+const request = global.require('request');
 
 // 请求头
-const HEADERS: Object = {
-  'os': 'android',
-  'IMEI': '864394020501237',
-  'version': '5.0.0',
-  'Connection': 'Keep-Alive'
+const HEADERS = {
+  os: 'android',
+  IMEI: '864394020501237',
+  version: '5.0.0',
+  Connection: 'Keep-Alive'
 };
 
 // 配置项
-const reqOption: Object = {
+const reqOption = {
   method: 'POST',
   headers: HEADERS,
   json: true
@@ -21,8 +21,8 @@ const reqOption: Object = {
  * @param { string } account : 用户名
  * @param { string } password: 密码
  */
-export function login(account: string, password: string): Promise {
-  return new Promise((resolve: Function, reject: Function): void => {
+export function login(account, password) {
+  return new Promise((resolve, reject) => {
     request({
       ...reqOption,
       uri: 'https://puser.48.cn/usersystem/api/user/v1/login/phone',
@@ -32,14 +32,14 @@ export function login(account: string, password: string): Promise {
         longitude: 0,
         latitude: 0
       }
-    }, (err: any, res: Object, body: Object): void => {
+    }, (err, res, body) => {
       if (err) {
         reject(err);
       } else {
         resolve(body);
       }
     });
-  }).catch((err: Object): void => {
+  }).catch((err) => {
     console.error(err);
   });
 }
@@ -48,22 +48,22 @@ export function login(account: string, password: string): Promise {
  * 获取成员的相关信息
  * @param { number } memberId: 成员的ID
  */
-export function requestMemberInformation(memberId: number): Promise {
-  return new Promise((resolve: Function, reject: Function): void => {
+export function requestMemberInformation(memberId) {
+  return new Promise((resolve, reject) => {
     request({
       ...reqOption,
       uri: 'https://puser.48.cn/usersystem/api/user/member/v1/fans/room',
       body: {
         memberId
       }
-    }, (err: any, res: Object, body: Object): void => {
+    }, (err, res, body) => {
       if (err) {
         reject(err);
       } else {
         resolve(body);
       }
     });
-  }).catch((err: Object): void => {
+  }).catch((err) => {
     console.error(err);
   });
 }
@@ -72,8 +72,8 @@ export function requestMemberInformation(memberId: number): Promise {
  * 获取聚聚的相关信息
  * @param { number } userId: 用户的ID
  */
-export function requestUserInformation(userId: number): Promise {
-  return new Promise((resolve: Function, reject: Function): void => {
+export function requestUserInformation(userId) {
+  return new Promise((resolve, reject) => {
     request({
       ...reqOption,
       uri: `https://puser.48.cn/usersystem/api/user/v1/show/info/${ userId }`,
@@ -82,14 +82,14 @@ export function requestUserInformation(userId: number): Promise {
         needChatInfo: false,
         needFriendsNum: false
       }
-    }, (err: any, res: Object, body: Object): void => {
+    }, (err, res, body) => {
       if (err) {
         reject(err);
       } else {
         resolve(body);
       }
     });
-  }).catch((err: Object): void => {
+  }).catch((err) => {
     console.error(err);
   });
 }
@@ -100,8 +100,8 @@ export function requestUserInformation(userId: number): Promise {
  * @param { string } token : 登陆后得到的token
  * @param { number } limit : 返回的数据数量
  */
-export function requestRoomMessage(roomId: number, token: string, limit: number = 1): Promise {
-  return new Promise((resolve: Function, reject: Function): void => {
+export function requestRoomMessage(roomId, token, limit = 1) {
+  return new Promise((resolve, reject) => {
     request({
       uri: 'https://pjuju.48.cn/imsystem/api/im/v1/member/room/message/mainpage',
       method: 'POST',
@@ -116,14 +116,14 @@ export function requestRoomMessage(roomId: number, token: string, limit: number 
         lastTime: 0,
         limit
       }
-    }, (err: any, res: Object, body: Object): void => {
+    }, (err, res, body) => {
       if (err) {
         reject(err);
       } else {
         resolve(body);
       }
     });
-  }).catch((err: Object): void => {
+  }).catch((err) => {
     console.error(err);
   });
 }

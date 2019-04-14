@@ -1,42 +1,42 @@
 /**
  * 微博信息轮询查询
  */
-let weiboUrl: string = 'https://m.weibo.cn/api/container/getIndex?containerid=';
-let containerid: ?string = null; // 微博的lfid
-let lastId: ?number = null; // 记录旧的ID
-let timer: ?number = null; // 定时器
-const t: number = 1.5 * 60 * (10 ** 3);
+let weiboUrl = 'https://m.weibo.cn/api/container/getIndex?containerid=';
+let containerid = null; // 微博的lfid
+let lastId = null; // 记录旧的ID
+let timer = null; // 定时器
+const t = 1.5 * 60 * (10 ** 3);
 
 /* ajax */
-function getData(method: string, url: string): Promise {
-  return new Promise((resolve: Function, reject: Function): void => {
-    const xhr: XMLHttpRequest = new XMLHttpRequest();
+function getData(method, url) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
 
     xhr.open(method, url, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('Cache-Control', 'no-cache');
-    xhr.addEventListener('readystatechange', function(event: Event): void {
+    xhr.addEventListener('readystatechange', function(event) {
       if (xhr.status === 200 && xhr.readyState === 4) {
-        const res: JSON = JSON.parse(xhr.response);
+        const res = JSON.parse(xhr.response);
 
         resolve(res);
       }
     });
     xhr.send();
-  }).catch((err: any): void => {
+  }).catch((err) => {
     console.error(err);
   });
 }
 
 // 获取初始ID
-async function initId(): Promise<void> {
+async function initId() {
   try {
-    const res: Object = await getData('GET', weiboUrl);
-    const cards: Array = res.data.cards;
+    const res = await getData('GET', weiboUrl);
+    const cards = res.data.cards;
 
     if (res.ok === 1) {
-      for (let i: number = 0, j: number = cards.length; i < j; i++) {
-        const item: Object = cards[i];
+      for (let i = 0, j = cards.length; i < j; i++) {
+        const item = cards[i];
 
         // 微博，不是关注人，不是置顶
         if (item.card_type === 9 && 'mblog' in item) {
@@ -53,13 +53,13 @@ async function initId(): Promise<void> {
 }
 
 // 发送数据构建
-function formatText(newWeiBo: Object[]): string[] {
-  const sendData: string = [];
+function formatText(newWeiBo) {
+  const sendData = [];
 
-  for (let i: number = 0, j: number = newWeiBo.length; i < j; i++) {
-    const item: Object = newWeiBo[i];
-    const mblog: Object = item.mblog;
-    const type: string = 'retweeted_status' in item.mblog ? '转载' : '原创';
+  for (let i = 0, j = newWeiBo.length; i < j; i++) {
+    const item = newWeiBo[i];
+    const mblog = item.mblog;
+    const type = 'retweeted_status' in item.mblog ? '转载' : '原创';
 
     sendData.push(`${ mblog.user.screen_name } `
       + (mblog.created_at === '刚刚' ? mblog.created_at : ('在' + mblog.created_at))
@@ -72,17 +72,17 @@ function formatText(newWeiBo: Object[]): string[] {
 }
 
 // 轮询
-async function polling(): Promise<void> {
+async function polling() {
   try {
-    const res: Object = await getData('GET', weiboUrl);
+    const res = await getData('GET', weiboUrl);
 
     if (res.ok === 1) {
-      const cards: Array = res.data.cards;
+      const cards = res.data.cards;
       // 循环数据
-      const newWeiBo: Object[] = [];
+      const newWeiBo = [];
 
-      for (let i: number = 0, j: number = cards.length; i < j; i++) {
-        const item: Object = cards[i];
+      for (let i = 0, j = cards.length; i < j; i++) {
+        const item = cards[i];
 
         if (item.card_type === 9 && 'mblog' in item) {
           if (!('title' in item.mblog)) {
@@ -98,7 +98,7 @@ async function polling(): Promise<void> {
       // 构建发送数据
       if (newWeiBo.length > 0) {
         lastId = Number(newWeiBo[0].mblog.id);
-        const sendData: string[] = formatText(newWeiBo);
+        const sendData = formatText(newWeiBo);
 
         postMessage({
           type: 'change',
@@ -111,9 +111,9 @@ async function polling(): Promise<void> {
   }
 }
 
-addEventListener('message', async function(event: Event): Promise<boolean> {
+addEventListener('message', async function(event) {
   try {
-    const data: Object = event.data;
+    const data = event.data;
 
     if (data.type === 'init') {
       containerid = data.containerid;

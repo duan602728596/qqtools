@@ -4,9 +4,9 @@ import { templateReplace } from '../../utils';
 import ModianListWorker from 'worker-loader?name=script/[hash:5].worker.js!./modianList.worker';
 
 /* 发送信息 */
-async function sendModianInfor(qq: CoolQ): Promise<void> {
+async function sendModianInfor(qq) {
   try {
-    const text: string = templateReplace(qq.option.basic.modianUrlTemplate, {
+    const text = templateReplace(qq.option.basic.modianUrlTemplate, {
       modianname: qq.modianTitle,
       modianid: qq.option.basic.modianId
     });
@@ -18,10 +18,10 @@ async function sendModianInfor(qq: CoolQ): Promise<void> {
 }
 
 /* 新线程计算排名 */
-function list(proId: string, type: string, size: string, qq: CoolQ): void {
+function list(proId, type, size, qq) {
   try {
-    const worker: Worker = new ModianListWorker();
-    const cb: Function = async (event: Event): Promise<void> => {
+    const worker = new ModianListWorker();
+    const cb = async (event) => {
       await qq.sendMessage(event.data.text);
       worker.removeEventListener('message', cb);
       worker.terminate();
@@ -40,9 +40,9 @@ function list(proId: string, type: string, size: string, qq: CoolQ): void {
 }
 
 /* 获取订单信息 */
-function dingDan(proId: string, size: string, qq: CoolQ): void {
-  const worker: Worker = new ModianListWorker();
-  const cb: Function = async (event: Event): Promise<void> => {
+function dingDan(proId, size, qq) {
+  const worker = new ModianListWorker();
+  const cb = async (event) => {
     await qq.sendMessage(event.data.text);
     worker.removeEventListener('message', cb);
     worker.terminate();
@@ -58,31 +58,24 @@ function dingDan(proId: string, size: string, qq: CoolQ): void {
 }
 
 /* 获取已集资金额 */
-async function getAllMount(qq: CoolQ): Promise<void> {
-  const data: {
-    already_raised: number;
-    backer_count: number;
-    end_time: string;
-  } = await getModianInformation(qq.option.basic.modianId);
+async function getAllMount(qq) {
+  const data = await getModianInformation(qq.option.basic.modianId);
 
   await qq.sendMessage(`${ qq.modianTitle }: ￥${ data.already_raised } / ￥${ qq.modianGoal }，`
                      + `\n集资人数：${ data.backer_count }\n项目截至日期：${ data.end_time }`);
 }
 
-function modianCb(command: string[], qq: CoolQ): void {
+function modianCb(command, qq) {
   if (!command[2]) {
     command[2] = '20';
   }
 
-  const { basic }: { basic: Object } = qq.option;
+  const { basic } = qq.option;
 
   // 摩点功能未开启
   if (!basic.isModian) return void 0;
 
-  const { isModianLeaderboard, modianId }: {
-    isModianLeaderboard: boolean;
-    modianId: string;
-  } = basic;
+  const { isModianLeaderboard, modianId } = basic;
 
   switch (command[1]) {
     // 获取整体信息

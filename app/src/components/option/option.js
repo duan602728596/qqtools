@@ -1,23 +1,5 @@
 /* 配置文件 */
-type inforMap = {
-  name: string;
-  key: string;
-  data: ?{
-    name: string;
-    index: string;
-  }[];
-};
-
-type indexeddbMap = {
-  name: string;
-  version: number;
-  objectStore: inforMap[];
-};
-
-const option: {
-  cache: string;
-  indexeddb: indexeddbMap;
-} = {
+const option = {
   indexeddb: { // 配置indexedDB
     name: 'qqtools',
     version: 10,

@@ -2,19 +2,19 @@ import $ from 'jquery';
 import post from './post';
 import { time } from '../../utils';
 
-async function getList(qq: CoolQ): Promise<void> {
+async function getList(qq) {
   try {
-    const data: string = await post();
-    const data2: Object = JSON.parse(data);
+    const data = await post();
+    const data2 = JSON.parse(data);
 
-    let text: ?string = null;
+    let text = null;
 
     if (data2.status === 200) {
       if ('liveList' in data2.content && data2.content.liveList.length > 0) {
-        const { liveList }: { liveList: Array } = data2.content;
+        const { liveList } = data2.content;
 
         text = `口袋48直播：（当前直播成员数：${ liveList.length }）`;
-        $.each(liveList, (index: number, item: Object): void => {
+        $.each(liveList, (index, item) => {
           text += `\n${ index + 1 }、${ item.title.split('的')[0] }\n`
                 + `标题：${ item.subTitle }\n`
                 + `开始时间：${ time('YY-MM-DD hh:mm:ss', item.startTime) }`;
@@ -31,7 +31,7 @@ async function getList(qq: CoolQ): Promise<void> {
   }
 }
 
-function kd48Cb(qq: CoolQ): void {
+function kd48Cb(qq) {
   if (!qq.option.basic.is48LiveListener) return void 0;
 
   getList(qq);

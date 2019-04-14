@@ -1,18 +1,18 @@
 /* 查询最好的卡片 */
 
-function bestCards(cards: Object, len: number): string {
-  const result: [] = [];
+function bestCards(cards, len) {
+  const result = [];
 
-  for (const key: string in cards) {
-    const item: Object = cards[key];
+  for (const key in cards) {
+    const item = cards[key];
 
     if (result.length === 0) {
       result.push(item);
       continue;
     }
 
-    for (let i: number = 0, j: number = result.length; i < j; i++) {
-      const item2: Object = result[i];
+    for (let i = 0, j = result.length; i < j; i++) {
+      const item2 = result[i];
 
       if (item.levelNum > item2.levelNum) {
         result.splice(i, 0, item);
@@ -24,10 +24,10 @@ function bestCards(cards: Object, len: number): string {
   }
 
   // 返回数据
-  const str: string[] = [];
+  const str = [];
 
-  for (let i: number = 0, j: number = len > result.length ? result.length : len; i < j; i++) {
-    const item: Object = result[i];
+  for (let i = 0, j = len > result.length ? result.length : len; i < j; i++) {
+    const item = result[i];
 
     str.push(`[CQ:image,file=${ item.image }]`);
   }

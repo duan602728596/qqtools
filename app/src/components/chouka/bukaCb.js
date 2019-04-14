@@ -3,33 +3,28 @@ import * as storagecard from './storagecard';
 import { chouka } from './chouka';
 import bestCards from './bestCards';
 
-async function bukaCb(command: string[], qq: CoolQ, dataJson: Object): Promise<void> {
-  const { basic }: { basic: Object } = qq.option;
+async function bukaCb(command, qq, dataJson) {
+  const { basic } = qq.option;
 
   if (!basic.isChouka || !qq.bukaQQNumber.includes(dataJson.user_id) || !command[1] || !/^[0-9]+$/.test(command[1])) {
     return void 0;
   }
 
   try {
-    const { cards, money, multiple, db }: {
-      cards: Array;
-      money: number;
-      multiple: number;
-      db: Object;
-    } = qq.choukaJson;
+    const { cards, money, multiple, db } = qq.choukaJson;
 
-    const choukaStr: string[] = [];
-    let cqImage: string = '';
+    const choukaStr = [];
+    let cqImage = '';
 
     // 把卡存入数据库
-    const kaResult: [] = await storagecard.query(db, command[1]);
-    const record: Object = kaResult.length === 0 ? {} : JSON.parse(kaResult[0].record);
+    const kaResult = await storagecard.query(db, command[1]);
+    const record = kaResult.length === 0 ? {} : JSON.parse(kaResult[0].record);
 
-    const choukaResult: Object = chouka(cards, money, null, multiple, command[2] ? Number(command[2]) : 1);
+    const choukaResult = chouka(cards, money, null, multiple, command[2] ? Number(command[2]) : 1);
 
-    for (const key: string in choukaResult) {
-      const item2: Object = choukaResult[key];
-      const str: string = `【${ item2.level }】${ item2.name } * ${ item2.length }`;
+    for (const key in choukaResult) {
+      const item2 = choukaResult[key];
+      const str = `【${ item2.level }】${ item2.name } * ${ item2.length }`;
 
       choukaStr.push(str);
 

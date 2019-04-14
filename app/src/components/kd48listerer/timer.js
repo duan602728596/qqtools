@@ -5,12 +5,12 @@ import { time } from '../../utils';
 import store from '../../store/store';
 import Kd48listenerWorker from 'worker-loader?name=script/[hash:5].worker.js!./kd48listener.worker';
 
-let oldList: Object = {}; // 旧列表
+let oldList = {}; // 旧列表
 
-function array2obj(rawArray: Array): Object {
-  const o: Object = {};
+function array2obj(rawArray) {
+  const o = {};
 
-  $.each(rawArray, (index: number, item: Object): void => {
+  $.each(rawArray, (index, item) => {
     o[item.liveId] = item;
   });
 
@@ -18,10 +18,10 @@ function array2obj(rawArray: Array): Object {
 }
 
 /* 初始化 */
-export async function init(): Promise<void> {
+export async function init() {
   try {
-    const data: string = await post();
-    const data2: Object = JSON.parse(data);
+    const data = await post();
+    const data2 = JSON.parse(data);
 
     if (data2.status === 200 && 'liveList' in data2.content) {
       // 以liveId作为键名，存成Object
@@ -33,37 +33,34 @@ export async function init(): Promise<void> {
 }
 
 /* 轮询 */
-async function kd48timer(): Promise<void> {
+async function kd48timer() {
   try {
     // 获取新数据
-    const data: Object = await post();
-    const data2: Object = JSON.parse(data);
-    let newData: Array = [];
+    const data = await post();
+    const data2 = JSON.parse(data);
+    let newData = [];
 
     if (data2.status === 200 && 'liveList' in data2.content) {
       newData = data2.content.liveList;
     }
     // 开启新计算线程
-    const worker: Worker = new Kd48listenerWorker();
-    const cb: Function = async (event: Event): Promise<void> => {
-      const { newDataObj, newLive }: {
-        newDataObj: Object;
-        newLive: Array;
-      } = event.data;
+    const worker = new Kd48listenerWorker();
+    const cb = async (event) => {
+      const { newDataObj, newLive } = event.data;
 
       oldList = newDataObj; // 覆盖旧数据
       // 当有新直播时，遍历已登录的CoolQ，并发送数据
       if (newLive.length > 0) {
-        const ll: Immutable.Map | Array = store.getState().get('login').get('qqLoginList');
-        const ll2: Array = ll instanceof Array ? ll : ll.toJS();
+        const ll = store.getState().get('login').get('qqLoginList');
+        const ll2 = ll instanceof Array ? ll : ll.toJS();
 
         // 发送数据
-        for (let i1: number = newLive.length - 1, j2: number = ll2.length; i1 >= 0; i1--) {
-          const item1: Object = newLive[i1];
+        for (let i1 = newLive.length - 1, j2 = ll2.length; i1 >= 0; i1--) {
+          const item1 = newLive[i1];
 
-          for (let i2: number = 0; i2 < j2; i2++) {
-            const item2: Object = ll2[i2];
-            const basic: Object = item2.option.basic;
+          for (let i2 = 0; i2 < j2; i2++) {
+            const item2 = ll2[i2];
+            const basic = item2.option.basic;
 
             if (
               basic.is48LiveListener // 开启直播功能
@@ -73,15 +70,15 @@ async function kd48timer(): Promise<void> {
                 || (item2.memberId && item2.memberId.includes(item1.memberId)) // id精确匹配监听指定成员
               )
             ) {
-              const member: string = item1.title.split('的')[0],
-                subTitle: string = item1.subTitle,
-                time1: string = time('YY-MM-DD hh:mm:ss', item1.startTime),
-                streamPath: string = item1.streamPath,
-                qq: CoolQ = item2;
-              let text: string = `${ member } 开启了一个${ item1.liveType === 1 ? '直播' : '电台' }。\n`
-                                 + `直播标题：${ subTitle }\n`
-                                 + `开始时间：${ time1 }\n`
-                                 + `视频地址：${ streamPath }`;
+              const member = item1.title.split('的')[0],
+                subTitle = item1.subTitle,
+                time1 = time('YY-MM-DD hh:mm:ss', item1.startTime),
+                streamPath = item1.streamPath,
+                qq = item2;
+              let text = `${ member } 开启了一个${ item1.liveType === 1 ? '直播' : '电台' }。\n`
+                       + `直播标题：${ subTitle }\n`
+                       + `开始时间：${ time1 }\n`
+                       + `视频地址：${ streamPath }`;
 
               // @所有人的功能
               if (basic.is48LiveAtAll) text = `[CQ:at,qq=all] ${ text }`;

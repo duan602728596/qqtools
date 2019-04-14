@@ -6,7 +6,7 @@ import kd48Cb from '../kd48listerer/kd48Cb';
 import customCb from '../custom/customCb';
 import helpCb from '../help/helpCb';
 
-function fn(command: string[], qq: CoolQ, dataJson: Object): void {
+function fn(command, qq, dataJson) {
   switch (command[0]) {
     // 摩点判断
     case '摩点':
@@ -38,12 +38,12 @@ function fn(command: string[], qq: CoolQ, dataJson: Object): void {
   }
 }
 
-function callback(dataJson: Object, qq: CoolQ): void {
-  const content: string = dataJson?.raw_message || dataJson.message;
-  const command: string[] = content.split(/\s+/);
+function callback(dataJson, qq) {
+  const content = dataJson?.raw_message || dataJson.message;
+  const command = content.split(/\s+/);
 
   // 格式化去掉空字符串
-  for (let i: number = command.length - 1; i >= 0; i--) {
+  for (let i = command.length - 1; i >= 0; i--) {
     if (command[i] === '') {
       command.splice(i, 1);
     }
