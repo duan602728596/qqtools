@@ -64,7 +64,7 @@ class Koudai48RoomListener extends Component {
                   required: true
                 },
                 {
-                  validator: (rule: Object, value: number, callback: Function): void => {
+                  validator: (rule, value, callback) => {
                     if (value < 15) {
                       callback(rule.message);
                     } else {
