@@ -459,12 +459,18 @@ class CoolQ {
 
         // 倒序发送消息
         for (let i = data.length - 1; i >= 0; i--) {
-          let item = data[i];
+          const item = data[i];
+          let txt = item.data;
 
           // @所有人的功能
-          if (isWeiboAtAll) item = `[CQ:at,qq=all] ${ item }`;
+          if (isWeiboAtAll) txt = `[CQ:at,qq=all] ${ txt }`;
 
-          await this.sendMessage(item);
+          // 发送图片
+          if (this.option && this.option.basic.isWeiboSendImage && this.coolqEdition === 'pro' && item.pics.length > 0) {
+            txt += `[CQ:image,file=${ item.pics[0] }]\n`;
+          }
+
+          await this.sendMessage(txt);
         }
       } catch (err) {
         console.error(err);

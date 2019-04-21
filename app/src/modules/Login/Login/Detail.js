@@ -164,7 +164,9 @@ function Detail(props) {
         </tr>
         <tr>
           <td className={ style.tdTitle }>微博lfid</td>
-          <td colSpan={ 3 }>{ basic.lfid }</td>
+          <td>{ basic.lfid }</td>
+          <td className={ style.tdTitle }>发送图片</td>
+          <td>{ isOpen(basic.isWeiboSendImage) }</td>
         </tr>
         {/* 欢迎新成员 */}
         <tr>

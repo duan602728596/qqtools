@@ -17,6 +17,7 @@ class WeiboConfiguration extends Component {
     const colsArea2 = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };
     const isWeiboListener = detail?.basic?.isWeiboListener; // 微博监听
     const isWeiboAtAll = detail?.basic?.isWeiboAtAll; // @所有成员
+    const isWeiboSendImage = detail?.basic?.isWeiboSendImage;
 
     return (
       <Card className={ style.mb10 } title="成员微博监听配置">
@@ -41,6 +42,14 @@ class WeiboConfiguration extends Component {
               initialValue: detail ? detail.basic.lfid : ''
             })(<Input />)
           }
+        </Form.Item>
+        <Form.Item label="发送图片" { ...colsArea2 }>
+          {
+            getFieldDecorator('isWeiboSendImage', {
+              initialValue: isWeiboSendImage
+            })(<Checkbox defaultChecked={ isWeiboSendImage } />)
+          }
+          <ShuoMing.IsRoomSendImage />
         </Form.Item>
       </Card>
     );

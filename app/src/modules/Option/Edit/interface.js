@@ -68,6 +68,7 @@ function interfaceOption(value, customProfiles) {
       isWeiboListener: value.isWeiboListener,
       isWeiboAtAll: value.isWeiboAtAll,
       lfid: value.lfid,
+      isWeiboSendImage: value.isWeiboSendImage,
       // 新成员欢迎
       isNewGroupMember: value.isNewGroupMember,
       welcomeNewGroupMember: value.welcomeNewGroupMember,

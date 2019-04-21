@@ -61,11 +61,16 @@ function formatText(newWeiBo) {
     const mblog = item.mblog;
     const type = 'retweeted_status' in item.mblog ? '转载' : '原创';
 
-    sendData.push(`${ mblog.user.screen_name } `
-      + (mblog.created_at === '刚刚' ? mblog.created_at : ('在' + mblog.created_at))
-      + `发送了一条微博：${ mblog.text.replace(/<[^<>]+>/g, '  ') }\n`
-      + `类型：${ type }\n`
-      + `地址：${ item.scheme }`);
+    // pics[].url
+
+    sendData.push({
+      data: `${ mblog.user.screen_name } `
+        + (mblog.created_at === '刚刚' ? mblog.created_at : ('在' + mblog.created_at))
+        + `发送了一条微博：${ mblog.text.replace(/<[^<>]+>/g, '  ') }\n`
+        + `类型：${ type }\n`
+        + `地址：${ item.scheme }`,
+      pics: (mblog.pics || []).map((item) => item.url)
+    });
   }
 
   return sendData;
