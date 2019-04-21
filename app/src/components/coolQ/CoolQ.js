@@ -1,9 +1,8 @@
 import { message } from 'antd';
-import { requestRoomMessage, requestUserInformation, requestFlipAnswer } from '../kd48listerer/roomListener';
+import { requestRoomMessage, requestFlipAnswer } from '../kd48listerer/roomListener';
 import { templateReplace, time } from '../../utils';
 import { chouka } from '../chouka/chouka';
 import * as storagecard from '../chouka/storagecard';
-import bestCards from '../chouka/bestCards';
 
 class CoolQ {
   /*
@@ -277,7 +276,10 @@ class CoolQ {
             }
 
             if (isChoukaSendImage && this.coolqEdition === 'pro') {
-              cqImage = bestCards(choukaResult, 2);
+              // 发送所有图片
+              for (const key in choukaResult) {
+                cqImage += `[CQ:image,file=${ choukaResult[key].image }]`;
+              }
             }
 
             // 把卡存入数据库
