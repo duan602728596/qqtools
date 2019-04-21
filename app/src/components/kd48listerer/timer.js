@@ -1,6 +1,6 @@
 /* 口袋直播列表轮询事件 */
 import $ from 'jquery';
-import post from './post';
+import post, { getLiveInfo } from './post';
 import { time } from '../../utils';
 import store from '../../store/store';
 import Kd48listenerWorker from 'worker-loader?name=[hash:5].worker.js!./kd48listener.worker';
@@ -21,11 +21,10 @@ function array2obj(rawArray) {
 export async function init() {
   try {
     const data = await post();
-    const data2 = JSON.parse(data);
 
-    if (data2.status === 200 && 'liveList' in data2.content) {
+    if (data.status === 200 && 'liveList' in data.content) {
       // 以liveId作为键名，存成Object
-      oldList = array2obj(data2.content.liveList);
+      oldList = array2obj(data.content.liveList);
     }
   } catch (err) {
     console.error(err);
@@ -37,11 +36,10 @@ async function kd48timer() {
   try {
     // 获取新数据
     const data = await post();
-    const data2 = JSON.parse(data);
     let newData = [];
 
-    if (data2.status === 200 && 'liveList' in data2.content) {
-      newData = data2.content.liveList;
+    if (data.status === 200 && 'liveList' in data.content) {
+      newData = data.content.liveList;
     }
     // 开启新计算线程
     const worker = new Kd48listenerWorker();
@@ -56,7 +54,7 @@ async function kd48timer() {
 
         // 发送数据
         for (let i1 = newLive.length - 1, j2 = ll2.length; i1 >= 0; i1--) {
-          const item1 = newLive[i1];
+          const item1 = newLive[i1]; // 直播列表中的对象
 
           for (let i2 = 0; i2 < j2; i2++) {
             const item2 = ll2[i2];
@@ -66,19 +64,17 @@ async function kd48timer() {
               basic.is48LiveListener // 开启直播功能
               && (
                 basic.isListenerAll // 监听所有成员
-                || (item2.members && item2.members.test(item1.title)) // 正则匹配监听指定成员
-                || (item2.memberId && item2.memberId.includes(item1.memberId)) // id精确匹配监听指定成员
+                || (item2.members && item2.members.test(item1.userInfo.nickname)) // 正则匹配监听指定成员
+                || (item2.memberId && item2.memberId.includes(item1.userId)) // id精确匹配监听指定成员
               )
             ) {
-              const member = item1.title.split('的')[0],
-                subTitle = item1.subTitle,
-                time1 = time('YY-MM-DD hh:mm:ss', item1.startTime),
-                streamPath = item1.streamPath,
+              const time1 = time('YY-MM-DD hh:mm:ss', Number(item1.ctime)),
                 qq = item2;
-              let text = `${ member } 开启了一个${ item1.liveType === 1 ? '直播' : '电台' }。\n`
-                       + `直播标题：${ subTitle }\n`
+              const streamPath = await getLiveInfo(item1.liveId);
+              let text = `${ item1.userInfo.nickname } 开启了一个${ item1.liveType === 1 ? '直播' : '电台' }。\n`
+                       + `直播标题：${ item.title }\n`
                        + `开始时间：${ time1 }\n`
-                       + `视频地址：${ streamPath }`;
+                       + `视频地址：${ streamPath.content.playStreamPath }`;
 
               // @所有人的功能
               if (basic.is48LiveAtAll) text = `[CQ:at,qq=all] ${ text }`;
