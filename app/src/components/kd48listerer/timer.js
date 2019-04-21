@@ -72,7 +72,7 @@ async function kd48timer() {
                 qq = item2;
               const streamPath = await getLiveInfo(item1.liveId);
               let text = `${ item1.userInfo.nickname } 开启了一个${ item1.liveType === 1 ? '直播' : '电台' }。\n`
-                       + `直播标题：${ item.title }\n`
+                       + `直播标题：${ item1.title }\n`
                        + `开始时间：${ time1 }\n`
                        + `视频地址：${ streamPath.content.playStreamPath }`;
 

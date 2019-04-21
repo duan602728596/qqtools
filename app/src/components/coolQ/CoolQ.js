@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import { requestRoomMessage, requestUserInformation, requestFlipAnswer } from '../kd48listerer/roomListener';
-import { templateReplace } from '../../utils';
+import { templateReplace, time } from '../../utils';
 import { chouka } from '../chouka/chouka';
 import * as storagecard from '../chouka/storagecard';
 import bestCards from '../chouka/bestCards';
@@ -352,25 +352,28 @@ class CoolQ {
 
         if (item.msgTime > this.roomLastTime) {
           const extInfo = JSON.parse(item.extInfo);
+          const msgTime = time('YYYY-MM-DD hh:mm:ss', item.msgTime);
+          const { messageType } = extInfo;
 
-          switch (extInfo.messageObject) {
+          switch (messageType) {
             // 普通信息
-            case 'text':
-              sendStr.push(`${ extInfo.senderName }：${ extInfo.text }\n`
-                         + `时间：${ item.msgTimeStr }`);
+            case 'TEXT':
+              sendStr.push(`${ extInfo.user.nickName }：${ extInfo.text }\n`
+                         + `时间：${ msgTime }`);
               break;
-            // 翻牌信息
-            case 'faipaiText':
-              const ui = await requestUserInformation(extInfo.faipaiUserId);
 
-              sendStr.push(`${ ui.content.userInfo.nickName }：${ extInfo.faipaiContent }\n`
-                         + `${ extInfo.senderName }：${ extInfo.messageText }\n`
-                         + `时间：${ item.msgTimeStr }`);
+            // 回复信息
+            case 'REPLY':
+              // const ui = await requestUserInformation(extInfo.faipaiUserId);
+              sendStr.push(`${ extInfo.replyName }：${ extInfo.replyText }\n`
+                         + `${ extInfo.user.nickName }：${ extInfo.text }\n`
+                         + `时间：${ msgTime }`);
               break;
+
             // 发送图片
-            case 'image':
+            case 'IMAGE':
               const url = JSON.parse(item.bodys).url;
-              let txt = `${ extInfo.senderName }：`;
+              let txt = `${ extInfo.user.nickName }：`;
 
               // 判断是否是air还是pro，来发送图片或图片地址
               if (this.option && this.option.basic.isRoomSendImage && this.coolqEdition === 'pro') {
@@ -379,52 +382,51 @@ class CoolQ {
                 txt += `${ url }\n`;
               }
 
-              sendStr.push(`${ txt }时间：${ item.msgTimeStr }`);
+              sendStr.push(`${ txt }时间：${ msgTime }`);
               break;
-            // 发送语音
-            case 'audio':
-              const url2 = JSON.parse(item.bodys).url;
 
-              sendStr.push(`${ extInfo.senderName } 发送了一条语音：${ url2 }\n`
-                         + `时间：${ item.msgTimeStr }`);
-              // 判断是否是air还是pro，来发送语音，语音只能单独发送
-              if (this.option && this.option.basic.isRoomSendRecord && this.coolqEdition === 'pro') {
-                sendStr.push(`[CQ:record,file=${ url2 },magic=false]`);
-              }
-              break;
-            // 发送短视频
-            case 'videoRecord':
-              const url3 = JSON.parse(item.bodys).url;
+              // 发送语音
+              // case 'audio':
+              //   const url2 = JSON.parse(item.bodys).url;
+              //
+              //   sendStr.push(`${ extInfo.senderName } 发送了一条语音：${ url2 }\n`
+              //              + `时间：${ item.msgTimeStr }`);
+              //   // 判断是否是air还是pro，来发送语音，语音只能单独发送
+              //   if (this.option && this.option.basic.isRoomSendRecord && this.coolqEdition === 'pro') {
+              //     sendStr.push(`[CQ:record,file=${ url2 },magic=false]`);
+              //   }
+              //   break;
+              //
+              // // 发送短视频
+              // case 'videoRecord':
+              //   const url3 = JSON.parse(item.bodys).url;
+              //
+              //   sendStr.push(`${ extInfo.senderName } 发送了一个视频：${ url3 }\n`
+              //              + `时间：${ item.msgTimeStr }`);
+              //   break;
 
-              sendStr.push(`${ extInfo.senderName } 发送了一个视频：${ url3 }\n`
-                         + `时间：${ item.msgTimeStr }`);
-              break;
             // 直播
-            case 'live':
-              sendStr.push(`${ extInfo.senderName } 正在直播\n`
-                         + `直播间：${ extInfo.referenceTitle }\n`
-                         + `直播标题：${ extInfo.referenceContent }\n`
-                         + `时间：${ item.msgTimeStr }`);
+            case 'LIVEPUSH':
+              sendStr.push(`${ extInfo.user.nickName } 正在直播\n`
+                         + `直播标题：${ extInfo.liveTitle }\n`
+                         + `时间：${ msgTime }`);
               break;
-            // 花50个鸡腿的翻牌。获得参数：idolFlipQuestionId, idolFlipAnswerId, idolFlipSource
-            case 'idolFlip':
-              let msg = `${ extInfo.senderName } 翻牌了 ${ extInfo.idolFlipUserName }的问题：\n`
-                      + `${ extInfo.idolFlipContent }\n`
-                      + `时间：${ item.msgTimeStr }`;
 
-              // 判断是否查询并发送翻牌信息
-              if (this.option && this.option.basic.isFlipAnswerSend) {
-                const res = await requestFlipAnswer(
-                  this.kouDai48Token,
-                  extInfo.idolFlipSource,
-                  extInfo.idolFlipQuestionId,
-                  extInfo.idolFlipAnswerId
-                );
-
-                msg += `\n回答：${ res.content.answer }`;
-              }
+            // 鸡腿翻牌
+            case 'FLIPCARD':
+              const fanpaiInfo = await requestFlipAnswer(this.kouDai48Token, extInfo.questionId, extInfo.answerId);
+              const msg = `${ extInfo.user.nickName } 翻牌了 ${ fanpaiInfo.content.userName }的问题：\n`
+                        + `${ extInfo.question || fanpaiInfo.content.question }\n`
+                        + `回答：${ extInfo.answer || fanpaiInfo.content.answer }`
+                        + `时间：${ msgTime }`;
 
               sendStr.push(msg);
+              break;
+
+            // 发表情
+            case 'EXPRESS':
+              sendStr.push(`${ extInfo.user.nickName }：发送了一个表情。\n`
+                         + `时间：${ msgTime }`);
               break;
           }
         } else {
