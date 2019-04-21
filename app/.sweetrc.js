@@ -27,6 +27,11 @@ module.exports = {
   externals: {
     jquery: 'window.jQuery'
   },
+  resolve: {
+    alias: {
+      'indexeddb-tools': 'indexeddb-tools/build/indexedDB-tools.js'
+    }
+  },
   rules: [
     {
       test: /(appInit\.js|jquery)/,
@@ -49,7 +54,7 @@ module.exports = {
     modules: false,
     modifyVars: {
       // https://github.com/ant-design/ant-design/blob/master/components/style/themes/default.less
-      '@primary-color': '#f5222d',
+      '@primary-color': '#52c41a',
       '@layout-body-background': '#fff',
       '@layout-header-background': '@primary-color'
     },
