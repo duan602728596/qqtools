@@ -5,19 +5,17 @@ import { time } from '../../utils';
 async function getList(qq) {
   try {
     const data = await post();
-    const data2 = JSON.parse(data);
-
     let text = null;
 
-    if (data2.status === 200) {
-      if ('liveList' in data2.content && data2.content.liveList.length > 0) {
-        const { liveList } = data2.content;
+    if (data.status === 200) {
+      if ('liveList' in data.content && data.content.liveList.length > 0) {
+        const { liveList } = data.content;
 
         text = `口袋48直播：（当前直播成员数：${ liveList.length }）`;
         $.each(liveList, (index, item) => {
-          text += `\n${ index + 1 }、${ item.title.split('的')[0] }\n`
-                + `标题：${ item.subTitle }\n`
-                + `开始时间：${ time('YY-MM-DD hh:mm:ss', item.startTime) }`;
+          text += `\n${ index + 1 }、${ item.userInfo.nickname }\n`
+                + `标题：${ item.title }\n`
+                + `开始时间：${ time('YY-MM-DD hh:mm:ss', Number(item.ctime)) }`;
         });
       } else {
         text = '口袋48直播：\n当前无直播。';
