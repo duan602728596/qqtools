@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
-import { Affix, Table, Button, Card, message, Form, Row, Col, Input, Popconfirm } from 'antd';
+import { Affix, Table, Button, Card, message, Form, Row, Col, Input, Popconfirm, Modal } from 'antd';
 import classNames from 'classnames';
 import publicStyle from '../../../components/publicStyle/public.sass';
 import style from './style.sass';
@@ -153,20 +153,58 @@ class KouDai48 extends Component {
     });
   }
 
-  async handleSearchInformationClick(event) {
-    try {
-      const data = await this.props.action.cursorMemberInformation({
-        query: {
-          indexName: 'memberName', // 索引
-          range: this.state.searchString
-        }
-      });
+  // 根据姓名匹配搜索房间
+  findRoomIdByMemberId(nickname) {
+    const roomPage = this.props?.loginInformation?.value?.roomPage || [];
+    const ownerItem = [];
 
-      this.setState({
-        searchResult: data.result
+    for (const item of roomPage) {
+      if (item.ownerName.includes(nickname)) {
+        ownerItem.push(item);
+      }
+    }
+
+    return ownerItem;
+  }
+
+  // 搜索事件
+  handleSearchInformationClick(event) {
+    const { searchString } = this.state;
+    const ownerItem = this.findRoomIdByMemberId(searchString);
+
+    if (ownerItem && ownerItem.length > 0) {
+      Modal.info({
+        title: '搜索结果',
+        centered: true,
+        content: (
+          <div className={ style.infoBox }>
+            <table className={ style.infoTable }>
+              <thead>
+                <tr>
+                  <th>小偶像名字</th>
+                  <th>小偶像ID</th>
+                  <th>房间ID</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  ownerItem.map((item, index) => {
+                    return (
+                      <tr key={ item.ownerId }>
+                        <td>{ item.ownerName }</td>
+                        <td>{ item.ownerId }</td>
+                        <td>{ item.targetId }</td>
+                      </tr>
+                    );
+                  })
+                }
+              </tbody>
+            </table>
+          </div>
+        )
       });
-    } catch (err) {
-      console.error(err);
+    } else {
+      message.info('没有数据');
     }
   }
 
