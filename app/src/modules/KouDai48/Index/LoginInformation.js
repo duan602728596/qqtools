@@ -12,7 +12,7 @@ function LoginInformation(props) {
           if (item) {
             [
               <p key="0" className={ style.inforP }>ID:&nbsp;{ item?.userInfo?.userId }</p>,
-              <p key="1" className={ style.inforP }>昵称:&nbsp;{ item?.userInfo?.nickName }</p>,
+              <p key="1" className={ style.inforP }>昵称:&nbsp;{ item?.userInfo?.nickname }</p>,
               <p key="2" className={ style.inforP }>Token:&nbsp;{ item?.token }</p>
             ];
           } else {

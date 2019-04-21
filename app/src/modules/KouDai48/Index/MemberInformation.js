@@ -44,28 +44,27 @@ class MemberInformation extends Component {
       } else {
         // 从接口获取数据
         const data = await requestMemberInformation(memberId);
-        let roomInfo = data.content.roomInfo;
+        let roomInfo = data.content.baseUserInfo;
 
         // 兼容
-        if (!(roomInfo && ('memberName' in roomInfo) && ('roomId' in roomInfo))) {
+        if (!(roomInfo && ('nickname' in roomInfo))) {
           roomInfo = {};
           roomInfo.memberName = '';
           roomInfo.roomId = '';
         }
 
-        const { memberName, roomId } = roomInfo;
-        const memberName2 = memberName.replace(/\s/g, '');
+        const { nickname, roomId } = roomInfo;
         const value2 = {
           memberId,
-          memberName: memberName2,
-          roomId
+          memberName: nickname,
+          roomId: ''
         };
 
         await this.props.action.addMemberInformation({
           data: value2
         });
         this.setState({
-          memberName: memberName2,
+          memberName: nickname,
           roomId
         });
       }
@@ -75,13 +74,15 @@ class MemberInformation extends Component {
   }
 
   render() {
-    if (this.state.memberName !== null && this.state.roomId !== null) {
-      if (this.state.memberName !== '' && this.state.roomId !== '') {
+    const { memberName, roomId } = this.state;
+
+    if (memberName !== null && roomId !== null) {
+      if (memberName !== '' && roomId !== '') {
         return [
           <b key="0" className={ style.keyName }>memberName:</b>,
-          <span key="1" className={ style.mr20 }>{ this.state.memberName }</span>,
+          <span key="1" className={ style.mr20 }>{ memberName }</span>,
           <b key="2" className={ style.keyName }>roomId:</b>,
-          <span key="3">{ this.state.roomId }</span>
+          <span key="3">{ roomId }</span>
         ];
       } else {
         return null;

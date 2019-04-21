@@ -1,20 +1,28 @@
 /* 房间信息监听相关 */
 const request = global.require('request');
 
-// 请求头
-const HEADERS = {
-  os: 'android',
-  IMEI: '864394020501237',
-  version: '5.0.0',
-  Connection: 'Keep-Alive'
-};
-
 // 配置项
 const reqOption = {
   method: 'POST',
-  headers: HEADERS,
   json: true
 };
+
+function createHeaders(token) {
+  return {
+    'Content-Type': 'application/json;charset=utf-8',
+    appInfo: JSON.stringify({
+      vendor: 'apple',
+      deviceId: `${ Math.floor(Math.random() * (10 ** 10)) }`,
+      appVersion: '6.0.0',
+      appBuild: '190409',
+      osVersion: '11.4.1',
+      osType: 'ios',
+      deviceName: 'iPhone 6s',
+      os: 'ios'
+    }),
+    token
+  };
+}
 
 /**
  * 登录口袋48接口
@@ -25,13 +33,35 @@ export function login(account, password) {
   return new Promise((resolve, reject) => {
     request({
       ...reqOption,
-      uri: 'https://puser.48.cn/usersystem/api/user/v1/login/phone',
+      headers: createHeaders(),
+      uri: 'https://pocketapi.48.cn/user/api/v1/login/app/mobile',
       body: {
-        password,
-        account,
-        longitude: 0,
-        latitude: 0
+        mobile: account,
+        pwd: password
       }
+    }, (err, res, body) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(body);
+      }
+    });
+  }).catch((err) => {
+    console.error(err);
+  });
+}
+
+/**
+ * 获取朋友的id
+ * @param { string } token
+ */
+export function getFriendsId(token) {
+  return new Promise((resolve, reject) => {
+    request({
+      ...reqOption,
+      headers: createHeaders(token),
+      uri: 'https://pocketapi.48.cn/user/api/v1/friendships/friends/id',
+      body: {}
     }, (err, res, body) => {
       if (err) {
         reject(err);
@@ -52,9 +82,9 @@ export function requestMemberInformation(memberId) {
   return new Promise((resolve, reject) => {
     request({
       ...reqOption,
-      uri: 'https://puser.48.cn/usersystem/api/user/member/v1/fans/room',
+      uri: 'https://pocketapi.48.cn/user/api/v1/user/info/home',
       body: {
-        memberId
+        userId: memberId
       }
     }, (err, res, body) => {
       if (err) {

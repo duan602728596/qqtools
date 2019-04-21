@@ -9,10 +9,13 @@ import { Affix, Table, Button, Card, message, Form, Row, Col, Input, Popconfirm 
 import classNames from 'classnames';
 import publicStyle from '../../../components/publicStyle/public.sass';
 import style from './style.sass';
-import { loginInformation, getLoginInformation, putLoginInformation, cursorMemberInformation, clearLoginInformation, clearMemberInformation } from '../store/reducer';
+import {
+  loginInformation, getLoginInformation, putLoginInformation, cursorMemberInformation, clearLoginInformation,
+  clearMemberInformation
+} from '../store/reducer';
 import LoginInformation from './LoginInformation';
 import MemberInformation from './MemberInformation';
-import { login } from '../../../components/kd48listerer/roomListener';
+import { login, getFriendsId } from '../../../components/kd48listerer/roomListener';
 
 // 格式化数组
 export function format(rawArray, from, to) {
@@ -105,15 +108,26 @@ class KouDai48 extends Component {
       if (!err) {
         try {
           const data = await login(value.account, value.password);
-          const content = data.content;
+
+          if (data.status !== 200) {
+            message.warn(data.message);
+
+            return void 0;
+          }
+
+          const { content } = data;
+          const token = content.token || content.userInfo.token;
+          const friends = await getFriendsId(token);
           const value2 = {
             key: 'loginInformation',
             value: {
-              friends: content.friends, // 关注列表
-              token: content.token, // token
+              friends: friends.content.data, // 关注列表
+              token, // token
               userInfo: content.userInfo // 本人信息
             }
           };
+
+
 
           await this.props.action.putLoginInformation({
             data: value2
@@ -226,7 +240,7 @@ class KouDai48 extends Component {
                             whitespace: true
                           }
                         ]
-                      })(<Input type="password" />)
+                      })(<Input.Password />)
                     }
                   </Form.Item>
                   <Button type="primary" htmlType="submit">登录</Button>
