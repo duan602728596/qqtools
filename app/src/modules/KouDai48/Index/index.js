@@ -15,7 +15,7 @@ import {
 } from '../store/reducer';
 import LoginInformation from './LoginInformation';
 import MemberInformation from './MemberInformation';
-import { login, getFriendsId } from '../../../components/kd48listerer/roomListener';
+import { login, getFriendsId, requestRoomPage } from '../../../components/kd48listerer/roomListener';
 
 // 格式化数组
 export function format(rawArray, from, to) {
@@ -84,6 +84,8 @@ class KouDai48 extends Component {
 
   // 表格配置
   columns() {
+    const roomPage = this.props?.loginInformation?.value?.roomPage || [];
+
     return [
       {
         title: 'memberId',
@@ -95,7 +97,7 @@ class KouDai48 extends Component {
         title: 'information',
         key: 'information',
         width: '80%',
-        render: (value, item, index) => <MemberInformation item={ item } />
+        render: (value, item, index) => <MemberInformation item={ item } roomPage={ roomPage } />
       }
     ];
   }
@@ -117,17 +119,19 @@ class KouDai48 extends Component {
 
           const { content } = data;
           const token = content.token || content.userInfo.token;
-          const friends = await getFriendsId(token);
+          const [friends, roomPage] = await Promise.all([
+            getFriendsId(token), // 获取好友id列表
+            requestRoomPage(token) // 获取房间留言列表
+          ]);
           const value2 = {
             key: 'loginInformation',
             value: {
               friends: friends.content.data, // 关注列表
               token, // token
-              userInfo: content.userInfo // 本人信息
+              userInfo: content.userInfo, // 本人信息
+              roomPage: roomPage.content.conversations
             }
           };
-
-
 
           await this.props.action.putLoginInformation({
             data: value2

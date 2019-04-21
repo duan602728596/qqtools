@@ -83,6 +83,7 @@ export function requestMemberInformation(memberId) {
     request({
       ...reqOption,
       uri: 'https://pocketapi.48.cn/user/api/v1/user/info/home',
+      headers: createHeaders(),
       body: {
         userId: memberId
       }
@@ -136,7 +137,6 @@ export function requestRoomMessage(roomId, token, limit = 1) {
       uri: 'https://pjuju.48.cn/imsystem/api/im/v1/member/room/message/mainpage',
       method: 'POST',
       headers: {
-        ...HEADERS,
         token
       },
       json: true,
@@ -171,7 +171,6 @@ export function requestFlipAnswer(token, idolFlipSource, questionId, answerId) {
       uri: 'https://ppayqa.48.cn/idolanswersystem/api/idolanswer/v1/question_answer/detail',
       method: 'POST',
       headers: {
-        ...HEADERS,
         token
       },
       json: true,
@@ -189,5 +188,28 @@ export function requestFlipAnswer(token, idolFlipSource, questionId, answerId) {
     }).catch((err) => {
       console.error(err);
     });
+  });
+}
+
+/**
+ * 获取房间信息列表
+ */
+export function requestRoomPage(token) {
+  return new Promise((resolve, reject) => {
+    request({
+      uri: 'https://pocketapi.48.cn/im/api/v1/conversation/page',
+      method: 'POST',
+      headers: createHeaders(token),
+      json: true,
+      body: { targetType: 0 }
+    }, (err, res, body) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(body);
+      }
+    });
+  }).catch((err) => {
+    console.error(err);
   });
 }
