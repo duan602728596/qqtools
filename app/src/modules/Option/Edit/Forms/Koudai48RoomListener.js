@@ -46,14 +46,6 @@ class Koudai48RoomListener extends Component {
           }
           <ShuoMing.Kd48RoomListener />
         </Form.Item>
-        <Form.Item label="发送翻牌信息" { ...colsArea2 }>
-          {
-            getFieldDecorator('isFlipAnswerSend', {
-              initialValue: isFlipAnswerSend
-            })(<Checkbox defaultChecked={ isFlipAnswerSend } />)
-          }
-          <ShuoMing.IsRoomSendImage />
-        </Form.Item>
         <Form.Item label="发送图片" { ...colsArea2 }>
           {
             getFieldDecorator('isRoomSendImage', {

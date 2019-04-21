@@ -61,7 +61,6 @@ function interfaceOption(value, customProfiles) {
       isRoomListener: value.isRoomListener,
       roomId: value.roomId,
       ownerId: value.ownerId,
-      isFlipAnswerSend: value.isFlipAnswerSend,
       isRoomSendImage: value.isRoomSendImage,
       isRoomSendRecord: value.isRoomSendRecord,
       liveListeningInterval: value.liveListeningInterval,

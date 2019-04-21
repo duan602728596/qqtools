@@ -314,7 +314,9 @@ class CoolQ {
     const times = basic.liveListeningInterval ? (basic.liveListeningInterval * 1000) : 15000;
 
     try {
-      const data2 = await requestRoomMessage(basic.roomId, '', this.kouDai48Token);
+      const data2 = await requestRoomMessage(basic.roomId, basic.ownerId, this.kouDai48Token);
+
+      console.log(123, data2);
 
       if (!(data2.status === 200 && 'content' in data2)) {
         this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
@@ -322,7 +324,7 @@ class CoolQ {
         return;
       }
 
-      const newTime = data2.content.data[0].msgTime;
+      const newTime = data2.content.message[0].msgTime;
 
       // 新时间大于旧时间，获取25条数据
       if (!(newTime > this.roomLastTime)) {
@@ -331,11 +333,9 @@ class CoolQ {
         return;
       }
 
-      const data3 = await requestRoomMessage(
-        this.option ? this.option.basic.roomId : 0,
-        this.kouDai48Token,
-        25
-      ); // 重新获取数据
+      const data3 = await requestRoomMessage(basic.roomId, basic.ownerId, this.kouDai48Token); // 重新获取数据
+
+      console.log(111, data3);
 
       if (!(data3.status === 200 && 'content' in data3)) {
         this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
@@ -345,10 +345,12 @@ class CoolQ {
 
       // 格式化发送消息
       const sendStr = [];
-      const data = data3.content.data;
+      const data = data3.content.message;
 
       for (let i = 0, j = data.length; i < j; i++) {
         const item = data[i];
+
+        console.log(222, item);
 
         if (item.msgTime > this.roomLastTime) {
           const extInfo = JSON.parse(item.extInfo);
