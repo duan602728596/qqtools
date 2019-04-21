@@ -372,38 +372,38 @@ class CoolQ {
 
             // 发送图片
             case 'IMAGE':
-              const url = JSON.parse(item.bodys).url;
+              const imgUrl = JSON.parse(item.bodys).url;
               let txt = `${ extInfo.user.nickName }：`;
 
               // 判断是否是air还是pro，来发送图片或图片地址
               if (this.option && this.option.basic.isRoomSendImage && this.coolqEdition === 'pro') {
-                txt += `\n[CQ:image,file=${ url }]\n`;
+                txt += `\n[CQ:image,file=${ imgUrl }]\n`;
               } else {
-                txt += `${ url }\n`;
+                txt += `${ imgUrl }\n`;
               }
 
               sendStr.push(`${ txt }时间：${ msgTime }`);
               break;
 
               // 发送语音
-              // case 'audio':
-              //   const url2 = JSON.parse(item.bodys).url;
-              //
-              //   sendStr.push(`${ extInfo.senderName } 发送了一条语音：${ url2 }\n`
-              //              + `时间：${ item.msgTimeStr }`);
-              //   // 判断是否是air还是pro，来发送语音，语音只能单独发送
-              //   if (this.option && this.option.basic.isRoomSendRecord && this.coolqEdition === 'pro') {
-              //     sendStr.push(`[CQ:record,file=${ url2 },magic=false]`);
-              //   }
-              //   break;
-              //
-              // // 发送短视频
-              // case 'videoRecord':
-              //   const url3 = JSON.parse(item.bodys).url;
-              //
-              //   sendStr.push(`${ extInfo.senderName } 发送了一个视频：${ url3 }\n`
-              //              + `时间：${ item.msgTimeStr }`);
-              //   break;
+            case 'AUDIO':
+              const audioUrl = JSON.parse(item.bodys).url;
+
+              sendStr.push(`${ extInfo.user.nickName } 发送了一条语音：${ audioUrl }\n`
+                         + `时间：${ msgTime }`);
+              // 判断是否是air还是pro，来发送语音，语音只能单独发送
+              if (this.option && this.option.basic.isRoomSendRecord && this.coolqEdition === 'pro') {
+                sendStr.push(`[CQ:record,file=${ audioUrl },magic=false]`);
+              }
+              break;
+
+              // 发送短视频
+            case 'VIDEO':
+              const videoUrl = JSON.parse(item.bodys).url;
+
+              sendStr.push(`${ extInfo.user.nickName } 发送了一个视频：${ videoUrl }\n`
+                         + `时间：${ msgTime }`);
+              break;
 
             // 直播
             case 'LIVEPUSH':
@@ -426,6 +426,12 @@ class CoolQ {
             // 发表情
             case 'EXPRESS':
               sendStr.push(`${ extInfo.user.nickName }：发送了一个表情。\n`
+                         + `时间：${ msgTime }`);
+              break;
+
+            // debug
+            default:
+              sendStr.push(`${ extInfo.user.nickName }：未知信息类型，请联系开发者。\n`
                          + `时间：${ msgTime }`);
               break;
           }
