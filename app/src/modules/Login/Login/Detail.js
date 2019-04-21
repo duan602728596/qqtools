@@ -134,9 +134,13 @@ function Detail(props) {
         </tr>
         <tr>
           <td className={ style.tdTitle }>开启成员房间信息监听功能</td>
-          <td>{ isOpen(basic.isRoomListener) }</td>
+          <td colSpan={ 3 }>{ isOpen(basic.isRoomListener) }</td>
+        </tr>
+        <tr>
           <td className={ style.tdTitle }>房间ID</td>
           <td>{ basic.roomId }</td>
+          <td className={ style.tdTitle }>成员ID</td>
+          <td>{ basic.ownerId }</td>
         </tr>
         <tr>
           <td className={ style.tdTitle }>发送翻牌信息</td>

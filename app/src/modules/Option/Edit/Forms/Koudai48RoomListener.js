@@ -38,6 +38,14 @@ class Koudai48RoomListener extends Component {
             })(<Input />)
           }
         </Form.Item>
+        <Form.Item label="成员ID" { ...colsArea2 }>
+          {
+            getFieldDecorator('ownerId', {
+              initialValue: detail ? detail.basic.ownerId : ''
+            })(<Input />)
+          }
+          <ShuoMing.Kd48RoomListener />
+        </Form.Item>
         <Form.Item label="发送翻牌信息" { ...colsArea2 }>
           {
             getFieldDecorator('isFlipAnswerSend', {

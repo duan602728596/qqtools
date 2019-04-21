@@ -49,6 +49,10 @@ export const BukaQQNumber = (props) => (
   <div className={ style.shuoming }>多个QQ号之间用","（半角逗号）分隔。</div>
 );
 
+export const Kd48RoomListener = (props) => (
+  <div className={ style.shuoming }>新版监听需要房间ID和成员ID。</div>
+);
+
 export const WeiBo = (props) => (
   <div className={ classNames(style.shuoming, style.url) }>
     微博lfid配置方法：
