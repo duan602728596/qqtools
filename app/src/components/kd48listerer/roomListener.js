@@ -127,24 +127,22 @@ export function requestUserInformation(userId) {
 
 /**
  * 获取房间信息
- * @param { number } roomId: 房间ID
- * @param { string } token : 登陆后得到的token
- * @param { number } limit : 返回的数据数量
+ * @param { number } roomId : 房间ID
+ * @param { number } ownerId: 成员ID
+ * @param { string } token  : 登陆后得到的token
  */
-export function requestRoomMessage(roomId, token, limit = 1) {
+export function requestRoomMessage(roomId, ownerId, token) {
   return new Promise((resolve, reject) => {
     request({
-      uri: 'https://pjuju.48.cn/imsystem/api/im/v1/member/room/message/mainpage',
+      uri: 'https://pocketapi.48.cn/im/api/v1/chatroom/msg/list/homeowner',
       method: 'POST',
-      headers: {
-        token
-      },
+      headers: createHeaders(token),
       json: true,
       body: {
+        needTop1Msg: false,
         roomId,
-        chatType: 0,
-        lastTime: 0,
-        limit
+        ownerId,
+        nextTime: 0
       }
     }, (err, res, body) => {
       if (err) {

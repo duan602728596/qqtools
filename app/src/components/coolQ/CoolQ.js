@@ -314,7 +314,7 @@ class CoolQ {
     const times = basic.liveListeningInterval ? (basic.liveListeningInterval * 1000) : 15000;
 
     try {
-      const data2 = await requestRoomMessage(basic.roomId, this.kouDai48Token);
+      const data2 = await requestRoomMessage(basic.roomId, '', this.kouDai48Token);
 
       if (!(data2.status === 200 && 'content' in data2)) {
         this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
