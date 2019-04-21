@@ -20,7 +20,7 @@ function array2obj(rawArray) {
 /* 初始化 */
 export async function init() {
   try {
-    const data = await post();
+    const data = await post(0, true);
 
     if (data.status === 200 && 'liveList' in data.content) {
       // 以liveId作为键名，存成Object
@@ -35,7 +35,7 @@ export async function init() {
 async function kd48timer() {
   try {
     // 获取新数据
-    const data = await post();
+    const data = await post(0, true);
     let newData = [];
 
     if (data.status === 200 && 'liveList' in data.content) {

@@ -4,7 +4,7 @@ import { time } from '../../utils';
 
 async function getList(qq) {
   try {
-    const data = await post();
+    const data = await post(0, true);
     let text = null;
 
     if (data.status === 200) {
