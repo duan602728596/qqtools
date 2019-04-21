@@ -74,15 +74,15 @@ class MemberInformation extends Component {
   }
 
   render() {
-    const { memberName, roomId } = this.state;
+    const { memberName } = this.state;
 
-    if (memberName !== null && roomId !== null) {
-      if (memberName !== '' && roomId !== '') {
+    if (memberName !== null) {
+      if (memberName !== '') {
         return [
           <b key="0" className={ style.keyName }>memberName:</b>,
           <span key="1" className={ style.mr20 }>{ memberName }</span>,
           <b key="2" className={ style.keyName }>roomId:</b>,
-          <span key="3">{ roomId }</span>
+          <span key="3" />
         ];
       } else {
         return null;
