@@ -8,8 +8,8 @@
     "start": "npm run clean:build && cross-env NODE_ENV=development milktea start",
     "build": "npm run clean:build && cross-env NODE_ENV=production milktea build",
     "clean:build": "rimraf ./build",
-    "npmi": "npm install --production",
-    "yarni": "yarn install --production=true --pure-lockfile",
+    "npm:i": "npm install --production",
+    "yarn:i": "yarn install --production=true --pure-lockfile",
     "clean": "node-modules-clean --ext \".opts|.map|.ts|.yml|.png|.dot|.jpg\" --file \"test.js\"",
     "eslint": "eslint ./src --fix",
     "update": "milktea update"
@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "md5.js": "^1.3.5",
-    "mysql": "^2.16.0",
+    "mysql": "^2.17.1",
     "node-schedule": "^1.3.2",
     "request": "^2.88.0"
   },
@@ -46,7 +46,7 @@
     "babel-eslint": "^10.0.1",
     "babel-plugin-import": "^1.11.0",
     "classnames": "^2.2.6",
-    "commitizen": "^3.0.7",
+    "commitizen": "^3.1.1",
     "cross-env": "^5.2.0",
     "cz-conventional-changelog": "^2.1.0",
     "eslint": "^5.16.0",
