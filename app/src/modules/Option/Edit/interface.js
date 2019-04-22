@@ -60,7 +60,6 @@ function interfaceOption(value, customProfiles) {
       // 成员房间信息监听
       isRoomListener: value.isRoomListener,
       roomId: value.roomId,
-      ownerId: value.ownerId,
       isRoomSendImage: value.isRoomSendImage,
       isRoomSendRecord: value.isRoomSendRecord,
       liveListeningInterval: value.liveListeningInterval,

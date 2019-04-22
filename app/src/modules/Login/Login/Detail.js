@@ -139,18 +139,14 @@ function Detail(props) {
         <tr>
           <td className={ style.tdTitle }>房间ID</td>
           <td>{ basic.roomId }</td>
-          <td className={ style.tdTitle }>成员ID</td>
-          <td>{ basic.ownerId }</td>
+          <td className={ style.tdTitle }>监听间隔（秒）</td>
+          <td>{ basic.liveListeningInterval }</td>
         </tr>
         <tr>
           <td className={ style.tdTitle }>发送图片和图片链接（只限于酷QPro版本）</td>
           <td>{ isOpen(basic.isRoomSendImage) }</td>
           <td className={ style.tdTitle }>发送语音和语音链接（只限于酷QPro版本）</td>
           <td>{ isOpen(basic.isRoomSendImage) }</td>
-        </tr>
-        <tr>
-          <td className={ style.tdTitle }>监听间隔（秒）</td>
-          <td colSpan={ 3 }>{ basic.liveListeningInterval }</td>
         </tr>
         {/* 微博监听 */}
         <tr>

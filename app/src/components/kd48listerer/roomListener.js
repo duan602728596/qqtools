@@ -100,38 +100,11 @@ export function requestMemberInformation(memberId) {
 }
 
 /**
- * 获取聚聚的相关信息
- * @param { number } userId: 用户的ID
- */
-export function requestUserInformation(userId) {
-  return new Promise((resolve, reject) => {
-    request({
-      ...reqOption,
-      uri: `https://puser.48.cn/usersystem/api/user/v1/show/info/${ userId }`,
-      body: {
-        needRecommend: false,
-        needChatInfo: false,
-        needFriendsNum: false
-      }
-    }, (err, res, body) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(body);
-      }
-    });
-  }).catch((err) => {
-    console.error(err);
-  });
-}
-
-/**
  * 获取房间信息
  * @param { number } roomId : 房间ID
- * @param { number } ownerId: 成员ID
  * @param { string } token  : 登陆后得到的token
  */
-export function requestRoomMessage(roomId, ownerId, token) {
+export function requestRoomMessage(roomId, token) {
   return new Promise((resolve, reject) => {
     request({
       uri: 'https://pocketapi.48.cn/im/api/v1/chatroom/msg/list/homeowner',
@@ -141,7 +114,6 @@ export function requestRoomMessage(roomId, ownerId, token) {
       body: {
         needTop1Msg: false,
         roomId,
-        ownerId,
         nextTime: 0
       }
     }, (err, res, body) => {
