@@ -163,7 +163,7 @@ class Login extends Component {
 
         if (res.result !== undefined) {
           this.qq.kouDai48Token = res.result.value.token;
-          const req = await requestRoomMessage(basic.roomId, basic.ownerId, this.qq.kouDai48Token);
+          const req = await requestRoomMessage(basic.roomId, this.qq.kouDai48Token);
 
           console.log('req', req);
 
