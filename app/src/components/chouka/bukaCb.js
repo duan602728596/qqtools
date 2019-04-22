@@ -33,7 +33,9 @@ async function bukaCb(command, qq, dataJson) {
     }
 
     if (basic.isChoukaSendImage) {
-      cqImage = bestCards(choukaResult, 2);
+      for (const key in choukaResult) {
+        cqImage += `[CQ:image,file=${ choukaResult[key].image }]`;
+      }
     }
 
     // 把卡存入数据库
