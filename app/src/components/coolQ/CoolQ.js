@@ -297,7 +297,7 @@ class CoolQ {
         return;
       }
 
-      const data3 = await requestRoomMessage(basic.roomId, basic.ownerId, this.kouDai48Token); // 重新获取数据
+      const data3 = await requestRoomMessage(basic.roomId, this.kouDai48Token); // 重新获取数据
 
       if (!(data3.status === 200 && 'content' in data3)) {
         this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
@@ -402,12 +402,13 @@ class CoolQ {
         }
       }
 
+      // 更新时间节点
+      this.roomLastTime = data[0].msgTime;
+
       // 倒序数组发送消息
       for (let i = sendStr.length - 1; i >= 0; i--) {
         await this.sendMessage(sendStr[i]);
       }
-      // 更新时间节点
-      this.roomLastTime = data[0].msgTime;
     } catch (err) {
       console.error(err);
     }
