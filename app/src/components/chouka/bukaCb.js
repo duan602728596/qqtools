@@ -1,7 +1,6 @@
 /* 补卡 */
 import * as storagecard from './storagecard';
 import { chouka } from './chouka';
-import bestCards from './bestCards';
 
 async function bukaCb(command, qq, dataJson) {
   const { basic } = qq.option;

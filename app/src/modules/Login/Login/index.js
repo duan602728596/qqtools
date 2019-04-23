@@ -165,7 +165,7 @@ class Login extends Component {
           this.qq.kouDai48Token = res.result.value.token;
           const req = await requestRoomMessage(basic.roomId, this.qq.kouDai48Token);
 
-          console.log('room listen request', req);
+          console.log('request: room listen', req);
 
           this.qq.roomLastTime = req.content.message[0].msgTime;
           this.qq.roomListenerTimer = global.setTimeout(

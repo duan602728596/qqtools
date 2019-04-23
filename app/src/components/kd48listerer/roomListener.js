@@ -151,9 +151,9 @@ export function requestFlipAnswer(token, questionId, answerId) {
       } else {
         resolve(body); // content.answer
       }
-    }).catch((err) => {
-      console.error(err);
     });
+  }).catch((err) => {
+    console.error(err);
   });
 }
 
