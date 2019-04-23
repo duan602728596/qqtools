@@ -22,7 +22,7 @@ module.exports = {
     'moment'
   ],
   entry: {
-    app: [path.join(__dirname, 'src/app.js')]
+    index: [path.join(__dirname, 'src/index.js')]
   },
   externals: {
     jquery: 'window.jQuery'
