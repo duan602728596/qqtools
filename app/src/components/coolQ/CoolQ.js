@@ -347,7 +347,7 @@ class CoolQ {
               sendStr.push(`${ txt }时间：${ msgTime }`);
               break;
 
-              // 发送语音
+            // 发送语音
             case 'AUDIO':
               const audioUrl = JSON.parse(item.bodys).url;
 
@@ -359,7 +359,7 @@ class CoolQ {
               }
               break;
 
-              // 发送短视频
+            // 发送短视频
             case 'VIDEO':
               const videoUrl = JSON.parse(item.bodys).url;
 
