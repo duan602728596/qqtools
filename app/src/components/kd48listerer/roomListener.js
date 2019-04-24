@@ -38,7 +38,9 @@ export function login(account, password) {
       body: {
         mobile: account,
         pwd: password
-      }
+      },
+      gzip: true,
+      timeout: 60000
     }, (err, res, body) => {
       if (err) {
         reject(err);
@@ -61,7 +63,9 @@ export function getFriendsId(token) {
       ...reqOption,
       headers: createHeaders(token),
       uri: 'https://pocketapi.48.cn/user/api/v1/friendships/friends/id',
-      body: {}
+      body: {},
+      gzip: true,
+      timeout: 15000
     }, (err, res, body) => {
       if (err) {
         reject(err);
@@ -86,7 +90,9 @@ export function requestMemberInformation(memberId) {
       headers: createHeaders(),
       body: {
         userId: memberId
-      }
+      },
+      gzip: true,
+      timeout: 15000
     }, (err, res, body) => {
       if (err) {
         reject(err);
@@ -115,7 +121,9 @@ export function requestRoomMessage(roomId, token) {
         needTop1Msg: false,
         roomId,
         nextTime: 0
-      }
+      },
+      gzip: true,
+      timeout: 15000
     }, (err, res, body) => {
       if (err) {
         reject(err);
@@ -144,7 +152,9 @@ export function requestFlipAnswer(token, questionId, answerId) {
       body: {
         questionId,
         answerId
-      }
+      },
+      gzip: true,
+      timeout: 15000
     }, (err, res, body) => {
       if (err) {
         reject(err);
@@ -167,7 +177,9 @@ export function requestRoomPage(token) {
       method: 'POST',
       headers: createHeaders(token),
       json: true,
-      body: { targetType: 0 }
+      body: { targetType: 0 },
+      gzip: true,
+      timeout: 60000
     }, (err, res, body) => {
       if (err) {
         reject(err);
