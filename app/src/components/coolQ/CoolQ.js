@@ -282,7 +282,7 @@ class CoolQ {
     try {
       const data2 = await requestRoomMessage(basic.roomId, this.kouDai48Token);
 
-      console.log('req: data2', data2);
+      console.log('request: data2', data2);
 
       if (!(data2.status === 200 && 'content' in data2)) {
         this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
@@ -301,7 +301,7 @@ class CoolQ {
 
       const data3 = await requestRoomMessage(basic.roomId, this.kouDai48Token); // 重新获取数据
 
-      console.log('req: data3', data3);
+      console.log('request: data3', data3);
 
       if (!(data3.status === 200 && 'content' in data3)) {
         this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
