@@ -440,7 +440,7 @@ class CoolQ {
 
           // 发送图片
           if (this.option && this.option.basic.isWeiboSendImage && this.coolqEdition === 'pro' && item.pics.length > 0) {
-            txt += `[CQ:image,file=${ item.pics[0] }]\n`;
+            txt += `[CQ:image,file=${ item.pics[0] }]`;
           }
 
           await this.sendMessage(txt);
