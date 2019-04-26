@@ -48,6 +48,7 @@
     "babel-plugin-import": "^1.11.0",
     "classnames": "^2.2.6",
     "commitizen": "^3.1.1",
+    "core-js": "^3.0.1",
     "cross-env": "^5.2.0",
     "cz-conventional-changelog": "^2.1.0",
     "es-module-path-case-check": "^1.4.0",
@@ -59,6 +60,7 @@
     "indexeddb-tools-redux": "^3.0.0",
     "jquery": "^3.4.0",
     "lint-staged": "^8.1.5",
+    "lodash-es": "^4.17.11",
     "moment": "^2.24.0",
     "pre-commit": "^1.2.2",
     "prop-types": "^15.7.2",
@@ -72,6 +74,7 @@
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "rimraf": "^2.6.3",
+    "time-string-parse": "github:duan602728596/time-string-parse",
     "worker-loader": "^2.0.0"
   },
   "peerDependencies": {

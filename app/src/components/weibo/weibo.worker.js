@@ -1,7 +1,26 @@
+import orderBy from 'lodash-es/orderBy';
+import timeStringParse from 'time-string-parse';
+
+/**
+ * 根据时间格式化数据
+ * @param rawData
+ */
+function formatCards(rawData) {
+  const fData = rawData.filter((item) => item.card_type === 9);
+
+  for (const item of fData) {
+    const time = timeStringParse(item.mblog.created_at);
+
+    item._time = time;
+  }
+
+  return orderBy(fData, ['_time'], ['desc']);
+}
+
 /**
  * 微博信息轮询查询
  */
-let weiboUrl = 'https://m.weibo.cn/api/container/getIndex?containerid=';
+let weiboUrl = 'https://m.weibo.cn/api/container/getIndex?type=uid&containerid=';
 let containerid = null; // 微博的lfid
 let lastId = null; // 记录旧的ID
 let timer = null; // 定时器
@@ -15,6 +34,7 @@ function getData(method, url) {
     xhr.open(method, url, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('Cache-Control', 'no-cache');
+    xhr.setRequestHeader('MWeibo-Pwa', 1);
     xhr.addEventListener('readystatechange', function(event) {
       if (xhr.status === 200 && xhr.readyState === 4) {
         const res = JSON.parse(xhr.response);
@@ -28,11 +48,11 @@ function getData(method, url) {
   });
 }
 
-// 获取初始ID
+/* 获取初始ID */
 async function initId() {
   try {
     const res = await getData('GET', weiboUrl);
-    const cards = res.data.cards;
+    const cards = formatCards(res.data.cards);
 
     if (res.ok === 1) {
       for (let i = 0, j = cards.length; i < j; i++) {
@@ -62,7 +82,6 @@ function formatText(newWeiBo) {
     const type = 'retweeted_status' in item.mblog ? '转载' : '原创';
 
     // pics[].url
-
     sendData.push({
       data: `${ mblog.user.screen_name } `
         + (mblog.created_at === '刚刚' ? mblog.created_at : ('在' + mblog.created_at))
@@ -82,7 +101,8 @@ async function polling() {
     const res = await getData('GET', weiboUrl);
 
     if (res.ok === 1) {
-      const cards = res.data.cards;
+      const cards = formatCards(res.data.cards);
+
       // 循环数据
       const newWeiBo = [];
 
