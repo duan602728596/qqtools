@@ -65,7 +65,7 @@ export function getFriendsId(token) {
       uri: 'https://pocketapi.48.cn/user/api/v1/friendships/friends/id',
       body: {},
       gzip: true,
-      timeout: 15000
+      timeout: 20000
     }, (err, res, body) => {
       if (err) {
         reject(err);
@@ -92,7 +92,7 @@ export function requestMemberInformation(memberId) {
         userId: memberId
       },
       gzip: true,
-      timeout: 15000
+      timeout: 20000
     }, (err, res, body) => {
       if (err) {
         reject(err);
@@ -123,7 +123,7 @@ export function requestRoomMessage(roomId, token) {
         nextTime: 0
       },
       gzip: true,
-      timeout: 15000
+      timeout: 20000
     }, (err, res, body) => {
       if (err) {
         reject(err);
@@ -154,7 +154,7 @@ export function requestFlipAnswer(token, questionId, answerId) {
         answerId
       },
       gzip: true,
-      timeout: 15000
+      timeout: 20000
     }, (err, res, body) => {
       if (err) {
         reject(err);
