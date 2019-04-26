@@ -278,6 +278,7 @@ class CoolQ {
   async listenRoomMessage() {
     const basic = this?.option?.basic || {};
     const times = basic.liveListeningInterval ? (basic.liveListeningInterval * 1000) : 15000;
+    let isSuccess = true;
 
     try {
       const data2 = await requestRoomMessage(basic.roomId, this.kouDai48Token);
@@ -414,10 +415,11 @@ class CoolQ {
         await this.sendMessage(sendStr[i]);
       }
     } catch (err) {
+      isSuccess = false;
       console.error(err);
     }
 
-    this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
+    this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), isSuccess ? times : 15000);
   }
 
   // web worker监听到微博的返回信息
