@@ -1,6 +1,6 @@
 /* 口袋直播列表轮询事件 */
 import $ from 'jquery';
-import post, { getLiveInfo } from './post';
+import { getLiveList, getLiveInfo } from './roomListener';
 import { time } from '../../utils';
 import store from '../../store/store';
 import Kd48listenerWorker from 'worker-loader?name=[hash:5].worker.js!./kd48listener.worker';
@@ -20,7 +20,7 @@ function array2obj(rawArray) {
 /* 初始化 */
 export async function init() {
   try {
-    const data = await post(0, true);
+    const data = await getLiveList(0, true);
 
     if (data.status === 200 && 'liveList' in data.content) {
       // 以liveId作为键名，存成Object
@@ -35,7 +35,7 @@ export async function init() {
 async function kd48timer() {
   try {
     // 获取新数据
-    const data = await post(0, true);
+    const data = await getLiveList(0, true);
     let newData = [];
 
     if (data.status === 200 && 'liveList' in data.content) {

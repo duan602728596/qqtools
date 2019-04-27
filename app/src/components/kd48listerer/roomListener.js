@@ -79,33 +79,6 @@ export function getFriendsId(token) {
 }
 
 /**
- * 获取成员的相关信息
- * @param { number } memberId: 成员的ID
- */
-export function requestMemberInformation(memberId) {
-  return new Promise((resolve, reject) => {
-    request({
-      ...reqOption,
-      uri: 'https://pocketapi.48.cn/user/api/v1/user/info/home',
-      headers: createHeaders(),
-      body: {
-        userId: memberId
-      },
-      gzip: true,
-      timeout: 20000
-    }, (err, res, body) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(body);
-      }
-    });
-  }).catch((err) => {
-    console.error(err);
-  });
-}
-
-/**
  * 获取房间信息
  * @param { number } roomId : 房间ID
  * @param { string } token  : 登陆后得到的token
@@ -189,5 +162,60 @@ export function requestRoomPage(token) {
     });
   }).catch((err) => {
     console.error(err);
+  });
+}
+
+/**
+ * 获取单个直播间的信息
+ * @param { string } liveId
+ */
+export function getLiveInfo(liveId) {
+  return new Promise((resolve, reject) => {
+    request({
+      uri: 'https://pocketapi.48.cn/live/api/v1/live/getLiveOne',
+      method: 'POST',
+      headers: createHeaders(),
+      json: true,
+      body: { liveId }
+    }, function(err, res, data) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+}
+
+/**
+ * 获取直播列表
+ * @param { number } next
+ * @param { boolean } inLive
+ */
+export function getLiveList(next = 0, inLive = false) {
+  return new Promise((resolve, reject) => {
+    const body = {
+      debug: true,
+      next
+    };
+
+    if (inLive) {
+      body.groupId = 0;
+      body.record = false;
+    }
+
+    request({
+      uri: 'https://pocketapi.48.cn/live/api/v1/live/getLiveList',
+      method: 'POST',
+      headers: createHeaders(),
+      json: true,
+      body
+    }, function(err, res, data) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
   });
 }

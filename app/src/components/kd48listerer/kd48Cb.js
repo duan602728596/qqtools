@@ -1,10 +1,10 @@
 import $ from 'jquery';
-import post from './post';
+import { getLiveList } from './roomListener';
 import { time } from '../../utils';
 
 async function getList(qq) {
   try {
-    const data = await post(0, true);
+    const data = await getLiveList(0, true);
     let text = null;
 
     if (data.status === 200) {
