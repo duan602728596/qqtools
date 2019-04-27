@@ -167,13 +167,17 @@ class Login extends Component {
 
           console.log('request: room listen', req);
 
-          this.qq.roomLastTime = req.content.message[0].msgTime;
-          this.qq.roomListenerTimer = global.setTimeout(
-            this.qq.listenRoomMessage.bind(this.qq),
-            basic.liveListeningInterval ? (basic.liveListeningInterval * 1000) : 15000
-          );
+          if (req.status === 200) {
+            this.qq.roomLastTime = req.content.message[0].msgTime;
+            this.qq.roomListenerTimer = global.setTimeout(
+              this.qq.listenRoomMessage.bind(this.qq),
+              basic.liveListeningInterval ? (basic.liveListeningInterval * 1000) : 15000
+            );
+            message.success('口袋48房间监听已就绪。');
+          } else {
+            message.warn(`口袋48房间监：${ req.message }。`);
+          }
         }
-        message.success('口袋48房间监听已就绪。');
       }
 
       // 微博监听
