@@ -384,7 +384,7 @@ class CoolQ {
               const fanpaiInfo = await requestFlipAnswer(this.kouDai48Token, extInfo.questionId, extInfo.answerId);
               const msg = `${ nickName } 翻牌了 ${ fanpaiInfo.content.userName }的问题：\n`
                         + `${ extInfo.question || fanpaiInfo.content.question }\n`
-                        + `回答：${ extInfo.answer || fanpaiInfo.content.answer }`
+                        + `回答：${ extInfo.answer || fanpaiInfo.content.answer }\n`
                         + `时间：${ msgTime }`;
 
               sendStr.push(msg);
