@@ -60,10 +60,9 @@ async function initId() {
 
         // 微博，不是关注人，不是置顶
         if (item.card_type === 9 && 'mblog' in item) {
-          if (!('title' in item.mblog)) {
-            lastId = Number(item.mblog.id);
-            break;
-          }
+          lastId = Number(item.mblog.id);
+          console.log('weibo init', cards, lastId);
+          break;
         }
       }
     }
@@ -103,6 +102,8 @@ async function polling() {
     if (res.ok === 1) {
       const cards = formatCards(res.data.cards);
 
+      console.log('weibo', cards);
+
       // 循环数据
       const newWeiBo = [];
 
@@ -110,12 +111,10 @@ async function polling() {
         const item = cards[i];
 
         if (item.card_type === 9 && 'mblog' in item) {
-          if (!('title' in item.mblog)) {
-            if (Number(item.mblog.id) > lastId) {
-              newWeiBo.push(item);
-            } else {
-              break;
-            }
+          if (Number(item.mblog.id) > lastId) {
+            newWeiBo.push(item);
+          } else {
+            break;
           }
         }
       }
