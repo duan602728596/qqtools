@@ -1,5 +1,5 @@
 import orderBy from 'lodash-es/orderBy';
-import timeStringParse from 'time-string-parse';
+import timeStringParse from '@48/time-string-parse';
 
 /**
  * 根据时间格式化数据

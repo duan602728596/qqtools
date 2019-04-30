@@ -40,6 +40,7 @@
     "request": "^2.88.0"
   },
   "devDependencies": {
+    "@48/time-string-parse": "github:duan602728596/time-string-parse",
     "@sweet/milktea": "github:duan602728596/sweet#build-milktea",
     "@sweet/milktea-cli": "github:duan602728596/sweet#build-milktea-cli",
     "@sweet/util-tools": "github:duan602728596/sweet#build-util-tools",
@@ -74,7 +75,6 @@
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "rimraf": "^2.6.3",
-    "time-string-parse": "github:duan602728596/time-string-parse",
     "worker-loader": "^2.0.0"
   },
   "peerDependencies": {
