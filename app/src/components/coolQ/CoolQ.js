@@ -1,4 +1,5 @@
 import { message } from 'antd';
+import { chunk } from 'lodash-es';
 import { requestRoomMessage, requestFlipAnswer } from '../kd48listerer/roomListener';
 import { templateReplace, time } from '../../utils';
 import { chouka } from '../chouka/chouka';
@@ -99,13 +100,19 @@ class CoolQ {
 
   // 发送信息
   sendMessage(message) {
-    this.apiSocket && this.apiSocket.send(JSON.stringify({
-      action: 'send_group_msg',
-      params: {
-        group_id: this.option ? Number(this.option.groupNumber) : 0,
-        message
-      }
-    }));
+    const groupNumber = Number(this.option.groupNumber);
+    const messageArr = message.split('\n');
+    const sendGroup = chunk(messageArr, 100);
+
+    for (const item of sendGroup) {
+      this.apiSocket.send(JSON.stringify({
+        action: 'send_group_msg',
+        params: {
+          group_id: groupNumber,
+          message: item.join('\n')
+        }
+      }));
+    }
   }
 
   // 查找群成员的名片
