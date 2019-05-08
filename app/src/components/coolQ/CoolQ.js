@@ -99,9 +99,9 @@ class CoolQ {
   }
 
   // 发送信息
-  sendMessage(message) {
+  sendMessage(messageStr) {
     const groupNumber = Number(this.option.groupNumber);
-    const messageArr = message.split('\n');
+    const messageArr = messageStr.split('\n');
     const sendGroup = chunk(messageArr, 100);
 
     for (const item of sendGroup) {
