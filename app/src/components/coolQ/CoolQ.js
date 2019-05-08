@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { chunk } from 'lodash-es';
+import chunk from 'lodash-es/chunk';
 import { requestRoomMessage, requestFlipAnswer } from '../kd48listerer/roomListener';
 import { templateReplace, time } from '../../utils';
 import { chouka } from '../chouka/chouka';
