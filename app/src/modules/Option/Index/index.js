@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import $ from 'jquery';
 import style from './style.sass';
 import publicStyle from '../../../components/publicStyle/public.sass';
-import { optionList, cursorOption, deleteOption, importOption } from '../store/reducer';
+import { optionList, cursorOption, deleteOption, importOption } from '../reducer/reducer';
 const path = global.require('path');
 const fs = global.require('fs');
 
@@ -21,8 +21,8 @@ const state = createStructuredSelector({
   )
 });
 
-/* dispatch */
-const dispatch = (dispatch) => ({
+/* actions */
+const actions = (dispatch) => ({
   action: bindActionCreators({
     optionList,
     cursorOption,
@@ -31,7 +31,7 @@ const dispatch = (dispatch) => ({
   }, dispatch)
 });
 
-@connect(state, dispatch)
+@connect(state, actions)
 class Index extends Component {
   static propTypes = {
     optionList: PropTypes.array,

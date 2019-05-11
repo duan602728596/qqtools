@@ -7,7 +7,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import { Form, Input, Affix, Button, Table, Modal, message, Popconfirm, Card, Checkbox } from 'antd';
 import interfaceOption, { customProfilesObj2Array } from './interface';
 import style from './style.sass';
-import { putOption } from '../store/reducer';
+import { putOption } from '../reducer/reducer';
 import BasicConfiguration from './Forms/BasicConfiguration';
 import ModianConfiguration from './Forms/ModianConfiguration';
 import ChoukaConfiguration from './Forms/ChoukaConfiguration';
@@ -44,8 +44,8 @@ function getIndex(lists, cmd) {
 /* 初始化数据 */
 const state = createStructuredSelector({});
 
-/* dispatch */
-const dispatch = (dispatch) => ({
+/* actions */
+const actions = (dispatch) => ({
   action: bindActionCreators({
     putOption
   }, dispatch)
@@ -53,7 +53,7 @@ const dispatch = (dispatch) => ({
 
 @withRouter
 @Form.create()
-@connect(state, dispatch)
+@connect(state, actions)
 class Add extends Component {
   static propTypes = {
     action: PropTypes.objectOf(PropTypes.func),

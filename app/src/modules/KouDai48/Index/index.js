@@ -12,7 +12,7 @@ import style from './style.sass';
 import {
   loginInformation, getLoginInformation, putLoginInformation, cursorMemberInformation, clearLoginInformation,
   clearMemberInformation
-} from '../store/reducer';
+} from '../reducer/reducer';
 import LoginInformation from './LoginInformation';
 import MemberInformation from './MemberInformation';
 import { login, getFriendsId, requestRoomPage } from '../../../components/kd48listerer/roomListener';
@@ -46,8 +46,8 @@ const state = createStructuredSelector({
   )
 });
 
-/* dispatch */
-const dispatch = (dispatch) => ({
+/* actions */
+const actions = (dispatch) => ({
   action: bindActionCreators({
     loginInformation,
     getLoginInformation,
@@ -59,7 +59,7 @@ const dispatch = (dispatch) => ({
 });
 
 @Form.create()
-@connect(state, dispatch)
+@connect(state, actions)
 class KouDai48 extends Component {
   static propTypes = {
     loginInformation: PropTypes.object,

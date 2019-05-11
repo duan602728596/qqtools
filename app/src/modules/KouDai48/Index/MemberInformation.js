@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { createSelector, createStructuredSelector } from 'reselect';
 import style from './style.sass';
-import { getMemberInformation, addMemberInformation } from '../store/reducer';
+import { getMemberInformation, addMemberInformation } from '../reducer/reducer';
 
 /* 初始化数据 */
 const state = createStructuredSelector({});

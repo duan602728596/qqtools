@@ -10,7 +10,7 @@ import moment from 'moment';
 import style from './style.sass';
 import publicStyle from '../../../components/publicStyle/public.sass';
 import CoolQ from '../../../components/coolQ/CoolQ';
-import { changeQQLoginList, cursorOption, kd48LiveListenerTimer, getLoginInformation } from '../store/reducer';
+import { changeQQLoginList, cursorOption, kd48LiveListenerTimer, getLoginInformation } from '../reducer/reducer';
 import callback from '../../../components/callback/callback';
 import Detail from './Detail';
 import getModianInformation from '../../../components/modian/getModianInformation';
@@ -39,8 +39,8 @@ const state = createStructuredSelector({
   )
 });
 
-/* dispatch */
-const dispatch = (dispatch) => ({
+/* actions */
+const actions = (dispatch) => ({
   action: bindActionCreators({
     changeQQLoginList,
     cursorOption,
@@ -50,7 +50,7 @@ const dispatch = (dispatch) => ({
 });
 
 @withRouter
-@connect(state, dispatch)
+@connect(state, actions)
 class Login extends Component {
   static propTypes = {
     qqLoginList: PropTypes.array,

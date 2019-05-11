@@ -7,7 +7,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import { Affix, Table, Button, Popconfirm } from 'antd';
 import classNames from 'classnames';
 import publicStyle from '../../../components/publicStyle/public.sass';
-import { changeQQLoginList, kd48LiveListenerTimer } from '../store/reducer';
+import { changeQQLoginList, kd48LiveListenerTimer } from '../reducer/reducer';
 
 /* 初始化数据 */
 const getState = ($$state) => $$state.has('login') ? $$state.get('login') : null;
@@ -23,15 +23,15 @@ const state = createStructuredSelector({
   )
 });
 
-/* dispatch */
-const dispatch = (dispatch) => ({
+/* actions */
+const actions = (dispatch) => ({
   action: bindActionCreators({
     changeQQLoginList,
     kd48LiveListenerTimer
   }, dispatch)
 });
 
-@connect(state, dispatch)
+@connect(state, actions)
 class Index extends Component {
   static propTypes = {
     qqLoginList: PropTypes.array,
