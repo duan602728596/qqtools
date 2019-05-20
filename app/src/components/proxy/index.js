@@ -11,13 +11,13 @@ export function getProxy() {
 }
 
 export function setProxy(value) {
-  return localStorage.setItem(name, JSON.stringify(value));
+  localStorage.setItem(name, JSON.stringify(value));
 }
 
 export function getProxyIp() {
   const value = localStorage.getItem(name);
 
-  if (value) {
+  if (value && value.open) {
     const json = JSON.parse(value);
 
     return `${ json.protocol }://${ json.host }:${ json.port }`;

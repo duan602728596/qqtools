@@ -9,7 +9,7 @@ function Proxy(props) {
     wrapperCol: { span: 19 }
   };
   const proxy = getProxy();
-  const [checked, setChecked] = useState(!!proxy);
+  const [checked, setChecked] = useState(!!proxy && proxy.open);
   const [modalVisible, setModalVisible] = useState(false);
   const { getFieldDecorator, validateFields } = props.form;
 
@@ -18,7 +18,13 @@ function Proxy(props) {
     if (checked) {
       setModalVisible(true);
     } else {
+      const proxy = getProxy();
+
       setChecked(false);
+      setProxy({
+        ...proxy,
+        open: false
+      });
     }
   }
 
@@ -32,7 +38,10 @@ function Proxy(props) {
     validateFields((err, value) => {
       if (err) return;
 
-      setProxy(value);
+      setProxy({
+        ...value,
+        open: true
+      });
       setChecked(true);
       setModalVisible(false);
     });
