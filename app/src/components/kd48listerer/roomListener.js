@@ -83,7 +83,7 @@ export function getFriendsId(token) {
       uri: 'https://pocketapi.48.cn/user/api/v1/friendships/friends/id',
       body: {},
       gzip: true,
-      timeout: 20000,
+      timeout: 30000,
       proxy: getProxyIp()
     }, (err, res, body) => {
       if (err) {
@@ -115,7 +115,7 @@ export function requestRoomMessage(roomId, token) {
         nextTime: 0
       },
       gzip: true,
-      timeout: 20000,
+      timeout: 30000,
       proxy: getProxyIp()
     }, (err, res, body) => {
       if (err) {
@@ -147,7 +147,7 @@ export function requestFlipAnswer(token, questionId, answerId) {
         answerId
       },
       gzip: true,
-      timeout: 20000,
+      timeout: 25000,
       proxy: getProxyIp()
     }, (err, res, body) => {
       if (err) {
@@ -199,6 +199,7 @@ export function getLiveInfo(liveId) {
       headers: createHeaders(),
       json: true,
       body: { liveId },
+      timeout: 60000,
       proxy: getProxyIp()
     }, function(err, res, data) {
       if (err) {
@@ -233,6 +234,7 @@ export function getLiveList(next = 0, inLive = false) {
       headers: createHeaders(),
       json: true,
       body,
+      timeout: 60000,
       proxy: getProxyIp()
     }, function(err, res, data) {
       if (err) {

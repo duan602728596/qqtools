@@ -17,10 +17,10 @@ export function setProxy(value) {
 export function getProxyIp() {
   const value = localStorage.getItem(name);
 
-  if (value && value.open) {
+  if (value) {
     const json = JSON.parse(value);
 
-    return `${ json.protocol }://${ json.host }:${ json.port }`;
+    return json.open ? `${ json.protocol }://${ json.host }:${ json.port }` : undefined;
   } else {
     return value;
   }
