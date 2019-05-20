@@ -1,4 +1,5 @@
 /* 房间信息监听相关 */
+import { getProxyIp } from '../proxy/index';
 const request = global.require('request');
 
 // 配置项
@@ -56,7 +57,8 @@ export function login(account, password) {
         pwd: password
       },
       gzip: true,
-      timeout: 60000
+      timeout: 60000,
+      proxy: getProxyIp()
     }, (err, res, body) => {
       if (err) {
         reject(err);
@@ -81,7 +83,8 @@ export function getFriendsId(token) {
       uri: 'https://pocketapi.48.cn/user/api/v1/friendships/friends/id',
       body: {},
       gzip: true,
-      timeout: 20000
+      timeout: 20000,
+      proxy: getProxyIp()
     }, (err, res, body) => {
       if (err) {
         reject(err);
@@ -112,7 +115,8 @@ export function requestRoomMessage(roomId, token) {
         nextTime: 0
       },
       gzip: true,
-      timeout: 20000
+      timeout: 20000,
+      proxy: getProxyIp()
     }, (err, res, body) => {
       if (err) {
         reject(err);
@@ -143,7 +147,8 @@ export function requestFlipAnswer(token, questionId, answerId) {
         answerId
       },
       gzip: true,
-      timeout: 20000
+      timeout: 20000,
+      proxy: getProxyIp()
     }, (err, res, body) => {
       if (err) {
         reject(err);
@@ -168,7 +173,8 @@ export function requestRoomPage(token) {
       json: true,
       body: { targetType: 0 },
       gzip: true,
-      timeout: 60000
+      timeout: 60000,
+      proxy: getProxyIp()
     }, (err, res, body) => {
       if (err) {
         reject(err);
@@ -192,7 +198,8 @@ export function getLiveInfo(liveId) {
       method: 'POST',
       headers: createHeaders(),
       json: true,
-      body: { liveId }
+      body: { liveId },
+      proxy: getProxyIp()
     }, function(err, res, data) {
       if (err) {
         reject(err);
@@ -225,7 +232,8 @@ export function getLiveList(next = 0, inLive = false) {
       method: 'POST',
       headers: createHeaders(),
       json: true,
-      body
+      body,
+      proxy: getProxyIp()
     }, function(err, res, data) {
       if (err) {
         reject(err);
