@@ -42,6 +42,7 @@ class Koudai48LiveListener extends Component {
               initialValue: is48LiveAtAll
             })(<Checkbox defaultChecked={ is48LiveAtAll } />)
           }
+          <ShuoMing.AtAllMembers />
         </Form.Item>
         <Form.Item label="监听成员" { ...colsArea2 }>
           {

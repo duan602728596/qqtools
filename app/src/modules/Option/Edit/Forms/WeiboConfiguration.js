@@ -35,6 +35,7 @@ class WeiboConfiguration extends Component {
               initialValue: isWeiboAtAll
             })(<Checkbox defaultChecked={ isWeiboAtAll } />)
           }
+          <ShuoMing.AtAllMembers />
         </Form.Item>
         <Form.Item label="微博lfid" { ...colsArea2 }>
           {

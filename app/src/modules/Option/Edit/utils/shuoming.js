@@ -1,5 +1,5 @@
 /* 提示说明 */
-import React, { Component } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import style from '../style.sass';
 import { handleOpenBrowser } from '../../../../utils';
@@ -31,6 +31,10 @@ export const ModianTemplate = (props) => (
     <p>timedifference：项目截止相差时间（格式：【x天x时x分x秒】）</p>
     <p>chouka: 当你配置了抽卡时，会输出抽卡信息</p>
   </div>
+);
+
+export const AtAllMembers = (props) => (
+  <span className={ style.red }>@所有成员的功能只有qq号为管理员时才好使，否则会出现无法发送信息的情况。</span>
 );
 
 export const IsChoukaSendImage = (props) => (
