@@ -1,9 +1,10 @@
 import { message } from 'antd';
 import chunk from 'lodash-es/chunk';
 import { requestRoomMessage, requestFlipAnswer } from '../kd48listerer/roomListener';
-import { templateReplace, time } from '../../utils';
+import { time } from '../../utils';
 import { chouka } from '../chouka/chouka';
 import * as storagecard from '../chouka/storagecard';
+const nunjucks = global.require('nunjucks');
 
 class CoolQ {
   constructor(qq, port, callback) {
@@ -87,7 +88,7 @@ class CoolQ {
     if ('data' in dataJson && 'nickname' in dataJson.data && 'group_id' in dataJson.data && dataJson.data.group_id === gn) {
       const { nickname, user_id } = dataJson.data;
 
-      this.sendMessage(templateReplace(this.option ? this.option.basic.welcomeNewGroupMember : '', {
+      this.sendMessage(nunjucks.renderString(this.option ? this.option.basic.welcomeNewGroupMember : '', {
         nickname,
         userid: user_id
       }));
@@ -258,7 +259,7 @@ class CoolQ {
             else await storagecard.update(db, item.userid, item.nickname, record);
           }
 
-          const msg = templateReplace(modianTemplate, {
+          const msg = nunjucks.renderString(modianTemplate, {
             id: item.nickname,
             money: item.pay_amount,
             modianname: this.modianTitle,

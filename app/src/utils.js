@@ -1,6 +1,7 @@
 /**
  * 公共函数
  */
+const nunjucks = global.require('nunjucks');
 const gui = global.require('nw.gui');
 
 /**
@@ -37,23 +38,6 @@ export function time(modules, timeStr) {
     .replace(/h{2}/, patchZero(hh))
     .replace(/m{2}/, patchZero(mm))
     .replace(/s{2}/, patchZero(ss));
-}
-
-/**
- * 模板替换
- * @param { String } template: 模板
- * @param { Object } data    : 数据
- */
-export function templateReplace(template, data) {
-  return template.replace(/{{\s*[a-zA-Z0-9_]+\s*}}/g, (text) => {
-    const key = text.match(/[a-zA-Z0-9_]+/g);
-
-    if (key && key[0] in data) {
-      return data[key[0]];
-    } else {
-      return '';
-    }
-  });
 }
 
 /**

@@ -1,12 +1,12 @@
 /* 微打赏监听回调函数 */
 import getModianInformation from './getModianInformation';
-import { templateReplace } from '../../utils';
 import ModianListWorker from 'worker-loader?name=[hash:5].worker.js!./modianList.worker';
+const nunjucks = global.require('nunjucks');
 
 /* 发送信息 */
 async function sendModianInfor(qq) {
   try {
-    const text = templateReplace(qq.option.basic.modianUrlTemplate, {
+    const text = nunjucks.renderString(qq.option.basic.modianUrlTemplate, {
       modianname: qq.modianTitle,
       modianid: qq.option.basic.modianId
     });
