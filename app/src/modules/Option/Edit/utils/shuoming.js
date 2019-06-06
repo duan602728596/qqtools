@@ -30,6 +30,11 @@ export const ModianTemplate = (props) => (
     <p>endtime：项目截止时间</p>
     <p>timedifference：项目截止相差时间（格式：【x天x时x分x秒】）</p>
     <p>chouka: 当你配置了抽卡时，会输出抽卡信息</p>
+    <p className={ style.red }>
+      [qqtools:stage]：分段发送信息，下面所有的模板都可以使用这个功能。注意，这个
+      <b>不需要</b>
+      写在 {'{{'} 和 {'}}'} 之间
+    </p>
   </div>
 );
 

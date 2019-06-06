@@ -1,5 +1,4 @@
 import { message } from 'antd';
-import chunk from 'lodash-es/chunk';
 import { requestRoomMessage, requestFlipAnswer } from '../kd48listerer/roomListener';
 import { time } from '../../utils';
 import { chouka } from '../chouka/chouka';
@@ -102,15 +101,14 @@ class CoolQ {
   // 发送信息
   sendMessage(messageStr) {
     const groupNumber = Number(this.option.groupNumber);
-    const messageArr = messageStr.split('\n');
-    const sendGroup = chunk(messageArr, 100);
+    const messageArr = messageStr.split(/\[qqtools:stage\]/g);
 
-    for (const item of sendGroup) {
+    for (const item of messageArr) {
       this.apiSocket.send(JSON.stringify({
         action: 'send_group_msg',
         params: {
           group_id: groupNumber,
-          message: item.join('\n')
+          message: item
         }
       }));
     }
