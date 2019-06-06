@@ -1,4 +1,5 @@
 import { message } from 'antd';
+import chunk from 'lodash-es/chunk';
 import { requestRoomMessage, requestFlipAnswer } from '../kd48listerer/roomListener';
 import { time } from '../../utils';
 import { chouka } from '../chouka/chouka';
@@ -247,9 +248,20 @@ class CoolQ {
 
             if (isChoukaSendImage && this.coolqEdition === 'pro') {
               // 发送所有图片
+              const cqArr = [];
+
               for (const key in choukaResult) {
-                cqImage += `[CQ:image,file=${ choukaResult[key].image }]`;
+                cqArr.push(`[CQ:image,file=${ choukaResult[key].image }]`);
               }
+
+              const chunkArr = chunk(cqArr, 10);
+              const sendArr = [];
+
+              for (const item of chunkArr) {
+                sendArr.push(item.join(''));
+              }
+
+              cqImage += sendArr.join('[qqtools:stage]');
             }
 
             // 把卡存入数据库

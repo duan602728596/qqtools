@@ -1,4 +1,5 @@
 /* 补卡 */
+import chunk from 'lodash-es/chunk';
 import * as storagecard from './storagecard';
 import { chouka } from './chouka';
 
@@ -31,10 +32,21 @@ async function bukaCb(command, qq, dataJson) {
       else record[item2.id] = item2.length;
     }
 
-    if (basic.isChoukaSendImage) {
+    if (basic.isChoukaSendImage && qq.coolqEdition === 'pro') {
+      const cqArr = [];
+
       for (const key in choukaResult) {
-        cqImage += `[CQ:image,file=${ choukaResult[key].image }]`;
+        cqArr.push(`[CQ:image,file=${ choukaResult[key].image }]`);
       }
+
+      const chunkArr = chunk(cqArr, 10);
+      const sendArr = [];
+
+      for (const item of chunkArr) {
+        sendArr.push(item.join(''));
+      }
+
+      cqImage += sendArr.join('[qqtools:stage]');
     }
 
     // 把卡存入数据库
