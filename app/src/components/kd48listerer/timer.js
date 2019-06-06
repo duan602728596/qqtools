@@ -3,7 +3,7 @@ import $ from 'jquery';
 import { getLiveList, getLiveInfo } from './roomListener';
 import { time } from '../../utils';
 import store from '../../store/store';
-import Kd48listenerWorker from 'worker-loader?name=[hash:5].worker.js!./kd48listener.worker';
+import Kd48listenerWorker from 'worker-loader?name=scripts/[hash:15].js!./kd48listener.worker';
 
 let oldList = {}; // 旧列表
 

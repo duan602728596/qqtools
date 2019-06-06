@@ -16,8 +16,8 @@ import Detail from './Detail';
 import getModianInformation from '../../../components/modian/getModianInformation';
 import { str2reg, str2numberArray, cleanRequireCache } from '../../../utils';
 import kd48timer, { init } from '../../../components/kd48listerer/timer';
-import ModianWorker from 'worker-loader?name=[hash:5].worker.js!../../../components/modian/modian.worker';
-import WeiBoWorker from 'worker-loader?name=[hash:5].worker.js!../../../components/weibo/weibo.worker';
+import ModianWorker from 'worker-loader?name=scripts/[hash:15].js!../../../components/modian/modian.worker';
+import WeiBoWorker from 'worker-loader?name=scripts/[hash:15].js!../../../components/weibo/weibo.worker';
 import { requestRoomMessage } from '../../../components/kd48listerer/roomListener';
 const schedule = global.require('node-schedule');
 

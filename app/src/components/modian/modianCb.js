@@ -1,6 +1,6 @@
 /* 微打赏监听回调函数 */
 import getModianInformation from './getModianInformation';
-import ModianListWorker from 'worker-loader?name=[hash:5].worker.js!./modianList.worker';
+import ModianListWorker from 'worker-loader?name=scripts/[hash:15].js!./modianList.worker';
 const nunjucks = global.require('nunjucks');
 
 /* 发送信息 */
