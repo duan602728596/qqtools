@@ -42,9 +42,9 @@
   },
   "devDependencies": {
     "@48/time-string-parse": "github:duan602728596/time-string-parse",
-    "@sweet/milktea": "github:duan602728596/sweet#build-milktea",
-    "@sweet/milktea-cli": "github:duan602728596/sweet#build-milktea-cli",
-    "@sweet/util-tools": "github:duan602728596/sweet#build-util-tools",
+    "@sweet-milktea/milktea": "^0.3.0",
+    "@sweet-milktea/milktea-cli": "^0.3.0",
+    "@sweet-milktea/util-tools": "^0.3.0",
     "antd": "^3.16.3",
     "babel-eslint": "^10.0.1",
     "babel-plugin-import": "^1.11.0",
