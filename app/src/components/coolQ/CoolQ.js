@@ -281,7 +281,7 @@ class CoolQ {
             amountdifference: amountDifference,
             endtime: endTime,
             timedifference,
-            chouka: `抽卡结果：\n${ choukaStr.join('\n') }${ cqImage }`
+            chouka: `${ choukaStr.length === 0 ? '' : '抽卡结果：\n' }${ choukaStr.join('\n') }${ cqImage }`
           });
 
           await this.sendMessage(msg);
