@@ -8,13 +8,13 @@ import sign from './function/signInWorker';
 const dingDanUrl = 'https://wds.modian.com/api/project/sorted_orders';
 const inforUrl = 'https://wds.modian.com/api/project/detail';
 
-let queryData = null; // 查询条件
+let queryData = null;  // 查询条件
 let queryInfor = null; // 查询摩点项目信息条件
-let modianId = null; // 摩点id
-let title = null; // 摩点项目标题
-let goal = null; // 摩点项目目标
-let timer = null; // 轮询定时器
-let oldTime = null; // 最后一次的打赏时间
+let modianId = null;   // 摩点id
+let title = null;      // 摩点项目标题
+let goal = null;       // 摩点项目目标
+let timer = null;      // 轮询定时器
+let oldTime = null;    // 最后一次的打赏时间
 
 function timeDifference(endTime) {
   const endTimeDate = new Date(endTime);
@@ -67,46 +67,57 @@ function timeDifference(endTime) {
 async function polling() {
   try {
     // 获取新信息
-    const res = await getData('POST', dingDanUrl + '?t=' + new Date().getTime(), queryData);
     const inf = await getData('POST', inforUrl + '?t=' + new Date().getTime(), queryInfor);
+    const jizi = [];
+    let page = 1;
+    let hasData = true;
+    let ot = null; // 最新集资时间
 
-    if (res.status === '0') {
-      // 计算打赏金额和排名
-      const newData = res.data;
-      const jizi = [];
-      let ot = null; // 最新集资时间
+    while (hasData) {
+      const q = sign(`page=${ page }&pro_id=${ modianId }&sort_by=1`);
+      const res = await getData('POST', dingDanUrl + '?t=' + new Date().getTime(), q);
 
-      for (let i = 0, j = newData.length; i < j; i++) {
-        const item = newData[i];
-        const pay_time = new Date(item.pay_success_time).getTime();
+      if (res.status === '0' && res.data && res.data.length > 0) {
+        const newData = res.data; // 计算打赏金额和排名
 
-        if (pay_time > oldTime) {
-          jizi.push({
-            userid: item.user_id,
-            pay_amount: item.backer_money,
-            nickname: item.nickname
-          });
-          if (!ot) ot = pay_time;
-        } else {
-          break;
+        for (let i = 0, j = newData.length; i < j; i++) {
+          const item = newData[i];
+          const pay_time = new Date(item.pay_success_time).getTime();
+
+          if (pay_time > oldTime) {
+            jizi.push({
+              userid: item.user_id,
+              pay_amount: item.backer_money,
+              nickname: item.nickname
+            });
+
+            if (!ot) ot = pay_time;
+          } else {
+            hasData = false;
+            break;
+          }
         }
+
+        page += 1;
+      } else {
+        hasData = false;
       }
+    }
 
-      if (jizi.length > 0) {
-        if (ot) oldTime = ot;
+    if (jizi.length > 0) {
+      if (ot) oldTime = ot;
 
-        // 将数据发送回主线程
-        const infData = inf.data[0];
+      // 将数据发送回主线程
+      const infData = inf.data[0];
 
-        postMessage({
-          type: 'change',
-          data: jizi,
-          alreadyRaised: infData.already_raised,
-          backerCount: infData.backer_count,
-          endTime: infData.end_time,
-          timedifference: timeDifference(infData.end_time)
-        });
-      }
+      postMessage({
+        type: 'change',
+        data: jizi,
+        alreadyRaised: infData.already_raised,
+        backerCount: infData.backer_count,
+        endTime: infData.end_time,
+        timedifference: timeDifference(infData.end_time)
+      });
     }
   } catch (err) {
     console.error(err);
@@ -126,6 +137,7 @@ addEventListener('message', async function(event) {
       // 初始化
       queryData = sign(`page=1&pro_id=${ modianId }&sort_by=1`);
       queryInfor = sign(`pro_id=${ modianId }`);
+
       const res = await getData('POST', dingDanUrl + '?t=' + new Date().getTime(), queryData);
 
       oldTime = res.data === null ? new Date().getTime() : new Date(res.data[0].pay_success_time).getTime();
