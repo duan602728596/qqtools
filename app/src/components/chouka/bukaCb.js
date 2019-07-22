@@ -2,6 +2,7 @@
 import chunk from 'lodash-es/chunk';
 import * as storagecard from './storagecard';
 import { chouka } from './chouka';
+import bestCards from './bestCards';
 
 async function bukaCb(command, qq, dataJson) {
   const { basic } = qq.option;
@@ -11,7 +12,7 @@ async function bukaCb(command, qq, dataJson) {
   }
 
   try {
-    const { cards, money, multiple, db } = qq.choukaJson;
+    const { cards, money, multiple, db, sendImageLength } = qq.choukaJson;
 
     const choukaStr = [];
     let cqImage = '';
@@ -35,8 +36,12 @@ async function bukaCb(command, qq, dataJson) {
     if (basic.isChoukaSendImage && qq.coolqEdition === 'pro') {
       const cqArr = [];
 
-      for (const key in choukaResult) {
-        cqArr.push(`[CQ:image,file=${ choukaResult[key].image }]`);
+      if (sendImageLength === undefined || sendImageLength === null) {
+        for (const key in choukaResult) {
+          cqArr.push(`[CQ:image,file=${ choukaResult[key].image }]`);
+        }
+      } else {
+        cqArr.push(...bestCards(cards, sendImageLength === 0 ? Object.values(choukaResult).length : sendImageLength));
       }
 
       const chunkArr = chunk(cqArr, 10);
