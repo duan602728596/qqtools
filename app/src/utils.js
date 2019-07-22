@@ -93,5 +93,5 @@ export function cleanRequireCache(id) {
     module.parent.children.splice(module.parent.children.indexOf(id), 1);
   }
 
-  global.require.cache[modulePath] = null;
+  delete global.require.cache[modulePath];
 }

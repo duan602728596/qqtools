@@ -4,37 +4,38 @@ import { requestRoomMessage, requestFlipAnswer } from '../kd48listerer/roomListe
 import { time } from '../../utils';
 import { chouka } from '../chouka/chouka';
 import * as storagecard from '../chouka/storagecard';
+import bestCards from '../chouka/bestCards';
 const nunjucks = global.require('nunjucks');
 
 class CoolQ {
   constructor(qq, port, callback) {
     this.time = null; // 登录时间戳
-    this.qq = qq; // qq号
+    this.qq = qq;     // qq号
     this.port = port; // socket端口
-    this.isError = false; // 判断是否错误
+    this.isError = false;                                   // 判断是否错误
     this.eventUrl = `ws://127.0.0.1:${ this.port }/event/`; // 地址
-    this.eventSocket = null; // socket
+    this.eventSocket = null;     // socket
     this.isEventSuccess = false; // 判断是否连接成功
     this.apiUrl = `ws://127.0.0.1:${ this.port }/api/`; // 地址
-    this.apiSocket = null; // socket
+    this.apiSocket = null;     // socket
     this.isApiSuccess = false; // 判断是否连接成功
-    this.callback = callback; // 获得信息后的回调
+    this.callback = callback;  // 获得信息后的回调
     this.coolqEdition = 'air'; // 酷Q的版本
 
     this.option = null; // 配置
     // 摩点项目相关
-    this.modianTitle = null; // 摩点项目标题
-    this.modianGoal = null; // 摩点项目目标
+    this.modianTitle = null;  // 摩点项目标题
+    this.modianGoal = null;   // 摩点项目目标
     this.modianWorker = null; // 摩点新线程
-    this.choukaJson = null; // 抽卡配置
+    this.choukaJson = null;   // 抽卡配置
     this.bukaQQNumber = null; // 允许群里补卡的qq号
     // 口袋48监听相关
-    this.members = null; // 监听指定成员
+    this.members = null;  // 监听指定成员
     this.memberId = null; // 坚听成员id
     // 房间信息监听相关
     this.roomListenerTimer = null; // 轮询定时器
-    this.roomLastTime = null; // 最后一次发言
-    this.kouDai48Token = null; // token
+    this.roomLastTime = null;      // 最后一次发言
+    this.kouDai48Token = null;     // token
     // 微博监听相关
     this.weiboWorker = null; // 微博监听新线程
     // 群内定时消息推送
@@ -140,20 +141,16 @@ class CoolQ {
   init() {
     // event
     this.eventSocket = new WebSocket(this.eventUrl);
-    // $FlowFixMe
+
     this.eventSocket.addEventListener('open', this.handleOpenEventSocket, false);
-    // $FlowFixMe
     this.eventSocket.addEventListener('error', this.handleEventSocketError, false);
-    // $FlowFixMe
     this.eventSocket.addEventListener('message', this.handleListenerEventMessage, false);
 
     // api
     this.apiSocket = new WebSocket(this.apiUrl);
-    // $FlowFixMe
+
     this.apiSocket.addEventListener('open', this.handleOpenApiSocket, false);
-    // $FlowFixMe
     this.apiSocket.addEventListener('error', this.handleApiSocketError, false);
-    // $FlowFixMe
     this.apiSocket.addEventListener('message', this.handleListenerApiMessage, false);
   }
 
@@ -191,19 +188,13 @@ class CoolQ {
 
     // --- 关闭socket ---
     // event
-    // $FlowFixMe
     this.eventSocket.removeEventListener('open', this.handleOpenEventSocket);
-    // $FlowFixMe
     this.eventSocket.removeEventListener('error', this.handleEventSocketError);
-    // $FlowFixMe
     this.eventSocket.removeEventListener('message', this.handleListenerEventMessage);
 
     // api
-    // $FlowFixMe
     this.apiSocket.removeEventListener('open', this.handleOpenApiSocket);
-    // $FlowFixMe
     this.apiSocket.removeEventListener('error', this.handleApiSocketError);
-    // $FlowFixMe
     this.apiSocket.removeEventListener('message', this.handleListenerApiMessage);
 
     this.eventSocket && this.eventSocket.close();
@@ -219,7 +210,7 @@ class CoolQ {
         const { data, alreadyRaised, backerCount, endTime, timedifference } = event.data;
         const { modianTemplate, isChouka, isChoukaSendImage } = this.option.basic;
         const amountDifference = (Number(this.modianGoal) - Number(alreadyRaised)).toFixed(2);
-        const { cards, money, multiple, db } = this.choukaJson || {};
+        const { cards, money, multiple, db, sendImageLength } = this.choukaJson || {};
 
         // 倒序发送消息
         for (let i = data.length - 1; i >= 0; i--) {
@@ -250,8 +241,12 @@ class CoolQ {
               // 发送所有图片
               const cqArr = [];
 
-              for (const key in choukaResult) {
-                cqArr.push(`[CQ:image,file=${ choukaResult[key].image }]`);
+              if (sendImageLength === undefined || sendImageLength === null) {
+                for (const key in choukaResult) {
+                  cqArr.push(`[CQ:image,file=${ choukaResult[key].image }]`);
+                }
+              } else {
+                cqArr.push(...bestCards(cards, sendImageLength === 0 ? Object.values(choukaResult).length : sendImageLength));
               }
 
               const chunkArr = chunk(cqArr, 10);
@@ -273,7 +268,6 @@ class CoolQ {
             id: item.nickname,
             money: item.pay_amount,
             modianname: this.modianTitle,
-            // $FlowFixMe
             modianid: this.option.basic.modianId,
             goal: this.modianGoal,
             alreadyraised: alreadyRaised,

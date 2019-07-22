@@ -32,7 +32,7 @@ function bestCards(cards, len) {
     str.push(`[CQ:image,file=${ item.image }]`);
   }
 
-  return str.join(' ');
+  return str;
 }
 
 export default bestCards;
