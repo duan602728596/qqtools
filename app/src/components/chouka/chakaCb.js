@@ -23,7 +23,6 @@ async function chakaCb(command, qq) {
   for (let i = cards.length - 1; i >= 0; i--) {
     const item = cards[i];
     const strData = [];
-    let str = `【${ item.level }】：`;
 
     for (const item2 of item.data) {
       if (item2.id in record && record[item2.id] > 0) {
@@ -32,6 +31,9 @@ async function chakaCb(command, qq) {
     }
 
     if (strData.length > 0) {
+      let str = `【${ item.level }】`;
+
+      str += `(${ strData.length }/${ item.data.length })：`;
       str += `\n${ strData.join('\n') }`;
       strArr.push(str);
     }
@@ -42,7 +44,9 @@ async function chakaCb(command, qq) {
 
     return void 0;
   } else {
-    await qq.sendMessage(`[${ kaResult[0].nickname === '' ? !command[1] : kaResult[0].nickname }] 的查卡结果：\n${ strArr.join('\n') }`);
+    const msg = `[${ kaResult[0].nickname === '' ? !command[1] : kaResult[0].nickname }] 的查卡结果：\n${ strArr.join('\n') }`;
+
+    await qq.sendMessage(msg);
   }
 }
 
