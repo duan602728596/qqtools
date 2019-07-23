@@ -14,7 +14,8 @@
           "name": "r卡2",
           "image": "r\\r2.jpg"
         }
-      ]
+      ],
+      "point": 0
     },
     {
       "level": "sr",
@@ -30,7 +31,8 @@
           "name": "sr卡2",
           "image": "sr\\sr2.jpg"
         }
-      ]
+      ],
+      "point": 0
     }
   ],
   "db": {
@@ -44,6 +46,7 @@
   "money": 0.1,
   "multiple": 5,
   "sendImageLength": 2,
+  "resetCardsToPoints": false,
   "注释": {
     "_cards": {
       "_note": "cards字段是配置卡组信息的，类型为数组。数组内位置从小到大对应卡的等级从低到高，卡牌的等级从0开始",
@@ -54,12 +57,14 @@
           "_id": "id字段是卡牌的唯一id，不能重复",
           "_name": "name字段是卡牌的名字",
           "_image": "image字段是图片的地址"
-        }
+        },
+        "_point": "point字段是每个重复的卡片的转换的积分"
       }
     },
     "_db": "db字段是抽卡信息存储的数据库的连接配置。数据库默认使用MariaDB，兼容MySQL",
     "_money": "money字段是抽卡钱数",
     "_multiple": "multiple是多抽倍数的配置。比如集资金额是抽卡钱数的5倍，则多抽一次，则配置为5。配置为0时没有多抽",
-    "_sendImageLength": "配置QQ群内发送图片的数量。排序按照等级，不配置就不排序；配置为0，按照排序发送所有图片"
+    "_sendImageLength": "配置QQ群内发送图片的数量。排序按照等级，不配置就不排序；配置为0，按照排序发送所有图片",
+    "_resetCardsToPoints": "重复的卡片是否转换成积分"
   }
 }
