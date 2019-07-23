@@ -5,6 +5,7 @@ import { time } from '../../utils';
 import { chouka } from '../chouka/chouka';
 import * as storagecard from '../chouka/storagecard';
 import bestCards from '../chouka/bestCards';
+import getLevelPoint from '../chouka/getLevelPoint';
 const nunjucks = global.require('nunjucks');
 
 class CoolQ {
@@ -210,7 +211,8 @@ class CoolQ {
         const { data, alreadyRaised, backerCount, endTime, timedifference } = event.data;
         const { modianTemplate, isChouka, isChoukaSendImage } = this.option.basic;
         const amountDifference = (Number(this.modianGoal) - Number(alreadyRaised)).toFixed(2);
-        const { cards, money, multiple, db, sendImageLength } = this.choukaJson || {};
+        const { cards, money, multiple, db, sendImageLength, resetCardsToPoints } = this.choukaJson || {};
+        const levelPoint = getLevelPoint(cards); // 格式化等级对应的分数
 
         // 倒序发送消息
         for (let i = data.length - 1; i >= 0; i--) {
@@ -219,12 +221,13 @@ class CoolQ {
           // 抽卡
           const choukaStr = [];
           let cqImage = '';
+          let cardsPointsMsg = '';
 
           if (isChouka) {
             // 把卡存入数据库
             const kaResult = await storagecard.query(db, item.userid);
             const record = kaResult.length === 0 ? {} : JSON.parse(kaResult[0].record);
-
+            let cardsPoints = 0; // 积分
             const choukaResult = chouka(cards, money, Number(item.pay_amount), multiple);
 
             for (const key in choukaResult) {
@@ -233,8 +236,30 @@ class CoolQ {
 
               choukaStr.push(str);
 
-              if (item2.id in record) record[item2.id] += item2.length;
-              else record[item2.id] = item2.length;
+              if (resetCardsToPoints) {
+                // 转换成积分
+                if (item2.id in record) {
+                  // 有重复的卡片
+                  cardsPoints += levelPoint[item2.level] * item2.length;
+                } else {
+                  // 新卡片
+                  record[item2.id] = 1;
+                  cardsPoints += levelPoint[item2.level] * (item2.length - 1);
+                }
+              } else {
+                // 不转换成积分
+                if (item2.id in record) {
+                  // 有重复的卡片
+                  record[item2.id] += item2.length;
+                } else {
+                  // 新卡片
+                  record[item2.id] = item2.length;
+                }
+              }
+            }
+
+            if (resetCardsToPoints) {
+              cardsPointsMsg = `\n已经将重复的卡片转换成积分：${ cardsPoints }。`;
             }
 
             if (isChoukaSendImage && this.coolqEdition === 'pro') {
@@ -260,8 +285,11 @@ class CoolQ {
             }
 
             // 把卡存入数据库
-            if (kaResult.length === 0) await storagecard.insert(db, item.userid, item.nickname, record);
-            else await storagecard.update(db, item.userid, item.nickname, record);
+            if (kaResult.length === 0) {
+              await storagecard.insert(db, item.userid, item.nickname, record, (kaResult[0].points || 0) + cardsPoints);
+            } else {
+              await storagecard.update(db, item.userid, item.nickname, record, (kaResult[0].points || 0) + cardsPoints);
+            }
           }
 
           const msg = nunjucks.renderString(modianTemplate, {
@@ -275,7 +303,7 @@ class CoolQ {
             amountdifference: amountDifference,
             endtime: endTime,
             timedifference,
-            chouka: `${ choukaStr.length === 0 ? '' : '抽卡结果：\n' }${ choukaStr.join('\n') }${ cqImage }`
+            chouka: `${ choukaStr.length === 0 ? '' : '抽卡结果：\n' }${ choukaStr.join('\n') }${ cardsPointsMsg }${ cqImage }`
           });
 
           await this.sendMessage(msg);

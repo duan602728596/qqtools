@@ -56,7 +56,7 @@ export function query2(db, useridOrNickname) {
 }
 
 /* 插入数据库信息 */
-export function insert(db, userid, nickname, record) {
+export function insert(db, userid, nickname, record, points) {
   const connection = mysql.createConnection({
     host: db.hostname,
     port: db.port,
@@ -68,8 +68,8 @@ export function insert(db, userid, nickname, record) {
   connection.connect();
 
   return new Promise((resolve, reject) => {
-    connection.query(`INSERT INTO ${ db.table } (userid, nickname, record) VALUES (?, ?, ?)`,
-      [userid, nickname, JSON.stringify(record)],
+    connection.query(`INSERT INTO ${ db.table } (userid, nickname, record, points) VALUES (?, ?, ?, ?)`,
+      [userid, nickname, JSON.stringify(record), points],
       (err, results, fields) => {
         if (err) {
           reject(err);
@@ -83,7 +83,7 @@ export function insert(db, userid, nickname, record) {
 }
 
 /* 更新数据库数据 */
-export function update(db, userid, nickname, record) {
+export function update(db, userid, nickname, record, points) {
   const connection = mysql.createConnection({
     host: db.hostname,
     port: db.port,
@@ -95,8 +95,8 @@ export function update(db, userid, nickname, record) {
   connection.connect();
 
   return new Promise((resolve, reject) => {
-    connection.query(`UPDATE ${ db.table } SET nickname=?, record=? WHERE userid=?`,
-      [nickname, JSON.stringify(record), userid],
+    connection.query(`UPDATE ${ db.table } SET nickname=?, record=?, points=? WHERE userid=?`,
+      [nickname, JSON.stringify(record), points, userid],
       (err, results, fields) => {
         if (err) {
           reject(err);
