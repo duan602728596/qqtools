@@ -110,7 +110,7 @@ export function update(db, userid, nickname, record, points) {
 }
 
 /* 补卡时更新的数据库 */
-export function update2(db, userid, record) {
+export function update2(db, userid, record, points) {
   const connection = mysql.createConnection({
     host: db.hostname,
     port: db.port,
@@ -122,8 +122,8 @@ export function update2(db, userid, record) {
   connection.connect();
 
   return new Promise((resolve, reject) => {
-    connection.query(`UPDATE ${ db.table } SET record=? WHERE userid=?`,
-      [JSON.stringify(record), userid],
+    connection.query(`UPDATE ${ db.table } SET record=?, points=? WHERE userid=?`,
+      [JSON.stringify(record), points, userid],
       (err, results, fields) => {
         if (err) {
           reject(err);

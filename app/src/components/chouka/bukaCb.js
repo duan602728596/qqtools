@@ -3,6 +3,7 @@ import chunk from 'lodash-es/chunk';
 import * as storagecard from './storagecard';
 import { chouka } from './chouka';
 import bestCards from './bestCards';
+import getLevelPoint from '../chouka/getLevelPoint';
 
 async function bukaCb(command, qq, dataJson) {
   const { basic } = qq.option;
@@ -12,15 +13,16 @@ async function bukaCb(command, qq, dataJson) {
   }
 
   try {
-    const { cards, money, multiple, db, sendImageLength } = qq.choukaJson;
-
+    const { cards, money, multiple, db, sendImageLength, resetCardsToPoints } = qq.choukaJson;
+    const levelPoint = getLevelPoint(cards); // 格式化等级对应的分数
     const choukaStr = [];
     let cqImage = '';
+    let cardsPointsMsg = '';
 
     // 把卡存入数据库
     const kaResult = await storagecard.query(db, command[1]);
     const record = kaResult.length === 0 ? {} : JSON.parse(kaResult[0].record);
-
+    let cardsPoints = 0; // 积分
     const choukaResult = chouka(cards, money, null, multiple, command[2] ? Number(command[2]) : 1);
 
     for (const key in choukaResult) {
@@ -29,8 +31,30 @@ async function bukaCb(command, qq, dataJson) {
 
       choukaStr.push(str);
 
-      if (item2.id in record) record[item2.id] += item2.length;
-      else record[item2.id] = item2.length;
+      if (resetCardsToPoints) {
+        // 转换成积分
+        if (item2.id in record) {
+          // 有重复的卡片
+          cardsPoints += levelPoint[item2.level] * item2.length;
+        } else {
+          // 新卡片
+          record[item2.id] = 1;
+          cardsPoints += levelPoint[item2.level] * (item2.length - 1);
+        }
+      } else {
+        // 不转换成积分
+        if (item2.id in record) {
+          // 有重复的卡片
+          record[item2.id] += item2.length;
+        } else {
+          // 新卡片
+          record[item2.id] = item2.length;
+        }
+      }
+    }
+
+    if (resetCardsToPoints) {
+      cardsPointsMsg = `\n已经将重复的卡片转换成积分：${ cardsPoints }。`;
     }
 
     if (basic.isChoukaSendImage && qq.coolqEdition === 'pro') {
@@ -55,10 +79,13 @@ async function bukaCb(command, qq, dataJson) {
     }
 
     // 把卡存入数据库
-    if (kaResult.length === 0) await storagecard.insert(db, command[1], '', record);
-    else await storagecard.update2(db, command[1], record);
+    if (kaResult.length === 0) {
+      await storagecard.insert(db, command[1], '', record, (kaResult[0].points || 0) + cardsPoints);
+    } else {
+      await storagecard.update2(db, command[1], record, (kaResult[0].points || 0) + cardsPoints);
+    }
 
-    await qq.sendMessage(`[${ command[1] }]的补卡结果为：\n${ choukaStr.join('\n') }${ cqImage }`);
+    await qq.sendMessage(`[${ command[1] }]的补卡结果为：\n${ choukaStr.join('\n') }${ cardsPointsMsg }${ cqImage }`);
   } catch (err) {
     console.error(err);
   }
