@@ -8,7 +8,7 @@ async function chakaCb(command, qq) {
     return void 0;
   }
 
-  const { db, cards } = qq.choukaJson;
+  const { db, cards, resetCardsToPoints } = qq.choukaJson;
   const kaResult = await storagecard.query2(db, command[1]);
 
   if (kaResult.length === 0) {
@@ -45,7 +45,7 @@ async function chakaCb(command, qq) {
     return void 0;
   } else {
     const msg = `[${ kaResult[0].nickname === '' ? !command[1] : kaResult[0].nickname }] 的查卡结果：\n${ strArr.join('\n') }`
-      + `\n★积分：${ Number(kaResult[0].points) }`;
+      + (resetCardsToPoints ? `\n★积分：${ Number(kaResult[0].points) }` : '');
 
     await qq.sendMessage(msg);
   }
