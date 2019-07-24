@@ -14,7 +14,7 @@ export function query(db, userid) {
 
   return new Promise((resolve, reject) => {
     connection.query(
-      `SELECT id, userid, nickname, record from ${ db.table } WHERE userid=?`,
+      `SELECT id, userid, nickname, record, points from ${ db.table } WHERE userid=?`,
       [userid],
       (err, results, fields) => {
         if (err) {
@@ -41,7 +41,7 @@ export function query2(db, useridOrNickname) {
 
   return new Promise((resolve, reject) => {
     connection.query(
-      `SELECT id, userid, nickname, record from ${ db.table } WHERE userid=? OR nickname=?`,
+      `SELECT id, userid, nickname, record, points from ${ db.table } WHERE userid=? OR nickname=?`,
       [useridOrNickname, useridOrNickname],
       (err, results, fields) => {
         if (err) {
