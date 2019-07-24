@@ -44,7 +44,8 @@ async function chakaCb(command, qq) {
 
     return void 0;
   } else {
-    const msg = `[${ kaResult[0].nickname === '' ? !command[1] : kaResult[0].nickname }] 的查卡结果：\n${ strArr.join('\n') }`;
+    const msg = `[${ kaResult[0].nickname === '' ? !command[1] : kaResult[0].nickname }] 的查卡结果：\n${ strArr.join('\n') }`
+      + `\n★积分：${ Number(kaResult[0].points) }`;
 
     await qq.sendMessage(msg);
   }

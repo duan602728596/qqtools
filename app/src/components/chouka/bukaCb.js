@@ -80,9 +80,9 @@ async function bukaCb(command, qq, dataJson) {
 
     // 把卡存入数据库
     if (kaResult.length === 0) {
-      await storagecard.insert(db, command[1], '', record, (kaResult[0].points || 0) + cardsPoints);
+      await storagecard.insert(db, command[1], '', record, (Number(kaResult[0].points) || 0) + cardsPoints);
     } else {
-      await storagecard.update2(db, command[1], record, (kaResult[0].points || 0) + cardsPoints);
+      await storagecard.update2(db, command[1], record, (Number(kaResult[0].points) || 0) + cardsPoints);
     }
 
     await qq.sendMessage(`[${ command[1] }]的补卡结果为：\n${ choukaStr.join('\n') }${ cardsPointsMsg }${ cqImage }`);
