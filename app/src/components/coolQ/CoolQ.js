@@ -212,7 +212,7 @@ class CoolQ {
         const { modianTemplate, isChouka, isChoukaSendImage } = this.option.basic;
         const amountDifference = (Number(this.modianGoal) - Number(alreadyRaised)).toFixed(2);
         const { cards, money, multiple, db, sendImageLength, resetCardsToPoints } = this.choukaJson || {};
-        const levelPoint = getLevelPoint(cards); // 格式化等级对应的分数
+        const levelPoint = cards ? getLevelPoint(cards) : {}; // 格式化等级对应的分数
 
         // 倒序发送消息
         for (let i = data.length - 1; i >= 0; i--) {
