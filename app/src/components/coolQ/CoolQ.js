@@ -27,6 +27,7 @@ class CoolQ {
     // 摩点项目相关
     this.modianTitle = null;  // 摩点项目标题
     this.modianGoal = null;   // 摩点项目目标
+    this.moxiId = null;       // moxi_id
     this.modianWorker = null; // 摩点新线程
     this.choukaJson = null;   // 抽卡配置
     this.bukaQQNumber = null; // 允许群里补卡的qq号

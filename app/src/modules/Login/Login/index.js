@@ -13,7 +13,7 @@ import CoolQ from '../../../components/coolQ/CoolQ';
 import { changeQQLoginList, cursorOption, kd48LiveListenerTimer, getLoginInformation } from '../reducer/reducer';
 import callback from '../../../components/callback/callback';
 import Detail from './Detail';
-import getModianInformation from '../../../components/modian/getModianInformation';
+import getModianInformation, { getModianInformationNoIdol } from '../../../components/modian/getModianInformation';
 import { str2reg, str2numberArray, cleanRequireCache } from '../../../utils';
 import kd48timer, { init } from '../../../components/kd48listerer/timer';
 import ModianWorker from 'worker-loader?name=scripts/[hash:15].js!../../../components/modian/modian.worker';
@@ -112,17 +112,21 @@ class Login extends Component {
 
       // 获取摩点相关信息
       if (basic.isModian) {
-        const { title, goal } = await getModianInformation(basic.modianId);
+        const { title, goal, moxiId } = basic.noIdol
+          ? await getModianInformationNoIdol(basic.modianId)
+          : await getModianInformation(basic.modianId);
 
         this.qq.modianTitle = title;
         this.qq.modianGoal = goal;
+        this.qq.moxiId = moxiId; // TODO: 兼容非idol项目
         // 创建新的摩点webWorker
         this.qq.modianWorker = new ModianWorker();
         this.qq.modianWorker.postMessage({
           type: 'init',
           modianId: basic.modianId,
           title,
-          goal
+          goal,
+          moxiId
         });
         this.qq.modianWorker.addEventListener(
           'message',

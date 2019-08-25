@@ -7,6 +7,8 @@ import sign from './function/signInWorker';
 
 const dingDanUrl = 'https://wds.modian.com/api/project/sorted_orders';
 const inforUrl = 'https://wds.modian.com/api/project/detail';
+const dingDanUrlNoIdol = 'http://mapi.modian.com/v45/product/comment_list';
+const inforUrlNoIdol = 'http://sapi.modian.com/v45/main/productInfo';
 
 let queryData = null;  // 查询条件
 let queryInfor = null; // 查询摩点项目信息条件
@@ -15,6 +17,7 @@ let title = null;      // 摩点项目标题
 let goal = null;       // 摩点项目目标
 let timer = null;      // 轮询定时器
 let oldTime = null;    // 最后一次的打赏时间
+let moxiId = null;
 
 function timeDifference(endTime) {
   const endTimeDate = new Date(endTime);
@@ -124,6 +127,66 @@ async function polling() {
   }
 }
 
+/* 轮询事件 */
+async function pollingNoIdol() {
+  try {
+    // 获取新信息
+    const inf = await getData('POST', inforUrlNoIdol + '?t=' + new Date().getTime(), queryInfor);
+    const jizi = [];
+    let page = 1;
+    let hasData = true;
+    let ot = null; // 最新集资时间
+
+    while (hasData) {
+      const res = await getData('GET', dingDanUrlNoIdol + '?t=' + new Date().getTime() + '&' + queryData);
+
+      if (res.status === '0' && res.data && res.data.length > 0) {
+        const newData = res.data; // 计算打赏金额和排名
+
+        for (let i = 0, j = newData.length; i < j; i++) {
+          const item = newData[i];
+          const pay_time = new Date(item.ctime).getTime();
+
+          if (pay_time > oldTime) {
+            jizi.push({
+              userid: item.user_id,
+              pay_amount: item.pay_amount / 100,
+              nickname: item.user_info.username
+            });
+
+            if (!ot) ot = pay_time;
+          } else {
+            hasData = false;
+            break;
+          }
+        }
+
+        page += 1;
+      } else {
+        hasData = false;
+      }
+    }
+
+    if (jizi.length > 0) {
+      if (ot) oldTime = ot;
+
+      // 将数据发送回主线程
+      const infData = inf.data[0];
+
+      postMessage({
+        type: 'change',
+        data: jizi,
+        alreadyRaised: infData.backer_money,
+        backerCount: infData.backer_count,
+        endTime: infData.end_time,
+        timedifference: timeDifference(infData.end_time)
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 addEventListener('message', async function(event) {
   try {
     const data = event.data;
@@ -133,17 +196,24 @@ addEventListener('message', async function(event) {
       modianId = data.modianId;
       title = data.title;
       goal = data.goal;
+      moxiId = data.moxiId;
 
       // 初始化
-      queryData = sign(`page=1&pro_id=${ modianId }&sort_by=1`);
-      queryInfor = sign(`pro_id=${ modianId }`);
+      queryData = moxiId
+        ? `json_type=1&pro_id=${ modianId }&moxi_post_id=${ moxiId }`
+        : sign(`page=1&pro_id=${ modianId }&sort_by=1`);
+      queryInfor = moxiIdsign(`pro_id=${ modianId }`);
 
-      const res = await getData('POST', dingDanUrl + '?t=' + new Date().getTime(), queryData);
+      const res = moxiId
+        ? await getData('GET', dingDanUrlNoIdol + '?t=' + new Date().getTime() + '&' + queryData)
+        : await getData('POST', dingDanUrl + '?t=' + new Date().getTime(), queryData);
 
-      oldTime = res.data === null ? new Date().getTime() : new Date(res.data[0].pay_success_time).getTime();
+      oldTime = (res.data === null || res.data === 'null' || res.status !== 0 || res.data.length === 0)
+        ? new Date().getTime()
+        : new Date(res.data[0].pay_success_time || res.data[0].ctime).getTime();
 
       // 开启轮询
-      timer = setInterval(polling, 13000);
+      timer = setInterval(moxiId ? pollingNoIdol : polling, 13000);
 
       return true;
     }
