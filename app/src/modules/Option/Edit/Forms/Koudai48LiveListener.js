@@ -25,22 +25,25 @@ class Koudai48LiveListener extends Component {
         <Form.Item label="开启口袋48直播监听功能" { ...colsArea2 }>
           {
             getFieldDecorator('is48LiveListener', {
-              initialValue: is48LiveListener
-            })(<Checkbox defaultChecked={ is48LiveListener } />)
+              initialValue: is48LiveListener,
+              valuePropName: 'checked'
+            })(<Checkbox />)
           }
         </Form.Item>
         <Form.Item label="监听所有成员" { ...colsArea2 }>
           {
             getFieldDecorator('isListenerAll', {
-              initialValue: isListenerAll
-            })(<Checkbox defaultChecked={ isListenerAll } />)
+              initialValue: isListenerAll,
+              valuePropName: 'checked'
+            })(<Checkbox />)
           }
         </Form.Item>
         <Form.Item label="@所有成员" { ...colsArea2 }>
           {
             getFieldDecorator('is48LiveAtAll', {
-              initialValue: is48LiveAtAll
-            })(<Checkbox defaultChecked={ is48LiveAtAll } />)
+              initialValue: is48LiveAtAll,
+              valuePropName: 'checked'
+            })(<Checkbox />)
           }
           <ShuoMing.AtAllMembers />
         </Form.Item>

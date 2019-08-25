@@ -43,6 +43,7 @@ function interfaceOption(value, customProfiles) {
     basic: {
       // 摩点
       isModian: value.isModian,
+      noIdol: value.noIdol,
       isModianLeaderboard: value.isModianLeaderboard,
       modianId: value.modianId,
       modianUrlTemplate: value.modianUrlTemplate,

@@ -90,11 +90,13 @@ class Add extends Component {
         title: '命令',
         dataIndex: 'command',
         key: 'command',
+        className: style.tableTd,
         width: '20%'
       },
       {
         title: '文本',
         dataIndex: 'text',
+        className: style.tableTd,
         key: 'text'
       },
       {

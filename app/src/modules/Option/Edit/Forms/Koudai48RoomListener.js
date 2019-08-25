@@ -27,8 +27,9 @@ class Koudai48RoomListener extends Component {
         <Form.Item label="开启成员房间信息监听" { ...colsArea2 }>
           {
             getFieldDecorator('isRoomListener', {
-              initialValue: isRoomListener
-            })(<Checkbox defaultChecked={ isRoomListener } />)
+              initialValue: isRoomListener,
+              valuePropName: 'checked'
+            })(<Checkbox />)
           }
         </Form.Item>
         <Form.Item label="房间ID" { ...colsArea2 }>
@@ -41,16 +42,18 @@ class Koudai48RoomListener extends Component {
         <Form.Item label="发送图片" { ...colsArea2 }>
           {
             getFieldDecorator('isRoomSendImage', {
-              initialValue: isRoomSendImage
-            })(<Checkbox defaultChecked={ isRoomSendImage } />)
+              initialValue: isRoomSendImage,
+              valuePropName: 'checked'
+            })(<Checkbox />)
           }
           <ShuoMing.IsRoomSendImage />
         </Form.Item>
         <Form.Item label="发送语音" { ...colsArea2 }>
           {
             getFieldDecorator('isRoomSendRecord', {
-              initialValue: isRoomSendRecord
-            })(<Checkbox defaultChecked={ isRoomSendRecord } />)
+              initialValue: isRoomSendRecord,
+              valuePropName: 'checked'
+            })(<Checkbox />)
           }
           <ShuoMing.IsRoomSendImage />
         </Form.Item>

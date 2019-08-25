@@ -25,15 +25,17 @@ class WeiboConfiguration extends Component {
         <Form.Item label="开启成员微博监听" { ...colsArea2 }>
           {
             getFieldDecorator('isWeiboListener', {
-              initialValue: isWeiboListener
-            })(<Checkbox defaultChecked={ isWeiboListener } />)
+              initialValue: isWeiboListener,
+              valuePropName: 'checked'
+            })(<Checkbox />)
           }
         </Form.Item>
         <Form.Item label="@所有成员" { ...colsArea2 }>
           {
             getFieldDecorator('isWeiboAtAll', {
-              initialValue: isWeiboAtAll
-            })(<Checkbox defaultChecked={ isWeiboAtAll } />)
+              initialValue: isWeiboAtAll,
+              valuePropName: 'checked'
+            })(<Checkbox />)
           }
           <ShuoMing.AtAllMembers />
         </Form.Item>
@@ -47,8 +49,9 @@ class WeiboConfiguration extends Component {
         <Form.Item label="发送图片" { ...colsArea2 }>
           {
             getFieldDecorator('isWeiboSendImage', {
-              initialValue: isWeiboSendImage
-            })(<Checkbox defaultChecked={ isWeiboSendImage } />)
+              initialValue: isWeiboSendImage,
+              valuePropName: 'checked'
+            })(<Checkbox />)
           }
           <ShuoMing.IsRoomSendImage />
         </Form.Item>

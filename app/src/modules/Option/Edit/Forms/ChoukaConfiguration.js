@@ -43,15 +43,17 @@ class ChoukaConfiguration extends Component {
         <Form.Item label="开启摩点抽卡功能" { ...colsArea3 }>
           {
             getFieldDecorator('isChouka', {
-              initialValue: isChouka
-            })(<Checkbox defaultChecked={ isChouka } />)
+              initialValue: isChouka,
+              valuePropName: 'checked'
+            })(<Checkbox />)
           }
         </Form.Item>
         <Form.Item label="发送图片" { ...colsArea3 }>
           {
             getFieldDecorator('isChoukaSendImage', {
-              initialValue: isChoukaSendImage
-            })(<Checkbox defaultChecked={ isChoukaSendImage } />)
+              initialValue: isChoukaSendImage,
+              valuePropName: 'checked'
+            })(<Checkbox />)
           }
           <ShuoMing.IsChoukaSendImage />
         </Form.Item>

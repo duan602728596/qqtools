@@ -24,8 +24,9 @@ class NewGroupMember extends Component {
         <Form.Item label="开启新成员欢迎功能" { ...colsArea2 }>
           {
             getFieldDecorator('isNewGroupMember', {
-              initialValue: isNewGroupMember
-            })(<Checkbox defaultChecked={ isNewGroupMember } />)
+              initialValue: isNewGroupMember,
+              valuePropName: 'checked'
+            })(<Checkbox />)
           }
         </Form.Item>
         <Form.Item label="欢迎词" { ...colsArea2 }>

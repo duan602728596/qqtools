@@ -19,21 +19,32 @@ class ModianConfiguration extends Component {
 
     const isModian = detail?.basic?.isModian; // 开启摩点
     const isModianLeaderboard = detail?.basic?.isModianLeaderboard; // 群内摩点排行榜查询
+    const noIdol = detail?.basic?.noIdol;     // 非偶像应援
 
     return (
       <Card className={ style.mb10 } title="摩点项目配置">
         <Form.Item label="开启摩点相关功能" { ...colsArea1 }>
           {
             getFieldDecorator('isModian', {
-              initialValue: isModian
-            })(<Checkbox defaultChecked={ isModian } />)
+              initialValue: isModian,
+              valuePropName: 'checked'
+            })(<Checkbox />)
+          }
+        </Form.Item>
+        <Form.Item label="为非偶像应援项目" { ...colsArea1 }>
+          {
+            getFieldDecorator('noIdol', {
+              initialValue: noIdol,
+              valuePropName: 'checked'
+            })(<Checkbox />)
           }
         </Form.Item>
         <Form.Item label="开启排行榜查询" { ...colsArea1 }>
           {
             getFieldDecorator('isModianLeaderboard', {
-              initialValue: isModianLeaderboard
-            })(<Checkbox defaultChecked={ isModianLeaderboard } />)
+              initialValue: isModianLeaderboard,
+              valuePropName: 'checked'
+            })(<Checkbox />)
           }
           <ShuoMing.IsModianLeaderboard />
         </Form.Item>

@@ -22,8 +22,9 @@ class TimingMessagePush extends Component {
         <Form.Item label="开启群内定时消息推送功能" { ...colsArea2 }>
           {
             getFieldDecorator('isTimingMessagePush', {
-              initialValue: isTimingMessagePush
-            })(<Checkbox defaultChecked={ isTimingMessagePush } />)
+              initialValue: isTimingMessagePush,
+              valuePropName: 'checked'
+            })(<Checkbox />)
           }
         </Form.Item>
         <Form.Item label="规则配置" { ...colsArea2 }>
