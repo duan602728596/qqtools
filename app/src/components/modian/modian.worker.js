@@ -138,7 +138,10 @@ async function pollingNoIdol() {
     let ot = null; // 最新集资时间
 
     while (hasData) {
-      const res = await getData('GET', dingDanUrlNoIdol + '?t=' + new Date().getTime() + '&' + queryData);
+      const res = await getData(
+        'GET',
+        dingDanUrlNoIdol + '?t=' + new Date().getTime() + '&' + queryData + '&page_index' + (page * 10)
+      );
 
       if (res.status === '0' && res.data && res.data.length > 0) {
         const newData = res.data; // 计算打赏金额和排名
@@ -146,11 +149,12 @@ async function pollingNoIdol() {
         for (let i = 0, j = newData.length; i < j; i++) {
           const item = newData[i];
           const pay_time = new Date(item.ctime).getTime();
+          const { pay_amount } = item;
 
-          if (pay_time > oldTime) {
+          if (pay_time > oldTime && pay_amount !== '0' && pay_amount > 0 && pay_amount !== '') {
             jizi.push({
               userid: item.user_id,
-              pay_amount: item.pay_amount / 100,
+              pay_amount: pay_amount / 100,
               nickname: item.user_info.username
             });
 
