@@ -20,6 +20,13 @@ async function sendModianInfor(qq) {
 /* 新线程计算排名 */
 function list(proId, type, size, qq) {
   try {
+    const { basic } = qq.option;
+
+    if (basic.noIdol) {
+      qq.sendMessage('ERROR: 非粉丝应援项目无法查询聚聚榜和打卡榜。');
+
+      return;
+    }
     const worker = new ModianListWorker();
     const cb = async (event) => {
       await qq.sendMessage(event.data.text);
@@ -41,6 +48,14 @@ function list(proId, type, size, qq) {
 
 /* 获取订单信息 */
 function dingDan(proId, size, qq) {
+  const { basic } = qq.option;
+
+  if (basic.noIdol) {
+    qq.sendMessage('ERROR: 非粉丝应援项目无法查询订单。');
+
+    return;
+  }
+
   const worker = new ModianListWorker();
   const cb = async (event) => {
     await qq.sendMessage(event.data.text);

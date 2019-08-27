@@ -33,7 +33,6 @@ function fn(command, qq, dataJson) {
 
     // 帮助
     case 'help':
-
       helpCb(qq);
       break;
 
