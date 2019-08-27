@@ -31,7 +31,7 @@ class ModianConfiguration extends Component {
             })(<Checkbox />)
           }
         </Form.Item>
-        <Form.Item label="项目为非粉丝应援项目" { ...colsArea1 }>
+        <Form.Item label="为非粉丝应援项目" { ...colsArea1 }>
           {
             getFieldDecorator('noIdol', {
               initialValue: noIdol,
