@@ -59,7 +59,7 @@ function Navs(props) {
           <dt className={ style.bTest }>
             <img className={ style.zfb } src={ require('../images/zfb.webp') } alt="支付宝二维码" />
           </dt>
-          <dd>欢迎给我打赏</dd>
+          <dd>欢迎给我打赏（支付宝）</dd>
         </dl>
       </Col>
       <Col xl={ 4 } lg={ 4 } md={ 6 } sm={ 8 } xs={ 12 }>
@@ -67,7 +67,7 @@ function Navs(props) {
           <dt className={ style.bTest }>
             <img className={ style.wx } src={ require('../images/wx.webp') } alt="微信二维码" />
           </dt>
-          <dd>欢迎给我打赏</dd>
+          <dd>欢迎给我打赏（微信）</dd>
         </dl>
       </Col>
     </Row>
