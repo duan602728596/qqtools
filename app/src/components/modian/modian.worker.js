@@ -206,7 +206,9 @@ addEventListener('message', async function(event) {
       queryData = moxiId
         ? `json_type=1&pro_id=${ modianId }&moxi_post_id=${ moxiId }`
         : sign(`page=1&pro_id=${ modianId }&sort_by=1`);
-      queryInfor = moxiIdsign(`pro_id=${ modianId }`);
+      queryInfor = moxiId
+        ? `pro_id=${ modianId }`
+        : sign(`pro_id=${ modianId }`);
 
       const res = moxiId
         ? await getData('GET', dingDanUrlNoIdol + '?t=' + new Date().getTime() + '&' + queryData)
