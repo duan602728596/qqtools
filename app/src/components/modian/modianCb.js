@@ -1,5 +1,5 @@
 /* 微打赏监听回调函数 */
-import getModianInformation from './getModianInformation';
+import getModianInformation, { getModianInformationNoIdol } from './getModianInformation';
 import ModianListWorker from 'worker-loader?name=scripts/[hash:15].js!./modianList.worker';
 const nunjucks = global.require('nunjucks');
 
@@ -59,7 +59,10 @@ function dingDan(proId, size, qq) {
 
 /* 获取已集资金额 */
 async function getAllMount(qq) {
-  const data = await getModianInformation(qq.option.basic.modianId);
+  const { basic } = qq.option;
+  const data = basic.noIdol
+    ? await getModianInformationNoIdol(basic.modianId)
+    : await getModianInformation(basic.modianId);
 
   await qq.sendMessage(`${ qq.modianTitle }: ￥${ data.already_raised } / ￥${ qq.modianGoal }，`
                      + `\n集资人数：${ data.backer_count }\n项目截至日期：${ data.end_time }`);
@@ -83,9 +86,11 @@ function modianCb(command, qq) {
     case '项目信息':
       isModianLeaderboard && getAllMount(qq);
       break;
+
     // 获取聚聚榜
     case '1':
     case '聚聚榜':
+
     // 获取打卡榜
     case '2':
     case '打卡榜':
@@ -97,11 +102,13 @@ function modianCb(command, qq) {
       }
       isModianLeaderboard && list(modianId, command[1], command[2], qq);
       break;
+
     // 获取订单信息
     case '3':
     case '订单':
       isModianLeaderboard && dingDan(modianId, command[2], qq);
       break;
+
     // 发送微打赏相关信息
     default:
       sendModianInfor(qq);

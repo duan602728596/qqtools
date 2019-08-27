@@ -64,7 +64,8 @@ addEventListener('message', async function(event) {
     let text = null;
     const size2 = Math.floor(pageSize / 20) + (pageSize % 20 === 0 ? 0 : 1);
 
-    if (type === '订单') { // 查询订单
+    if (type === '订单') {
+      // 查询订单
       for (let i = 1; i <= size2; i++) {
         const d = sign(`page=${ i }&pro_id=${ proId }&sort_by=1`);
         const res = await getData('POST', dingDanUrl + '?t=' + new Date().getTime(), d);
@@ -76,7 +77,8 @@ addEventListener('message', async function(event) {
         }
       }
       text = dingdan(backList, title, pageSize);
-    } else { // 查询榜单
+    } else {
+      // 查询榜单
       for (let i = 1; i <= size2; i++) {
         const d = sign(`page=${ i }&pro_id=${ proId }&type=${ type }`);
         const res = await getData('POST', listUrl, d);
@@ -89,9 +91,8 @@ addEventListener('message', async function(event) {
       }
       text = type === '1' ? jujubang(backList, title, pageSize) : dakabang(backList, title, pageSize);
     }
-    postMessage({
-      text
-    });
+
+    postMessage({ text });
   } catch (err) {
     console.error(err);
   }

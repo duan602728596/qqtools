@@ -14,23 +14,29 @@ function fn(command, qq, dataJson) {
     case 'mod':
       modianCb(command, qq);
       break;
+
     // 补卡
     case '补卡':
       bukaCb(command, qq, dataJson);
       break;
+
     // 查卡
     case '查卡':
       chakaCb(command, qq);
       break;
+
     // 口袋当前直播
     case '直播列表':
     case 'zb':
       kd48Cb(qq);
       break;
+
     // 帮助
     case 'help':
+
       helpCb(qq);
       break;
+
     // 其他自定义命令
     default:
       customCb(command, qq);
