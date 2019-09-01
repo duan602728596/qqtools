@@ -140,7 +140,7 @@ async function pollingNoIdol() {
     while (hasData) {
       const res = await getData(
         'GET',
-        dingDanUrlNoIdol + '?t=' + new Date().getTime() + '&' + queryData + '&page_index' + (page * 10)
+        dingDanUrlNoIdol + '?t=' + new Date().getTime() + '&' + queryData + '&page_index=' + (page * 10)
       );
 
       if (res.status === '0' && res.data && res.data.length > 0) {
