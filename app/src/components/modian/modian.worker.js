@@ -17,6 +17,7 @@ let title = null;      // 摩点项目标题
 let goal = null;       // 摩点项目目标
 let timer = null;      // 轮询定时器
 let oldTime = null;    // 最后一次的打赏时间
+let oldId = null;      // 最后一次打赏的id
 let moxiId = null;
 
 function timeDifference(endTime) {
@@ -135,7 +136,8 @@ async function pollingNoIdol() {
     const jizi = [];
     let page = 1;
     let hasData = true;
-    let ot = null; // 最新集资时间
+    let ot = null;  // 最新集资时间
+    let oid = null; // 最新集资id
 
     while (hasData) {
       const res = await getData(
@@ -149,16 +151,18 @@ async function pollingNoIdol() {
         for (let i = 0, j = newData.length; i < j; i++) {
           const item = newData[i];
           const pay_time = new Date(item.ctime).getTime();
-          const { pay_amount } = item;
+          const pay_amount = Number(item.pay_amount) / 100;
+          const id = String(res.data[0].user_id.id);
 
-          if (pay_time > oldTime && pay_amount !== '0' && pay_amount > 0 && pay_amount !== '') {
+          if (((pay_time > oldTime) || (pay_time === oldTime && id !== oldId)) && pay_amount > 0) {
             jizi.push({
               userid: item.user_id,
-              pay_amount: pay_amount / 100,
+              pay_amount,
               nickname: item.user_info.username
             });
 
             if (!ot) ot = pay_time;
+            if (!oid) oid = id;
           } else {
             hasData = false;
             break;
@@ -173,9 +177,10 @@ async function pollingNoIdol() {
 
     if (jizi.length > 0) {
       if (ot) oldTime = ot;
+      if (oid) oldId = oid;
 
       // 将数据发送回主线程
-      const infData = inf.data[0];
+      const infData = inf.data.product_info;
 
       postMessage({
         type: 'change',
@@ -213,10 +218,15 @@ addEventListener('message', async function(event) {
       const res = moxiId
         ? await getData('GET', dingDanUrlNoIdol + '?t=' + new Date().getTime() + '&' + queryData)
         : await getData('POST', dingDanUrl + '?t=' + new Date().getTime(), queryData);
+      const nullData = res.data === null || res.data === 'null' || res.status !== '0' || res.data.length === 0;
 
-      oldTime = (res.data === null || res.data === 'null' || res.status !== 0 || res.data.length === 0)
+      oldTime = nullData
         ? new Date().getTime()
         : new Date(res.data[0].pay_success_time || res.data[0].ctime).getTime();
+
+      oldId = nullData
+        ? null
+        : String(res.data[0].user_id.id);
 
       // 开启轮询
       timer = setInterval(moxiId ? pollingNoIdol : polling, 13000);
