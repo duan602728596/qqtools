@@ -36,6 +36,7 @@ class ChoukaConfiguration extends Component {
     const { getFieldDecorator } = form;
     const colsArea3 = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };
     const isChouka = detail?.basic?.isChouka; // 开启抽卡功能
+    const isChaka = detail?.basic?.isChaka;   // 开启查卡功能
     const isChoukaSendImage = detail?.basic?.isChoukaSendImage; // 抽卡发送图片
 
     return (
@@ -44,6 +45,14 @@ class ChoukaConfiguration extends Component {
           {
             getFieldDecorator('isChouka', {
               initialValue: isChouka,
+              valuePropName: 'checked'
+            })(<Checkbox />)
+          }
+        </Form.Item>
+        <Form.Item label="开启查卡功能" { ...colsArea3 }>
+          {
+            getFieldDecorator('isChaka', {
+              initialValue: isChaka,
               valuePropName: 'checked'
             })(<Checkbox />)
           }

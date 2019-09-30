@@ -4,7 +4,7 @@ import * as storagecard from './storagecard';
 async function chakaCb(command, qq) {
   const { basic } = qq.option;
 
-  if (!basic.isChouka || !command[1]) {
+  if (!(basic.isChouka && basic.isChaka && command[1])) {
     return void 0;
   }
 

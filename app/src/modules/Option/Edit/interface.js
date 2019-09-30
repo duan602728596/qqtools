@@ -50,6 +50,7 @@ function interfaceOption(value, customProfiles) {
       modianTemplate: value.modianTemplate,
       // 抽卡
       isChouka: value.isChouka,
+      isChaka: value.isChaka,
       isChoukaSendImage: value.isChoukaSendImage,
       choukaJson: value.choukaJson,
       bukaQQNumber: value.bukaQQNumber,
