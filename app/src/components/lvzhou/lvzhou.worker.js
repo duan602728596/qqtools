@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment/moment';
 
 let lvzhouUrl = 'https://oasis.weibo.cn/v1/timeline/user';
 let params = null;  // 参数

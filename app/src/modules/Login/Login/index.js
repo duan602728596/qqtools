@@ -21,7 +21,7 @@ import WeiBoWorker from 'worker-loader?name=scripts/[hash:15].js!../../../compon
 import LvzhouWorker from 'worker-loader?name=scripts/[hash:15].js!../../../components/lvzhou/lvzhou.worker';
 import { requestRoomMessage } from '../../../components/kd48listerer/roomListener';
 
-const querystring = global.require('query-string');
+const querystring = global.require('querystring');
 const schedule = global.require('node-schedule');
 
 /* 初始化数据 */
