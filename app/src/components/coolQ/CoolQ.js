@@ -185,6 +185,16 @@ class CoolQ {
       this.weiboWorker = null;
     }
 
+    // 删除绿洲的web worker
+    if (this.lvzhouWorker) {
+      this.lvzhouWorker.postMessage({
+        type: 'cancel'
+      });
+      // $FlowFixMe
+      this.lvzhouWorker.terminate();
+      this.lvzhouWorker = null;
+    }
+
     // 删除群消息推送定时器
     if (this.timingMessagePushTimer) {
       this.timingMessagePushTimer.cancel();
@@ -494,7 +504,7 @@ class CoolQ {
     }
   }
 
-  // web worker监听到微博的返回信息
+  // web worker监听到绿洲的返回信息
   async listenLvzhouWorkerCbInformation(event) {
     const { isLvzhouAtAll } = this?.option?.basic || {};
 
