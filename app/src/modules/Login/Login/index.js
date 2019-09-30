@@ -18,7 +18,10 @@ import { str2reg, str2numberArray, cleanRequireCache } from '../../../utils';
 import kd48timer, { init } from '../../../components/kd48listerer/timer';
 import ModianWorker from 'worker-loader?name=scripts/[hash:15].js!../../../components/modian/modian.worker';
 import WeiBoWorker from 'worker-loader?name=scripts/[hash:15].js!../../../components/weibo/weibo.worker';
+import LvzhouWorker from 'worker-loader?name=scripts/[hash:15].js!../../../components/lvzhou/lvzhou.worker';
 import { requestRoomMessage } from '../../../components/kd48listerer/roomListener';
+
+const querystring = global.require('query-string');
 const schedule = global.require('node-schedule');
 
 /* 初始化数据 */
@@ -197,6 +200,22 @@ class Login extends Component {
           false
         );
         message.success('微博监听已就绪。');
+      }
+
+      // 绿洲监听
+      if (basic.isLvzhouListener) {
+        this.qq.lvzhouWorker = new LvzhouWorker();
+        this.qq.lvzhouWorker.postMessage({
+          type: 'init',
+          params: querystring.stringify(JSON.parse(basic.lvZhouParams)),
+          headers: JSON.parse(basic.lvZhouHeaders)
+        });
+        this.qq.lvzhouWorker.addEventListener(
+          'message',
+          this.qq.listenLvzhouWorkerCbInformation.bind(this.qq),
+          false
+        );
+        message.success('绿洲监听已就绪。');
       }
 
       // 群内定时消息推送

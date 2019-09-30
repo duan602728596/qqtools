@@ -164,6 +164,28 @@ function Detail(props) {
           <td className={ style.tdTitle }>发送图片</td>
           <td>{ isOpen(basic.isWeiboSendImage) }</td>
         </tr>
+        {/* 绿洲监听 */}
+        <tr>
+          <td className={ style.tdGTitle } colSpan={ 4 }>绿洲监听</td>
+        </tr>
+        <tr>
+          <td className={ style.tdTitle }>开启绿洲监听功能</td>
+          <td>{ isOpen(basic.isLvzhouListener) }</td>
+          <td className={ style.tdTitle }>@所有成员</td>
+          <td>{ isOpen(basic.isLvzhouAtAll) }</td>
+        </tr>
+        <tr>
+          <td className={ style.tdTitle }>Params</td>
+          <td colSpan={ 3 }>{ basic.lvZhouParams }</td>
+        </tr>
+        <tr>
+          <td className={ style.tdTitle }>Headers</td>
+          <td colSpan={ 3 }>{ basic.lvZhouHeaders }</td>
+        </tr>
+        <tr>
+          <td className={ style.tdTitle }>发送图片</td>
+          <td colSpan={ 3 }>{ isOpen(basic.isLvzhouSendImage) }</td>
+        </tr>
         {/* 欢迎新成员 */}
         <tr>
           <td className={ style.tdGTitle } colSpan={ 4 }>欢迎新成员</td>

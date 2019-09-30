@@ -39,7 +39,7 @@ export const ModianTemplate = (props) => (
 );
 
 export const AtAllMembers = (props) => (
-  <span className={ style.red }>@所有成员的功能只有qq号为管理员时才好使，否则会出现无法发送信息的情况。</span>
+  <span className={ classNames(style.ml10, style.red) }>@所有成员的功能只有qq号为管理员时才好使，否则会出现无法发送信息的情况。</span>
 );
 
 export const IsChoukaSendImage = (props) => (

@@ -40,6 +40,8 @@ class CoolQ {
     this.kouDai48Token = null;     // token
     // 微博监听相关
     this.weiboWorker = null; // 微博监听新线程
+    // 绿洲
+    this.lvzhouWorker = null; // 绿洲监听新线程
     // 群内定时消息推送
     this.timingMessagePushTimer = null; // 群内定时消息推送定时器
 
@@ -481,6 +483,35 @@ class CoolQ {
 
           // 发送图片
           if (this.option && this.option.basic.isWeiboSendImage && this.coolqEdition === 'pro' && item.pics.length > 0) {
+            txt += `[CQ:image,file=${ item.pics[0] }]`;
+          }
+
+          await this.sendMessage(txt);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  }
+
+  // web worker监听到微博的返回信息
+  async listenLvzhouWorkerCbInformation(event) {
+    const { isLvzhouAtAll } = this?.option?.basic || {};
+
+    if (event.data.type === 'change') {
+      try {
+        const { data } = event.data;
+
+        // 倒序发送消息
+        for (let i = data.length - 1; i >= 0; i--) {
+          const item = data[i];
+          let txt = item.data;
+
+          // @所有人的功能
+          if (isLvzhouAtAll) txt = `[CQ:at,qq=all] ${ txt }`;
+
+          // 发送图片
+          if (this.option && this.option.basic.isLvzhouSendImage && this.coolqEdition === 'pro' && item.pics.length > 0) {
             txt += `[CQ:image,file=${ item.pics[0] }]`;
           }
 
