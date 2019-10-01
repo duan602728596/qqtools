@@ -226,11 +226,13 @@ class Add extends Component {
     return [
       <Form key="form" className={ style.form } onSubmit={ this.handleSubmit.bind(this) }>
         <Affix className={ style.affix }>
-          <Button className={ style.saveBtn } type="primary" htmlType="submit" size="default" icon="hdd">保存</Button>
-          <br />
-          <Link to="/Option">
-            <Button type="danger" size="default" icon="poweroff">返回</Button>
-          </Link>
+          <div>
+            <Button className={ style.saveBtn } type="primary" htmlType="submit" size="default" icon="hdd">保存</Button>
+            <br />
+            <Link to="/Option">
+              <Button id="a11111" type="danger" size="default" icon="poweroff">返回</Button>
+            </Link>
+          </div>
         </Affix>
         {/* 基础配置 */}
         <BasicConfiguration detail={ detail } { ...props } />
