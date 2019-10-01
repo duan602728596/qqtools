@@ -52,7 +52,7 @@ function formatText(newLvzhou) {
 
   for (let i = 0, j = newLvzhou.length; i < j; i++) {
     const item = newLvzhou[i];
-    let data = `${ item.user.name } 在${ moment(item.create_time).format('YYYY-MM-DD HH:mm:ss') }发送了一条动态。`;
+    let data = `${ item.user.name } 在${ moment(item.create_time).format('YYYY-MM-DD HH:mm:ss') }在绿洲发送了一条动态。`;
 
     if (item.title && item.title !== '') {
       data += `\n标题：${ item.title }`;
