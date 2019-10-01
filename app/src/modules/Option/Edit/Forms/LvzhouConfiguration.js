@@ -38,14 +38,14 @@ class LvzhouConfiguration extends Component {
           }
           <ShuoMing.AtAllMembers />
         </Form.Item>
-        <Form.Item label="Params" { ...colsArea2 }>
+        <Form.Item label="Params参数" { ...colsArea2 }>
           {
             getFieldDecorator('lvZhouParams', {
               initialValue: detail ? detail.basic.lvZhouParams : ''
             })(<Input.TextArea placeholder="json格式" rows={ 10 } />)
           }
         </Form.Item>
-        <Form.Item label="Headers" { ...colsArea2 }>
+        <Form.Item label="Headers参数" { ...colsArea2 }>
           {
             getFieldDecorator('lvZhouHeaders', {
               initialValue: detail ? detail.basic.lvZhouHeaders : ''
