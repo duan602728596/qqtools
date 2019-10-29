@@ -299,7 +299,7 @@ class CoolQ {
 
             // 把卡存入数据库
             if (kaResult.length === 0) {
-              await storagecard.insert(db, item.userid, item.nickname, record, (kaResult[0].points || 0) + cardsPoints);
+              await storagecard.insert(db, item.userid, item.nickname, record, cardsPoints);
             } else {
               await storagecard.update(db, item.userid, item.nickname, record, (kaResult[0].points || 0) + cardsPoints);
             }

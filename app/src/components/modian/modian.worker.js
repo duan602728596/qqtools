@@ -134,7 +134,7 @@ async function pollingNoIdol() {
     // 获取新信息
     const inf = await getData('POST', inforUrlNoIdol + '?t=' + new Date().getTime(), queryInfor);
     const jizi = [];
-    let page = 1;
+    let page = 0;
     let hasData = true;
     let ot = null;  // 最新集资时间
     let oid = null; // 最新集资id
@@ -152,20 +152,22 @@ async function pollingNoIdol() {
           const item = newData[i];
           const pay_time = new Date(item.ctime).getTime();
           const pay_amount = Number(item.pay_amount) / 100;
-          const id = String(res.data[0].user_id.id);
+          const id = Number(item.id);
 
-          if (((pay_time > oldTime) || (pay_time === oldTime && id !== oldId)) && pay_amount > 0) {
-            jizi.push({
-              userid: item.user_id,
-              pay_amount,
-              nickname: item.user_info.username
-            });
+          if (pay_amount > 0) {
+            if (pay_time > oldTime || id > oldId) {
+              jizi.push({
+                userid: item.user_id,
+                pay_amount,
+                nickname: item.user_info.username
+              });
 
-            if (!ot) ot = pay_time;
-            if (!oid) oid = id;
-          } else {
-            hasData = false;
-            break;
+              if (!ot) ot = pay_time;
+              if (!oid) oid = id;
+            } else {
+              hasData = false;
+              break;
+            }
           }
         }
 
@@ -209,7 +211,7 @@ addEventListener('message', async function(event) {
 
       // 初始化
       queryData = moxiId
-        ? `json_type=1&pro_id=${ modianId }&moxi_post_id=${ moxiId }`
+        ? `json_type=1&page_rows=10&pro_id=${ modianId }&moxi_post_id=${ moxiId }`
         : sign(`page=1&pro_id=${ modianId }&sort_by=1`);
       queryInfor = moxiId
         ? `pro_id=${ modianId }`
@@ -225,8 +227,8 @@ addEventListener('message', async function(event) {
         : new Date(res.data[0].pay_success_time || res.data[0].ctime).getTime();
 
       oldId = nullData
-        ? null
-        : String(res.data[0].user_id.id);
+        ? -1
+        : Number(res.data[0].id);
 
       // 开启轮询
       timer = setInterval(moxiId ? pollingNoIdol : polling, 13000);
