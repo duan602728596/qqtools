@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import asyncModule from './asyncModule';
 /* 加载模块 */
-import Index from '../modules/Index/Layout';
+import Index from '../pages/Index/Layout';
 
-const LoginBundle = asyncModule(() => import('../modules/Login/Layout'));
-const OptionBundle = asyncModule(() => import('../modules/Option/Layout'));
-const KouDai48Bundle = asyncModule(() => import('../modules/KouDai48/Layout'));
-const HelpBundle = asyncModule(() => import('../modules/Help/Layout'));
+const LoginBundle = asyncModule(() => import('../pages/Login/Layout'));
+const OptionBundle = asyncModule(() => import('../pages/Option/Layout'));
+const KouDai48Bundle = asyncModule(() => import('../pages/KouDai48/Layout'));
+const HelpBundle = asyncModule(() => import('../pages/Help/Layout'));
 
 /* 路由模块 */
 class Routers extends Component {
