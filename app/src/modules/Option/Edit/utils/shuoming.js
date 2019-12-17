@@ -79,7 +79,7 @@ export const TimingMessagePushFormat = (props) => (
   <div className={ style.shuoming }>
     <p>
       规则格式：
-      <img className={ style.nodeScheduleFormat } src={ require('./node-schedule-format.webp') } />
+      <img className={ style.nodeScheduleFormat } src={ require('./node-schedule-format.webp').default } />
     </p>
     <p>如果不配置该位置，则用“*”占位；</p>
     <p>
