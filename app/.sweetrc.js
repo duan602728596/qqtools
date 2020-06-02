@@ -25,7 +25,8 @@ module.exports = {
     index: [path.join(__dirname, 'src/index.js')]
   },
   externals: {
-    jquery: 'window.jQuery'
+    jquery: 'window.jQuery',
+    SDK: 'window.SDK'
   },
   resolve: {
     alias: {
@@ -34,7 +35,7 @@ module.exports = {
   },
   rules: [
     {
-      test: /(appInit\.js|jquery)/,
+      test: /(appInit\.js|jquery|NIM_Web_SDK)/,
       use: [{
         loader: 'file-loader',
         options: {

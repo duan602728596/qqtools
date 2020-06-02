@@ -120,16 +120,17 @@ class KouDai48 extends Component {
           const { content } = data;
           const token = content.token || content.userInfo.token;
           const [friends, roomPage] = await Promise.all([
-            getFriendsId(token), // 获取好友id列表
-            requestRoomPage(token) // 获取房间留言列表
+            getFriendsId(token)       // 获取好友id列表
+            // requestRoomPage(token) // 获取房间留言列表
           ]);
           const value2 = {
             key: 'loginInformation',
             value: {
-              friends: friends.content.data, // 关注列表
-              token, // token
-              userInfo: content.userInfo, // 本人信息
-              roomPage: roomPage.content.conversations
+              friends: friends.content.data,  // 关注列表
+              token,                          // token
+              userInfo: content.userInfo,     // 本人信息
+              userId: content.userInfo.userId // 账户ID
+              // roomPage: roomPage.content.conversations
             }
           };
 

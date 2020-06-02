@@ -1,5 +1,6 @@
 import { message } from 'antd';
 import chunk from 'lodash-es/chunk';
+import NIM_SDK from 'SDK';
 import { requestRoomMessage, requestFlipAnswer } from '../kd48listerer/roomListener';
 import { time } from '../../utils';
 import { chouka } from '../chouka/chouka';
@@ -7,6 +8,10 @@ import * as storagecard from '../chouka/storagecard';
 import bestCards from '../chouka/bestCards';
 import getLevelPoint from '../chouka/getLevelPoint';
 const nunjucks = global.require('nunjucks');
+
+const { Chatroom } = NIM_SDK;
+
+console.log(Chatroom);
 
 class CoolQ {
   constructor(qq, port, callback) {
@@ -38,6 +43,8 @@ class CoolQ {
     this.roomListenerTimer = null; // 轮询定时器
     this.roomLastTime = null;      // 最后一次发言
     this.kouDai48Token = null;     // token
+    this.kouDai48User = null;      // 用户id
+    this.nimChatroomSocket = null; // 口袋48sdk监听
     // 微博监听相关
     this.weiboWorker = null; // 微博监听新线程
     // 绿洲

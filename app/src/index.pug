@@ -9,6 +9,7 @@ html
     div.app#app
     script(type='text/javascript' src=require('./appInit').default)
     script(type='text/javascript' src=require('jquery/dist/jquery.min').default)
+    script(type='text/javascript' src=require('./components/coolQ/NIM_Web_SDK_v7.7.0').default)
 
     if htmlWebpackPlugin.options.mode === 'development'
       script(type='text/javascript' src=imports.dll)
