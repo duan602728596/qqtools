@@ -11,7 +11,7 @@ const nunjucks = global.require('nunjucks');
 
 const { Chatroom } = NIM_SDK;
 
-console.log(Chatroom);
+export const APP_KEY = '632feff1f4c838541ab75195d1ceb3fa';
 
 class CoolQ {
   constructor(qq, port, callback) {
