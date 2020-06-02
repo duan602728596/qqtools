@@ -1,38 +1,27 @@
-/**
- * 异步注入reducer的修饰器
- */
-import React from 'react';
-import { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { useMemo } from 'react';
 
 /**
- * @param { Object } reducer
+ * 异步注入reducer的修饰器
+ * @param { object } models
  */
-function loadReducer(reducer) {
+function loadModels(models) {
+  let injectModels = true; // models是否需要注入
+
   /**
    * @param { Function } Module: 需要修饰的模块
    */
   return function(Module) {
-    return class extends Component {
-      static propTypes = {
-        injectReducers: PropTypes.func
-      };
-
-      constructor() {
-        super(...arguments);
-
-        // 异步注入reducer
-        const injectReducers = this?.props?.injectReducers || null;
-
-        if (injectReducers) {
-          injectReducers(reducer);
+    return function(props) {
+      useMemo(function() {
+        if (injectModels) {
+          props.injectReducers?.(models);
+          injectModels = false;
         }
-      }
-      render() {
-        return <Module />;
-      }
+      }, []);
+
+      return <Module />;
     };
   };
 }
 
-export default loadReducer;
+export default loadModels;
