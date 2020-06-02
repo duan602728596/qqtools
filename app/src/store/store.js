@@ -19,11 +19,7 @@ const store = {};
 export function storeFactory(initialState = {}) {
   // 避免热替换导致redux的状态丢失
   if (Object.keys(store).length === 0) {
-    const $$initialState = {};
-
-    for (const key in initialState) {
-      $$initialState[key] = fromJS(initialState[key]);
-    }
+    const $$initialState = fromJS(initialState);
 
     /* store */
     Object.assign(store, createStore(reducer, $$initialState, compose(middleware)));
