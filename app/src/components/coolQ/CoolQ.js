@@ -343,13 +343,15 @@ class CoolQ {
   };
 
   // 房间信息监听
-  handleRoomSocketMessage = async (event) => {
+  roomSocketMessage = async (event) => {
     const data = event[0];                   // 房间信息数组
     const extInfo = JSON.parse(data.custom); // 房间自定义信息
     const msgTime = time('YY-MM-DD hh:mm:ss', data.userUpdateTime); // 发送信息
     const { nickName } = extInfo.user; // 用户名
-    const { messageType } = extInfo;   // 信息类型
+    const { messageType, sessionRole } = extInfo; // 信息类型和sessionRole
     const sendStr = [];                // 发送数据
+
+    if (sessionRole === 0) return; // 过滤非房间信息
 
     try {
       switch (messageType) {
@@ -449,6 +451,10 @@ class CoolQ {
         await this.sendMessage(sendStr[i]);
       }
     }
+  };
+
+  handleRoomSocketMessage = (event) => {
+    this.roomSocketMessage(event);
   };
 
   // web worker监听到微博的返回信息
