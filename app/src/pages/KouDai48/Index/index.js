@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
-import { Affix, Table, Button, Card, message, Form, Row, Col, Input, Popconfirm, Modal } from 'antd';
+import { Affix, Button, Card, message, Form, Row, Col, Input, Popconfirm } from 'antd';
 import classNames from 'classnames';
 import publicStyle from '../../../components/publicStyle/public.sass';
 import style from './style.sass';
@@ -14,8 +14,7 @@ import {
   clearMemberInformation
 } from '../reducer/reducer';
 import LoginInformation from './LoginInformation';
-import MemberInformation from './MemberInformation';
-import { login, getFriendsId, requestRoomPage } from '../../../components/kd48listerer/roomListener';
+import { login, getFriendsId } from '../../../components/kd48listerer/roomListener';
 
 // 格式化数组
 export function format(rawArray, from, to) {
@@ -82,26 +81,6 @@ class KouDai48 extends Component {
     });
   }
 
-  // 表格配置
-  columns() {
-    const roomPage = this.props?.loginInformation?.value?.roomPage || [];
-
-    return [
-      {
-        title: 'memberId',
-        dataIndex: 'memberId',
-        key: 'memberId',
-        width: '20%'
-      },
-      {
-        title: 'information',
-        key: 'information',
-        width: '80%',
-        render: (value, item, index) => <MemberInformation item={ item } roomPage={ roomPage } />
-      }
-    ];
-  }
-
   // 登录
   handleSubmit(event) {
     event.preventDefault();
@@ -147,67 +126,6 @@ class KouDai48 extends Component {
     });
   }
 
-  // 搜索
-  handleInputChange(event) {
-    this.setState({
-      searchString: event.target.value
-    });
-  }
-
-  // 根据姓名匹配搜索房间
-  findRoomIdByMemberId(nickname) {
-    const roomPage = this.props?.loginInformation?.value?.roomPage || [];
-    const ownerItem = [];
-
-    for (const item of roomPage) {
-      if (item.ownerName.includes(nickname)) {
-        ownerItem.push(item);
-      }
-    }
-
-    return ownerItem;
-  }
-
-  // 搜索事件
-  handleSearchInformationClick(event) {
-    const { searchString } = this.state;
-    const ownerItem = this.findRoomIdByMemberId(searchString);
-
-    if (ownerItem && ownerItem.length > 0) {
-      Modal.info({
-        title: '搜索结果',
-        centered: true,
-        content: (
-          <div className={ style.infoBox }>
-            <table className={ style.infoTable }>
-              <thead>
-                <tr>
-                  <th>小偶像名字</th>
-                  <th>小偶像ID</th>
-                  <th>房间ID</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  ownerItem.map((item, index) => {
-                    return (
-                      <tr key={ item.ownerId }>
-                        <td>{ item.ownerName }</td>
-                        <td>{ item.ownerId }</td>
-                        <td>{ item.targetId }</td>
-                      </tr>
-                    );
-                  })
-                }
-              </tbody>
-            </table>
-          </div>
-        )
-      });
-    } else {
-      message.info('没有数据');
-    }
-  }
 
   // 退出并清除缓存
   async handleExitAndClearClick(event) {
@@ -227,18 +145,6 @@ class KouDai48 extends Component {
     const loginInformation = this.props.loginInformation;
 
     // 渲染搜索结果
-    const resultEle = [];
-
-    this.state.searchResult.map((item, index) => {
-      resultEle.push(
-        <div key={ item.memberId } className={ style.searchGroup }>
-          <p className={ style.searchText }>memberId:&nbsp;{ item.memberId }</p>
-          <p className={ style.searchText }>memberName:&nbsp;{ item.memberName }</p>
-          <p className={ style.searchText }>roomId:&nbsp;{ item.roomId }</p>
-        </div>
-      );
-    });
-
     return (
       <Fragment>
         <Affix className={ publicStyle.affix }>
@@ -290,39 +196,6 @@ class KouDai48 extends Component {
                 </Form>
               </Card>
               <LoginInformation loginInformation={ loginInformation ? loginInformation.value : null } />
-            </Col>
-            <Col span={ 12 }>
-              <Card className={ style.mb10 } title="ID搜索">
-                <div>
-                  <label htmlFor="koudai48-search">在数据库中搜索小偶像的相关信息，请输入小偶像的名字：</label>
-                  <Input className={ style.searchId }
-                    id="koudai48-search"
-                    value={ this.state.searchString }
-                    onChange={ this.handleInputChange.bind(this) }
-                    onPressEnter={ this.handleSearchInformationClick.bind(this) }
-                  />
-                  <Button className={ publicStyle.ml10 }
-                    type="primary"
-                    onClick={ this.handleSearchInformationClick.bind(this) }
-                  >
-                    搜索
-                  </Button>
-                  { resultEle }
-                </div>
-              </Card>
-              <Table columns={ this.columns() }
-                size="middle"
-                rowKey={ (item) => item.memberId }
-                bordered={ true }
-                dataSource={ loginInformation
-                  ? format(loginInformation.value.friends, 0, loginInformation.value.friends.length - 1)
-                  : []
-                }
-                pagination={{
-                  defaultPageSize: 10,
-                  showQuickJumper: true
-                }}
-              />
             </Col>
           </Row>
         </div>
