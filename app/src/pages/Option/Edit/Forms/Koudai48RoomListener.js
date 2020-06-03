@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Checkbox, Form, Input, InputNumber } from 'antd';
+import { Card, Checkbox, Form, Input } from 'antd';
 import style from '../style.sass';
 import * as ShuoMing from '../utils/shuoming';
 
@@ -56,29 +56,6 @@ class Koudai48RoomListener extends Component {
             })(<Checkbox />)
           }
           <ShuoMing.IsRoomSendImage />
-        </Form.Item>
-        <Form.Item label="监听间隔（秒）" { ...colsArea2 }>
-          {
-            getFieldDecorator('liveListeningInterval', {
-              initialValue: detail ? detail.basic.liveListeningInterval : 15,
-              rules: [
-                {
-                  message: '必须输入监听间隔',
-                  required: true
-                },
-                {
-                  validator: (rule, value, callback) => {
-                    if (value < 15) {
-                      callback(rule.message);
-                    } else {
-                      callback();
-                    }
-                  },
-                  message: '监听间隔必须大于15秒'
-                }
-              ]
-            })(<InputNumber />)
-          }
         </Form.Item>
       </Card>
     );

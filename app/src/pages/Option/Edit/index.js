@@ -257,8 +257,9 @@ class Add extends Component {
           <Form.Item label="群内帮助命令" { ...colsArea1 }>
             {
               getFieldDecorator('isHelpCommend', {
-                initialValue: isHelpCommend
-              })(<Checkbox defaultChecked={ isHelpCommend } />)
+                initialValue: isHelpCommend ?? true,
+                valuePropName: 'checked'
+              })(<Checkbox />)
             }
             <ShuoMing.IsHelpCommend />
           </Form.Item>
