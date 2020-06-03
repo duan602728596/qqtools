@@ -444,7 +444,7 @@ class CoolQ {
       }
     } catch (err) {
       sendStr.push('信息发送错误：\n'
-                 + `数据：${ data.custom }\n`
+                 + `数据：${ JSON.stringify(event) }\n`
                  + `时间：${ msgTime }`);
 
       // 发送错误的数据信息
