@@ -346,14 +346,15 @@ class CoolQ {
   roomSocketMessage = async (event) => {
     const data = event[0];                   // 房间信息数组
     const extInfo = JSON.parse(data.custom); // 房间自定义信息
-    const msgTime = time('YY-MM-DD hh:mm:ss', data.userUpdateTime); // 发送信息
-    const { nickName } = extInfo.user; // 用户名
     const { messageType, sessionRole } = extInfo; // 信息类型和sessionRole
-    const sendStr = [];                // 发送数据
+    const msgTime = time('YY-MM-DD hh:mm:ss', data.userUpdateTime); // 发送信息
+    const sendStr = [];                      // 发送数据
 
     if (sessionRole === 0) return; // 过滤非房间信息
 
     try {
+      const nickName = extInfo?.user?.nickName ?? ''; // 用户名
+
       switch (messageType) {
         // 普通信息
         case 'TEXT':
