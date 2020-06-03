@@ -1,6 +1,6 @@
 {
   "name": "qqtools2",
-  "version": "3.3.0",
+  "version": "3.4.0-beta.0",
   "description": "QQ群工具，配合酷Q使用。",
   "license": "GNU General Public License v3.0",
   "scripts": {
@@ -18,7 +18,7 @@
   "main": "./dist/index.html",
   "nodejs": true,
   "window": {
-    "title": "QQ群工具-酷Q（v3.3.0）",
+    "title": "QQ群工具-酷Q（v3.4.0-beta.0）",
     "position": "center",
     "toolbar": true,
     "frame": true,
