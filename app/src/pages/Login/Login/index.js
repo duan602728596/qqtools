@@ -7,9 +7,10 @@ import { Link, withRouter } from 'react-router-dom';
 import { createSelector, createStructuredSelector } from 'reselect';
 import { Button, Select, message } from 'antd';
 import moment from 'moment';
+import NIM_SDK from 'SDK';
 import style from './style.sass';
 import publicStyle from '../../../components/publicStyle/public.sass';
-import CoolQ from '../../../components/coolQ/CoolQ';
+import CoolQ, { APP_KEY } from '../../../components/coolQ/CoolQ';
 import { changeQQLoginList, cursorOption, kd48LiveListenerTimer, getLoginInformation } from '../reducer/reducer';
 import callback from '../../../components/callback/callback';
 import Detail from './Detail';
@@ -23,6 +24,8 @@ import { requestRoomMessage } from '../../../components/kd48listerer/roomListene
 
 const querystring = global.require('querystring');
 const schedule = global.require('node-schedule');
+
+const { Chatroom } = NIM_SDK;
 
 /* 初始化数据 */
 const getState = ($$state) => $$state.has('login') ? $$state.get('login') : null;
@@ -169,21 +172,17 @@ class Login extends Component {
         });
 
         if (res.result !== undefined) {
-          this.qq.kouDai48Token = res.result.value.token;
-          const req = await requestRoomMessage(basic.roomId, this.qq.kouDai48Token);
-
-          console.log('request: room listen', req);
-
-          if (req.status === 200) {
-            this.qq.roomLastTime = req.content.message[0].msgTime;
-            this.qq.roomListenerTimer = global.setTimeout(
-              this.qq.listenRoomMessage.bind(this.qq),
-              basic.liveListeningInterval ? (basic.liveListeningInterval * 1000) : 15000
-            );
-            message.success('口袋48房间监听已就绪。');
-          } else {
-            message.warn(`口袋48房间监：${ req.message }。`);
-          }
+          this.qq.kouDai48UserId = `${ res.result.value.userId }`; // 获取用户的ID
+          this.qq.nimChatroomSocket = Chatroom.getInstance({
+            appKey: APP_KEY,
+            account: this.qq.kouDai48UserId,
+            token: this.qq.kouDai48UserId,
+            chatroomId: basic.roomId,
+            chatroomAddresses: ['chatweblink01.netease.im:443'],
+            onconnect: this.qq.handleRoomSocketConnect,
+            onmsgs: this.qq.handleRoomSocketMessage,
+            onerror: this.qq.handleRoomSocketError
+          });
         }
       }
 
