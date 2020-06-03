@@ -1,6 +1,5 @@
 import { message } from 'antd';
 import chunk from 'lodash-es/chunk';
-import NIM_SDK from 'SDK';
 import { requestRoomMessage, requestFlipAnswer } from '../kd48listerer/roomListener';
 import { time } from '../../utils';
 import { chouka } from '../chouka/chouka';
@@ -8,8 +7,6 @@ import * as storagecard from '../chouka/storagecard';
 import bestCards from '../chouka/bestCards';
 import getLevelPoint from '../chouka/getLevelPoint';
 const nunjucks = global.require('nunjucks');
-
-const { Chatroom } = NIM_SDK;
 
 export const APP_KEY = '***REMOVED***';
 
@@ -41,9 +38,7 @@ class CoolQ {
     this.memberId = null; // 坚听成员id
     // 房间信息监听相关
     this.roomListenerTimer = null; // 轮询定时器
-    this.roomLastTime = null;      // 最后一次发言
-    this.kouDai48Token = null;     // token
-    this.kouDai48User = null;      // 用户id
+    this.kouDai48UserId = null;    // 用户id
     this.nimChatroomSocket = null; // 口袋48sdk监听
     // 微博监听相关
     this.weiboWorker = null; // 微博监听新线程
@@ -178,8 +173,9 @@ class CoolQ {
     }
 
     // 关闭房间信息监听
-    if (this.roomListenerTimer !== null) {
-      global.clearTimeout(this.roomListenerTimer);
+    if (this.nimChatroomSocket !== null) {
+      this.nimChatroomSocket.disconnect();
+      this.nimChatroomSocket = null;
     }
 
     // 删除微博的web worker
@@ -334,153 +330,126 @@ class CoolQ {
     }
   }
 
-  // 监听信息
-  async listenRoomMessage() {
-    const basic = this?.option?.basic || {};
-    const times = basic.liveListeningInterval ? (basic.liveListeningInterval * 1000) : 15000;
-    let isSuccess = true;
+  // 进入房间成功
+  handleRoomSocketConnect = (event) => {
+    console.log('进入聊天室', event);
+    message.success('口袋48房间监听已就绪。');
+  };
+
+  // 进入房间失败
+  handleRoomSocketError = (error, event) => {
+    console.log('发生错误', error, event);
+    message.error('口袋48房间监听错误。');
+  };
+
+  // 房间信息监听
+  handleRoomSocketMessage = async (event) => {
+    const data = event[0];                   // 房间信息数组
+    const extInfo = JSON.parse(data.custom); // 房间自定义信息
+    const msgTime = time('YY-MM-DD hh:mm:ss', data.userUpdateTime); // 发送信息
+    const { nickName } = extInfo.user; // 用户名
+    const { messageType } = extInfo;   // 信息类型
+    const sendStr = [];                // 发送数据
 
     try {
-      const data2 = await requestRoomMessage(basic.roomId, this.kouDai48Token);
-
-      console.log('request: data2', data2);
-
-      if (!(data2.status === 200 && 'content' in data2)) {
-        this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
-
-        return;
-      }
-
-      const newTime = data2.content.message[0].msgTime;
-
-      // 新时间大于旧时间，获取25条数据
-      if (!(newTime > this.roomLastTime)) {
-        this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
-
-        return;
-      }
-
-      const data3 = await requestRoomMessage(basic.roomId, this.kouDai48Token); // 重新获取数据
-
-      console.log('request: data3', data3);
-
-      if (!(data3.status === 200 && 'content' in data3)) {
-        this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), times);
-
-        return;
-      }
-
-      // 格式化发送消息
-      const sendStr = [];
-      const data = data3.content.message;
-
-      for (let i = 0, j = data.length; i < j; i++) {
-        const item = data[i];
-
-        if (item.msgTime > this.roomLastTime) {
-          const extInfo = JSON.parse(item.extInfo);
-          const msgTime = time('YY-MM-DD hh:mm:ss', item.msgTime);
-          const { nickName } = extInfo.user;
-          const { messageType } = extInfo;
-
-          switch (messageType) {
-            // 普通信息
-            case 'TEXT':
-              sendStr.push(`${ extInfo.user.nickName }：${ extInfo.text }\n`
-                         + `时间：${ msgTime }`);
-              break;
-
-            // 回复信息
-            case 'REPLY':
-              sendStr.push(`${ extInfo.replyName }：${ extInfo.replyText }\n`
-                         + `${ nickName }：${ extInfo.text }\n`
-                         + `时间：${ msgTime }`);
-              break;
-
-            // 发送图片
-            case 'IMAGE':
-              const imgUrl = JSON.parse(item.bodys).url;
-              let txt = `${ nickName }：`;
-
-              // 判断是否是air还是pro，来发送图片或图片地址
-              if (this.option && this.option.basic.isRoomSendImage && this.coolqEdition === 'pro') {
-                txt += `\n[CQ:image,file=${ imgUrl }]\n`;
-              } else {
-                txt += `${ imgUrl }\n`;
-              }
-
-              sendStr.push(`${ txt }时间：${ msgTime }`);
-              break;
-
-            // 发送语音
-            case 'AUDIO':
-              const audioUrl = JSON.parse(item.bodys).url;
-
-              sendStr.push(`${ nickName } 发送了一条语音：${ audioUrl }\n`
-                         + `时间：${ msgTime }`);
-              // 判断是否是air还是pro，来发送语音，语音只能单独发送
-              if (this.option && this.option.basic.isRoomSendRecord && this.coolqEdition === 'pro') {
-                sendStr.push(`[CQ:record,file=${ audioUrl },magic=false]`);
-              }
-              break;
-
-            // 发送短视频
-            case 'VIDEO':
-              const videoUrl = JSON.parse(item.bodys).url;
-
-              sendStr.push(`${ nickName } 发送了一个视频：${ videoUrl }\n`
-                         + `时间：${ msgTime }`);
-              break;
-
-            // 直播
-            case 'LIVEPUSH':
-              sendStr.push(`${ nickName } 正在直播\n`
-                         + `直播标题：${ extInfo.liveTitle }\n`
-                         + `时间：${ msgTime }`);
-              break;
-
-            // 鸡腿翻牌
-            case 'FLIPCARD':
-              const fanpaiInfo = await requestFlipAnswer(this.kouDai48Token, extInfo.questionId, extInfo.answerId);
-              const msg = `${ nickName } 翻牌了 ${ fanpaiInfo.content.userName }的问题：\n`
-                        + `${ extInfo.question || fanpaiInfo.content.question }\n`
-                        + `回答：${ extInfo.answer || fanpaiInfo.content.answer }\n`
-                        + `时间：${ msgTime }`;
-
-              sendStr.push(msg);
-              break;
-
-            // 发表情
-            case 'EXPRESS':
-              sendStr.push(`${ nickName }：发送了一个表情。\n`
-                         + `时间：${ msgTime }`);
-              break;
-
-            // debug
-            default:
-              sendStr.push(`${ nickName }：未知信息类型，请联系开发者。\n`
-                         + `时间：${ msgTime }`);
-              break;
-          }
-        } else {
+      switch (messageType) {
+        // 普通信息
+        case 'TEXT':
+          sendStr.push(`${ nickName }：${ extInfo.text }\n`
+                     + `时间：${ msgTime }`);
           break;
-        }
+
+        // 回复信息
+        case 'REPLY':
+          sendStr.push(`${ extInfo.replyName }：${ extInfo.replyText }\n`
+                     + `${ nickName }：${ extInfo.text }\n`
+                     + `时间：${ msgTime }`);
+          break;
+
+        // 发送图片
+        case 'IMAGE':
+          const imgUrl = JSON.parse(item.bodys).url;
+          let txt = `${ nickName }：`;
+
+          // 判断是否是air还是pro，来发送图片或图片地址
+          if (this.option && this.option.basic.isRoomSendImage && this.coolqEdition === 'pro') {
+            txt += `\n[CQ:image,file=${ imgUrl }]\n`;
+          } else {
+            txt += `${ imgUrl }\n`;
+          }
+
+          sendStr.push(`${ txt }时间：${ msgTime }`);
+          break;
+
+        // 发送语音
+        case 'AUDIO':
+          const audioUrl = JSON.parse(item.bodys).url;
+
+          sendStr.push(`${ nickName } 发送了一条语音：${ audioUrl }\n`
+                     + `时间：${ msgTime }`);
+
+          // 判断是否是air还是pro，来发送语音，语音只能单独发送
+          if (this.option && this.option.basic.isRoomSendRecord && this.coolqEdition === 'pro') {
+            sendStr.push(`[CQ:record,file=${ audioUrl },magic=false]`);
+          }
+
+          break;
+
+        // 发送短视频
+        case 'VIDEO':
+          const videoUrl = JSON.parse(item.bodys).url;
+
+          sendStr.push(`${ nickName } 发送了一个视频：${ videoUrl }\n`
+                     + `时间：${ msgTime }`);
+          break;
+
+        // 直播
+        case 'LIVEPUSH':
+          sendStr.push(`${ nickName } 正在直播\n`
+                     + `直播标题：${ extInfo.liveTitle }\n`
+                     + `时间：${ msgTime }`);
+          break;
+
+        // 鸡腿翻牌
+        case 'FLIPCARD':
+          const fanpaiInfo = await requestFlipAnswer(this.kouDai48Token, extInfo.questionId, extInfo.answerId);
+          const msg = `${ nickName } 翻牌了 ${ fanpaiInfo.content.userName }的问题：\n`
+                    + `${ extInfo.question ?? fanpaiInfo.content.question }\n`
+                    + `回答：${ extInfo.answer ?? fanpaiInfo.content.answer }\n`
+                    + `时间：${ msgTime }`;
+
+          sendStr.push(msg);
+          break;
+
+        // 发表情
+        case 'EXPRESS':
+          sendStr.push(`${ nickName }：发送了一个表情。\n`
+                     + `时间：${ msgTime }`);
+          break;
+
+        // debug
+        default:
+          sendStr.push(`${ nickName }：未知信息类型，请联系开发者。\n`
+                     + `数据：${ data.custom }\n`
+                     + `时间：${ msgTime }`);
+          break;
       }
 
-      // 更新时间节点
-      this.roomLastTime = data[0].msgTime;
-
-      // 倒序数组发送消息
+      // 发送数据
       for (let i = sendStr.length - 1; i >= 0; i--) {
         await this.sendMessage(sendStr[i]);
       }
     } catch (err) {
-      isSuccess = false;
-      console.error(err);
-    }
+      sendStr.push('信息发送错误：\n'
+                 + `数据：${ data.custom }\n`
+                 + `时间：${ msgTime }`);
 
-    this.roomListenerTimer = global.setTimeout(this.listenRoomMessage.bind(this), isSuccess ? times : 15000);
-  }
+      // 发送错误的数据信息
+      for (let i = sendStr.length - 1; i >= 0; i--) {
+        await this.sendMessage(sendStr[i]);
+      }
+    }
+  };
 
   // web worker监听到微博的返回信息
   async listenWeiboWorkerCbInformation(event) {
