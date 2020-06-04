@@ -371,7 +371,7 @@ class CoolQ {
 
         // 发送图片
         case 'IMAGE':
-          const imgUrl = JSON.parse(item.bodys).url;
+          const imgUrl = data.file.url;
           let txt = `${ nickName }：`;
 
           // 判断是否是air还是pro，来发送图片或图片地址
@@ -386,7 +386,7 @@ class CoolQ {
 
         // 发送语音
         case 'AUDIO':
-          const audioUrl = JSON.parse(item.bodys).url;
+          const audioUrl = data.file.url;
 
           sendStr.push(`${ nickName } 发送了一条语音：${ audioUrl }\n`
                      + `时间：${ msgTime }`);
@@ -400,7 +400,7 @@ class CoolQ {
 
         // 发送短视频
         case 'VIDEO':
-          const videoUrl = JSON.parse(item.bodys).url;
+          const videoUrl = data.file.url;
 
           sendStr.push(`${ nickName } 发送了一个视频：${ videoUrl }\n`
                      + `时间：${ msgTime }`);
@@ -430,10 +430,14 @@ class CoolQ {
                      + `时间：${ msgTime }`);
           break;
 
+        // 删除回复
+        case 'DELETE':
+          break;
+
         // debug
         default:
           sendStr.push(`${ nickName }：未知信息类型，请联系开发者。\n`
-                     + `数据：${ data.custom }\n`
+                     + `数据：${ JSON.stringify(event) }\n`
                      + `时间：${ msgTime }`);
           break;
       }
