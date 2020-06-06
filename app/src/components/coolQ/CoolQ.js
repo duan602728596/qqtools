@@ -350,7 +350,7 @@ class CoolQ {
     const msgTime = time('YY-MM-DD hh:mm:ss', data.userUpdateTime); // 发送信息
     const sendStr = [];                      // 发送数据
 
-    if (sessionRole === 0) return; // 过滤非房间信息
+    if (Number(sessionRole) === 0) return; // 过滤非房间信息
 
     try {
       const nickName = extInfo?.user?.nickName ?? ''; // 用户名
