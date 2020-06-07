@@ -357,14 +357,14 @@ class CoolQ {
         // 普通信息
         case 'TEXT':
           sendStr.push(`${ nickName }：${ extInfo.text }\n`
-                     + `时间：${ msgTime }`);
+            + `时间：${ msgTime }`);
           break;
 
         // 回复信息
         case 'REPLY':
           sendStr.push(`${ extInfo.replyName }：${ extInfo.replyText }\n`
-                     + `${ nickName }：${ extInfo.text }\n`
-                     + `时间：${ msgTime }`);
+            + `${ nickName }：${ extInfo.text }\n`
+            + `时间：${ msgTime }`);
           break;
 
         // 发送图片
@@ -387,7 +387,7 @@ class CoolQ {
           const audioUrl = data.file.url;
 
           sendStr.push(`${ nickName } 发送了一条语音：${ audioUrl }\n`
-                     + `时间：${ msgTime }`);
+            + `时间：${ msgTime }`);
 
           // 判断是否是air还是pro，来发送语音，语音只能单独发送
           if (this.option && this.option.basic.isRoomSendRecord && this.coolqEdition === 'pro') {
@@ -401,23 +401,23 @@ class CoolQ {
           const videoUrl = data.file.url;
 
           sendStr.push(`${ nickName } 发送了一个视频：${ videoUrl }\n`
-                     + `时间：${ msgTime }`);
+            + `时间：${ msgTime }`);
           break;
 
         // 直播
         case 'LIVEPUSH':
           sendStr.push(`${ nickName } 正在直播\n`
-                     + `直播标题：${ extInfo.liveTitle }\n`
-                     + `时间：${ msgTime }`);
+            + `直播标题：${ extInfo.liveTitle }\n`
+            + `时间：${ msgTime }`);
           break;
 
         // 鸡腿翻牌
         case 'FLIPCARD':
           const fanpaiInfo = await requestFlipAnswer(this.kouDai48Token, extInfo.questionId, extInfo.answerId);
           const msg = `${ nickName } 翻牌了 ${ fanpaiInfo.content.userName }的问题：\n`
-                    + `${ extInfo.question ?? fanpaiInfo.content.question }\n`
-                    + `回答：${ extInfo.answer ?? fanpaiInfo.content.answer }\n`
-                    + `时间：${ msgTime }`;
+            + `${ extInfo.question ?? fanpaiInfo.content.question }\n`
+            + `回答：${ extInfo.answer ?? fanpaiInfo.content.answer }\n`
+            + `时间：${ msgTime }`;
 
           sendStr.push(msg);
           break;
@@ -425,7 +425,7 @@ class CoolQ {
         // 发表情
         case 'EXPRESS':
           sendStr.push(`${ nickName }：发送了一个表情。\n`
-                     + `时间：${ msgTime }`);
+            + `时间：${ msgTime }`);
           break;
 
         // 删除回复
@@ -435,8 +435,8 @@ class CoolQ {
         // debug
         default:
           sendStr.push(`${ nickName }：未知信息类型，请联系开发者。\n`
-                     + `数据：${ JSON.stringify(event) }\n`
-                     + `时间：${ msgTime }`);
+            + `数据：${ JSON.stringify(event) }\n`
+            + `时间：${ msgTime }`);
           break;
       }
 
@@ -446,8 +446,8 @@ class CoolQ {
       }
     } catch (err) {
       sendStr.push('信息发送错误：\n'
-                 + `数据：${ JSON.stringify(event) }\n`
-                 + `时间：${ msgTime }`);
+        + `数据：${ JSON.stringify(event) }\n`
+        + `时间：${ msgTime }`);
 
       // 发送错误的数据信息
       for (let i = sendStr.length - 1; i >= 0; i--) {
