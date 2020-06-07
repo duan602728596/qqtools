@@ -335,10 +335,16 @@ class CoolQ {
   };
 
   // 进入房间失败
-  handleRoomSocketError = (error, event) => {
-    console.log('发生错误', error, event);
+  handleRoomSocketError = (err, event) => {
+    console.log('发生错误', err, event);
     message.error('口袋48房间监听错误。');
   };
+
+  // 断开连接
+  handleRoomSocketDisconnect = (err) => {
+    console.log('连接断开', err);
+    message.error(`【${ err.code }】${ err.message }`);
+  }
 
   // 房间信息监听
   roomSocketMessage = async (event) => {

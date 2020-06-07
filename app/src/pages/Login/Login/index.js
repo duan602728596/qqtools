@@ -188,7 +188,8 @@ class Login extends Component {
             chatroomAddresses: ['chatweblink01.netease.im:443'],
             onconnect: this.qq.handleRoomSocketConnect,
             onmsgs: this.qq.handleRoomSocketMessage,
-            onerror: this.qq.handleRoomSocketError
+            onerror: this.qq.handleRoomSocketError,
+            ondisconnect: this.qq.handleRoomSocketDisconnect
           });
         }
       }
