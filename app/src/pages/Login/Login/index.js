@@ -8,9 +8,10 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import { Button, Select, message } from 'antd';
 import moment from 'moment';
 import NIM_SDK from 'SDK';
+import Go from 'Go';
 import style from './style.sass';
 import publicStyle from '../../../components/publicStyle/public.sass';
-import CoolQ, { APP_KEY } from '../../../components/coolQ/CoolQ';
+import CoolQ from '../../../components/coolQ/CoolQ';
 import { changeQQLoginList, cursorOption, kd48LiveListenerTimer, getLoginInformation } from '../reducer/reducer';
 import callback from '../../../components/callback/callback';
 import Detail from './Detail';
@@ -20,12 +21,13 @@ import kd48timer, { init } from '../../../components/kd48listerer/timer';
 import ModianWorker from 'worker-loader?name=scripts/[hash:15].js!../../../components/modian/modian.worker';
 import WeiBoWorker from 'worker-loader?name=scripts/[hash:15].js!../../../components/weibo/weibo.worker';
 import LvzhouWorker from 'worker-loader?name=scripts/[hash:15].js!../../../components/lvzhou/lvzhou.worker';
-import { requestRoomMessage } from '../../../components/kd48listerer/roomListener';
 
 const querystring = global.require('querystring');
 const schedule = global.require('node-schedule');
 
 const { Chatroom } = NIM_SDK;
+
+window.KKK = {};
 
 /* 初始化数据 */
 const getState = ($$state) => $$state.has('login') ? $$state.get('login') : null;
@@ -172,9 +174,14 @@ class Login extends Component {
         });
 
         if (res.result !== undefined) {
+          const go = new Go();
+          const result = await WebAssembly.instantiateStreaming(fetch('a.wasm'), go.importObject);
+
+          go.run(result.instance);
+
           this.qq.kouDai48UserId = `${ res.result.value.userId }`; // 获取用户的ID
           this.qq.nimChatroomSocket = Chatroom.getInstance({
-            appKey: APP_KEY,
+            appKey: window.KKK.AK47,
             account: this.qq.kouDai48UserId,
             token: this.qq.kouDai48UserId,
             chatroomId: basic.roomId,

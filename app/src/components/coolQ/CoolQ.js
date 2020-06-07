@@ -1,14 +1,12 @@
 import { message } from 'antd';
 import chunk from 'lodash-es/chunk';
-import { requestRoomMessage, requestFlipAnswer } from '../kd48listerer/roomListener';
+import { requestFlipAnswer } from '../kd48listerer/roomListener';
 import { time } from '../../utils';
 import { chouka } from '../chouka/chouka';
 import * as storagecard from '../chouka/storagecard';
 import bestCards from '../chouka/bestCards';
 import getLevelPoint from '../chouka/getLevelPoint';
 const nunjucks = global.require('nunjucks');
-
-export const APP_KEY = '***REMOVED***';
 
 class CoolQ {
   constructor(qq, port, callback) {

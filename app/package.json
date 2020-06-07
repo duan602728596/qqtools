@@ -50,6 +50,7 @@
     "babel-plugin-import": "^1.13.0",
     "classnames": "^2.2.6",
     "commitizen": "^4.1.2",
+    "copy-webpack-plugin": "^6.0.2",
     "core-js": "^3.6.5",
     "cross-env": "^7.0.2",
     "cz-conventional-changelog": "^3.2.0",

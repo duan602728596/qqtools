@@ -1,5 +1,6 @@
 const path = require('path');
 const process = require('process');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 
@@ -26,7 +27,8 @@ module.exports = {
   },
   externals: {
     jquery: 'window.jQuery',
-    SDK: 'window.SDK'
+    SDK: 'window.SDK',
+    Go: 'global.Go'
   },
   resolve: {
     alias: {
@@ -35,7 +37,7 @@ module.exports = {
   },
   rules: [
     {
-      test: /(appInit\.js|jquery|NIM_Web_SDK)/,
+      test: /(appInit\.js|jquery|NIM_Web_SDK|wasm_exec)/,
       use: [{
         loader: 'file-loader',
         options: {
@@ -48,7 +50,7 @@ module.exports = {
   js: {
     ecmascript: true,
     plugins: [['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }]],
-    exclude: /(appInit\.js|jquery|node_modules)/
+    exclude: /(appInit\.js|jquery|wasm_exec|node_modules)/
   },
   sass: { include: /src/ },
   css: {
@@ -61,5 +63,10 @@ module.exports = {
     },
     include: /node_modules[\\/]antd/
   },
-  html: [{ template: path.join(__dirname, 'src/index.pug') }]
+  html: [{ template: path.join(__dirname, 'src/index.pug') }],
+  plugins: [
+    new CopyWebpackPlugin({
+      patterns: [{ from: path.join(__dirname, 'src/components/coolQ/a.wasm') }]
+    })
+  ]
 };
