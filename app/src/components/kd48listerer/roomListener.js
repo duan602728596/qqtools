@@ -22,6 +22,8 @@ function rStr(len) {
 }
 
 function createHeaders(token) {
+  const pa = require('./pa');
+
   return {
     'Content-Type': 'application/json;charset=utf-8',
     appInfo: JSON.stringify({
@@ -37,7 +39,8 @@ function createHeaders(token) {
     'User-Agent': 'PocketFans201807/6.0.1 (iPhone; iOS 11.4.1; Scale/2.00)',
     'Accept-Language': 'zh-Hans-AW;q=1',
     Host: 'pocketapi.48.cn',
-    token
+    token,
+    pa: pa()
   };
 }
 

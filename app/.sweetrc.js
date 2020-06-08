@@ -47,7 +47,7 @@ module.exports = {
   js: {
     ecmascript: true,
     plugins: [['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }]],
-    exclude: /(appInit\.js|jquery|node_modules)/
+    exclude: /(appInit\.js|jquery|pa\.js|node_modules)/
   },
   sass: { include: /src/ },
   css: {
