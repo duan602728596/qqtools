@@ -4,7 +4,7 @@ const request = global.require('request');
 
 /* 软件升级检测 */
 const { version } = packageJson;
-const uri = 'https://raw.githubusercontent.com/duan602728596/qqtools/master/app/package.json';
+const uri = 'https://raw.githubusercontent.com/duan602728596/qqtools/qqtools2-rc/app/package.json';
 const isUpgradeReminder = localStorage.getItem('upgradeReminder');
 
 function update() {
