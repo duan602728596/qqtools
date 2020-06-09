@@ -179,7 +179,8 @@ class Login extends Component {
 
           go.run(result.instance);
 
-          this.qq.kouDai48UserId = `${ res.result.value.userId }`; // 获取用户的ID
+          this.qq.kouDai48Token = res.result.value.token;
+          this.qq.kouDai48UserId = `${ res.result.value.userId ?? res.result.value.userInfo.userId }`; // 获取用户的ID
           this.qq.nimChatroomSocket = Chatroom.getInstance({
             appKey: window.KKK.AK47,
             account: this.qq.kouDai48UserId,

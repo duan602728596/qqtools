@@ -35,7 +35,7 @@ class CoolQ {
     this.members = null;  // 监听指定成员
     this.memberId = null; // 坚听成员id
     // 房间信息监听相关
-    this.roomListenerTimer = null; // 轮询定时器
+    this.kouDai48Token = null;     // token
     this.kouDai48UserId = null;    // 用户id
     this.nimChatroomSocket = null; // 口袋48sdk监听
     // 微博监听相关
