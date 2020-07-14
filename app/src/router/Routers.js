@@ -6,7 +6,7 @@ import Index from '../pages/Index/Layout';
 
 const LoginBundle = asyncModule(() => import('../pages/Login/Layout'));
 const OptionBundle = asyncModule(() => import('../pages/Option/Layout'));
-const KouDai48Bundle = asyncModule(() => import('../pages/KouDai48/Layout'));
+// const KouDai48Bundle = asyncModule(() => import('../pages/KouDai48/Layout'));
 const HelpBundle = asyncModule(() => import('../pages/Help/Layout'));
 
 /* 路由模块 */
@@ -21,7 +21,7 @@ class Routers extends Component {
         {/* 配置 */}
         <Route path="/Option" component={ OptionBundle } />
         {/* 口袋48 */}
-        <Route path="/KouDai48" component={ KouDai48Bundle } />
+        {/* <Route path="/KouDai48" component={ KouDai48Bundle } /> */}
         {/* 帮助 */}
         <Route path="/Help" component={ HelpBundle } />
       </Switch>
