@@ -20,7 +20,6 @@ import { str2reg, str2numberArray, cleanRequireCache } from '../../../utils';
 import kd48timer, { init } from '../../../components/kd48listerer/timer';
 import ModianWorker from 'worker-loader?name=scripts/[hash:15].js!../../../components/modian/modian.worker';
 import WeiBoWorker from 'worker-loader?name=scripts/[hash:15].js!../../../components/weibo/weibo.worker';
-import LvzhouWorker from 'worker-loader?name=scripts/[hash:15].js!../../../components/lvzhou/lvzhou.worker';
 
 const querystring = global.require('querystring');
 const schedule = global.require('node-schedule');
@@ -183,8 +182,8 @@ class Login extends Component {
           this.qq.kouDai48UserId = `${ res.result.value.userId ?? res.result.value.userInfo.userId }`; // 获取用户的ID
           this.qq.nimChatroomSocket = Chatroom.getInstance({
             appKey: window.KKK.AK47,
-            account: this.qq.kouDai48UserId,
-            token: this.qq.kouDai48UserId,
+            account: basic.account,
+            token: basic.account,
             chatroomId: basic.roomId,
             chatroomAddresses: ['chatweblink01.netease.im:443'],
             onconnect: this.qq.handleRoomSocketConnect,
@@ -208,22 +207,6 @@ class Login extends Component {
           false
         );
         message.success('微博监听已就绪。');
-      }
-
-      // 绿洲监听
-      if (basic.isLvzhouListener) {
-        this.qq.lvzhouWorker = new LvzhouWorker();
-        this.qq.lvzhouWorker.postMessage({
-          type: 'init',
-          params: querystring.stringify(JSON.parse(basic.lvZhouParams)),
-          headers: JSON.parse(basic.lvZhouHeaders)
-        });
-        this.qq.lvzhouWorker.addEventListener(
-          'message',
-          this.qq.listenLvzhouWorkerCbInformation.bind(this.qq),
-          false
-        );
-        message.success('绿洲监听已就绪。');
       }
 
       // 群内定时消息推送

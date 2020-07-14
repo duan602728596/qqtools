@@ -62,20 +62,14 @@ function interfaceOption(value, customProfiles) {
       // 成员房间信息监听
       isRoomListener: value.isRoomListener,
       roomId: value.roomId,
+      account: value.account,
       isRoomSendImage: value.isRoomSendImage,
       isRoomSendRecord: value.isRoomSendRecord,
-      liveListeningInterval: value.liveListeningInterval,
       // 微博监听
       isWeiboListener: value.isWeiboListener,
       isWeiboAtAll: value.isWeiboAtAll,
       lfid: value.lfid,
       isWeiboSendImage: value.isWeiboSendImage,
-      // 绿洲监听
-      isLvzhouListener: value.isLvzhouListener,
-      isLvzhouAtAll: value.isLvzhouAtAll,
-      lvZhouParams: value.lvZhouParams,
-      lvZhouHeaders: value.lvZhouHeaders,
-      isLvzhouSendImage: value.isLvzhouSendImage,
       // 新成员欢迎
       isNewGroupMember: value.isNewGroupMember,
       welcomeNewGroupMember: value.welcomeNewGroupMember,

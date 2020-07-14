@@ -14,7 +14,6 @@ import ChoukaConfiguration from './Forms/ChoukaConfiguration';
 import Koudai48LiveListener from './Forms/Koudai48LiveListener';
 import Koudai48RoomListener from './Forms/Koudai48RoomListener';
 import WeiboConfiguration from './Forms/WeiboConfiguration';
-import LvzhouConfiguration from './Forms/LvzhouConfiguration';
 import NewGroupMember from './Forms/NewGroupMember';
 import TimingMessagePush from './Forms/TimingMessagePush';
 import * as ShuoMing from './utils/shuoming';
@@ -246,8 +245,6 @@ class Add extends Component {
         <Koudai48RoomListener detail={ detail } { ...props } />
         {/* 成员微博监听配置 */}
         <WeiboConfiguration detail={ detail } { ...props } />
-        {/* 成员绿洲监听配置 */}
-        <LvzhouConfiguration detail={ detail } { ...props } />
         {/* 欢迎新成员 */}
         <NewGroupMember detail={ detail } { ...props } />
         {/* 群内定时消息推送 */}

@@ -39,6 +39,13 @@ class Koudai48RoomListener extends Component {
             })(<Input />)
           }
         </Form.Item>
+        <Form.Item label="account" { ...colsArea2 }>
+          {
+            getFieldDecorator('account', {
+              initialValue: detail ? detail.basic.account : ''
+            })(<Input />)
+          }
+        </Form.Item>
         <Form.Item label="发送图片" { ...colsArea2 }>
           {
             getFieldDecorator('isRoomSendImage', {
