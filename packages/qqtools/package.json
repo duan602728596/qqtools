@@ -1,0 +1,41 @@
+{
+  "name": "@qqtools3/qqtools",
+  "version": "0.0.0",
+  "main": "../main/lib/main.js",
+  "scripts": {
+    "runel": "cross-env NODE_ENV=development electron ./",
+    "dll": "cross-env NODE_ENV=development milktea dll",
+    "start": "npm run clean && cross-env NODE_ENV=development milktea start --server",
+    "build": "npm run clean && cross-env NODE_ENV=production milktea build",
+    "clean": "rimraf ./dist"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.2.1",
+    "antd": "^4.5.2",
+    "classnames": "^2.2.6",
+    "history": "^5.0.0",
+    "immutable": "^4.0.0-rc.12",
+    "indexof": "^0.0.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.0",
+    "react-router": "^6.0.0-beta.0",
+    "react-router-dom": "^6.0.0-beta.0",
+    "redux": "^4.0.5",
+    "redux-actions": "^2.6.5",
+    "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0"
+  },
+  "devDependencies": {
+    "@hot-loader/react-dom": "^16.13.0",
+    "@sweet-milktea/milktea": "^0.16.0",
+    "@sweet-milktea/milktea-cli": "^0.16.0",
+    "@sweet-milktea/server": "^0.16.1",
+    "@types/react": "^16",
+    "@types/react-dom": "^16",
+    "babel-plugin-import": "^1.13.0",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "ts-loader": "^8.0.2"
+  }
+}

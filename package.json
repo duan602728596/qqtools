@@ -1,0 +1,49 @@
+{
+  "name": "qqtools3",
+  "scripts": {
+    "eslint": "eslint ./ --fix",
+    "eslint:no-fix": "eslint ./",
+    "lerna:install": "lerna bootstrap --force-local",
+    "update": "milktea update",
+    "update:dev": "milktea update --__DEV__"
+  },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "electron": "^9.1.2"
+  },
+  "devDependencies": {
+    "@sweet-milktea/milktea-cli": "^0.16.1",
+    "@sweet-milktea/util-tools": "^0.15.0",
+    "@typescript-eslint/eslint-plugin": "^3.8.0",
+    "@typescript-eslint/parser": "^3.8.0",
+    "babel-eslint": "^11.0.0-beta.2",
+    "commitizen": "^4.1.2",
+    "cross-env": "^7.0.2",
+    "cz-conventional-changelog": "^3.2.0",
+    "eslint": "^7.6.0",
+    "eslint-plugin-react": "^7.20.3",
+    "gulp": "^4.0.2",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "husky": "^4.2.5",
+    "lerna": "^3.22.1",
+    "lint-staged": "^10.2.11",
+    "rimraf": "^3.0.2",
+    "typescript": "^3.9.7"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": "eslint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
