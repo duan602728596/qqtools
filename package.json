@@ -1,5 +1,5 @@
 {
-  "name": "@qqtools3/project",
+  "name": "qqtools3",
   "scripts": {
     "eslint": "eslint ./ --fix",
     "eslint:no-fix": "eslint ./",

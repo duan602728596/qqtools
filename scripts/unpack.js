@@ -44,16 +44,18 @@ async function unpack() {
   };
 
   // 编译
-  // await builder.build({
-  //   targets: Platform.MAC.createTarget(),
-  //   config: {
-  //     ...config,
-  //     directories: {
-  //       app: appDir,
-  //       output: path.join(build, 'mac')
-  //     }
-  //   }
-  // });
+  /*
+  await builder.build({
+    targets: Platform.MAC.createTarget(),
+    config: {
+      ...config,
+      directories: {
+        app: appDir,
+        output: path.join(build, 'mac')
+      }
+    }
+  });
+  */
 
   await builder.build({
     targets: Platform.WINDOWS.createTarget(),
