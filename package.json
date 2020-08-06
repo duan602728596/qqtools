@@ -1,5 +1,5 @@
 {
-  "name": "qqtools3",
+  "name": "@qqtools3/project",
   "scripts": {
     "eslint": "eslint ./ --fix",
     "eslint:no-fix": "eslint ./",
@@ -17,7 +17,8 @@
   "dependencies": {
     "electron": "^9.1.2",
     "electron-builder": "^22.8.0",
-    "fs-extra": "^9.0.1"
+    "fs-extra": "^9.0.1",
+    "glob": "^7.1.6"
   },
   "devDependencies": {
     "@sweet-milktea/milktea-cli": "^0.16.3",
