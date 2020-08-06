@@ -5,14 +5,19 @@
     "eslint:no-fix": "eslint ./",
     "lerna:install": "lerna bootstrap --force-local",
     "update": "milktea update",
-    "update:dev": "milktea update --__DEV__"
+    "update:dev": "milktea update --__DEV__",
+    "build:png": "ffmpeg -i statics/titleBarIcon512.png -vf scale=128:128 packages/app/titleBarIcon.png",
+    "build:icon": "ffmpeg -i statics/titleBarIcon512.png -vf scale=256:256 statics/titleBarIcon.ico",
+    "build:icns": "milktea image2icns --imageEntry=\"statics/titleBarIcon512.png\" --imageOutput=\"./statics/titleBarIcon.icns\" --size=512"
   },
   "private": true,
   "workspaces": [
     "packages/*"
   ],
   "dependencies": {
-    "electron": "^9.1.2"
+    "electron": "^9.1.2",
+    "electron-builder": "^22.8.0",
+    "fs-extra": "^9.0.1"
   },
   "devDependencies": {
     "@sweet-milktea/milktea-cli": "^0.16.3",

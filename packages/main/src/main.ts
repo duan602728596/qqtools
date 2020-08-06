@@ -13,7 +13,8 @@ function createWindow(): void {
     height: 600,
     webPreferences: {
       nodeIntegration: true
-    }
+    },
+    icon: path.join(__dirname, '../../titleBarIcon512.png')
   });
 
   if (isDevelopment) {
@@ -21,7 +22,7 @@ function createWindow(): void {
   }
 
   win.loadURL(isDevelopment ? 'http://127.0.0.1:5050' : url.format({
-    pathname: path.join(__dirname, '../dist/index.html'),
+    pathname: path.join(__dirname, '../../dist/index.html'),
     protocol: 'file:',
     slashes: true
   }));
