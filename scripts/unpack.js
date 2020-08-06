@@ -7,7 +7,7 @@ const builder = require('electron-builder');
 const rimrafPromise = util.promisify(rimraf);
 
 const cwd = path.join(__dirname, '../');
-const appDir = path.join(cwd, 'app');
+const appDir = path.join(cwd, 'www');
 const staticsDir = path.join(cwd, 'statics');
 const build = path.join(cwd, 'build');
 
