@@ -14,7 +14,7 @@ function createWindow(): void {
     webPreferences: {
       nodeIntegration: true
     },
-    icon: path.join(__dirname, '../../titleBarIcon512.png')
+    icon: isDevelopment ? undefined : path.join(__dirname, '../../titleBarIcon.png')
   });
 
   if (isDevelopment) {
