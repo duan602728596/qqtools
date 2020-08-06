@@ -44,7 +44,7 @@ export default function(info: object): { [key: string]: any } {
     css: {
       modifyVars: {
         // https://github.com/ant-design/ant-design/blob/master/components/style/themes/default.less
-        '@primary-color': '#f5222d'
+        '@primary-color': '#eb2f96'
       },
       include: /node_modules[\\/]_?antd/
     },
