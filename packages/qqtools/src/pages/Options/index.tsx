@@ -8,7 +8,8 @@ import Edit from './Edit/index';
 function Index(props: {}): ReactElement | null {
   const routers: ReactElement | null = useRoutes([
     { path: '/', element: <Options /> },
-    { path: 'Edit', element: <Edit /> }
+    { path: 'Edit', element: <Edit /> },
+    { path: 'Edit/:id', element: <Edit /> }
   ]);
 
   return routers;

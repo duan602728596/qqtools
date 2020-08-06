@@ -18,8 +18,8 @@ const dbConfig: DbConfig = {
     // 存储配置
     {
       name: 'option',
-      key: 'name',
-      data: ['time', 'value']
+      key: 'id',
+      data: ['name', 'value']
     }
   ]
 };

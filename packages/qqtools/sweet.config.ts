@@ -4,7 +4,10 @@ import * as path from 'path';
 const isDev: boolean = process.env.NODE_ENV === 'development';
 
 export default function(info: object): { [key: string]: any } {
-  const plugins: Array<any> = [['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }]];
+  const plugins: Array<any> = [
+    ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }],
+    ['import', { libraryName: 'lodash', libraryDirectory: '', camel2DashComponentName: false }, 'lodash']
+  ];
 
   if (!isDev) {
     plugins.unshift(['transform-react-remove-prop-types', { mode: 'remove', removeImport: true }]);
