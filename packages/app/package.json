@@ -1,10 +1,13 @@
 {
-  "name": "qqtools3/app",
+  "name": "@qqtools3/app",
   "version": "0.0.0",
   "description": "qqtools v3",
   "author": {
     "name": "段昊辰",
     "email": "duanhaochen@126.com"
   },
-  "main": "bin/lib/main.js"
+  "main": "bin/lib/main.js",
+  "dependencies": {
+    "request": "^2.88.2"
+  }
 }

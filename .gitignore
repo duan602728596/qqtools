@@ -19,5 +19,6 @@ package.json.lerna_backup
 .sweet
 lib
 ./app
+./app/**/*.*
 build
 dist

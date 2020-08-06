@@ -33,6 +33,26 @@ async function unpack() {
     appId: 'qqtools',
     productName: 'qqtools',
     copyright: '段昊辰',
+    files: [
+      '**/*',
+      '!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}',
+      '!**/node_modules/*/*.md',
+      '!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}',
+      '!**/node_modules/*.d.ts',
+      '!**/node_modules/*.ts',
+      '!**/node_modules/.bin',
+      '!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}',
+      '!.editorconfig',
+      '!**/._*',
+      '!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}',
+      '!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}',
+      '!**/{appveyor.yml,.travis.yml,circle.yml}',
+      '!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}',
+      '!**/node_modules/*/{.editorconfig,.eslintignore}',
+      '!**/node_modules/*/*.{yml,yaml}',
+      '!**/node_modules/*/{LICENSE,license,License}',
+      '!**/node_modules/*/AUTHORS'
+    ],
     mac: {
       target: 'dir',
       icon: path.join(staticsDir, 'titleBarIcon.icns')
