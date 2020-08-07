@@ -3,6 +3,8 @@ import { requestAuth, requestVerify, requestRelease } from './services/services'
 import type { OptionsItemValue } from '../../types';
 import type { AuthResponse, VerifyResponse } from './types';
 
+type MessageListener = (event: MessageEvent) => void | Promise<void>;
+
 class QQ {
   public id: string;
   public config: OptionsItemValue;
@@ -14,6 +16,16 @@ class QQ {
     this.id = id;         // 当前登陆的唯一id
     this.config = config; // 配置
   }
+
+  // message事件监听
+  handleMessageSocketMessage: MessageListener = (event: MessageEvent): void => {
+    console.log(event);
+  }
+
+  // socket事件监听
+  handleEventSocketMessage: MessageListener = (event: MessageEvent): void => {
+    console.log(event);
+  };
 
   // 获取session
   async getSession(): Promise<boolean> {
@@ -37,6 +49,17 @@ class QQ {
 
       return false;
     }
+  }
+
+  // websocket初始化
+  initWebSocket(): void {
+    const { socketPort }: OptionsItemValue = this.config;
+
+    this.messageSocket = new WebSocket(`ws://localhost:${ socketPort }/message?sessionKey=${ this.session }`);
+    this.eventSocket = new WebSocket(`ws://localhost:${ socketPort }/event?sessionKey=${ this.session }`);
+
+    this.messageSocket.addEventListener('message', this.handleMessageSocketMessage, false);
+    this.eventSocket.addEventListener('message', this.handleEventSocketMessage, false);
   }
 
   // 项目初始化
