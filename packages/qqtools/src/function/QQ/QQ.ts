@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import { requestAuth, requestVerify, requestRelease } from './services/services';
 import type { OptionsItemValue } from '../../types';
-import type { AuthResponse, VerifyResponse } from './types';
+import type { AuthResponse, MessageResponse } from './types';
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
 
@@ -40,7 +40,7 @@ class QQ {
 
     this.session = authRes.session;
 
-    const verifyRes: VerifyResponse = await requestVerify(qqNumber, socketPort, this.session);
+    const verifyRes: MessageResponse = await requestVerify(qqNumber, socketPort, this.session);
 
     if (verifyRes.code === 0) {
       return true;

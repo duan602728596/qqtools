@@ -1,4 +1,4 @@
-import type { AuthResponse, VerifyResponse, ReleaseResponse } from '../types';
+import type { AuthResponse, MessageResponse, MessageChain } from '../types';
 
 /**
  * 根据authKey获取session
@@ -20,7 +20,7 @@ export async function requestAuth(port: number, authKey: string): Promise<AuthRe
  * @param { number } port: 端口号
  * @param { string } session
  */
-export async function requestVerify(qq: number, port: number, session: string): Promise<VerifyResponse> {
+export async function requestVerify(qq: number, port: number, session: string): Promise<MessageResponse> {
   const res: Response = await fetch(`http://localhost:${ port }/verify`, {
     method: 'POST',
     body: JSON.stringify({ qq, sessionKey: session })
@@ -31,14 +31,47 @@ export async function requestVerify(qq: number, port: number, session: string): 
 
 /**
  * 释放session
- * @param { int } qq: qq号
- * @param { int } port: 端口号
+ * @param { number } qq: qq号
+ * @param { number } port: 端口号
  * @param { string } session
  */
-export async function requestRelease(qq: number, port: number, session: string): Promise<ReleaseResponse> {
+export async function requestRelease(qq: number, port: number, session: string): Promise<MessageResponse> {
   const res: Response = await fetch(`http://localhost:${ port }/release`, {
     method: 'POST',
     body: JSON.stringify({ qq, sessionKey: session })
+  });
+
+  return await res.json();
+}
+
+/**
+ * 发送群消息
+ * 文字消息：{ type: 'Plain', text: '' }
+ * 图片消息：{ type: 'Image', url: '' }
+ * At: { type: 'At', target: 123456, display: 'name' }
+ * AtAll: { type: 'AtAll', target: 0 }
+ * @param { number } groupNumber: 群号
+ * @param { number } port: 端口号
+ * @param { string } session
+ * @param { Array<MessageChain> } messageChain: 发送信息
+ */
+export async function requestSendGroupMessage(
+  groupNumber: number,
+  port: number,
+  session: string,
+  messageChain: Array<MessageChain>
+): Promise<MessageResponse> {
+  const res: Response = await fetch(`http://localhost:${ port }/sendGroupMessage`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    },
+    body: JSON.stringify({
+      sessionKey: session,
+      target: groupNumber,
+      group: groupNumber,
+      messageChain
+    })
   });
 
   return await res.json();
