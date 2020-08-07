@@ -10,6 +10,7 @@ html
 
   body
     div.app#app
+    script(src=require('./function/QQ/NIM_Web_SDK_v7.7.0').default)
 
     if htmlWebpackPlugin.options.mode === 'development'
       script(src=imports.dll)

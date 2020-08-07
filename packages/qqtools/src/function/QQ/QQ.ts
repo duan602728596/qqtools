@@ -1,9 +1,12 @@
 import { message } from 'antd';
+import NIM_SDK from 'SDK';
 import { requestAuth, requestVerify, requestRelease } from './services/services';
 import type { OptionsItemValue } from '../../types';
 import type { AuthResponse, MessageResponse } from './types';
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
+
+const { Chatroom }: any = NIM_SDK;
 
 class QQ {
   public id: string;
@@ -82,7 +85,7 @@ class QQ {
     const { qqNumber, socketPort }: OptionsItemValue = this.config;
 
     try {
-      await requestRelease(qqNumber, socketPort, this.session); // 清除sessicon
+      await requestRelease(qqNumber, socketPort, this.session); // 清除session
 
       return true;
     } catch (err) {

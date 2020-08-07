@@ -32,15 +32,29 @@ export default function(info: object): { [key: string]: any } {
     entry: {
       index: [path.join(__dirname, 'src/index.tsx')]
     },
+    externals: {
+      SDK: 'window.SDK'
+    },
     js: {
       ecmascript: true,
       plugins,
-      exclude: /node_modules/
+      exclude: /node_modules|NIM_Web_SDK/i
     },
     ts: {
       plugins,
       exclude: /node_modules/
     },
+    rules: [
+      {
+        test: /NIM_Web_SDK/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: isDev ? '[name]_[hash:5].[ext]' : '[hash:15].[ext]'
+          }
+        }]
+      }
+    ],
     sass: {
       include: /src/
     },

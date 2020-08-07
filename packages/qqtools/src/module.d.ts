@@ -50,3 +50,7 @@ declare module '*.svg' {
 
   export default url;
 }
+
+declare module 'SDK' {
+  export default any;
+}
