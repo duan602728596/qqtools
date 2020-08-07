@@ -41,11 +41,11 @@ function Edit(props: {}): ReactElement {
       }
     }, {});
 
-    await dispatch<any>(saveFormData({
+    await dispatch(saveFormData({
       data: { id, name, value: formatFormValue }
     }));
 
-    navigate('../');
+    navigate('/Options');
   }
 
   return (
@@ -93,7 +93,7 @@ function Edit(props: {}): ReactElement {
       </Form.Item>
       <Space>
         <Button type="primary" onClick={ handleSaveClick }>保存</Button>
-        <Link to="../">
+        <Link to="/Options">
           <Button type="primary" danger={ true }>返回</Button>
         </Link>
       </Space>

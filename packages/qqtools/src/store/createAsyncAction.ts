@@ -1,4 +1,4 @@
-import { Dispatch, Action } from 'redux';
+import type { Dispatch, Action, ActionCreator } from 'redux';
 
 type Func = Function | CallArgs;
 type CallArgs = [any, Function]
@@ -7,7 +7,7 @@ type CallArgs = [any, Function]
  * 创建异步的action
  * @param { Function } func: 异步的函数
  */
-function createAsyncAction(func: Function): Function {
+function createAsyncAction(func: Function): ActionCreator<any> {
   return function(...args: Array<any>): Function {
     return function(dispatch: Dispatch, getState: Function): any {
       // 封装常用的函数
