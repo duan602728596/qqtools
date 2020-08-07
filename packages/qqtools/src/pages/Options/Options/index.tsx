@@ -10,7 +10,7 @@ import type { ColumnsType } from 'antd/es/table';
 import style from './index.sass';
 import { queryOptionsList, deleteOption } from '../models/models';
 import dbConfig from '../../../function/dbInit/dbConfig';
-import type { OptionsItem } from '../types';
+import type { OptionsItem } from '../../../types';
 
 /* state */
 interface SelectorRData {

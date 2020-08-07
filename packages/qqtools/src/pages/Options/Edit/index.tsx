@@ -10,7 +10,7 @@ import type { Store } from 'rc-field-form/es/interface';
 import { random, transform } from 'lodash';
 import style from './index.sass';
 import { saveFormData, getOptionItem } from '../models/models';
-import type { OptionsItem } from '../types';
+import type { OptionsItem } from '../../../types';
 
 /* 配置表单 */
 function Edit(props: {}): ReactElement {

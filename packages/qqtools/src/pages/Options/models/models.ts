@@ -3,7 +3,7 @@ import { fromJS, Map as IMap, List } from 'immutable';
 import type { AnyAction, ActionCreator } from 'redux';
 import { differenceBy } from 'lodash';
 import dbRedux, { objectStoreName } from '../../../function/dbInit/dbRedux';
-import type { OptionsItem } from '../types';
+import type { OptionsItem } from '../../../types';
 
 const $$initData: IMap<string, any> = fromJS({
   optionsList: []

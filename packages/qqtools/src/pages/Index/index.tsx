@@ -10,7 +10,9 @@ function Index(props: {}): ReactElement {
   return (
     <ul className={ style.nav }>
       <li className={ style.navItem }>
-        <Button type="primary" icon={ <IconQqOutlined /> }>账号登陆</Button>
+        <Link to="Login">
+          <Button type="primary" icon={ <IconQqOutlined /> }>账号登陆</Button>
+        </Link>
       </li>
       <li className={ style.navItem }>
         <Link to="Options">
