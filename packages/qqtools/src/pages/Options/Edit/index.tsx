@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { ReactElement, MouseEvent } from 'react';
+import { useEffect, ReactElement, MouseEvent } from 'react';
 import type { Dispatch } from 'redux';
 import { useDispatch } from 'react-redux';
 import { Link, useParams, useNavigate } from 'react-router-dom';
@@ -9,7 +9,8 @@ import type { FormInstance } from 'antd/es/form';
 import type { Store } from 'rc-field-form/es/interface';
 import { random, transform } from 'lodash';
 import style from './index.sass';
-import { saveFormData } from '../models/models';
+import { saveFormData, getOptionItem } from '../models/models';
+import type { OptionsItem } from '../types';
 
 /* 配置表单 */
 function Edit(props: {}): ReactElement {
@@ -17,6 +18,15 @@ function Edit(props: {}): ReactElement {
   const params: Params = useParams();
   const navigate: NavigateFunction = useNavigate();
   const [form]: [FormInstance] = Form.useForm();
+
+  // 数据回填
+  async function getData(): Promise<void> {
+    const { result }: { result: OptionsItem } = await dispatch(getOptionItem({
+      query: params.id
+    }));
+
+    form.setFieldsValue(result.value);
+  }
 
   // 保存
   async function handleSaveClick(event: MouseEvent): Promise<void> {
@@ -47,6 +57,12 @@ function Edit(props: {}): ReactElement {
 
     navigate('/Options');
   }
+
+  useEffect(function() {
+    if (params?.id) {
+      getData();
+    }
+  }, [params?.id]);
 
   return (
     <Form className={ style.form } form={ form } labelCol={{ span: 4 }} wrapperCol={{ span: 20 }}>

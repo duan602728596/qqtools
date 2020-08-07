@@ -26,6 +26,9 @@ export const deleteOption: ActionCreator<any> = dbRedux.deleteAction({
   successAction: setOptionsDeleteList
 });
 
+// 获取单个配置
+export const getOptionItem: ActionCreator<any> = dbRedux.getAction({ objectStoreName });
+
 export default {
   options: handleActions({
     [setOptionsList as any]($$state: IMap<string, any>, action: AnyAction): IMap<string, any> {
