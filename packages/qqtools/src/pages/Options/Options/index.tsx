@@ -13,7 +13,11 @@ import dbConfig from '../../../function/dbInit/dbConfig';
 import type { OptionsItem } from '../types';
 
 /* state */
-const state: Selector<{ [k: string]: IMap<string, any> }, any> = createStructuredSelector({
+interface SelectorRData {
+  optionsList: Array<OptionsItem>;
+}
+
+const state: Selector<{ [k: string]: IMap<string, any> }, SelectorRData> = createStructuredSelector({
   // 配置列表
   optionsList: createSelector(
     ({ options: $$options }: { options: IMap<string, any> }): Array<any> => $$options.get('optionsList').toJS(),
@@ -23,7 +27,7 @@ const state: Selector<{ [k: string]: IMap<string, any> }, any> = createStructure
 
 /* 配置列表 */
 function Options(props: {}): ReactElement {
-  const { optionsList }: { optionsList: Array<OptionsItem> } = useSelector(state);
+  const { optionsList }: SelectorRData = useSelector(state);
   const dispatch: Dispatch = useDispatch();
 
   // 删除
