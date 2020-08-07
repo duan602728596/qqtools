@@ -5,4 +5,10 @@ export interface AuthResponse {
 
 export interface VerifyResponse {
   code: number;
+  msg: string;
+}
+
+export interface ReleaseResponse {
+  code: number;
+  msg: string;
 }

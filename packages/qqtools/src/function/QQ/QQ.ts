@@ -4,11 +4,11 @@ import type { OptionsItemValue } from '../../types';
 import type { AuthResponse, VerifyResponse } from './types';
 
 class QQ {
-  private id: string;
-  private config: OptionsItemValue;
-  private eventSocket: WebSocket;
-  private messageSocket: WebSocket;
-  private session: string;
+  public id: string;
+  public config: OptionsItemValue;
+  public eventSocket: WebSocket;
+  public messageSocket: WebSocket;
+  public session: string;
 
   constructor(id: string, config: OptionsItemValue) {
     this.id = id;         // 当前登陆的唯一id
@@ -56,7 +56,7 @@ class QQ {
 
   // 项目销毁
   async destroy(): Promise<boolean> {
-    const { qqNumber, socketPort, authKey }: OptionsItemValue = this.config;
+    const { qqNumber, socketPort }: OptionsItemValue = this.config;
 
     try {
       await requestRelease(qqNumber, socketPort, this.session); // 清除sessicon

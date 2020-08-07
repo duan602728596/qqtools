@@ -1,4 +1,4 @@
-import type { AuthResponse, VerifyResponse } from '../types';
+import type { AuthResponse, VerifyResponse, ReleaseResponse } from '../types';
 
 /**
  * 根据authKey获取session
@@ -35,7 +35,7 @@ export async function requestVerify(qq: number, port: number, session: string): 
  * @param { int } port: 端口号
  * @param { string } session
  */
-export async function requestRelease(qq: number, port: number, session: string): Promise<any> {
+export async function requestRelease(qq: number, port: number, session: string): Promise<ReleaseResponse> {
   const res: Response = await fetch(`http://localhost:${ port }/release`, {
     method: 'POST',
     body: JSON.stringify({ qq, sessionKey: session })
