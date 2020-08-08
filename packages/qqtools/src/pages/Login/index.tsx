@@ -104,6 +104,7 @@ function Index(props: {}): ReactElement {
     {
       title: '操作',
       dataIndex: 'handle',
+      width: 130,
       render: (value: undefined, record: QQ, index: number): ReactElement => (
         <Popconfirm title="确定要退出吗？"
           onConfirm={ (event?: MouseEvent): Promise<void> => handleLogoutClick(record, event) }

@@ -7,3 +7,4 @@ node_modules
 lib
 dist
 NIM_Web_SDK_v7.7.0.js
+eval.js
