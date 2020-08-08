@@ -32,6 +32,18 @@ export interface AtAll {
 
 export type MessageChain = Plain | Image | At | AtAll;
 
+/* socket信息 */
+export interface MessageEventData {
+  type: string; // GroupMessage 群信息
+  sender: {
+    id: number; // qq号
+    group: {
+      id: number; // 群号
+    };
+  };
+  messageChain: Array<MessageChain>;
+}
+
 /* sdk类型 */
 export interface NIMError {
   code: number | string;

@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import * as moment from 'moment';
 import NIM_SDK from 'SDK';
+import { findIndex } from 'lodash';
 import {
   requestAuth,
   requestVerify,
@@ -17,6 +18,7 @@ import type {
   AuthResponse,
   MessageResponse,
   MessageChain,
+  MessageEventData,
   NIMError,
   NIMMessage,
   CustomMessageAll,
@@ -279,13 +281,37 @@ ${ customInfo.question }
   }
 
   // message事件监听
-  handleMessageSocketMessage: MessageListener = (event: MessageEvent): void => {
-    console.log(event);
+  handleMessageSocketMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
+    const { qqNumber, groupNumber, socketPort, customCmd }: OptionsItemValue = this.config;
+    const data: MessageEventData = JSON.parse(event.data);
+
+    console.log('message', JSON.parse(event.data));
+
+    if (!(data.type === 'GroupMessage' && data.sender.id !== qqNumber && data.sender.group.id === groupNumber)) {
+      return;
+    }
+
+    if (data.messageChain?.[1].type === 'Plain' && customCmd?.length) {
+      const index: number = findIndex(customCmd, { cmd: data.messageChain[1].text });
+
+      if (index >= 0) {
+        let value: Array<MessageChain>;
+
+        try {
+          value = JSON.parse(customCmd[index].value);
+        } catch (err) {
+          value = [plain(customCmd[index].value)];
+          console.error(err);
+        }
+
+        await requestSendGroupMessage(groupNumber, socketPort, this.session, value);
+      }
+    }
   }
 
   // socket事件监听
   handleEventSocketMessage: MessageListener = (event: MessageEvent): void => {
-    console.log(event);
+    console.log('event', JSON.parse(event.data));
   };
 
   // websocket初始化

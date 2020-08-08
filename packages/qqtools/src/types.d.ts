@@ -1,3 +1,9 @@
+export interface EditItem {
+  id: string;
+  cmd: string;
+  value: string;
+}
+
 // 表单内的值
 export interface OptionsItemValue {
   optionName: string;
@@ -12,6 +18,8 @@ export interface OptionsItemValue {
 
   weiboListener?: boolean;
   weiboUid?: string;
+
+  customCmd?: Array<EditItem>;
 }
 
 // 配置

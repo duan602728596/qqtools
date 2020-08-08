@@ -7,12 +7,7 @@ import type { FormInstance } from 'antd/es/form';
 import type { Store } from 'rc-field-form/es/interface';
 import { random, findIndex } from 'lodash';
 import style from './customCmd.sass';
-
-interface EditItem {
-  id: string;
-  cmd: string;
-  value: string;
-}
+import type { EditItem } from '../../../types';
 
 interface CustomCmdProps {
   id?: string;
