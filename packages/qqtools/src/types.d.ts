@@ -19,6 +19,9 @@ export interface OptionsItemValue {
   weiboListener?: boolean;
   weiboUid?: string;
 
+  groupWelcome?: boolean;
+  groupWelcomeSend?: string;
+
   customCmd?: Array<EditItem>;
 }
 

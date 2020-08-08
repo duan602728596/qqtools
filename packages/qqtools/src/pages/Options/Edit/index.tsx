@@ -108,6 +108,14 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="weiboUid" label="微博uid">
         <Input />
       </Form.Item>
+      {/* 群欢迎功能 */}
+      <Divider>群欢迎功能</Divider>
+      <Form.Item name="groupWelcome" label="开启功能" valuePropName="checked">
+        <Switch />
+      </Form.Item>
+      <Form.Item name="groupWelcomeSend" label="发送信息">
+        <Input.TextArea rows={ 5 } placeholder="发送的数据，必须是json格式" />
+      </Form.Item>
       {/* 自定义命令 */}
       <Divider>自定义命令</Divider>
       <Form.Item name="customCmd" labelCol={{ span: 0 }} wrapperCol={{ span: 24 }}>

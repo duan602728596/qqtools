@@ -18,7 +18,8 @@ import type {
   AuthResponse,
   MessageResponse,
   MessageChain,
-  MessageEventData,
+  MessageSocketEventData,
+  EventSocketEventData,
   NIMError,
   NIMMessage,
   CustomMessageAll,
@@ -283,35 +284,60 @@ ${ customInfo.question }
   // message事件监听
   handleMessageSocketMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
     const { qqNumber, groupNumber, socketPort, customCmd }: OptionsItemValue = this.config;
-    const data: MessageEventData = JSON.parse(event.data);
+    const data: MessageSocketEventData = JSON.parse(event.data);
 
-    console.log('message', JSON.parse(event.data));
+    // 群信息
+    if (data.type === 'GroupMessage' && data.sender.id !== qqNumber && data.sender.group.id === groupNumber) {
+      // 自定义信息处理
+      if (data.type === 'GroupMessage' && data.messageChain?.[1].type === 'Plain' && customCmd?.length) {
+        const index: number = findIndex(customCmd, { cmd: data.messageChain[1].text });
 
-    if (!(data.type === 'GroupMessage' && data.sender.id !== qqNumber && data.sender.group.id === groupNumber)) {
-      return;
+        if (index >= 0) {
+          let value: Array<MessageChain>;
+
+          try {
+            value = JSON.parse(customCmd[index].value);
+          } catch (err) {
+            value = [plain(customCmd[index].value)];
+            console.error(err);
+          }
+
+          await requestSendGroupMessage(groupNumber, socketPort, this.session, value);
+        }
+      }
     }
+  }
 
-    if (data.messageChain?.[1].type === 'Plain' && customCmd?.length) {
-      const index: number = findIndex(customCmd, { cmd: data.messageChain[1].text });
+  // socket事件监听
+  handleEventSocketMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
+    const { qqNumber, groupNumber, socketPort, groupWelcome, groupWelcomeSend }: OptionsItemValue = this.config;
+    const data: EventSocketEventData = JSON.parse(event.data);
 
-      if (index >= 0) {
+    // 欢迎进群
+    if (data.type === 'MemberJoinEvent' && data.member.id !== qqNumber && data.member.group.id === groupNumber) {
+      if (groupWelcome && groupWelcomeSend) {
         let value: Array<MessageChain>;
 
         try {
-          value = JSON.parse(customCmd[index].value);
+          value = JSON.parse(groupWelcomeSend);
+
+          for (const chain of value) {
+            if (chain.type === 'At') {
+              Object.assign(chain, {
+                display: name,
+                target: data.member.id
+              });
+            }
+          }
+
         } catch (err) {
-          value = [plain(customCmd[index].value)];
+          value = [plain(groupWelcomeSend ?? '')];
           console.error(err);
         }
 
         await requestSendGroupMessage(groupNumber, socketPort, this.session, value);
       }
     }
-  }
-
-  // socket事件监听
-  handleEventSocketMessage: MessageListener = (event: MessageEvent): void => {
-    console.log('event', JSON.parse(event.data));
   };
 
   // websocket初始化
