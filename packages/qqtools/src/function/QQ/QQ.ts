@@ -237,6 +237,7 @@ ${ customInfo.question }
 
       if (!result) throw new Error('登陆失败！');
 
+      this.initWebSocket();
       this.initPocket48();
 
       return true;
@@ -259,6 +260,12 @@ ${ customInfo.question }
         this.nimChatroomSocket.disconnect();
         this.nimChatroomSocket = null;
       }
+
+      // 销毁socket监听
+      this.eventSocket.removeEventListener('message', this.handleEventSocketMessage);
+      this.messageSocket.removeEventListener('message', this.handleMessageSocketMessage);
+      this.eventSocket.close();
+      this.messageSocket.close();
 
       return true;
     } catch (err) {
