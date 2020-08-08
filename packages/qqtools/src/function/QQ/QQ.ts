@@ -58,7 +58,7 @@ class QQ {
     if (Number(sessionRole) === 0) return; // 过滤发言
 
     const sendGroup: Array<MessageChain> = [];                  // 发送的数据
-    const nickName: string = customInfo?.user?.nickName ?? '';                      // 用户名
+    const nickName: string = customInfo?.user?.nickName ?? '';  // 用户名
     const msgTime: string = moment(data.time).format('YYYY-MM-DD HH:mm:ss'); // 发送时间
 
     try {
@@ -114,7 +114,7 @@ ${ nickName }：${ customInfo.text }
 
       // 鸡腿翻牌
       if (customInfo.messageType === 'FLIPCARD') {
-        console.log(event); // TODO: 翻牌监听
+        console.log(event);
         sendGroup.push(
           plain(`${ nickName } 翻牌了问题：
 ${ customInfo.question }
@@ -149,13 +149,12 @@ ${ customInfo.question }
 数据：${ JSON.stringify(event) }
 时间：${ msgTime }`)
       );
+    }
 
-      // 发送信息
-      if (sendGroup.length > 0) {
-        const { groupNumber, socketPort }: OptionsItemValue = this.config;
+    if (sendGroup.length > 0) {
+      const { groupNumber, socketPort }: OptionsItemValue = this.config;
 
-        await requestSendGroupMessage(groupNumber, socketPort, this.session, sendGroup);
-      }
+      await requestSendGroupMessage(groupNumber, socketPort, this.session, sendGroup);
     }
   }
 
@@ -256,9 +255,9 @@ ${ customInfo.question }
       await requestRelease(qqNumber, socketPort, this.session); // 清除session
 
       // 销毁口袋监听
-      if (this.nimChatroomSocket !== null) {
+      if (this.nimChatroomSocket) {
         this.nimChatroomSocket.disconnect();
-        this.nimChatroomSocket = null;
+        this.nimChatroomSocket = undefined;
       }
 
       // 销毁socket监听
