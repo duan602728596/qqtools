@@ -1,18 +1,32 @@
+import { ipcRenderer } from 'electron';
 import * as React from 'react';
-import type { ReactElement } from 'react';
+import type { ReactElement, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Space } from 'antd';
-import { QqOutlined as IconQqOutlined, SettingOutlined as IconSettingOutlined } from '@ant-design/icons';
+import {
+  QqOutlined as IconQqOutlined,
+  SettingOutlined as IconSettingOutlined,
+  ToolFilled as IconToolFilled
+} from '@ant-design/icons';
 import style from './index.sass';
 
 declare const BUILD_TIME: string;
 
 /* 首页 */
 function Index(props: {}): ReactElement {
+  // 打开开发者工具
+  function handleOpenDeveloperToolsClick(event: MouseEvent): void {
+    ipcRenderer.send('developer-tools');
+  }
+
   return (
     <div className={ style.main }>
       <h1>qqtools3</h1>
-      <p>Build in { BUILD_TIME }.</p>
+      <p>
+        <Button type="text" icon={ <IconToolFilled /> } onClick={ handleOpenDeveloperToolsClick }>
+          Build in { BUILD_TIME }.
+        </Button>
+      </p>
       <Space className={ style.nav }>
         <Link to="Login">
           <Button type="primary" icon={ <IconQqOutlined /> }>账号登陆</Button>

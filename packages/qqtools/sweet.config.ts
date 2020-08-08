@@ -52,7 +52,7 @@ export default function(info: object): { [key: string]: any } {
     },
     externals: {
       SDK: 'window.SDK',
-      ...nodeExternals(['got'])
+      ...nodeExternals(['got', 'electron'])
     },
     js: {
       ecmascript: true,

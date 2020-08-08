@@ -2,6 +2,7 @@ import * as process from 'process';
 import * as path from 'path';
 import * as url from 'url';
 import { app, BrowserWindow, Menu } from 'electron';
+import ipc from './ipc';
 
 const isDevelopment: boolean = process.env.NODE_ENV === 'development';
 let win: BrowserWindow | null = null;
@@ -30,6 +31,8 @@ function createWindow(): void {
 
   // 去掉顶层菜单
   Menu.setApplicationMenu(null);
+
+  ipc(win);
 
   win.on('closed', function(): void {
     win = null;
