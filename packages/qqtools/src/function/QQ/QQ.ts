@@ -244,6 +244,8 @@ ${ customInfo.question }
 
       if (!result) throw new Error('登陆失败！');
 
+      this.initPocket48();
+
       return true;
     } catch (err) {
       console.error(err);
