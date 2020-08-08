@@ -1,7 +1,15 @@
 import * as process from 'process';
 import * as path from 'path';
+import * as _moment from 'moment';
+import type { Moment } from 'moment';
+import * as webpack from 'webpack';
+
+const moment: any = _moment['default'];
 
 const isDev: boolean = process.env.NODE_ENV === 'development';
+const buildTime: Moment = moment();
+
+console.log(`build time: ${ buildTime.format('YYYY-MM-DD HH:mm:ss') }`);
 
 function nodeExternals(node: Array<string>): { [k: string]: string } {
   const result: { [k: string]: string } = {};
@@ -76,7 +84,13 @@ export default function(info: object): { [key: string]: any } {
       },
       include: /node_modules[\\/]_?antd/
     },
-    html: [{ template: path.join(__dirname, 'src/index.pug') }]
+    html: [{ template: path.join(__dirname, 'src/index.pug') }],
+    plugins: [
+      new webpack.DefinePlugin({
+        BUILD_TIME: JSON.stringify(buildTime.format('YYYY-MM-DD HH:mm:ss')),
+        BUILD_VERSION: JSON.stringify(buildTime.format('YYYY.MM.DD.HH.mm.ss'))
+      })
+    ]
   };
 
   if (isDev) {
