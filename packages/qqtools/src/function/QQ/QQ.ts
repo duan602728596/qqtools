@@ -114,7 +114,6 @@ ${ nickName }：${ customInfo.text }
 
       // 鸡腿翻牌
       if (customInfo.messageType === 'FLIPCARD') {
-        console.log(event);
         sendGroup.push(
           plain(`${ nickName } 翻牌了问题：
 ${ customInfo.question }
