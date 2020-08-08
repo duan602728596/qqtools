@@ -10,6 +10,7 @@ import type { Store } from 'rc-field-form/es/interface';
 import { random, transform } from 'lodash';
 import style from './index.sass';
 import { saveFormData, getOptionItem } from '../models/models';
+import CustomCmd from './CustomCmd';
 import type { OptionsItem } from '../../../types';
 
 /* 配置表单 */
@@ -106,6 +107,11 @@ function Edit(props: {}): ReactElement {
       </Form.Item>
       <Form.Item name="weiboUid" label="微博uid">
         <Input />
+      </Form.Item>
+      {/* 自定义命令 */}
+      <Divider>自定义命令</Divider>
+      <Form.Item name="customCmd" labelCol={{ span: 0 }} wrapperCol={{ span: 24 }}>
+        <CustomCmd />
       </Form.Item>
       <Space>
         <Button type="primary" onClick={ handleSaveClick }>保存</Button>
