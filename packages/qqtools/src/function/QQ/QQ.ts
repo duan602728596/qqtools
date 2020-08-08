@@ -1,30 +1,16 @@
 import { message } from 'antd';
 import * as moment from 'moment';
 import NIM_SDK from 'SDK';
-import { transform } from 'lodash';
 import { requestAuth, requestVerify, requestRelease, requestSendGroupMessage } from './services/services';
-import { plain, image, at, atAll } from './messageData';
+import { plain, image } from './messageData';
 import el from './eval';
 import type { OptionsItemValue } from '../../types';
 import type {
   AuthResponse,
   MessageResponse,
-  Plain,
-  Image,
-  At,
-  AtAll,
   MessageChain,
   NIMError,
   NIMMessage,
-  TEXTMessage,
-  REPLYMessage,
-  IMAGEMessage,
-  AUDIOMessage,
-  VIDEOMessage,
-  LIVEPUSHMessage,
-  FLIPCARDMessage,
-  EXPRESSMessage,
-  DELETEMessage,
   CustomMessageAll
 } from './qq.types';
 
@@ -184,10 +170,12 @@ ${ customInfo.question }
 
     if (!(pocket48RoomListener && pocket48RoomId && pocket48Account)) return;
 
+    const account: number = Number(pocket48Account);
+
     this.nimChatroomSocket = Chatroom.getInstance({
       appKey: el,
-      account: pocket48Account,
-      token: pocket48Account,
+      account,
+      token: account,
       chatroomId: pocket48RoomId,
       chatroomAddresses: ['chatweblink01.netease.im:443'],
       onconnect: this.handleRoomSocketConnect,
@@ -265,6 +253,12 @@ ${ customInfo.question }
 
     try {
       await requestRelease(qqNumber, socketPort, this.session); // 清除session
+
+      // 销毁口袋监听
+      if (this.nimChatroomSocket !== null) {
+        this.nimChatroomSocket.disconnect();
+        this.nimChatroomSocket = null;
+      }
 
       return true;
     } catch (err) {
