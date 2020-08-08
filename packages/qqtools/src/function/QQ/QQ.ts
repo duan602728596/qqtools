@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import NIM_SDK from 'SDK';
 import { requestAuth, requestVerify, requestRelease, requestSendGroupMessage } from './services/services';
 import { plain, image } from './messageData';
-import el from './eval';
+import el from './sdk/eval';
 import type { OptionsItemValue } from '../../types';
 import type {
   AuthResponse,
