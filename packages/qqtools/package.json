@@ -30,7 +30,8 @@
     "redux": "^4.0.5",
     "redux-actions": "^2.6.5",
     "redux-thunk": "^2.3.0",
-    "reselect": "^4.0.0"
+    "reselect": "^4.0.0",
+    "worker-loader": "^3.0.1"
   },
   "devDependencies": {
     "@hot-loader/react-dom": "^16.13.0",

@@ -19,6 +19,9 @@ export interface OptionsItemValue {
   weiboListener?: boolean;
   weiboUid?: string;
 
+  bilibiliLive?: boolean;
+  bilibiliLiveId: string;
+
   groupWelcome?: boolean;
   groupWelcomeSend?: string;
 

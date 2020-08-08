@@ -2,13 +2,15 @@ import { message } from 'antd';
 import * as moment from 'moment';
 import NIM_SDK from 'SDK';
 import { findIndex } from 'lodash';
+import BilibiliWorker from 'worker-loader!./bilibili.worker';
 import {
   requestAuth,
   requestVerify,
   requestRelease,
   requestSendGroupMessage,
   requestWeiboInfo,
-  requestWeiboContainer
+  requestWeiboContainer,
+  requestRoomInfo
 } from './services/services';
 import { plain, image } from './messageData';
 import el from './sdk/eval';
@@ -28,7 +30,8 @@ import type {
   WeiboContainerList,
   WeiboCard,
   WeiboMBlog,
-  WeiboSendData
+  WeiboSendData,
+  BilibiliRoomInfo
 } from './qq.types';
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
@@ -41,10 +44,12 @@ class QQ {
   public eventSocket: WebSocket;
   public messageSocket: WebSocket;
   public session: string;
-  public nimChatroomSocket: any;         // 口袋48
-  public weiboLfid: string;              // 微博的lfid
-  public weiboTimer: number | undefined; // 轮询定时器
-  public weiboId: BigInt;                // 记录查询位置
+  public nimChatroomSocket: any;   // 口袋48
+  public weiboLfid: string;        // 微博的lfid
+  public weiboTimer?: number;      // 轮询定时器
+  public weiboId: BigInt;          // 记录查询位置
+  public bilibiliWorker?: Worker;  // b站直播监听
+  public bilibiliUsername: string; // 用户名
 
   constructor(id: string, config: OptionsItemValue) {
     this.id = id;         // 当前登陆的唯一id
@@ -256,7 +261,7 @@ ${ customInfo.question }
       console.error(err);
     }
 
-    this.weiboTimer = setTimeout(this.weiboContainerListTimer, 30000);
+    this.weiboTimer = globalThis.setTimeout(this.weiboContainerListTimer, 30000);
   };
 
   // 微博初始化
@@ -277,7 +282,31 @@ ${ customInfo.question }
       const list: Array<WeiboCard> = filterCards(resWeiboList.data.cards);
 
       this.weiboId = list?.[0]._id ?? BigInt(0);
-      this.weiboTimer = setTimeout(this.weiboContainerListTimer, 20000);
+      this.weiboTimer = globalThis.setTimeout(this.weiboContainerListTimer, 30000);
+    }
+  }
+
+  // bilibili message监听事件
+  handleBilibiliWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
+    const { groupNumber, socketPort }: OptionsItemValue = this.config;
+    const text: string = `bilibili：${ this.bilibiliUsername }在B站开启了直播。`;
+
+    await requestSendGroupMessage(groupNumber, socketPort, this.session, [plain(text)]);
+  };
+
+  // bilibili直播监听初始化
+  async initBilibiliWorker(): Promise<void> {
+    const { bilibiliLive, bilibiliLiveId }: OptionsItemValue = this.config;
+
+    if (bilibiliLive && bilibiliLiveId) {
+      const res: BilibiliRoomInfo = await requestRoomInfo(bilibiliLiveId);
+
+      this.bilibiliUsername = res.data.anchor_info.base_info.uname;
+      this.bilibiliWorker = new BilibiliWorker();
+
+      this.bilibiliWorker.addEventListener('message', this.handleBilibiliWorkerMessage, false);
+
+      this.bilibiliWorker.postMessage({ id: bilibiliLiveId });
     }
   }
 
@@ -385,6 +414,7 @@ ${ customInfo.question }
       this.initWebSocket();
       this.initPocket48();
       await this.initWeiboWorker();
+      await this.initBilibiliWorker();
 
       return true;
     } catch (err) {
@@ -416,6 +446,12 @@ ${ customInfo.question }
       // 销毁微博监听
       if (typeof this.weiboTimer === 'number') {
         clearTimeout(this.weiboTimer);
+      }
+
+      // 销毁bilibili监听
+      if (this.bilibiliWorker) {
+        this.bilibiliWorker.terminate();
+        this.bilibiliWorker = undefined;
       }
 
       return true;

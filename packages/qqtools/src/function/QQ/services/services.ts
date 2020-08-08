@@ -1,6 +1,13 @@
 import got from 'got';
 import type { Response as GotResponse } from 'got';
-import type { AuthResponse, MessageResponse, MessageChain, WeiboInfo, WeiboContainerList } from '../qq.types';
+import type {
+  AuthResponse,
+  MessageResponse,
+  MessageChain,
+  WeiboInfo,
+  WeiboContainerList,
+  BilibiliRoomInfo
+} from '../qq.types';
 
 /**
  * 根据authKey获取session
@@ -104,6 +111,19 @@ export async function requestWeiboContainer(lfid: string): Promise<WeiboContaine
   const res: GotResponse<WeiboContainerList>
     = await got.get(`https://m.weibo.cn/api/container/getIndex?containerid=${ lfid }`, {
       responseType: 'json'
+    });
+
+  return res.body;
+}
+
+/* 获取直播间信息 */
+export async function requestRoomInfo(id: string): Promise<BilibiliRoomInfo> {
+  const res: GotResponse<BilibiliRoomInfo>
+    = await got.get(`https://api.live.bilibili.com/xlive/web-room/v1/index/getInfoByRoom?room_id=${ id }`, {
+      responseType: 'json',
+      headers: {
+        Referer: `https://live.bilibili.com/${ id }`
+      }
     });
 
   return res.body;

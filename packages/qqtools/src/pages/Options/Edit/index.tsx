@@ -108,6 +108,14 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="weiboUid" label="微博uid">
         <Input />
       </Form.Item>
+      {/* B站直播监听 */}
+      <Divider>B站直播监听</Divider>
+      <Form.Item name="bilibiliLive" label="开启监听" valuePropName="checked">
+        <Switch />
+      </Form.Item>
+      <Form.Item name="bilibiliLiveId" label="直播间ID">
+        <Input />
+      </Form.Item>
       {/* 群欢迎功能 */}
       <Divider>群欢迎功能</Divider>
       <Form.Item name="groupWelcome" label="开启功能" valuePropName="checked">
