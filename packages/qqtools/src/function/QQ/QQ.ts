@@ -128,6 +128,7 @@ ${ nickName }：${ customInfo.text }
 
       // 鸡腿翻牌
       if (customInfo.messageType === 'FLIPCARD') {
+        console.log(event); // TODO: 翻牌监听
         sendGroup.push(
           plain(`${ nickName } 翻牌了问题：
 ${ customInfo.question }
