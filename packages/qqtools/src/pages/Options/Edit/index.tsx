@@ -104,7 +104,7 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="weiboListener" label="开启监听" valuePropName="checked">
         <Switch />
       </Form.Item>
-      <Form.Item name="weiboLfid" label="微博lfid">
+      <Form.Item name="weiboUid" label="微博uid">
         <Input />
       </Form.Item>
       <Space>

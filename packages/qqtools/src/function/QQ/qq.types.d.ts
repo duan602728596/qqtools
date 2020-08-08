@@ -8,7 +8,7 @@ export interface MessageResponse {
   msg: string;
 }
 
-// 发送的信息类型
+/* 发送的信息类型 */
 export interface Plain {
   type: 'Plain';
   text: string;
@@ -32,7 +32,7 @@ export interface AtAll {
 
 export type MessageChain = Plain | Image | At | AtAll;
 
-// sdk类型
+/* sdk类型 */
 export interface NIMError {
   code: number | string;
   message: string;
@@ -46,7 +46,7 @@ export interface NIMMessage {
   time: number;
 }
 
-// 发言类型
+/* 发言类型 */
 export interface CustomMessage {
   messageType: string;
   sessionRole: number; // 判断是否为房间信息
@@ -117,3 +117,56 @@ export type CustomMessageAll =
   | FLIPCARDMessage
   | EXPRESSMessage
   | DELETEMessage;
+
+/* 微博类型 */
+export interface WeiboTab {
+  containerid: string;
+  title: string;
+  tabKey: string;
+}
+
+export interface WeiboInfo {
+  ok: number;
+  data: {
+    tabsInfo: {
+      tabs: Array<WeiboTab>;
+    };
+  };
+}
+
+export interface WeiboMBlog {
+  id: string;
+  user: {
+    screen_name: string;     // 微博名
+  };
+  retweeted_status?: object; // 有为转载，没有为原创
+  created_at: string;        // 发微博的时间
+  text: string;              // 微博文字
+  pics?: {
+    url: string;             // 图片
+  }[];
+}
+
+export interface WeiboCard {
+  card_type: number;
+  mblog: WeiboMBlog;
+  scheme: string;
+  _id: BigInt;
+}
+
+export interface WeiboContainerList {
+  ok: number;
+  data: {
+    cards: Array<WeiboCard>;
+  };
+}
+
+export interface WeiboSendData {
+  id: BigInt;
+  name: string;
+  type: string;
+  scheme: string;
+  time: string;
+  text: string;
+  pics: Array<string>;
+}

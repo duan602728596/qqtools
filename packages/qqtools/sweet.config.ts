@@ -3,6 +3,16 @@ import * as path from 'path';
 
 const isDev: boolean = process.env.NODE_ENV === 'development';
 
+function nodeExternals(node: Array<string>): { [k: string]: string } {
+  const result: { [k: string]: string } = {};
+
+  for (const name of node) {
+    result[name] = `global.require('${ name }')`;
+  }
+
+  return result;
+}
+
 export default function(info: object): { [key: string]: any } {
   const plugins: Array<any> = [
     ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }],
@@ -33,7 +43,8 @@ export default function(info: object): { [key: string]: any } {
       index: [path.join(__dirname, 'src/index.tsx')]
     },
     externals: {
-      SDK: 'window.SDK'
+      SDK: 'window.SDK',
+      ...nodeExternals(['got'])
     },
     js: {
       ecmascript: true,

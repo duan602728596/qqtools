@@ -1,9 +1,17 @@
 import { message } from 'antd';
 import * as moment from 'moment';
 import NIM_SDK from 'SDK';
-import { requestAuth, requestVerify, requestRelease, requestSendGroupMessage } from './services/services';
+import {
+  requestAuth,
+  requestVerify,
+  requestRelease,
+  requestSendGroupMessage,
+  requestWeiboInfo,
+  requestWeiboContainer
+} from './services/services';
 import { plain, image } from './messageData';
 import el from './sdk/eval';
+import { filterCards } from './weiboUtils';
 import type { OptionsItemValue } from '../../types';
 import type {
   AuthResponse,
@@ -11,7 +19,13 @@ import type {
   MessageChain,
   NIMError,
   NIMMessage,
-  CustomMessageAll
+  CustomMessageAll,
+  WeiboTab,
+  WeiboInfo,
+  WeiboContainerList,
+  WeiboCard,
+  WeiboMBlog,
+  WeiboSendData
 } from './qq.types';
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
@@ -24,7 +38,10 @@ class QQ {
   public eventSocket: WebSocket;
   public messageSocket: WebSocket;
   public session: string;
-  public nimChatroomSocket: any; // 口袋48
+  public nimChatroomSocket: any;         // 口袋48
+  public weiboLfid: string;              // 微博的lfid
+  public weiboTimer: number | undefined; // 轮询定时器
+  public weiboId: BigInt;                // 记录查询位置
 
   constructor(id: string, config: OptionsItemValue) {
     this.id = id;         // 当前登陆的唯一id
@@ -188,6 +205,79 @@ ${ customInfo.question }
     });
   }
 
+  // 轮询
+  weiboContainerListTimer: Function = async (): Promise<void> => {
+    try {
+      const resWeiboList: WeiboContainerList = await requestWeiboContainer(this.weiboLfid);
+      const list: Array<WeiboCard> = filterCards(resWeiboList.data.cards);
+
+      // 过滤新的微博
+      const newList: Array<WeiboSendData> = list
+        .filter((o: WeiboCard) => BigInt(o.mblog.id) > this.weiboId)
+        .map((item: WeiboCard, index: number): WeiboSendData => {
+          const mblog: WeiboMBlog = item.mblog;
+
+          return {
+            id: BigInt(mblog.id),
+            name: mblog.user.screen_name,
+            type: 'retweeted_status' in item.mblog ? '转载' : '原创',
+            scheme: item.scheme,
+            time: mblog.created_at === '刚刚' ? mblog.created_at : ('在' + mblog.created_at),
+            text: mblog.text.replace(/<[^<>]+>/g, ' '),
+            pics: (mblog.pics ?? []).map((item: { url: string }) => item.url)
+          };
+        });
+
+      if (newList.length > 0) {
+        this.weiboId = newList[0].id;
+
+        for (const item of newList) {
+          const sendGroup: Array<MessageChain> = [];
+
+          sendGroup.push(
+            plain(`${ item.name } ${ item.time }发送了一条微博：${ item.text }
+类型：${ item.type }
+地址：${ item.scheme }`)
+          );
+
+          if (item.pics.length > 0) {
+            sendGroup.push(image(item.pics[0]));
+          }
+
+          const { groupNumber, socketPort }: OptionsItemValue = this.config;
+
+          await requestSendGroupMessage(groupNumber, socketPort, this.session, sendGroup);
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+
+    this.weiboTimer = setTimeout(this.weiboContainerListTimer, 30000);
+  };
+
+  // 微博初始化
+  async initWeiboWorker(): Promise<void> {
+    const { weiboListener, weiboUid }: OptionsItemValue = this.config;
+
+    if (!(weiboListener && weiboUid)) return;
+
+    const resWeiboInfo: WeiboInfo = await requestWeiboInfo(weiboUid);
+    const weiboTab: Array<WeiboTab> = resWeiboInfo.data.tabsInfo.tabs
+      .filter((o: WeiboTab): boolean => o.tabKey === 'weibo');
+
+    if (weiboTab.length > 0) {
+      // 记录对比id
+      this.weiboLfid = weiboTab[0].containerid;
+
+      const resWeiboList: WeiboContainerList = await requestWeiboContainer(this.weiboLfid);
+      const list: Array<WeiboCard> = filterCards(resWeiboList.data.cards);
+
+      this.weiboId = list?.[0]._id ?? BigInt(0);
+      this.weiboTimer = setTimeout(this.weiboContainerListTimer, 20000);
+    }
+  }
+
   // message事件监听
   handleMessageSocketMessage: MessageListener = (event: MessageEvent): void => {
     console.log(event);
@@ -242,6 +332,7 @@ ${ customInfo.question }
 
       this.initWebSocket();
       this.initPocket48();
+      await this.initWeiboWorker();
 
       return true;
     } catch (err) {
@@ -258,17 +349,22 @@ ${ customInfo.question }
     try {
       await requestRelease(qqNumber, socketPort, this.session); // 清除session
 
+      // 销毁socket监听
+      this.eventSocket.removeEventListener('message', this.handleEventSocketMessage);
+      this.messageSocket.removeEventListener('message', this.handleMessageSocketMessage);
+      this.eventSocket.close();
+      this.messageSocket.close();
+
       // 销毁口袋监听
       if (this.nimChatroomSocket) {
         this.nimChatroomSocket.disconnect();
         this.nimChatroomSocket = undefined;
       }
 
-      // 销毁socket监听
-      this.eventSocket.removeEventListener('message', this.handleEventSocketMessage);
-      this.messageSocket.removeEventListener('message', this.handleMessageSocketMessage);
-      this.eventSocket.close();
-      this.messageSocket.close();
+      // 销毁微博监听
+      if (typeof this.weiboTimer === 'number') {
+        clearTimeout(this.weiboTimer);
+      }
 
       return true;
     } catch (err) {

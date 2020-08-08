@@ -11,7 +11,7 @@ export interface OptionsItemValue {
   pocket48Account?: string;
 
   weiboListener?: boolean;
-  weiboLfid?: string;
+  weiboUid?: string;
 }
 
 // 配置

@@ -23,6 +23,12 @@
   "devDependencies": {
     "@sweet-milktea/milktea-cli": "^0.16.3",
     "@sweet-milktea/util-tools": "^0.16.3",
+    "@types/lodash": "^4",
+    "@types/node": "^14",
+    "@types/react": "^16",
+    "@types/react-dom": "^16",
+    "@types/react-redux": "^7",
+    "@types/redux-actions": "^2",
     "@typescript-eslint/eslint-plugin": "^3.8.0",
     "@typescript-eslint/parser": "^3.8.0",
     "babel-eslint": "^11.0.0-beta.2",
