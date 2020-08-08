@@ -61,10 +61,10 @@ class QQ {
   handleRoomSocketDisconnect: Function = (err: NIMError): void => {
     console.log('连接断开', err);
     message.error(`【${ err.code }】${ err.message }`);
-  }
+  };
 
   // 事件监听
-  handleRoomSocketMessage: Function = async (event: Array<NIMMessage>): Promise<void> => {
+  async roomSocketMessage(event: Array<NIMMessage>): Promise<void> {
     const data: NIMMessage = event[0];                                 // 房间信息数组
     const customInfo: CustomMessageAll = JSON.parse(data.custom);      // 房间自定义信息
     const { sessionRole }: CustomMessageAll = customInfo; // 信息类型和sessionRole
@@ -171,6 +171,11 @@ ${ customInfo.question }
         await requestSendGroupMessage(groupNumber, socketPort, this.session, sendGroup);
       }
     }
+  }
+
+  // 事件监听
+  handleRoomSocketMessage: Function = (event: Array<NIMMessage>): void => {
+    this.roomSocketMessage(event);
   };
 
   // 口袋48监听初始化
