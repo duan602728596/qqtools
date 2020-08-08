@@ -34,7 +34,7 @@ class QQ {
   // 进入房间
   handleRoomSocketConnect: Function = (event: any): void => {
     console.log('进入聊天室', event);
-    message.info('进入口袋48房间');
+    message.success('进入口袋48房间');
   };
 
   // 进入房间失败
@@ -46,7 +46,12 @@ class QQ {
   // 断开连接
   handleRoomSocketDisconnect: Function = (err: NIMError): void => {
     console.log('连接断开', err);
-    message.error(`【${ err.code }】${ err.message }`);
+
+    if (err.code === 'logout') {
+      message.warn('断开连接');
+    } else {
+      message.error(`【${ err.code }】${ err.message }`);
+    }
   };
 
   // 事件监听

@@ -34,7 +34,7 @@ export type MessageChain = Plain | Image | At | AtAll;
 
 // sdk类型
 export interface NIMError {
-  code: number;
+  code: number | string;
   message: string;
 }
 
