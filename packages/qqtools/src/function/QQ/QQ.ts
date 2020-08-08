@@ -261,7 +261,7 @@ ${ customInfo.question }
       console.error(err);
     }
 
-    this.weiboTimer = globalThis.setTimeout(this.weiboContainerListTimer, 30000);
+    this.weiboTimer = globalThis.setTimeout(this.weiboContainerListTimer, 45000);
   };
 
   // 微博初始化
@@ -282,7 +282,7 @@ ${ customInfo.question }
       const list: Array<WeiboCard> = filterCards(resWeiboList.data.cards);
 
       this.weiboId = list?.[0]._id ?? BigInt(0);
-      this.weiboTimer = globalThis.setTimeout(this.weiboContainerListTimer, 30000);
+      this.weiboTimer = globalThis.setTimeout(this.weiboContainerListTimer, 45000);
     }
   }
 
