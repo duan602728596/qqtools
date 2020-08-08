@@ -1,4 +1,4 @@
-import type { Plain, Image, At, AtAll } from './types';
+import type { Plain, Image, At, AtAll } from './qq.types';
 
 /**
  * 发送文字

@@ -1,4 +1,4 @@
-import type { AuthResponse, MessageResponse, MessageChain } from '../types';
+import type { AuthResponse, MessageResponse, MessageChain } from '../qq.types';
 
 /**
  * 根据authKey获取session

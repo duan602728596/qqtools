@@ -2,7 +2,7 @@ import { message } from 'antd';
 import NIM_SDK from 'SDK';
 import { requestAuth, requestVerify, requestRelease } from './services/services';
 import type { OptionsItemValue } from '../../types';
-import type { AuthResponse, MessageResponse } from './types';
+import type { AuthResponse, MessageResponse } from './qq.types';
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
 
