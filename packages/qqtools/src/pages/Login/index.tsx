@@ -47,7 +47,8 @@ const state: Selector<{ [k: string]: IMap<string, any> }, SelectorRData> = creat
 function Index(props: {}): ReactElement {
   const { optionsList, loginList }: SelectorRData = useSelector(state);
   const dispatch: Dispatch = useDispatch();
-  const [optionValue, setOptionValue]: [string, D<S<string>>] = useState('');
+  const [optionValue, setOptionValue]: [string, D<S<string>>] = useState('');        // 配置的值
+  const [loginLoading, setLoginLoading]: [boolean, D<S<boolean>>] = useState(false); // loading
 
   // 退出
   async function handleLogoutClick(qq: QQ, event?: MouseEvent): Promise<void> {
@@ -61,16 +62,24 @@ function Index(props: {}): ReactElement {
   async function handleLoginClick(event: MouseEvent): Promise<void> {
     if (optionValue === '') return;
 
-    const index: number = findIndex(optionsList, { id: optionValue });
-    const id: string = String(random(1, 10000000));
-    const qq: QQ = new QQ(id, optionsList[index].value);
-    const result: boolean = await qq.init();
+    setLoginLoading(true);
 
-    if (result) {
-      loginList.push(qq);
-      dispatch(setLoginList(loginList));
-      message.success('登陆成功！');
+    try {
+      const index: number = findIndex(optionsList, { id: optionValue });
+      const id: string = String(random(1, 10000000));
+      const qq: QQ = new QQ(id, optionsList[index].value);
+      const result: boolean = await qq.init();
+
+      if (result) {
+        loginList.push(qq);
+        dispatch(setLoginList(loginList));
+        message.success('登陆成功！');
+      }
+    } catch (err) {
+      console.error(err);
     }
+
+    setLoginLoading(false);
   }
 
   // 选择配置
@@ -127,7 +136,9 @@ function Index(props: {}): ReactElement {
         <Select className={ style.optionSelect } value={ optionValue } onSelect={ handleSelect }>
           { optionsListSelectOptionRender() }
         </Select>
-        <Button type="primary" disabled={ optionValue === '' } onClick={ handleLoginClick }>登陆</Button>
+        <Button type="primary" disabled={ optionValue === '' } loading={ loginLoading } onClick={ handleLoginClick }>
+          登陆
+        </Button>
         <Link to="../">
           <Button type="primary" danger={ true }>返回</Button>
         </Link>
