@@ -88,6 +88,9 @@ async function unpack() {
       }
     }
   });
+
+  // await fse.copy(path.join(cwd, 'LICENSE'), path.join(build, 'mac/mac/LICENSE'));
+  await fse.copy(path.join(cwd, 'LICENSE'), path.join(build, 'win/win-unpacked/LICENSE'));
 }
 
 unpack();
