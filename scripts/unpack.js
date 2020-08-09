@@ -89,8 +89,13 @@ async function unpack() {
     }
   });
 
-  // await fse.copy(path.join(cwd, 'LICENSE'), path.join(build, 'mac/mac/LICENSE'));
-  await fse.copy(path.join(cwd, 'LICENSE'), path.join(build, 'win/win-unpacked/LICENSE'));
+  await Promise.all([
+    // fse.copy(path.join(cwd, 'LICENSE'), path.join(build, 'mac/mac/LICENSE')),
+    // fse.copy(path.join(cwd, 'LICENSE'), path.join(build, 'mac/mac/README.md')),
+
+    fse.copy(path.join(cwd, 'LICENSE'), path.join(build, 'win/win-unpacked/LICENSE')),
+    fse.copy(path.join(cwd, 'LICENSE'), path.join(build, 'win/win-unpacked/README.md'))
+  ]);
 }
 
 unpack();
