@@ -69,7 +69,7 @@ export default function(info: object): { [key: string]: any } {
         use: [{
           loader: 'file-loader',
           options: {
-            name: isDev ? '[name]_[hash:5].[ext]' : '[hash:15].[ext]'
+            name: isDev ? '[name]_[hash:5].[ext]' : '[name]_[hash:15].[ext]'
           }
         }]
       }
