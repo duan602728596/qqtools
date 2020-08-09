@@ -3,6 +3,7 @@ const path = require('path');
 const rimraf = require('rimraf');
 const fse = require('fs-extra');
 const builder = require('electron-builder');
+const _ = require('lodash');
 
 const rimrafPromise = util.promisify(rimraf);
 
@@ -68,7 +69,7 @@ async function unpack() {
   await builder.build({
     targets: Platform.MAC.createTarget(),
     config: {
-      ...config,
+      ..._.cloneDeep(config),
       directories: {
         app: appDir,
         output: path.join(build, 'mac')
@@ -80,7 +81,7 @@ async function unpack() {
   await builder.build({
     targets: Platform.WINDOWS.createTarget(),
     config: {
-      ...config,
+      ..._.cloneDeep(config),
       directories: {
         app: appDir,
         output: path.join(build, 'win')
