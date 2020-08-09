@@ -2,7 +2,7 @@ import * as React from 'react';
 import { lazy, Suspense, LazyExoticComponent, ReactElement } from 'react';
 import { injectReducers } from '../store/store';
 
-type Loader = () => Promise<{ default: any }>;
+type Loader<T = any> = () => Promise<{ default: T }>;
 
 /**
  * 异步加载、注入模块和reducer
