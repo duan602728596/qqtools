@@ -15,7 +15,7 @@ function nodeExternals(node: Array<string>): { [k: string]: string } {
   const result: { [k: string]: string } = {};
 
   for (const name of node) {
-    result[name] = `global.require('${ name }')`;
+    result[name] = `globalThis.require('${ name }')`;
   }
 
   return result;
