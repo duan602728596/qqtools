@@ -27,8 +27,6 @@ async function unpack() {
     fse.copy(path.join(cwd, 'packages/qqtools/dist'), path.join(appDir, 'dist'))
   ]);
 
-  const Platform = builder.Platform;
-
   // 配置
   const config = {
     appId: 'qqtools',
@@ -67,7 +65,7 @@ async function unpack() {
   // 编译
   /*
   await builder.build({
-    targets: Platform.MAC.createTarget(),
+    targets: builder.Platform.MAC.createTarget(),
     config: {
       ..._.cloneDeep(config),
       directories: {
@@ -79,7 +77,7 @@ async function unpack() {
   */
 
   await builder.build({
-    targets: Platform.WINDOWS.createTarget(),
+    targets: builder.Platform.WINDOWS.createTarget(),
     config: {
       ..._.cloneDeep(config),
       directories: {
