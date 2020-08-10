@@ -198,12 +198,10 @@ ${ customInfo.question }
 
     if (!(pocket48RoomListener && pocket48RoomId && pocket48Account)) return;
 
-    const account: number = Number(pocket48Account);
-
     this.nimChatroomSocket = Chatroom.getInstance({
       appKey: el,
-      account,
-      token: account,
+      account: pocket48Account,
+      token: pocket48Account,
       chatroomId: pocket48RoomId,
       chatroomAddresses: ['chatweblink01.netease.im:443'],
       onconnect: this.handleRoomSocketConnect,
