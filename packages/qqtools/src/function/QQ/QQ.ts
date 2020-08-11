@@ -87,7 +87,7 @@ class QQ {
             console.error(err);
           }
 
-          await this.sengMessage(value);
+          await this.sengMessage(value, data.sender.group.id);
         }
       }
     }
@@ -121,7 +121,7 @@ class QQ {
           console.error(err);
         }
 
-        await this.sengMessage(value);
+        await this.sengMessage(value, data.member.group.id);
       }
     }
   };
@@ -164,16 +164,23 @@ class QQ {
   /**
    * 发送信息
    * @param { Array<MessageChain> } value: 要发送的信息
+   * @param { number } groupId: 单个群的群号
    */
-  async sengMessage(value: Array<MessageChain>): Promise<void> {
+  async sengMessage(value: Array<MessageChain>, groupId?: number): Promise<void> {
     const { socketPort }: OptionsItemValue = this.config;
     const groupNumbers: Array<number> = this.groupNumbers;
 
-    await Promise.all(
-      groupNumbers.map((item: number, index: number): Promise<MessageResponse> => {
-        return requestSendGroupMessage(item, socketPort, this.session, value);
-      })
-    );
+    if (typeof groupId === 'number') {
+      // 只发送到一个群
+      await requestSendGroupMessage(groupId, socketPort, this.session, value);
+    } else {
+      // 发送到多个群
+      await Promise.all(
+        groupNumbers.map((item: number, index: number): Promise<MessageResponse> => {
+          return requestSendGroupMessage(item, socketPort, this.session, value);
+        })
+      );
+    }
   }
 
   /* ==================== 业务相关 ==================== */
