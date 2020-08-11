@@ -8,7 +8,7 @@ export interface EditItem {
 export interface OptionsItemValue {
   optionName: string;
   qqNumber: number;
-  groupNumber: number;
+  groupNumber: string;
   socketPort: number;
   authKey: string;
 

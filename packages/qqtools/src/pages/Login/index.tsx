@@ -108,7 +108,7 @@ function Index(props: {}): ReactElement {
     {
       title: '群号',
       dataIndex: 'groupNumber',
-      render: (value: undefined, record: QQ, index: number): number => record.config.groupNumber
+      render: (value: undefined, record: QQ, index: number): string => record.config.groupNumber
     },
     {
       title: '操作',

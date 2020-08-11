@@ -78,7 +78,7 @@ function Edit(props: {}): ReactElement {
         <InputNumber className={ style.inputNumber } />
       </Form.Item>
       <Form.Item name="groupNumber" label="群号" rules={ [{ required: true, message: '必须填写群号' }] }>
-        <InputNumber className={ style.inputNumber } />
+        <Input placeholder={ '支持配置多个群，以 "," 分隔' } />
       </Form.Item>
       <Form.Item name="socketPort" label="端口号" rules={ [{ required: true, message: '必须填写端口号' }] }>
         <InputNumber className={ style.inputNumber } />

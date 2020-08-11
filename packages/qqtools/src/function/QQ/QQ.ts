@@ -38,9 +38,17 @@ type MessageListener = (event: MessageEvent) => void | Promise<void>;
 
 const { Chatroom }: any = NIM_SDK;
 
+/* 将群号字符串解析成数组 */
+function getGroupNumbers(groupNumber: string): Array<number> {
+  return `${ groupNumber }`.split(/\s*[,，]\s*/)
+    .filter((o: string) => o !== '')
+    .map(Number);
+}
+
 class QQ {
   public id: string;
   public config: OptionsItemValue;
+  public groupNumbers: Array<number>; // 多个群
   public eventSocket: WebSocket;
   public messageSocket: WebSocket;
   public session: string;
@@ -54,7 +62,121 @@ class QQ {
   constructor(id: string, config: OptionsItemValue) {
     this.id = id;         // 当前登陆的唯一id
     this.config = config; // 配置
+    this.groupNumbers = getGroupNumbers(this.config.groupNumber);
   }
+
+  // message事件监听
+  handleMessageSocketMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
+    const { qqNumber, customCmd }: OptionsItemValue = this.config;
+    const groupNumbers: Array<number> = this.groupNumbers;
+    const data: MessageSocketEventData = JSON.parse(event.data);
+
+    // 群信息
+    if (data.type === 'GroupMessage' && data.sender.id !== qqNumber && groupNumbers.includes(data.sender.group.id)) {
+      // 自定义信息处理
+      if (data.type === 'GroupMessage' && data.messageChain?.[1].type === 'Plain' && customCmd?.length) {
+        const index: number = findIndex(customCmd, { cmd: data.messageChain[1].text });
+
+        if (index >= 0) {
+          let value: Array<MessageChain>;
+
+          try {
+            value = JSON.parse(customCmd[index].value);
+          } catch (err) {
+            value = [plain(customCmd[index].value)];
+            console.error(err);
+          }
+
+          await this.sengMessage(value);
+        }
+      }
+    }
+  }
+
+  // socket事件监听
+  handleEventSocketMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
+    const { qqNumber, groupWelcome, groupWelcomeSend }: OptionsItemValue = this.config;
+    const groupNumbers: Array<number> = this.groupNumbers;
+    const data: EventSocketEventData = JSON.parse(event.data);
+
+    // 欢迎进群
+    if (data.type === 'MemberJoinEvent' && data.member.id !== qqNumber && groupNumbers.includes(data.member.group.id)) {
+      if (groupWelcome && groupWelcomeSend) {
+        let value: Array<MessageChain>;
+
+        try {
+          value = JSON.parse(groupWelcomeSend);
+
+          for (const chain of value) {
+            if (chain.type === 'At') {
+              Object.assign(chain, {
+                display: name,
+                target: data.member.id
+              });
+            }
+          }
+
+        } catch (err) {
+          value = [plain(groupWelcomeSend ?? '')];
+          console.error(err);
+        }
+
+        await this.sengMessage(value);
+      }
+    }
+  };
+
+  // websocket初始化
+  initWebSocket(): void {
+    const { socketPort }: OptionsItemValue = this.config;
+
+    this.messageSocket = new WebSocket(`ws://localhost:${ socketPort }/message?sessionKey=${ this.session }`);
+    this.eventSocket = new WebSocket(`ws://localhost:${ socketPort }/event?sessionKey=${ this.session }`);
+
+    this.messageSocket.addEventListener('message', this.handleMessageSocketMessage, false);
+    this.eventSocket.addEventListener('message', this.handleEventSocketMessage, false);
+  }
+
+  // 获取session
+  async getSession(): Promise<boolean> {
+    const { qqNumber, socketPort, authKey }: OptionsItemValue = this.config;
+    const authRes: AuthResponse = await requestAuth(socketPort, authKey);
+
+    if (authRes.code !== 0) {
+      message.error('登陆失败：获取session失败。');
+
+      return false;
+    }
+
+    this.session = authRes.session;
+
+    const verifyRes: MessageResponse = await requestVerify(qqNumber, socketPort, this.session);
+
+    if (verifyRes.code === 0) {
+      return true;
+    } else {
+      message.error('登陆失败：session认证失败。');
+
+      return false;
+    }
+  }
+
+  /**
+   * 发送信息
+   * @param { Array<MessageChain> } value: 要发送的信息
+   */
+  async sengMessage(value: Array<MessageChain>): Promise<void> {
+    const { socketPort }: OptionsItemValue = this.config;
+    const groupNumbers: Array<number> = this.groupNumbers;
+
+    await Promise.all(
+      groupNumbers.map((item: number, index: number): Promise<MessageResponse> => {
+        return requestSendGroupMessage(item, socketPort, this.session, value);
+      })
+    );
+  }
+
+  /* ==================== 业务相关 ==================== */
 
   // 进入房间
   handleRoomSocketConnect: Function = (event: any): void => {
@@ -181,9 +303,7 @@ ${ customInfo.question }
     }
 
     if (sendGroup.length > 0) {
-      const { groupNumber, socketPort }: OptionsItemValue = this.config;
-
-      await requestSendGroupMessage(groupNumber, socketPort, this.session, sendGroup);
+      await this.sengMessage(sendGroup);
     }
   }
 
@@ -250,9 +370,7 @@ ${ customInfo.question }
             sendGroup.push(image(item.pics[0]));
           }
 
-          const { groupNumber, socketPort }: OptionsItemValue = this.config;
-
-          await requestSendGroupMessage(groupNumber, socketPort, this.session, sendGroup);
+          await this.sengMessage(sendGroup);
         }
       }
     } catch (err) {
@@ -286,10 +404,9 @@ ${ customInfo.question }
 
   // bilibili message监听事件
   handleBilibiliWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
-    const { groupNumber, socketPort }: OptionsItemValue = this.config;
     const text: string = `bilibili：${ this.bilibiliUsername }在B站开启了直播。`;
 
-    await requestSendGroupMessage(groupNumber, socketPort, this.session, [plain(text)]);
+    await this.sengMessage([plain(text)]);
   };
 
   // bilibili直播监听初始化
@@ -301,104 +418,8 @@ ${ customInfo.question }
 
       this.bilibiliUsername = res.data.anchor_info.base_info.uname;
       this.bilibiliWorker = new BilibiliWorker();
-
       this.bilibiliWorker.addEventListener('message', this.handleBilibiliWorkerMessage, false);
-
       this.bilibiliWorker.postMessage({ id: bilibiliLiveId });
-    }
-  }
-
-  // message事件监听
-  handleMessageSocketMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
-    const { qqNumber, groupNumber, socketPort, customCmd }: OptionsItemValue = this.config;
-    const data: MessageSocketEventData = JSON.parse(event.data);
-
-    // 群信息
-    if (data.type === 'GroupMessage' && data.sender.id !== qqNumber && data.sender.group.id === groupNumber) {
-      // 自定义信息处理
-      if (data.type === 'GroupMessage' && data.messageChain?.[1].type === 'Plain' && customCmd?.length) {
-        const index: number = findIndex(customCmd, { cmd: data.messageChain[1].text });
-
-        if (index >= 0) {
-          let value: Array<MessageChain>;
-
-          try {
-            value = JSON.parse(customCmd[index].value);
-          } catch (err) {
-            value = [plain(customCmd[index].value)];
-            console.error(err);
-          }
-
-          await requestSendGroupMessage(groupNumber, socketPort, this.session, value);
-        }
-      }
-    }
-  }
-
-  // socket事件监听
-  handleEventSocketMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
-    const { qqNumber, groupNumber, socketPort, groupWelcome, groupWelcomeSend }: OptionsItemValue = this.config;
-    const data: EventSocketEventData = JSON.parse(event.data);
-
-    // 欢迎进群
-    if (data.type === 'MemberJoinEvent' && data.member.id !== qqNumber && data.member.group.id === groupNumber) {
-      if (groupWelcome && groupWelcomeSend) {
-        let value: Array<MessageChain>;
-
-        try {
-          value = JSON.parse(groupWelcomeSend);
-
-          for (const chain of value) {
-            if (chain.type === 'At') {
-              Object.assign(chain, {
-                display: name,
-                target: data.member.id
-              });
-            }
-          }
-
-        } catch (err) {
-          value = [plain(groupWelcomeSend ?? '')];
-          console.error(err);
-        }
-
-        await requestSendGroupMessage(groupNumber, socketPort, this.session, value);
-      }
-    }
-  };
-
-  // websocket初始化
-  initWebSocket(): void {
-    const { socketPort }: OptionsItemValue = this.config;
-
-    this.messageSocket = new WebSocket(`ws://localhost:${ socketPort }/message?sessionKey=${ this.session }`);
-    this.eventSocket = new WebSocket(`ws://localhost:${ socketPort }/event?sessionKey=${ this.session }`);
-
-    this.messageSocket.addEventListener('message', this.handleMessageSocketMessage, false);
-    this.eventSocket.addEventListener('message', this.handleEventSocketMessage, false);
-  }
-
-  // 获取session
-  async getSession(): Promise<boolean> {
-    const { qqNumber, socketPort, authKey }: OptionsItemValue = this.config;
-    const authRes: AuthResponse = await requestAuth(socketPort, authKey);
-
-    if (authRes.code !== 0) {
-      message.error('登陆失败：获取session失败。');
-
-      return false;
-    }
-
-    this.session = authRes.session;
-
-    const verifyRes: MessageResponse = await requestVerify(qqNumber, socketPort, this.session);
-
-    if (verifyRes.code === 0) {
-      return true;
-    } else {
-      message.error('登陆失败：session认证失败。');
-
-      return false;
     }
   }
 
