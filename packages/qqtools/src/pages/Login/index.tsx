@@ -21,7 +21,7 @@ import { queryOptionsList } from '../Options/models/models';
 import { setLoginList } from './models/models';
 import dbConfig from '../../function/dbInit/dbConfig';
 import type { OptionsItem, OptionsItemValue } from '../../types';
-import QQ from '../../function/QQ/QQ';
+import QQ, { getGroupNumbers } from '../../function/QQ/QQ';
 
 /* state */
 interface SelectorRData {
@@ -108,7 +108,7 @@ function Index(props: {}): ReactElement {
     {
       title: '群号',
       dataIndex: 'groupNumber',
-      render: (value: undefined, record: QQ, index: number): string => record.config.groupNumber
+      render: (value: undefined, record: QQ, index: number): string => getGroupNumbers(record.config.groupNumber).join(', ')
     },
     {
       title: '操作',

@@ -39,7 +39,7 @@ type MessageListener = (event: MessageEvent) => void | Promise<void>;
 const { Chatroom }: any = NIM_SDK;
 
 /* 将群号字符串解析成数组 */
-function getGroupNumbers(groupNumber: string): Array<number> {
+export function getGroupNumbers(groupNumber: string): Array<number> {
   return `${ groupNumber }`.split(/\s*[,，]\s*/)
     .filter((o: string) => o !== '')
     .map(Number);
