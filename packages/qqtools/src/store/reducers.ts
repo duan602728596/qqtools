@@ -15,3 +15,8 @@ export function createReducer(asyncReducers: ReducersMapObject): Reducer {
     ...asyncReducers
   });
 }
+
+export const ignoreOptions: any = {
+  ignoredPaths: ['login.loginList'],
+  ignoredActions: ['login/setLoginList']
+};

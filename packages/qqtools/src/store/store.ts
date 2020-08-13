@@ -1,13 +1,6 @@
 /* 全局的store */
-import {
-  configureStore,
-  getDefaultMiddleware,
-  ReducersMapObject,
-  Reducer,
-  Store,
-  Middleware
-} from '@reduxjs/toolkit';
-import { createReducer } from './reducers';
+import { configureStore, getDefaultMiddleware, ReducersMapObject, Reducer, Store } from '@reduxjs/toolkit';
+import { createReducer, ignoreOptions } from './reducers';
 
 /* reducer列表 */
 const reducer: Reducer = createReducer({});
@@ -24,7 +17,8 @@ export function storeFactory(initialState: object = {}): Store {
       reducer,
       preloadedState: initialState,
       middleware: getDefaultMiddleware({
-        serializableCheck: false
+        immutableCheck: ignoreOptions,
+        serializableCheck: ignoreOptions
       })
     }));
   }

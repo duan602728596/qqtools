@@ -2,7 +2,7 @@ import { createSlice, Slice, CaseReducer, PayloadAction, CaseReducerActions } fr
 import QQ from '../../../function/QQ/QQ';
 
 export interface LoginInitialState {
-  loginList: Map<string, Array<QQ>>;
+  loginList: Array<QQ>;
 }
 
 export interface CaseReducers {
@@ -12,11 +12,11 @@ export interface CaseReducers {
 const { actions, reducer }: Slice = createSlice<LoginInitialState, CaseReducers>({
   name: 'login',
   initialState: {
-    loginList: new Map() // 使用Map存储数组，保证里面的值不被immer处理
+    loginList: [] // 使用Map存储数组，保证里面的值不被immer处理
   },
   reducers: {
     // 登陆列表
-    setLoginList(state: LoginInitialState, action: PayloadAction<Map<string, Array<QQ>>>): LoginInitialState {
+    setLoginList(state: LoginInitialState, action: PayloadAction<Array<QQ>>): LoginInitialState {
       state.loginList = action.payload;
 
       return state;

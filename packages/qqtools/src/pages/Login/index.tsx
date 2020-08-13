@@ -37,8 +37,8 @@ const state: Selector<any, SelectorRData> = createStructuredSelector({
 
   // 登陆列表
   loginList: createSelector(
-    ({ login }: { login: LoginInitialState }): Map<string, Array<QQ>> => login.loginList,
-    (data: Map<string, Array<QQ>>): Array<QQ> => data.get('result') ?? []
+    ({ login }: { login: LoginInitialState }): Array<QQ> => login.loginList,
+    (data: Array<QQ>): Array<QQ> => data
   )
 });
 
@@ -51,11 +51,10 @@ function Index(props: {}): ReactElement {
 
   // 退出
   async function handleLogoutClick(qq: QQ, event?: MouseEvent): Promise<void> {
-    const map: Map<string, Array<QQ>> = new Map();
-
-    map.set('result', differenceBy<QQ, { id: string }>(loginList, [{ id: qq.id }], 'id'));
     await qq.destroy();
-    dispatch(setLoginList(map));
+    dispatch(setLoginList(
+      differenceBy<QQ, { id: string }>(loginList, [{ id: qq.id }], 'id')
+    ));
   }
 
   // 登陆
@@ -71,10 +70,7 @@ function Index(props: {}): ReactElement {
       const result: boolean = await qq.init();
 
       if (result) {
-        const map: Map<string, Array<QQ>> = new Map();
-
-        map.set('result', [...loginList, qq]);
-        dispatch(setLoginList(map));
+        dispatch(setLoginList([...loginList, qq]));
         message.success('登陆成功！');
       }
     } catch (err) {
