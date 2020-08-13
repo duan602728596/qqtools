@@ -54,7 +54,6 @@ function Index(props: {}): ReactElement {
     const map: Map<string, Array<QQ>> = new Map();
 
     map.set('result', differenceBy<QQ, { id: string }>(loginList, [{ id: qq.id }], 'id'));
-
     await qq.destroy();
     dispatch(setLoginList(map));
   }

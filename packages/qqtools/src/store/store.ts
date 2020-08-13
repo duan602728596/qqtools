@@ -2,7 +2,6 @@
 import {
   configureStore,
   getDefaultMiddleware,
-  createImmutableStateInvariantMiddleware,
   ReducersMapObject,
   Reducer,
   Store,
@@ -16,15 +15,6 @@ const asyncReducers: ReducersMapObject = {}; // 异步的reducers
 
 /* store */
 const store: Store = {} as Store;
-const immutableInvariantMiddleware: Middleware = createImmutableStateInvariantMiddleware({
-  isImmutable(value: any) {
-    if (typeof value === 'object' && !Array.isArray(value) && value.constructor !== Object) {
-      return true;
-    }
-
-    return typeof value !== 'object' || value === null || typeof value === 'undefined';
-  }
-});
 
 export function storeFactory(initialState: object = {}): Store {
   // 避免热替换导致redux的状态丢失
@@ -33,7 +23,9 @@ export function storeFactory(initialState: object = {}): Store {
     Object.assign(store, configureStore({
       reducer,
       preloadedState: initialState,
-      middleware: getDefaultMiddleware().concat([immutableInvariantMiddleware])
+      middleware: getDefaultMiddleware({
+        serializableCheck: false
+      })
     }));
   }
 
