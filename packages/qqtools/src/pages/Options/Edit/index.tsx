@@ -9,7 +9,7 @@ import type { FormInstance } from 'antd/es/form';
 import type { Store } from 'rc-field-form/es/interface';
 import { random, transform } from 'lodash';
 import style from './index.sass';
-import { saveFormData, getOptionItem } from '../models/models';
+import { saveFormData, getOptionItem } from '../reducers/reducers';
 import CustomCmd from './CustomCmd';
 import type { OptionsItem } from '../../../types';
 

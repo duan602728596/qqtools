@@ -9,16 +9,15 @@ import {
   MouseEvent
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import type { Dispatch } from 'redux';
+import type { Dispatch } from '@reduxjs/toolkit';
 import { createSelector, createStructuredSelector, Selector } from 'reselect';
-import type { Map as IMap } from 'immutable';
 import { Link } from 'react-router-dom';
 import { Select, Button, Space, Table, Popconfirm, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { random, findIndex, differenceBy } from 'lodash';
 import style from './index.sass';
-import { queryOptionsList } from '../Options/models/models';
-import { setLoginList } from './models/models';
+import { queryOptionsList, OptionsInitialState } from '../Options/reducers/reducers';
+import { setLoginList, LoginInitialState } from './reducers/reducers';
 import dbConfig from '../../function/dbInit/dbConfig';
 import type { OptionsItem, OptionsItemValue } from '../../types';
 import QQ, { getGroupNumbers } from '../../function/QQ/QQ';
@@ -29,17 +28,17 @@ interface SelectorRData {
   loginList: Array<QQ>;
 }
 
-const state: Selector<{ [k: string]: IMap<string, any> }, SelectorRData> = createStructuredSelector({
+const state: Selector<any, SelectorRData> = createStructuredSelector({
   // 配置列表
   optionsList: createSelector(
-    ({ options: $$options }: { options: IMap<string, any> }): Array<any> => $$options.get('optionsList').toJS(),
+    ({ options }: { options: OptionsInitialState }): Array<OptionsItem> => options.optionsList,
     (data: Array<OptionsItem>): Array<OptionsItem> => (data)
   ),
 
   // 登陆列表
   loginList: createSelector(
-    ({ login: $$login }: { login: IMap<string, any> }): Array<any> => $$login.get('loginList').toJS(),
-    (data: Array<QQ>): Array<QQ> => (data)
+    ({ login }: { login: LoginInitialState }): Map<string, Array<QQ>> => login.loginList,
+    (data: Map<string, Array<QQ>>): Array<QQ> => data.get('result') ?? []
   )
 });
 
@@ -52,10 +51,12 @@ function Index(props: {}): ReactElement {
 
   // 退出
   async function handleLogoutClick(qq: QQ, event?: MouseEvent): Promise<void> {
+    const map: Map<string, Array<QQ>> = new Map();
+
+    map.set('result', differenceBy<QQ, { id: string }>(loginList, [{ id: qq.id }], 'id'));
+
     await qq.destroy();
-    dispatch(setLoginList(
-      differenceBy<QQ, { id: string }>(loginList, [{ id: qq.id }], 'id')
-    ));
+    dispatch(setLoginList(map));
   }
 
   // 登陆
@@ -71,8 +72,10 @@ function Index(props: {}): ReactElement {
       const result: boolean = await qq.init();
 
       if (result) {
-        loginList.push(qq);
-        dispatch(setLoginList(loginList));
+        const map: Map<string, Array<QQ>> = new Map();
+
+        map.set('result', [...loginList, qq]);
+        dispatch(setLoginList(map));
         message.success('登陆成功！');
       }
     } catch (err) {

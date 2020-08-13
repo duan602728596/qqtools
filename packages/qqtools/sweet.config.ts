@@ -37,15 +37,12 @@ export default function(info: object): { [key: string]: any } {
       'react',
       'react-dom',
       'prop-types',
+      '@reduxjs/toolkit',
+      'react-redux',
+      'reselect',
       'react-router',
       'react-router-dom',
-      'history',
-      'redux',
-      'react-redux',
-      'redux-actions',
-      'redux-thunk',
-      'immutable',
-      'reselect'
+      'history'
     ],
     entry: {
       index: [path.join(__dirname, 'src/index.tsx')]

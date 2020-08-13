@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
+    "@reduxjs/toolkit": "^1.4.0",
     "antd": "^4.5.2",
     "classnames": "^2.2.6",
     "got": "^10.7.0",
     "history": "^5.0.0",
-    "immutable": "^4.0.0-rc.12",
     "indexeddb-tools": "^3.0.0",
     "indexeddb-tools-redux": "^3.0.0",
     "indexof": "^0.0.1",
@@ -27,9 +27,6 @@
     "react-redux": "^7.2.0",
     "react-router": "^6.0.0-beta.0",
     "react-router-dom": "^6.0.0-beta.0",
-    "redux": "^4.0.5",
-    "redux-actions": "^2.6.5",
-    "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "worker-loader": "^3.0.1"
   },

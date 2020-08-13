@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { useEffect, ReactElement, MouseEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import type { Dispatch } from 'redux';
+import type { Dispatch } from '@reduxjs/toolkit';
 import { createSelector, createStructuredSelector, Selector } from 'reselect';
-import type { Map as IMap } from 'immutable';
 import { Link } from 'react-router-dom';
 import { Button, Space, Table, Popconfirm } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import style from './index.sass';
-import { queryOptionsList, deleteOption } from '../models/models';
+import { queryOptionsList, deleteOption, OptionsInitialState } from '../reducers/reducers';
 import dbConfig from '../../../function/dbInit/dbConfig';
 import type { OptionsItem } from '../../../types';
 
@@ -17,10 +16,10 @@ interface SelectorRData {
   optionsList: Array<OptionsItem>;
 }
 
-const state: Selector<{ [k: string]: IMap<string, any> }, SelectorRData> = createStructuredSelector({
+const state: Selector<any, SelectorRData> = createStructuredSelector({
   // 配置列表
   optionsList: createSelector(
-    ({ options: $$options }: { options: IMap<string, any> }): Array<any> => $$options.get('optionsList').toJS(),
+    ({ options }: { options: OptionsInitialState }): Array<OptionsItem> => options.optionsList,
     (data: Array<OptionsItem>): Array<OptionsItem> => (data)
   )
 });

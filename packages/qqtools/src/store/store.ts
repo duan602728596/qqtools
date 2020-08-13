@@ -1,30 +1,40 @@
 /* 全局的store */
-import { createStore, compose, applyMiddleware, ReducersMapObject, Reducer, StoreEnhancer, Store } from 'redux';
-import thunk from 'redux-thunk';
-import { fromJS } from 'immutable';
+import {
+  configureStore,
+  getDefaultMiddleware,
+  createImmutableStateInvariantMiddleware,
+  ReducersMapObject,
+  Reducer,
+  Store,
+  Middleware
+} from '@reduxjs/toolkit';
 import { createReducer } from './reducers';
 
 /* reducer列表 */
 const reducer: Reducer = createReducer({});
 const asyncReducers: ReducersMapObject = {}; // 异步的reducers
 
-/* 中间件 */
-const middleware: StoreEnhancer = applyMiddleware(thunk);
-
 /* store */
 const store: Store = {} as Store;
+const immutableInvariantMiddleware: Middleware = createImmutableStateInvariantMiddleware({
+  isImmutable(value: any) {
+    if (typeof value === 'object' && !Array.isArray(value) && value.constructor !== Object) {
+      return true;
+    }
+
+    return typeof value !== 'object' || value === null || typeof value === 'undefined';
+  }
+});
 
 export function storeFactory(initialState: object = {}): Store {
   // 避免热替换导致redux的状态丢失
   if (Object.keys(store).length === 0) {
-    const $$initialState: object = {};
-
-    for (const key in initialState) {
-      $$initialState[key] = fromJS(initialState[key]);
-    }
-
     /* store */
-    Object.assign(store, createStore(reducer, $$initialState, compose(middleware)));
+    Object.assign(store, configureStore({
+      reducer,
+      preloadedState: initialState,
+      middleware: getDefaultMiddleware().concat([immutableInvariantMiddleware])
+    }));
   }
 
   return store;
