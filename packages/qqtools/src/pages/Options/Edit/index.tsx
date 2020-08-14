@@ -174,7 +174,7 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="cronSendData" label="发送信息">
         <Input.TextArea rows={ 5 } />
       </Form.Item>
-      
+
       {/* 自定义命令 */}
       <Divider>自定义命令</Divider>
       <Form.Item name="customCmd" labelCol={{ span: 0 }} wrapperCol={{ span: 24 }}>
