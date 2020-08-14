@@ -7,7 +7,7 @@ interface ParsingResult {
 }
 
 interface Options {
-  qqNumber: number;
+  qqNumber?: number;
 }
 
 /**
@@ -20,7 +20,7 @@ interface Options {
  * @param { Options } options: 配置
  * @return { Array<MessageChain> }
  */
-function miraiTemplate(message: string, options: Options): Array<MessageChain> {
+function miraiTemplate(message: string, options: Options = {}): Array<MessageChain> {
   const msgArr: Array<string> = message.split(''); // 将字符串拆分成一个一个文字的数组
   const result: Array<ParsingResult> = [];
   let cache: string = '';                // 文本缓冲区
@@ -78,7 +78,7 @@ function miraiTemplate(message: string, options: Options): Array<MessageChain> {
         textResult.push(image(otherStr));
       } else if (qqtoolsType === 'AT') {
         // 解析成at
-        textResult.push(at(options.qqNumber));
+        textResult.push(at(options.qqNumber ?? 0));
       } else if (qqtoolsType === 'ATALL') {
         // 解析成atAll
         textResult.push(atAll());

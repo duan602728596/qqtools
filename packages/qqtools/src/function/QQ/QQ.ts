@@ -15,6 +15,7 @@ import {
 import { plain, image } from './messageData';
 import el from './sdk/eval';
 import { filterCards } from './weiboUtils';
+import miraiTemplate from './template';
 import type { OptionsItemValue } from '../../types';
 import type {
   AuthResponse,
@@ -78,14 +79,7 @@ class QQ {
         const index: number = findIndex(customCmd, { cmd: data.messageChain[1].text });
 
         if (index >= 0) {
-          let value: Array<MessageChain>;
-
-          try {
-            value = JSON.parse(customCmd[index].value);
-          } catch (err) {
-            value = [plain(customCmd[index].value)];
-            console.error(err);
-          }
+          const value: Array<MessageChain> = miraiTemplate(customCmd[index].value);
 
           await this.sengMessage(value, data.sender.group.id);
         }
@@ -102,24 +96,9 @@ class QQ {
     // 欢迎进群
     if (data.type === 'MemberJoinEvent' && data.member.id !== qqNumber && groupNumbers.includes(data.member.group.id)) {
       if (groupWelcome && groupWelcomeSend) {
-        let value: Array<MessageChain>;
-
-        try {
-          value = JSON.parse(groupWelcomeSend);
-
-          for (const chain of value) {
-            if (chain.type === 'At') {
-              Object.assign(chain, {
-                display: name,
-                target: data.member.id
-              });
-            }
-          }
-
-        } catch (err) {
-          value = [plain(groupWelcomeSend ?? '')];
-          console.error(err);
-        }
+        const value: Array<MessageChain> = miraiTemplate(groupWelcomeSend, {
+          qqNumber: data.member.id
+        });
 
         await this.sengMessage(value, data.member.group.id);
       }
