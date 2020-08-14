@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Fragment, useState, ReactElement, Dispatch as D, SetStateAction as S, MouseEvent } from 'react';
 import * as PropTypes from 'prop-types';
-import { Table, Button, Space, Input, Modal, Form, message } from 'antd';
+import { Table, Button, Space, Input, Modal, Form } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { FormInstance } from 'antd/es/form';
 import type { Store } from 'rc-field-form/es/interface';
@@ -38,14 +38,6 @@ function CustomCmd(props: CustomCmdProps): ReactElement {
     }
 
     if (!formValue) return;
-
-    try {
-      JSON.parse(formValue.value);
-    } catch (err) {
-      message.error('发送的数据必须是json格式。');
-
-      return console.error(err);
-    }
 
     const val: Array<EditItem> = props.value ?? [];
 

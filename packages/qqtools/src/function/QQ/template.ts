@@ -78,7 +78,11 @@ function miraiTemplate(message: string, options: Options = {}): Array<MessageCha
         textResult.push(image(otherStr));
       } else if (qqtoolsType === 'AT') {
         // 解析成at
-        textResult.push(at(options.qqNumber ?? 0));
+        const target: number = (otherStr && /^[0-9]+$/.test(otherStr))
+          ? Number(otherStr)
+          : options.qqNumber ?? 0;
+
+        textResult.push(at(target));
       } else if (qqtoolsType === 'ATALL') {
         // 解析成atAll
         textResult.push(atAll());
