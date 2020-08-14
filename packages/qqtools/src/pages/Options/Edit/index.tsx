@@ -25,6 +25,11 @@ const pocket48ShieldMsgTypeOptions: Array<CheckboxOptionType> = [
   { value: 'EXPRESS', label: '表情' }
 ];
 
+/* 表单的初始化值 */
+const initialStates: Store = {
+  groupWelcomeSend: '<%= qqtools:At %>欢迎入群。'
+};
+
 /* 配置表单 */
 function Edit(props: {}): ReactElement {
   const dispatch: Dispatch = useDispatch();
@@ -78,7 +83,12 @@ function Edit(props: {}): ReactElement {
   }, [params?.id]);
 
   return (
-    <Form className={ style.form } form={ form } labelCol={{ span: 4 }} wrapperCol={{ span: 20 }}>
+    <Form className={ style.form }
+      form={ form }
+      initialValues={ initialStates }
+      labelCol={{ span: 4 }}
+      wrapperCol={{ span: 20 }}
+    >
       {/* 基础表单配置 */}
       <Form.Item name="optionName"
         label="配置名称"
