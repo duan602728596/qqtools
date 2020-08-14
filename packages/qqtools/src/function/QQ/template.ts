@@ -71,7 +71,7 @@ function miraiTemplate(message: string, options: Options): Array<MessageChain> {
         .split(',');                                        // 拆分类型和值
       const [type, ...other]: string[] = formatStrArr;                // 拆分出类型和值
       const qqtoolsType: string = type.toLocaleUpperCase();           // 全部转换成大写
-      const otherStr: string = other.join('');                        // 合并值
+      const otherStr: string = other.join('').trim();                 // 合并值
 
       if (qqtoolsType === 'IMAGE') {
         // 解析成图片
@@ -82,16 +82,13 @@ function miraiTemplate(message: string, options: Options): Array<MessageChain> {
       } else if (qqtoolsType === 'ATALL') {
         // 解析成atAll
         textResult.push(atAll());
-      } else {
-        // 其他类型不解析
-        textResult.push(plain(''));
       }
 
       continue;
     }
 
     // 正常的文本
-    if (item.type === 'Plain') {
+    if (item.type === 'Plain' && item.text !== '') {
       textResult.push(plain(item.text));
     }
   }
