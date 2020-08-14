@@ -20,15 +20,25 @@
 
 直播间地址（ 比如[https://live.bilibili.com/11588230](https://live.bilibili.com/11588230) ），后面的数字即为直播间id
 
-### 群欢迎和自定义命令配置
+### 定时消息配置
 
-* 群的欢迎消息和自定义命令的消息必须配置json格式的字符串，json类型必须是数组（虽然不友好，但是实在是懒得写这个地方的交互）
-* 数组内的对象是以下格式：
-  * `{ "type": "Plain", "text": "" }` 发送文字
-  * `{ "type": "Image", "url": "" }` 发送图片
-  * `{ "type": "At", "target": 123456, "display": "name" }` 圈一个人。target是qq号
-  * `{ "type": "AtAll", target: 0 }` 圈所有人
-* 比如群欢迎可以这样配置：`[{ "type": "At" }, { "type": "Plain", "text": "欢迎新成员" }]`，会自动为at类型添加新入群成员的qq号
+执行时间的配置查看文档[https://github.com/kelektiv/node-cron#cron-ranges](https://github.com/kelektiv/node-cron#cron-ranges)
+
+## 群欢迎、定时消息、自定义命令的发送模板配置
+
+群欢迎和自定义命令配置支持在文字中写入占位符来支持某种功能
+
+### 占位符：
+
+* `<%= qqtools:Image, 图片地址 %>`：图片占位
+* `<%= qqtools:At %>`：At单个成员，如果填写QQ号则At指定成员，`<%= qqtools:At, 123456 %>`
+* `<%= qqtools:AtAll %>`：At全体成员
+  
+如果我想配置群欢迎信息，可以这样配置。会自动获取成员的QQ号填如模板中：
+
+```
+<%= qqtools:At %>欢迎加入xxx应援会。
+```
 
 ## 如何编译
 
