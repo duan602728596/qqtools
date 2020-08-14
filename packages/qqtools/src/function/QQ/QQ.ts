@@ -13,7 +13,7 @@ import {
   requestWeiboContainer,
   requestRoomInfo
 } from './services/services';
-import { plain, image } from './messageData';
+import { plain, image, atAll } from './messageData';
 import el from './sdk/eval';
 import { filterCards } from './weiboUtils';
 import miraiTemplate from './template';
@@ -195,6 +195,7 @@ class QQ {
 
   // 事件监听
   async roomSocketMessage(event: Array<NIMMessage>): Promise<void> {
+    const { pocket48LiveAtAll }: OptionsItemValue = this.config;
     const data: NIMMessage = event[0];                                 // 房间信息数组
     const customInfo: CustomMessageAll = JSON.parse(data.custom);      // 房间自定义信息
     const { sessionRole }: CustomMessageAll = customInfo; // 信息类型和sessionRole
@@ -249,6 +250,10 @@ ${ nickName }：${ customInfo.text }
 
       // 直播
       if (customInfo.messageType === 'LIVEPUSH') {
+        if (pocket48LiveAtAll) {
+          sendGroup.push(atAll());
+        }
+
         sendGroup.push(
           plain(`${ nickName } 正在直播
 直播标题：${ customInfo.liveTitle }
@@ -325,6 +330,8 @@ ${ customInfo.question }
 
   // 轮询
   weiboContainerListTimer: Function = async (): Promise<void> => {
+    const { weiboAtAll }: OptionsItemValue = this.config;
+
     try {
       const resWeiboList: WeiboContainerList = await requestWeiboContainer(this.weiboLfid);
       const list: Array<WeiboCard> = filterCards(resWeiboList.data.cards);
@@ -351,6 +358,10 @@ ${ customInfo.question }
 
         for (const item of newList) {
           const sendGroup: Array<MessageChain> = [];
+
+          if (weiboAtAll) {
+            sendGroup.push(atAll());
+          }
 
           sendGroup.push(
             plain(`${ item.name } ${ item.time }发送了一条微博：${ item.text }
@@ -396,9 +407,15 @@ ${ customInfo.question }
 
   // bilibili message监听事件
   handleBilibiliWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
+    const { bilibiliAtAll }: OptionsItemValue = this.config;
     const text: string = `bilibili：${ this.bilibiliUsername }在B站开启了直播。`;
+    const sendMessage: Array<MessageChain> = [plain(text)];
 
-    await this.sengMessage([plain(text)]);
+    if (bilibiliAtAll) {
+      sendMessage.unshift(atAll());
+    }
+
+    await this.sengMessage(sendMessage);
   };
 
   // bilibili直播监听初始化

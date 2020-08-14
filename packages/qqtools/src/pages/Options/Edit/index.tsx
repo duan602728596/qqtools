@@ -4,7 +4,7 @@ import type { Dispatch } from 'redux';
 import { useDispatch } from 'react-redux';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import type { Params, NavigateFunction } from 'react-router';
-import { Form, Button, Space, Input, InputNumber, Divider, Switch } from 'antd';
+import { Form, Button, Space, Input, InputNumber, Divider, Switch, Checkbox } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import type { Store } from 'rc-field-form/es/interface';
 import { random, transform } from 'lodash';
@@ -100,6 +100,9 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="pocket48Account" label="账号account">
         <Input />
       </Form.Item>
+      <Form.Item name="pocket48LiveAtAll" label="@全体成员" valuePropName="checked">
+        <Checkbox>直播时@全体成员（需要有管理员权限）</Checkbox>
+      </Form.Item>
       {/* 微博监听配置 */}
       <Divider>微博监听配置</Divider>
       <Form.Item name="weiboListener" label="开启监听" valuePropName="checked">
@@ -108,6 +111,9 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="weiboUid" label="微博uid">
         <Input />
       </Form.Item>
+      <Form.Item name="weiboAtAll" label="@全体成员" valuePropName="checked">
+        <Checkbox>发微博时@全体成员（需要有管理员权限）</Checkbox>
+      </Form.Item>
       {/* B站直播监听 */}
       <Divider>B站直播监听</Divider>
       <Form.Item name="bilibiliLive" label="开启监听" valuePropName="checked">
@@ -115,6 +121,9 @@ function Edit(props: {}): ReactElement {
       </Form.Item>
       <Form.Item name="bilibiliLiveId" label="直播间ID">
         <Input />
+      </Form.Item>
+      <Form.Item name="bilibiliAtAll" label="@全体成员" valuePropName="checked">
+        <Checkbox>直播时@全体成员（需要有管理员权限）</Checkbox>
       </Form.Item>
       {/* 群欢迎功能 */}
       <Divider>群欢迎功能</Divider>

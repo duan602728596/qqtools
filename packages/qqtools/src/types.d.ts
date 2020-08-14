@@ -15,12 +15,15 @@ export interface OptionsItemValue {
   pocket48RoomListener?: boolean;
   pocket48RoomId?: string;
   pocket48Account?: string;
+  pocket48LiveAtAll?: boolean;
 
   weiboListener?: boolean;
   weiboUid?: string;
+  weiboAtAll?: string;
 
   bilibiliLive?: boolean;
   bilibiliLiveId: string;
+  bilibiliAtAll?: string;
 
   groupWelcome?: boolean;
   groupWelcomeSend?: string;
