@@ -104,7 +104,7 @@ function CustomCmd(props: CustomCmdProps): ReactElement {
             <Input placeholder="命令" />
           </Form.Item>
           <Form.Item name="value" rules={ [{ required: true, message: '必须填写发送的数据' }] }>
-            <Input.TextArea rows={ 14 } placeholder="发送的数据，必须是json格式" />
+            <Input.TextArea rows={ 14 } />
           </Form.Item>
         </Form>
       </Modal>

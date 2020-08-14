@@ -160,7 +160,7 @@ function Edit(props: {}): ReactElement {
         <Switch />
       </Form.Item>
       <Form.Item name="groupWelcomeSend" label="发送信息">
-        <Input.TextArea rows={ 5 } placeholder="发送的数据，必须是json格式" />
+        <Input.TextArea rows={ 5 } />
       </Form.Item>
 
       {/* 定时任务 */}
