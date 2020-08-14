@@ -8,6 +8,7 @@
   },
   "main": "bin/lib/main.js",
   "dependencies": {
+    "cron": "^1.8.2",
     "got": "^10.7.0"
   }
 }

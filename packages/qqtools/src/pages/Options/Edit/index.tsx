@@ -124,6 +124,17 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="groupWelcomeSend" label="发送信息">
         <Input.TextArea rows={ 5 } placeholder="发送的数据，必须是json格式" />
       </Form.Item>
+      {/* 定时任务 */}
+      <Divider>定时任务</Divider>
+      <Form.Item name="cronJob" label="开启任务" valuePropName="checked">
+        <Switch />
+      </Form.Item>
+      <Form.Item name="cronTime" label="执行时间">
+        <Input />
+      </Form.Item>
+      <Form.Item name="cronSendData" label="发送信息">
+        <Input.TextArea rows={ 5 } />
+      </Form.Item>
       {/* 自定义命令 */}
       <Divider>自定义命令</Divider>
       <Form.Item name="customCmd" labelCol={{ span: 0 }} wrapperCol={{ span: 24 }}>

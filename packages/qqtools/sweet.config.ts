@@ -49,7 +49,11 @@ export default function(info: object): { [key: string]: any } {
     },
     externals: {
       SDK: 'window.SDK',
-      ...nodeExternals(['got', 'electron'])
+      ...nodeExternals([
+        'got',
+        'electron',
+        'cron'
+      ])
     },
     js: {
       ecmascript: true,

@@ -25,6 +25,10 @@ export interface OptionsItemValue {
   groupWelcome?: boolean;
   groupWelcomeSend?: string;
 
+  cronJob?: boolean;
+  cronTime?: string;
+  cronSendData?: string;
+
   customCmd?: Array<EditItem>;
 }
 

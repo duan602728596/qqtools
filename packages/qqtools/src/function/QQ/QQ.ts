@@ -1,3 +1,4 @@
+import { CronJob } from 'cron';
 import { message } from 'antd';
 import * as moment from 'moment';
 import NIM_SDK from 'SDK';
@@ -53,12 +54,17 @@ class QQ {
   public eventSocket: WebSocket;
   public messageSocket: WebSocket;
   public session: string;
+
   public nimChatroomSocket: any;   // 口袋48
+
   public weiboLfid: string;        // 微博的lfid
   public weiboTimer?: number;      // 轮询定时器
   public weiboId: BigInt;          // 记录查询位置
+
   public bilibiliWorker?: Worker;  // b站直播监听
   public bilibiliUsername: string; // 用户名
+
+  public cronJob?: CronJob;        // 定时任务
 
   constructor(id: string, config: OptionsItemValue) {
     this.id = id;         // 当前登陆的唯一id
@@ -409,6 +415,18 @@ ${ customInfo.question }
     }
   }
 
+  // 定时任务初始化
+  initCronJob(): void {
+    const { cronJob, cronTime, cronSendData }: OptionsItemValue = this.config;
+
+    if (cronJob && cronTime && cronSendData) {
+      this.cronJob = new CronJob(cronTime, (): void => {
+        this.sengMessage(miraiTemplate(cronSendData));
+      });
+      this.cronJob.start();
+    }
+  }
+
   // 项目初始化
   async init(): Promise<boolean> {
     try {
@@ -420,6 +438,7 @@ ${ customInfo.question }
       this.initPocket48();
       await this.initWeiboWorker();
       await this.initBilibiliWorker();
+      this.initCronJob();
 
       return true;
     } catch (err) {
@@ -457,6 +476,12 @@ ${ customInfo.question }
       if (this.bilibiliWorker) {
         this.bilibiliWorker.terminate();
         this.bilibiliWorker = undefined;
+      }
+
+      // 销毁定时任务
+      if (this.cronJob) {
+        this.cronJob.stop();
+        this.cronJob = undefined;
       }
 
       return true;
