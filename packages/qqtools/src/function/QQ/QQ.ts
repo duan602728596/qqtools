@@ -195,12 +195,14 @@ class QQ {
 
   // 事件监听
   async roomSocketMessage(event: Array<NIMMessage>): Promise<void> {
-    const { pocket48LiveAtAll }: OptionsItemValue = this.config;
+    const { pocket48LiveAtAll, pocket48ShieldMsgType }: OptionsItemValue = this.config;
     const data: NIMMessage = event[0];                                 // 房间信息数组
     const customInfo: CustomMessageAll = JSON.parse(data.custom);      // 房间自定义信息
     const { sessionRole }: CustomMessageAll = customInfo; // 信息类型和sessionRole
 
     if (Number(sessionRole) === 0) return; // 过滤发言
+
+    if (pocket48ShieldMsgType && pocket48ShieldMsgType.includes(customInfo.messageType)) return; // 屏蔽信息类型
 
     const sendGroup: Array<MessageChain> = [];                  // 发送的数据
     const nickName: string = customInfo?.user?.nickName ?? '';  // 用户名

@@ -7,11 +7,23 @@ import type { Params, NavigateFunction } from 'react-router';
 import { Form, Button, Space, Input, InputNumber, Divider, Switch, Checkbox } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import type { Store } from 'rc-field-form/es/interface';
+import type { CheckboxOptionType } from 'antd/es/checkbox';
 import { random, transform } from 'lodash';
 import style from './index.sass';
 import { saveFormData, getOptionItem } from '../reducers/reducers';
 import CustomCmd from './CustomCmd';
 import type { OptionsItem } from '../../../types';
+
+const pocket48ShieldMsgTypeOptions: Array<CheckboxOptionType> = [
+  { value: 'TEXT', label: '普通信息' },
+  { value: 'REPLY', label: '回复信息' },
+  { value: 'IMAGE', label: '图片' },
+  { value: 'AUDIO', label: '语音' },
+  { value: 'VIDEO', label: '视频' },
+  { value: 'LIVEPUSH', label: '直播' },
+  { value: 'FLIPCARD', label: '翻牌' },
+  { value: 'EXPRESS', label: '表情' }
+];
 
 /* 配置表单 */
 function Edit(props: {}): ReactElement {
@@ -102,6 +114,9 @@ function Edit(props: {}): ReactElement {
       </Form.Item>
       <Form.Item name="pocket48LiveAtAll" label="@全体成员" valuePropName="checked">
         <Checkbox>直播时@全体成员（需要有管理员权限）</Checkbox>
+      </Form.Item>
+      <Form.Item name="pocket48ShieldMsgType" label="屏蔽信息类型">
+        <Checkbox.Group options={ pocket48ShieldMsgTypeOptions } />
       </Form.Item>
       {/* 微博监听配置 */}
       <Divider>微博监听配置</Divider>
