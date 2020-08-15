@@ -1,5 +1,5 @@
 /* 全局的store */
-import { configureStore, getDefaultMiddleware, ReducersMapObject, Reducer, Store } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware, ReducersMapObject, Reducer, Store, DeepPartial } from '@reduxjs/toolkit';
 import { createReducer, ignoreOptions } from './reducers';
 
 /* reducer列表 */
@@ -9,7 +9,7 @@ const asyncReducers: ReducersMapObject = {}; // 异步的reducers
 /* store */
 const store: Store = {} as Store;
 
-export function storeFactory(initialState: object = {}): Store {
+export function storeFactory(initialState: DeepPartial<any> = {}): Store {
   // 避免热替换导致redux的状态丢失
   if (Object.keys(store).length === 0) {
     /* store */
