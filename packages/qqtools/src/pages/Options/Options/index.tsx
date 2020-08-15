@@ -1,11 +1,16 @@
+import { remote, SaveDialogReturnValue } from 'electron';
+import * as yaml from 'js-yaml';
+import * as fse from 'fs-extra';
 import * as React from 'react';
 import { useEffect, ReactElement, MouseEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { Dispatch } from '@reduxjs/toolkit';
 import { createSelector, createStructuredSelector, Selector } from 'reselect';
 import { Link } from 'react-router-dom';
-import { Button, Space, Table, Popconfirm } from 'antd';
+import { Button, Space, Table, Popconfirm, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import * as moment from 'moment';
+import type { Moment } from 'moment';
 import style from './index.sass';
 import { queryOptionsList, deleteOption, OptionsInitialState } from '../reducers/reducers';
 import dbConfig from '../../../function/dbInit/dbConfig';
@@ -28,6 +33,29 @@ const state: Selector<any, SelectorRData> = createStructuredSelector({
 function Options(props: {}): ReactElement {
   const { optionsList }: SelectorRData = useSelector(state);
   const dispatch: Dispatch = useDispatch();
+
+  // 导出配置
+  async function handleExportConfigurationFileClick(event: MouseEvent): Promise<void> {
+    const time: Moment = moment();
+    const result: SaveDialogReturnValue = await remote.dialog.showSaveDialog({
+      defaultPath: `配置备份_${ time.format('YYYY.MM.DD.HH.mm.ss') }_.yml`
+    });
+
+    if (result.canceled || !result.filePath) return;
+
+    // 导出为yaml
+    const time1: string = time.format('YYYY-MM-DD HH:mm:ss');
+    let ymlResult: string = yaml.safeDump({
+      qqtools: {
+        option: optionsList
+      }
+    });
+
+    ymlResult = `# qqtools配置文件导出\n# ${ time1 }\n\n${ ymlResult }`;
+
+    await fse.outputFile(result.filePath, ymlResult);
+    message.success('配置文件导出成功！');
+  }
 
   // 删除
   function handleDeleteClick(record: OptionsItem, event?: MouseEvent): void {
@@ -65,14 +93,20 @@ function Options(props: {}): ReactElement {
 
   return (
     <div className={ style.content }>
-      <Space className={ style.toolsBtnGroup }>
-        <Link to="Edit">
-          <Button type="primary">添加配置</Button>
-        </Link>
-        <Link to="../">
-          <Button type="primary" danger={ true }>返回</Button>
-        </Link>
-      </Space>
+      <div className={ style.toolsGroup }>
+        <Space className={ style.toolsItem }>
+          <Link to="Edit">
+            <Button type="primary">添加配置</Button>
+          </Link>
+          <Link to="../">
+            <Button type="primary" danger={ true }>返回</Button>
+          </Link>
+        </Space>
+        <Space>
+          <Button>导入配置</Button>
+          <Button onClick={ handleExportConfigurationFileClick }>导出配置</Button>
+        </Space>
+      </div>
       <Table columns={ columns } dataSource={ optionsList } rowKey="id" />
     </div>
   );

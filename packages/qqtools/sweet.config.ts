@@ -50,9 +50,11 @@ export default function(info: object): { [key: string]: any } {
     externals: {
       SDK: 'window.SDK',
       ...nodeExternals([
-        'got',
+        'cron',
         'electron',
-        'cron'
+        'fs-extra',
+        'got',
+        'js-yaml'
       ])
     },
     js: {
