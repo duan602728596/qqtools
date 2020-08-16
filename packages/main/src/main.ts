@@ -14,6 +14,7 @@ function createWindow(): void {
     height: 600,
     webPreferences: {
       nodeIntegration: true,
+      nodeIntegrationInWorker: true,
       webSecurity: false
     },
     icon: isDevelopment ? undefined : path.join(__dirname, '../../titleBarIcon.png')

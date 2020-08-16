@@ -3,19 +3,18 @@ import { message } from 'antd';
 import NIM_SDK from 'SDK';
 import { findIndex } from 'lodash';
 import BilibiliWorker from 'worker-loader!./utils/bilibili.worker';
+import WeiboWorker from 'worker-loader!./utils/weibo.worker';
 import {
   requestAuth,
   requestVerify,
   requestRelease,
   requestSendGroupMessage,
   requestWeiboInfo,
-  requestWeiboContainer,
   requestRoomInfo
 } from './services/services';
 import el from './sdk/eval';
-import { plain, image, atAll, miraiTemplate } from './utils/miraiUtils';
+import { plain, atAll, miraiTemplate } from './utils/miraiUtils';
 import { getRoomMessage } from './utils/pocket48Utils';
-import { filterCards, filterNewCards } from './utils/weiboUtils';
 import type { OptionsItemValue } from '../../types';
 import type {
   AuthResponse,
@@ -28,10 +27,6 @@ import type {
   CustomMessageAll,
   WeiboTab,
   WeiboInfo,
-  WeiboContainerList,
-  WeiboCard,
-  WeiboMBlog,
-  WeiboSendData,
   BilibiliRoomInfo
 } from './qq.types';
 
@@ -57,8 +52,7 @@ class QQ {
   public nimChatroomSocket: any;   // 口袋48
 
   public weiboLfid: string;        // 微博的lfid
-  public weiboTimer?: number;      // 轮询定时器
-  public weiboId: BigInt;          // 记录查询位置
+  public weiboWorker?: Worker;     // 微博监听
 
   public bilibiliWorker?: Worker;  // b站直播监听
   public bilibiliUsername: string; // 用户名
@@ -240,48 +234,14 @@ class QQ {
     });
   }
 
-  // 轮询
-  weiboContainerListTimer: Function = async (): Promise<void> => {
-    const { weiboAtAll }: OptionsItemValue = this.config;
-
-    try {
-      const resWeiboList: WeiboContainerList = await requestWeiboContainer(this.weiboLfid);
-      const newList: Array<WeiboSendData> = filterNewCards(
-        filterCards(resWeiboList.data.cards), this.weiboId); // 过滤新的微博
-
-      if (newList.length > 0) {
-        this.weiboId = newList[0].id;
-
-        for (const item of newList) {
-          const sendGroup: Array<MessageChain> = [];
-
-          if (weiboAtAll) {
-            sendGroup.push(atAll());
-          }
-
-          sendGroup.push(
-            plain(`${ item.name } ${ item.time }发送了一条微博：${ item.text }
-类型：${ item.type }
-地址：${ item.scheme }`)
-          );
-
-          if (item.pics.length > 0) {
-            sendGroup.push(image(item.pics[0]));
-          }
-
-          await this.sengMessage(sendGroup);
-        }
-      }
-    } catch (err) {
-      console.error(err);
-    }
-
-    this.weiboTimer = globalThis.setTimeout(this.weiboContainerListTimer, 45000);
+  // 微博监听
+  handleWeiboWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
+    await this.sengMessage(event.data.sendGroup);
   };
 
   // 微博初始化
   async initWeiboWorker(): Promise<void> {
-    const { weiboListener, weiboUid }: OptionsItemValue = this.config;
+    const { weiboListener, weiboUid, weiboAtAll }: OptionsItemValue = this.config;
 
     if (!(weiboListener && weiboUid)) return;
 
@@ -290,14 +250,13 @@ class QQ {
       .filter((o: WeiboTab): boolean => o.tabKey === 'weibo');
 
     if (weiboTab.length > 0) {
-      // 记录对比id
       this.weiboLfid = weiboTab[0].containerid;
-
-      const resWeiboList: WeiboContainerList = await requestWeiboContainer(this.weiboLfid);
-      const list: Array<WeiboCard> = filterCards(resWeiboList.data.cards);
-
-      this.weiboId = list?.[0]._id ?? BigInt(0);
-      this.weiboTimer = globalThis.setTimeout(this.weiboContainerListTimer, 45000);
+      this.weiboWorker = new WeiboWorker();
+      this.weiboWorker.addEventListener('message', this.handleWeiboWorkerMessage, false);
+      this.weiboWorker.postMessage({
+        lfid: this.weiboLfid,
+        weiboAtAll
+      });
     }
   }
 
@@ -381,8 +340,9 @@ class QQ {
       }
 
       // 销毁微博监听
-      if (typeof this.weiboTimer === 'number') {
-        clearTimeout(this.weiboTimer);
+      if (this.weiboWorker) {
+        this.weiboWorker.terminate();
+        this.weiboWorker = undefined;
       }
 
       // 销毁bilibili监听

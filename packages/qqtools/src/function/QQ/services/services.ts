@@ -5,7 +5,6 @@ import type {
   MessageResponse,
   MessageChain,
   WeiboInfo,
-  WeiboContainerList,
   BilibiliRoomInfo
 } from '../qq.types';
 
@@ -103,20 +102,7 @@ export async function requestWeiboInfo(uid: string): Promise<WeiboInfo> {
   return res.body;
 }
 
-/**
- * 获取微博列表
- * @param { string } lfid: 微博的lfid
- */
-export async function requestWeiboContainer(lfid: string): Promise<WeiboContainerList> {
-  const res: GotResponse<WeiboContainerList>
-    = await got.get(`https://m.weibo.cn/api/container/getIndex?containerid=${ lfid }`, {
-      responseType: 'json'
-    });
-
-  return res.body;
-}
-
-/* 获取直播间信息 */
+/* 获取B站直播间信息 */
 export async function requestRoomInfo(id: string): Promise<BilibiliRoomInfo> {
   const res: GotResponse<BilibiliRoomInfo>
     = await got.get(`https://api.live.bilibili.com/xlive/web-room/v1/index/getInfoByRoom?room_id=${ id }`, {
