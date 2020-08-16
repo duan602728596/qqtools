@@ -7,11 +7,13 @@ import type { CustomMessageAll, MessageChain, NIMMessage } from '../qq.types';
  * @param { CustomMessageAll } customInfo: 消息对象
  * @param { NIMMessage } data: 发送消息
  * @param { boolean } pocket48LiveAtAll: 直播时是否at全体成员
+ * @param { Array<NIMMessage> } event: 原始信息
  */
-export function getRoomMessage({ customInfo, data, pocket48LiveAtAll }: {
+export function getRoomMessage({ customInfo, data, pocket48LiveAtAll, event }: {
   customInfo: CustomMessageAll;
   data: NIMMessage;
   pocket48LiveAtAll?: boolean;
+  event: Array<NIMMessage>;
 }): Array<MessageChain> {
   const sendGroup: Array<MessageChain> = [];                 // 发送的数据
   const nickName: string = customInfo?.user?.nickName ?? ''; // 用户名

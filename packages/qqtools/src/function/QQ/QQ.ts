@@ -208,7 +208,8 @@ class QQ {
     const sendGroup: Array<MessageChain> = getRoomMessage({
       customInfo,
       data,
-      pocket48LiveAtAll
+      pocket48LiveAtAll,
+      event
     });
 
     if (sendGroup.length > 0) {
