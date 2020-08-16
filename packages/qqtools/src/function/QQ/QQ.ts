@@ -1,6 +1,5 @@
 import { CronJob } from 'cron';
 import { message } from 'antd';
-import * as moment from 'moment';
 import NIM_SDK from 'SDK';
 import { findIndex } from 'lodash';
 import BilibiliWorker from 'worker-loader!./utils/bilibili.worker';
@@ -16,7 +15,7 @@ import {
 import el from './sdk/eval';
 import { plain, image, atAll, miraiTemplate } from './utils/miraiUtils';
 import { getRoomMessage } from './utils/pocket48Utils';
-import { filterCards } from './utils/weiboUtils';
+import { filterCards, filterNewCards } from './utils/weiboUtils';
 import type { OptionsItemValue } from '../../types';
 import type {
   AuthResponse,
@@ -247,24 +246,8 @@ class QQ {
 
     try {
       const resWeiboList: WeiboContainerList = await requestWeiboContainer(this.weiboLfid);
-      const list: Array<WeiboCard> = filterCards(resWeiboList.data.cards);
-
-      // 过滤新的微博
-      const newList: Array<WeiboSendData> = list
-        .filter((o: WeiboCard) => BigInt(o.mblog.id) > this.weiboId)
-        .map((item: WeiboCard, index: number): WeiboSendData => {
-          const mblog: WeiboMBlog = item.mblog;
-
-          return {
-            id: BigInt(mblog.id),
-            name: mblog.user.screen_name,
-            type: 'retweeted_status' in item.mblog ? '转载' : '原创',
-            scheme: item.scheme,
-            time: mblog.created_at === '刚刚' ? mblog.created_at : ('在' + mblog.created_at),
-            text: mblog.text.replace(/<[^<>]+>/g, ' '),
-            pics: (mblog.pics ?? []).map((item: { url: string }) => item.url)
-          };
-        });
+      const newList: Array<WeiboSendData> = filterNewCards(
+        filterCards(resWeiboList.data.cards), this.weiboId); // 过滤新的微博
 
       if (newList.length > 0) {
         this.weiboId = newList[0].id;
