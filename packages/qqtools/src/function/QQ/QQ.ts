@@ -3,7 +3,7 @@ import { message } from 'antd';
 import * as moment from 'moment';
 import NIM_SDK from 'SDK';
 import { findIndex } from 'lodash';
-import BilibiliWorker from 'worker-loader!./bilibili.worker';
+import BilibiliWorker from 'worker-loader!./utils/bilibili.worker';
 import {
   requestAuth,
   requestVerify,
@@ -13,10 +13,9 @@ import {
   requestWeiboContainer,
   requestRoomInfo
 } from './services/services';
-import { plain, image, atAll } from './messageData';
+import { plain, image, atAll, miraiTemplate } from './utils/miraiUtils';
 import el from './sdk/eval';
-import { filterCards } from './weiboUtils';
-import miraiTemplate from './template';
+import { filterCards } from './utils/weiboUtils';
 import type { OptionsItemValue } from '../../types';
 import type {
   AuthResponse,

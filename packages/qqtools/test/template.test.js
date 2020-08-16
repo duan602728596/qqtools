@@ -1,5 +1,4 @@
-import miraiTemplate from '../src/function/QQ/template';
-import { plain, image, atAll, at } from '../src/function/QQ/messageData';
+import { plain, image, atAll, at, miraiTemplate } from '../src/function/QQ/utils/miraiUtils';
 
 test('plain template', function() {
   const result = miraiTemplate('君不见黄河之水天上来，奔流到海不复回。');

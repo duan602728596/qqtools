@@ -1,5 +1,5 @@
 import { orderBy } from 'lodash';
-import type { WeiboCard } from './qq.types';
+import type { WeiboCard } from '../qq.types';
 
 /**
  * 过滤微博信息

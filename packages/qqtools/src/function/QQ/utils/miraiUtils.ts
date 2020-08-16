@@ -1,5 +1,40 @@
-import { plain, image, at, atAll } from './messageData';
-import type { MessageChain } from './qq.types';
+import type { Plain, Image, At, AtAll, MessageChain } from '../qq.types';
+
+/**
+ * 发送文字
+ * @param { string } text: 文字
+ */
+export function plain(text: string): Plain {
+  return { type: 'Plain', text };
+}
+
+/**
+ * 发送图片
+ * @param { string } url: 图片地址
+ */
+export function image(url: string): Image {
+  return { type: 'Image', url };
+}
+
+/**
+ * 圈人
+ * @param { number } target: QQ号
+ */
+export function at(target: number): At {
+  return {
+    type: 'At',
+    target,
+    display: 'name'
+  };
+}
+
+/**
+ * 圈所有成员
+ */
+export function atAll(): AtAll {
+  return { type: 'AtAll', target: 0 };
+}
+
 
 interface ParsingResult {
   type: 'Plain' | 'Other';
@@ -20,7 +55,7 @@ interface Options {
  * @param { Options } options: 配置
  * @return { Array<MessageChain> }
  */
-function miraiTemplate(message: string, options: Options = {}): Array<MessageChain> {
+export function miraiTemplate(message: string, options: Options = {}): Array<MessageChain> {
   const msgArr: Array<string> = message.split(''); // 将字符串拆分成一个一个文字的数组
   const result: Array<ParsingResult> = [];
   let cache: string = '';                // 文本缓冲区
@@ -99,5 +134,3 @@ function miraiTemplate(message: string, options: Options = {}): Array<MessageCha
 
   return textResult;
 }
-
-export default miraiTemplate;
