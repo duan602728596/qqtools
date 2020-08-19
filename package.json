@@ -43,8 +43,8 @@
     "eslint-plugin-react": "^7.20.3",
     "husky": "^4.2.5",
     "lerna": "^3.22.1",
-    "lodash": "^4.17.19",
     "lint-staged": "^10.2.11",
+    "lodash": "^4.17.19",
     "rimraf": "^3.0.2",
     "typescript": "^3.9.7"
   },
