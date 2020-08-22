@@ -90,6 +90,21 @@ export async function requestSendGroupMessage(
 }
 
 /**
+ * 判断当前qq号是否登陆
+ * @param { number } port: 端口号
+ * @param { number } qqNumber: qq号
+ */
+export async function requestManagers(port: number, qqNumber: number): Promise<MessageResponse | Array<any>> {
+  const res: GotResponse<MessageResponse | Array<any>>
+    = await got.get(`http://localhost:${ port }/managers?qq=${ qqNumber }`, {
+      responseType: 'json',
+      timeout: 3000
+    });
+
+  return res.body;
+}
+
+/**
  * 获取微博lfid
  * @param { string } uid: 微博uid
  */

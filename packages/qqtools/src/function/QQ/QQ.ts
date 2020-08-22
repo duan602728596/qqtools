@@ -9,6 +9,7 @@ import {
   requestVerify,
   requestRelease,
   requestSendGroupMessage,
+  requestManagers,
   requestWeiboInfo,
   requestRoomInfo
 } from './services/services';
@@ -31,6 +32,7 @@ import type {
 } from './qq.types';
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
+type CloseListener = (event: CloseEvent) => void | Promise<void>;
 
 const { Chatroom }: any = NIM_SDK;
 
@@ -45,8 +47,10 @@ class QQ {
   public id: string;
   public config: OptionsItemValue;
   public groupNumbers: Array<number>; // 多个群
-  public eventSocket: WebSocket;
-  public messageSocket: WebSocket;
+  public socketStatus: -1 | 0; // -1 关闭，0 正常
+  public eventSocket?: WebSocket;
+  public messageSocket?: WebSocket;
+  public reconnectTimer: number | null; // 断线重连
   public session: string;
 
   public nimChatroomSocket: any;   // 口袋48
@@ -63,6 +67,7 @@ class QQ {
     this.id = id;         // 当前登陆的唯一id
     this.config = config; // 配置
     this.groupNumbers = getGroupNumbers(this.config.groupNumber);
+    this.socketStatus = 0;
   }
 
   // message事件监听
@@ -104,6 +109,37 @@ class QQ {
     }
   };
 
+  // socket关闭
+  handleSocketClose: CloseListener = (event: CloseEvent): void => {
+    if (this.socketStatus === -1) return;
+
+    this.destroyWebsocket(); // 清除旧的socket
+    this.reconnectTimer = window.setTimeout(this.reconnectLogin, 3000);
+  };
+
+  // 断线重连
+  reconnectLogin: Function = async (): Promise<void> => {
+    try {
+      const { socketPort, qqNumber }: OptionsItemValue = this.config;
+      const res: MessageResponse | Array<any> = await requestManagers(socketPort, qqNumber);
+
+      if (Array.isArray(res)) {
+        const result: boolean = await this.getSession();
+
+        if (result) {
+          this.initWebSocket();
+        } else {
+          this.reconnectTimer = window.setTimeout(this.reconnectLogin, 3000);
+        }
+      } else {
+        this.reconnectTimer = window.setTimeout(this.reconnectLogin, 3000);
+      }
+    } catch (err) {
+      console.error(err);
+      this.reconnectTimer = window.setTimeout(this.reconnectLogin, 3000);
+    }
+  };
+
   // websocket初始化
   initWebSocket(): void {
     const { socketPort }: OptionsItemValue = this.config;
@@ -113,6 +149,25 @@ class QQ {
 
     this.messageSocket.addEventListener('message', this.handleMessageSocketMessage, false);
     this.eventSocket.addEventListener('message', this.handleEventSocketMessage, false);
+    this.messageSocket.addEventListener('close', this.handleSocketClose, false);
+    this.eventSocket.addEventListener('close', this.handleSocketClose, false);
+  }
+
+  // websocket销毁
+  destroyWebsocket(): void {
+    if (this.eventSocket) {
+      this.eventSocket.removeEventListener('message', this.handleEventSocketMessage);
+      this.eventSocket.removeEventListener('close', this.handleSocketClose, false);
+      this.eventSocket.close();
+      this.eventSocket = undefined;
+    }
+
+    if (this.messageSocket) {
+      this.messageSocket.removeEventListener('message', this.handleMessageSocketMessage);
+      this.messageSocket.removeEventListener('close', this.handleSocketClose, false);
+      this.messageSocket.close();
+      this.messageSocket = undefined;
+    }
   }
 
   // 获取session
@@ -326,12 +381,18 @@ class QQ {
 
     try {
       await requestRelease(qqNumber, socketPort, this.session); // 清除session
+    } catch (err) {
+      console.error(err);
+    }
 
+    try {
       // 销毁socket监听
-      this.eventSocket.removeEventListener('message', this.handleEventSocketMessage);
-      this.messageSocket.removeEventListener('message', this.handleMessageSocketMessage);
-      this.eventSocket.close();
-      this.messageSocket.close();
+      if (this.reconnectTimer) {
+        clearTimeout(this.reconnectTimer);
+      }
+
+      this.socketStatus = -1;
+      this.destroyWebsocket();
 
       // 销毁口袋监听
       if (this.nimChatroomSocket) {
