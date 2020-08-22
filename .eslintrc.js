@@ -186,10 +186,10 @@ module.exports = {
         next: 'return'
       }
     ],
-    quotes: ['error', 'single'],                // 强制使用一致的反勾号、双引号或单引号
-    semi: ['error', 'always'],                  // 要求或禁止使用分号代替 ASI
-    'space-before-blocks': ['error', 'always'], // 强制在块之前使用一致的空格
-    'space-before-function-paren': [            // 强制在 function 的左括号之前使用一致的空格
+    quotes: ['error', 'single', { avoidEscape: true }], // 强制使用一致的反勾号、双引号或单引号
+    semi: ['error', 'always'],                          // 要求或禁止使用分号代替 ASI
+    'space-before-blocks': ['error', 'always'],         // 强制在块之前使用一致的空格
+    'space-before-function-paren': [                    // 强制在 function 的左括号之前使用一致的空格
       'error',
       {
         anonymous: 'never',
