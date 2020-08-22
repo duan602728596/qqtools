@@ -98,6 +98,7 @@ export default function(info: object): { [key: string]: any } {
     ]
   };
 
+  /*
   if (isDev) {
     config.resolve = {
       alias: {
@@ -105,6 +106,7 @@ export default function(info: object): { [key: string]: any } {
       }
     };
   }
+  */
 
   return config;
 }
