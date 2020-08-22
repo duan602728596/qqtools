@@ -1,7 +1,7 @@
 {
   "name": "qqtools3",
   "description": "QQ群工具，配合mirai使用。",
-  "license": "GNU General Public License v3.0",
+  "license": "AGPL-3.0",
   "scripts": {
     "eslint": "eslint ./ --fix",
     "eslint:no-fix": "eslint ./",
