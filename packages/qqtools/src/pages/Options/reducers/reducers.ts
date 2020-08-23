@@ -1,11 +1,4 @@
-import {
-  createSlice,
-  Slice,
-  CaseReducer,
-  PayloadAction,
-  CaseReducerActions,
-  ActionCreator
-} from '@reduxjs/toolkit';
+import { createSlice, Slice, SliceCaseReducers, PayloadAction, CaseReducerActions, ActionCreator } from '@reduxjs/toolkit';
 import { differenceBy } from 'lodash';
 import dbRedux, { objectStoreName } from '../../../function/dbInit/dbRedux';
 import type { OptionsItem } from '../../../types';
@@ -14,9 +7,7 @@ export interface OptionsInitialState {
   optionsList: Array<OptionsItem>;
 }
 
-export interface CaseReducers {
-  [key: string]: CaseReducer<OptionsInitialState, PayloadAction<any>>;
-}
+type CaseReducers = SliceCaseReducers<OptionsInitialState>;
 
 const { actions, reducer }: Slice = createSlice<OptionsInitialState, CaseReducers>({
   name: 'options',
