@@ -43,7 +43,7 @@ async function weiboContainerListTimer(): Promise<void> {
     console.error(err);
   }
 
-  weiboTimer = self.setTimeout(weiboContainerListTimer, 45000);
+  weiboTimer = self.setTimeout(weiboContainerListTimer, 45_000);
 }
 
 /* 初始化微博查询 */
@@ -52,7 +52,7 @@ async function weiboInit(): Promise<void> {
   const list: Array<WeiboCard> = filterCards(resWeiboList.data.cards);
 
   weiboId = list?.[0]._id ?? BigInt(0);
-  weiboTimer = self.setTimeout(weiboContainerListTimer, 45000);
+  weiboTimer = self.setTimeout(weiboContainerListTimer, 45_000);
 }
 
 addEventListener('message', function(event: MessageEvent) {
