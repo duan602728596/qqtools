@@ -1,8 +1,7 @@
 import { filterCards, filterNewCards } from './weiboUtils';
 import { atAll, image, plain } from './miraiUtils';
 import { requestWeiboContainer } from '../services/weibo';
-import type { WeiboCard, WeiboContainerList } from '../qq.types';
-import type { MessageChain, WeiboSendData } from '../qq.types';
+import type { MessageChain, WeiboSendData, WeiboCard, WeiboContainerList } from '../qq.types';
 
 let lfid: string;       // 账号的lfid
 let weiboTimer: number; // 轮询定时器
@@ -44,7 +43,7 @@ async function weiboContainerListTimer(): Promise<void> {
     console.error(err);
   }
 
-  weiboTimer = self.setTimeout(weiboContainerListTimer, 45000);
+  weiboTimer = self.setTimeout(weiboContainerListTimer, 45_000);
 }
 
 /* 初始化微博查询 */
@@ -53,7 +52,7 @@ async function weiboInit(): Promise<void> {
   const list: Array<WeiboCard> = filterCards(resWeiboList.data.cards);
 
   weiboId = list?.[0]._id ?? BigInt(0);
-  weiboTimer = self.setTimeout(weiboContainerListTimer, 45000);
+  weiboTimer = self.setTimeout(weiboContainerListTimer, 45_000);
 }
 
 addEventListener('message', function(event: MessageEvent) {

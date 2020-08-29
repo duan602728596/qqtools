@@ -23,14 +23,14 @@ async function getLiveStatusTimer(): Promise<void> {
     console.error(err);
   }
 
-  timer = self.setTimeout(getLiveStatusTimer, 45000);
+  timer = self.setTimeout(getLiveStatusTimer, 45_000);
 }
 
 async function init(): Promise<void> {
   const res: BilibiliLiveStatus = await requestRoomStatus(id);
 
   status = res.data.live_status === 1;
-  timer = self.setTimeout(getLiveStatusTimer, 45000);
+  timer = self.setTimeout(getLiveStatusTimer, 45_000);
 }
 
 addEventListener('message', function(event: MessageEvent) {

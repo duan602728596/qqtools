@@ -114,7 +114,7 @@ class QQ {
     if (this.socketStatus === -1) return;
 
     this.destroyWebsocket(); // 清除旧的socket
-    this.reconnectTimer = window.setTimeout(this.reconnectLogin, 3000);
+    this.reconnectTimer = window.setTimeout(this.reconnectLogin, 3_000);
   };
 
   // 断线重连
@@ -129,14 +129,14 @@ class QQ {
         if (result) {
           this.initWebSocket();
         } else {
-          this.reconnectTimer = window.setTimeout(this.reconnectLogin, 3000);
+          this.reconnectTimer = window.setTimeout(this.reconnectLogin, 3_000);
         }
       } else {
-        this.reconnectTimer = window.setTimeout(this.reconnectLogin, 3000);
+        this.reconnectTimer = window.setTimeout(this.reconnectLogin, 3_000);
       }
     } catch (err) {
       console.error(err);
-      this.reconnectTimer = window.setTimeout(this.reconnectLogin, 3000);
+      this.reconnectTimer = window.setTimeout(this.reconnectLogin, 3_000);
     }
   };
 
