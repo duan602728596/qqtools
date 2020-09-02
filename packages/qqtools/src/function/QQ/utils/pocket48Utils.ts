@@ -92,8 +92,8 @@ ${ customInfo.question }
       );
     } else
 
-    // 删除回复
-    if (customInfo.messageType === 'DELETE') {
+    // 删除回复、禁言
+    if (customInfo.messageType === 'DELETE' || customInfo.messageType === 'DISABLE_SPEAK') {
       // 什么都不做
     } else {
       // 未知信息类型

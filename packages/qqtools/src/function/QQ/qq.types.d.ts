@@ -45,7 +45,7 @@ export interface MessageSocketEventData {
   messageChain: Array<MessageChain>;
 }
 
-// event
+// eventtargetId
 export interface EventSocketEventData {
   type: string; // MemberJoinEvent 有人进群
   member: {
@@ -132,6 +132,13 @@ export interface DELETEMessage extends CustomMessage {
   messageType: 'DELETE';
 }
 
+// 禁言
+export interface DISABLE_SPEAKMessage extends CustomMessage {
+  messageType: 'DISABLE_SPEAK';
+  targetId: string;
+  sourceId: string;
+}
+
 export type CustomMessageAll =
   | TEXTMessage
   | REPLYMessage
@@ -141,7 +148,8 @@ export type CustomMessageAll =
   | LIVEPUSHMessage
   | FLIPCARDMessage
   | EXPRESSMessage
-  | DELETEMessage;
+  | DELETEMessage
+  | DISABLE_SPEAKMessage;
 
 /* 微博类型 */
 export interface WeiboTab {
