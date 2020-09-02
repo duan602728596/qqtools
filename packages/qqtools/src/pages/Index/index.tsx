@@ -45,8 +45,8 @@ function Index(props: {}): ReactElement {
       {/* 二维码 */}
       <p>欢迎打赏：</p>
       <Space>
-        <img className={ style.dashangImage } src={ require('./images/zfb.webp').default } />
-        <img className={ style.dashangImage } src={ require('./images/wx.webp').default } />
+        <img className={ style.dashangImage } src={ require('./images/zfb.avif').default } />
+        <img className={ style.dashangImage } src={ require('./images/wx.avif').default } />
       </Space>
     </div>
   );
