@@ -45,7 +45,7 @@ export interface MessageSocketEventData {
   messageChain: Array<MessageChain>;
 }
 
-// eventtargetId
+// event
 export interface EventSocketEventData {
   type: string; // MemberJoinEvent 有人进群
   member: {
