@@ -3,6 +3,7 @@ import * as path from 'path';
 import * as _moment from 'moment';
 import type { Moment } from 'moment';
 import * as webpack from 'webpack';
+import * as fse from 'fs-extra';
 
 const moment: any = _moment['default'];
 
@@ -10,6 +11,10 @@ const isDev: boolean = process.env.NODE_ENV === 'development';
 const buildTime: Moment = moment();
 
 console.log(`build time: ${ buildTime.format('YYYY-MM-DD HH:mm:ss') }`);
+
+fse.writeJsonSync(path.join(__dirname, 'dist/version.json'), {
+  version: buildTime.format('YYYY.MM.DD.HH.mm.ss')
+});
 
 function nodeExternals(node: Array<string>): { [k: string]: string } {
   const result: { [k: string]: string } = {};

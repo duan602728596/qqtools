@@ -4,6 +4,7 @@ const rimraf = require('rimraf');
 const fse = require('fs-extra');
 const builder = require('electron-builder');
 const _ = require('lodash');
+const { version } = require('../www/dist/version.json');
 
 const rimrafPromise = util.promisify(rimraf);
 
@@ -50,7 +51,8 @@ async function unpack() {
       '!**/node_modules/*/{.editorconfig,.eslintignore}',
       '!**/node_modules/*/*.{yml,yaml}',
       '!**/node_modules/*/{LICENSE,license,License}',
-      '!**/node_modules/*/AUTHORS'
+      '!**/node_modules/*/AUTHORS',
+      '!version.json'
     ],
     mac: {
       target: 'dir',
@@ -87,6 +89,11 @@ async function unpack() {
     }
   });
 
+
+  // 写入版本号
+  // await fs.writeFile(path.join(build, 'mac/mac/version'), version);
+  await fs.writeFile(path.join(build, 'win/win-unpacked/version'), version);
+
   await Promise.all([
     // fse.copy(path.join(cwd, 'LICENSE'), path.join(build, 'mac/mac/LICENSE')),
     // fse.copy(path.join(cwd, 'README.md'), path.join(build, 'mac/mac/README.md')),
@@ -94,6 +101,10 @@ async function unpack() {
     fse.copy(path.join(cwd, 'LICENSE'), path.join(build, 'win/win-unpacked/LICENSE')),
     fse.copy(path.join(cwd, 'README.md'), path.join(build, 'win/win-unpacked/README.md'))
   ]);
+
+  // 重命名
+  // await fs.rename(path.join(build, 'mac/mac'), path.join(build, `mac/qqtools3-${ version }-mac`));
+  await fs.rename(path.join(build, 'win/win-unpacked'), path.join(build, `win/qqtools3-${ version }-winx64`));
 }
 
 unpack();
