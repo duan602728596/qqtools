@@ -15,7 +15,8 @@ function createWindow(): void {
     webPreferences: {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
-      webSecurity: false
+      webSecurity: false,
+      enableRemoteModule: true
     },
     icon: isDevelopment ? undefined : path.join(__dirname, '../../titleBarIcon.png')
   });
@@ -24,11 +25,18 @@ function createWindow(): void {
     win.webContents.openDevTools();
   }
 
-  win.loadURL(isDevelopment ? 'http://127.0.0.1:5050' : url.format({
-    pathname: path.join(__dirname, '../../dist/index.html'),
-    protocol: 'file:',
-    slashes: true
-  }));
+  win.loadURL(isDevelopment
+    ? url.format({
+      pathname: path.join(__dirname, '../../qqtools/dist/index.html'),
+      protocol: 'file:',
+      slashes: true
+    })
+    : url.format({
+      pathname: path.join(__dirname, '../../dist/index.html'),
+      protocol: 'file:',
+      slashes: true
+    })
+  );
 
   // 去掉顶层菜单
   Menu.setApplicationMenu(null);
