@@ -90,14 +90,24 @@ class QQ {
 
     // 群信息
     if (data.type === 'GroupMessage' && data.sender.id !== qqNumber && groupNumbers.includes(data.sender.group.id)) {
-      // 自定义信息处理
       if (data.type === 'GroupMessage' && data.messageChain?.[1].type === 'Plain' && customCmd?.length) {
-        const index: number = findIndex(customCmd, { cmd: data.messageChain[1].text });
+        const command: string = data.messageChain[1].text; // 当前命令
+        const groupId: number = data.sender.group.id;
+
+        // 集资命令处理
+        if (['taoba', '桃叭', 'jizi', 'jz', '集资'].includes(command)) {
+          this.taobaoCommandCallback(groupId);
+
+          return;
+        }
+
+        // 自定义信息处理
+        const index: number = findIndex(customCmd, { cmd: command });
 
         if (index >= 0) {
           const value: Array<MessageChain> = miraiTemplate(customCmd[index].value);
 
-          await this.sengMessage(value, data.sender.group.id);
+          await this.sengMessage(value, groupId);
         }
       }
     }
@@ -354,6 +364,17 @@ class QQ {
     }
   }
 
+  // 桃叭命令的回调函数
+  async taobaoCommandCallback(groupId: number): Promise<void> {
+    const { taobaId, taobaCommandTemplate }: OptionsItemValue = this.config;
+    const msg: string = renderString(taobaCommandTemplate, {
+      title: this.taobaInfo.title,
+      taobaid: taobaId
+    });
+
+    await this.sengMessage([plain(msg)], groupId);
+  }
+
   // 桃叭监听
   handleTaobaWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
     const { taobaId, taobaTemplate }: OptionsItemValue = this.config;
@@ -385,7 +406,7 @@ class QQ {
         timedifference: timeDifference(endTime.valueOf())
       });
 
-      await this.sengMessage([plain(msg)]);
+      await this.sengMessage(miraiTemplate(msg));
     }
   };
 

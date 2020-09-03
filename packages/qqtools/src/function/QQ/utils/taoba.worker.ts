@@ -15,9 +15,9 @@ async function handleTaobaTimer(): Promise<void> {
     let page: number = 0;
 
     while (continue0) {
-      const res: TaobaIdolsJoin = await requestIdolsJoin(taobaId);
+      const res: TaobaIdolsJoin = await requestIdolsJoin(taobaId, page);
       const list: Array<TaobaIdolsJoinItem> = res.list;
-      const sendData: Array<TaobaIdolsJoinItem> = list.filter((o: TaobaIdolsJoinItem) => o.stime > this.lastTime);
+      const sendData: Array<TaobaIdolsJoinItem> = list.filter((o: TaobaIdolsJoinItem) => o.stime > lastTime);
 
       if (sendData.length > 0) {
         result.push(...sendData);
@@ -28,9 +28,9 @@ async function handleTaobaTimer(): Promise<void> {
     }
 
     if (result.length > 0) {
-      this.lastTime = result[0].stime; // 记录时间
+      lastTime = result[0].stime; // 记录时间
       // @ts-ignore
-      postMessage(result);
+      postMessage({ result });
     }
   } catch (err) {
     console.error(err);

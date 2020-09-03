@@ -35,7 +35,7 @@ const initialStates: Store = {
 集资参与人数：{{ juser }}人
 项目截止时间：{{ expire }}
 距离项目截止还有：{{ timedifference }}`,
-  taobaCommendTemplate: `桃叭：{{ title }}
+  taobaCommandTemplate: `桃叭：{{ title }}
 https://www.taoba.club/#/pages/idols/detail?id={{ taobaid }}`
 };
 
@@ -171,7 +171,7 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="taobaId" label="桃叭ID">
         <Input />
       </Form.Item>
-      <Form.Item name="taobaCommendTemplate" label="集资命令模板">
+      <Form.Item name="taobaCommandTemplate" label="集资命令模板">
         <Input.TextArea rows={ 3 } />
       </Form.Item>
       <Form.Item name="taobaTemplate" label="集资结果模板">

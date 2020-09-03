@@ -67,7 +67,8 @@ export function timeDifference(endTime: number): string {
     return '0秒';
   }
 
-  const cha: number = parseInt(String((nowTimeNumber - endTimeNumber) / 1000));
+  // @ts-ignore
+  const cha: number = parseInt((endTimeDate - nowTimeDate) / 1000);
 
   // 计算天数
   day = Math.floor(cha / 86400);

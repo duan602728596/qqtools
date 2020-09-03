@@ -28,7 +28,7 @@ export interface OptionsItemValue {
 
   taobaListen?: boolean;
   taobaId?: string;
-  taobaCommendTemplate?: string;
+  taobaCommandTemplate?: string;
   taobaTemplate?: string;
 
   groupWelcome?: boolean;
