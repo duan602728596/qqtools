@@ -12,6 +12,7 @@ const buildTime: Moment = moment();
 
 console.log(`build time: ${ buildTime.format('YYYY-MM-DD HH:mm:ss') }`);
 
+fse.ensureDirSync(path.join(__dirname, 'dist'));
 fse.writeJsonSync(path.join(__dirname, 'dist/version.json'), {
   version: buildTime.format('YYYY.MM.DD.HH.mm.ss')
 });
