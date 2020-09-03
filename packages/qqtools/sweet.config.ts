@@ -52,10 +52,13 @@ export default function(info: object): { [key: string]: any } {
       ...nodeExternals([
         'fs',
         'path',
+        'util',
+        'zlib',
         'cron',
         'electron',
         'fs-extra',
         'got',
+        'js-base64',
         'js-yaml'
       ])
     },

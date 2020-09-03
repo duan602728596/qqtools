@@ -27,7 +27,16 @@ const pocket48ShieldMsgTypeOptions: Array<CheckboxOptionType> = [
 
 /* 表单的初始化值 */
 const initialStates: Store = {
-  groupWelcomeSend: '<%= qqtools:At %>欢迎入群。'
+  groupWelcomeSend: '<%= qqtools:At %>欢迎入群。',
+  taobaTemplate: `@{{ nickname }} 刚刚在【{{ title }}】打赏了{{ money }}元，感谢这位聚聚！
+项目地址：https://www.taoba.club/#/pages/idols/detail?id={{ taobaid }}
+当前进度：￥{{ donation }} / ￥{{ amount }}
+相差金额：￥{{ amountdifference }}
+集资参与人数：{{ juser }}人
+项目截止时间：{{ expire }}
+距离项目截止还有：{{ timedifference }}`,
+  taobaCommendTemplate: `桃叭：{{ title }}
+https://www.taoba.club/#/pages/idols/detail?id={{ taobaid }}`
 };
 
 /* 配置表单 */
@@ -152,6 +161,20 @@ function Edit(props: {}): ReactElement {
       </Form.Item>
       <Form.Item name="bilibiliAtAll" label="@全体成员" valuePropName="checked">
         <Checkbox>直播时@全体成员（需要有管理员权限）</Checkbox>
+      </Form.Item>
+
+      {/* 桃叭集资监听 */}
+      <Form.Item name="taobaListen" label="开启监听" valuePropName="checked">
+        <Switch />
+      </Form.Item>
+      <Form.Item name="taobaId" label="桃叭ID">
+        <Input />
+      </Form.Item>
+      <Form.Item name="taobaCommendTemplate" label="集资命令模板">
+        <Input.TextArea rows={ 3 } />
+      </Form.Item>
+      <Form.Item name="taobaTemplate" label="集资结果模板">
+        <Input.TextArea rows={ 7 } />
       </Form.Item>
 
       {/* 群欢迎功能 */}
