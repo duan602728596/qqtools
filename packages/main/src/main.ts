@@ -25,18 +25,13 @@ function createWindow(): void {
     win.webContents.openDevTools();
   }
 
-  win.loadURL(isDevelopment
-    ? url.format({
-      pathname: path.join(__dirname, '../../qqtools/dist/index.html'),
-      protocol: 'file:',
-      slashes: true
-    })
-    : url.format({
-      pathname: path.join(__dirname, '../../dist/index.html'),
-      protocol: 'file:',
-      slashes: true
-    })
-  );
+  win.loadURL(url.format({
+    pathname: isDevelopment
+      ? path.join(__dirname, '../../qqtools/dist/index.html')
+      : path.join(__dirname, '../../dist/index.html'),
+    protocol: 'file:',
+    slashes: true
+  }));
 
   // 去掉顶层菜单
   Menu.setApplicationMenu(null);
