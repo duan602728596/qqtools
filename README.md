@@ -20,6 +20,26 @@
 
 直播间地址（ 比如[https://live.bilibili.com/11588230](https://live.bilibili.com/11588230) ），后面的数字即为直播间id
 
+### 桃叭集资配置
+
+桃叭集资配置的模板除了支持占位符，还支持`{{ var }}`渲染。var表示注入的变量。
+
+* 集资命令模板变量
+  * title: 标题
+  * taobaid: 桃叭id
+
+* 集资结果模板: 
+  * nickname: 集资人的昵称
+  * title: 标题
+  * money: 集资金额
+  * taobaid: 桃叭id
+  * donation: 当前集资进度
+  * amount: 集资总进度
+  * amountdifference: 相差金额
+  * juser: 参与集资的人数
+  * expire: 项目截止时间
+  * timedifference: 距离项目截止的时间
+
 ### 定时消息配置
 
 执行时间的配置查看文档[https://github.com/kelektiv/node-cron#cron-ranges](https://github.com/kelektiv/node-cron#cron-ranges)
