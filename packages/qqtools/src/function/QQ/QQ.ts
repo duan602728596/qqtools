@@ -2,7 +2,11 @@ import { CronJob } from 'cron';
 import { message } from 'antd';
 import NIM_SDK from 'SDK';
 import { findIndex } from 'lodash';
+import * as moment from 'moment';
+import type { Moment } from 'moment';
+import { renderString } from 'nunjucks';
 import BilibiliWorker from 'worker-loader!./utils/bilibili.worker';
+import TaobaWorker from 'worker-loader!./utils/taoba.worker';
 import WeiboWorker from 'worker-loader!./utils/weibo.worker';
 import {
   requestAuth,
@@ -13,9 +17,11 @@ import {
   requestWeiboInfo,
   requestRoomInfo
 } from './services/services';
+import { requestDetail, requestJoinRank } from './services/taoba';
 import el from './sdk/eval';
 import { plain, atAll, miraiTemplate } from './utils/miraiUtils';
 import { getRoomMessage } from './utils/pocket48Utils';
+import { timeDifference } from './utils/taobaUtils';
 import type { OptionsItemValue } from '../../types';
 import type {
   AuthResponse,
@@ -28,7 +34,10 @@ import type {
   CustomMessageAll,
   WeiboTab,
   WeiboInfo,
-  BilibiliRoomInfo
+  BilibiliRoomInfo,
+  TaobaDetail,
+  TaobaIdolsJoinItem,
+  TaobaJoinRank
 } from './qq.types';
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
@@ -60,6 +69,9 @@ class QQ {
 
   public bilibiliWorker?: Worker;  // b站直播监听
   public bilibiliUsername: string; // 用户名
+
+  public taobaWorker?: Worker;     // 桃叭监听
+  public taobaInfo: { title: string; amount: number; expire: number };
 
   public cronJob?: CronJob;        // 定时任务
 
@@ -342,6 +354,62 @@ class QQ {
     }
   }
 
+  // 桃叭监听
+  handleTaobaWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
+    const { taobaId, taobaTemplate }: OptionsItemValue = this.config;
+    const result: Array<TaobaIdolsJoinItem> = event.data.result;
+    const [res0, res1]: [TaobaDetail, TaobaJoinRank] = await Promise.all([
+      requestDetail(taobaId as string),
+      requestJoinRank(taobaId as string)
+    ]);
+
+    // 发送消息
+    const endTime: Moment = moment.unix(res0.datas.expire);
+    const { amount, donation }: {
+      amount: number;
+      donation: number;
+    } = res0.datas;
+
+    for (let i: number = result.length - 1; i >= 0; i--) {
+      const item: TaobaIdolsJoinItem = result[i];
+      const msg: string = renderString(taobaTemplate, {
+        nickname: item.nick,
+        title: this.taobaInfo.title,
+        money: item.money,
+        taobaid: taobaId,
+        donation,
+        amount,
+        amountdifference: amount - donation,
+        juser: res1.juser,
+        expire: endTime.format('YYYY-MM-DD HH:mm:ss'),
+        timedifference: timeDifference(endTime.valueOf())
+      });
+
+      await this.sengMessage([plain(msg)]);
+    }
+  };
+
+  // 桃叭初始化
+  async initTaobaWorker(): Promise<void> {
+    const { taobaListen, taobaId }: OptionsItemValue = this.config;
+
+    if (taobaListen && taobaId) {
+      const res: TaobaDetail = await requestDetail(taobaId);
+
+      this.taobaInfo = {
+        title: res.datas.title,   // 项目名称
+        amount: res.datas.amount, // 集资总金额
+        expire: res.datas.expire  // 项目结束时间（时间戳，秒）
+      };
+      this.taobaWorker = new TaobaWorker();
+      this.taobaWorker.addEventListener('message', this.handleTaobaWorkerMessage, false);
+      this.taobaWorker.postMessage({
+        taobaId,
+        taobaInfo: this.taobaInfo
+      });
+    }
+  }
+
   // 定时任务初始化
   initCronJob(): void {
     const { cronJob, cronTime, cronSendData }: OptionsItemValue = this.config;
@@ -365,6 +433,7 @@ class QQ {
       this.initPocket48();
       await this.initWeiboWorker();
       await this.initBilibiliWorker();
+      await this.initTaobaWorker();
       this.initCronJob();
 
       return true;
@@ -410,6 +479,12 @@ class QQ {
       if (this.bilibiliWorker) {
         this.bilibiliWorker.terminate();
         this.bilibiliWorker = undefined;
+      }
+
+      // 销毁桃叭监听
+      if (this.taobaWorker) {
+        this.taobaWorker.terminate();
+        this.taobaWorker = undefined;
       }
 
       // 销毁定时任务

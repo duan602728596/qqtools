@@ -58,8 +58,8 @@ export default function(info: object): { [key: string]: any } {
         'electron',
         'fs-extra',
         'got',
-        'js-base64',
-        'js-yaml'
+        'js-yaml',
+        'nunjucks'
       ])
     },
     js: {

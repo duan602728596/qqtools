@@ -226,3 +226,37 @@ export interface BilibiliLiveStatus {
     live_status: number; // 1是直播
   };
 }
+
+/* 桃叭 */
+export interface TaobaDetail {
+  code: number;
+  datas: {
+    title: string;    // 项目名称
+    donation: number; // 已集资金额
+    amount: number;   // 集资总金额
+    expire: number;   // 项目结束时间（时间戳，秒）
+    desc: string;     // 项目介绍
+  };
+}
+
+export interface TaobaIdolsJoinItem {
+  avatar: string;
+  flower: number;
+  id: number;
+  money: string;
+  nick: string;
+  sn: string;
+  stime: number;
+  userid: number;
+}
+
+export interface TaobaIdolsJoin {
+  code: number;
+  list: Array<TaobaIdolsJoinItem>;
+  mine: null | any;
+}
+
+export interface TaobaJoinRank extends TaobaIdolsJoin {
+  juser: number;
+  stime: number;
+}
