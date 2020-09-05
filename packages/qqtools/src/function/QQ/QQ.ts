@@ -90,7 +90,7 @@ class QQ {
 
     // 群信息
     if (data.type === 'GroupMessage' && data.sender.id !== qqNumber && groupNumbers.includes(data.sender.group.id)) {
-      if (data.type === 'GroupMessage' && data.messageChain?.[1].type === 'Plain' && customCmd?.length) {
+      if (data.type === 'GroupMessage' && data.messageChain?.[1].type === 'Plain') {
         const command: string = data.messageChain[1].text; // 当前命令
         const groupId: number = data.sender.group.id;
 
@@ -102,12 +102,14 @@ class QQ {
         }
 
         // 自定义信息处理
-        const index: number = findIndex(customCmd, { cmd: command });
+        if (customCmd?.length) {
+          const index: number = findIndex(customCmd, { cmd: command });
 
-        if (index >= 0) {
-          const value: Array<MessageChain> = miraiTemplate(customCmd[index].value);
+          if (index >= 0) {
+            const value: Array<MessageChain> = miraiTemplate(customCmd[index].value);
 
-          await this.sengMessage(value, groupId);
+            await this.sengMessage(value, groupId);
+          }
         }
       }
     }
