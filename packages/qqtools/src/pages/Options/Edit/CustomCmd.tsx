@@ -27,6 +27,12 @@ function CustomCmd(props: CustomCmdProps): ReactElement {
     setVisible(false);
   }
 
+  // 删除
+  function handleDeleteClick(index: number, event: MouseEvent): void {
+    props.value?.splice(index, 1);
+    props.value && props.onChange?.([...props.value]);
+  }
+
   // 确认添加或修改
   async function handleOkClick(event: MouseEvent): Promise<void> {
     let formValue: Store | null = null;
@@ -77,7 +83,9 @@ function CustomCmd(props: CustomCmdProps): ReactElement {
       render: (value: undefined, record: EditItem, index: number): ReactElement => (
         <Button.Group>
           <Button onClick={ (event: MouseEvent): void => handleAddClick(record, event) }>修改</Button>
-          <Button type="primary" danger={ true }>删除</Button>
+          <Button type="primary" danger={ true } onClick={ (event: MouseEvent): void => handleDeleteClick(index, event) }>
+            删除
+          </Button>
         </Button.Group>
       )
     }
