@@ -44,7 +44,7 @@ export async function encodeData(data: string): Promise<string> {
  */
 export async function decodeData(data: string): Promise<string> {
   const source: string = data.split('$')[1];
-  const base64Data: Buffer = toUint8Array(source);
+  const base64Data: any = toUint8Array(source);
   const saltData: Buffer = addSalt(base64Data);
   const unzipData: Buffer = await unzipPromise(saltData);
 
