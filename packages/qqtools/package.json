@@ -13,7 +13,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
     "@reduxjs/toolkit": "^1.4.0",
-    "antd": "^4.6.2",
+    "antd": "^4.6.6",
     "classnames": "^2.2.6",
     "cron": "^1.8.2",
     "fs-extra": "^9.0.1",
@@ -21,29 +21,29 @@
     "history": "^5.0.0",
     "indexeddb-tools": "^3.0.0",
     "indexeddb-tools-redux": "^3.0.0",
-    "js-base64": "^3.4.5",
+    "js-base64": "^3.5.2",
     "js-yaml": "^3.14.0",
     "lodash": "^4.17.20",
-    "moment": "^2.27.0",
+    "moment": "^2.29.0",
     "nunjucks": "^3.2.2",
     "prop-types": "^15.7.2",
-    "react": "^17.0.0-rc.1",
-    "react-dom": "^17.0.0-rc.1",
+    "react": "^17.0.0-rc.2",
+    "react-dom": "^17.0.0-rc.2",
     "react-redux": "^7.2.1",
     "react-router": "^6.0.0-beta.0",
     "react-router-dom": "^6.0.0-beta.0",
     "reselect": "^4.0.0",
-    "worker-loader": "^3.0.2"
+    "worker-loader": "^3.0.3"
   },
   "devDependencies": {
-    "@hot-loader/react-dom": "^16.13.0",
-    "@sweet-milktea/milktea": "^1.0.0-beta.1",
-    "@sweet-milktea/milktea-cli": "^1.0.0-beta.1",
-    "@sweet-milktea/server": "^1.0.0-beta.1",
+    "@hot-loader/react-dom": "^17.0.0-rc.2",
+    "@sweet-milktea/milktea": "^1.0.0-beta.6",
+    "@sweet-milktea/milktea-cli": "^1.0.0-beta.3",
+    "@sweet-milktea/server": "^1.0.0-beta.5",
     "babel-jest": "^26.3.0",
     "babel-plugin-import": "^1.13.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "jest": "^26.4.2",
-    "ts-loader": "^8.0.3"
+    "ts-loader": "^8.0.4"
   }
 }
