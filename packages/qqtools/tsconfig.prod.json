@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "module": "ESNext",
-    "jsx": "react-jsxdev"
+    "jsx": "react-jsx"
   },
   "exclude": [
     "node_modules"

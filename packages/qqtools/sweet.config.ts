@@ -74,6 +74,7 @@ export default function(info: object): { [key: string]: any } {
       exclude: /node_modules|NIM_Web_SDK/i
     },
     ts: {
+      configFile: path.join(__dirname, isDev ? 'tsconfig.json' : 'tsconfig.prod.json'),
       plugins,
       exclude: /node_modules/
     },
@@ -106,16 +107,6 @@ export default function(info: object): { [key: string]: any } {
       })
     ]
   };
-
-  /*
-  if (isDev) {
-    config.resolve = {
-      alias: {
-        'react-dom': '@hot-loader/react-dom'
-      }
-    };
-  }
-  */
 
   return config;
 }
