@@ -1,4 +1,3 @@
-import * as React from 'react';
 import type { ReactElement } from 'react';
 import { useRoutes } from 'react-router-dom';
 import Options from './Options/index';

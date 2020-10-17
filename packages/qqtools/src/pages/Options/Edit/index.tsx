@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useEffect, ReactElement, MouseEvent } from 'react';
 import type { Dispatch } from 'redux';
 import { useDispatch } from 'react-redux';

@@ -1,5 +1,4 @@
 import { ipcRenderer, shell } from 'electron';
-import * as React from 'react';
 import type { ReactElement, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Space } from 'antd';

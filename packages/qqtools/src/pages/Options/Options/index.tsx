@@ -4,7 +4,6 @@ import type { ParsedPath } from 'path';
 import { remote, SaveDialogReturnValue, OpenDialogReturnValue } from 'electron';
 import * as yaml from 'js-yaml';
 import * as fse from 'fs-extra';
-import * as React from 'react';
 import { useEffect, ReactElement, MouseEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { Dispatch } from '@reduxjs/toolkit';
