@@ -74,7 +74,7 @@ export default function(info: object): { [key: string]: any } {
       exclude: /node_modules|NIM_Web_SDK/i
     },
     ts: {
-      configFile: path.join(__dirname, isDev ? 'tsconfig.json' : 'tsconfig.prod.json'),
+      configFile: isDev ? 'tsconfig.json' : 'tsconfig.prod.json',
       plugins,
       exclude: /node_modules/
     },
