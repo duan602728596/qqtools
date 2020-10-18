@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { Dispatch } from '@reduxjs/toolkit';
 import { createSelector, createStructuredSelector, Selector } from 'reselect';
 import { Link } from 'react-router-dom';
-import { Select, Button, Space, Table, Popconfirm, message } from 'antd';
+import { Select, Button, Space, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { random, findIndex, differenceBy } from 'lodash';
 import style from './index.sass';
@@ -112,11 +112,12 @@ function Index(props: {}): ReactElement {
       dataIndex: 'handle',
       width: 130,
       render: (value: undefined, record: QQ, index: number): ReactElement => (
-        <Popconfirm title="确定要退出吗？"
-          onConfirm={ (event?: MouseEvent): Promise<void> => handleLogoutClick(record, event) }
+        <Button type="primary"
+          danger={ true }
+          onClick={ (event?: MouseEvent): Promise<void> => handleLogoutClick(record, event) }
         >
-          <Button type="primary" danger={ true }>退出</Button>
-        </Popconfirm>
+          退出
+        </Button>
       )
     }
   ];
