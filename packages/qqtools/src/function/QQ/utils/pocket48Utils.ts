@@ -114,3 +114,16 @@ ${ customInfo.question }
 
   return sendGroup;
 }
+
+/* 随机id */
+export function randomId(len: number = 10): string {
+  const keys: string = '1234567890-_qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';
+  const keysLen: number = keys.length;
+  let result: string = '';
+
+  for (let i: number = 0; i < len; i++) {
+    result += keys[Math.floor(Math.random() * keysLen)];
+  }
+
+  return result;
+}

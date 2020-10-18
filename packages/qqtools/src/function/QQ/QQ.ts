@@ -1,6 +1,5 @@
 import { CronJob } from 'cron';
 import { message } from 'antd';
-import NIM_SDK from 'SDK';
 import { findIndex } from 'lodash';
 import * as moment from 'moment';
 import type { Moment } from 'moment';
@@ -18,9 +17,9 @@ import {
   requestRoomInfo
 } from './services/services';
 import { requestDetail, requestJoinRank } from './services/taoba';
-import el from './sdk/eval';
+import NimChatroomSocket from './NimChatroomSocket';
 import { plain, atAll, miraiTemplate } from './utils/miraiUtils';
-import { getRoomMessage } from './utils/pocket48Utils';
+import { getRoomMessage, randomId } from './utils/pocket48Utils';
 import { timeDifference } from './utils/taobaUtils';
 import type { OptionsItemValue } from '../../types';
 import type {
@@ -29,7 +28,6 @@ import type {
   MessageChain,
   MessageSocketEventData,
   EventSocketEventData,
-  NIMError,
   NIMMessage,
   CustomMessageAll,
   WeiboTab,
@@ -43,14 +41,14 @@ import type {
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
 type CloseListener = (event: CloseEvent) => void | Promise<void>;
 
-const { Chatroom }: any = NIM_SDK;
-
 /* 将群号字符串解析成数组 */
 export function getGroupNumbers(groupNumber: string): Array<number> {
   return `${ groupNumber }`.split(/\s*[,，]\s*/)
     .filter((o: string) => o !== '')
     .map(Number);
 }
+
+const nimChatroomSocketList: Array<NimChatroomSocket> = []; // 缓存连接
 
 class QQ {
   public id: string;
@@ -62,7 +60,8 @@ class QQ {
   public reconnectTimer: number | null; // 断线重连
   public session: string;
 
-  public nimChatroomSocket: any;   // 口袋48
+  public nimChatroomSocket: any;       // 口袋48
+  public nimChatroomSocketId?: string; // socketId
 
   public weiboLfid: string;        // 微博的lfid
   public weiboWorker?: Worker;     // 微博监听
@@ -242,29 +241,6 @@ class QQ {
 
   /* ==================== 业务相关 ==================== */
 
-  // 进入房间
-  handleRoomSocketConnect: Function = (event: any): void => {
-    console.log('进入聊天室', event);
-    message.success('进入口袋48房间');
-  };
-
-  // 进入房间失败
-  handleRoomSocketError: Function = (err: NIMError, event: any): void => {
-    console.log('发生错误', err, event);
-    message.error('进入口袋48房间失败');
-  };
-
-  // 断开连接
-  handleRoomSocketDisconnect: Function = (err: NIMError): void => {
-    console.log('连接断开', err);
-
-    if (err.code === 'logout') {
-      message.warn('断开连接');
-    } else {
-      message.error(`【${ err.code }】${ err.message }`);
-    }
-  };
-
   // 事件监听
   async roomSocketMessage(event: Array<NIMMessage>): Promise<void> {
     const { pocket48LiveAtAll, pocket48ShieldMsgType }: OptionsItemValue = this.config;
@@ -300,17 +276,46 @@ class QQ {
 
     if (!(pocket48RoomListener && pocket48RoomId && pocket48Account)) return;
 
-    this.nimChatroomSocket = Chatroom.getInstance({
-      appKey: el,
-      account: pocket48Account,
-      token: pocket48Account,
-      chatroomId: pocket48RoomId,
-      chatroomAddresses: ['chatweblink01.netease.im:443'],
-      onconnect: this.handleRoomSocketConnect,
-      onmsgs: this.handleRoomSocketMessage,
-      onerror: this.handleRoomSocketError,
-      ondisconnect: this.handleRoomSocketDisconnect
-    });
+    // 判断socket列表内是否有当前房间的socket连接
+    const index: number = findIndex(nimChatroomSocketList, { pocket48RoomId });
+
+    this.nimChatroomSocketId = randomId();
+
+    if (index < 0) {
+      const nimChatroomSocket: NimChatroomSocket = new NimChatroomSocket({
+        pocket48Account,
+        pocket48RoomId
+      });
+
+      nimChatroomSocket.init();
+      nimChatroomSocket.addQueue({
+        id: this.nimChatroomSocketId,
+        onmsgs: this.handleRoomSocketMessage
+      });
+      nimChatroomSocketList.push(nimChatroomSocket); // 添加到列表
+    } else {
+      nimChatroomSocketList[index].addQueue({
+        id: this.nimChatroomSocketId,
+        onmsgs: this.handleRoomSocketMessage
+      });
+    }
+  }
+
+  // 移除socket连接
+  disconnectPocket48(): void {
+    const { pocket48RoomId }: OptionsItemValue = this.config;
+    const index: number = findIndex(nimChatroomSocketList, { pocket48RoomId });
+
+    if (index >= 0 && this.nimChatroomSocketId) {
+      nimChatroomSocketList[index].removeQueue(this.nimChatroomSocketId);
+
+      if (nimChatroomSocketList[index].queues.length === 0) {
+        nimChatroomSocketList[index].disconnect();
+        nimChatroomSocketList.splice(index, 1);
+      }
+    }
+
+    this.nimChatroomSocketId = undefined;
   }
 
   // 微博监听
@@ -487,9 +492,8 @@ class QQ {
       this.destroyWebsocket();
 
       // 销毁口袋监听
-      if (this.nimChatroomSocket) {
-        this.nimChatroomSocket.disconnect();
-        this.nimChatroomSocket = undefined;
+      if (this.nimChatroomSocketId) {
+        this.disconnectPocket48();
       }
 
       // 销毁微博监听
