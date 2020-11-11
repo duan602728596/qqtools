@@ -1,0 +1,8 @@
+{
+  "name": "@qqtools3/taobatest",
+  "version": "0.0.0",
+  "type": "module",
+  "dependencies": {
+    "js-base64": "^3.6.0"
+  }
+}
