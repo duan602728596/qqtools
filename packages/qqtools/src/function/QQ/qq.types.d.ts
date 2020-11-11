@@ -228,15 +228,17 @@ export interface BilibiliLiveStatus {
 }
 
 /* 桃叭 */
+export interface TaobaDetailDatasItem {
+  title: string;    // 项目名称
+  donation: number; // 已集资金额
+  amount: number;   // 集资总金额
+  expire: number;   // 项目结束时间（时间戳，秒）
+  desc: string;     // 项目介绍
+}
+
 export interface TaobaDetail {
   code: number;
-  datas: {
-    title: string;    // 项目名称
-    donation: number; // 已集资金额
-    amount: number;   // 集资总金额
-    expire: number;   // 项目结束时间（时间戳，秒）
-    desc: string;     // 项目介绍
-  };
+  datas: TaobaDetailDatasItem;
 }
 
 export interface TaobaIdolsJoinItem {

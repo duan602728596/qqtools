@@ -33,6 +33,7 @@ import type {
   WeiboTab,
   WeiboInfo,
   BilibiliRoomInfo,
+  TaobaDetailDatasItem,
   TaobaDetail,
   TaobaIdolsJoinItem,
   TaobaJoinRank
@@ -71,6 +72,7 @@ class QQ {
 
   public taobaWorker?: Worker;     // 桃叭监听
   public taobaInfo: { title: string; amount: number; expire: number };
+  public otherTaobaIds?: Array<string>; // 其他的桃叭监听，pk时候用
 
   public cronJob?: CronJob;        // 定时任务
 
@@ -386,6 +388,7 @@ class QQ {
   handleTaobaWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
     const { taobaId, taobaTemplate }: OptionsItemValue = this.config;
     const result: Array<TaobaIdolsJoinItem> = event.data.result;
+    const otherTaobaDetails: Array<TaobaDetailDatasItem> | undefined = event.data.otherTaobaDetails;
     const [res0, res1]: [TaobaDetail, TaobaJoinRank] = await Promise.all([
       requestDetail(taobaId as string),
       requestJoinRank(taobaId as string)
@@ -410,7 +413,8 @@ class QQ {
         amountdifference: amount - donation,
         juser: res1.juser,
         expire: endTime.format('YYYY-MM-DD HH:mm:ss'),
-        timedifference: timeDifference(endTime.valueOf())
+        timedifference: timeDifference(endTime.valueOf()),
+        otherTaobaDetails
       });
 
       await this.sengMessage(miraiTemplate(msg));
@@ -419,10 +423,14 @@ class QQ {
 
   // 桃叭初始化
   async initTaobaWorker(): Promise<void> {
-    const { taobaListen, taobaId }: OptionsItemValue = this.config;
+    const { taobaListen, taobaId, otherTaobaIds }: OptionsItemValue = this.config;
 
     if (taobaListen && taobaId) {
       const res: TaobaDetail = await requestDetail(taobaId);
+
+      if (otherTaobaIds && !/^\s*$/.test(otherTaobaIds)) {
+        this.otherTaobaIds = otherTaobaIds.split(/\s*[,，、。.]\s*/g);
+      }
 
       this.taobaInfo = {
         title: res.datas.title,   // 项目名称
@@ -433,7 +441,8 @@ class QQ {
       this.taobaWorker.addEventListener('message', this.handleTaobaWorkerMessage, false);
       this.taobaWorker.postMessage({
         taobaId,
-        taobaInfo: this.taobaInfo
+        taobaInfo: this.taobaInfo,
+        otherTaobaIds: this.otherTaobaIds
       });
     }
   }

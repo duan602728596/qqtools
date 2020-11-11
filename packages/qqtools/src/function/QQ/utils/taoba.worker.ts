@@ -1,11 +1,12 @@
 import * as moment from 'moment';
-import { requestIdolsJoin } from '../services/taoba';
-import type { TaobaIdolsJoin, TaobaIdolsJoinItem } from '../qq.types';
+import { requestIdolsJoin, requestDetail } from '../services/taoba';
+import type { TaobaIdolsJoin, TaobaIdolsJoinItem, TaobaDetailDatasItem, TaobaDetail } from '../qq.types';
 
-let taobaId: string;
-let timer: number | null = null; // 轮询的定时器
-let lastTime: number; // 最后的集资金额
+let taobaId: string;              // 桃叭ID
+let timer: number | null = null;  // 轮询的定时器
+let lastTime: number;             // 最后的集资时间
 let taobaInfo: { title: string; amount: number; expire: number };
+let otherTaobaIds: Array<string>; // 其他的桃叭ID
 
 // 桃叭轮询函数
 async function handleTaobaTimer(): Promise<void> {
@@ -29,8 +30,19 @@ async function handleTaobaTimer(): Promise<void> {
 
     if (result.length > 0) {
       lastTime = result[0].stime; // 记录时间
+
+      // 请求其他的桃叭信息
+      let otherTaobaDetails: Array<TaobaDetailDatasItem> | undefined = undefined;
+
+      if (otherTaobaIds?.length) {
+        const queues: Array<Promise<TaobaDetail>> = otherTaobaIds.map((o: string): Promise<TaobaDetail> => requestDetail(o));
+        const resData: Array<TaobaDetail> = await Promise.all(queues);
+
+        otherTaobaDetails = resData.map((o: TaobaDetail): TaobaDetailDatasItem => o.datas);
+      }
+
       // @ts-ignore
-      postMessage({ result });
+      postMessage({ result, otherTaobaDetails });
     }
   } catch (err) {
     console.error(err);
@@ -50,5 +62,6 @@ async function init(): Promise<void> {
 addEventListener('message', function(event: MessageEvent): void {
   taobaId = event.data.taobaId;
   taobaInfo = event.data.taobaInfo;
+  otherTaobaIds = event.data.otherTaobaIds;
   init();
 }, false);
