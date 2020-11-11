@@ -375,13 +375,17 @@ class QQ {
 
   // 桃叭命令的回调函数
   async taobaoCommandCallback(groupId: number): Promise<void> {
-    const { taobaId, taobaCommandTemplate }: OptionsItemValue = this.config;
-    const msg: string = renderString(taobaCommandTemplate, {
-      title: this.taobaInfo.title,
-      taobaid: taobaId
-    });
+    const { taobaListen, taobaId, taobaCommandTemplate }: OptionsItemValue = this.config;
 
-    await this.sengMessage([plain(msg)], groupId);
+    if (taobaListen && taobaId) {
+      const msg: string = renderString(taobaCommandTemplate, {
+        title: this.taobaInfo.title,
+        taobaid: taobaId
+      });
+
+      await this.sengMessage([plain(msg)], groupId);
+    }
+
   }
 
   // 桃叭监听
