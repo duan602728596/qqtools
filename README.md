@@ -78,3 +78,5 @@
 
 1. 编译@qqtools3/main、@qqtools3/qqtools项目
 2. 运行scripts文件夹内的脚本打包软件
+
+![](flower.gif)
