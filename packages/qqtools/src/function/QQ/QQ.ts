@@ -1,3 +1,4 @@
+import * as process from 'process';
 import { CronJob } from 'cron';
 import { message } from 'antd';
 import { findIndex } from 'lodash';
@@ -18,7 +19,7 @@ import {
 } from './services/services';
 import { requestDetail, requestJoinRank } from './services/taoba';
 import NimChatroomSocket from './NimChatroomSocket';
-import { plain, atAll, miraiTemplate } from './utils/miraiUtils';
+import { plain, image, atAll, miraiTemplate } from './utils/miraiUtils';
 import { getRoomMessage, randomId } from './utils/pocket48Utils';
 import { timeDifference } from './utils/taobaUtils';
 import type { OptionsItemValue } from '../../types';
@@ -40,6 +41,7 @@ import type {
   TaobaJoinRank
 } from './qq.types';
 
+declare const BUILD_VERSION: string;
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
 type CloseListener = (event: CloseEvent) => void | Promise<void>;
 
@@ -50,6 +52,8 @@ export function getGroupNumbers(groupNumber: string): Array<number> {
     .map(Number);
 }
 
+const flowerGif: string = 'https://raw.githubusercontent.com/duan602728596/qqtools/next/flower.gif';
+const buildVersion: string = BUILD_VERSION!;
 const nimChatroomSocketList: Array<NimChatroomSocket> = []; // 缓存连接
 
 class QQ {
@@ -61,6 +65,7 @@ class QQ {
   public messageSocket?: WebSocket;
   public reconnectTimer: number | null; // 断线重连
   public session: string;
+  public startTime: string; // 启动时间
 
   public nimChatroomSocket: any;       // 口袋48
   public nimChatroomSocketId?: string; // socketId
@@ -95,6 +100,11 @@ class QQ {
       if (data.type === 'GroupMessage' && data.messageChain?.[1].type === 'Plain') {
         const command: string = data.messageChain[1].text; // 当前命令
         const groupId: number = data.sender.group.id;
+
+        // 日志信息输出
+        if (command === 'log') {
+          this.logCommandCallback(groupId);
+        }
 
         // 集资命令处理
         if (['taoba', '桃叭', 'jizi', 'jz', '集资'].includes(command)) {
@@ -247,6 +257,23 @@ class QQ {
         })
       );
     }
+  }
+
+  // 日志回调函数
+  async logCommandCallback(groupId: number): Promise<void> {
+    const versions: any = process.versions;
+    const { qqNumber }: OptionsItemValue = this.config;
+    const msg: string = `qqtools3
+软件版本：${ buildVersion }
+运行平台：${ process.platform }
+Electron：${ versions.electron }
+Chrome：${ versions.chrome }
+Node：${ versions.node }
+V8：${ versions.v8 }
+机器人账号：${ qqNumber }
+启动时间：${ this.startTime }`;
+
+    await this.sengMessage([plain(msg), image(flowerGif)], groupId);
   }
 
   /* ==================== 业务相关 ==================== */
@@ -499,6 +526,7 @@ class QQ {
       await this.initBilibiliWorker();
       await this.initTaobaWorker();
       this.initCronJob();
+      this.startTime = moment().format('YYYY-MM-DD HH:mm:ss');
 
       return true;
     } catch (err) {

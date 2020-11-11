@@ -58,6 +58,7 @@ export default function(info: object): { [key: string]: any } {
       ...nodeExternals([
         'fs',
         'path',
+        'process',
         'util',
         'zlib',
         'cron',

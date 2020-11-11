@@ -74,6 +74,10 @@
 <%= qqtools:At %>欢迎加入xxx应援会。
 ```
 
+### 输出软件信息
+
+`log`命令可以输出软件信息。
+
 ## 如何编译
 
 1. 编译@qqtools3/main、@qqtools3/qqtools项目
