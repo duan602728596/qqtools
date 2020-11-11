@@ -112,6 +112,8 @@ function Options(props: {}): ReactElement {
 
   const columns: ColumnsType<OptionsItem> = [
     { title: '配置名称', dataIndex: 'name' },
+    { title: 'QQ号', dataIndex: ['value', 'qqNumber'] },
+    { title: '群号', dataIndex: ['value', 'groupNumber'] },
     {
       title: '操作',
       key: 'handle',
