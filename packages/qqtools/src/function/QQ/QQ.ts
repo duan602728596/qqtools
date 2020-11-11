@@ -390,8 +390,8 @@ class QQ {
     const result: Array<TaobaIdolsJoinItem> = event.data.result;
     const otherTaobaDetails: Array<TaobaDetailDatasItem> | undefined = event.data.otherTaobaDetails;
     const [res0, res1]: [TaobaDetail, TaobaJoinRank] = await Promise.all([
-      requestDetail(taobaId as string),
-      requestJoinRank(taobaId as string)
+      requestDetail(taobaId!),
+      requestJoinRank(taobaId!)
     ]);
 
     // 发送消息
