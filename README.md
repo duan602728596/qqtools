@@ -39,6 +39,18 @@
   * juser: 参与集资的人数
   * expire: 项目截止时间
   * timedifference: 距离项目截止的时间
+  * otherTaobaDetails: 其他集资信息（配置了多个ID时为数组类型，否则为undefined）
+    * title: 标题
+    * donation: 已集资金额
+    * amount: 集资总金额
+    
+其他集资信息在模版上可以这样显示：
+
+```
+段艺璇：{{ otherTaobaDetails[0].donation }}
+谢蕾蕾：{{ otherTaobaDetails[1].donation }}
+张怀瑾：{{ otherTaobaDetails[2].donation }}
+```
 
 ### 定时消息配置
 
