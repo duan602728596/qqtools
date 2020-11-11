@@ -23,6 +23,7 @@ import { getRoomMessage, randomId } from './utils/pocket48Utils';
 import { timeDifference } from './utils/taobaUtils';
 import type { OptionsItemValue } from '../../types';
 import type {
+  Plain,
   AuthResponse,
   MessageResponse,
   MessageChain,
@@ -98,6 +99,13 @@ class QQ {
         // 集资命令处理
         if (['taoba', '桃叭', 'jizi', 'jz', '集资'].includes(command)) {
           this.taobaoCommandCallback(groupId);
+
+          return;
+        }
+
+        // 排行榜命令处理
+        if (['排行榜', 'phb'].includes(command)) {
+          this.taobaoCommandRankCallback(groupId);
 
           return;
         }
@@ -385,7 +393,22 @@ class QQ {
 
       await this.sengMessage([plain(msg)], groupId);
     }
+  }
 
+  // 桃叭排行榜的回调函数
+  async taobaoCommandRankCallback(groupId: number): Promise<void> {
+    const { taobaListen, taobaId }: OptionsItemValue = this.config;
+
+    if (taobaListen && taobaId) {
+      const res: TaobaJoinRank = await requestJoinRank(taobaId);
+      const list: Array<Plain> = res.list.map((item: TaobaIdolsJoinItem, index: number): Plain => {
+        return plain(`\n${ index + 1 }、${ item.nick }：${ item.money }`);
+      });
+      const msg: string = `${ this.taobaInfo.title } 排行榜
+集资参与人数：${ res.juser }人`;
+
+      await this.sengMessage([plain(msg)].concat(list), groupId);
+    }
   }
 
   // 桃叭监听
