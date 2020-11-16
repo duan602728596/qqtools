@@ -24,7 +24,9 @@
 
 `taoba`、`桃叭`、`jizi`、`jz`、`集资` 命令输出集资链接。   
 `排行榜`、`phb` 命令输出排行榜信息。   
-桃叭集资配置的模板除了支持占位符，还支持`{{ var }}`渲染。var表示注入的变量。
+桃叭集资配置的模板除了支持占位符，还支持`{{ var }}`渲染。var表示注入的变量。   
+模板的功能参考[nunjucks](https://mozilla.github.io/nunjucks/cn/templating.html)。
+
 
 * 集资命令模板变量
   * title: 标题
@@ -45,6 +47,10 @@
     * title: 标题
     * donation: 已集资金额
     * amount: 集资总金额
+  * rankIndex: 当开启**结果包含排行榜**配置时，集资结果模板内可以输出当前集资人的排名
+  * taobaRankList: 当开启**结果包含排行榜**配置时，集资结果模板内可以输出排行榜的信息（数组类型）
+    * nick: 集资人的昵称
+    * money: 集资金额
     
 其他集资信息的配置使用小写逗号`,`分隔。其他集资信息在模版上可以这样显示：
 
@@ -52,6 +58,31 @@
 段艺璇：{{ otherTaobaDetails[0].donation }}
 谢蕾蕾：{{ otherTaobaDetails[1].donation }}
 张怀瑾：{{ otherTaobaDetails[2].donation }}
+```
+
+* 当开启**结果包含排行榜**配置时，集资结果模板内可以输出当前集资人的排名和排行榜信息，排行榜使用如下的方式渲染：
+
+```
+...集资信息
+------ 排行榜 ------
+{% for item in taobaRankList -%}
+{% if loop.index !== 1 -%}{{ '\n' }}{%- endif %}{{ loop.index }}、{{ item.nick }}：{{ item.money }}
+{%- endfor %}
+------ 排行榜 ------
+...集资信息
+```
+
+`loop.index`代表了当前索引（从1开始）。   
+也可以只渲染前几名，比如前6名可以这样展示（使用js的Array.prototype.slice方法截取数组）：
+
+```
+...集资信息
+------ 排行榜 ------
+{% for item in taobaRankList.slice(0, 5) -%}
+{% if loop.index !== 1 -%}{{ '\n' }}{%- endif %}{{ loop.index }}、{{ item.nick }}：{{ item.money }}
+{%- endfor %}
+------ 排行榜 ------
+...集资信息
 ```
 
 ### 定时消息配置
