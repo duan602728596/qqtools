@@ -176,6 +176,9 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="taobaTemplate" label="集资结果模板">
         <Input.TextArea rows={ 7 } />
       </Form.Item>
+      <Form.Item name="taobaRankList" label="结果包含排行榜" valuePropName="checked">
+        <Switch />
+      </Form.Item>
       <Form.Item name="otherTaobaIds" label="其他桃叭ID">
         <Input />
       </Form.Item>

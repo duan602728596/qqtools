@@ -252,6 +252,11 @@ export interface TaobaIdolsJoinItem {
   userid: number;
 }
 
+export interface TaobaRankItem extends TaobaIdolsJoinItem {
+  id: string;
+  userid: string;
+}
+
 export interface TaobaIdolsJoin {
   code: number;
   list: Array<TaobaIdolsJoinItem>;
@@ -261,4 +266,5 @@ export interface TaobaIdolsJoin {
 export interface TaobaJoinRank extends TaobaIdolsJoin {
   juser: number;
   stime: number;
+  list: Array<TaobaRankItem>;
 }

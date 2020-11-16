@@ -38,6 +38,7 @@ import type {
   TaobaDetailDatasItem,
   TaobaDetail,
   TaobaIdolsJoinItem,
+  TaobaRankItem,
   TaobaJoinRank
 } from './qq.types';
 
@@ -428,7 +429,7 @@ V8：${ versions.v8 }
 
     if (taobaListen && taobaId) {
       const res: TaobaJoinRank = await requestJoinRank(taobaId);
-      const list: Array<Plain> = res.list.map((item: TaobaIdolsJoinItem, index: number): Plain => {
+      const list: Array<Plain> = res.list.map((item: TaobaRankItem, index: number): Plain => {
         return plain(`\n${ index + 1 }、${ item.nick }：${ item.money }`);
       });
       const msg: string = `${ this.taobaInfo.title } 排行榜
@@ -440,9 +441,10 @@ V8：${ versions.v8 }
 
   // 桃叭监听
   handleTaobaWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
-    const { taobaId, taobaTemplate }: OptionsItemValue = this.config;
+    const { taobaId, taobaTemplate, taobaRankList: isTaobaRankList }: OptionsItemValue = this.config;
     const result: Array<TaobaIdolsJoinItem> = event.data.result;
     const otherTaobaDetails: Array<TaobaDetailDatasItem> | undefined = event.data.otherTaobaDetails;
+    const taobaRankList: Array<TaobaIdolsJoinItem> | undefined = event.data.taobaRankList;
     const [res0, res1]: [TaobaDetail, TaobaJoinRank] = await Promise.all([
       requestDetail(taobaId!),
       requestJoinRank(taobaId!)
@@ -457,6 +459,14 @@ V8：${ versions.v8 }
 
     for (let i: number = result.length - 1; i >= 0; i--) {
       const item: TaobaIdolsJoinItem = result[i];
+
+      // 计算排行榜
+      let rankIndex: number | undefined = undefined;
+
+      if (isTaobaRankList && taobaRankList?.length) {
+        rankIndex = findIndex(taobaRankList, (o: TaobaIdolsJoinItem): boolean => Number(o.userid) === item.userid);
+      }
+
       const msg: string = renderString(taobaTemplate, {
         nickname: item.nick,
         title: this.taobaInfo.title,
@@ -468,7 +478,9 @@ V8：${ versions.v8 }
         juser: res1.juser,
         expire: endTime.format('YYYY-MM-DD HH:mm:ss'),
         timedifference: timeDifference(endTime.valueOf()),
-        otherTaobaDetails
+        otherTaobaDetails,
+        rankIndex,
+        taobaRankList
       });
 
       await this.sengMessage(miraiTemplate(msg));
@@ -477,7 +489,7 @@ V8：${ versions.v8 }
 
   // 桃叭初始化
   async initTaobaWorker(): Promise<void> {
-    const { taobaListen, taobaId, otherTaobaIds }: OptionsItemValue = this.config;
+    const { taobaListen, taobaId, otherTaobaIds, taobaRankList }: OptionsItemValue = this.config;
 
     if (taobaListen && taobaId) {
       const res: TaobaDetail = await requestDetail(taobaId);
@@ -496,7 +508,8 @@ V8：${ versions.v8 }
       this.taobaWorker.postMessage({
         taobaId,
         taobaInfo: this.taobaInfo,
-        otherTaobaIds: this.otherTaobaIds
+        otherTaobaIds: this.otherTaobaIds,
+        taobaRankList
       });
     }
   }
