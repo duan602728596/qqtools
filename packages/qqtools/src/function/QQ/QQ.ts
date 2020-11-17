@@ -53,7 +53,6 @@ export function getGroupNumbers(groupNumber: string): Array<number> {
     .map(Number);
 }
 
-const flowerGif: string = 'https://raw.githubusercontent.com/duan602728596/qqtools/next/flower.gif';
 const buildVersion: string = BUILD_VERSION!;
 const nimChatroomSocketList: Array<NimChatroomSocket> = []; // 缓存连接
 
@@ -274,7 +273,7 @@ V8：${ versions.v8 }
 机器人账号：${ qqNumber }
 启动时间：${ this.startTime }`;
 
-    await this.sengMessage([plain(msg), image(flowerGif)], groupId);
+    await this.sengMessage([plain(msg)], groupId);
   }
 
   /* ==================== 业务相关 ==================== */
