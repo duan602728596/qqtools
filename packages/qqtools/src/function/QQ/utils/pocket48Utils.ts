@@ -40,6 +40,7 @@ ${ nickName }：${ customInfo.text }
     // 发送图片
     if (customInfo.messageType === 'IMAGE') {
       sendGroup.push(
+        plain(`${ nickName } 发送了一张图片：`),
         image(data.file.url),
         plain(`时间：${ msgTime }`)
       );
