@@ -30,6 +30,8 @@ export interface OptionsItemValue {
   taobaId?: string;
   taobaCommandTemplate?: string;
   taobaTemplate?: string;
+  taobaRankList?: boolean;
+  otherTaobaIds?: string;
 
   groupWelcome?: boolean;
   groupWelcomeSend?: string;

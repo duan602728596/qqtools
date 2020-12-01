@@ -1,3 +1,4 @@
+import * as process from 'process';
 import { CronJob } from 'cron';
 import { message } from 'antd';
 import { findIndex } from 'lodash';
@@ -18,11 +19,12 @@ import {
 } from './services/services';
 import { requestDetail, requestJoinRank } from './services/taoba';
 import NimChatroomSocket from './NimChatroomSocket';
-import { plain, atAll, miraiTemplate } from './utils/miraiUtils';
+import { plain, image, atAll, miraiTemplate } from './utils/miraiUtils';
 import { getRoomMessage, randomId } from './utils/pocket48Utils';
 import { timeDifference } from './utils/taobaUtils';
 import type { OptionsItemValue } from '../../types';
 import type {
+  Plain,
   AuthResponse,
   MessageResponse,
   MessageChain,
@@ -33,11 +35,14 @@ import type {
   WeiboTab,
   WeiboInfo,
   BilibiliRoomInfo,
+  TaobaDetailDatasItem,
   TaobaDetail,
   TaobaIdolsJoinItem,
+  TaobaRankItem,
   TaobaJoinRank
 } from './qq.types';
 
+declare const BUILD_VERSION: string;
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
 type CloseListener = (event: CloseEvent) => void | Promise<void>;
 
@@ -48,6 +53,7 @@ export function getGroupNumbers(groupNumber: string): Array<number> {
     .map(Number);
 }
 
+const buildVersion: string = BUILD_VERSION!;
 const nimChatroomSocketList: Array<NimChatroomSocket> = []; // 缓存连接
 
 class QQ {
@@ -59,6 +65,7 @@ class QQ {
   public messageSocket?: WebSocket;
   public reconnectTimer: number | null; // 断线重连
   public session: string;
+  public startTime: string; // 启动时间
 
   public nimChatroomSocket: any;       // 口袋48
   public nimChatroomSocketId?: string; // socketId
@@ -71,6 +78,7 @@ class QQ {
 
   public taobaWorker?: Worker;     // 桃叭监听
   public taobaInfo: { title: string; amount: number; expire: number };
+  public otherTaobaIds?: Array<string>; // 其他的桃叭监听，pk时候用
 
   public cronJob?: CronJob;        // 定时任务
 
@@ -93,9 +101,21 @@ class QQ {
         const command: string = data.messageChain[1].text; // 当前命令
         const groupId: number = data.sender.group.id;
 
+        // 日志信息输出
+        if (command === 'log') {
+          this.logCommandCallback(groupId);
+        }
+
         // 集资命令处理
         if (['taoba', '桃叭', 'jizi', 'jz', '集资'].includes(command)) {
           this.taobaoCommandCallback(groupId);
+
+          return;
+        }
+
+        // 排行榜命令处理
+        if (['排行榜', 'phb'].includes(command)) {
+          this.taobaoCommandRankCallback(groupId);
 
           return;
         }
@@ -239,6 +259,23 @@ class QQ {
     }
   }
 
+  // 日志回调函数
+  async logCommandCallback(groupId: number): Promise<void> {
+    const versions: any = process.versions;
+    const { qqNumber }: OptionsItemValue = this.config;
+    const msg: string = `qqtools3
+软件版本：${ buildVersion }
+运行平台：${ process.platform }
+Electron：${ versions.electron }
+Chrome：${ versions.chrome }
+Node：${ versions.node }
+V8：${ versions.v8 }
+机器人账号：${ qqNumber }
+启动时间：${ this.startTime }`;
+
+    await this.sengMessage([plain(msg)], groupId);
+  }
+
   /* ==================== 业务相关 ==================== */
 
   // 事件监听
@@ -373,22 +410,43 @@ class QQ {
 
   // 桃叭命令的回调函数
   async taobaoCommandCallback(groupId: number): Promise<void> {
-    const { taobaId, taobaCommandTemplate }: OptionsItemValue = this.config;
-    const msg: string = renderString(taobaCommandTemplate, {
-      title: this.taobaInfo.title,
-      taobaid: taobaId
-    });
+    const { taobaListen, taobaId, taobaCommandTemplate }: OptionsItemValue = this.config;
 
-    await this.sengMessage([plain(msg)], groupId);
+    if (taobaListen && taobaId) {
+      const msg: string = renderString(taobaCommandTemplate, {
+        title: this.taobaInfo.title,
+        taobaid: taobaId
+      });
+
+      await this.sengMessage([plain(msg)], groupId);
+    }
+  }
+
+  // 桃叭排行榜的回调函数
+  async taobaoCommandRankCallback(groupId: number): Promise<void> {
+    const { taobaListen, taobaId }: OptionsItemValue = this.config;
+
+    if (taobaListen && taobaId) {
+      const res: TaobaJoinRank = await requestJoinRank(taobaId);
+      const list: Array<Plain> = res.list.map((item: TaobaRankItem, index: number): Plain => {
+        return plain(`\n${ index + 1 }、${ item.nick }：${ item.money }`);
+      });
+      const msg: string = `${ this.taobaInfo.title } 排行榜
+集资参与人数：${ res.juser }人`;
+
+      await this.sengMessage([plain(msg)].concat(list), groupId);
+    }
   }
 
   // 桃叭监听
   handleTaobaWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
-    const { taobaId, taobaTemplate }: OptionsItemValue = this.config;
+    const { taobaId, taobaTemplate, taobaRankList: isTaobaRankList }: OptionsItemValue = this.config;
     const result: Array<TaobaIdolsJoinItem> = event.data.result;
+    const otherTaobaDetails: Array<TaobaDetailDatasItem> | undefined = event.data.otherTaobaDetails;
+    const taobaRankList: Array<TaobaIdolsJoinItem> | undefined = event.data.taobaRankList;
     const [res0, res1]: [TaobaDetail, TaobaJoinRank] = await Promise.all([
-      requestDetail(taobaId as string),
-      requestJoinRank(taobaId as string)
+      requestDetail(taobaId!),
+      requestJoinRank(taobaId!)
     ]);
 
     // 发送消息
@@ -400,6 +458,14 @@ class QQ {
 
     for (let i: number = result.length - 1; i >= 0; i--) {
       const item: TaobaIdolsJoinItem = result[i];
+
+      // 计算排行榜
+      let rankIndex: number | undefined = undefined;
+
+      if (isTaobaRankList && taobaRankList?.length) {
+        rankIndex = findIndex(taobaRankList, (o: TaobaIdolsJoinItem): boolean => Number(o.userid) === item.userid);
+      }
+
       const msg: string = renderString(taobaTemplate, {
         nickname: item.nick,
         title: this.taobaInfo.title,
@@ -410,7 +476,10 @@ class QQ {
         amountdifference: amount - donation,
         juser: res1.juser,
         expire: endTime.format('YYYY-MM-DD HH:mm:ss'),
-        timedifference: timeDifference(endTime.valueOf())
+        timedifference: timeDifference(endTime.valueOf()),
+        otherTaobaDetails,
+        rankIndex,
+        taobaRankList
       });
 
       await this.sengMessage(miraiTemplate(msg));
@@ -419,10 +488,14 @@ class QQ {
 
   // 桃叭初始化
   async initTaobaWorker(): Promise<void> {
-    const { taobaListen, taobaId }: OptionsItemValue = this.config;
+    const { taobaListen, taobaId, otherTaobaIds, taobaRankList }: OptionsItemValue = this.config;
 
     if (taobaListen && taobaId) {
       const res: TaobaDetail = await requestDetail(taobaId);
+
+      if (otherTaobaIds && !/^\s*$/.test(otherTaobaIds)) {
+        this.otherTaobaIds = otherTaobaIds.split(/\s*[,，、。.]\s*/g);
+      }
 
       this.taobaInfo = {
         title: res.datas.title,   // 项目名称
@@ -433,7 +506,9 @@ class QQ {
       this.taobaWorker.addEventListener('message', this.handleTaobaWorkerMessage, false);
       this.taobaWorker.postMessage({
         taobaId,
-        taobaInfo: this.taobaInfo
+        taobaInfo: this.taobaInfo,
+        otherTaobaIds: this.otherTaobaIds,
+        taobaRankList
       });
     }
   }
@@ -463,6 +538,7 @@ class QQ {
       await this.initBilibiliWorker();
       await this.initTaobaWorker();
       this.initCronJob();
+      this.startTime = moment().format('YYYY-MM-DD HH:mm:ss');
 
       return true;
     } catch (err) {

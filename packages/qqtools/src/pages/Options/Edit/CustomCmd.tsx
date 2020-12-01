@@ -103,6 +103,7 @@ function CustomCmd(props: CustomCmdProps): ReactElement {
         width={ 500 }
         destroyOnClose={ true }
         centered={ true }
+        maskClosable={ false }
         onOk={ handleOkClick }
         onCancel={ handleCancelClick }
       >
