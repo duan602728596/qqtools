@@ -139,6 +139,15 @@ export interface DISABLE_SPEAKMessage extends CustomMessage {
   sourceId: string;
 }
 
+// open live
+export interface OPEN_LIVEMessage extends CustomMessage {
+  messageType: 'OPEN_LIVE';
+  title: string;
+  id: number;
+  coverUrl: string;
+  jumpPath: string;
+}
+
 export type CustomMessageAll =
   | TEXTMessage
   | REPLYMessage
@@ -149,7 +158,8 @@ export type CustomMessageAll =
   | FLIPCARDMessage
   | EXPRESSMessage
   | DELETEMessage
-  | DISABLE_SPEAKMessage;
+  | DISABLE_SPEAKMessage
+  | OPEN_LIVEMessage;
 
 /* 微博类型 */
 export interface WeiboTab {
