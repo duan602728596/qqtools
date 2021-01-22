@@ -9,9 +9,9 @@
   "main": "bin/lib/main.js",
   "dependencies": {
     "cron": "^1.8.2",
-    "fs-extra": "^9.0.1",
+    "fs-extra": "^9.1.0",
     "got": "^10.7.0",
-    "js-yaml": "^3.14.0",
+    "js-yaml": "^4.0.0",
     "nunjucks": "^3.2.2"
   }
 }
