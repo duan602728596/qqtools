@@ -148,6 +148,17 @@ export interface OPEN_LIVEMessage extends CustomMessage {
   jumpPath: string;
 }
 
+// trip info
+export interface TRIP_INFOMessage extends CustomMessage {
+  messageType: 'TRIP_INFO';
+  tripType: string;
+  id: number;
+  title: string;
+  describe: string;
+  jumpPath: string;
+  jumpType: string;
+}
+
 export type CustomMessageAll =
   | TEXTMessage
   | REPLYMessage
@@ -159,7 +170,8 @@ export type CustomMessageAll =
   | EXPRESSMessage
   | DELETEMessage
   | DISABLE_SPEAKMessage
-  | OPEN_LIVEMessage;
+  | OPEN_LIVEMessage
+  | TRIP_INFOMessage;
 
 /* 微博类型 */
 export interface WeiboTab {

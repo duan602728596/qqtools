@@ -93,8 +93,8 @@ ${ customInfo.question }
       );
     } else
 
-    // 删除回复、禁言、open live
-    if (['DELETE', 'DISABLE_SPEAK', 'OPEN_LIVE'].includes(customInfo.messageType)) {
+    // 删除回复、禁言、open live、trip info
+    if (['DELETE', 'DISABLE_SPEAK', 'OPEN_LIVE', 'TRIP_INFO'].includes(customInfo.messageType)) {
       // 什么都不做
     } else {
       // 未知信息类型
