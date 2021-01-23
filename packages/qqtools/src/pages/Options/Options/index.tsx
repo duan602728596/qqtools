@@ -54,9 +54,9 @@ function Options(props: {}): ReactElement {
 
     // 导入yaml文件
     const fsData: string = await fs.readFile(filePath, { encoding: 'utf8' });
-    const yamlParseResult: string | object | undefined = yaml.safeLoad(fsData);
+    const yamlParseResult: object | string | number | null | undefined = yaml.load(fsData);
 
-    if (typeof yamlParseResult !== 'object') {
+    if (!yamlParseResult || typeof yamlParseResult !== 'object') {
       return message.error('配置文件解析失败！');
     }
 
@@ -91,7 +91,7 @@ function Options(props: {}): ReactElement {
 
     // 导出为yaml
     const time1: string = time.format('YYYY-MM-DD HH:mm:ss');
-    let ymlResult: string = yaml.safeDump({
+    let ymlResult: string = yaml.dump({
       qqtools: {
         option: optionsList
       }
