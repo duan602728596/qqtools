@@ -19,7 +19,7 @@ import {
 } from './services/services';
 import { requestDetail, requestJoinRank } from './services/taoba';
 import NimChatroomSocket from './NimChatroomSocket';
-import { plain, image, atAll, miraiTemplate } from './utils/miraiUtils';
+import { plain, atAll, miraiTemplate } from './utils/miraiUtils';
 import { getRoomMessage, randomId } from './utils/pocket48Utils';
 import { timeDifference } from './utils/taobaUtils';
 import type { OptionsItemValue } from '../../types';
@@ -287,14 +287,17 @@ V8：${ versions.v8 }
 
     if (Number(sessionRole) === 0) return; // 过滤发言
 
-    if (pocket48ShieldMsgType && pocket48ShieldMsgType.includes(customInfo.messageType)) return; // 屏蔽信息类型
+    if (pocket48ShieldMsgType && pocket48ShieldMsgType.includes(customInfo.messageType)) {
+      return; // 屏蔽信息类型
+    }
 
     // 发送的数据
     const sendGroup: Array<MessageChain> = getRoomMessage({
       customInfo,
       data,
       pocket48LiveAtAll,
-      event
+      event,
+      pocket48ShieldMsgType
     });
 
     if (sendGroup.length > 0) {

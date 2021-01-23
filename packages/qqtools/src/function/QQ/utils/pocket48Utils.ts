@@ -8,12 +8,14 @@ import type { CustomMessageAll, MessageChain, NIMMessage } from '../qq.types';
  * @param { NIMMessage } data: 发送消息
  * @param { boolean } pocket48LiveAtAll: 直播时是否at全体成员
  * @param { Array<NIMMessage> } event: 原始信息
+ * @param { Array<string> | undefined } pocket48ShieldMsgType: 屏蔽类型
  */
-export function getRoomMessage({ customInfo, data, pocket48LiveAtAll, event }: {
+export function getRoomMessage({ customInfo, data, pocket48LiveAtAll, event, pocket48ShieldMsgType }: {
   customInfo: CustomMessageAll;
   data: NIMMessage;
   pocket48LiveAtAll?: boolean;
   event: Array<NIMMessage>;
+  pocket48ShieldMsgType: Array<string> | undefined;
 }): Array<MessageChain> {
   const sendGroup: Array<MessageChain> = [];                 // 发送的数据
   const nickName: string = customInfo?.user?.nickName ?? ''; // 用户名
@@ -106,11 +108,14 @@ ${ customInfo.question }
     }
   } catch (err) {
     console.error(err);
-    sendGroup.push(
-      plain(`信息发送错误，请联系开发者。
+
+    if (!(pocket48ShieldMsgType && pocket48ShieldMsgType.includes('ERROR'))) {
+      sendGroup.push(
+        plain(`信息发送错误，请联系开发者。
 数据：${ JSON.stringify(event) }
 时间：${ msgTime }`)
-    );
+      );
+    }
   }
 
   return sendGroup;
