@@ -1,0 +1,12 @@
+{
+  "name": "@qqtools3/nimtest",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "serve ./src -l 5050"
+  },
+  "dependencies": {
+    "got": "^10.7.0",
+    "lodash": "^4.17.20",
+    "serve": "^11.3.2"
+  }
+}
