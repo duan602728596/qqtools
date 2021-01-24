@@ -26,7 +26,7 @@ async function weiboContainerListTimer(): Promise<void> {
         }
 
         sendGroup.push(
-          plain(`${ item.name } ${ item.time }发送了一条微博：${ item.text }
+          plain(`${ item.name } 在${ item.time }发送了一条微博：${ item.text }
 类型：${ item.type }
 地址：${ item.scheme }`)
         );

@@ -1,3 +1,4 @@
+import * as dayjs from 'dayjs';
 import { orderBy } from 'lodash';
 import type { WeiboCard, WeiboSendData, WeiboMBlog } from '../qq.types';
 
@@ -35,7 +36,7 @@ export function filterNewCards(list: Array<WeiboCard>, weiboId: BigInt): Array<W
         name: mblog.user.screen_name,
         type: 'retweeted_status' in item.mblog ? '转载' : '原创',
         scheme: item.scheme,
-        time: mblog.created_at === '刚刚' ? mblog.created_at : ('在' + mblog.created_at),
+        time: dayjs(mblog.created_at).format('YYYY-MM-DD HH:mm:ss'),
         text: mblog.text.replace(/<[^<>]+>/g, ' '),
         pics: (mblog.pics ?? []).map((item: { url: string }) => item.url)
       };
