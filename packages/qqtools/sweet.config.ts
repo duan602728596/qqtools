@@ -1,25 +1,8 @@
 import * as process from 'process';
 import * as path from 'path';
-import * as _dayjs from 'dayjs';
-import 'dayjs/locale/zh-cn';
-import type { Dayjs } from 'dayjs';
-import * as webpack from 'webpack';
-import * as fse from 'fs-extra';
 import AntdDayjsWebpackPlugin from 'antd-dayjs-webpack-plugin';
 
-const dayjs: any = _dayjs['default'];
-
-dayjs.locale('zh-cn');
-
 const isDev: boolean = process.env.NODE_ENV === 'development';
-const buildTime: Dayjs = dayjs();
-
-console.log(`build time: ${ buildTime.format('YYYY-MM-DD HH:mm:ss') }`);
-
-fse.ensureDirSync(path.join(__dirname, 'dist'));
-fse.writeJsonSync(path.join(__dirname, 'dist/version.json'), {
-  version: buildTime.format('YYYY.MM.DD.HH.mm.ss')
-});
 
 function nodeExternals(node: Array<string>): { [k: string]: string } {
   const result: { [k: string]: string } = {};
@@ -106,10 +89,6 @@ export default function(info: object): { [key: string]: any } {
       include: /node_modules[\\/]_?antd/
     },
     plugins: [
-      new webpack.DefinePlugin({
-        BUILD_TIME: JSON.stringify(buildTime.format('YYYY-MM-DD HH:mm:ss')),
-        BUILD_VERSION: JSON.stringify(buildTime.format('YYYY.MM.DD.HH.mm.ss'))
-      }),
       new AntdDayjsWebpackPlugin()
     ]
   };

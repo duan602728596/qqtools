@@ -1,4 +1,4 @@
-# qqtools3
+# qqtools-mirai
 
 基于mirai和mirai-api-http使用的机器人客户端
 

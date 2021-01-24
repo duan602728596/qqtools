@@ -22,6 +22,7 @@ import NimChatroomSocket from './NimChatroomSocket';
 import { plain, atAll, miraiTemplate } from './utils/miraiUtils';
 import { getRoomMessage, randomId } from './utils/pocket48Utils';
 import { timeDifference } from './utils/taobaUtils';
+import * as packageJson from '../../../package.json';
 import type { OptionsItemValue } from '../../types';
 import type {
   Plain,
@@ -42,7 +43,6 @@ import type {
   TaobaJoinRank
 } from './qq.types';
 
-declare const BUILD_VERSION: string;
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
 type CloseListener = (event: CloseEvent) => void | Promise<void>;
 
@@ -53,7 +53,6 @@ export function getGroupNumbers(groupNumber: string): Array<number> {
     .map(Number);
 }
 
-const buildVersion: string = BUILD_VERSION!;
 const nimChatroomSocketList: Array<NimChatroomSocket> = []; // 缓存连接
 
 class QQ {
@@ -67,7 +66,6 @@ class QQ {
   public session: string;
   public startTime: string; // 启动时间
 
-  public nimChatroomSocket: any;       // 口袋48
   public nimChatroomSocketId?: string; // socketId
 
   public weiboLfid: string;        // 微博的lfid
@@ -263,8 +261,8 @@ class QQ {
   async logCommandCallback(groupId: number): Promise<void> {
     const versions: any = process.versions;
     const { qqNumber }: OptionsItemValue = this.config;
-    const msg: string = `qqtools3
-软件版本：${ buildVersion }
+    const msg: string = `qqtools-mirai
+软件版本：${ packageJson.version }
 运行平台：${ process.platform }
 Electron：${ versions.electron }
 Chrome：${ versions.chrome }

@@ -6,11 +6,9 @@ import {
   QqOutlined as IconQqOutlined,
   SettingOutlined as IconSettingOutlined,
   QuestionCircleFilled as IconQuestionCircleFilled,
-  ToolFilled as IconToolFilled
+  ToolTwoTone as IconToolTwoTone
 } from '@ant-design/icons';
 import style from './index.sass';
-
-declare const BUILD_TIME: string;
 
 /* 首页 */
 function Index(props: {}): ReactElement {
@@ -26,12 +24,7 @@ function Index(props: {}): ReactElement {
 
   return (
     <div className={ style.main }>
-      <h1>qqtools3</h1>
-      <p>
-        <Button type="text" icon={ <IconToolFilled /> } onClick={ handleOpenDeveloperToolsClick }>
-          Build in { BUILD_TIME }.
-        </Button>
-      </p>
+      <h1>qqtools-mirai</h1>
       <Space className={ style.nav }>
         <Link to="Login">
           <Button type="primary" icon={ <IconQqOutlined /> }>账号登陆</Button>
@@ -40,6 +33,7 @@ function Index(props: {}): ReactElement {
           <Button icon={ <IconSettingOutlined /> }>登陆配置</Button>
         </Link>
         <Button icon={ <IconQuestionCircleFilled /> } onClick={ handleOpenHelpClick }>使用说明</Button>
+        <Button type="text" icon={ <IconToolTwoTone /> } onClick={ handleOpenDeveloperToolsClick } />
       </Space>
       {/* 二维码 */}
       <p>欢迎打赏：</p>
