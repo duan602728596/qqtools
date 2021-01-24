@@ -22,6 +22,7 @@ const pocket48ShieldMsgTypeOptions: Array<CheckboxOptionType> = [
   { value: 'LIVEPUSH', label: '直播' },
   { value: 'FLIPCARD', label: '翻牌' },
   { value: 'EXPRESS', label: '表情' },
+  { value: 'UNKNOWN', label: '未知类型' },
   { value: 'ERROR', label: '错误信息' }
 ];
 

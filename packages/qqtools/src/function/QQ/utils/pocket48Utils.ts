@@ -100,11 +100,13 @@ ${ customInfo.question }
       // 什么都不做
     } else {
       // 未知信息类型
-      sendGroup.push(
-        plain(`${ nickName }：未知信息类型，请联系开发者。
+      if (!(pocket48ShieldMsgType && pocket48ShieldMsgType.includes('UNKNOWN'))) {
+        sendGroup.push(
+          plain(`${ nickName }：未知信息类型，请联系开发者。
 数据：${ JSON.stringify(event) }
 时间：${ msgTime }`)
-      );
+        );
+      }
     }
   } catch (err) {
     console.error(err);
