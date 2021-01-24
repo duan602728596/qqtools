@@ -3,7 +3,8 @@
   "compilerOptions": {
     "module": "ESNext",
     "jsx": "react-jsxdev",
-    "importHelpers": true
+    "importHelpers": true,
+    "resolveJsonModule": true
   },
   "exclude": [
     "node_modules"

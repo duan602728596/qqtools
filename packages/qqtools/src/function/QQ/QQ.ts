@@ -22,7 +22,6 @@ import NimChatroomSocket from './NimChatroomSocket';
 import { plain, atAll, miraiTemplate } from './utils/miraiUtils';
 import { getRoomMessage, randomId } from './utils/pocket48Utils';
 import { timeDifference } from './utils/taobaUtils';
-import * as packageJson from '../../../package.json';
 import type { OptionsItemValue } from '../../types';
 import type {
   Plain,
@@ -42,6 +41,10 @@ import type {
   TaobaRankItem,
   TaobaJoinRank
 } from './qq.types';
+
+const packageJson: any = require('../../../package.json');
+
+console.log(packageJson);
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
 type CloseListener = (event: CloseEvent) => void | Promise<void>;
