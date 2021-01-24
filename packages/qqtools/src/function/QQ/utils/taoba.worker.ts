@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 import { requestIdolsJoin, requestDetail, requestJoinRank } from '../services/taoba';
 import type {
   TaobaIdolsJoin,
@@ -72,7 +72,7 @@ async function handleTaobaTimer(): Promise<void> {
 async function init(): Promise<void> {
   const res: TaobaIdolsJoin = await requestIdolsJoin(taobaId);
 
-  lastTime = res.list.length > 0 ? res.list[0].stime : moment().unix();
+  lastTime = res.list.length > 0 ? res.list[0].stime : dayjs().unix();
   timer = self.setTimeout(handleTaobaTimer, 20_000);
 }
 

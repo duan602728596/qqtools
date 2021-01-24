@@ -1,14 +1,18 @@
 import * as process from 'process';
 import * as path from 'path';
-import * as _moment from 'moment';
-import type { Moment } from 'moment';
+import * as _dayjs from 'dayjs';
+import 'dayjs/locale/zh-cn';
+import type { Dayjs } from 'dayjs';
 import * as webpack from 'webpack';
 import * as fse from 'fs-extra';
+import AntdDayjsWebpackPlugin from 'antd-dayjs-webpack-plugin';
 
-const moment: any = _moment['default'];
+const dayjs: any = _dayjs['default'];
+
+dayjs.locale('zh-cn');
 
 const isDev: boolean = process.env.NODE_ENV === 'development';
-const buildTime: Moment = moment();
+const buildTime: Dayjs = dayjs();
 
 console.log(`build time: ${ buildTime.format('YYYY-MM-DD HH:mm:ss') }`);
 
@@ -53,6 +57,7 @@ export default function(info: object): { [key: string]: any } {
     entry: {
       index: [path.join(__dirname, 'src/index.tsx')]
     },
+    html: [{ template: path.join(__dirname, 'src/index.pug') }],
     externals: {
       SDK: 'window.SDK',
       ...nodeExternals([
@@ -100,12 +105,12 @@ export default function(info: object): { [key: string]: any } {
       },
       include: /node_modules[\\/]_?antd/
     },
-    html: [{ template: path.join(__dirname, 'src/index.pug') }],
     plugins: [
       new webpack.DefinePlugin({
         BUILD_TIME: JSON.stringify(buildTime.format('YYYY-MM-DD HH:mm:ss')),
         BUILD_VERSION: JSON.stringify(buildTime.format('YYYY.MM.DD.HH.mm.ss'))
-      })
+      }),
+      new AntdDayjsWebpackPlugin()
     ]
   };
 

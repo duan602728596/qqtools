@@ -2,8 +2,8 @@ import * as process from 'process';
 import { CronJob } from 'cron';
 import { message } from 'antd';
 import { findIndex } from 'lodash';
-import * as moment from 'moment';
-import type { Moment } from 'moment';
+import * as dayjs from 'dayjs';
+import type { Dayjs } from 'dayjs';
 import { renderString } from 'nunjucks';
 import BilibiliWorker from 'worker-loader!./utils/bilibili.worker';
 import TaobaWorker from 'worker-loader!./utils/taoba.worker';
@@ -453,7 +453,7 @@ V8：${ versions.v8 }
     ]);
 
     // 发送消息
-    const endTime: Moment = moment.unix(res0.datas.expire);
+    const endTime: Dayjs = dayjs.unix(res0.datas.expire);
     const { amount, donation }: {
       amount: number;
       donation: number;
@@ -541,7 +541,7 @@ V8：${ versions.v8 }
       await this.initBilibiliWorker();
       await this.initTaobaWorker();
       this.initCronJob();
-      this.startTime = moment().format('YYYY-MM-DD HH:mm:ss');
+      this.startTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
 
       return true;
     } catch (err) {

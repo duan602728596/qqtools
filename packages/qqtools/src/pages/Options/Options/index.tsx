@@ -11,8 +11,8 @@ import { createSelector, createStructuredSelector, Selector } from 'reselect';
 import { Link } from 'react-router-dom';
 import { Button, Space, Table, Popconfirm, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import * as moment from 'moment';
-import type { Moment } from 'moment';
+import * as dayjs from 'dayjs';
+import type { Dayjs } from 'dayjs';
 import { random } from 'lodash';
 import style from './index.sass';
 import { queryOptionsList, deleteOption, saveFormData, OptionsInitialState } from '../reducers/reducers';
@@ -61,7 +61,7 @@ function Options(props: {}): ReactElement {
     }
 
     const option: Array<OptionsItem> = yamlParseResult['qqtools']['option'];
-    const time: string = yamlParseResult['qqtools']['time'] ?? moment().format('YYYY-MM-DD HH:mm:ss');
+    const time: string = yamlParseResult['qqtools']['time'] ?? dayjs().format('YYYY-MM-DD HH:mm:ss');
 
     // 重写id和name，避免重复
     option.forEach(function(value: OptionsItem, index: number): void {
@@ -82,7 +82,7 @@ function Options(props: {}): ReactElement {
 
   // 导出配置
   async function handleExportConfigurationFileClick(event: MouseEvent): Promise<void> {
-    const time: Moment = moment();
+    const time: Dayjs = dayjs();
     const result: SaveDialogReturnValue = await remote.dialog.showSaveDialog({
       defaultPath: `配置备份_${ time.format('YYYY.MM.DD.HH.mm.ss') }_.yaml`
     });

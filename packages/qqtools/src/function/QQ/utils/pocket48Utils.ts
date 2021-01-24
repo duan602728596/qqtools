@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 import { plain, image, atAll } from './miraiUtils';
 import type { CustomMessageAll, MessageChain, NIMMessage } from '../qq.types';
 
@@ -19,7 +19,7 @@ export function getRoomMessage({ customInfo, data, pocket48LiveAtAll, event, poc
 }): Array<MessageChain> {
   const sendGroup: Array<MessageChain> = [];                 // 发送的数据
   const nickName: string = customInfo?.user?.nickName ?? ''; // 用户名
-  const msgTime: string = moment(data.time).format('YYYY-MM-DD HH:mm:ss'); // 发送时间
+  const msgTime: string = dayjs(data.time).format('YYYY-MM-DD HH:mm:ss'); // 发送时间
 
   try {
     // 普通信息
