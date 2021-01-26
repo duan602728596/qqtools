@@ -13,10 +13,10 @@ import { createSelector, createStructuredSelector, Selector } from 'reselect';
 import { Link } from 'react-router-dom';
 import { Select, Button, Space, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { random, findIndex, differenceBy } from 'lodash';
+import { random, findIndex } from 'lodash';
 import style from './index.sass';
 import { queryOptionsList, OptionsInitialState } from '../Options/reducers/reducers';
-import { setLoginList, LoginInitialState } from './reducers/reducers';
+import { setAddLogin, setDeleteLogin, LoginInitialState } from './reducers/reducers';
 import dbConfig from '../../function/dbInit/dbConfig';
 import type { OptionsItem, OptionsItemValue } from '../../types';
 import QQ, { getGroupNumbers } from '../../function/QQ/QQ';
@@ -51,9 +51,7 @@ function Index(props: {}): ReactElement {
   // 退出
   async function handleLogoutClick(qq: QQ, event?: MouseEvent): Promise<void> {
     await qq.destroy();
-    dispatch(setLoginList(
-      differenceBy<QQ, { id: string }>(loginList, [{ id: qq.id }], 'id')
-    ));
+    dispatch(setDeleteLogin(qq));
   }
 
   // 登陆
@@ -69,7 +67,7 @@ function Index(props: {}): ReactElement {
       const result: boolean = await qq.init();
 
       if (result) {
-        dispatch(setLoginList([...loginList, qq]));
+        dispatch(setAddLogin(qq));
         message.success('登陆成功！');
       }
     } catch (err) {
