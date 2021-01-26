@@ -10,5 +10,8 @@ export const reducersMapObject: ReducersMapObject = Object.assign({},
 
 export const ignoreOptions: any = {
   ignoredPaths: ['login.loginList'],
-  ignoredActions: ['login/setLoginList']
+  ignoredActions: [
+    'login/setAddLogin',
+    'login/setDeleteLogin'
+  ]
 };

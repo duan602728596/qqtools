@@ -17,9 +17,9 @@ import { random, findIndex } from 'lodash-es';
 import style from './index.sass';
 import { queryOptionsList, OptionsInitialState } from '../Options/reducers/reducers';
 import { setAddLogin, setDeleteLogin, LoginInitialState } from './reducers/reducers';
-import dbConfig from '../../function/dbInit/dbConfig';
+import dbConfig from '../../utils/idb/dbConfig';
 import type { OptionsItem, OptionsItemValue } from '../../types';
-import QQ, { getGroupNumbers } from '../../function/QQ/QQ';
+import QQ, { getGroupNumbers } from '../../QQ/QQ';
 
 /* state */
 interface SelectorRData {

@@ -1,6 +1,6 @@
 import { createSlice, Slice, SliceCaseReducers, PayloadAction, CaseReducerActions } from '@reduxjs/toolkit';
 import { differenceBy } from 'lodash-es';
-import QQ from '../../../function/QQ/QQ';
+import QQ from '../../../QQ/QQ';
 
 export interface LoginInitialState {
   loginList: Array<QQ>;

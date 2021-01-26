@@ -22,7 +22,7 @@ import NimChatroomSocket from './NimChatroomSocket';
 import { plain, atAll, miraiTemplate } from './utils/miraiUtils';
 import { getRoomMessage, randomId } from './utils/pocket48Utils';
 import { timeDifference } from './utils/taobaUtils';
-import type { OptionsItemValue } from '../../types';
+import type { OptionsItemValue } from '../types';
 import type {
   Plain,
   AuthResponse,
@@ -42,9 +42,7 @@ import type {
   TaobaJoinRank
 } from './qq.types';
 
-const packageJson: any = require('../../../package.json');
-
-console.log(packageJson);
+const packageJson: any = require('../../package.json');
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
 type CloseListener = (event: CloseEvent) => void | Promise<void>;

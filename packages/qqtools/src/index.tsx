@@ -7,7 +7,7 @@ import * as dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 import { storeFactory } from './store/store';
 import Routers from './router/Routers';
-import dbInit from './function/dbInit/dbInit';
+import dbInit from './utils/idb/dbInit';
 
 dayjs.locale('zh-cn');
 
