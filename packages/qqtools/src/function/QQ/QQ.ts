@@ -1,7 +1,7 @@
 import * as process from 'process';
 import { CronJob } from 'cron';
 import { message } from 'antd';
-import { findIndex } from 'lodash';
+import { findIndex } from 'lodash-es';
 import * as dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import { renderString } from 'nunjucks';

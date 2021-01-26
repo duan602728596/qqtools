@@ -7,7 +7,7 @@ import { Form, Button, Space, Input, InputNumber, Divider, Switch, Checkbox } fr
 import type { FormInstance } from 'antd/es/form';
 import type { Store } from 'rc-field-form/es/interface';
 import type { CheckboxOptionType } from 'antd/es/checkbox';
-import { random, transform } from 'lodash';
+import { random, transform } from 'lodash-es';
 import style from './index.sass';
 import { saveFormData, getOptionItem } from '../reducers/reducers';
 import CustomCmd from './CustomCmd';

@@ -1,7 +1,7 @@
 import NIM_SDK from 'SDK';
 import el from './sdk/eval';
 import { message } from 'antd';
-import { findIndex } from 'lodash';
+import { findIndex } from 'lodash-es';
 import type { NIMMessage, NIMError } from './qq.types';
 
 const { Chatroom }: any = NIM_SDK;

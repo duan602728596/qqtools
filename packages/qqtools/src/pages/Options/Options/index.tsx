@@ -13,7 +13,7 @@ import { Button, Space, Table, Popconfirm, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import * as dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
-import { random } from 'lodash';
+import { random } from 'lodash-es';
 import style from './index.sass';
 import { queryOptionsList, deleteOption, saveFormData, OptionsInitialState } from '../reducers/reducers';
 import dbConfig from '../../../function/dbInit/dbConfig';

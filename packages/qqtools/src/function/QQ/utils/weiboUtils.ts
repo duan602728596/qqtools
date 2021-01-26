@@ -1,5 +1,5 @@
 import * as dayjs from 'dayjs';
-import { orderBy } from 'lodash';
+import { orderBy } from 'lodash-es';
 import type { WeiboCard, WeiboSendData, WeiboMBlog } from '../qq.types';
 
 /**

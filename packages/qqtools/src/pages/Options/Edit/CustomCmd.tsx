@@ -4,7 +4,7 @@ import { Table, Button, Space, Input, Modal, Form } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { FormInstance } from 'antd/es/form';
 import type { Store } from 'rc-field-form/es/interface';
-import { random, findIndex } from 'lodash';
+import { random, findIndex } from 'lodash-es';
 import style from './customCmd.sass';
 import type { EditItem } from '../../../types';
 

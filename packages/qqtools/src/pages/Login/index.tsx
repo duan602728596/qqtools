@@ -13,7 +13,7 @@ import { createSelector, createStructuredSelector, Selector } from 'reselect';
 import { Link } from 'react-router-dom';
 import { Select, Button, Space, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { random, findIndex } from 'lodash';
+import { random, findIndex } from 'lodash-es';
 import style from './index.sass';
 import { queryOptionsList, OptionsInitialState } from '../Options/reducers/reducers';
 import { setAddLogin, setDeleteLogin, LoginInitialState } from './reducers/reducers';

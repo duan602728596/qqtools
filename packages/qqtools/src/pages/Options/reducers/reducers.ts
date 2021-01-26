@@ -1,5 +1,5 @@
 import { createSlice, Slice, SliceCaseReducers, PayloadAction, CaseReducerActions, ActionCreator } from '@reduxjs/toolkit';
-import { differenceBy } from 'lodash';
+import { differenceBy } from 'lodash-es';
 import dbRedux, { objectStoreName } from '../../../function/dbInit/dbRedux';
 import type { OptionsItem } from '../../../types';
 
