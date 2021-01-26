@@ -1,7 +1,7 @@
 import { ipcRenderer, shell } from 'electron';
 import type { ReactElement, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Space } from 'antd';
+import { Button, Space, Divider, Image } from 'antd';
 import {
   QqOutlined as IconQqOutlined,
   SettingOutlined as IconSettingOutlined,
@@ -25,7 +25,7 @@ function Index(props: {}): ReactElement {
   return (
     <div className={ style.main }>
       <h1>qqtools-mirai</h1>
-      <Space className={ style.nav }>
+      <Space>
         <Link to="Login">
           <Button type="primary" icon={ <IconQqOutlined /> }>账号登陆</Button>
         </Link>
@@ -35,11 +35,12 @@ function Index(props: {}): ReactElement {
         <Button icon={ <IconQuestionCircleFilled /> } onClick={ handleOpenHelpClick }>使用说明</Button>
         <Button type="text" icon={ <IconToolTwoTone /> } onClick={ handleOpenDeveloperToolsClick } />
       </Space>
+      <Divider />
       {/* 二维码 */}
       <p>欢迎打赏：</p>
-      <Space>
-        <img className={ style.dashangImage } src={ require('./images/zfb.avif').default } />
-        <img className={ style.dashangImage } src={ require('./images/wx.avif').default } />
+      <Space size={ 8 }>
+        <Image className={ style.dashangImage } src={ require('./images/zfb.avif').default } />
+        <Image className={ style.dashangImage } src={ require('./images/wx.avif').default } />
       </Space>
     </div>
   );
