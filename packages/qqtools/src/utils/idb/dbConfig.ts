@@ -13,13 +13,20 @@ export interface DbConfig {
 
 const dbConfig: DbConfig = {
   name: 'qqtools',
-  version: 1,
+  version: 2,
   objectStore: [
-    // 存储配置
+    // 存储登陆配置
     {
       name: 'option',
       key: 'id',
       data: ['name', 'value']
+    },
+
+    // 一些配置
+    {
+      name: 'options',
+      key: 'name',
+      data: ['value']
     }
   ]
 };

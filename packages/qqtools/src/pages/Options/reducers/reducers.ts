@@ -1,6 +1,6 @@
 import { createSlice, Slice, SliceCaseReducers, PayloadAction, CaseReducerActions, ActionCreator } from '@reduxjs/toolkit';
 import { differenceBy } from 'lodash-es';
-import dbRedux, { objectStoreName } from '../../../utils/idb/dbRedux';
+import dbRedux, { loginOptionsObjectStoreName, roomIdObjectStoreName } from '../../../utils/idb/dbRedux';
 import type { OptionsItem } from '../../../types';
 
 export interface OptionsInitialState {
@@ -42,19 +42,32 @@ export const { setOptionsList, setOptionsDeleteList }: CaseReducerActions<CaseRe
 export default { options: reducer };
 
 // 保存数据
-export const saveFormData: ActionCreator<any> = dbRedux.putAction({ objectStoreName });
+export const saveFormData: ActionCreator<any> = dbRedux.putAction({
+  objectStoreName: loginOptionsObjectStoreName
+});
 
 // 配置列表
 export const queryOptionsList: ActionCreator<any> = dbRedux.cursorAction({
-  objectStoreName,
+  objectStoreName: loginOptionsObjectStoreName,
   successAction: setOptionsList
 });
 
 // 删除
 export const deleteOption: ActionCreator<any> = dbRedux.deleteAction({
-  objectStoreName,
+  objectStoreName: loginOptionsObjectStoreName,
   successAction: setOptionsDeleteList
 });
 
 // 获取单个配置
-export const getOptionItem: ActionCreator<any> = dbRedux.getAction({ objectStoreName });
+export const getOptionItem: ActionCreator<any> = dbRedux.getAction({
+  objectStoreName: loginOptionsObjectStoreName
+});
+
+// 获取单个配置
+export const saveRoomId: ActionCreator<any> = dbRedux.putAction({
+  objectStoreName: roomIdObjectStoreName
+});
+
+export const deleteRoomId: ActionCreator<any> = dbRedux.deleteAction({
+  objectStoreName: roomIdObjectStoreName
+});

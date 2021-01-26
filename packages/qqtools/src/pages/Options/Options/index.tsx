@@ -15,6 +15,7 @@ import * as dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import { random } from 'lodash-es';
 import style from './index.sass';
+import RoomId from './RoomId';
 import { queryOptionsList, deleteOption, saveFormData, OptionsInitialState } from '../reducers/reducers';
 import dbConfig from '../../../utils/idb/dbConfig';
 import type { OptionsItem } from '../../../types';
@@ -146,6 +147,7 @@ function Options(props: {}): ReactElement {
           <Link to="Edit">
             <Button type="primary">添加配置</Button>
           </Link>
+          <RoomId />
           <Link to="../">
             <Button type="primary" danger={ true }>返回</Button>
           </Link>

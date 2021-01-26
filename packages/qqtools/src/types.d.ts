@@ -49,3 +49,10 @@ export interface OptionsItem {
   name: string;
   value: OptionsItemValue;
 }
+
+export interface MemberInfo {
+  id: number;
+  ownerName: string;
+  roomId: string;
+  account: string;
+}
