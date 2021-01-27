@@ -139,6 +139,9 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="pocket48ShieldMsgType" label="屏蔽信息类型">
         <Checkbox.Group options={ pocket48ShieldMsgTypeOptions } />
       </Form.Item>
+      <Form.Item name="pocket48RoomEntryListener" label="口袋房间进出监听" valuePropName="checked">
+        <Checkbox>口袋房间进出监听（需要先导入房间信息）</Checkbox>
+      </Form.Item>
 
       {/* 微博监听配置 */}
       <Divider>微博监听配置</Divider>

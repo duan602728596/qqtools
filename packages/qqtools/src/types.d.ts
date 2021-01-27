@@ -17,6 +17,7 @@ export interface OptionsItemValue {
   pocket48Account?: string;
   pocket48LiveAtAll?: boolean;
   pocket48ShieldMsgType?: Array<string>;
+  pocket48RoomEntryListener?: boolean;
 
   weiboListener?: boolean;
   weiboUid?: string;
