@@ -2,6 +2,7 @@ import NIM_SDK from 'SDK';
 import el from './sdk/eval';
 import { message } from 'antd';
 import { findIndex } from 'lodash-es';
+import type {} from '../types';
 import type { NIMMessage, NIMError } from './qq.types';
 
 const { Chatroom }: any = NIM_SDK;
@@ -14,6 +15,11 @@ interface Queue {
 interface NimChatroomSocketArgs {
   pocket48Account: string;
   pocket48RoomId: string;
+}
+
+export interface ChatroomMember {
+  type: string;
+  account: string;
 }
 
 /**
@@ -33,25 +39,25 @@ class NimChatroomSocket {
   }
 
   // 初始化
-  init(): void {
-    this.nimChatroomSocket = Chatroom.getInstance({
-      appKey: el,
-      account: this.pocket48Account,
-      token: this.pocket48Account,
-      chatroomId: this.pocket48RoomId,
-      chatroomAddresses: ['chatweblink01.netease.im:443'],
-      onconnect: this.handleRoomSocketConnect,
-      onmsgs: this.handleRoomSocketMessage,
-      onerror: this.handleRoomSocketError,
-      ondisconnect: this.handleRoomSocketDisconnect
+  init(): Promise<void> {
+    return new Promise((resolve: Function, reject: Function): void => {
+      this.nimChatroomSocket = Chatroom.getInstance({
+        appKey: el,
+        account: this.pocket48Account,
+        token: this.pocket48Account,
+        chatroomId: this.pocket48RoomId,
+        chatroomAddresses: ['chatweblink01.netease.im:443'],
+        onconnect(event: any): void {
+          resolve();
+          console.log('进入聊天室', event);
+          message.success(`进入口袋48房间。房间ID：[${ this.pocket48RoomId }]`);
+        },
+        onmsgs: this.handleRoomSocketMessage,
+        onerror: this.handleRoomSocketError,
+        ondisconnect: this.handleRoomSocketDisconnect
+      });
     });
   }
-
-  // 进入房间
-  handleRoomSocketConnect: Function = (event: any): void => {
-    console.log('进入聊天室', event);
-    message.success(`进入口袋48房间。房间ID：[${ this.pocket48RoomId }]`);
-  };
 
   // 事件监听
   handleRoomSocketMessage: Function = (event: Array<NIMMessage>): void => {
@@ -92,6 +98,18 @@ class NimChatroomSocket {
       this.nimChatroomSocket.disconnect();
       this.nimChatroomSocket = undefined;
     }
+  }
+
+  // 获取当前房间内的参观者
+  getChatroomMembers(guest: boolean = true): Promise<Array<ChatroomMember>> {
+    return new Promise((resolve: Function, reject: Function): void => {
+      this.nimChatroomSocket.getChatroomMembers({
+        guest,
+        done(err: Error, arg1: { members: Array<ChatroomMember> }): void {
+          resolve(arg1?.members ?? []);
+        }
+      });
+    });
   }
 }
 

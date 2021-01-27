@@ -1,5 +1,13 @@
-import { createSlice, Slice, SliceCaseReducers, PayloadAction, CaseReducerActions } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  Slice,
+  SliceCaseReducers,
+  PayloadAction,
+  CaseReducerActions,
+  ActionCreator
+} from '@reduxjs/toolkit';
 import { differenceBy } from 'lodash-es';
+import dbRedux, { roomIdObjectStoreName } from '../../../utils/idb/dbRedux';
 import QQ from '../../../QQ/QQ';
 
 export interface LoginInitialState {
@@ -35,4 +43,9 @@ const { actions, reducer }: Slice = createSlice<LoginInitialState, CaseReducers>
 });
 
 export const { setAddLogin, setDeleteLogin }: CaseReducerActions<CaseReducers> = actions;
+
+export const getRoomId: ActionCreator<any> = dbRedux.getAction({
+  objectStoreName: roomIdObjectStoreName
+});
+
 export default { login: reducer };

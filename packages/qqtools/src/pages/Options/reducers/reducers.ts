@@ -39,7 +39,7 @@ const { actions, reducer }: Slice = createSlice<OptionsInitialState, CaseReducer
 });
 
 export const { setOptionsList, setOptionsDeleteList }: CaseReducerActions<CaseReducers> = actions;
-export default { options: reducer };
+
 
 // 保存数据
 export const saveFormData: ActionCreator<any> = dbRedux.putAction({
@@ -71,3 +71,5 @@ export const saveRoomId: ActionCreator<any> = dbRedux.putAction({
 export const deleteRoomId: ActionCreator<any> = dbRedux.deleteAction({
   objectStoreName: roomIdObjectStoreName
 });
+
+export default { options: reducer };

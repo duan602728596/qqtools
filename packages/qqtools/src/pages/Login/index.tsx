@@ -16,9 +16,9 @@ import type { ColumnsType } from 'antd/es/table';
 import { random, findIndex } from 'lodash-es';
 import style from './index.sass';
 import { queryOptionsList, OptionsInitialState } from '../Options/reducers/reducers';
-import { setAddLogin, setDeleteLogin, LoginInitialState } from './reducers/reducers';
+import { setAddLogin, setDeleteLogin, getRoomId, LoginInitialState } from './reducers/reducers';
 import dbConfig from '../../utils/idb/dbConfig';
-import type { OptionsItem, OptionsItemValue } from '../../types';
+import type { OptionsItem, OptionsItemValue, MemberInfo } from '../../types';
 import QQ, { getGroupNumbers } from '../../QQ/QQ';
 
 /* state */
@@ -61,9 +61,12 @@ function Index(props: {}): ReactElement {
     setLoginLoading(true);
 
     try {
+      const { result: roomIdResult }: { result: { value: Array<MemberInfo> } } = await dispatch(getRoomId({
+        query: 'roomId'
+      }));
       const index: number = findIndex(optionsList, { id: optionValue });
       const id: string = String(random(1, 10000000));
-      const qq: QQ = new QQ(id, optionsList[index].value);
+      const qq: QQ = new QQ(id, optionsList[index].value, roomIdResult?.value);
       const result: boolean = await qq.init();
 
       if (result) {

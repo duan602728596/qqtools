@@ -18,11 +18,11 @@ import {
   requestRoomInfo
 } from './services/services';
 import { requestDetail, requestJoinRank } from './services/taoba';
-import NimChatroomSocket from './NimChatroomSocket';
+import NimChatroomSocket, { ChatroomMember } from './NimChatroomSocket';
 import { plain, atAll, miraiTemplate } from './utils/miraiUtils';
 import { getRoomMessage, randomId } from './utils/pocket48Utils';
 import { timeDifference } from './utils/taobaUtils';
-import type { OptionsItemValue } from '../types';
+import type { OptionsItemValue, MemberInfo } from '../types';
 import type {
   Plain,
   AuthResponse,
@@ -67,7 +67,12 @@ class QQ {
   public session: string;
   public startTime: string; // 启动时间
 
-  public nimChatroomSocketId?: string; // socketId
+  public nimChatroomSocketId?: string;     // socketId
+  public nimChatroom?: NimChatroomSocket;  // socket
+  public memberInfo?: MemberInfo;          // 房间成员信息
+  public membersList?: Array<MemberInfo>;  // 所有成员信息
+  public membersCache?: Array<MemberInfo>; // 缓存
+  public roomEntryListener: number | null = null; // 监听器
 
   public weiboLfid: string;        // 微博的lfid
   public weiboWorker?: Worker;     // 微博监听
@@ -81,9 +86,10 @@ class QQ {
 
   public cronJob?: CronJob;        // 定时任务
 
-  constructor(id: string, config: OptionsItemValue) {
+  constructor(id: string, config: OptionsItemValue, membersList?: Array<MemberInfo>) {
     this.id = id;         // 当前登陆的唯一id
     this.config = config; // 配置
+    this.membersList = membersList;
     this.groupNumbers = getGroupNumbers(this.config.groupNumber);
     this.socketStatus = 0;
   }
@@ -309,9 +315,81 @@ V8：${ versions.v8 }
     this.roomSocketMessage(event);
   };
 
+  // 获取房间信息
+  handleRoomEntryTimer: Function = async (): Promise<void> => {
+    try {
+      const m: [ChatroomMember[], ChatroomMember[]] = await Promise.all([
+        this.nimChatroom!.getChatroomMembers(true),
+        this.nimChatroom!.getChatroomMembers(false)
+      ]);
+      const members: Array<ChatroomMember> = m.flat().filter((o: ChatroomMember) => o.type !== 'owner');
+      const entryLog: string[] = [], // 进入房间的log日志的数组
+        outputLog: string[] = [];    // 退出房间的log日志的数组
+      const nowMembers: Array<MemberInfo> = []; // 本次房间内小偶像的数组
+      const name: string = this.memberInfo?.ownerName!;
+
+      // 获取进入房间的信息
+      for (const member of members) {
+        // 判断是否是小偶像
+        const idx: number = findIndex(this.membersList, (o: MemberInfo): boolean => o.account === member.account);
+
+        if (idx < 0) {
+          continue;
+        }
+
+        const xoxMember: MemberInfo = this.membersList![idx];
+
+        nowMembers.push(xoxMember); // 当前房间的小偶像
+
+        // 没有缓存时不做判断
+        if (!this.membersCache) {
+          console.log(`${ xoxMember.ownerName } 在 ${ name } 的房间内`);
+          continue;
+        }
+
+        // 判断是否进入过房间（存在于缓存中）
+        const idx1: number = findIndex(this.membersCache, (o: MemberInfo): boolean => o.account === xoxMember.account);
+
+        if (idx1 < 0) {
+          entryLog.push(`${ xoxMember.ownerName } 进入了 ${ name } 的房间`);
+        }
+      }
+
+      // 离开房间的信息（缓存内的信息不在新信息中）
+      if (this.membersCache) {
+        for (const member of this.membersCache) {
+          const idx: number = findIndex(nowMembers, (o: MemberInfo): boolean => o.account === member.account);
+
+          if (idx < 0) {
+            outputLog.push(`${ member.ownerName } 离开了 ${ name } 的房间`);
+          }
+        }
+      }
+
+      this.membersCache = nowMembers; // 保存当前房间的xox信息
+
+      const allLogs: Array<string> = entryLog.concat(outputLog);
+
+      if (allLogs?.length) {
+        await this.sengMessage([
+          plain(`${ dayjs().format('YYYY-MM-DD HH:mm:ss') }\n${ allLogs.join('\n') }`)
+        ]);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+
+    this.roomEntryListener = setTimeout(this.handleRoomEntryTimer, 45_000);
+  };
+
   // 口袋48监听初始化
-  initPocket48(): void {
-    const { pocket48RoomListener, pocket48RoomId, pocket48Account }: OptionsItemValue = this.config;
+  async initPocket48(): Promise<void> {
+    const {
+      pocket48RoomListener,
+      pocket48RoomId,
+      pocket48Account,
+      pocket48RoomEntryListener
+    }: OptionsItemValue = this.config;
 
     if (!(pocket48RoomListener && pocket48RoomId && pocket48Account)) return;
 
@@ -326,17 +404,28 @@ V8：${ versions.v8 }
         pocket48RoomId
       });
 
-      nimChatroomSocket.init();
+      await nimChatroomSocket.init();
       nimChatroomSocket.addQueue({
         id: this.nimChatroomSocketId,
         onmsgs: this.handleRoomSocketMessage
       });
       nimChatroomSocketList.push(nimChatroomSocket); // 添加到列表
+      this.nimChatroom = nimChatroomSocket;
     } else {
       nimChatroomSocketList[index].addQueue({
         id: this.nimChatroomSocketId,
         onmsgs: this.handleRoomSocketMessage
       });
+      this.nimChatroom = nimChatroomSocketList[index];
+    }
+
+    if (pocket48RoomEntryListener && this.membersList?.length) {
+      const idx: number = findIndex(this.membersList, (o: MemberInfo) => o.roomId === `${ pocket48RoomId }`);
+
+      if (idx >= 0) {
+        this.memberInfo = this.membersList[idx];
+        this.handleRoomEntryTimer();
+      }
     }
   }
 
@@ -344,6 +433,10 @@ V8：${ versions.v8 }
   disconnectPocket48(): void {
     const { pocket48RoomId }: OptionsItemValue = this.config;
     const index: number = findIndex(nimChatroomSocketList, { pocket48RoomId });
+
+    if (this.roomEntryListener !== null) {
+      clearTimeout(this.roomEntryListener);
+    }
 
     if (index >= 0 && this.nimChatroomSocketId) {
       nimChatroomSocketList[index].removeQueue(this.nimChatroomSocketId);
@@ -535,7 +628,7 @@ V8：${ versions.v8 }
       if (!result) throw new Error('登陆失败！');
 
       this.initWebSocket();
-      this.initPocket48();
+      await this.initPocket48();
       await this.initWeiboWorker();
       await this.initBilibiliWorker();
       await this.initTaobaWorker();
