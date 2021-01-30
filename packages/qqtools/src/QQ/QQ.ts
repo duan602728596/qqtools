@@ -115,6 +115,8 @@ class QQ {
 
         if (command === 'pocketroom') {
           this.xoxInRoom(groupId);
+
+          return;
         }
 
         // 集资命令处理
@@ -321,26 +323,17 @@ V8：${ versions.v8 }
     this.roomSocketMessage(event);
   };
 
-  // 当前房间的信息
-  async xoxInRoom(groupId: number): Promise<void> {
+  // 输出当前房间的游客信息
+  xoxInRoom(groupId: number): void {
     const { pocket48RoomEntryListener }: OptionsItemValue = this.config;
 
     if (pocket48RoomEntryListener && this.membersList?.length && this.memberInfo) {
-      const m: [ChatroomMember[], ChatroomMember[]] = await Promise.all([
-        this.nimChatroom!.getChatroomMembers(true),
-        this.nimChatroom!.getChatroomMembers(false)
-      ]);
-      const members: Array<ChatroomMember> = m.flat().filter((o: ChatroomMember) => o.type !== 'owner');
+      const members: Array<MemberInfo> = this.membersCache ?? [];
       const nowMembers: string[] = []; // 本次房间内小偶像的数组
       const name: string = this.memberInfo?.ownerName!;
 
       for (const member of members) {
-        // 判断是否是小偶像
-        const idx: number = findIndex(this.membersList, (o: MemberInfo): boolean => o.account === member.account);
-
-        if (idx >= 0) {
-          nowMembers.push(this.membersList[idx]!.ownerName);
-        }
+        nowMembers.push(member.ownerName);
       }
 
       let text: string = `${ dayjs().format('YYYY-MM-DD HH:mm:ss') }在 ${ name } 的房间：\n`;
