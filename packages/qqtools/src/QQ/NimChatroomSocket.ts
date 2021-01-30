@@ -39,6 +39,8 @@ class NimChatroomSocket {
 
   // 初始化
   init(): Promise<void> {
+    const self: this = this;
+
     return new Promise((resolve: Function, reject: Function): void => {
       this.nimChatroomSocket = Chatroom.getInstance({
         appKey: el,
@@ -49,7 +51,7 @@ class NimChatroomSocket {
         onconnect(event: any): void {
           resolve();
           console.log('进入聊天室', event);
-          message.success(`进入口袋48房间。房间ID：[${ this.pocket48RoomId }]`);
+          message.success(`进入口袋48房间。房间ID：[${ self.pocket48RoomId }]`);
         },
         onmsgs: this.handleRoomSocketMessage,
         onerror: this.handleRoomSocketError,
