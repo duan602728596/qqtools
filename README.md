@@ -10,15 +10,17 @@
 
 ### 口袋监听配置
 
-在公演网站（ 比如[https://live.48.cn/Index/invideo/club/2/id/3730](https://live.48.cn/Index/invideo/club/2/id/3730) ），登陆口袋48账号，在开发者工具内找到`do_ajax_setcookie`地址，返回的结果内包含account
+在公演网站（ 比如[https://live.48.cn/Index/invideo/club/2/id/3730](https://live.48.cn/Index/invideo/club/2/id/3730) ），登陆口袋48账号，在开发者工具内找到`do_ajax_setcookie`地址，返回的结果内包含account。   
+
+`pocketmember` 命令输出口袋房间当前的xox。
 
 ### 微博配置
 
-微博地址（ 比如[https://weibo.com/u/5891500145](https://weibo.com/u/5891500145) ），后面的数字即为uid
+微博地址（ 比如[https://weibo.com/u/5891500145](https://weibo.com/u/5891500145) ），后面的数字即为uid。
 
 ### b站直播配置
 
-直播间地址（ 比如[https://live.bilibili.com/11588230](https://live.bilibili.com/11588230) ），后面的数字即为直播间id
+直播间地址（ 比如[https://live.bilibili.com/11588230](https://live.bilibili.com/11588230) ），后面的数字即为直播间id。
 
 ### 桃叭集资配置
 
@@ -26,7 +28,6 @@
 `排行榜`、`phb` 命令输出排行榜信息。   
 桃叭集资配置的模板除了支持占位符，还支持`{{ var }}`渲染。var表示注入的变量。   
 模板的功能参考[nunjucks](https://mozilla.github.io/nunjucks/cn/templating.html)。
-
 
 * 集资命令模板变量
   * title: 标题
