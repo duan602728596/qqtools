@@ -12,7 +12,7 @@
 
 在公演网站（ 比如[https://live.48.cn/Index/invideo/club/2/id/3730](https://live.48.cn/Index/invideo/club/2/id/3730) ），登陆口袋48账号，在开发者工具内找到`do_ajax_setcookie`地址，返回的结果内包含account。   
 
-`pocketmember` 命令输出口袋房间当前的xox。
+`pocketroom` 命令输出口袋房间当前的xox。
 
 ### 微博配置
 
