@@ -1,6 +1,7 @@
 import * as dayjs from 'dayjs';
 import { plain, image, atAll } from './miraiUtils';
 import type { CustomMessageAll, MessageChain, NIMMessage } from '../qq.types';
+import type { MemberInfo } from '../../types';
 
 /**
  * 获取房间数据
@@ -9,24 +10,32 @@ import type { CustomMessageAll, MessageChain, NIMMessage } from '../qq.types';
  * @param { boolean } pocket48LiveAtAll: 直播时是否at全体成员
  * @param { Array<NIMMessage> } event: 原始信息
  * @param { Array<string> | undefined } pocket48ShieldMsgType: 屏蔽类型
+ * @param { MemberInfo } memberInfo: 房间信息
+ * @param { boolean } pocket48MemberInfo: 发送房间信息
  */
-export function getRoomMessage({ customInfo, data, pocket48LiveAtAll, event, pocket48ShieldMsgType }: {
+export function getRoomMessage({ customInfo, data, pocket48LiveAtAll, event, pocket48ShieldMsgType, memberInfo, pocket48MemberInfo }: {
   customInfo: CustomMessageAll;
   data: NIMMessage;
   pocket48LiveAtAll?: boolean;
   event: Array<NIMMessage>;
   pocket48ShieldMsgType: Array<string> | undefined;
+  memberInfo?: MemberInfo;
+  pocket48MemberInfo?: boolean;
 }): Array<MessageChain> {
   const sendGroup: Array<MessageChain> = [];                 // 发送的数据
   const nickName: string = customInfo?.user?.nickName ?? ''; // 用户名
   const msgTime: string = dayjs(data.time).format('YYYY-MM-DD HH:mm:ss'); // 发送时间
+
+  // 输出房间信息
+  const memberInfoContent: string = pocket48MemberInfo && memberInfo
+    ? `\n房间：${ memberInfo.ownerName } 的口袋房间` : '';
 
   try {
     // 普通信息
     if (customInfo.messageType === 'TEXT') {
       sendGroup.push(
         plain(`${ nickName }：${ customInfo.text }
-时间：${ msgTime }`)
+时间：${ msgTime }${ memberInfoContent }`)
       );
     } else
 
@@ -35,7 +44,7 @@ export function getRoomMessage({ customInfo, data, pocket48LiveAtAll, event, poc
       sendGroup.push(
         plain(`${ customInfo.replyName }：${ customInfo.replyText }
 ${ nickName }：${ customInfo.text }
-时间：${ msgTime }`)
+时间：${ msgTime }${ memberInfoContent }`)
       );
     } else
 
@@ -44,7 +53,7 @@ ${ nickName }：${ customInfo.text }
       sendGroup.push(
         plain(`${ nickName } 发送了一张图片：`),
         image(data.file.url),
-        plain(`时间：${ msgTime }`)
+        plain(`时间：${ msgTime }${ memberInfoContent }`)
       );
     } else
 
@@ -52,7 +61,7 @@ ${ nickName }：${ customInfo.text }
     if (customInfo.messageType === 'AUDIO') {
       sendGroup.push(
         plain(`${ nickName } 发送了一条语音：${ data.file.url }
-时间：${ msgTime }`)
+时间：${ msgTime }${ memberInfoContent }`)
       );
     } else
 
@@ -60,7 +69,7 @@ ${ nickName }：${ customInfo.text }
     if (customInfo.messageType === 'VIDEO') {
       sendGroup.push(
         plain(`${ nickName } 发送了一个视频：${ data.file.url }
-时间：${ msgTime }`)
+时间：${ msgTime }${ memberInfoContent }`)
       );
     } else
 
@@ -73,7 +82,7 @@ ${ nickName }：${ customInfo.text }
       sendGroup.push(
         plain(`${ nickName } 正在直播
 直播标题：${ customInfo.liveTitle }
-时间：${ msgTime }`)
+时间：${ msgTime }${ memberInfoContent }`)
       );
     } else
 
@@ -83,7 +92,7 @@ ${ nickName }：${ customInfo.text }
         plain(`${ nickName } 翻牌了问题：
 ${ customInfo.question }
 回答：${ customInfo.answer }
-时间：${ msgTime }`)
+时间：${ msgTime }${ memberInfoContent }`)
       );
     } else
 
@@ -91,7 +100,7 @@ ${ customInfo.question }
     if (customInfo.messageType === 'EXPRESS') {
       sendGroup.push(
         plain(`${ nickName }：发送了一个表情。
-时间：${ msgTime }`)
+时间：${ msgTime }${ memberInfoContent }`)
       );
     } else
 
@@ -104,7 +113,7 @@ ${ customInfo.question }
         sendGroup.push(
           plain(`${ nickName }：未知信息类型，请联系开发者。
 数据：${ JSON.stringify(event) }
-时间：${ msgTime }`)
+时间：${ msgTime }${ memberInfoContent }`)
         );
       }
     }
@@ -115,7 +124,7 @@ ${ customInfo.question }
       sendGroup.push(
         plain(`信息发送错误，请联系开发者。
 数据：${ JSON.stringify(event) }
-时间：${ msgTime }`)
+时间：${ msgTime }${ memberInfoContent }`)
       );
     }
   }

@@ -293,7 +293,7 @@ V8：${ versions.v8 }
 
   // 事件监听
   async roomSocketMessage(event: Array<NIMMessage>): Promise<void> {
-    const { pocket48LiveAtAll, pocket48ShieldMsgType }: OptionsItemValue = this.config;
+    const { pocket48LiveAtAll, pocket48ShieldMsgType, pocket48MemberInfo }: OptionsItemValue = this.config;
     const data: NIMMessage = event[0];                                 // 房间信息数组
     const customInfo: CustomMessageAll = JSON.parse(data.custom);      // 房间自定义信息
     const { sessionRole }: CustomMessageAll = customInfo; // 信息类型和sessionRole
@@ -310,7 +310,9 @@ V8：${ versions.v8 }
       data,
       pocket48LiveAtAll,
       event,
-      pocket48ShieldMsgType
+      pocket48ShieldMsgType,
+      memberInfo: this.memberInfo,
+      pocket48MemberInfo
     });
 
     if (sendGroup.length > 0) {

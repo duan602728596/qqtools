@@ -142,6 +142,9 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="pocket48RoomEntryListener" label="口袋房间进出监听" valuePropName="checked">
         <Checkbox>口袋房间进出监听（需要先导入房间信息）</Checkbox>
       </Form.Item>
+      <Form.Item name="pocket48MemberInfo" label="发送时带上房间信息" valuePropName="checked">
+        <Checkbox>发送时带上房间信息（需要先导入房间信息）</Checkbox>
+      </Form.Item>
 
       {/* 微博监听配置 */}
       <Divider>微博监听配置</Divider>
