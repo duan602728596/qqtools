@@ -20,12 +20,12 @@ import { queryOptionsList, deleteOption, saveFormData, OptionsInitialState } fro
 import dbConfig from '../../../utils/idb/dbConfig';
 import type { OptionsItem } from '../../../types';
 
-/* state */
+/* redux selector */
 interface SelectorRData {
   optionsList: Array<OptionsItem>;
 }
 
-const state: Selector<any, SelectorRData> = createStructuredSelector({
+const selector: Selector<any, SelectorRData> = createStructuredSelector({
   // 配置列表
   optionsList: createSelector(
     ({ options }: { options: OptionsInitialState }): Array<OptionsItem> => options.optionsList,
@@ -35,7 +35,7 @@ const state: Selector<any, SelectorRData> = createStructuredSelector({
 
 /* 配置列表 */
 function Options(props: {}): ReactElement {
-  const { optionsList }: SelectorRData = useSelector(state);
+  const { optionsList }: SelectorRData = useSelector(selector);
   const dispatch: Dispatch = useDispatch();
 
   // 导入配置

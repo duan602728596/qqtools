@@ -21,13 +21,13 @@ import dbConfig from '../../utils/idb/dbConfig';
 import type { OptionsItem, OptionsItemValue, MemberInfo } from '../../types';
 import QQ, { getGroupNumbers } from '../../QQ/QQ';
 
-/* state */
+/* redux selector */
 interface SelectorRData {
   optionsList: Array<OptionsItem>;
   loginList: Array<QQ>;
 }
 
-const state: Selector<any, SelectorRData> = createStructuredSelector({
+const selector: Selector<any, SelectorRData> = createStructuredSelector({
   // 配置列表
   optionsList: createSelector(
     ({ options }: { options: OptionsInitialState }): Array<OptionsItem> => options.optionsList,
@@ -43,7 +43,7 @@ const state: Selector<any, SelectorRData> = createStructuredSelector({
 
 /* 登陆 */
 function Index(props: {}): ReactElement {
-  const { optionsList, loginList }: SelectorRData = useSelector(state);
+  const { optionsList, loginList }: SelectorRData = useSelector(selector);
   const dispatch: Dispatch = useDispatch();
   const [optionValue, setOptionValue]: [string, D<S<string>>] = useState('');        // 配置的值
   const [loginLoading, setLoginLoading]: [boolean, D<S<boolean>>] = useState(false); // loading
