@@ -35,7 +35,6 @@ export function atAll(): AtAll {
   return { type: 'AtAll', target: 0 };
 }
 
-
 interface ParsingResult {
   type: 'Plain' | 'Other';
   text: string;
@@ -101,8 +100,8 @@ export function miraiTemplate(message: string, options: Options = {}): Array<Mes
     // 解析other类型
     if (item.type === 'Other') {
       const formatStrArr: Array<string> = item.text
-        .replace(/<%=\s*qqtools\s*:\s*/, '') // 移出左侧的标记符
-        .replace(/\s*%>/, '')                // 移出右侧的标记符
+        .replace(/<%=\s*qqtools\s*:\s*/, '') // 移除左侧的标记符
+        .replace(/\s*%>/, '')                // 移除右侧的标记符
         .split(',');                                        // 拆分类型和值
       const [type, ...other]: string[] = formatStrArr;                // 拆分出类型和值
       const qqtoolsType: string = type.toLocaleUpperCase();           // 全部转换成大写
