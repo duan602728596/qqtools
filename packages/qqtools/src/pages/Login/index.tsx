@@ -18,8 +18,9 @@ import style from './index.sass';
 import { queryOptionsList, OptionsInitialState } from '../Options/reducers/reducers';
 import { setAddLogin, setDeleteLogin, getRoomId, LoginInitialState } from './reducers/reducers';
 import dbConfig from '../../utils/idb/dbConfig';
+import QQ from '../../QQ/QQ';
+import { getGroupNumbers } from '../../QQ/utils/miraiUtils';
 import type { OptionsItem, OptionsItemValue, MemberInfo } from '../../types';
-import QQ, { getGroupNumbers } from '../../QQ/QQ';
 
 /* redux selector */
 interface SelectorRData {

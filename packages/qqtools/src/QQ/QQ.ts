@@ -195,7 +195,6 @@ class QQ {
 
     this.messageSocket = new WebSocket(`ws://localhost:${ socketPort }/message?sessionKey=${ this.session }`);
     this.eventSocket = new WebSocket(`ws://localhost:${ socketPort }/event?sessionKey=${ this.session }`);
-
     this.messageSocket.addEventListener('message', this.handleMessageSocketMessage, false);
     this.eventSocket.addEventListener('message', this.handleEventSocketMessage, false);
     this.messageSocket.addEventListener('close', this.handleSocketClose, false);
@@ -346,11 +345,7 @@ V8：${ versions.v8 }
   // 获取房间信息
   handleRoomEntryTimer: Function = async (): Promise<void> => {
     try {
-      const m: [ChatroomMember[], ChatroomMember[]] = await Promise.all([
-        this.nimChatroom!.getChatroomMembers(true),
-        this.nimChatroom!.getChatroomMembers(false)
-      ]);
-      const members: Array<ChatroomMember> = m.flat().filter((o: ChatroomMember) => o.type !== 'owner');
+      const members: Array<ChatroomMember> = await this.nimChatroom!.getChatroomMembers();
       const entryLog: string[] = [], // 进入房间的log日志的数组
         outputLog: string[] = [];    // 退出房间的log日志的数组
       const nowMembers: Array<MemberInfo> = []; // 本次房间内小偶像的数组
@@ -407,7 +402,7 @@ V8：${ versions.v8 }
       console.error(err);
     }
 
-    this.roomEntryListener = setTimeout(this.handleRoomEntryTimer, 45_000);
+    this.roomEntryListener = setTimeout(this.handleRoomEntryTimer, 20_000);
   };
 
   // 口袋48监听初始化

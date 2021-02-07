@@ -101,7 +101,10 @@ class NimChatroomSocket {
     }
   }
 
-  // 获取当前房间内的参观者
+  /**
+   * 获取当前房间内的参观者
+   * @param { boolean } guest: 是否为游客（其他小偶像也为游客）
+   */
   getChatroomMembers(guest: boolean = true): Promise<Array<ChatroomMember>> {
     return new Promise((resolve: Function, reject: Function): void => {
       this.nimChatroomSocket.getChatroomMembers({
