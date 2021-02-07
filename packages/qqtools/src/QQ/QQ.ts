@@ -19,7 +19,7 @@ import {
 } from './services/services';
 import { requestDetail, requestJoinRank } from './services/taoba';
 import NimChatroomSocket, { ChatroomMember } from './NimChatroomSocket';
-import { plain, atAll, miraiTemplate } from './utils/miraiUtils';
+import { plain, atAll, miraiTemplate, getGroupNumbers } from './utils/miraiUtils';
 import { getRoomMessage, randomId } from './utils/pocket48Utils';
 import { timeDifference } from './utils/taobaUtils';
 import type { OptionsItemValue, MemberInfo } from '../types';
@@ -46,13 +46,6 @@ const packageJson: any = require('../../package.json');
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
 type CloseListener = (event: CloseEvent) => void | Promise<void>;
-
-/* 将群号字符串解析成数组 */
-export function getGroupNumbers(groupNumber: string): Array<number> {
-  return `${ groupNumber }`.split(/\s*[,，]\s*/)
-    .filter((o: string) => o !== '')
-    .map(Number);
-}
 
 const nimChatroomSocketList: Array<NimChatroomSocket> = []; // 缓存连接
 

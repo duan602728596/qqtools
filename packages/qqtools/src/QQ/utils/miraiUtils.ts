@@ -133,3 +133,13 @@ export function miraiTemplate(message: string, options: Options = {}): Array<Mes
 
   return textResult;
 }
+
+/**
+ * 将群号字符串解析成数组
+ * @param { string } groupNumber: qq群号，以","分隔
+ */
+export function getGroupNumbers(groupNumber: string): Array<number> {
+  return `${ groupNumber }`.split(/\s*[,，]\s*/)
+    .filter((o: string) => o !== '')
+    .map(Number);
+}
