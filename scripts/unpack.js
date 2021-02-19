@@ -62,13 +62,17 @@ async function unpack() {
       target: 'dir',
       icon: path.join(staticsDir, 'titleBarIcon.ico')
     },
+    linux: {
+      target: 'dir',
+      icon: path.join(staticsDir, 'titleBarIcon.ico'),
+      executableName: 'qqtools'
+    },
     electronDownload: {
       version: packageJson.dependencies.electron.replace(/^\^/, '')
     }
   };
 
   // 编译
-  /*
   await builder.build({
     targets: builder.Platform.MAC.createTarget(),
     config: {
@@ -79,7 +83,6 @@ async function unpack() {
       }
     }
   });
-  */
 
   await builder.build({
     targets: builder.Platform.WINDOWS.createTarget(),
@@ -92,12 +95,26 @@ async function unpack() {
     }
   });
 
+  await builder.build({
+    targets: builder.Platform.LINUX.createTarget(),
+    config: {
+      ..._.cloneDeep(config),
+      directories: {
+        app: appDir,
+        output: path.join(build, 'linux')
+      }
+    }
+  });
+
   await Promise.all([
-    // fse.copy(path.join(cwd, 'LICENSE'), path.join(build, 'mac/mac/LICENSE')),
-    // fse.copy(path.join(cwd, 'README.md'), path.join(build, 'mac/mac/README.md')),
+    fse.copy(path.join(cwd, 'LICENSE'), path.join(build, 'mac/mac/LICENSE')),
+    fse.copy(path.join(cwd, 'README.md'), path.join(build, 'mac/mac/README.md')),
 
     fse.copy(path.join(cwd, 'LICENSE'), path.join(build, 'win/win-unpacked/LICENSE')),
-    fse.copy(path.join(cwd, 'README.md'), path.join(build, 'win/win-unpacked/README.md'))
+    fse.copy(path.join(cwd, 'README.md'), path.join(build, 'win/win-unpacked/README.md')),
+
+    fse.copy(path.join(cwd, 'LICENSE'), path.join(build, 'linux/linux-unpacked/LICENSE')),
+    fse.copy(path.join(cwd, 'README.md'), path.join(build, 'linux/linux-unpacked/README.md'))
   ]);
 }
 
