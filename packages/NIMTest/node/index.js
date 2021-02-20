@@ -2,8 +2,14 @@ const fs = require('fs');
 const path = require('path');
 const got = require('got');
 const _ = require('lodash');
+const dayjs = require('dayjs');
+
+require('dayjs/locale/zh-cn');
+
 const NIM_SDK = require('./NIM_Web_SDK_nodejs_v7.1.0');
 const el = require('../src/sdk/eval');
+
+dayjs.locale('zh-cn');
 
 const fsP = fs.promises;
 const { Chatroom } = NIM_SDK;
@@ -108,7 +114,10 @@ async function main() {
         roomId.push(item);
         console.log(`ID: ${ friend } ownerName: ${ ownerName } roomId: ${ rid } account: ${ account }`);
 
-        const newData = JSON.stringify({ roomId }, null, 2);
+        const newData = JSON.stringify({
+          roomId,
+          buildTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+        }, null, 2);
 
         await fsP.writeFile(fileName, newData);
       } else if (status === 500) {

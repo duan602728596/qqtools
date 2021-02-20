@@ -373,6 +373,12 @@
       "account": "20190415141223_fd1j9c2yd8txihq"
     },
     {
+      "id": 63572,
+      "ownerName": "GNZ48-谢蕾蕾",
+      "roomId": "67370548",
+      "account": "20190415142033_ok2fvwwrmu3allo"
+    },
+    {
       "id": 63574,
       "ownerName": "SNH48-严佼君",
       "roomId": "67303260",
@@ -503,6 +509,12 @@
       "ownerName": "GNZ48-郑丹妮",
       "roomId": "67256340",
       "account": "20190415141530_2sx12lv3r79cxv2"
+    },
+    {
+      "id": 327577,
+      "ownerName": "GNZ48-左婧媛",
+      "roomId": "67380556",
+      "account": "20190415141927_315lt4cpcqkbwpo"
     },
     {
       "id": 327579,
@@ -1171,6 +1183,12 @@
       "account": "20190415142954_18qd960h4lp2ohj"
     },
     {
+      "id": 707374,
+      "ownerName": "IDFT-邹冰清",
+      "roomId": "345764122",
+      "account": "20210201153256_91906ar7jxcp9w5"
+    },
+    {
       "id": 711726,
       "ownerName": "GNZ48-高蔚然",
       "roomId": "67189871",
@@ -1525,6 +1543,12 @@
       "account": "20200211150204_h3453pjjbype7dp"
     },
     {
+      "id": 6827278357,
+      "ownerName": "GNZ48-吴思琪",
+      "roomId": "155333671",
+      "account": "20200211151733_v24roigtus3qdia"
+    },
+    {
       "id": 6827278358,
       "ownerName": "GNZ48-马昕玥",
       "roomId": "155329896",
@@ -1572,5 +1596,6 @@
       "roomId": "187430892",
       "account": "20200706182614_rvr8uq2mnr81il4"
     }
-  ]
+  ],
+  "buildTime": "2021-02-20 13:59:13"
 }
