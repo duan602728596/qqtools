@@ -1,6 +1,6 @@
 {
   "name": "@qqtools3/main",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "scripts": {
     "start": "npm run clean && cross-env NODE_ENV=development tsc --watch",
     "dev": "npm run clean && cross-env NODE_ENV=development tsc",
