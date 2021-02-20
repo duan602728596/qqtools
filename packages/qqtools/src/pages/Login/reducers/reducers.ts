@@ -23,21 +23,17 @@ const { actions, reducer }: Slice = createSlice<LoginInitialState, CaseReducers>
   },
   reducers: {
     // 添加一个新的登陆
-    setAddLogin(state: LoginInitialState, action: PayloadAction<QQ>): LoginInitialState {
+    setAddLogin(state: LoginInitialState, action: PayloadAction<QQ>): void {
       state.loginList = state.loginList.concat([action.payload]);
-
-      return state;
     },
 
     // 删除登陆
-    setDeleteLogin(state: LoginInitialState, action: PayloadAction<QQ>): LoginInitialState {
+    setDeleteLogin(state: LoginInitialState, action: PayloadAction<QQ>): void {
       state.loginList = differenceBy<QQ, { id: string }>(
         state.loginList,
         [{ id: action.payload.id }],
         'id'
       );
-
-      return state;
     }
   }
 });

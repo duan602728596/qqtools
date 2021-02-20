@@ -16,14 +16,12 @@ const { actions, reducer }: Slice = createSlice<OptionsInitialState, CaseReducer
   },
   reducers: {
     // 配置列表
-    setOptionsList(state: OptionsInitialState, action: PayloadAction<{ result: Array<OptionsItem> }>): OptionsInitialState {
+    setOptionsList(state: OptionsInitialState, action: PayloadAction<{ result: Array<OptionsItem> }>): void {
       state.optionsList = action.payload.result;
-
-      return state;
     },
 
     // 删除配置
-    setOptionsDeleteList(state: OptionsInitialState, action: PayloadAction<{ query: string }>): OptionsInitialState {
+    setOptionsDeleteList(state: OptionsInitialState, action: PayloadAction<{ query: string }>): void {
       const optionsList: Array<OptionsItem> = state.optionsList;
       const newList: Array<OptionsItem> = differenceBy<OptionsItem, { id: string }>(
         optionsList,
@@ -32,8 +30,6 @@ const { actions, reducer }: Slice = createSlice<OptionsInitialState, CaseReducer
       );
 
       state.optionsList = newList;
-
-      return state;
     }
   }
 });
