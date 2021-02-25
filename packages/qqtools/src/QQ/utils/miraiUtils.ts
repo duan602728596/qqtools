@@ -143,3 +143,15 @@ export function getGroupNumbers(groupNumber: string): Array<number> {
     .filter((o: string) => o !== '')
     .map(Number);
 }
+
+/**
+ * 解析socketHost
+ * @param { string } socketHost
+ */
+export function getSocketHost(socketHost: string | undefined): string {
+  if (socketHost && !/^\s*$/.test(socketHost)) {
+    return socketHost;
+  } else {
+    return 'localhost';
+  }
+}

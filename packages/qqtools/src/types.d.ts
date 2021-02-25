@@ -9,6 +9,7 @@ export interface OptionsItemValue {
   optionName: string;
   qqNumber: number;
   groupNumber: string;
+  socketHost?: string;
   socketPort: number;
   authKey: string;
 

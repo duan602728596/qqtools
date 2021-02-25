@@ -19,7 +19,7 @@ import {
 } from './services/services';
 import { requestDetail, requestJoinRank } from './services/taoba';
 import NimChatroomSocket, { ChatroomMember } from './NimChatroomSocket';
-import { plain, atAll, miraiTemplate, getGroupNumbers } from './utils/miraiUtils';
+import { plain, atAll, miraiTemplate, getGroupNumbers, getSocketHost } from './utils/miraiUtils';
 import { getRoomMessage, randomId } from './utils/pocket48Utils';
 import { timeDifference } from './utils/taobaUtils';
 import type { OptionsItemValue, MemberInfo } from '../types';
@@ -54,6 +54,7 @@ class QQ {
   public config: OptionsItemValue;
   public groupNumbers: Array<number>; // 多个群
   public socketStatus: -1 | 0; // -1 关闭，0 正常
+  public socketHost: string;
   public eventSocket?: WebSocket;
   public messageSocket?: WebSocket;
   public reconnectTimer: number | null; // 断线重连
@@ -85,6 +86,7 @@ class QQ {
     this.membersList = membersList;
     this.groupNumbers = getGroupNumbers(this.config.groupNumber);
     this.socketStatus = 0;
+    this.socketHost = getSocketHost(config.socketHost);
   }
 
   // message事件监听
@@ -169,8 +171,9 @@ class QQ {
   // 断线重连
   reconnectLogin: Function = async (): Promise<void> => {
     try {
+      const { socketHost }: this = this;
       const { socketPort, qqNumber }: OptionsItemValue = this.config;
-      const res: MessageResponse | Array<any> = await requestManagers(socketPort, qqNumber);
+      const res: MessageResponse | Array<any> = await requestManagers(socketHost, socketPort, qqNumber);
 
       if (Array.isArray(res)) {
         const result: boolean = await this.getSession();
@@ -191,10 +194,11 @@ class QQ {
 
   // websocket初始化
   initWebSocket(): void {
+    const { socketHost }: this = this;
     const { socketPort }: OptionsItemValue = this.config;
 
-    this.messageSocket = new WebSocket(`ws://localhost:${ socketPort }/message?sessionKey=${ this.session }`);
-    this.eventSocket = new WebSocket(`ws://localhost:${ socketPort }/event?sessionKey=${ this.session }`);
+    this.messageSocket = new WebSocket(`ws://${ socketHost }:${ socketPort }/message?sessionKey=${ this.session }`);
+    this.eventSocket = new WebSocket(`ws://${ socketHost }:${ socketPort }/event?sessionKey=${ this.session }`);
     this.messageSocket.addEventListener('message', this.handleMessageSocketMessage, false);
     this.eventSocket.addEventListener('message', this.handleEventSocketMessage, false);
     this.messageSocket.addEventListener('close', this.handleSocketClose, false);
@@ -220,8 +224,9 @@ class QQ {
 
   // 获取session
   async getSession(): Promise<boolean> {
+    const { socketHost }: this = this;
     const { qqNumber, socketPort, authKey }: OptionsItemValue = this.config;
-    const authRes: AuthResponse = await requestAuth(socketPort, authKey);
+    const authRes: AuthResponse = await requestAuth(socketHost, socketPort, authKey);
 
     if (authRes.code !== 0) {
       message.error('登陆失败：获取session失败。');
@@ -231,7 +236,7 @@ class QQ {
 
     this.session = authRes.session;
 
-    const verifyRes: MessageResponse = await requestVerify(qqNumber, socketPort, this.session);
+    const verifyRes: MessageResponse = await requestVerify(qqNumber, socketHost, socketPort, this.session);
 
     if (verifyRes.code === 0) {
       return true;
@@ -248,17 +253,18 @@ class QQ {
    * @param { number } groupId: 单个群的群号
    */
   async sengMessage(value: Array<MessageChain>, groupId?: number): Promise<void> {
+    const { socketHost }: this = this;
     const { socketPort }: OptionsItemValue = this.config;
     const groupNumbers: Array<number> = this.groupNumbers;
 
     if (typeof groupId === 'number') {
       // 只发送到一个群
-      await requestSendGroupMessage(groupId, socketPort, this.session, value);
+      await requestSendGroupMessage(groupId, socketHost, socketPort, this.session, value);
     } else {
       // 发送到多个群
       await Promise.all(
         groupNumbers.map((item: number, index: number): Promise<MessageResponse> => {
-          return requestSendGroupMessage(item, socketPort, this.session, value);
+          return requestSendGroupMessage(item, socketHost, socketPort, this.session, value);
         })
       );
     }
@@ -668,10 +674,11 @@ V8：${ versions.v8 }
 
   // 项目销毁
   async destroy(): Promise<boolean> {
+    const { socketHost }: this = this;
     const { qqNumber, socketPort }: OptionsItemValue = this.config;
 
     try {
-      await requestRelease(qqNumber, socketPort, this.session); // 清除session
+      await requestRelease(qqNumber, socketHost, socketPort, this.session); // 清除session
     } catch (err) {
       console.error(err);
     }
