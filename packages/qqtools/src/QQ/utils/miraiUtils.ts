@@ -1,3 +1,6 @@
+import * as fse from 'fs-extra';
+import * as dayjs from 'dayjs';
+import type { Dayjs } from 'dayjs';
 import type { Plain, Image, At, AtAll, MessageChain } from '../qq.types';
 
 /**
@@ -154,4 +157,30 @@ export function getSocketHost(socketHost: string | undefined): string {
   } else {
     return 'localhost';
   }
+}
+
+/**
+ * 输出日志
+ * @param { string } dir: 日志输出目录
+ * @param { string } logData: 日志内容
+ * @param { string } time: 输出时间
+ */
+async function log(dir: string, logData: string, time?: string): Promise<void> {
+  let logTime: string, // 当前时间
+    logDay: string;    // 当前年月日
+
+  if (time) {
+    logTime = time;
+    logDay = logTime.split(' ')[0];
+  } else {
+    const day: Dayjs = dayjs();
+
+    logTime = day.format('YYYY-MM-DD HH:mm:ss');
+    logDay = day.format('YYYY-MM-DD');
+  }
+
+  await fse.outputFile(`${ dir }/${ logDay }.log`, `[${ logTime }] - ${ logData }\n`, {
+    encoding: 'utf8',
+    flag: 'a'
+  });
 }
