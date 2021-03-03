@@ -179,7 +179,7 @@ async function log(dir: string, logData: string, time?: string): Promise<void> {
     logDay = day.format('YYYY-MM-DD');
   }
 
-  await fse.outputFile(`${ dir }/${ logDay }.log`, `[${ logTime }] - ${ logData }\n`, {
+  await fse.outputFile(`${ dir }/${ logDay }.log`, `${ logData }\n`, {
     encoding: 'utf8',
     flag: 'a'
   });
