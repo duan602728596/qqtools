@@ -1,3 +1,4 @@
+import { remote, OpenDialogReturnValue } from 'electron';
 import { useEffect, ReactElement, MouseEvent } from 'react';
 import type { Dispatch } from 'redux';
 import { useDispatch } from 'react-redux';
@@ -86,6 +87,24 @@ function Edit(props: {}): ReactElement {
     navigate('/Options');
   }
 
+  // 选择日志保存位置
+  async function handleLogSaveDirClick(event: MouseEvent<HTMLButtonElement>): Promise<void> {
+    const result: OpenDialogReturnValue = await remote.dialog.showOpenDialog({
+      properties: ['openDirectory']
+    });
+
+    if (result.canceled || !result.filePaths || result.filePaths.length === 0) return;
+
+    form.setFieldsValue({
+      pocket48LogDir: result.filePaths[0]
+    });
+  }
+
+  // 清除保存位置
+  function handleLogSaveDirResetClick(event: MouseEvent<HTMLButtonElement>): void {
+    form.resetFields(['pocket48LogDir']);
+  }
+
   useEffect(function() {
     if (params?.id) {
       getData();
@@ -147,6 +166,18 @@ function Edit(props: {}): ReactElement {
       </Form.Item>
       <Form.Item name="pocket48MemberInfo" label="发送时带上房间信息" valuePropName="checked">
         <Checkbox>发送时带上房间信息（需要先导入房间信息）</Checkbox>
+      </Form.Item>
+      <Form.Item name="pocket48LogSave" label="房间信息日志" valuePropName="checked">
+        <Checkbox>口袋消息会同步记录到日志</Checkbox>
+      </Form.Item>
+      <Form.Item label="日志保存位置">
+        <Space>
+          <Form.Item name="pocket48LogDir" noStyle={ true }>
+            <Input readOnly={ true } />
+          </Form.Item>
+          <Button onClick={ handleLogSaveDirClick }>选择日志保存位置</Button>
+          <Button type="primary" danger={ true } onClick={ handleLogSaveDirResetClick }>清除</Button>
+        </Space>
       </Form.Item>
 
       {/* 微博监听配置 */}
