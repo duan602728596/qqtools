@@ -1,6 +1,5 @@
 import * as fse from 'fs-extra';
 import * as dayjs from 'dayjs';
-import type { Dayjs } from 'dayjs';
 import { plain, image, atAll } from './miraiUtils';
 import type { CustomMessageAll, MessageChain, NIMMessage } from '../qq.types';
 import type { MemberInfo } from '../../types';
@@ -253,23 +252,11 @@ export function randomId(len: number = 10): string {
  * 输出日志
  * @param { string } dir: 日志输出目录
  * @param { string } logData: 日志内容
- * @param { string } time: 输出时间
  */
-export async function log(dir: string, logData: string, time?: string): Promise<void> {
-  let logTime: string, // 当前时间
-    logDay: string;    // 当前年月日
+export async function log(dir: string, logData: string): Promise<void> {
+  const logDay: string = dayjs().format('YYYY-MM-DD');
 
-  if (time) {
-    logTime = time;
-    logDay = logTime.split(' ')[0];
-  } else {
-    const day: Dayjs = dayjs();
-
-    logTime = day.format('YYYY-MM-DD HH:mm:ss');
-    logDay = day.format('YYYY-MM-DD');
-  }
-
-  await fse.outputFile(`${ dir }/${ logDay }.log`, `[${ logTime }] - ${ logData }\n`, {
+  await fse.outputFile(`${ dir }/${ logDay }.log`, `${ logData }\n`, {
     encoding: 'utf8',
     flag: 'a'
   });

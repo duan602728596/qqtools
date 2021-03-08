@@ -333,7 +333,7 @@ V8：${ versions.v8 }
       });
 
       if (logData) {
-        await log(logData);
+        await log(pocket48LogDir, logData);
       }
     }
   }
