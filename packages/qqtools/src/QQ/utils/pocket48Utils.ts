@@ -1,4 +1,6 @@
+import * as fse from 'fs-extra';
 import * as dayjs from 'dayjs';
+import type { Dayjs } from 'dayjs';
 import { plain, image, atAll } from './miraiUtils';
 import type { CustomMessageAll, MessageChain, NIMMessage } from '../qq.types';
 import type { MemberInfo } from '../../types';
@@ -132,6 +134,107 @@ ${ customInfo.question }
   return sendGroup;
 }
 
+/**
+ * 获取房间日志
+ * @param { CustomMessageAll } customInfo: 消息对象
+ * @param { NIMMessage } data: 发送消息
+ * @param { Array<NIMMessage> } event: 原始信息
+ * @param { MemberInfo } memberInfo: 房间信息
+ */
+export function getLogMessage({ customInfo, data, event, memberInfo }: {
+  customInfo: CustomMessageAll;
+  data: NIMMessage;
+  event: Array<NIMMessage>;
+  memberInfo?: MemberInfo;
+}): string | undefined {
+  let logData: string | undefined; // 日志信息
+  const nickName: string = customInfo?.user?.nickName ?? ''; // 用户名
+  const msgTime: string = dayjs(data.time).format('YYYY-MM-DD HH:mm:ss'); // 发送时间
+
+  // 输出房间信息
+  const memberInfoContent: string = memberInfo ? `\n房间：${ memberInfo.ownerName } 的口袋房间` : '';
+
+  try {
+    // 普通信息
+    if (customInfo.messageType === 'TEXT') {
+      logData = `${ nickName }：${ customInfo.text }
+时间：${ msgTime }${ memberInfoContent }`;
+    } else
+
+    // 回复信息
+    if (customInfo.messageType === 'REPLY') {
+      logData = `${ customInfo.replyName }：${ customInfo.replyText }
+${ nickName }：${ customInfo.text }
+时间：${ msgTime }${ memberInfoContent }`;
+    } else
+
+    // 发送图片
+    if (customInfo.messageType === 'IMAGE') {
+      logData = `${ nickName } 发送了一张图片：
+地址：${ data.file.url }
+时间：${ msgTime }${ memberInfoContent }`;
+    } else
+
+    // 发送语音
+    if (customInfo.messageType === 'AUDIO') {
+      logData = `${ nickName } 发送了一条语音：
+地址：${ data.file.url }
+时间：${ msgTime }${ memberInfoContent }`;
+    } else
+
+    // 发送短视频
+    if (customInfo.messageType === 'VIDEO') {
+      logData = `${ nickName } 发送了一个视频：
+地址：${ data.file.url }
+时间：${ msgTime }${ memberInfoContent }`;
+    } else
+
+    // 直播
+    if (customInfo.messageType === 'LIVEPUSH') {
+      logData = `${ nickName } 正在直播
+直播标题：${ customInfo.liveTitle }
+时间：${ msgTime }${ memberInfoContent }`;
+    } else
+
+    // 鸡腿翻牌
+    if (customInfo.messageType === 'FLIPCARD') {
+      logData = `${ nickName } 翻牌了问题：
+${ customInfo.question }
+回答：${ customInfo.answer }
+时间：${ msgTime }${ memberInfoContent }`;
+    } else
+
+    // 发表情
+    if (customInfo.messageType === 'EXPRESS') {
+      logData = `${ nickName } 发送了一个表情：
+${ JSON.stringify(event) }`;
+    } else
+
+    // 删除回复
+    if (customInfo.messageType === 'DELETE') {
+      logData = `${ nickName } 删除信息
+${ JSON.stringify(event) }`;
+    } else
+
+    // 禁言、open live、trip info
+    if (['OPEN_LIVE', 'TRIP_INFO'].includes(customInfo.messageType)) {
+      // 什么都不做
+    } else {
+      // 未知信息类型
+      logData = `未知信息类型，请联系开发者。
+${ JSON.stringify(event) }`;
+    }
+  } catch (err) {
+    console.error(err);
+
+    logData = `信息发送错误，请联系开发者。
+${ JSON.stringify(event) }
+时间：${ msgTime }${ memberInfoContent }`;
+  }
+
+  return logData;
+}
+
 /* 随机id */
 export function randomId(len: number = 10): string {
   const keys: string = '1234567890-_qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';
@@ -143,4 +246,30 @@ export function randomId(len: number = 10): string {
   }
 
   return result;
+}
+
+/**
+ * 输出日志
+ * @param { string } dir: 日志输出目录
+ * @param { string } logData: 日志内容
+ * @param { string } time: 输出时间
+ */
+async function log(dir: string, logData: string, time?: string): Promise<void> {
+  let logTime: string, // 当前时间
+    logDay: string;    // 当前年月日
+
+  if (time) {
+    logTime = time;
+    logDay = logTime.split(' ')[0];
+  } else {
+    const day: Dayjs = dayjs();
+
+    logTime = day.format('YYYY-MM-DD HH:mm:ss');
+    logDay = day.format('YYYY-MM-DD');
+  }
+
+  await fse.outputFile(`${ dir }/${ logDay }.log`, `[${ logTime }] - ${ logData }\n`, {
+    encoding: 'utf8',
+    flag: 'a'
+  });
 }

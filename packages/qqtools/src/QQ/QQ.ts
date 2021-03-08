@@ -20,7 +20,7 @@ import {
 import { requestDetail, requestJoinRank } from './services/taoba';
 import NimChatroomSocket, { ChatroomMember } from './NimChatroomSocket';
 import { plain, atAll, miraiTemplate, getGroupNumbers, getSocketHost } from './utils/miraiUtils';
-import { getRoomMessage, randomId } from './utils/pocket48Utils';
+import { getRoomMessage, randomId, getLogMessage } from './utils/pocket48Utils';
 import { timeDifference } from './utils/taobaUtils';
 import type { OptionsItemValue, MemberInfo } from '../types';
 import type {
