@@ -254,7 +254,7 @@ export function randomId(len: number = 10): string {
  * @param { string } logData: 日志内容
  * @param { string } time: 输出时间
  */
-async function log(dir: string, logData: string, time?: string): Promise<void> {
+export async function log(dir: string, logData: string, time?: string): Promise<void> {
   let logTime: string, // 当前时间
     logDay: string;    // 当前年月日
 

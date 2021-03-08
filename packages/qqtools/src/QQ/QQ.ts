@@ -20,7 +20,7 @@ import {
 import { requestDetail, requestJoinRank } from './services/taoba';
 import NimChatroomSocket, { ChatroomMember } from './NimChatroomSocket';
 import { plain, atAll, miraiTemplate, getGroupNumbers, getSocketHost } from './utils/miraiUtils';
-import { getRoomMessage, randomId, getLogMessage } from './utils/pocket48Utils';
+import { getRoomMessage, randomId, getLogMessage, log } from './utils/pocket48Utils';
 import { timeDifference } from './utils/taobaUtils';
 import type { OptionsItemValue, MemberInfo } from '../types';
 import type {
@@ -291,7 +291,13 @@ V8：${ versions.v8 }
 
   // 事件监听
   async roomSocketMessage(event: Array<NIMMessage>): Promise<void> {
-    const { pocket48LiveAtAll, pocket48ShieldMsgType, pocket48MemberInfo }: OptionsItemValue = this.config;
+    const {
+      pocket48LiveAtAll,
+      pocket48ShieldMsgType,
+      pocket48MemberInfo,
+      pocket48LogSave,
+      pocket48LogDir
+    }: OptionsItemValue = this.config;
     const data: NIMMessage = event[0];                                 // 房间信息数组
     const customInfo: CustomMessageAll = JSON.parse(data.custom);      // 房间自定义信息
     const { sessionRole }: CustomMessageAll = customInfo; // 信息类型和sessionRole
@@ -315,6 +321,20 @@ V8：${ versions.v8 }
 
     if (sendGroup.length > 0) {
       await this.sengMessage(sendGroup);
+    }
+
+    // 日志
+    if (pocket48LogSave && pocket48LogDir && !/^\s*$/.test(pocket48LogDir)) {
+      const logData: string | undefined = getLogMessage({
+        customInfo,
+        data,
+        event,
+        memberInfo: this.memberInfo
+      });
+
+      if (logData) {
+        await log(logData);
+      }
     }
   }
 
