@@ -139,6 +139,12 @@ export interface DISABLE_SPEAKMessage extends CustomMessage {
   sourceId: string;
 }
 
+// 电台
+export interface SESSION_DIANTAIMessage extends CustomMessage {
+  messageType: 'SESSION_DIANTA';
+  streamPath: string;
+}
+
 // open live
 export interface OPEN_LIVEMessage extends CustomMessage {
   messageType: 'OPEN_LIVE';
@@ -170,6 +176,7 @@ export type CustomMessageAll =
   | EXPRESSMessage
   | DELETEMessage
   | DISABLE_SPEAKMessage
+  | SESSION_DIANTAIMessage
   | OPEN_LIVEMessage
   | TRIP_INFOMessage;
 
