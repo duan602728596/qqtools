@@ -38,7 +38,7 @@ export function filterNewCards(list: Array<WeiboCard>, weiboId: BigInt): Array<W
         scheme: item.scheme,
         time: dayjs(mblog.created_at).format('YYYY-MM-DD HH:mm:ss'),
         text: mblog.text.replace(/<[^<>]+>/g, ' '),
-        pics: (mblog.pics ?? []).map((item: { url: string }) => item.url)
+        pics: (mblog.pics ?? []).map((pic: { url: string }) => pic.url)
       };
     });
 }

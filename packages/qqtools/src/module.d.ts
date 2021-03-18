@@ -52,7 +52,9 @@ declare module '*.svg' {
 }
 
 declare module 'SDK' {
-  export default any;
+  const sdk: any;
+
+  export default sdk;
 }
 
 declare module 'worker-loader!*' {

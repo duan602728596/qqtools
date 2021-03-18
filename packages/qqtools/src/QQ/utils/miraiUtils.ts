@@ -103,8 +103,8 @@ export function miraiTemplate(message: string, options: Options = {}): Array<Mes
         .replace(/<%=\s*qqtools\s*:\s*/, '') // 移除左侧的标记符
         .replace(/\s*%>/, '')                // 移除右侧的标记符
         .split(',');                                        // 拆分类型和值
-      const [type, ...other]: string[] = formatStrArr;                // 拆分出类型和值
-      const qqtoolsType: string = type.toLocaleUpperCase();           // 全部转换成大写
+      const [formatStrType, ...other]: string[] = formatStrArr;       // 拆分出类型和值
+      const qqtoolsType: string = formatStrType.toLocaleUpperCase();  // 全部转换成大写
       const otherStr: string = other.join('').trim();                 // 合并值
 
       if (qqtoolsType === 'IMAGE') {
