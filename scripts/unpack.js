@@ -64,7 +64,7 @@ async function unpack() {
     },
     linux: {
       target: 'dir',
-      icon: path.join(staticsDir, 'titleBarIcon.ico'),
+      icon: path.join(staticsDir, 'titleBarIcon_linux.png'),
       executableName: 'qqtools'
     },
     electronDownload: {
