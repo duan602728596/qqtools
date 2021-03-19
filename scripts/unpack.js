@@ -106,6 +106,22 @@ async function unpack() {
     }
   });
 
+  // win32位编译
+  const win32Config = _.cloneDeep(config);
+
+  win32Config.win.target = [{ target: 'dir', arch: 'ia32' }];
+  await builder.build({
+    targets: builder.Platform.WINDOWS.createTarget(),
+    config: {
+      ...win32Config,
+      directories: {
+        app: appDir,
+        output: path.join(build, 'win32')
+      }
+    }
+  });
+
+
   await Promise.all([
     fse.copy(path.join(cwd, 'LICENSE'), path.join(build, 'mac/mac/LICENSE')),
     fse.copy(path.join(cwd, 'README.md'), path.join(build, 'mac/mac/README.md')),
@@ -116,7 +132,10 @@ async function unpack() {
     fse.copy(path.join(cwd, 'README.md'), path.join(build, 'win/win-unpacked/README.md')),
 
     fse.copy(path.join(cwd, 'LICENSE'), path.join(build, 'linux/linux-unpacked/LICENSE')),
-    fse.copy(path.join(cwd, 'README.md'), path.join(build, 'linux/linux-unpacked/README.md'))
+    fse.copy(path.join(cwd, 'README.md'), path.join(build, 'linux/linux-unpacked/README.md')),
+
+    fse.copy(path.join(cwd, 'LICENSE'), path.join(build, 'win32/win-ia32-unpacked/LICENSE')),
+    fse.copy(path.join(cwd, 'README.md'), path.join(build, 'win32/win-ia32-unpacked/README.md'))
   ]);
 }
 
