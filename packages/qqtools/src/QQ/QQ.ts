@@ -376,6 +376,7 @@ V8：${ versions.v8 }
         outputLog: string[] = [];    // 退出房间的log日志的数组
       const nowMembers: Array<MemberInfo> = []; // 本次房间内小偶像的数组
       const name: string = this.memberInfo?.ownerName!;
+      const { pocket48LogSave, pocket48LogDir }: OptionsItemValue = this.config;
 
       // 获取进入房间的信息
       for (const member of members) {
@@ -423,6 +424,11 @@ V8：${ versions.v8 }
         await this.sengMessage([
           plain(`${ dayjs().format('YYYY-MM-DD HH:mm:ss') }\n${ allLogs.join('\n') }`)
         ]);
+
+        // 日志
+        if (pocket48LogSave && pocket48LogDir && !/^\s*$/.test(pocket48LogDir)) {
+          await log(pocket48LogDir, allLogs.join('\n'));
+        }
       }
     } catch (err) {
       console.error(err);
