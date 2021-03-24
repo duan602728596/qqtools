@@ -53,7 +53,7 @@ async function clean() {
   await fs.rename(path.join(build, 'mac/mac'), path.join(build, `mac/qqtools-mirai-${ version }-mac`));
   await fs.rename(path.join(build, 'win/win-unpacked'), path.join(build, `win/qqtools-mirai-${ version }-winx64`));
   await fs.rename(path.join(build, 'linux/linux-unpacked'), path.join(build, `linux/qqtools-mirai-${ version }-linux64`));
-  await fs.rename(path.join(build, 'win32/win-ia32-unpacked'), path.join(build, `win32/qqtools-${ version }-winx32`));
+  await fs.rename(path.join(build, 'win32/win-ia32-unpacked'), path.join(build, `win32/qqtools-mirai-${ version }-winx32`));
 }
 
 clean();
