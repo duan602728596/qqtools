@@ -121,7 +121,6 @@ async function unpack() {
     }
   });
 
-
   await Promise.all([
     fse.copy(path.join(cwd, 'LICENSE'), path.join(build, 'mac/mac/LICENSE')),
     fse.copy(path.join(cwd, 'README.md'), path.join(build, 'mac/mac/README.md')),
