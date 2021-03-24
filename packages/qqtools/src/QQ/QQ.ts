@@ -421,13 +421,13 @@ V8：${ versions.v8 }
       const allLogs: Array<string> = entryLog.concat(outputLog);
 
       if (allLogs?.length) {
-        await this.sengMessage([
-          plain(`${ dayjs().format('YYYY-MM-DD HH:mm:ss') }\n${ allLogs.join('\n') }`)
-        ]);
+        const logText: string = `${ dayjs().format('YYYY-MM-DD HH:mm:ss') }\n${ allLogs.join('\n') }`;
+
+        await this.sengMessage([plain(logText)]);
 
         // 日志
         if (pocket48LogSave && pocket48LogDir && !/^\s*$/.test(pocket48LogDir)) {
-          await log(pocket48LogDir, allLogs.join('\n'));
+          await log(pocket48LogDir, logText);
         }
       }
     } catch (err) {
