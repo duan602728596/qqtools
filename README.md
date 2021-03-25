@@ -10,7 +10,8 @@
 
 ### 口袋监听配置
 
-在公演网站（ 比如[https://live.48.cn/Index/invideo/club/2/id/3730](https://live.48.cn/Index/invideo/club/2/id/3730) ），登陆口袋48账号，在开发者工具内找到`do_ajax_setcookie`地址，返回的结果内包含account。   
+在公演网站（ 比如[https://live.48.cn/Index/invideo/club/2/id/3730](https://live.48.cn/Index/invideo/club/2/id/3730) ），   
+登陆口袋48账号，在开发者工具内找到`do_ajax_setcookie`地址，返回的结果内包含account。   
 
 `pocketroom` 命令输出口袋房间当前的xox。
 
@@ -110,9 +111,29 @@
 
 `log`命令可以输出软件信息。
 
+## 许可证
+
+本软件遵循**GNU Affero General Public License v3.0**许可证。
+
+## 技术栈
+
+Pug + Sass + TypeScript + React + antd + Webpack + Electron。
+
+## 模块
+
+* qqtools: 软件源代码
+* app：编译程序主目录
+* main：Electron主程序运行源代码
+
 ## 如何编译
 
-1. 编译@qqtools3/main、@qqtools3/qqtools项目
-2. 运行scripts文件夹内的脚本打包软件
+1. main模块：进入`packages/main`，运行`npm run build`，编译主程序源代码
+2. qqtools模块：进入`packages/qqtools`，运行`npm run build`，编译软件源代码
+3. 运行`node scripts/unpack.js`，打包软件
+4. 运行`node scripts/clean.js`，删除软件中的无用的文件
+
+## 源代码托管地址
+
+[https://github.com/duan602728596/qqtools](https://github.com/duan602728596/qqtools)
 
 ![](flower.gif)
