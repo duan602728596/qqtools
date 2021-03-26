@@ -55,8 +55,8 @@ async function clean() {
   await Promise.all([
     fs.rename(unpacked.mac, path.join(build, `mac/qqtools-mirai-${ version }-mac`)),
     fs.rename(unpacked.macArm64, path.join(build, `mac-arm64/qqtools-mirai-${ version }-mac-arm64`)),
-    fs.rename(unpacked.win, path.join(build, `win/qqtools-mirai-${ version }-winx64`)),
-    fs.rename(unpacked.win32, path.join(build, `win32/qqtools-mirai-${ version }-winx32`)),
+    fs.rename(unpacked.win, path.join(build, `win/qqtools-mirai-${ version }-win64`)),
+    fs.rename(unpacked.win32, path.join(build, `win32/qqtools-mirai-${ version }-win32`)),
     fs.rename(unpacked.linux, path.join(build, `linux/qqtools-mirai-${ version }-linux64`))
   ]);
 }
