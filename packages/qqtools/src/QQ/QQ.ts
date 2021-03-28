@@ -652,6 +652,9 @@ V8：${ versions.v8 }
         amount: res.datas.amount, // 集资总金额
         expire: res.datas.expire  // 项目结束时间（时间戳，秒）
       };
+
+      /*
+      TODO: 由于桃叭关闭了订单接口，暂时移除集资监听功能
       this.taobaWorker = new TaobaWorker();
       this.taobaWorker.addEventListener('message', this.handleTaobaWorkerMessage, false);
       this.taobaWorker.postMessage({
@@ -660,6 +663,7 @@ V8：${ versions.v8 }
         otherTaobaIds: this.otherTaobaIds,
         taobaRankList
       });
+      */
     }
   }
 
