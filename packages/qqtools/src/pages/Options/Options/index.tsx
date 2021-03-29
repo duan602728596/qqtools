@@ -1,7 +1,8 @@
 import * as path from 'path';
 import { promises as fs } from 'fs';
 import type { ParsedPath } from 'path';
-import { remote, SaveDialogReturnValue, OpenDialogReturnValue } from 'electron';
+import type { SaveDialogReturnValue, OpenDialogReturnValue } from 'electron';
+import { dialog } from '@electron/remote';
 import * as yaml from 'js-yaml';
 import * as fse from 'fs-extra';
 import { useEffect, ReactElement, MouseEvent } from 'react';
@@ -40,7 +41,7 @@ function Options(props: {}): ReactElement {
 
   // 导入配置
   async function handleImportConfigurationFileClick(event: MouseEvent): Promise<void> {
-    const result: OpenDialogReturnValue = await remote.dialog.showOpenDialog({
+    const result: OpenDialogReturnValue = await dialog.showOpenDialog({
       properties: ['openFile']
     });
 
@@ -84,7 +85,7 @@ function Options(props: {}): ReactElement {
   // 导出配置
   async function handleExportConfigurationFileClick(event: MouseEvent): Promise<void> {
     const time: Dayjs = dayjs();
-    const result: SaveDialogReturnValue = await remote.dialog.showSaveDialog({
+    const result: SaveDialogReturnValue = await dialog.showSaveDialog({
       defaultPath: `配置备份_${ time.format('YYYY.MM.DD.HH.mm.ss') }_.yaml`
     });
 

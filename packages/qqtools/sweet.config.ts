@@ -52,6 +52,7 @@ export default function(info: object): { [key: string]: any } {
         'process',
         'util',
         'zlib',
+        '@electron/remote',
         'cron',
         'electron',
         'fs-extra',
