@@ -10,8 +10,8 @@
   "dependencies": {
     "cron": "^1.8.2",
     "fs-extra": "^9.1.0",
-    "got": "^10.7.0",
+    "got": "^11.8.2",
     "js-yaml": "^4.0.0",
-    "nunjucks": "^3.2.2"
+    "nunjucks": "^3.2.3"
   }
 }
