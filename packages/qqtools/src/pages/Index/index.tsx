@@ -6,7 +6,8 @@ import {
   QqOutlined as IconQqOutlined,
   SettingOutlined as IconSettingOutlined,
   QuestionCircleFilled as IconQuestionCircleFilled,
-  ToolTwoTone as IconToolTwoTone
+  ToolTwoTone as IconToolTwoTone,
+  ClusterOutlined as IconClusterOutlined
 } from '@ant-design/icons';
 import style from './index.sass';
 
@@ -31,6 +32,9 @@ function Index(props: {}): ReactElement {
         </Link>
         <Link to="Options">
           <Button icon={ <IconSettingOutlined /> }>登陆配置</Button>
+        </Link>
+        <Link to="MiraiLogin">
+          <Button icon={ <IconClusterOutlined /> }>mirai登陆</Button>
         </Link>
         <Button icon={ <IconQuestionCircleFilled /> } onClick={ handleOpenHelpClick }>使用说明</Button>
         <Button type="text" icon={ <IconToolTwoTone /> } onClick={ handleOpenDeveloperToolsClick } />
