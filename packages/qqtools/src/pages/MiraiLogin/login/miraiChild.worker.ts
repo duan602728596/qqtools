@@ -25,6 +25,7 @@ export interface LoginMessage {
 // 关闭
 export interface CloseMessage {
   type: MessageType.CLOSE;
+  error?: Error;
 }
 
 export type Message = InitMessage | LoginMessage | CloseMessage;
@@ -83,6 +84,8 @@ function childProcessInit(data: InitMessage): void {
 
   childProcess.on('error', function(err: Error): void {
     console.error(err);
+    // @ts-ignore
+    postMessage({ type: MessageType.CLOSE, error: Error } as CloseMessage);
   });
 }
 
