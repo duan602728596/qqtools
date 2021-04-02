@@ -1,9 +1,13 @@
 import { Fragment, ReactElement, useState, Dispatch as D, SetStateAction as S, MouseEvent } from 'react';
+import type { Dispatch } from 'redux';
+import { useDispatch } from 'react-redux';
 import { Button, Modal, Form, Checkbox, Input, message } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import { Queue } from '@bbkkbkk/q';
+import * as dayjs from 'dayjs';
 import style from './loginModal.sass';
 import { login } from './login/login';
+import { saveQQLoginItemData } from './reducers/reducers';
 
 const queue: Queue = new Queue({ workerLen: 1 }); // 用来限制登陆的
 
@@ -15,6 +19,7 @@ interface FormValue {
 
 /* 账号登陆 */
 function LoginModal(props: {}): ReactElement {
+  const dispatch: Dispatch = useDispatch();
   const [visible, setVisible]: [boolean, D<S<boolean>>] = useState(false); // 登陆
   const [loginLoading, setLoginLoading]: [boolean, D<S<boolean>>] = useState(false); // loading
   const [form]: [FormInstance] = Form.useForm();
@@ -25,6 +30,17 @@ function LoginModal(props: {}): ReactElement {
       const result: boolean = await login(value.username, value.password);
 
       if (result) {
+        if (value.remember) {
+          dispatch(saveQQLoginItemData({
+            data: {
+              qq: value.username,
+              lastLoginTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+              password: value.password,
+              autoLogin: true
+            }
+          }));
+        }
+
         message.success(`[${ value.username }] 登陆成功！`);
       } else {
         message.error(`[${ value.username }] 登陆失败！`);
@@ -79,7 +95,7 @@ function LoginModal(props: {}): ReactElement {
           <Form.Item name="password" label="密码" rules={ [{ required: true, message: '必须填写密码', whitespace: true }] }>
             <Input.Password />
           </Form.Item>
-          <Form.Item name="remember" label="记住密码" valuePropName="checked">
+          <Form.Item name="remember" label="记住账号" valuePropName="checked">
             <Checkbox />
           </Form.Item>
         </Form>
