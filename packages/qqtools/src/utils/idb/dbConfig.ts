@@ -22,18 +22,18 @@ const dbConfig: DbConfig = {
       data: ['name', 'value']
     },
 
-    // 账号登陆配置
-    {
-      name: 'qq',
-      key: 'qq', // qq号
-      data: ['time', 'password', 'autoLogin'] // 最后登陆时间、密码、是否自动登陆
-    },
-
     // 一些系统配置
     {
       name: 'options',
       key: 'name',
       data: ['value']
+    },
+
+    // 账号登陆配置
+    {
+      name: 'qq',
+      key: 'qq', // qq号
+      data: ['lastLoginTime', 'password', 'autoLogin'] // 最后登陆时间、密码、是否自动登陆
     }
   ]
 };
