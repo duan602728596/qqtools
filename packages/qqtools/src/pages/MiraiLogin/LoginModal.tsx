@@ -30,10 +30,10 @@ function LoginModal(props: {}): ReactElement {
         onCancel={ handleCloseLoginModalClick }
       >
         <Form className={ style.form } labelCol={{ span: 4 }} wrapperCol={{ span: 20 }}>
-          <Form.Item name="username" label="用户名">
+          <Form.Item name="username" label="账号" rules={ [{ required: true, message: '必须填写账号', whitespace: true }] }>
             <Input />
           </Form.Item>
-          <Form.Item name="password" label="密码">
+          <Form.Item name="password" label="密码" rules={ [{ required: true, message: '必须填写密码', whitespace: true }] }>
             <Input.Password />
           </Form.Item>
           <Form.Item name="remember " label="记住密码" valuePropName="checked">
