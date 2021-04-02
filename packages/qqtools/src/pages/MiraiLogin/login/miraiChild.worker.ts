@@ -31,11 +31,16 @@ export interface CloseMessage {
 export type Message = InitMessage | LoginMessage | CloseMessage;
 
 /* 定义返回的消息类型 */
-// 初始化成功
+// 登陆成功或失败
 export interface LoginInfoSendMessage {
   type: MessageType.LOGIN_INFO;
   loginType: 'success' | 'failed';
   username: string;
+}
+
+// 是否初始化成功
+export interface InitSendMessage {
+  type: MessageType.INIT;
 }
 
 interface StdoutEventMessage {
@@ -44,7 +49,7 @@ interface StdoutEventMessage {
 }
 
 let childProcess: ChildProcessWithoutNullStreams;
-let isLogin: boolean = false; // 判断mirai是否初始化
+let isInitialized: boolean = false; // 判断mirai是否初始化
 const stdoutEvent: Event = new Event('mirai-login-child-stdout');
 
 /**
@@ -63,9 +68,11 @@ function childProcessInit(data: InitMessage): void {
     const text: string = chunk.toString();
     const sendData: StdoutEventMessage = { text };
 
-    if (/^>/.test(text) && !isLogin) {
-      isLogin = true; // 首次启动
+    if (/^>/.test(text) && !isInitialized) {
+      isInitialized = true; // 首次启动
       sendData.isFirst = true;
+      // @ts-ignore
+      postMessage({ type: MessageType.INIT } as InitSendMessage);
     }
 
     stdoutEvent['data'] = sendData;
@@ -120,7 +127,7 @@ function miraiLogin(data: LoginMessage): void {
   addEventListener(stdoutEvent.type, handleStdout, false);
 
   // 进程存在时直接写入命令
-  if (childProcess && isLogin) {
+  if (childProcess && isInitialized) {
     childProcess.stdin.write(`login ${ data.username } ${ data.password } \n`);
   }
 }

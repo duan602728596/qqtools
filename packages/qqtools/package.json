@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
+    "@bbkkbkk/q": "^1.0.1",
     "@electron/remote": "^1.0.4",
     "@reduxjs/toolkit": "^1.5.1",
     "antd": "^4.15.0",
