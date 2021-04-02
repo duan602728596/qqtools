@@ -41,6 +41,7 @@ function LoginModal(props: {}): ReactElement {
           }));
         }
 
+        setVisible(false);
         message.success(`[${ value.username }] 登陆成功！`);
       } else {
         message.error(`[${ value.username }] 登陆失败！`);
@@ -54,7 +55,15 @@ function LoginModal(props: {}): ReactElement {
   }
 
   // 登陆
-  function handleLoginSubmit(value: FormValue): void {
+  async function handleLoginSubmit(event: MouseEvent<HTMLButtonElement>): Promise<void> {
+    let value: FormValue;
+
+    try {
+      value = await form.validateFields();
+    } catch (err) {
+      return console.error(err);
+    }
+
     setLoginLoading(true);
 
     queue.use([loginFunc, undefined, value]);
@@ -73,7 +82,7 @@ function LoginModal(props: {}): ReactElement {
 
   return (
     <Fragment>
-      <Button onClick={ handleOpenLoginModalClick }>账号登陆</Button>
+      <Button type="primary" onClick={ handleOpenLoginModalClick }>账号登陆</Button>
       <Modal title="账号登陆"
         visible={ visible }
         width={ 500 }
@@ -81,14 +90,11 @@ function LoginModal(props: {}): ReactElement {
         destroyOnClose={ true }
         closable={ false }
         confirmLoading={ loginLoading }
+        afterClose={ form.resetFields }
+        onOk={ handleLoginSubmit }
         onCancel={ handleCloseLoginModalClick }
       >
-        <Form className={ style.form }
-          form={ form }
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 20 }}
-          onFinish={ handleLoginSubmit }
-        >
+        <Form className={ style.form } form={ form } labelCol={{ span: 4 }} wrapperCol={{ span: 20 }}>
           <Form.Item name="username" label="账号" rules={ [{ required: true, message: '必须填写账号', whitespace: true }] }>
             <Input />
           </Form.Item>

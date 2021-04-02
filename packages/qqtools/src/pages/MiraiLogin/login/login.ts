@@ -1,6 +1,6 @@
 import type { Store } from 'redux';
 import MiraiChildWorker from 'worker-loader!./miraiChild.worker';
-import type { InitMessage, InitSendMessage, CloseMessage, LoginInfoSendMessage } from './miraiChild.worker';
+import type { InitMessage, LoginMessage, InitSendMessage, CloseMessage, LoginInfoSendMessage } from './miraiChild.worker';
 import { store } from '../../../store/store';
 import { setChildProcessWorker, MiraiLoginInitialState } from '../reducers/reducers';
 import { getJavaPath, getJarDir } from '../miraiPath';
@@ -53,6 +53,11 @@ export function loginWorker(worker: Worker, username: string, password: string):
     }
 
     worker.addEventListener('message', handleWorkerLoginMessage, false);
+    worker.postMessage({
+      type: 'login',
+      username,
+      password
+    } as LoginMessage);
   });
 }
 

@@ -1,4 +1,5 @@
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
+import * as path from 'path';
 
 export enum MessageType {
   INIT = 'init',
@@ -62,7 +63,7 @@ function childProcessInit(data: InitMessage): void {
     '-cp',
     `${ data.jarDir }/*`,
     'net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader'
-  ]);
+  ], { cwd: path.join(data.jarDir, '..') });
 
   childProcess.stdout.on('data', function(chunk: Buffer): void {
     const text: string = chunk.toString();
