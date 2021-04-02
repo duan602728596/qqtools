@@ -37,6 +37,7 @@ export interface LoginInfoSendMessage {
   type: MessageType.LOGIN_INFO;
   loginType: 'success' | 'failed';
   username: string;
+  message?: string; // 追加一些特殊信息
 }
 
 // 是否初始化成功
@@ -57,9 +58,11 @@ const stdoutEvent: Event = new Event('mirai-login-child-stdout');
  * 初始化子进程
  * mirai-console-pure     => net.mamoe.mirai.console.pure.MiraiConsolePureLoader
  * mirai-console-terminal => net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader
+ * 滑块验证参考https://github.com/project-mirai/mirai-login-solver-selenium#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87
  */
 function childProcessInit(data: InitMessage): void {
   childProcess = spawn(data.javaPath, [
+    '-Dmirai.slider.captcha.supported',
     '-cp',
     `${ data.jarDir }/*`,
     'net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader'
@@ -111,12 +114,21 @@ function miraiLogin(data: LoginMessage): void {
         username: data.username
       } as LoginInfoSendMessage);
       removeEventListener(stdoutEvent.type, handleStdout, false);
-    } else if (/UseLogin failed/i.test(text)) {
+    } else if (/(Use)?Login failed/i.test(text)) {
+      let message: string | undefined;
+
+      if (/无法完成滑块验证/.test(text)) {
+        message = '该账号需要滑块验证。';
+      } else if (/请更换网络环境或在常用设备上登录或稍后再试/.test(text)) {
+        message = '当前上网环境异常，请更换网络环境或在常用设备上登录或稍后再试。';
+      }
+
       // @ts-ignore 登陆失败
       postMessage({
         type: MessageType.LOGIN_INFO,
         loginType: 'failed',
-        username: data.username
+        username: data.username,
+        message
       } as LoginInfoSendMessage);
       removeEventListener(stdoutEvent.type, handleStdout, false);
     } else if (/^>/.test(text) && isFirst) {

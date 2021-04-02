@@ -8,6 +8,7 @@ import * as dayjs from 'dayjs';
 import style from './loginModal.sass';
 import { login } from './login/login';
 import { saveQQLoginItemData } from './reducers/reducers';
+import type { LoginInfoSendMessage } from './login/miraiChild.worker';
 
 const queue: Queue = new Queue({ workerLen: 1 }); // 用来限制登陆的
 
@@ -27,7 +28,7 @@ function LoginModal(props: {}): ReactElement {
   // 登陆
   async function loginFunc(value: FormValue): Promise<void> {
     try {
-      const result: boolean = await login(value.username, value.password);
+      const [result, loginInfoSendMessage]: [boolean, LoginInfoSendMessage] = await login(value.username, value.password);
 
       if (result) {
         if (value.remember) {
@@ -44,7 +45,7 @@ function LoginModal(props: {}): ReactElement {
         setVisible(false);
         message.success(`[${ value.username }] 登陆成功！`);
       } else {
-        message.error(`[${ value.username }] 登陆失败！`);
+        message.error(`[${ value.username }] ${ loginInfoSendMessage?.message ?? '登陆失败！' }`);
       }
     } catch (err) {
       console.error(err);
@@ -89,6 +90,7 @@ function LoginModal(props: {}): ReactElement {
         centered={ true }
         destroyOnClose={ true }
         closable={ false }
+        maskClosable={ false }
         confirmLoading={ loginLoading }
         afterClose={ form.resetFields }
         onOk={ handleLoginSubmit }
