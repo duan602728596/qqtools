@@ -6,11 +6,9 @@ import type { FormInstance } from 'antd/es/form';
 import { Queue } from '@bbkkbkk/q';
 import * as dayjs from 'dayjs';
 import style from './loginModal.sass';
-import { login } from './login/login';
+import { login, queue } from './login/login';
 import { saveQQLoginItemData } from './reducers/reducers';
 import type { LoginInfoSendMessage } from './login/miraiChild.worker';
-
-const queue: Queue = new Queue({ workerLen: 1 }); // 用来限制登陆的
 
 interface FormValue {
   username: string;

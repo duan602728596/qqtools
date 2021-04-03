@@ -59,6 +59,7 @@ const stdoutEvent: Event = new Event('mirai-login-child-stdout');
  * mirai-console-pure     => net.mamoe.mirai.console.pure.MiraiConsolePureLoader
  * mirai-console-terminal => net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader
  * 滑块验证参考https://github.com/project-mirai/mirai-login-solver-selenium#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87
+ * 滑块获取ticket的地址为https://t.captcha.qq.com/cap_union_new_verify
  */
 function childProcessInit(data: InitMessage): void {
   childProcess = spawn(data.javaPath, [

@@ -2,7 +2,7 @@ import { useEffect, ReactElement, MouseEvent } from 'react';
 import type { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { createSelector, createStructuredSelector, Selector } from 'reselect';
-import { Button, Space, Table, Checkbox } from 'antd';
+import { Button, Space, Table, Checkbox, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { omit } from 'lodash-es';
@@ -17,7 +17,25 @@ import {
   MiraiLoginInitialState
 } from './reducers/reducers';
 import dbConfig from '../../utils/idb/dbConfig';
+import { login, queue } from './login/login';
+import type { LoginInfoSendMessage } from './login/miraiChild.worker';
 import type { QQLoginItem } from './types';
+
+/* 登陆 */
+async function loginFunc(username: string, password: string): Promise<void> {
+  try {
+    const [result, loginInfoSendMessage]: [boolean, LoginInfoSendMessage] = await login(username, password);
+
+    if (result) {
+      message.success(`[${ username }] 登陆成功！`);
+    } else {
+      message.error(`[${ username }] ${ loginInfoSendMessage?.message ?? '登陆失败！' }`);
+    }
+  } catch (err) {
+    console.error(err);
+    message.error('登陆失败！');
+  }
+}
 
 /* redux selector */
 const selector: Selector<any, MiraiLoginInitialState> = createStructuredSelector({
@@ -68,6 +86,21 @@ function Index(props: {}): ReactElement {
     }));
   }
 
+  // 登陆
+  function handleLoginClick(item: QQLoginItem, event: MouseEvent<HTMLButtonElement>): void {
+    queue.use([loginFunc, undefined, item.qq, item.password]);
+    queue.run();
+  }
+
+  // 一键登陆
+  function handleAutoLoginClick(event: MouseEvent<HTMLButtonElement>): void {
+    queue.use(
+      ...qqLoginList.filter((o: QQLoginItem): boolean => o.autoLogin)
+        .map((o: QQLoginItem): [Function, any, string, string] => [loginFunc, undefined, o.qq, o.password])
+    );
+    queue.run();
+  }
+
   const columns: ColumnsType<QQLoginItem> = [
     { title: '账号', dataIndex: 'qq', width: '25%' },
     { title: '最后登陆时间', dataIndex: 'lastLoginTime', width: '25%' },
@@ -86,13 +119,15 @@ function Index(props: {}): ReactElement {
       key: 'handle',
       width: '25%',
       render: (value: undefined, record: QQLoginItem, index: number): ReactElement => (
-        <Button type="primary"
-          size="small"
-          danger={ true }
-          onClick={ (event: MouseEvent<HTMLButtonElement>): void => handleDeleteClick(record, event) }
-        >
-          删除
-        </Button>
+        <Button.Group size="small">
+          <Button onClick={ (event: MouseEvent<HTMLButtonElement>): void => handleLoginClick(record, event) }>登陆</Button>
+          <Button type="primary"
+            danger={ true }
+            onClick={ (event: MouseEvent<HTMLButtonElement>): void => handleDeleteClick(record, event) }
+          >
+            删除
+          </Button>
+        </Button.Group>
       )
     }
   ];
@@ -108,7 +143,7 @@ function Index(props: {}): ReactElement {
       <Header />
       <Space className={ style.marginBottom }>
         <LoginModal />
-        <Button>一键登陆</Button>
+        <Button onClick={ handleAutoLoginClick }>一键登陆</Button>
         <Button type="primary" danger={ true } disabled={ childProcessWorker === null } onClick={ handleCloseMiraiWorkerClick }>
           关闭mirai
         </Button>

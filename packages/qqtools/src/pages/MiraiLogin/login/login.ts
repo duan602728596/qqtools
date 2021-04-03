@@ -1,9 +1,12 @@
 import type { Store } from 'redux';
+import { Queue } from '@bbkkbkk/q';
 import MiraiChildWorker from 'worker-loader!./miraiChild.worker';
 import type { InitMessage, LoginMessage, InitSendMessage, CloseMessage, LoginInfoSendMessage } from './miraiChild.worker';
 import { store } from '../../../store/store';
 import { setChildProcessWorker, MiraiLoginInitialState } from '../reducers/reducers';
 import { getJavaPath, getJarDir } from '../miraiPath';
+
+export const queue: Queue = new Queue({ workerLen: 1 }); // 用来限制登陆的
 
 /* 初始化worker */
 function initWorker(): Promise<Worker> {
