@@ -1,7 +1,7 @@
 import { ipcRenderer, shell } from 'electron';
 import type { ReactElement, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Space, Divider, Image } from 'antd';
+import { Button, Space, Divider, Image, Tooltip } from 'antd';
 import {
   QqOutlined as IconQqOutlined,
   SettingOutlined as IconSettingOutlined,
@@ -37,7 +37,9 @@ function Index(props: {}): ReactElement {
           <Button icon={ <IconClusterOutlined /> }>mirai登陆</Button>
         </Link>
         <Button icon={ <IconQuestionCircleFilled /> } onClick={ handleOpenHelpClick }>使用说明</Button>
-        <Button type="text" icon={ <IconToolTwoTone /> } onClick={ handleOpenDeveloperToolsClick } />
+        <Tooltip title="开发者工具">
+          <Button type="text" icon={ <IconToolTwoTone /> } onClick={ handleOpenDeveloperToolsClick } />
+        </Tooltip>
       </Space>
       <Divider />
       {/* 二维码 */}

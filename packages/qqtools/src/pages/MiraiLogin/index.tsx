@@ -1,10 +1,13 @@
+import { ipcRenderer } from 'electron';
 import { useEffect, ReactElement, MouseEvent } from 'react';
 import type { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { createSelector, createStructuredSelector, Selector } from 'reselect';
-import { Button, Space, Table, Checkbox, message } from 'antd';
+import { Link } from 'react-router-dom';
+import { Button, Space, Table, Checkbox, message, notification, Tooltip } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { ToolTwoTone as IconToolTwoTone } from '@ant-design/icons';
 import { omit } from 'lodash-es';
 import style from './index.sass';
 import Header from './Header/Header';
@@ -88,17 +91,34 @@ function Index(props: {}): ReactElement {
 
   // 登陆
   function handleLoginClick(item: QQLoginItem, event: MouseEvent<HTMLButtonElement>): void {
+    notification.info({
+      message: '账号登陆',
+      description: childProcessWorker
+        ? `正在登陆账号[${ item.qq }]，请稍等...`
+        : `正在启动mirai并登陆账号[${ item.qq }]，请稍等...`
+    });
+
     queue.use([loginFunc, undefined, item.qq, item.password]);
     queue.run();
   }
 
   // 一键登陆
   function handleAutoLoginClick(event: MouseEvent<HTMLButtonElement>): void {
+    notification.info({
+      message: '一键登陆',
+      description: childProcessWorker ? '正在一键登陆，请稍等...' : '正在启动mirai并一键登陆，请稍等...'
+    });
+
     queue.use(
       ...qqLoginList.filter((o: QQLoginItem): boolean => o.autoLogin)
         .map((o: QQLoginItem): [Function, any, string, string] => [loginFunc, undefined, o.qq, o.password])
     );
     queue.run();
+  }
+
+  // 打开开发者工具
+  function handleOpenDeveloperToolsClick(event: MouseEvent): void {
+    ipcRenderer.send('developer-tools');
   }
 
   const columns: ColumnsType<QQLoginItem> = [
@@ -147,6 +167,15 @@ function Index(props: {}): ReactElement {
         <Button type="primary" danger={ true } disabled={ childProcessWorker === null } onClick={ handleCloseMiraiWorkerClick }>
           关闭mirai
         </Button>
+        <div>
+          <Tooltip title="开发者工具">
+            <Button type="text" icon={ <IconToolTwoTone /> } onClick={ handleOpenDeveloperToolsClick } />
+          </Tooltip>
+          打开控制台可以查看日志信息
+        </div>
+        <Link to="/">
+          <Button type="primary" danger={ true }>返回</Button>
+        </Link>
       </Space>
       <Table size="small"
         bordered={ true }

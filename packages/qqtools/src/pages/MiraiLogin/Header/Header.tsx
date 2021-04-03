@@ -1,7 +1,6 @@
 import type { OpenDialogReturnValue } from 'electron';
 import { dialog } from '@electron/remote';
 import { Fragment, useEffect, ReactElement, MouseEvent } from 'react';
-import { Link } from 'react-router-dom';
 import { Button, Space, Input, Form, Divider, message } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import style from './header.sass';
@@ -71,12 +70,7 @@ function Header(props: {}): ReactElement {
               <Input className={ style.input } id="javaPath" allowClear={ true } />
             </Form.Item>
             <Button className={ style.marginRight32 } onClick={ handleSelectJdkPathClick }>选择文件</Button>
-            <Button.Group>
-              <Button type="primary" onClick={ handleSubmit }>保存</Button>
-              <Link to="/">
-                <Button type="primary" danger={ true }>返回</Button>
-              </Link>
-            </Button.Group>
+            <Button type="primary" onClick={ handleSubmit }>保存</Button>
           </div>
         </Space>
       </Form>
