@@ -5,6 +5,7 @@ import { findIndex } from 'lodash-es';
 import * as dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import { renderString } from 'nunjucks';
+import { Queue } from '@bbkkbkk/q';
 import BilibiliWorker from 'worker-loader!./utils/bilibili.worker';
 import TaobaWorker from 'worker-loader!./utils/taoba.worker';
 import WeiboWorker from 'worker-loader!./utils/weibo.worker';
@@ -48,6 +49,7 @@ type MessageListener = (event: MessageEvent) => void | Promise<void>;
 type CloseListener = (event: CloseEvent) => void | Promise<void>;
 
 const nimChatroomSocketList: Array<NimChatroomSocket> = []; // 缓存连接
+const queue: Queue = new Queue({ workerLen: 1 }); // 发言队列，避免出现漏发的情况
 
 class QQ {
   public id: string;
@@ -135,7 +137,7 @@ class QQ {
           if (index >= 0) {
             const value: Array<MessageChain> = miraiTemplate(customCmd[index].value);
 
-            await this.sengMessage(value, groupId);
+            await this.sendMessageV2(value, groupId);
           }
         }
       }
@@ -155,7 +157,7 @@ class QQ {
           qqNumber: data.member.id
         });
 
-        await this.sengMessage(value, data.member.group.id);
+        await this.sendMessageV2(value, data.member.group.id);
       }
     }
   };
@@ -252,7 +254,7 @@ class QQ {
    * @param { Array<MessageChain> } value: 要发送的信息
    * @param { number } groupId: 单个群的群号
    */
-  async sengMessage(value: Array<MessageChain>, groupId?: number): Promise<void> {
+  async sendMessage(value: Array<MessageChain>, groupId?: number): Promise<void> {
     const { socketHost }: this = this;
     const { socketPort }: OptionsItemValue = this.config;
     const groupNumbers: Array<number> = this.groupNumbers;
@@ -270,6 +272,16 @@ class QQ {
     }
   }
 
+  /**
+   * 添加到发送信息队列
+   * @param { Array<MessageChain> } value: 要发送的信息
+   * @param { number } groupId: 单个群的群号
+   */
+  sendMessageV2(value: Array<MessageChain>, groupId?: number): void {
+    queue.use([this.sendMessage, this, value, groupId]);
+    queue.run();
+  }
+
   // 日志回调函数
   async logCommandCallback(groupId: number): Promise<void> {
     const versions: any = process.versions;
@@ -284,7 +296,7 @@ V8：${ versions.v8 }
 机器人账号：${ qqNumber }
 启动时间：${ this.startTime }`;
 
-    await this.sengMessage([plain(msg)], groupId);
+    await this.sendMessageV2([plain(msg)], groupId);
   }
 
   /* ==================== 业务相关 ==================== */
@@ -320,7 +332,7 @@ V8：${ versions.v8 }
     });
 
     if (sendGroup.length > 0) {
-      await this.sengMessage(sendGroup);
+      await this.sendMessageV2(sendGroup);
     }
 
     // 日志
@@ -364,7 +376,7 @@ V8：${ versions.v8 }
         text += '暂无成员';
       }
 
-      this.sengMessage([plain(text)], groupId);
+      this.sendMessageV2([plain(text)], groupId);
     }
   }
 
@@ -423,7 +435,7 @@ V8：${ versions.v8 }
       if (allLogs?.length) {
         const logText: string = `${ dayjs().format('YYYY-MM-DD HH:mm:ss') }\n${ allLogs.join('\n') }`;
 
-        await this.sengMessage([plain(logText)]);
+        await this.sendMessageV2([plain(logText)]);
 
         // 日志
         if (pocket48LogSave && pocket48LogDir && !/^\s*$/.test(pocket48LogDir)) {
@@ -507,7 +519,7 @@ V8：${ versions.v8 }
 
   // 微博监听
   handleWeiboWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
-    await this.sengMessage(event.data.sendGroup);
+    await this.sendMessageV2(event.data.sendGroup);
   };
 
   // 微博初始化
@@ -541,7 +553,7 @@ V8：${ versions.v8 }
       sendMessage.unshift(atAll());
     }
 
-    await this.sengMessage(sendMessage);
+    await this.sendMessageV2(sendMessage);
   };
 
   // bilibili直播监听初始化
@@ -568,7 +580,7 @@ V8：${ versions.v8 }
         taobaid: taobaId
       });
 
-      await this.sengMessage([plain(msg)], groupId);
+      await this.sendMessageV2([plain(msg)], groupId);
     }
   }
 
@@ -584,7 +596,7 @@ V8：${ versions.v8 }
       const msg: string = `${ this.taobaInfo.title } 排行榜
 集资参与人数：${ res.juser }人`;
 
-      await this.sengMessage([plain(msg)].concat(list), groupId);
+      await this.sendMessageV2([plain(msg)].concat(list), groupId);
     }
   }
 
@@ -632,7 +644,7 @@ V8：${ versions.v8 }
         taobaRankList
       });
 
-      await this.sengMessage(miraiTemplate(msg));
+      await this.sendMessageV2(miraiTemplate(msg));
     }
   };
 
@@ -673,7 +685,7 @@ V8：${ versions.v8 }
 
     if (cronJob && cronTime && cronSendData) {
       this.cronJob = new CronJob(cronTime, (): void => {
-        this.sengMessage(miraiTemplate(cronSendData));
+        this.sendMessageV2(miraiTemplate(cronSendData));
       });
       this.cronJob.start();
     }
