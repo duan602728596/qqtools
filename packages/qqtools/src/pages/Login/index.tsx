@@ -51,7 +51,7 @@ function Index(props: {}): ReactElement {
 
   // 退出
   async function handleLogoutClick(qq: QQ, event?: MouseEvent): Promise<void> {
-    await qq.destroy();
+    await qq.destroy(loginList);
     dispatch(setDeleteLogin(qq));
   }
 

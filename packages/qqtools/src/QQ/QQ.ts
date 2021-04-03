@@ -49,7 +49,7 @@ type MessageListener = (event: MessageEvent) => void | Promise<void>;
 type CloseListener = (event: CloseEvent) => void | Promise<void>;
 
 const nimChatroomSocketList: Array<NimChatroomSocket> = []; // 缓存连接
-const queue: Queue = new Queue({ workerLen: 1 }); // 发言队列，避免出现漏发的情况
+const queueMap: Map<number, Queue> = new Map(); // 发言队列，避免出现漏发的情况，每个qq限制一个发言队列
 
 class QQ {
   public id: string;
@@ -278,8 +278,19 @@ class QQ {
    * @param { number } groupId: 单个群的群号
    */
   sendMessageV2(value: Array<MessageChain>, groupId?: number): void {
+    const { qqNumber }: OptionsItemValue = this.config;
+    let queue: Queue | undefined;
+
+    if (queueMap.has(qqNumber)) {
+      queue = queueMap.get(qqNumber);
+    } else {
+      queue = new Queue({ workerLen: 1 }); // 发言队列，避免出现漏发的情况
+      queueMap.set(qqNumber, queue);
+    }
+
     queue.use([this.sendMessage, this, value, groupId]);
     queue.run();
+    queue = undefined;
   }
 
   // 日志回调函数
@@ -715,7 +726,7 @@ V8：${ versions.v8 }
   }
 
   // 项目销毁
-  async destroy(): Promise<boolean> {
+  async destroy(loginList?: Array<QQ>): Promise<boolean> {
     const { socketHost }: this = this;
     const { qqNumber, socketPort }: OptionsItemValue = this.config;
 
@@ -761,6 +772,19 @@ V8：${ versions.v8 }
       if (this.cronJob) {
         this.cronJob.stop();
         this.cronJob = undefined;
+      }
+
+      /**
+       * 销毁队列
+       * 过滤自己后，当登陆列表内不存在当前的qq时，要销毁掉队列
+       */
+      if (loginList?.length) {
+        const filterList: Array<QQ> = loginList.filter((o: QQ): boolean => (
+          o.id !== this.id && o.config.qqNumber === this.config.qqNumber));
+
+        if (filterList.length === 0) {
+          queueMap.delete(this.config.qqNumber);
+        }
       }
 
       return true;
