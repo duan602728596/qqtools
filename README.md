@@ -113,6 +113,19 @@
 
 `log`命令可以输出软件信息。
 
+## mirai登陆
+
+mirai的登陆功能从mirai-login整合进来。包括记住密码、自动登陆、一键登陆等功能。
+
+### jar文件夹和java文件的配置
+
+使用mirai，需要下载`mirai-console-{version}-all.jar`、`mirai-console-terminal-{version}-all.jar`、   
+`mirai-core-all-{version}-all.jar`文件。需要下载`mirai-api-http-v{version}.mirai.jar`插件。   
+
+mirai依赖java环境，所以你也需要下载java。java文件配置要选择bin目录下文件名为`java`的文件。   
+
+将mirai的三个文件放到content目录下。jar文件夹配置选择这个content目录，启动后会在content目录同级生成plugins等文件夹，放入相关插件。
+
 ## 许可证
 
 本软件遵循**GNU Affero General Public License v3.0**许可证。
