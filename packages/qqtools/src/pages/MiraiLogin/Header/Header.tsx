@@ -58,14 +58,14 @@ function Header(props: {}): ReactElement {
       <Form className={ style.marginBottom } form={ form }>
         <Space direction="vertical">
           <div>
-            <label className={ style.label } htmlFor="jarDir">jar文件夹地址：</label>
+            <label className={ style.label } htmlFor="jarDir">jar的文件夹地址：</label>
             <Form.Item name="jarDir" noStyle={ true }>
               <Input className={ style.input } id="jarDir" allowClear={ true } />
             </Form.Item>
             <Button onClick={ handleSelectJarDirClick }>选择文件夹</Button>
           </div>
           <div>
-            <label className={ style.label } htmlFor="javaPath">jdk的文件地址：</label>
+            <label className={ style.label } htmlFor="javaPath">java的文件地址：</label>
             <Form.Item name="javaPath" noStyle={ true }>
               <Input className={ style.input } id="javaPath" allowClear={ true } />
             </Form.Item>
