@@ -33,7 +33,7 @@ function Header(props: {}): ReactElement {
     if (result.canceled || !result.filePaths || result.filePaths.length === 0) return;
 
     form.setFieldsValue({
-      jdkPath: result.filePaths[0]
+      javaPath: result.filePaths[0]
     });
   }
 
