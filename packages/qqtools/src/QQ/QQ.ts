@@ -611,7 +611,7 @@ V8：${ versions.v8 }
     }
   }
 
-  // 桃叭监听
+  /* 桃叭监听 TODO: 由于桃叭关闭了订单接口，暂时移除集资监听功能
   handleTaobaWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
     const { taobaId, taobaTemplate, taobaRankList: isTaobaRankList }: OptionsItemValue = this.config;
     const result: Array<TaobaIdolsJoinItem> = event.data.result;
@@ -658,6 +658,7 @@ V8：${ versions.v8 }
       await this.sendMessageV2(miraiTemplate(msg));
     }
   };
+  */
 
   // 桃叭初始化
   async initTaobaWorker(): Promise<void> {
@@ -666,9 +667,9 @@ V8：${ versions.v8 }
     if (taobaListen && taobaId) {
       const res: TaobaDetail = await requestDetail(taobaId);
 
-      if (otherTaobaIds && !/^\s*$/.test(otherTaobaIds)) {
-        this.otherTaobaIds = otherTaobaIds.split(/\s*[,，、。.]\s*/g);
-      }
+      // if (otherTaobaIds && !/^\s*$/.test(otherTaobaIds)) {
+      //   this.otherTaobaIds = otherTaobaIds.split(/\s*[,，、。.]\s*/g);
+      // }
 
       this.taobaInfo = {
         title: res.datas.title,   // 项目名称
