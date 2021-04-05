@@ -62,15 +62,15 @@ function Header(props: {}): ReactElement {
             <Form.Item name="jarDir" noStyle={ true }>
               <Input className={ style.input } id="jarDir" allowClear={ true } />
             </Form.Item>
-            <Button onClick={ handleSelectJarDirClick }>选择文件夹</Button>
+            <Button className={ style.width105 } onClick={ handleSelectJarDirClick }>选择文件夹</Button>
           </div>
           <div>
             <label className={ style.label } htmlFor="javaPath">java的文件地址：</label>
             <Form.Item name="javaPath" noStyle={ true }>
               <Input className={ style.input } id="javaPath" allowClear={ true } />
             </Form.Item>
-            <Button className={ style.marginRight32 } onClick={ handleSelectJdkPathClick }>选择文件</Button>
-            <Button type="primary" onClick={ handleSubmit }>保存</Button>
+            <Button className={ style.width105 } onClick={ handleSelectJdkPathClick }>选择文件</Button>
+            <Button className={ style.marginLeft16 } type="primary" onClick={ handleSubmit }>保存</Button>
           </div>
         </Space>
       </Form>
