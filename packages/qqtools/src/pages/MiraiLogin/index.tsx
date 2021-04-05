@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron';
-import { Fragment, useEffect, ReactElement, MouseEvent } from 'react';
+import { Fragment, useState, useEffect, ReactElement, MouseEvent, Dispatch as D, SetStateAction as S } from 'react';
 import type { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { createSelector, createStructuredSelector, Selector } from 'reselect';
@@ -59,13 +59,17 @@ const selector: Selector<any, MiraiLoginInitialState> = createStructuredSelector
 function Index(props: {}): ReactElement {
   const { childProcessWorker, qqLoginList }: MiraiLoginInitialState = useSelector(selector);
   const dispatch: Dispatch = useDispatch();
+  const [closeBtnLoading, setCloseBtnLoading]: [boolean, D<S<boolean>>] = useState(false); // 关闭进程的loading
 
   // 关闭线程
   function handleCloseMiraiWorkerClick(event: MouseEvent<HTMLButtonElement>): void {
+    setCloseBtnLoading(true);
+
     function handleChildProcessWorkerClose(event1: MessageEvent): void {
       if (event1.data.type === 'close') {
         childProcessWorker!.terminate();
         dispatch(setChildProcessWorker(undefined));
+        setCloseBtnLoading(false);
       }
     }
 
@@ -185,7 +189,12 @@ function Index(props: {}): ReactElement {
       <Space className={ style.marginBottom }>
         <LoginModal />
         <Button onClick={ handleAutoLoginClick }>一键登陆</Button>
-        <Button type="primary" danger={ true } disabled={ childProcessWorker === null } onClick={ handleCloseMiraiWorkerClick }>
+        <Button type="primary"
+          danger={ true }
+          loading={ closeBtnLoading }
+          disabled={ childProcessWorker === null }
+          onClick={ handleCloseMiraiWorkerClick }
+        >
           关闭mirai
         </Button>
         <div>
