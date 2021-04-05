@@ -264,7 +264,7 @@ export function randomId(len: number = 10): string {
 export async function log(dir: string, logData: string): Promise<void> {
   const logDay: string = dayjs().format('YYYY-MM-DD');
 
-  await fse.outputFile(`${ dir }/${ logDay }.log`, `${ logData }\n`, {
+  await fse.outputFile(`${ dir }/${ logDay }.log`, `${ logData }\n\n`, {
     encoding: 'utf8',
     flag: 'a'
   });
