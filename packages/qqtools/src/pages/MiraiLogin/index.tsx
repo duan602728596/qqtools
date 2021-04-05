@@ -1,10 +1,10 @@
 import { ipcRenderer } from 'electron';
-import { useEffect, ReactElement, MouseEvent } from 'react';
+import { Fragment, useEffect, ReactElement, MouseEvent } from 'react';
 import type { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { createSelector, createStructuredSelector, Selector } from 'reselect';
 import { Link } from 'react-router-dom';
-import { Button, Space, Table, Checkbox, message, notification, Tooltip } from 'antd';
+import { Button, Space, Table, Checkbox, message, notification, Tooltip, Select } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { ToolTwoTone as IconToolTwoTone } from '@ant-design/icons';
@@ -22,7 +22,7 @@ import {
 import dbConfig from '../../utils/idb/dbConfig';
 import { login, queue } from './login/login';
 import type { LoginInfoSendMessage } from './login/miraiChild.worker';
-import type { QQLoginItem } from './types';
+import type { QQLoginItem, ProtocolType } from './types';
 
 /* 登陆 */
 async function loginFunc(username: string, password: string): Promise<void> {
@@ -89,6 +89,13 @@ function Index(props: {}): ReactElement {
     }));
   }
 
+  // 切换协议
+  function handleChangeProtocolSelect(item: QQLoginItem, value: ProtocolType): void {
+    dispatch(saveQQLoginItemData({
+      data: Object.assign(omit(item, ['protocol']), { protocol: value })
+    }));
+  }
+
   // 登陆
   function handleLoginClick(item: QQLoginItem, event: MouseEvent<HTMLButtonElement>): void {
     notification.info({
@@ -98,7 +105,7 @@ function Index(props: {}): ReactElement {
         : `正在启动mirai并登陆账号[${ item.qq }]，请稍等...`
     });
 
-    queue.use([loginFunc, undefined, item.qq, item.password]);
+    queue.use([loginFunc, undefined, item.qq, item.password, item.protocol]);
     queue.run();
   }
 
@@ -111,7 +118,9 @@ function Index(props: {}): ReactElement {
 
     queue.use(
       ...qqLoginList.filter((o: QQLoginItem): boolean => o.autoLogin)
-        .map((o: QQLoginItem): [Function, any, string, string] => [loginFunc, undefined, o.qq, o.password])
+        .map((o: QQLoginItem): [Function, any, string, string, ProtocolType | undefined] => {
+          return [loginFunc, undefined, o.qq, o.password, o.protocol];
+        })
     );
     queue.run();
   }
@@ -122,22 +131,34 @@ function Index(props: {}): ReactElement {
   }
 
   const columns: ColumnsType<QQLoginItem> = [
-    { title: '账号', dataIndex: 'qq', width: '25%' },
-    { title: '最后登陆时间', dataIndex: 'lastLoginTime', width: '25%' },
+    { title: '账号', dataIndex: 'qq', width: '160px' },
+    { title: '最后登陆时间', dataIndex: 'lastLoginTime' },
     {
       title: '允许一键登陆',
       dataIndex: 'autoLogin',
-      width: '25%',
+      width: '270px',
       render: (value: boolean, record: QQLoginItem, index: number): ReactElement => (
-        <Checkbox checked={ value }
-          onChange={ (event: CheckboxChangeEvent): void => handleAutoLoginChange(record, event) }
-        />
+        <Fragment>
+          <Checkbox className={ style.marginRight }
+            checked={ value }
+            onChange={ (event: CheckboxChangeEvent): void => handleAutoLoginChange(record, event) }
+          />
+          <Select className={ style.select }
+            size="small"
+            value={ record.protocol ?? 'ANDROID_PAD' }
+            onSelect={ (val: ProtocolType): void => handleChangeProtocolSelect(record, val) }
+          >
+            <Select.Option value="ANDROID_PAD">平板(ANDROID_PAD)</Select.Option>
+            <Select.Option value="ANDROID_PHONE">手机(ANDROID_PHONE)</Select.Option>
+            <Select.Option value="ANDROID_WATCH">手表(ANDROID_WATCH)</Select.Option>
+          </Select>
+        </Fragment>
       )
     },
     {
       title: '操作',
       key: 'handle',
-      width: '25%',
+      width: '96px',
       render: (value: undefined, record: QQLoginItem, index: number): ReactElement => (
         <Button.Group size="small">
           <Button onClick={ (event: MouseEvent<HTMLButtonElement>): void => handleLoginClick(record, event) }>登陆</Button>

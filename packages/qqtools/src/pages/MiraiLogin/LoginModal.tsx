@@ -37,7 +37,8 @@ function LoginModal(props: {}): ReactElement {
               qq: value.username,
               lastLoginTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
               password: value.password,
-              autoLogin: true
+              autoLogin: true,
+              protocol: value.protocol
             }
           }));
         }
