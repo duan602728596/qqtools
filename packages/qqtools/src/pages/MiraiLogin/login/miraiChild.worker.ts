@@ -1,5 +1,7 @@
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
 import * as path from 'path';
+import * as os from 'os';
+import * as iconv from 'iconv-lite';
 import type { ProtocolType } from '../types';
 
 export enum MessageType {
@@ -56,6 +58,40 @@ let childProcess: ChildProcessWithoutNullStreams;
 let isInitialized: boolean = false; // 判断mirai是否初始化
 const stdoutEvent: Event = new Event('mirai-login-child-stdout');
 
+/* 对window系统下的乱码问题进行处理 */
+const isWin32Platform: boolean = os.platform() === 'win32'; // 判断是否为window系统
+let BufferToString: (chunk: Buffer) => string;
+
+/* 默认的方法 */
+function utf8Decode(chunk: Buffer): string {
+  return chunk.toString();
+}
+
+/* GBK的方法 */
+function gbkDecode(chunk: Buffer): string {
+  return iconv.decode(chunk, 'GBK');
+}
+
+/* 获取当前控制台的编码 */
+function chcp(): Promise<string> {
+  return new Promise((resolve: Function, reject: Function): void => {
+    const child: ChildProcessWithoutNullStreams = spawn('chcp');
+
+    child.stdout.on('data', function(chunk: Buffer): void {
+      if (chunk.toString().includes('936')) {
+        resolve('GBK');
+      } else {
+        resolve('utf-8');
+      }
+    });
+
+    child.on('error', function(err: Error): void {
+      console.error(err);
+      reject(err);
+    });
+  });
+}
+
 /**
  * 初始化子进程
  * mirai-console-pure     => net.mamoe.mirai.console.pure.MiraiConsolePureLoader
@@ -72,7 +108,7 @@ function childProcessInit(data: InitMessage): void {
   ], { cwd: path.join(data.jarDir, '..') });
 
   childProcess.stdout.on('data', function(chunk: Buffer): void {
-    const text: string = chunk.toString();
+    const text: string = BufferToString(chunk);
     const sendData: StdoutEventMessage = { text };
 
     if (/^>/.test(text) && !isInitialized) {
@@ -88,7 +124,7 @@ function childProcessInit(data: InitMessage): void {
   });
 
   childProcess.stderr.on('data', function(chunk: Buffer): void {
-    console.log(chunk.toString());
+    console.log(BufferToString(chunk));
   });
 
   childProcess.on('close', function() {
@@ -155,10 +191,29 @@ function closeLogin(): void {
   childProcess.kill();
 }
 
-addEventListener('message', function(event: MessageEvent<Message>) {
+addEventListener('message', async function(event: MessageEvent<Message>): Promise<void> {
   const { type }: Message = event.data;
 
   if (type === MessageType.INIT) {
+    // 根据当前控制台的编码获取解析函数
+    if (isWin32Platform) {
+      let encoding: string;
+
+      try {
+        encoding = await chcp();
+      } catch {
+        encoding = 'utf-8';
+      }
+
+      if (encoding === 'GBK') {
+        BufferToString = gbkDecode;
+      } else {
+        BufferToString = utf8Decode;
+      }
+    } else {
+      BufferToString = utf8Decode;
+    }
+
     // 初始化
     childProcessInit(event.data as InitMessage);
   } else if (type === MessageType.LOGIN) {

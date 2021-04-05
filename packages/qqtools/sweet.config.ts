@@ -49,6 +49,7 @@ export default function(info: object): { [key: string]: any } {
       ...nodeExternals([
         'child_process',
         'fs',
+        'os',
         'path',
         'process',
         'util',
@@ -58,6 +59,7 @@ export default function(info: object): { [key: string]: any } {
         'electron',
         'fs-extra',
         'got',
+        'iconv-lite',
         'js-yaml',
         'nunjucks'
       ])
