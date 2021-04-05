@@ -86,9 +86,9 @@ export interface TEXTMessage extends CustomMessage {
   text: string;
 }
 
-// 回复信息
+// 回复信息，礼物回复信息
 export interface REPLYMessage extends CustomMessage {
-  messageType: 'REPLY';
+  messageType: 'REPLY' | 'GIFTREPLY';
   replyName: string;
   replyText: string;
   text: string;

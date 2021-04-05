@@ -14,7 +14,15 @@ import type { MemberInfo } from '../../types';
  * @param { MemberInfo } memberInfo: 房间信息
  * @param { boolean } pocket48MemberInfo: 发送房间信息
  */
-export function getRoomMessage({ customInfo, data, pocket48LiveAtAll, event, pocket48ShieldMsgType, memberInfo, pocket48MemberInfo }: {
+export function getRoomMessage({
+  customInfo,
+  data,
+  pocket48LiveAtAll,
+  event,
+  pocket48ShieldMsgType,
+  memberInfo,
+  pocket48MemberInfo
+}: {
   customInfo: CustomMessageAll;
   data: NIMMessage;
   pocket48LiveAtAll?: boolean;
@@ -41,7 +49,7 @@ export function getRoomMessage({ customInfo, data, pocket48LiveAtAll, event, poc
     } else
 
     // 回复信息
-    if (customInfo.messageType === 'REPLY') {
+    if (customInfo.messageType === 'REPLY' || customInfo.messageType === 'GIFTREPLY') {
       sendGroup.push(
         plain(`${ customInfo.replyName }：${ customInfo.replyText }
 ${ nickName }：${ customInfo.text }
