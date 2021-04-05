@@ -1,5 +1,6 @@
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
 import * as path from 'path';
+import type { ProtocolType } from '../types';
 
 export enum MessageType {
   INIT = 'init',
@@ -21,6 +22,7 @@ export interface LoginMessage {
   type: MessageType.LOGIN;
   username: string;
   password: string;
+  protocol?: ProtocolType;
 }
 
 // 关闭
@@ -103,6 +105,8 @@ function childProcessInit(data: InitMessage): void {
 
 /* 账号的登陆 */
 function miraiLogin(data: LoginMessage): void {
+  const protocol: ProtocolType = data.protocol ?? 'ANDROID_PAD';
+
   // 根据监听信息判断是登陆成功还是失败
   function handleStdout(event: MessageEvent<StdoutEventMessage>): void {
     const { text, isFirst }: StdoutEventMessage = event.data;
@@ -134,7 +138,7 @@ function miraiLogin(data: LoginMessage): void {
       removeEventListener(stdoutEvent.type, handleStdout, false);
     } else if (/^>/.test(text) && isFirst) {
       // 首次启动时需要监听启动完毕后才能登陆
-      childProcess.stdin.write(`login ${ data.username } ${ data.password } \n`);
+      childProcess.stdin.write(`login ${ data.username } ${ data.password } ${ protocol } \n`);
     }
   }
 
@@ -142,7 +146,7 @@ function miraiLogin(data: LoginMessage): void {
 
   // 进程存在时直接写入命令
   if (childProcess && isInitialized) {
-    childProcess.stdin.write(`login ${ data.username } ${ data.password } \n`);
+    childProcess.stdin.write(`login ${ data.username } ${ data.password } ${ protocol } \n`);
   }
 }
 
