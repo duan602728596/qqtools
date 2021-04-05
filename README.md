@@ -153,7 +153,7 @@ Pug + Sass + TypeScript + React + antd + Webpack + Electron。
 
 ## 源代码托管地址
 
-github：[https://github.com/duan602728596/qqtools](https://github.com/duan602728596/qqtools)。
+github：[https://github.com/duan602728596/qqtools](https://github.com/duan602728596/qqtools)。   
 gitee：[https://gitee.com/duanhaochen/qqtools](https://gitee.com/duanhaochen/qqtools)。
 
 ![](flower.gif)
