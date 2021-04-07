@@ -8,7 +8,7 @@
   },
   "main": "bin/lib/main.js",
   "dependencies": {
-    "@electron/remote": "^1.0.4",
+    "@electron/remote": "^1.1.0",
     "cron": "^1.8.2",
     "fs-extra": "^9.1.0",
     "got": "^11.8.2",

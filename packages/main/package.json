@@ -8,7 +8,7 @@
     "clean": "rimraf ./lib"
   },
   "dependencies": {
-    "@electron/remote": "^1.0.4"
+    "@electron/remote": "^1.1.0"
   },
   "devDependencies": {
     "gulp": "^4.0.2",
