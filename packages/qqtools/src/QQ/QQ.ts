@@ -327,6 +327,8 @@ V8：${ versions.v8 }
 
     if (Number(sessionRole) === 0) return; // 过滤发言
 
+    console.log(event);
+
     if (pocket48ShieldMsgType && pocket48ShieldMsgType.includes(customInfo.messageType)) {
       return; // 屏蔽信息类型
     }
