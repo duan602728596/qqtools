@@ -1507,6 +1507,42 @@
       "account": "20201208142539_vxw8aw9xkjmhzdl"
     },
     {
+      "id": 54526093,
+      "ownerName": "SNH48-林佳怡",
+      "roomId": "377992915",
+      "account": "20210412201403_ubbqatt4wuyrkh6"
+    },
+    {
+      "id": 54526095,
+      "ownerName": "SNH48-武博涵",
+      "roomId": "377987247",
+      "account": "20210412201347_vv2m2n3w5pu3030"
+    },
+    {
+      "id": 54526097,
+      "ownerName": "SNH48-禹佳蔚",
+      "roomId": "377982661",
+      "account": "20210412201327_927k6ulr1asmds9"
+    },
+    {
+      "id": 54526098,
+      "ownerName": "SNH48-张冉冉",
+      "roomId": "377979685",
+      "account": "20210412201309_166agbp21agsdwy"
+    },
+    {
+      "id": 54526100,
+      "ownerName": "SNH48-张诗芸",
+      "roomId": "377983628",
+      "account": "20210412201246_elxwd0dk5p37prc"
+    },
+    {
+      "id": 54526102,
+      "ownerName": "SNH48-张月铭",
+      "roomId": "377988067",
+      "account": "20210412201224_22sloacwls14p8i"
+    },
+    {
       "id": 4344250371,
       "ownerName": "SNH48-陈雨孜",
       "roomId": "147283635",
@@ -1609,5 +1645,5 @@
       "account": "20200706182614_rvr8uq2mnr81il4"
     }
   ],
-  "buildTime": "2021-04-12 22:05:56"
+  "buildTime": "2021-04-12 22:16:25"
 }
