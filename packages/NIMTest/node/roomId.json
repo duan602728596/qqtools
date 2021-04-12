@@ -1009,6 +1009,12 @@
       "account": "20190415142632_27gmko9gu78den4"
     },
     {
+      "id": 614731,
+      "ownerName": "IDFT-毛译晗",
+      "roomId": "67333166",
+      "account": "20190415142651_10u9x4sl3zg9i5c"
+    },
+    {
       "id": 614733,
       "ownerName": "IDFT-谯玉珍",
       "roomId": "67246114",
@@ -1429,6 +1435,12 @@
       "account": "20201106145157_al16zzvmc5hhrn7"
     },
     {
+      "id": 42402897,
+      "ownerName": "GNZ48-吕曼菲",
+      "roomId": "370409322",
+      "account": "20201206223950_24c1qvby5n2id3z"
+    },
+    {
       "id": 42402908,
       "ownerName": "SNH48-刘晨雪",
       "roomId": "248619104",
@@ -1597,5 +1609,5 @@
       "account": "20200706182614_rvr8uq2mnr81il4"
     }
   ],
-  "buildTime": "2021-02-20 13:59:13"
+  "buildTime": "2021-04-12 22:05:56"
 }
