@@ -13,7 +13,7 @@ export interface DbConfig {
 
 const dbConfig: DbConfig = {
   name: 'qqtools',
-  version: 3,
+  version: 5,
   objectStore: [
     // 存储登陆配置
     {
@@ -33,7 +33,7 @@ const dbConfig: DbConfig = {
     {
       name: 'qq',
       key: 'qq', // qq号
-      data: ['lastLoginTime', 'password', 'autoLogin'] // 最后登陆时间、密码、是否自动登陆
+      data: ['lastLoginTime', 'password', 'autoLogin', 'protocol'] // 最后登陆时间、密码、是否自动登陆、登陆协议
     }
   ]
 };

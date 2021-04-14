@@ -36,6 +36,8 @@
 
 > 由于桃叭关闭了订单接口，集资监听功能已移除，集资结果已不可用。
 
+<!--
+
 * 集资结果模板: 
   * nickname: 集资人的昵称
   * title: 标题
@@ -89,6 +91,8 @@
 ...集资信息
 ```
 
+-->
+
 ### 定时消息配置
 
 执行时间的配置查看文档[https://github.com/kelektiv/node-cron#cron-ranges](https://github.com/kelektiv/node-cron#cron-ranges)
@@ -113,6 +117,19 @@
 
 `log`命令可以输出软件信息。
 
+## mirai登陆
+
+mirai的登陆功能从mirai-login整合进来。包括记住密码、自动登陆、一键登陆等功能。
+
+### jar文件夹和java文件的配置
+
+使用mirai，需要下载`mirai-console-{version}-all.jar`、`mirai-console-terminal-{version}-all.jar`、   
+`mirai-core-all-{version}-all.jar`文件。需要下载`mirai-api-http-v{version}.mirai.jar`插件。   
+
+mirai依赖java环境，所以你也需要下载java。java文件配置要选择bin目录下文件名为`java`的文件。   
+
+将mirai的三个文件放到content目录下。jar文件夹配置选择这个content目录，启动后会在content目录同级生成plugins等文件夹，放入相关插件。
+
 ## 许可证
 
 本软件遵循**GNU Affero General Public License v3.0**许可证。
@@ -136,6 +153,7 @@ Pug + Sass + TypeScript + React + antd + Webpack + Electron。
 
 ## 源代码托管地址
 
-[https://github.com/duan602728596/qqtools](https://github.com/duan602728596/qqtools)
+github：[https://github.com/duan602728596/qqtools](https://github.com/duan602728596/qqtools)。   
+gitee：[https://gitee.com/duanhaochen/qqtools](https://gitee.com/duanhaochen/qqtools)。
 
 ![](flower.gif)

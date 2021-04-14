@@ -24,6 +24,7 @@ const pocket48ShieldMsgTypeOptions: Array<CheckboxOptionType> = [
   { value: 'LIVEPUSH', label: '直播' },
   { value: 'FLIPCARD', label: '翻牌' },
   { value: 'EXPRESS', label: '表情' },
+  { value: 'GIFTREPLY', label: '礼物回复信息' },
   { value: 'UNKNOWN', label: '未知类型' },
   { value: 'ERROR', label: '错误信息' }
 ];
@@ -31,6 +32,7 @@ const pocket48ShieldMsgTypeOptions: Array<CheckboxOptionType> = [
 /* 表单的初始化值 */
 const initialStates: Store = {
   groupWelcomeSend: '<%= qqtools:At %>欢迎入群。',
+  /*
   taobaTemplate: `@{{ nickname }} 刚刚在【{{ title }}】打赏了{{ money }}元，感谢这位聚聚！
 项目地址：https://www.taoba.club/#/pages/idols/detail?id={{ taobaid }}
 当前进度：￥{{ donation }} / ￥{{ amount }}
@@ -38,6 +40,7 @@ const initialStates: Store = {
 集资参与人数：{{ juser }}人
 项目截止时间：{{ expire }}
 距离项目截止还有：{{ timedifference }}`,
+   */
   taobaCommandTemplate: `桃叭：{{ title }}
 https://www.taoba.club/#/pages/idols/detail?id={{ taobaid }}`
 };
@@ -206,8 +209,8 @@ function Edit(props: {}): ReactElement {
       </Form.Item>
 
       {/* 桃叭集资监听 */}
-      <Divider>桃叭集资监听配置</Divider>
-      <Form.Item name="taobaListen" label="开启监听" valuePropName="checked">
+      <Divider>桃叭集资配置</Divider>
+      <Form.Item name="taobaListen" label="开启功能" valuePropName="checked">
         <Switch />
       </Form.Item>
       <Form.Item name="taobaId" label="桃叭ID">
@@ -216,6 +219,7 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="taobaCommandTemplate" label="集资命令模板">
         <Input.TextArea rows={ 3 } />
       </Form.Item>
+      {/*
       <Form.Item name="taobaTemplate" label="集资结果模板">
         <Input.TextArea rows={ 7 } />
       </Form.Item>
@@ -225,6 +229,7 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="otherTaobaIds" label="其他桃叭ID">
         <Input />
       </Form.Item>
+      */}
 
       {/* 群欢迎功能 */}
       <Divider>群欢迎功能</Divider>

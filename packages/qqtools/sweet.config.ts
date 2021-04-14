@@ -6,6 +6,22 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 const isDev: boolean = process.env.NODE_ENV === 'development';
 const analyzer: boolean = process.env.ANALYZER === 'true';
 
+// html代码压缩配置
+const htmlWebpackPluginMinify: boolean | object = isDev ? false : {
+  collapseWhitespace: true,
+  keepClosingSlash: true,
+  removeComments: true,
+  removeRedundantAttributes: true,
+  removeScriptTypeAttributes: true,
+  removeStyleLinkTypeAttributes: true,
+  useShortDoctype: true,
+  minifyCSS: true,
+  minifyJS: {
+    ecma: 2020,
+    safari10: true
+  }
+};
+
 /**
  * 模块使用node的commonjs的方式引入
  * @param { Array<string> } node: node模块名称
@@ -43,12 +59,13 @@ export default function(info: object): { [key: string]: any } {
     entry: {
       index: [path.join(__dirname, 'src/index.tsx')]
     },
-    html: [{ template: path.join(__dirname, 'src/index.pug') }],
+    html: [{ template: path.join(__dirname, 'src/index.pug'), minify: htmlWebpackPluginMinify }],
     externals: {
       SDK: 'window.SDK',
       ...nodeExternals([
         'child_process',
         'fs',
+        'os',
         'path',
         'process',
         'util',
@@ -58,6 +75,7 @@ export default function(info: object): { [key: string]: any } {
         'electron',
         'fs-extra',
         'got',
+        'iconv-lite',
         'js-yaml',
         'nunjucks'
       ])

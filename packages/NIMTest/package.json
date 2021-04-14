@@ -5,8 +5,8 @@
     "start": "serve ./src -l 5050"
   },
   "dependencies": {
-    "got": "^10.7.0",
-    "lodash": "^4.17.20",
+    "got": "^11.8.2",
+    "lodash": "^4.17.21",
     "serve": "^11.3.2"
   }
 }

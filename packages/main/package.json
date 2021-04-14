@@ -1,6 +1,6 @@
 {
   "name": "@qqtools3/main",
-  "version": "4.2.3",
+  "version": "4.4.0",
   "scripts": {
     "start": "npm run clean && cross-env NODE_ENV=development tsc --watch",
     "dev": "npm run clean && cross-env NODE_ENV=development tsc",
@@ -8,7 +8,7 @@
     "clean": "rimraf ./lib"
   },
   "dependencies": {
-    "@electron/remote": "^1.0.4"
+    "@electron/remote": "^1.1.0"
   },
   "devDependencies": {
     "gulp": "^4.0.2",

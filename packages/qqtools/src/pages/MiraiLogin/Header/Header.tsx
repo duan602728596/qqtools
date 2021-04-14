@@ -1,7 +1,6 @@
 import type { OpenDialogReturnValue } from 'electron';
 import { dialog } from '@electron/remote';
 import { Fragment, useEffect, ReactElement, MouseEvent } from 'react';
-import { Link } from 'react-router-dom';
 import { Button, Space, Input, Form, Divider, message } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import style from './header.sass';
@@ -34,7 +33,7 @@ function Header(props: {}): ReactElement {
     if (result.canceled || !result.filePaths || result.filePaths.length === 0) return;
 
     form.setFieldsValue({
-      jdkPath: result.filePaths[0]
+      javaPath: result.filePaths[0]
     });
   }
 
@@ -59,24 +58,19 @@ function Header(props: {}): ReactElement {
       <Form className={ style.marginBottom } form={ form }>
         <Space direction="vertical">
           <div>
-            <label className={ style.label } htmlFor="jarDir">jar文件夹地址：</label>
+            <label className={ style.label } htmlFor="jarDir">jar的文件夹地址：</label>
             <Form.Item name="jarDir" noStyle={ true }>
               <Input className={ style.input } id="jarDir" allowClear={ true } />
             </Form.Item>
-            <Button onClick={ handleSelectJarDirClick }>选择文件夹</Button>
+            <Button className={ style.width105 } onClick={ handleSelectJarDirClick }>选择文件夹</Button>
           </div>
           <div>
-            <label className={ style.label } htmlFor="javaPath">jdk的文件地址：</label>
+            <label className={ style.label } htmlFor="javaPath">java的文件地址：</label>
             <Form.Item name="javaPath" noStyle={ true }>
               <Input className={ style.input } id="javaPath" allowClear={ true } />
             </Form.Item>
-            <Button className={ style.marginRight32 } onClick={ handleSelectJdkPathClick }>选择文件</Button>
-            <Button.Group>
-              <Button type="primary" onClick={ handleSubmit }>保存</Button>
-              <Link to="/">
-                <Button type="primary" danger={ true }>返回</Button>
-              </Link>
-            </Button.Group>
+            <Button className={ style.width105 } onClick={ handleSelectJdkPathClick }>选择文件</Button>
+            <Button className={ style.marginLeft16 } type="primary" onClick={ handleSubmit }>保存</Button>
           </div>
         </Space>
       </Form>

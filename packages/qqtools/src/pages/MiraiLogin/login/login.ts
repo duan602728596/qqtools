@@ -1,9 +1,13 @@
 import type { Store } from 'redux';
+import { Queue } from '@bbkkbkk/q';
 import MiraiChildWorker from 'worker-loader!./miraiChild.worker';
-import type { InitMessage, InitSendMessage, CloseMessage, LoginInfoSendMessage } from './miraiChild.worker';
+import type { InitMessage, LoginMessage, InitSendMessage, CloseMessage, LoginInfoSendMessage } from './miraiChild.worker';
 import { store } from '../../../store/store';
 import { setChildProcessWorker, MiraiLoginInitialState } from '../reducers/reducers';
 import { getJavaPath, getJarDir } from '../miraiPath';
+import type { ProtocolType } from '../types';
+
+export const queue: Queue = new Queue({ workerLen: 1 }); // 用来限制登陆的
 
 /* 初始化worker */
 function initWorker(): Promise<Worker> {
@@ -37,8 +41,14 @@ function initWorker(): Promise<Worker> {
  * @param { Worker } worker
  * @param { string } username
  * @param { string } password
+ * @param { ProtocolType } protocol: 登陆协议
  */
-export function loginWorker(worker: Worker, username: string, password: string): Promise<boolean> {
+export function loginWorker(
+  worker: Worker,
+  username: string,
+  password: string,
+  protocol?: ProtocolType
+): Promise<LoginInfoSendMessage> {
   return new Promise((resolve: Function, reject: Function) => {
     function handleWorkerLoginMessage(event: MessageEvent<LoginInfoSendMessage>): void {
       const data: LoginInfoSendMessage | CloseMessage = event.data;
@@ -46,13 +56,19 @@ export function loginWorker(worker: Worker, username: string, password: string):
       worker.removeEventListener('message', handleWorkerLoginMessage, false);
 
       if (data.type === 'login_info') {
-        resolve(data.loginType === 'success');
+        resolve(data);
       } else {
         reject();
       }
     }
 
     worker.addEventListener('message', handleWorkerLoginMessage, false);
+    worker.postMessage({
+      type: 'login',
+      username,
+      password,
+      protocol
+    } as LoginMessage);
   });
 }
 
@@ -60,9 +76,14 @@ export function loginWorker(worker: Worker, username: string, password: string):
  * 账号登陆
  * @param { string } username
  * @param { string } password
- * @return { boolean } 返回是否登陆成功或失败
+ * @param { ProtocolType } protocol: 登陆协议
+ * @return { [boolean, LoginInfoSendMessage] } 返回是否登陆成功或失败，以及其他信息
  */
-export async function login(username: string, password: string): Promise<boolean> {
+export async function login(
+  username: string,
+  password: string,
+  protocol?: ProtocolType
+): Promise<[boolean, LoginInfoSendMessage]> {
   const { dispatch, getState }: Store = store;
   const { childProcessWorker }: MiraiLoginInitialState = getState().miraiLogin;
   let worker: Worker;
@@ -76,7 +97,7 @@ export async function login(username: string, password: string): Promise<boolean
     worker = childProcessWorker;
   }
 
-  const result: boolean = await loginWorker(worker, username, password);
+  const result: LoginInfoSendMessage = await loginWorker(worker, username, password, protocol);
 
-  return result;
+  return [result.loginType === 'success', result];
 }
