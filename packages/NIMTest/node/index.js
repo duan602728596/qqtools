@@ -115,7 +115,7 @@ async function main() {
         console.log(`ID: ${ friend } ownerName: ${ ownerName } roomId: ${ rid } account: ${ account }`);
 
         const newData = JSON.stringify({
-          roomId,
+          roomId: _.orderBy(roomId, ['id'], ['asc']),
           buildTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
         }, null, 2);
 
