@@ -94,16 +94,14 @@ function CustomCmd(props: CustomCmdProps): ReactElement {
     <Fragment>
       <Space className={ style.customCmdBox } direction="vertical">
         <Button onClick={ (event: MouseEvent): void => handleAddClick(undefined, event) }>添加命令</Button>
-        <Table columns={ columns }
-          dataSource={ props.value ?? [] }
-          rowKey="id"
-        />
+        <Table columns={ columns } dataSource={ props.value ?? [] } rowKey="id" />
       </Space>
       <Modal visible={ visible }
         width={ 500 }
         destroyOnClose={ true }
         centered={ true }
         maskClosable={ false }
+        afterClose={ form.resetFields }
         onOk={ handleOkClick }
         onCancel={ handleCancelClick }
       >
