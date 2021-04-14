@@ -117,6 +117,8 @@ export interface VIDEOMessage extends CustomMessage {
 export interface LIVEPUSHMessage extends CustomMessage {
   messageType: 'LIVEPUSH';
   liveTitle: string;
+  liveCover: string;
+  liveId: string;
 }
 
 // 鸡腿翻牌

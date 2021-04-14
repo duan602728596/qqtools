@@ -312,7 +312,7 @@ V8：${ versions.v8 }
 
   /* ==================== 业务相关 ==================== */
 
-  // 事件监听
+  // 处理单个消息
   async roomSocketMessage(event: Array<NIMMessage>): Promise<void> {
     const {
       pocket48LiveAtAll,
@@ -321,9 +321,9 @@ V8：${ versions.v8 }
       pocket48LogSave,
       pocket48LogDir
     }: OptionsItemValue = this.config;
-    const data: NIMMessage = event[0];                                 // 房间信息数组
-    const customInfo: CustomMessageAll = JSON.parse(data.custom);      // 房间自定义信息
-    const { sessionRole }: CustomMessageAll = customInfo; // 信息类型和sessionRole
+    const data: NIMMessage = event[0];                            // 房间信息数组
+    const customInfo: CustomMessageAll = JSON.parse(data.custom); // 房间自定义信息
+    const { sessionRole }: CustomMessageAll = customInfo;         // 信息类型和sessionRole
 
     if (Number(sessionRole) === 0) return; // 过滤发言
 
@@ -361,9 +361,20 @@ V8：${ versions.v8 }
     }
   }
 
+  // 循环处理所有消息
+  async roomSocketMessageAll(event: Array<NIMMessage>): Promise<void> {
+    for (const item of event) {
+      try {
+        await this.roomSocketMessage([item]);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  }
+
   // 事件监听
   handleRoomSocketMessage: Function = (event: Array<NIMMessage>): void => {
-    this.roomSocketMessage(event);
+    this.roomSocketMessageAll(event);
   };
 
   // 输出当前房间的游客信息
