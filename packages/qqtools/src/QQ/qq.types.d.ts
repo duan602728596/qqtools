@@ -8,7 +8,10 @@ export interface MessageResponse {
   msg: string;
 }
 
-/* 发送的信息类型 */
+/**
+ * 发送的信息类型
+ * 类型文档：https://github.com/project-mirai/mirai-api-http/blob/master/docs/MessageType.md
+ */
 export interface Plain {
   type: 'Plain';
   text: string;
@@ -16,7 +19,8 @@ export interface Plain {
 
 export interface Image {
   type: 'Image';
-  url: string;
+  url?: string;
+  path?: string;
 }
 
 export interface At {

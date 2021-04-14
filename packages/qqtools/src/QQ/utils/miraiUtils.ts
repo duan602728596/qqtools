@@ -10,10 +10,18 @@ export function plain(text: string): Plain {
 
 /**
  * 发送图片
- * @param { string } url: 图片地址
+ * @param { string } url: 图片地址或本地地址
  */
 export function image(url: string): Image {
-  return { type: 'Image', url };
+  const send: Image = { type: 'Image' };
+
+  if (/^https?:\/\//.test(url)) {
+    send.url = url;
+  } else {
+    send.path = url;
+  }
+
+  return send;
 }
 
 /**
