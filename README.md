@@ -1,6 +1,8 @@
 # qqtools-mirai
 
-基于mirai和mirai-api-http使用的机器人客户端
+基于mirai和mirai-api-http使用的机器人客户端。   
+
+使用前请先仔细阅读qqtools的使用手册：[https://www.yuque.com/bbkkbkk/qqtools](https://www.yuque.com/bbkkbkk/qqtools)。
 
 ## 配置说明
 
