@@ -255,20 +255,24 @@ class QQ {
    * @param { number } groupId: 单个群的群号
    */
   async sendMessage(value: Array<MessageChain>, groupId?: number): Promise<void> {
-    const { socketHost }: this = this;
-    const { socketPort }: OptionsItemValue = this.config;
-    const groupNumbers: Array<number> = this.groupNumbers;
+    try {
+      const { socketHost }: this = this;
+      const { socketPort }: OptionsItemValue = this.config;
+      const groupNumbers: Array<number> = this.groupNumbers;
 
-    if (typeof groupId === 'number') {
-      // 只发送到一个群
-      await requestSendGroupMessage(groupId, socketHost, socketPort, this.session, value);
-    } else {
-      // 发送到多个群
-      await Promise.all(
-        groupNumbers.map((item: number, index: number): Promise<MessageResponse> => {
-          return requestSendGroupMessage(item, socketHost, socketPort, this.session, value);
-        })
-      );
+      if (typeof groupId === 'number') {
+        // 只发送到一个群
+        await requestSendGroupMessage(groupId, socketHost, socketPort, this.session, value);
+      } else {
+        // 发送到多个群
+        await Promise.all(
+          groupNumbers.map((item: number, index: number): Promise<MessageResponse> => {
+            return requestSendGroupMessage(item, socketHost, socketPort, this.session, value);
+          })
+        );
+      }
+    } catch (err) {
+      console.error(err);
     }
   }
 
