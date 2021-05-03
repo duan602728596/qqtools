@@ -1,11 +1,13 @@
-const util = require('util');
-const glob = require('glob');
-const path = require('path');
-const { promises: fs } = require('fs');
-const fse = require('fs-extra');
-const { build, unpacked } = require('./utils');
-const { version } = require('../lerna.json');
+import util from 'util';
+import { promises as fs } from 'fs';
+import path from 'path';
+import glob from 'glob';
+import fse from 'fs-extra';
+import { requireJson } from '@sweet-milktea/utils';
+import { __dirname, build, unpacked } from './utils.mjs';
 
+const lernaJson = await requireJson(path.join(__dirname, '../lerna.json'));
+const { version } = lernaJson;
 const globPromise = util.promisify(glob);
 
 /**

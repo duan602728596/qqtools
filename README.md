@@ -150,8 +150,8 @@ Pug + Sass + TypeScript + React + antd + Webpack + Electron。
 
 1. main模块：进入`packages/main`，运行`npm run build`，编译主程序源代码
 2. qqtools模块：进入`packages/qqtools`，运行`npm run build`，编译软件源代码
-3. 运行`node scripts/unpack.js`，打包软件
-4. 运行`node scripts/clean.js`，删除软件中的无用的文件
+3. 运行`node scripts/unpack.mjs`，打包软件
+4. 运行`node scripts/clean.mjs`，删除软件中的无用的文件
 
 ## 源代码托管地址
 

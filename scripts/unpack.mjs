@@ -1,11 +1,12 @@
-const util = require('util');
-const path = require('path');
-const rimraf = require('rimraf');
-const fse = require('fs-extra');
-const builder = require('electron-builder');
-const { cwd, appDir, staticsDir, build, output, unpacked } = require('./utils');
-const packageJson = require('../package.json');
+import util from 'util';
+import path from 'path';
+import rimraf from 'rimraf';
+import fse from 'fs-extra';
+import builder from 'electron-builder';
+import { requireJson } from '@sweet-milktea/utils';
+import { __dirname, cwd, appDir, staticsDir, build, output, unpacked } from './utils.mjs';
 
+const packageJson = await requireJson(path.join(__dirname, '../package.json'));
 const rimrafPromise = util.promisify(rimraf);
 
 const staticsFiles = {
