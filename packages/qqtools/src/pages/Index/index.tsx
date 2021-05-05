@@ -20,7 +20,7 @@ function Index(props: {}): ReactElement {
 
   // 打开使用说明
   function handleOpenHelpClick(event: MouseEvent): void {
-    shell.openExternal('https://github.com/duan602728596/qqtools/blob/main/README.md');
+    shell.openExternal('https://www.yuque.com/bbkkbkk/qqtools');
   }
 
   return (
