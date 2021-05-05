@@ -97,7 +97,7 @@ module.exports = {
       }
     },
     {
-      files: ['*.js', '*.jsx', '*.mjs'],
+      files: ['*.js', '*.jsx', '*.mjs', '*.cjs'],
       parser: '@babel/eslint-parser',
       parserOptions: {
         requireConfigFile: false,
