@@ -13,6 +13,7 @@ interface Queue {
 
 interface NimChatroomSocketArgs {
   pocket48Account: string;
+  pocket48Token: string;
   pocket48RoomId: string;
 }
 
@@ -27,12 +28,14 @@ export interface ChatroomMember {
  */
 class NimChatroomSocket {
   public pocket48Account: string;
+  public pocket48Token: string;
   public pocket48RoomId: string;
   public queues: Array<Queue>;
   public nimChatroomSocket: any;   // 口袋48
 
   constructor(arg: NimChatroomSocketArgs) {
     this.pocket48Account = arg.pocket48Account; // 账号
+    this.pocket48Token = arg.pocket48Token;     // token
     this.pocket48RoomId = arg.pocket48RoomId;   // 房间id
     this.queues = [];
   }
@@ -45,7 +48,7 @@ class NimChatroomSocket {
       this.nimChatroomSocket = Chatroom.getInstance({
         appKey: el,
         account: this.pocket48Account,
-        token: this.pocket48Account,
+        token: this.pocket48Token,
         chatroomId: this.pocket48RoomId,
         chatroomAddresses: ['chatweblink01.netease.im:443'],
         onconnect(event: any): void {

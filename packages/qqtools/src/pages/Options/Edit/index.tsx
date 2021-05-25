@@ -156,7 +156,10 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="pocket48RoomId" label="房间ID">
         <Input />
       </Form.Item>
-      <Form.Item name="pocket48Account" label="账号account">
+      <Form.Item name="pocket48Account" label="IM的account">
+        <Input />
+      </Form.Item>
+      <Form.Item name="pocket48Token" label="IM的token">
         <Input />
       </Form.Item>
       <Form.Item name="pocket48LiveAtAll" label="@全体成员" valuePropName="checked">
