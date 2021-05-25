@@ -480,12 +480,15 @@ V8：${ versions.v8 }
     const {
       pocket48RoomListener,
       pocket48RoomId,
+      pocket48IsAnonymous,
       pocket48Account,
       pocket48Token,
       pocket48RoomEntryListener
     }: OptionsItemValue = this.config;
 
-    if (!(pocket48RoomListener && pocket48RoomId && pocket48Account && pocket48Token)) return;
+    if (!pocket48RoomListener) return;
+
+    if (!(pocket48IsAnonymous || (pocket48RoomId && pocket48Account && pocket48Token))) return;
 
     // 判断socket列表内是否有当前房间的socket连接
     const index: number = findIndex(nimChatroomSocketList, { pocket48RoomId });
@@ -494,6 +497,7 @@ V8：${ versions.v8 }
 
     if (index < 0) {
       const nimChatroomSocket: NimChatroomSocket = new NimChatroomSocket({
+        pocket48IsAnonymous,
         pocket48Account,
         pocket48Token,
         pocket48RoomId

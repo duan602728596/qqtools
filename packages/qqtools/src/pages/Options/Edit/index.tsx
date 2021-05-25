@@ -156,6 +156,9 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="pocket48RoomId" label="房间ID">
         <Input />
       </Form.Item>
+      <Form.Item name="pocket48IsAnonymous" label="游客模式" valuePropName="checked">
+        <Switch />
+      </Form.Item>
       <Form.Item name="pocket48Account" label="IM的account">
         <Input />
       </Form.Item>

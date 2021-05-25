@@ -1,7 +1,8 @@
 import NIM_SDK from 'SDK';
-import el from './sdk/eval';
 import { message } from 'antd';
 import { findIndex } from 'lodash-es';
+import el from './sdk/eval';
+import { rStr } from '../utils/utils';
 import type { NIMMessage, NIMError } from './qq.types';
 
 const { Chatroom }: any = NIM_SDK;
@@ -12,9 +13,10 @@ interface Queue {
 }
 
 interface NimChatroomSocketArgs {
-  pocket48Account: string;
-  pocket48Token: string;
-  pocket48RoomId: string;
+  pocket48IsAnonymous?: boolean;
+  pocket48Account?: string;
+  pocket48Token?: string;
+  pocket48RoomId?: string;
 }
 
 export interface ChatroomMember {
@@ -27,16 +29,18 @@ export interface ChatroomMember {
  * 同一个房间只能连接一次，所以需要复用
  */
 class NimChatroomSocket {
-  public pocket48Account: string;
-  public pocket48Token: string;
-  public pocket48RoomId: string;
+  public pocket48IsAnonymous?: boolean;
+  public pocket48Account?: string;
+  public pocket48Token?: string;
+  public pocket48RoomId?: string;
   public queues: Array<Queue>;
-  public nimChatroomSocket: any;   // 口袋48
+  public nimChatroomSocket: any; // 口袋48
 
   constructor(arg: NimChatroomSocketArgs) {
-    this.pocket48Account = arg.pocket48Account; // 账号
-    this.pocket48Token = arg.pocket48Token;     // token
-    this.pocket48RoomId = arg.pocket48RoomId;   // 房间id
+    this.pocket48IsAnonymous = arg.pocket48IsAnonymous; // 是否为游客模式
+    this.pocket48Account = arg.pocket48Account;         // 账号
+    this.pocket48Token = arg.pocket48Token;             // token
+    this.pocket48RoomId = arg.pocket48RoomId;           // 房间id
     this.queues = [];
   }
 
@@ -45,10 +49,17 @@ class NimChatroomSocket {
     const self: this = this;
 
     return new Promise((resolve: Function, reject: Function): void => {
+      const options: any = self.pocket48IsAnonymous ? {
+        isAnonymous: true,
+        chatroomNick: rStr(30),
+        chatroomAvatar: ''
+      } : {
+        account: this.pocket48Account,
+        token: this.pocket48Token
+      };
+
       this.nimChatroomSocket = Chatroom.getInstance({
         appKey: el,
-        account: this.pocket48Account,
-        token: this.pocket48Token,
         chatroomId: this.pocket48RoomId,
         chatroomAddresses: ['chatweblink01.netease.im:443'],
         onconnect(event: any): void {
@@ -58,7 +69,8 @@ class NimChatroomSocket {
         },
         onmsgs: this.handleRoomSocketMessage,
         onerror: this.handleRoomSocketError,
-        ondisconnect: this.handleRoomSocketDisconnect
+        ondisconnect: this.handleRoomSocketDisconnect,
+        ...options
       });
     });
   }

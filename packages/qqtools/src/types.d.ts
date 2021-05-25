@@ -15,6 +15,7 @@ export interface OptionsItemValue {
 
   pocket48RoomListener?: boolean;
   pocket48RoomId?: string;
+  pocket48IsAnonymous?: boolean;
   pocket48Account?: string;
   pocket48Token?: string;
   pocket48LiveAtAll?: boolean;
