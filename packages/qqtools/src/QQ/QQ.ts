@@ -33,7 +33,9 @@ import type {
   MessageResponse,
   MessageChain,
   MessageSocketEventData,
+  MessageSocketEventDataV2,
   EventSocketEventData,
+  EventSocketEventDataV2,
   NIMMessage,
   CustomMessageAll,
   WeiboTab,
@@ -98,15 +100,14 @@ class QQ {
   handleMessageSocketMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
     const { qqNumber, customCmd }: OptionsItemValue = this.config;
     const groupNumbers: Array<number> = this.groupNumbers;
-    const data: MessageSocketEventData = JSON.parse(event.data);
+    const eventData: MessageSocketEventData | MessageSocketEventDataV2 = JSON.parse(event.data);
+    const data: MessageSocketEventData = 'syncId' in eventData ? eventData.data : eventData;
 
     // 群信息
     if (data.type === 'GroupMessage' && data.sender.id !== qqNumber && groupNumbers.includes(data.sender.group.id)) {
       if (data.type === 'GroupMessage' && data.messageChain?.[1].type === 'Plain') {
         const command: string = data.messageChain[1].text; // 当前命令
         const groupId: number = data.sender.group.id;
-
-        console.log(command);
 
         // 日志信息输出
         if (command === 'log') {
@@ -153,7 +154,8 @@ class QQ {
   handleEventSocketMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
     const { qqNumber, groupWelcome, groupWelcomeSend }: OptionsItemValue = this.config;
     const groupNumbers: Array<number> = this.groupNumbers;
-    const data: EventSocketEventData = JSON.parse(event.data);
+    const eventData: EventSocketEventData | EventSocketEventDataV2 = JSON.parse(event.data);
+    const data: EventSocketEventData = 'syncId' in eventData ? eventData.data : eventData;
 
     // 欢迎进群
     if (data.type === 'MemberJoinEvent' && data.member.id !== qqNumber && groupNumbers.includes(data.member.group.id)) {

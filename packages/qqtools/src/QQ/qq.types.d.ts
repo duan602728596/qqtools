@@ -49,6 +49,11 @@ export interface MessageSocketEventData {
   messageChain: Array<MessageChain>;
 }
 
+export interface MessageSocketEventDataV2 {
+  syncId: string;
+  data: MessageSocketEventData;
+}
+
 // event
 export interface EventSocketEventData {
   type: string; // MemberJoinEvent 有人进群
@@ -59,6 +64,11 @@ export interface EventSocketEventData {
     };
     memberName: string;
   };
+}
+
+export interface EventSocketEventDataV2 {
+  syncId: string;
+  data: EventSocketEventData;
 }
 
 /* sdk类型 */
