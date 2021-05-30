@@ -12,7 +12,6 @@ export interface OptionsItemValue {
   groupNumber: string;
   socketHost?: string;
   socketPort: number;
-  useAuthKey?: boolean;
   authKey: string;
 
   pocket48RoomListener?: boolean;

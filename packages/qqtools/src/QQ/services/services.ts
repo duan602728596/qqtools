@@ -28,13 +28,13 @@ export async function requestAuth(socketHost: string, port: number, authKey: str
  * 根据authKey获取session（mirai-api-http的v2版本）
  * @param { string } socketHost
  * @param { number } port: 端口号
- * @param { string } authKey: 配置的authKey
+ * @param { string } verifyKey: 配置的verifyKey
  */
-export async function requestAuthV2(socketHost: string, port: number, authKey: string): Promise<AuthResponse> {
+export async function requestAuthV2(socketHost: string, port: number, verifyKey: string): Promise<AuthResponse> {
   const res: Response = await fetch(`http://${ socketHost }:${ port }/verify`, {
     mode: 'no-cors',
     method: 'POST',
-    body: JSON.stringify({ authKey })
+    body: JSON.stringify({ verifyKey })
   });
 
   return await res.json();

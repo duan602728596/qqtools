@@ -1,4 +1,5 @@
 import * as process from 'process';
+import * as querystring from 'querystring';
 import { CronJob } from 'cron';
 import { message } from 'antd';
 import { findIndex } from 'lodash-es';
@@ -11,7 +12,9 @@ import TaobaWorker from 'worker-loader!./utils/taoba.worker';
 import WeiboWorker from 'worker-loader!./utils/weibo.worker';
 import {
   requestAuth,
+  requestAuthV2,
   requestVerify,
+  requestVerifyV2,
   requestRelease,
   requestSendGroupMessage,
   requestManagers,
@@ -103,6 +106,8 @@ class QQ {
         const command: string = data.messageChain[1].text; // 当前命令
         const groupId: number = data.sender.group.id;
 
+        console.log(command);
+
         // 日志信息输出
         if (command === 'log') {
           this.logCommandCallback(groupId);
@@ -164,7 +169,9 @@ class QQ {
 
   // socket关闭
   handleSocketClose: CloseListener = (event: CloseEvent): void => {
-    if (this.socketStatus === -1) return;
+    const { optionType }: OptionsItemValue = this.config;
+
+    if (this.socketStatus === -1 || optionType === '1') return;
 
     this.destroyWebsocket(); // 清除旧的socket
     this.reconnectTimer = window.setTimeout(this.reconnectLogin, 3_000);
@@ -197,10 +204,22 @@ class QQ {
   // websocket初始化
   initWebSocket(): void {
     const { socketHost }: this = this;
-    const { socketPort }: OptionsItemValue = this.config;
+    const { socketPort, optionType, authKey, qqNumber }: OptionsItemValue = this.config;
+    const isV2: boolean = optionType === '1';
+    const query: string = querystring.stringify(
+      isV2 ? {
+        verifyKey: authKey,
+        sessionKey: this.session,
+        qq: qqNumber
+      } : {
+        sessionKey: this.session
+      }
+    );
 
-    this.messageSocket = new WebSocket(`ws://${ socketHost }:${ socketPort }/message?sessionKey=${ this.session }`);
-    this.eventSocket = new WebSocket(`ws://${ socketHost }:${ socketPort }/event?sessionKey=${ this.session }`);
+    const keyName: string = isV2 ? 'auth' : 'sessionKey';
+
+    this.messageSocket = new WebSocket(`ws://${ socketHost }:${ socketPort }/message?${ query }`);
+    this.eventSocket = new WebSocket(`ws://${ socketHost }:${ socketPort }/event?${ query }`);
     this.messageSocket.addEventListener('message', this.handleMessageSocketMessage, false);
     this.eventSocket.addEventListener('message', this.handleEventSocketMessage, false);
     this.messageSocket.addEventListener('close', this.handleSocketClose, false);
@@ -227,8 +246,11 @@ class QQ {
   // 获取session
   async getSession(): Promise<boolean> {
     const { socketHost }: this = this;
-    const { qqNumber, socketPort, authKey }: OptionsItemValue = this.config;
-    const authRes: AuthResponse = await requestAuth(socketHost, socketPort, authKey);
+    const { qqNumber, socketPort, authKey, optionType }: OptionsItemValue = this.config;
+    const isV2: boolean = optionType === '1';
+
+    const authRes: AuthResponse
+      = await (isV2 ? requestAuthV2 : requestAuth)(socketHost, socketPort, authKey);
 
     if (authRes.code !== 0) {
       message.error('登陆失败：获取session失败。');
@@ -238,7 +260,8 @@ class QQ {
 
     this.session = authRes.session;
 
-    const verifyRes: MessageResponse = await requestVerify(qqNumber, socketHost, socketPort, this.session);
+    const verifyRes: MessageResponse
+      = await (isV2 ? requestVerifyV2 : requestVerify)(qqNumber, socketHost, socketPort, this.session);
 
     if (verifyRes.code === 0) {
       return true;

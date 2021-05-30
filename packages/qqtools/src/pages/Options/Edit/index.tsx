@@ -148,12 +148,6 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="socketPort" label="端口号" rules={ [{ required: true, message: '必须填写端口号' }] }>
         <InputNumber className={ style.inputNumber } />
       </Form.Item>
-      <Form.Item label="使用authKey">
-        <Form.Item name="useAuthKey" valuePropName="checked" noStyle={ true }>
-          <Switch />
-        </Form.Item>
-        <span className={ style.tips }>适用于mirai-api-http的v2版本</span>
-      </Form.Item>
       <Form.Item name="authKey" label="authKey">
         <Input />
       </Form.Item>

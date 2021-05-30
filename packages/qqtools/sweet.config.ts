@@ -68,6 +68,7 @@ export default function(info: object): { [key: string]: any } {
         'os',
         'path',
         'process',
+        'querystring',
         'util',
         'zlib',
         '@electron/remote',
