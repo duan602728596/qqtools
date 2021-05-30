@@ -25,6 +25,22 @@ export async function requestAuth(socketHost: string, port: number, authKey: str
 }
 
 /**
+ * 根据authKey获取session（mirai-api-http的v2版本）
+ * @param { string } socketHost
+ * @param { number } port: 端口号
+ * @param { string } authKey: 配置的authKey
+ */
+export async function requestAuthV2(socketHost: string, port: number, authKey: string): Promise<AuthResponse> {
+  const res: Response = await fetch(`http://${ socketHost }:${ port }/verify`, {
+    mode: 'no-cors',
+    method: 'POST',
+    body: JSON.stringify({ authKey })
+  });
+
+  return await res.json();
+}
+
+/**
  * session认证
  * @param { number } qq: qq号
  * @param { string } socketHost
@@ -33,6 +49,23 @@ export async function requestAuth(socketHost: string, port: number, authKey: str
  */
 export async function requestVerify(qq: number, socketHost: string, port: number, session: string): Promise<MessageResponse> {
   const res: Response = await fetch(`http://${ socketHost }:${ port }/verify`, {
+    mode: 'no-cors',
+    method: 'POST',
+    body: JSON.stringify({ qq, sessionKey: session })
+  });
+
+  return await res.json();
+}
+
+/**
+ * session认证（mirai-api-http的v2版本）
+ * @param { number } qq: qq号
+ * @param { string } socketHost
+ * @param { number } port: 端口号
+ * @param { string } session
+ */
+export async function requestVerifyV2(qq: number, socketHost: string, port: number, session: string): Promise<MessageResponse> {
+  const res: Response = await fetch(`http://${ socketHost }:${ port }/bind`, {
     mode: 'no-cors',
     method: 'POST',
     body: JSON.stringify({ qq, sessionKey: session })
