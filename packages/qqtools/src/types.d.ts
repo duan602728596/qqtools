@@ -7,10 +7,12 @@ export interface EditItem {
 // 表单内的值
 export interface OptionsItemValue {
   optionName: string;
+  optionType?: '0' | '1' | '2'; // 0: mirai-api-http v1版本，1: mirai-api-http v2版本，2: oicq
   qqNumber: number;
   groupNumber: string;
   socketHost?: string;
   socketPort: number;
+  useAuthKey?: boolean;
   authKey: string;
 
   pocket48RoomListener?: boolean;

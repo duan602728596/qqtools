@@ -5,7 +5,7 @@ import type { Dispatch } from 'redux';
 import { useDispatch } from 'react-redux';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import type { Params, NavigateFunction } from 'react-router';
-import { Form, Button, Space, Input, InputNumber, Divider, Switch, Checkbox } from 'antd';
+import { Form, Button, Space, Input, InputNumber, Divider, Switch, Checkbox, Select } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import type { Store } from 'rc-field-form/es/interface';
 import type { CheckboxOptionType } from 'antd/es/checkbox';
@@ -129,6 +129,13 @@ function Edit(props: {}): ReactElement {
       >
         <Input />
       </Form.Item>
+      <Form.Item name="optionType" label="配置类型">
+        <Select>
+          <Select.Option value="0">mirai（使用mirai-http-api v1版本）</Select.Option>
+          <Select.Option value="1">mirai（使用mirai-http-api v2版本）</Select.Option>
+          <Select.Option value="2">oicq-desktop</Select.Option>
+        </Select>
+      </Form.Item>
       <Form.Item name="qqNumber" label="QQ号" rules={ [{ required: true, message: '必须填写QQ号' }] }>
         <InputNumber className={ style.inputNumber } />
       </Form.Item>
@@ -141,10 +148,13 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="socketPort" label="端口号" rules={ [{ required: true, message: '必须填写端口号' }] }>
         <InputNumber className={ style.inputNumber } />
       </Form.Item>
-      <Form.Item name="authKey"
-        label="authKey"
-        rules={ [{ required: true, message: '必须填写authKey', whitespace: true }] }
-      >
+      <Form.Item label="使用authKey">
+        <Form.Item name="useAuthKey" valuePropName="checked" noStyle={ true }>
+          <Switch />
+        </Form.Item>
+        <span className={ style.tips }>适用于mirai-api-http的v2版本</span>
+      </Form.Item>
+      <Form.Item name="authKey" label="authKey">
         <Input />
       </Form.Item>
 
