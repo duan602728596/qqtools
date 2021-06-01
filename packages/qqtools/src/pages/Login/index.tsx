@@ -19,13 +19,14 @@ import { queryOptionsList, OptionsInitialState } from '../Options/reducers/reduc
 import { setAddLogin, setDeleteLogin, getRoomId, LoginInitialState } from './reducers/reducers';
 import dbConfig from '../../utils/idb/dbConfig';
 import QQ from '../../QQ/QQ';
+import OicqQQ from '../../QQ/OicqQQ';
 import { getGroupNumbers } from '../../QQ/utils/miraiUtils';
 import type { OptionsItem, OptionsItemValue, MemberInfo } from '../../types';
 
 /* redux selector */
 interface SelectorRData {
   optionsList: Array<OptionsItem>;
-  loginList: Array<QQ>;
+  loginList: Array<QQ | OicqQQ>;
 }
 
 const selector: Selector<any, SelectorRData> = createStructuredSelector({
@@ -37,8 +38,8 @@ const selector: Selector<any, SelectorRData> = createStructuredSelector({
 
   // 登陆列表
   loginList: createSelector(
-    ({ login }: { login: LoginInitialState }): Array<QQ> => login.loginList,
-    (data: Array<QQ>): Array<QQ> => data
+    ({ login }: { login: LoginInitialState }): Array<QQ | OicqQQ> => login.loginList,
+    (data: Array<QQ | OicqQQ>): Array<QQ | OicqQQ> => data
   )
 });
 
@@ -50,7 +51,7 @@ function Index(props: {}): ReactElement {
   const [loginLoading, setLoginLoading]: [boolean, D<S<boolean>>] = useState(false); // loading
 
   // 退出
-  async function handleLogoutClick(qq: QQ, event?: MouseEvent): Promise<void> {
+  async function handleLogoutClick(qq: QQ | OicqQQ, event?: MouseEvent): Promise<void> {
     await qq.destroy(loginList);
     dispatch(setDeleteLogin(qq));
   }
@@ -66,8 +67,16 @@ function Index(props: {}): ReactElement {
         query: 'roomId'
       }));
       const index: number = findIndex(optionsList, { id: optionValue });
+      const qqOptions: OptionsItemValue = optionsList[index].value;
       const id: string = String(random(1, 10000000));
-      const qq: QQ = new QQ(id, optionsList[index].value, roomIdResult?.value);
+      let qq: QQ | OicqQQ;
+
+      if (qqOptions.optionType === '1') {
+        qq = new OicqQQ(id, qqOptions, roomIdResult?.value);
+      } else {
+        qq = new QQ(id, qqOptions, roomIdResult?.value);
+      }
+
       const result: boolean = await qq.init();
 
       if (result) {
@@ -97,23 +106,23 @@ function Index(props: {}): ReactElement {
     {
       title: '登陆配置',
       dataIndex: 'config',
-      render: (value: OptionsItemValue, record: QQ, index: number): string => value.optionName
+      render: (value: OptionsItemValue, record: QQ | OicqQQ, index: number): string => value.optionName
     },
     {
       title: 'QQ',
       dataIndex: 'qqNumber',
-      render: (value: undefined, record: QQ, index: number): number => record.config.qqNumber
+      render: (value: undefined, record: QQ | OicqQQ, index: number): number => record.config.qqNumber
     },
     {
       title: '群号',
       dataIndex: 'groupNumber',
-      render: (value: undefined, record: QQ, index: number): string => getGroupNumbers(record.config.groupNumber).join(', ')
+      render: (value: undefined, record: QQ | OicqQQ, index: number): string => getGroupNumbers(record.config.groupNumber).join(', ')
     },
     {
       title: '操作',
       dataIndex: 'handle',
       width: 130,
-      render: (value: undefined, record: QQ, index: number): ReactElement => (
+      render: (value: undefined, record: QQ | OicqQQ, index: number): ReactElement => (
         <Button type="primary"
           danger={ true }
           onClick={ (event?: MouseEvent): Promise<void> => handleLogoutClick(record, event) }
