@@ -1,5 +1,5 @@
 import * as oicq from 'oicq';
-import type { MessageElem } from 'oicq';
+import type { MessageElem, EventData, GroupMessageEventData, MemberIncreaseEventData } from 'oicq';
 import type { MessageChain } from '../qq.types';
 
 /* 将mirai的数据格式转换成oicq的数据格式 */
@@ -30,4 +30,14 @@ export function miraiMessageTooicqMessage(miraiMessage: Array<MessageChain>): Ar
   }
 
   return oicqMessage;
+}
+
+/* 判断为群信息 */
+export function isGroupMessageEventData(data: EventData): data is GroupMessageEventData {
+  return data.post_type === 'message' && data.message_type === 'group';
+}
+
+/* 判断为有人入群 */
+export function isMemberIncreaseEventData(data: EventData): data is MemberIncreaseEventData {
+  return data.post_type === 'notice' && data.notice_type === 'group' && data.sub_type === 'increase';
 }

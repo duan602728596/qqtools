@@ -1,4 +1,4 @@
-import type { RetCommon, MessageElem, EventData, GroupMessageEventData } from 'oicq';
+import type { RetCommon, MessageElem } from 'oicq';
 
 /**
  * 发送群消息
@@ -26,9 +26,4 @@ export async function requestSendGroupMessage(
   });
 
   return await res.json();
-}
-
-/* 判断为群信息 */
-export function isGroupMessageEventData(data: EventData): data is GroupMessageEventData {
-  return data.post_type === 'message' && data.message_type === 'group';
 }

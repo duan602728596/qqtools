@@ -8,9 +8,10 @@ import BilibiliWorker from 'worker-loader!./utils/bilibili.worker';
 import WeiboWorker from 'worker-loader!./utils/weibo.worker';
 import NimChatroomSocket, { ChatroomMember } from './NimChatroomSocket';
 import { getGroupNumbers, getSocketHost, LogCommandData } from './utils/miraiUtils';
+import { isGroupMessageEventData, isMemberIncreaseEventData } from './utils/oicqUtils';
 import { getRoomMessageForOicq, randomId, getLogMessage, log, RoomMessageArgs } from './utils/pocket48Utils';
 import { requestRoomInfo, requestWeiboInfo } from './services/services';
-import { requestSendGroupMessage, isGroupMessageEventData } from './services/oicq';
+import { requestSendGroupMessage } from './services/oicq';
 import { requestDetail, requestJoinRank } from './services/taoba';
 import type { OptionsItemValue, MemberInfo } from '../types';
 import type {
@@ -65,7 +66,7 @@ class OicqQQ {
 
   // message事件监听
   handleMessageSocketMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
-    const { qqNumber, customCmd }: OptionsItemValue = this.config;
+    const { qqNumber, customCmd, groupWelcome, groupWelcomeSend }: OptionsItemValue = this.config;
     const groupNumbers: Array<number> = this.groupNumbers;
     const data: EventData = JSON.parse(event.data);
 
@@ -106,6 +107,16 @@ class OicqQQ {
         if (index >= 0) {
           await this.sendMessage(customCmd[index].value, groupId);
         }
+      }
+    }
+
+    if (isMemberIncreaseEventData(data) && data.user_id !== qqNumber && groupNumbers.includes(data.group_id)) {
+      if (groupWelcome && groupWelcomeSend) {
+        const msg: string = renderString(groupWelcomeSend, {
+          qqNumber: data.user_id
+        });
+
+        await this.sendMessage(msg, data.group_id);
       }
     }
   };
