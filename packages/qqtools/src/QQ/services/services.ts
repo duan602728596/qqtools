@@ -3,6 +3,7 @@ import type { Response as GotResponse } from 'got';
 import type {
   AuthResponse,
   MessageResponse,
+  AboutResponse,
   MessageChain,
   WeiboInfo,
   BilibiliRoomInfo
@@ -139,6 +140,18 @@ export async function requestManagers(socketHost: string, port: number, qqNumber
       responseType: 'json',
       timeout: 3000
     });
+
+  return res.body;
+}
+
+/**
+ * 获取版本号
+ */
+export async function requestAbout(socketHost: string, port: number): Promise<AboutResponse> {
+  const res: GotResponse<AboutResponse> = await got.get(`http://${ socketHost }:${ port }/about`, {
+    responseType: 'json',
+    timeout: 3000
+  });
 
   return res.body;
 }

@@ -8,6 +8,15 @@ export interface MessageResponse {
   msg: string;
 }
 
+export interface AboutResponse {
+  code: number;
+  msg?: string;          // v1
+  errorMessage?: string; // v2
+  data: {
+    version: string;
+  };
+}
+
 /**
  * 发送的信息类型
  * 类型文档：https://github.com/project-mirai/mirai-api-http/blob/master/docs/MessageType.md

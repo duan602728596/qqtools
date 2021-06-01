@@ -4,10 +4,8 @@ import { CronJob } from 'cron';
 import { message } from 'antd';
 import { findIndex } from 'lodash-es';
 import * as dayjs from 'dayjs';
-import type { Dayjs } from 'dayjs';
 import { renderString } from 'nunjucks';
 import BilibiliWorker from 'worker-loader!./utils/bilibili.worker';
-import TaobaWorker from 'worker-loader!./utils/taoba.worker';
 import WeiboWorker from 'worker-loader!./utils/weibo.worker';
 import {
   requestAuth,
@@ -24,7 +22,7 @@ import { requestDetail, requestJoinRank } from './services/taoba';
 import NimChatroomSocket, { ChatroomMember } from './NimChatroomSocket';
 import { plain, atAll, miraiTemplate, getGroupNumbers, getSocketHost } from './utils/miraiUtils';
 import { getRoomMessage, randomId, getLogMessage, log } from './utils/pocket48Utils';
-import { timeDifference } from './utils/taobaUtils';
+import * as packageJson from '../../package.json';
 import type { OptionsItemValue, MemberInfo } from '../types';
 import type {
   Plain,
@@ -40,14 +38,10 @@ import type {
   WeiboTab,
   WeiboInfo,
   BilibiliRoomInfo,
-  TaobaDetailDatasItem,
   TaobaDetail,
-  TaobaIdolsJoinItem,
   TaobaRankItem,
   TaobaJoinRank
 } from './qq.types';
-
-const packageJson: any = require('../../package.json');
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
 type CloseListener = (event: CloseEvent) => void | Promise<void>;
@@ -79,9 +73,7 @@ class QQ {
   public bilibiliWorker?: Worker;  // b站直播监听
   public bilibiliUsername: string; // 用户名
 
-  public taobaWorker?: Worker;     // 桃叭监听
-  public taobaInfo: { title: string; amount: number; expire: number };
-  public otherTaobaIds?: Array<string>; // 其他的桃叭监听，pk时候用
+  public taobaInfo: { title: string; amount: number; expire: number }; // 桃叭信息
 
   public cronJob?: CronJob;        // 定时任务
 
@@ -634,83 +626,18 @@ V8：${ versions.v8 }
     }
   }
 
-  /* 桃叭监听 TODO: 由于桃叭关闭了订单接口，暂时移除集资监听功能
-  handleTaobaWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
-    const { taobaId, taobaTemplate, taobaRankList: isTaobaRankList }: OptionsItemValue = this.config;
-    const result: Array<TaobaIdolsJoinItem> = event.data.result;
-    const otherTaobaDetails: Array<TaobaDetailDatasItem> | undefined = event.data.otherTaobaDetails;
-    const taobaRankList: Array<TaobaIdolsJoinItem> | undefined = event.data.taobaRankList;
-    const [res0, res1]: [TaobaDetail, TaobaJoinRank] = await Promise.all([
-      requestDetail(taobaId!),
-      requestJoinRank(taobaId!)
-    ]);
-
-    // 发送消息
-    const endTime: Dayjs = dayjs.unix(res0.datas.expire);
-    const { amount, donation }: {
-      amount: number;
-      donation: number;
-    } = res0.datas;
-
-    for (let i: number = result.length - 1; i >= 0; i--) {
-      const item: TaobaIdolsJoinItem = result[i];
-
-      // 计算排行榜
-      let rankIndex: number | undefined = undefined;
-
-      if (isTaobaRankList && taobaRankList?.length) {
-        rankIndex = findIndex(taobaRankList, (o: TaobaIdolsJoinItem): boolean => Number(o.userid) === item.userid);
-      }
-
-      const msg: string = renderString(taobaTemplate, {
-        nickname: item.nick,
-        title: this.taobaInfo.title,
-        money: item.money,
-        taobaid: taobaId,
-        donation,
-        amount,
-        amountdifference: amount - donation,
-        juser: res1.juser,
-        expire: endTime.format('YYYY-MM-DD HH:mm:ss'),
-        timedifference: timeDifference(endTime.valueOf()),
-        otherTaobaDetails,
-        rankIndex,
-        taobaRankList
-      });
-
-      await this.sendMessage(miraiTemplate(msg));
-    }
-  };
-  */
-
   // 桃叭初始化
-  async initTaobaWorker(): Promise<void> {
-    const { taobaListen, taobaId, otherTaobaIds, taobaRankList }: OptionsItemValue = this.config;
+  async initTaoba(): Promise<void> {
+    const { taobaListen, taobaId }: OptionsItemValue = this.config;
 
     if (taobaListen && taobaId) {
       const res: TaobaDetail = await requestDetail(taobaId);
-
-      // if (otherTaobaIds && !/^\s*$/.test(otherTaobaIds)) {
-      //   this.otherTaobaIds = otherTaobaIds.split(/\s*[,，、。.]\s*/g);
-      // }
 
       this.taobaInfo = {
         title: res.datas.title,   // 项目名称
         amount: res.datas.amount, // 集资总金额
         expire: res.datas.expire  // 项目结束时间（时间戳，秒）
       };
-
-      /*
-      TODO: 由于桃叭关闭了订单接口，暂时移除集资监听功能
-      this.taobaWorker = new TaobaWorker();
-      this.taobaWorker.addEventListener('message', this.handleTaobaWorkerMessage, false);
-      this.taobaWorker.postMessage({
-        taobaId,
-        taobaInfo: this.taobaInfo,
-        otherTaobaIds: this.otherTaobaIds,
-        taobaRankList
-      });
-      */
     }
   }
 
@@ -737,7 +664,7 @@ V8：${ versions.v8 }
       await this.initPocket48();
       await this.initWeiboWorker();
       await this.initBilibiliWorker();
-      await this.initTaobaWorker();
+      await this.initTaoba();
       this.initCronJob();
       this.startTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
 
@@ -784,12 +711,6 @@ V8：${ versions.v8 }
       if (this.bilibiliWorker) {
         this.bilibiliWorker.terminate();
         this.bilibiliWorker = undefined;
-      }
-
-      // 销毁桃叭监听
-      if (this.taobaWorker) {
-        this.taobaWorker.terminate();
-        this.taobaWorker = undefined;
       }
 
       // 销毁定时任务
