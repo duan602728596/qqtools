@@ -15,6 +15,7 @@ import {
   requestRelease,
   requestSendGroupMessage,
   requestManagers,
+  requestAbout,
   requestWeiboInfo,
   requestRoomInfo
 } from './services/services';
@@ -22,12 +23,12 @@ import { requestDetail, requestJoinRank } from './services/taoba';
 import NimChatroomSocket, { ChatroomMember } from './NimChatroomSocket';
 import { plain, atAll, miraiTemplate, getGroupNumbers, getSocketHost } from './utils/miraiUtils';
 import { getRoomMessage, randomId, getLogMessage, log } from './utils/pocket48Utils';
-import * as packageJson from '../../package.json';
 import type { OptionsItemValue, MemberInfo } from '../types';
 import type {
   Plain,
   AuthResponse,
   MessageResponse,
+  AboutResponse,
   MessageChain,
   MessageSocketEventData,
   MessageSocketEventDataV2,
@@ -42,6 +43,8 @@ import type {
   TaobaRankItem,
   TaobaJoinRank
 } from './qq.types';
+
+const packageJson: any = require('../../package.json');
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
 type CloseListener = (event: CloseEvent) => void | Promise<void>;
@@ -59,6 +62,7 @@ class QQ {
   public reconnectTimer: number | null; // 断线重连
   public session: string;
   public startTime: string; // 启动时间
+  #miraiApiHttpV2: boolean = false;
 
   public nimChatroomSocketId?: string;     // socketId
   public nimChatroom?: NimChatroomSocket;  // socket
@@ -161,9 +165,7 @@ class QQ {
 
   // socket关闭
   handleSocketClose: CloseListener = (event: CloseEvent): void => {
-    const { optionType }: OptionsItemValue = this.config;
-
-    if (this.socketStatus === -1 || optionType === '1') return;
+    if (this.socketStatus === -1 || this.#miraiApiHttpV2) return;
 
     this.destroyWebsocket(); // 清除旧的socket
     this.reconnectTimer = window.setTimeout(this.reconnectLogin, 3_000);
@@ -196,10 +198,9 @@ class QQ {
   // websocket初始化
   initWebSocket(): void {
     const { socketHost }: this = this;
-    const { socketPort, optionType, authKey, qqNumber }: OptionsItemValue = this.config;
-    const isV2: boolean = optionType === '1';
+    const { socketPort, authKey, qqNumber }: OptionsItemValue = this.config;
     const query: string = querystring.stringify(
-      isV2 ? {
+      this.#miraiApiHttpV2 ? {
         verifyKey: authKey,
         sessionKey: this.session,
         qq: qqNumber
@@ -207,8 +208,6 @@ class QQ {
         sessionKey: this.session
       }
     );
-
-    const keyName: string = isV2 ? 'auth' : 'sessionKey';
 
     this.messageSocket = new WebSocket(`ws://${ socketHost }:${ socketPort }/message?${ query }`);
     this.eventSocket = new WebSocket(`ws://${ socketHost }:${ socketPort }/event?${ query }`);
@@ -238,11 +237,15 @@ class QQ {
   // 获取session
   async getSession(): Promise<boolean> {
     const { socketHost }: this = this;
-    const { qqNumber, socketPort, authKey, optionType }: OptionsItemValue = this.config;
-    const isV2: boolean = optionType === '1';
+    const { qqNumber, socketPort, authKey }: OptionsItemValue = this.config;
 
-    const authRes: AuthResponse
-      = await (isV2 ? requestAuthV2 : requestAuth)(socketHost, socketPort, authKey);
+    // 获取插件版本号
+    const about: AboutResponse = await requestAbout(socketHost, socketPort);
+
+    this.#miraiApiHttpV2 = /^2/.test(about.data.version);
+
+    const authRes: AuthResponse = await (this.#miraiApiHttpV2 ? requestAuthV2 : requestAuth)(
+      socketHost, socketPort, authKey);
 
     if (authRes.code !== 0) {
       message.error('登陆失败：获取session失败。');
@@ -252,8 +255,8 @@ class QQ {
 
     this.session = authRes.session;
 
-    const verifyRes: MessageResponse
-      = await (isV2 ? requestVerifyV2 : requestVerify)(qqNumber, socketHost, socketPort, this.session);
+    const verifyRes: MessageResponse = await (this.#miraiApiHttpV2 ? requestVerifyV2 : requestVerify)(
+      qqNumber, socketHost, socketPort, this.session);
 
     if (verifyRes.code === 0) {
       return true;
