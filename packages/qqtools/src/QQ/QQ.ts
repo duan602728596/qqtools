@@ -6,7 +6,6 @@ import { findIndex } from 'lodash-es';
 import * as dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import { renderString } from 'nunjucks';
-import { Queue } from '@bbkkbkk/q';
 import BilibiliWorker from 'worker-loader!./utils/bilibili.worker';
 import TaobaWorker from 'worker-loader!./utils/taoba.worker';
 import WeiboWorker from 'worker-loader!./utils/weibo.worker';
@@ -54,7 +53,6 @@ type MessageListener = (event: MessageEvent) => void | Promise<void>;
 type CloseListener = (event: CloseEvent) => void | Promise<void>;
 
 const nimChatroomSocketList: Array<NimChatroomSocket> = []; // 缓存连接
-const queueMap: Map<number, Queue> = new Map(); // 发言队列，避免出现漏发的情况，每个qq限制一个发言队列
 
 class QQ {
   public id: string;
@@ -143,7 +141,7 @@ class QQ {
           if (index >= 0) {
             const value: Array<MessageChain> = miraiTemplate(customCmd[index].value);
 
-            await this.sendMessageV2(value, groupId);
+            await this.sendMessage(value, groupId);
           }
         }
       }
@@ -164,7 +162,7 @@ class QQ {
           qqNumber: data.member.id
         });
 
-        await this.sendMessageV2(value, data.member.group.id);
+        await this.sendMessage(value, data.member.group.id);
       }
     }
   };
@@ -301,27 +299,6 @@ class QQ {
     }
   }
 
-  /**
-   * 添加到发送信息队列
-   * @param { Array<MessageChain> } value: 要发送的信息
-   * @param { number } groupId: 单个群的群号
-   */
-  sendMessageV2(value: Array<MessageChain>, groupId?: number): void {
-    const { qqNumber }: OptionsItemValue = this.config;
-    let queue: Queue | undefined;
-
-    if (queueMap.has(qqNumber)) {
-      queue = queueMap.get(qqNumber);
-    } else {
-      queue = new Queue({ workerLen: 1 }); // 发言队列，避免出现漏发的情况
-      queueMap.set(qqNumber, queue);
-    }
-
-    queue.use([this.sendMessage, this, value, groupId]);
-    queue.run();
-    queue = undefined;
-  }
-
   // 日志回调函数
   async logCommandCallback(groupId: number): Promise<void> {
     const versions: any = process.versions;
@@ -336,7 +313,7 @@ V8：${ versions.v8 }
 机器人账号：${ qqNumber }
 启动时间：${ this.startTime }`;
 
-    await this.sendMessageV2([plain(msg)], groupId);
+    await this.sendMessage([plain(msg)], groupId);
   }
 
   /* ==================== 业务相关 ==================== */
@@ -372,7 +349,7 @@ V8：${ versions.v8 }
     });
 
     if (sendGroup.length > 0) {
-      await this.sendMessageV2(sendGroup);
+      await this.sendMessage(sendGroup);
     }
 
     // 日志
@@ -427,7 +404,7 @@ V8：${ versions.v8 }
         text += '暂无成员';
       }
 
-      this.sendMessageV2([plain(text)], groupId);
+      this.sendMessage([plain(text)], groupId);
     }
   }
 
@@ -486,7 +463,7 @@ V8：${ versions.v8 }
       if (allLogs?.length) {
         const logText: string = `${ dayjs().format('YYYY-MM-DD HH:mm:ss') }\n${ allLogs.join('\n') }`;
 
-        await this.sendMessageV2([plain(logText)]);
+        await this.sendMessage([plain(logText)]);
 
         // 日志
         if (pocket48LogSave && pocket48LogDir && !/^\s*$/.test(pocket48LogDir)) {
@@ -576,7 +553,7 @@ V8：${ versions.v8 }
 
   // 微博监听
   handleWeiboWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
-    await this.sendMessageV2(event.data.sendGroup);
+    await this.sendMessage(event.data.sendGroup);
   };
 
   // 微博初始化
@@ -610,7 +587,7 @@ V8：${ versions.v8 }
       sendMessage.unshift(atAll());
     }
 
-    await this.sendMessageV2(sendMessage);
+    await this.sendMessage(sendMessage);
   };
 
   // bilibili直播监听初始化
@@ -637,7 +614,7 @@ V8：${ versions.v8 }
         taobaid: taobaId
       });
 
-      await this.sendMessageV2([plain(msg)], groupId);
+      await this.sendMessage([plain(msg)], groupId);
     }
   }
 
@@ -653,7 +630,7 @@ V8：${ versions.v8 }
       const msg: string = `${ this.taobaInfo.title } 排行榜
 集资参与人数：${ res.juser }人`;
 
-      await this.sendMessageV2([plain(msg)].concat(list), groupId);
+      await this.sendMessage([plain(msg)].concat(list), groupId);
     }
   }
 
@@ -701,7 +678,7 @@ V8：${ versions.v8 }
         taobaRankList
       });
 
-      await this.sendMessageV2(miraiTemplate(msg));
+      await this.sendMessage(miraiTemplate(msg));
     }
   };
   */
@@ -743,7 +720,7 @@ V8：${ versions.v8 }
 
     if (cronJob && cronTime && cronSendData) {
       this.cronJob = new CronJob(cronTime, (): void => {
-        this.sendMessageV2(miraiTemplate(cronSendData));
+        this.sendMessage(miraiTemplate(cronSendData));
       });
       this.cronJob.start();
     }
@@ -819,19 +796,6 @@ V8：${ versions.v8 }
       if (this.cronJob) {
         this.cronJob.stop();
         this.cronJob = undefined;
-      }
-
-      /**
-       * 销毁队列
-       * 过滤自己后，当登陆列表内不存在当前的qq时，要销毁掉队列
-       */
-      if (loginList?.length) {
-        const filterList: Array<QQ> = loginList.filter((o: QQ): boolean => (
-          o.id !== this.id && o.config.qqNumber === this.config.qqNumber));
-
-        if (filterList.length === 0) {
-          queueMap.delete(this.config.qqNumber);
-        }
       }
 
       return true;
