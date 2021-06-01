@@ -1,38 +1,19 @@
-import * as querystring from 'querystring';
 import { CronJob } from 'cron';
-import { message } from 'antd';
 import { findIndex } from 'lodash-es';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
+import * as oicq from 'oicq';
+import type { EventData, RetCommon, MessageElem, TextElem } from 'oicq';
 import BilibiliWorker from 'worker-loader!./utils/bilibili.worker';
 import WeiboWorker from 'worker-loader!./utils/weibo.worker';
-import {
-  requestAuth,
-  requestAuthV2,
-  requestVerify,
-  requestVerifyV2,
-  requestRelease,
-  requestSendGroupMessage,
-  requestManagers,
-  requestAbout,
-  requestWeiboInfo,
-  requestRoomInfo
-} from './services/services';
-import { requestDetail, requestJoinRank } from './services/taoba';
 import NimChatroomSocket, { ChatroomMember } from './NimChatroomSocket';
-import { plain, atAll, miraiTemplate, getGroupNumbers, getSocketHost, LogCommandData } from './utils/miraiUtils';
-import { getRoomMessage, randomId, getLogMessage, log, RoomMessageArgs } from './utils/pocket48Utils';
+import { getGroupNumbers, getSocketHost, LogCommandData } from './utils/miraiUtils';
+import { getRoomMessageForOicq, randomId, getLogMessage, log, RoomMessageArgs } from './utils/pocket48Utils';
+import { requestRoomInfo, requestWeiboInfo } from './services/services';
+import { requestSendGroupMessage } from './services/oicq';
+import { requestDetail, requestJoinRank } from './services/taoba';
 import type { OptionsItemValue, MemberInfo } from '../types';
 import type {
-  Plain,
-  AuthResponse,
-  MessageResponse,
-  AboutResponse,
-  MessageChain,
-  MessageSocketEventData,
-  MessageSocketEventDataV2,
-  EventSocketEventData,
-  EventSocketEventDataV2,
   NIMMessage,
   CustomMessageAll,
   WeiboTab,
@@ -43,23 +24,20 @@ import type {
   TaobaJoinRank
 } from './qq.types';
 
+const packageJson: any = require('../../package.json');
+
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
-type CloseListener = (event: CloseEvent) => void | Promise<void>;
 
 const nimChatroomSocketList: Array<NimChatroomSocket> = []; // 缓存连接
 
-class QQ {
+/* oicq的连接 */
+class OicqQQ {
   public id: string;
   public config: OptionsItemValue;
   public groupNumbers: Array<number>; // 多个群
-  public socketStatus: -1 | 0; // -1 关闭，0 正常
   public socketHost: string;
-  public eventSocket?: WebSocket;
-  public messageSocket?: WebSocket;
-  public reconnectTimer: number | null; // 断线重连
-  public session: string;
+  public oicqSocket?: WebSocket;
   public startTime: string; // 启动时间
-  #miraiApiHttpV2: boolean = false;
 
   public nimChatroomSocketId?: string;     // socketId
   public nimChatroom?: NimChatroomSocket;  // socket
@@ -83,193 +61,39 @@ class QQ {
     this.config = config; // 配置
     this.membersList = membersList;
     this.groupNumbers = getGroupNumbers(this.config.groupNumber);
-    this.socketStatus = 0;
     this.socketHost = getSocketHost(config.socketHost);
   }
 
   // message事件监听
-  handleMessageSocketMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
+  handleMessageSocketMessage: MessageListener = (event: MessageEvent): void => {
     const { qqNumber, customCmd }: OptionsItemValue = this.config;
     const groupNumbers: Array<number> = this.groupNumbers;
-    const eventData: MessageSocketEventData | MessageSocketEventDataV2 = JSON.parse(event.data);
-    const data: MessageSocketEventData = 'syncId' in eventData ? eventData.data : eventData;
-
-    // 群信息
-    if (data.type === 'GroupMessage' && data.sender.id !== qqNumber && groupNumbers.includes(data.sender.group.id)) {
-      if (data.type === 'GroupMessage' && data.messageChain?.[1].type === 'Plain') {
-        const command: string = data.messageChain[1].text; // 当前命令
-        const groupId: number = data.sender.group.id;
-
-        // 日志信息输出
-        if (command === 'log') {
-          this.logCommandCallback(groupId);
-
-          return;
-        }
-
-        if (command === 'pocketroom') {
-          this.xoxInRoom(groupId);
-
-          return;
-        }
-
-        // 集资命令处理
-        if (['taoba', '桃叭', 'jizi', 'jz', '集资'].includes(command)) {
-          this.taobaoCommandCallback(groupId);
-
-          return;
-        }
-
-        // 排行榜命令处理
-        if (['排行榜', 'phb'].includes(command)) {
-          this.taobaoCommandRankCallback(groupId);
-
-          return;
-        }
-
-        // 自定义信息处理
-        if (customCmd?.length) {
-          const index: number = findIndex(customCmd, { cmd: command });
-
-          if (index >= 0) {
-            const value: Array<MessageChain> = miraiTemplate(customCmd[index].value);
-
-            await this.sendMessage(value, groupId);
-          }
-        }
-      }
-    }
-  }
-
-  // socket事件监听
-  handleEventSocketMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
-    const { qqNumber, groupWelcome, groupWelcomeSend }: OptionsItemValue = this.config;
-    const groupNumbers: Array<number> = this.groupNumbers;
-    const eventData: EventSocketEventData | EventSocketEventDataV2 = JSON.parse(event.data);
-    const data: EventSocketEventData = 'syncId' in eventData ? eventData.data : eventData;
-
-    // 欢迎进群
-    if (data.type === 'MemberJoinEvent' && data.member.id !== qqNumber && groupNumbers.includes(data.member.group.id)) {
-      if (groupWelcome && groupWelcomeSend) {
-        const value: Array<MessageChain> = miraiTemplate(groupWelcomeSend, {
-          qqNumber: data.member.id
-        });
-
-        await this.sendMessage(value, data.member.group.id);
-      }
-    }
-  };
-
-  // socket关闭
-  handleSocketClose: CloseListener = (event: CloseEvent): void => {
-    if (this.socketStatus === -1 || this.#miraiApiHttpV2) return;
-
-    this.destroyWebsocket(); // 清除旧的socket
-    this.reconnectTimer = window.setTimeout(this.reconnectLogin, 3_000);
-  };
-
-  // 断线重连
-  reconnectLogin: Function = async (): Promise<void> => {
-    try {
-      const { socketHost }: this = this;
-      const { socketPort, qqNumber }: OptionsItemValue = this.config;
-      const res: MessageResponse | Array<any> = await requestManagers(socketHost, socketPort, qqNumber);
-
-      if (Array.isArray(res)) {
-        const result: boolean = await this.getSession();
-
-        if (result) {
-          this.initWebSocket();
-        } else {
-          this.reconnectTimer = window.setTimeout(this.reconnectLogin, 3_000);
-        }
-      } else {
-        this.reconnectTimer = window.setTimeout(this.reconnectLogin, 3_000);
-      }
-    } catch (err) {
-      console.error(err);
-      this.reconnectTimer = window.setTimeout(this.reconnectLogin, 3_000);
-    }
+    const data: EventData = JSON.parse(event.data);
   };
 
   // websocket初始化
   initWebSocket(): void {
     const { socketHost }: this = this;
-    const { socketPort, authKey, qqNumber }: OptionsItemValue = this.config;
-    const query: string = querystring.stringify(
-      this.#miraiApiHttpV2 ? {
-        verifyKey: authKey,
-        sessionKey: this.session,
-        qq: qqNumber
-      } : {
-        sessionKey: this.session
-      }
-    );
+    const { socketPort }: OptionsItemValue = this.config;
 
-    this.messageSocket = new WebSocket(`ws://${ socketHost }:${ socketPort }/message?${ query }`);
-    this.eventSocket = new WebSocket(`ws://${ socketHost }:${ socketPort }/event?${ query }`);
-    this.messageSocket.addEventListener('message', this.handleMessageSocketMessage, false);
-    this.eventSocket.addEventListener('message', this.handleEventSocketMessage, false);
-    this.messageSocket.addEventListener('close', this.handleSocketClose, false);
-    this.eventSocket.addEventListener('close', this.handleSocketClose, false);
+    this.oicqSocket = new WebSocket(`ws://${ socketHost }:${ socketPort }/oicq/ws`);
+    this.oicqSocket.addEventListener('message', this.handleMessageSocketMessage, false);
   }
 
   // websocket销毁
   destroyWebsocket(): void {
-    if (this.eventSocket) {
-      this.eventSocket.removeEventListener('message', this.handleEventSocketMessage);
-      this.eventSocket.removeEventListener('close', this.handleSocketClose, false);
-      this.eventSocket.close();
-      this.eventSocket = undefined;
-    }
-
-    if (this.messageSocket) {
-      this.messageSocket.removeEventListener('message', this.handleMessageSocketMessage);
-      this.messageSocket.removeEventListener('close', this.handleSocketClose, false);
-      this.messageSocket.close();
-      this.messageSocket = undefined;
-    }
-  }
-
-  // 获取session
-  async getSession(): Promise<boolean> {
-    const { socketHost }: this = this;
-    const { qqNumber, socketPort, authKey }: OptionsItemValue = this.config;
-
-    // 获取插件版本号
-    const about: AboutResponse = await requestAbout(socketHost, socketPort);
-
-    this.#miraiApiHttpV2 = /^2/.test(about.data.version);
-
-    const authRes: AuthResponse = await (this.#miraiApiHttpV2 ? requestAuthV2 : requestAuth)(
-      socketHost, socketPort, authKey);
-
-    if (authRes.code !== 0) {
-      message.error('登陆失败：获取session失败。');
-
-      return false;
-    }
-
-    this.session = authRes.session;
-
-    const verifyRes: MessageResponse = await (this.#miraiApiHttpV2 ? requestVerifyV2 : requestVerify)(
-      qqNumber, socketHost, socketPort, this.session);
-
-    if (verifyRes.code === 0) {
-      return true;
-    } else {
-      message.error('登陆失败：session认证失败。');
-
-      return false;
+    if (this.oicqSocket) {
+      this.oicqSocket.removeEventListener('message', this.handleMessageSocketMessage);
+      this.oicqSocket = undefined;
     }
   }
 
   /**
    * 发送信息
-   * @param { Array<MessageChain> } value: 要发送的信息
+   * @param { MessageElem | Iterable<MessageElem> | string } value: 要发送的信息
    * @param { number } groupId: 单个群的群号
    */
-  async sendMessage(value: Array<MessageChain>, groupId?: number): Promise<void> {
+  async sendMessage(value: MessageElem | Iterable<MessageElem> | string, groupId?: number): Promise<void> {
     try {
       const { socketHost }: this = this;
       const { socketPort }: OptionsItemValue = this.config;
@@ -277,12 +101,12 @@ class QQ {
 
       if (typeof groupId === 'number') {
         // 只发送到一个群
-        await requestSendGroupMessage(groupId, socketHost, socketPort, this.session, value);
+        await requestSendGroupMessage(groupId, socketHost, socketPort, value);
       } else {
         // 发送到多个群
         await Promise.all(
-          groupNumbers.map((item: number, index: number): Promise<MessageResponse> => {
-            return requestSendGroupMessage(item, socketHost, socketPort, this.session, value);
+          groupNumbers.map((item: number, index: number): Promise<RetCommon> => {
+            return requestSendGroupMessage(item, socketHost, socketPort, value);
           })
         );
       }
@@ -294,12 +118,10 @@ class QQ {
   // 日志回调函数
   async logCommandCallback(groupId: number): Promise<void> {
     const { qqNumber }: OptionsItemValue = this.config;
-    const msg: string = LogCommandData('mirai', qqNumber, this.startTime);
+    const msg: string = LogCommandData('oicq', qqNumber, this.startTime);
 
-    await this.sendMessage([plain(msg)], groupId);
+    await this.sendMessage(msg, groupId);
   }
-
-  /* ==================== 业务相关 ==================== */
 
   // 处理单个消息
   async roomSocketMessage(event: Array<NIMMessage>): Promise<void> {
@@ -330,7 +152,7 @@ class QQ {
       memberInfo: this.memberInfo,
       pocket48MemberInfo
     };
-    const sendGroup: Array<MessageChain> = getRoomMessage(roomMessageArgs);
+    const sendGroup: Array<MessageElem> = getRoomMessageForOicq(roomMessageArgs);
 
     if (sendGroup.length > 0) {
       await this.sendMessage(sendGroup);
@@ -388,7 +210,7 @@ class QQ {
         text += '暂无成员';
       }
 
-      this.sendMessage([plain(text)], groupId);
+      this.sendMessage(text, groupId);
     }
   }
 
@@ -447,7 +269,7 @@ class QQ {
       if (allLogs?.length) {
         const logText: string = `${ dayjs().format('YYYY-MM-DD HH:mm:ss') }\n${ allLogs.join('\n') }`;
 
-        await this.sendMessage([plain(logText)]);
+        await this.sendMessage(logText);
 
         // 日志
         if (pocket48LogSave && pocket48LogDir && !/^\s*$/.test(pocket48LogDir)) {
@@ -565,11 +387,7 @@ class QQ {
   handleBilibiliWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
     const { bilibiliAtAll }: OptionsItemValue = this.config;
     const text: string = `bilibili：${ this.bilibiliUsername }在B站开启了直播。`;
-    const sendMessage: Array<MessageChain> = [plain(text)];
-
-    if (bilibiliAtAll) {
-      sendMessage.unshift(atAll());
-    }
+    const sendMessage: string = `${ bilibiliAtAll ? '[CQ:at,qq=all]' : '' }${ text }`;
 
     await this.sendMessage(sendMessage);
   };
@@ -598,7 +416,7 @@ class QQ {
         taobaid: taobaId
       });
 
-      await this.sendMessage([plain(msg)], groupId);
+      await this.sendMessage(msg, groupId);
     }
   }
 
@@ -608,13 +426,13 @@ class QQ {
 
     if (taobaListen && taobaId) {
       const res: TaobaJoinRank = await requestJoinRank(taobaId);
-      const list: Array<Plain> = res.list.map((item: TaobaRankItem, index: number): Plain => {
-        return plain(`\n${ index + 1 }、${ item.nick }：${ item.money }`);
+      const list: Array<TextElem> = res.list.map((item: TaobaRankItem, index: number): TextElem => {
+        return oicq.segment.text(`\n${ index + 1 }、${ item.nick }：${ item.money }`);
       });
       const msg: string = `${ this.taobaInfo.title } 排行榜
 集资参与人数：${ res.juser }人`;
 
-      await this.sendMessage([plain(msg)].concat(list), groupId);
+      await this.sendMessage([oicq.segment.text(msg)].concat(list), groupId);
     }
   }
 
@@ -639,7 +457,7 @@ class QQ {
 
     if (cronJob && cronTime && cronSendData) {
       this.cronJob = new CronJob(cronTime, (): void => {
-        this.sendMessage(miraiTemplate(cronSendData));
+        this.sendMessage(cronSendData);
       });
       this.cronJob.start();
     }
@@ -648,10 +466,6 @@ class QQ {
   // 项目初始化
   async init(): Promise<boolean> {
     try {
-      const result: boolean = await this.getSession();
-
-      if (!result) throw new Error('登陆失败！');
-
       this.initWebSocket();
       await this.initPocket48();
       await this.initWeiboWorker();
@@ -669,23 +483,11 @@ class QQ {
   }
 
   // 项目销毁
-  async destroy(loginList?: Array<QQ>): Promise<boolean> {
+  destroy(loginList?: Array<OicqQQ>): boolean {
     const { socketHost }: this = this;
     const { qqNumber, socketPort }: OptionsItemValue = this.config;
 
     try {
-      await requestRelease(qqNumber, socketHost, socketPort, this.session); // 清除session
-    } catch (err) {
-      console.error(err);
-    }
-
-    try {
-      // 销毁socket监听
-      if (this.reconnectTimer) {
-        clearTimeout(this.reconnectTimer);
-      }
-
-      this.socketStatus = -1;
       this.destroyWebsocket();
 
       // 销毁口袋监听
@@ -720,4 +522,4 @@ class QQ {
   }
 }
 
-export default QQ;
+export default OicqQQ;

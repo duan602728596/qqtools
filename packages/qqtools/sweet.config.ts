@@ -78,7 +78,8 @@ export default function(info: object): { [key: string]: any } {
         'got',
         'iconv-lite',
         'js-yaml',
-        'nunjucks'
+        'nunjucks',
+        'oicq'
       ])
     },
     js: {

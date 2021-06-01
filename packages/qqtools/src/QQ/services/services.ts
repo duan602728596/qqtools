@@ -144,9 +144,7 @@ export async function requestManagers(socketHost: string, port: number, qqNumber
   return res.body;
 }
 
-/**
- * 获取版本号
- */
+/* 获取版本号 */
 export async function requestAbout(socketHost: string, port: number): Promise<AboutResponse> {
   const res: GotResponse<AboutResponse> = await got.get(`http://${ socketHost }:${ port }/about`, {
     responseType: 'json',

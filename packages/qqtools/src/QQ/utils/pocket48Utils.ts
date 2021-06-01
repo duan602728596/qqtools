@@ -1,8 +1,21 @@
 import * as fse from 'fs-extra';
 import * as dayjs from 'dayjs';
+import * as oicq from 'oicq';
+import type { MessageElem } from 'oicq';
 import { plain, image, atAll } from './miraiUtils';
+import { miraiMessageTooicqMessage } from './oicqUtils';
 import type { CustomMessageAll, MessageChain, NIMMessage } from '../qq.types';
 import type { MemberInfo } from '../../types';
+
+export interface RoomMessageArgs {
+  customInfo: CustomMessageAll;
+  data: NIMMessage;
+  pocket48LiveAtAll?: boolean;
+  event: Array<NIMMessage>;
+  pocket48ShieldMsgType: Array<string> | undefined;
+  memberInfo?: MemberInfo;
+  pocket48MemberInfo?: boolean;
+}
 
 /**
  * 获取房间数据
@@ -22,15 +35,7 @@ export function getRoomMessage({
   pocket48ShieldMsgType,
   memberInfo,
   pocket48MemberInfo
-}: {
-  customInfo: CustomMessageAll;
-  data: NIMMessage;
-  pocket48LiveAtAll?: boolean;
-  event: Array<NIMMessage>;
-  pocket48ShieldMsgType: Array<string> | undefined;
-  memberInfo?: MemberInfo;
-  pocket48MemberInfo?: boolean;
-}): Array<MessageChain> {
+}: RoomMessageArgs): Array<MessageChain> {
   const sendGroup: Array<MessageChain> = [];                 // 发送的数据
   const nickName: string = customInfo?.user?.nickName ?? ''; // 用户名
   const msgTime: string = dayjs(data.time).format('YYYY-MM-DD HH:mm:ss'); // 发送时间
@@ -140,6 +145,16 @@ ${ customInfo.question }
   }
 
   return sendGroup;
+}
+
+/**
+ * 获取房间数据
+ * @param { RoomMessageArgs } roomMessageArgs
+ */
+export function getRoomMessageForOicq(roomMessageArgs: RoomMessageArgs): Array<MessageElem> {
+  const message: Array<MessageChain> = getRoomMessage(roomMessageArgs);
+
+  return miraiMessageTooicqMessage(message);
 }
 
 /**

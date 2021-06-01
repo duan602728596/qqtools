@@ -30,6 +30,7 @@
     "js-yaml": "^4.1.0",
     "lodash-es": "^4.17.21",
     "nunjucks": "^3.2.3",
+    "oicq": "^1.17.2",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

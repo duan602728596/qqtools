@@ -1,4 +1,7 @@
+import * as process from 'process';
 import type { Plain, Image, At, AtAll, MessageChain } from '../qq.types';
+
+const packageJson: any = require('../../../package.json');
 
 /**
  * 发送文字
@@ -162,4 +165,23 @@ export function getSocketHost(socketHost: string | undefined): string {
   } else {
     return 'localhost';
   }
+}
+
+/**
+ * 输出机器人的相关信息
+ * @param { 'mirai' | 'oicq' } protocol: 机器人使用的库
+ * @param { number } qqNumber: qq号
+ * @param { string } time: 登陆时间
+ */
+export function LogCommandData(protocol: 'mirai' | 'oicq', qqNumber: number, time: string): string {
+  return `qqtools-mirai
+软件版本：${ packageJson.version }
+运行平台：${ process.platform }
+Electron：${ process.versions.electron }
+Chrome：${ process.versions.chrome }
+Node：${ process.versions.node }
+V8：${ process.versions.v8 }
+机器人账号：${ qqNumber }
+协议：${ protocol }
+启动时间：${ this.startTime }`;
 }
