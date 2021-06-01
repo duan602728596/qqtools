@@ -96,9 +96,9 @@ class QQ {
 
     // 群信息
     if (data.type === 'GroupMessage' && data.sender.id !== qqNumber && groupNumbers.includes(data.sender.group.id)) {
-      if (data.type === 'GroupMessage' && data.messageChain?.[1].type === 'Plain') {
+      if (data.messageChain?.[1].type === 'Plain') {
         const command: string = data.messageChain[1].text; // 当前命令
-        const groupId: number = data.sender.group.id;
+        const groupId: number = data.sender.group.id;      // 收到消息的群
 
         // 日志信息输出
         if (command === 'log') {

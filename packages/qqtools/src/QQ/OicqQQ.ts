@@ -3,14 +3,14 @@ import { findIndex } from 'lodash-es';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
 import * as oicq from 'oicq';
-import type { EventData, RetCommon, MessageElem, TextElem } from 'oicq';
+import type { EventData, GroupMessageEventData, RetCommon, MessageElem, TextElem } from 'oicq';
 import BilibiliWorker from 'worker-loader!./utils/bilibili.worker';
 import WeiboWorker from 'worker-loader!./utils/weibo.worker';
 import NimChatroomSocket, { ChatroomMember } from './NimChatroomSocket';
 import { getGroupNumbers, getSocketHost, LogCommandData } from './utils/miraiUtils';
 import { getRoomMessageForOicq, randomId, getLogMessage, log, RoomMessageArgs } from './utils/pocket48Utils';
 import { requestRoomInfo, requestWeiboInfo } from './services/services';
-import { requestSendGroupMessage } from './services/oicq';
+import { requestSendGroupMessage, isGroupMessageEventData } from './services/oicq';
 import { requestDetail, requestJoinRank } from './services/taoba';
 import type { OptionsItemValue, MemberInfo } from '../types';
 import type {
@@ -23,8 +23,6 @@ import type {
   TaobaRankItem,
   TaobaJoinRank
 } from './qq.types';
-
-const packageJson: any = require('../../package.json');
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
 
@@ -65,10 +63,50 @@ class OicqQQ {
   }
 
   // message事件监听
-  handleMessageSocketMessage: MessageListener = (event: MessageEvent): void => {
+  handleMessageSocketMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
     const { qqNumber, customCmd }: OptionsItemValue = this.config;
     const groupNumbers: Array<number> = this.groupNumbers;
     const data: EventData = JSON.parse(event.data);
+
+    if (isGroupMessageEventData(data) && data.sender.user_id !== qqNumber && groupNumbers.includes(data.group_id)) {
+      const { raw_message: command, /* 当前命令 */ group_id: groupId /* 收到消息的群 */ }: GroupMessageEventData = data;
+
+      // 日志信息输出
+      if (command === 'log') {
+        this.logCommandCallback(groupId);
+
+        return;
+      }
+
+      if (command === 'pocketroom') {
+        this.xoxInRoom(groupId);
+
+        return;
+      }
+
+      // 集资命令处理
+      if (['taoba', '桃叭', 'jizi', 'jz', '集资'].includes(command)) {
+        this.taobaoCommandCallback(groupId);
+
+        return;
+      }
+
+      // 排行榜命令处理
+      if (['排行榜', 'phb'].includes(command)) {
+        this.taobaoCommandRankCallback(groupId);
+
+        return;
+      }
+
+      // 自定义信息处理
+      if (customCmd?.length) {
+        const index: number = findIndex(customCmd, { cmd: command });
+
+        if (index >= 0) {
+          await this.sendMessage(customCmd[index].value, groupId);
+        }
+      }
+    }
   };
 
   // websocket初始化
