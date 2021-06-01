@@ -22,7 +22,6 @@ import { requestDetail, requestJoinRank } from './services/taoba';
 import NimChatroomSocket, { ChatroomMember } from './NimChatroomSocket';
 import { plain, atAll, miraiTemplate, getGroupNumbers, getSocketHost, LogCommandData } from './utils/miraiUtils';
 import { getRoomMessage, randomId, getLogMessage, log, RoomMessageArgs } from './utils/pocket48Utils';
-import OicqQQ from './OicqQQ';
 import type { OptionsItemValue, MemberInfo } from '../types';
 import type {
   Plain,
@@ -50,6 +49,7 @@ type CloseListener = (event: CloseEvent) => void | Promise<void>;
 const nimChatroomSocketList: Array<NimChatroomSocket> = []; // 缓存连接
 
 class QQ {
+  public protocol: string = 'mirai';
   public id: string;
   public config: OptionsItemValue;
   public groupNumbers: Array<number>; // 多个群
@@ -670,7 +670,7 @@ class QQ {
   }
 
   // 项目销毁
-  async destroy(loginList?: Array<QQ | OicqQQ>): Promise<boolean> {
+  async destroy(): Promise<boolean> {
     const { socketHost }: this = this;
     const { qqNumber, socketPort }: OptionsItemValue = this.config;
 

@@ -12,7 +12,6 @@ import { getRoomMessageForOicq, randomId, getLogMessage, log, RoomMessageArgs } 
 import { requestRoomInfo, requestWeiboInfo } from './services/services';
 import { requestSendGroupMessage, isGroupMessageEventData } from './services/oicq';
 import { requestDetail, requestJoinRank } from './services/taoba';
-import type QQ from './QQ';
 import type { OptionsItemValue, MemberInfo } from '../types';
 import type {
   NIMMessage,
@@ -31,6 +30,7 @@ const nimChatroomSocketList: Array<NimChatroomSocket> = []; // 缓存连接
 
 /* oicq的连接 */
 class OicqQQ {
+  public protocol: string = 'oicq';
   public id: string;
   public config: OptionsItemValue;
   public groupNumbers: Array<number>; // 多个群
@@ -522,10 +522,7 @@ class OicqQQ {
   }
 
   // 项目销毁
-  destroy(loginList?: Array<QQ | OicqQQ>): boolean {
-    const { socketHost }: this = this;
-    const { qqNumber, socketPort }: OptionsItemValue = this.config;
-
+  destroy(): boolean {
     try {
       this.destroyWebsocket();
 

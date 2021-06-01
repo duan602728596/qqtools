@@ -52,7 +52,7 @@ function Index(props: {}): ReactElement {
 
   // 退出
   async function handleLogoutClick(qq: QQ | OicqQQ, event?: MouseEvent): Promise<void> {
-    await qq.destroy(loginList);
+    await qq.destroy();
     dispatch(setDeleteLogin(qq));
   }
 
@@ -117,6 +117,11 @@ function Index(props: {}): ReactElement {
       title: '群号',
       dataIndex: 'groupNumber',
       render: (value: undefined, record: QQ | OicqQQ, index: number): string => getGroupNumbers(record.config.groupNumber).join(', ')
+    },
+    {
+      title: '协议',
+      key: 'protocol',
+      render: (value: undefined, record: QQ | OicqQQ, index: number): string => record.protocol
     },
     {
       title: '操作',
