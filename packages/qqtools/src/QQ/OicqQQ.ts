@@ -113,7 +113,7 @@ class OicqQQ {
     if (isMemberIncreaseEventData(data) && data.user_id !== qqNumber && groupNumbers.includes(data.group_id)) {
       if (groupWelcome && groupWelcomeSend) {
         const msg: string = renderString(groupWelcomeSend, {
-          qqNumber: data.user_id
+          at: `[CQ:at,qq=${ data.user_id }]`
         });
 
         await this.sendMessage(msg, data.group_id);

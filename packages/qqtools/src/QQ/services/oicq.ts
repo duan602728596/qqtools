@@ -14,14 +14,13 @@ export async function requestSendGroupMessage(
   message: MessageElem | Iterable<MessageElem> | string
 ): Promise<RetCommon> {
   const res: Response = await fetch(`http://${ socketHost }:${ port }/oicq/action`, {
-    mode: 'no-cors',
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json;charset=UTF-8'
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       type: 'sendGroupMsg',
-      payload: [port, message]
+      payload: [groupNumber, message]
     })
   });
 
