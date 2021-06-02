@@ -183,5 +183,5 @@ Node：${ process.versions.node }
 V8：${ process.versions.v8 }
 机器人账号：${ qqNumber }
 协议：${ protocol }
-启动时间：${ this.startTime }`;
+启动时间：${ time }`;
 }
