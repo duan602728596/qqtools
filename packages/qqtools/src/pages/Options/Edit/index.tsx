@@ -132,7 +132,7 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="optionType" label="配置类型">
         <Select allowClear={ true }>
           <Select.Option value="0">mirai</Select.Option>
-          <Select.Option value="1" disabled={ true }>oicq</Select.Option>
+          <Select.Option value="1">oicq</Select.Option>
         </Select>
       </Form.Item>
       <Form.Item name="qqNumber" label="QQ号" rules={ [{ required: true, message: '必须填写QQ号' }] }>
