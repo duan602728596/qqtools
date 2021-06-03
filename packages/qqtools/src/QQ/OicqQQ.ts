@@ -1,9 +1,9 @@
+import * as oicq from 'oicq';
+import type { EventData, GroupMessageEventData, RetCommon, MessageElem, TextElem } from 'oicq';
 import { CronJob } from 'cron';
 import { findIndex } from 'lodash-es';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
-import * as oicq from 'oicq';
-import type { EventData, GroupMessageEventData, RetCommon, MessageElem, TextElem } from 'oicq';
 import BilibiliWorker from 'worker-loader!./utils/bilibili.worker';
 import WeiboWorker from 'worker-loader!./utils/weibo.worker';
 import NimChatroomSocket, { ChatroomMember } from './NimChatroomSocket';

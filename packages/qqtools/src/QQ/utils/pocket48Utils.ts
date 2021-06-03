@@ -1,7 +1,6 @@
 import * as fse from 'fs-extra';
-import * as dayjs from 'dayjs';
-import * as oicq from 'oicq';
 import type { MessageElem } from 'oicq';
+import * as dayjs from 'dayjs';
 import { plain, image, atAll } from './miraiUtils';
 import { miraiMessageTooicqMessage } from './oicqUtils';
 import type { CustomMessageAll, MessageChain, NIMMessage } from '../qq.types';
