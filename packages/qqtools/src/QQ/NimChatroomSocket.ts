@@ -1,8 +1,8 @@
+import { randomUUID } from 'crypto';
 import NIM_SDK from 'SDK';
 import { message } from 'antd';
 import { findIndex } from 'lodash-es';
 import el from './sdk/eval';
-import { rStr } from '../utils/utils';
 import type { NIMMessage, NIMError } from './qq.types';
 
 const { Chatroom }: any = NIM_SDK;
@@ -51,7 +51,7 @@ class NimChatroomSocket {
     return new Promise((resolve: Function, reject: Function): void => {
       const options: any = self.pocket48IsAnonymous ? {
         isAnonymous: true,
-        chatroomNick: rStr(30),
+        chatroomNick: randomUUID(),
         chatroomAvatar: ''
       } : {
         account: this.pocket48Account,
