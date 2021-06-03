@@ -6,7 +6,7 @@ import type { MessageChain, WeiboSendData, WeiboCard, WeiboContainerList } from 
 let lfid: string;       // 账号的lfid
 let weiboTimer: number; // 轮询定时器
 let weiboAtAll: boolean | undefined; // 是否at全体成员
-let weiboId: BigInt;    // 记录查询位置
+let weiboId: bigint;    // 记录查询位置
 
 /* 轮询 */
 async function weiboContainerListTimer(): Promise<void> {

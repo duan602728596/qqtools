@@ -238,7 +238,7 @@ export interface WeiboCard {
   card_type: number;
   mblog: WeiboMBlog;
   scheme: string;
-  _id: BigInt;
+  _id: bigint;
 }
 
 export interface WeiboContainerList {
@@ -249,7 +249,7 @@ export interface WeiboContainerList {
 }
 
 export interface WeiboSendData {
-  id: BigInt;
+  id: bigint;
   name: string;
   type: string;
   scheme: string;

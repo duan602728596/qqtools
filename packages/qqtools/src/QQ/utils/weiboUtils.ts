@@ -24,9 +24,9 @@ export function filterCards(cards: Array<WeiboCard>): Array<WeiboCard> {
 /**
  * 过滤新的微博
  * @param { Array<WeiboCard> } list: 过滤后的微博
- * @param { BigInt } weiboId: 记录的微博id
+ * @param { bigint } weiboId: 记录的微博id
  */
-export function filterNewCards(list: Array<WeiboCard>, weiboId: BigInt): Array<WeiboSendData> {
+export function filterNewCards(list: Array<WeiboCard>, weiboId: bigint): Array<WeiboSendData> {
   return list.filter((o: WeiboCard) => BigInt(o.mblog.id) > weiboId)
     .map((item: WeiboCard, index: number): WeiboSendData => {
       const mblog: WeiboMBlog = item.mblog;
