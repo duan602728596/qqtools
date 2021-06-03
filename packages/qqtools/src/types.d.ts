@@ -37,8 +37,12 @@ export interface OptionsItemValue {
   taobaListen?: boolean;
   taobaId?: string;
   taobaCommandTemplate?: string;
+
+  /* @deprecated */
   taobaTemplate?: string;
+  /* @deprecated */
   taobaRankList?: boolean;
+  /* @deprecated */
   otherTaobaIds?: string;
 
   groupWelcome?: boolean;

@@ -32,15 +32,6 @@ const pocket48ShieldMsgTypeOptions: Array<CheckboxOptionType> = [
 /* 表单的初始化值 */
 const initialStates: Store = {
   groupWelcomeSend: '<%= qqtools:At %>欢迎入群。',
-  /*
-  taobaTemplate: `@{{ nickname }} 刚刚在【{{ title }}】打赏了{{ money }}元，感谢这位聚聚！
-项目地址：https://www.taoba.club/#/pages/idols/detail?id={{ taobaid }}
-当前进度：￥{{ donation }} / ￥{{ amount }}
-相差金额：￥{{ amountdifference }}
-集资参与人数：{{ juser }}人
-项目截止时间：{{ expire }}
-距离项目截止还有：{{ timedifference }}`,
-   */
   taobaCommandTemplate: `桃叭：{{ title }}
 https://www.taoba.club/#/pages/idols/detail?id={{ taobaid }}`
 };
@@ -147,8 +138,25 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="socketPort" label="端口号" rules={ [{ required: true, message: '必须填写端口号' }] }>
         <InputNumber className={ style.inputNumber } />
       </Form.Item>
-      <Form.Item name="authKey" label="authKey">
-        <Input />
+      <Form.Item label="authKey"
+        required={ true }
+        shouldUpdate={ ((pv: Store, nv: Store): boolean => pv.optionType !== nv.optionType) }
+      >
+        {
+          (formInstance: FormInstance): ReactElement => {
+            const optionType: string | undefined = formInstance.getFieldValue('optionType');
+            const isMirai: boolean = optionType === undefined || optionType === null || optionType === '0';
+
+            return (
+              <Form.Item name="authKey"
+                rules={ isMirai ? [{ required: true, message: '必须填写authKey' }] : undefined }
+                noStyle={ true }
+              >
+                <Input placeholder="mirai配置类型时需要填写" disabled={ !isMirai } />
+              </Form.Item>
+            );
+          }
+        }
       </Form.Item>
 
       {/* 口袋48房间监听配置 */}
