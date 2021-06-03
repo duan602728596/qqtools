@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import { CronJob } from 'cron';
 import { findIndex } from 'lodash-es';
 import * as dayjs from 'dayjs';
@@ -9,7 +10,7 @@ import WeiboWorker from 'worker-loader!./utils/weibo.worker';
 import NimChatroomSocket, { ChatroomMember } from './NimChatroomSocket';
 import { getGroupNumbers, getSocketHost, LogCommandData } from './utils/miraiUtils';
 import { isGroupMessageEventData, isMemberIncreaseEventData } from './utils/oicqUtils';
-import { getRoomMessageForOicq, randomId, getLogMessage, log, RoomMessageArgs } from './utils/pocket48Utils';
+import { getRoomMessageForOicq, getLogMessage, log, RoomMessageArgs } from './utils/pocket48Utils';
 import { requestRoomInfo, requestWeiboInfo } from './services/services';
 import { requestSendGroupMessage } from './services/oicq';
 import { requestDetail, requestJoinRank } from './services/taoba';
@@ -351,7 +352,7 @@ class OicqQQ {
     // 判断socket列表内是否有当前房间的socket连接
     const index: number = findIndex(nimChatroomSocketList, { pocket48RoomId });
 
-    this.nimChatroomSocketId = randomId();
+    this.nimChatroomSocketId = randomUUID();
 
     if (index < 0) {
       const nimChatroomSocket: NimChatroomSocket = new NimChatroomSocket({

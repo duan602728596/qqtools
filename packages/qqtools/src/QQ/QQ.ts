@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import * as querystring from 'querystring';
 import { CronJob } from 'cron';
 import { message } from 'antd';
@@ -21,7 +22,7 @@ import {
 import { requestDetail, requestJoinRank } from './services/taoba';
 import NimChatroomSocket, { ChatroomMember } from './NimChatroomSocket';
 import { plain, atAll, miraiTemplate, getGroupNumbers, getSocketHost, LogCommandData } from './utils/miraiUtils';
-import { getRoomMessage, randomId, getLogMessage, log, RoomMessageArgs } from './utils/pocket48Utils';
+import { getRoomMessage, getLogMessage, log, RoomMessageArgs } from './utils/pocket48Utils';
 import type { OptionsItemValue, MemberInfo } from '../types';
 import type {
   Plain,
@@ -480,7 +481,7 @@ class QQ {
     // 判断socket列表内是否有当前房间的socket连接
     const index: number = findIndex(nimChatroomSocketList, { pocket48RoomId });
 
-    this.nimChatroomSocketId = randomId();
+    this.nimChatroomSocketId = randomUUID();
 
     if (index < 0) {
       const nimChatroomSocket: NimChatroomSocket = new NimChatroomSocket({

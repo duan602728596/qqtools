@@ -64,6 +64,7 @@ export default function(info: object): { [key: string]: any } {
       SDK: 'window.SDK',
       ...nodeExternals([
         'child_process',
+        'crypto',
         'fs',
         'os',
         'path',
