@@ -20,6 +20,8 @@ function createWindow(): void {
     webPreferences: {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
+      // @ts-ignore
+      enableRemoteModule: true,
       webSecurity: false,
       contextIsolation: false
     },
