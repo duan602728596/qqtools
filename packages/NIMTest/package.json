@@ -7,6 +7,6 @@
   "dependencies": {
     "got": "^11.8.2",
     "lodash": "^4.17.21",
-    "serve": "^11.3.2"
+    "serve": "^12.0.0"
   }
 }
