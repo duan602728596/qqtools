@@ -109,6 +109,18 @@ ${ customInfo.question }
       );
     } else
 
+    // 语音、视频翻牌
+    if (customInfo.messageType === 'FLIPCARD_AUDIO' || customInfo.messageType === 'FLIPCARD_VIDEO') {
+      const answer: { url: string } = JSON.parse(customInfo.answer);
+
+      sendGroup.push(
+        plain(`${ nickName } 翻牌了问题：
+${ customInfo.question }
+回答：https://mp4.48.cn${ answer.url }
+时间：${ msgTime }${ memberInfoContent }`)
+      );
+    } else
+
     // 发表情
     if (customInfo.messageType === 'EXPRESS') {
       sendGroup.push(
@@ -223,6 +235,16 @@ ${ nickName }：${ customInfo.text }
       logData = `${ nickName } 翻牌了问题：
 ${ customInfo.question }
 回答：${ customInfo.answer }
+时间：${ msgTime }${ memberInfoContent }`;
+    } else
+
+    // 语音、视频翻牌
+    if (customInfo.messageType === 'FLIPCARD_AUDIO' || customInfo.messageType === 'FLIPCARD_VIDEO') {
+      const answer: { url: string } = JSON.parse(customInfo.answer);
+
+      logData = `${ nickName } 翻牌了问题：
+${ customInfo.question }
+回答：https://mp4.48.cn${ answer.url }
 时间：${ msgTime }${ memberInfoContent }`;
     } else
 

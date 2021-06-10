@@ -100,6 +100,8 @@ export interface CustomMessage {
   sessionRole: number; // 判断是否为房间信息
   user: {
     nickName: string;
+    avatar: string;
+    teamLogo: string;
   };
 }
 
@@ -170,6 +172,28 @@ export interface SESSION_DIANTAIMessage extends CustomMessage {
   streamPath: string;
 }
 
+// 语音翻牌
+export interface FLIPCARD_AUDIOMessage extends CustomMessage {
+  messageType: 'FLIPCARD_AUDIO';
+  answer: `{"url":"${ string }.aac","duration":${ number },"size":${ number }`;
+  answerId: string;
+  answerType: string;
+  question: string;
+  questionId: string;
+  sourceId: string;
+}
+
+// 视频翻牌
+export interface FLIPCARD_VIDEOMessage extends CustomMessage {
+  messageType: 'FLIPCARD_VIDEO';
+  answer: `{"url":"${ string }.mp4","duration":${ number },"size":${ number },"previewImg":"${ string }","width":${ number },"height":${ number }`;
+  answerId: string;
+  answerType: string;
+  question: string;
+  questionId: string;
+  sourceId: string;
+}
+
 // open live
 export interface OPEN_LIVEMessage extends CustomMessage {
   messageType: 'OPEN_LIVE';
@@ -202,6 +226,8 @@ export type CustomMessageAll =
   | DELETEMessage
   | DISABLE_SPEAKMessage
   | SESSION_DIANTAIMessage
+  | FLIPCARD_AUDIOMessage
+  | FLIPCARD_VIDEOMessage
   | OPEN_LIVEMessage
   | TRIP_INFOMessage;
 
