@@ -147,6 +147,7 @@ export interface FLIPCARDMessage extends CustomMessage {
   messageType: 'FLIPCARD';
   question: string;
   answer: string;
+  roomId: string;
 }
 
 // 发送表情
@@ -185,6 +186,7 @@ export interface FLIPCARD_AUDIOMessage extends CustomMessage {
   question: string;
   questionId: string;
   sourceId: string;
+  roomId: string;
 }
 
 // 视频翻牌
@@ -203,6 +205,7 @@ export interface FLIPCARD_VIDEOMessage extends CustomMessage {
   question: string;
   questionId: string;
   sourceId: string;
+  roomId: string;
 }
 
 // open live
