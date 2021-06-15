@@ -452,7 +452,7 @@
     },
     {
       "id": 327561,
-      "ownerName": "IDFT-周倩玉",
+      "ownerName": "CKG48-周倩玉",
       "roomId": "67370538",
       "account": "20190415141621_7tdde6q2ou6ketx"
     },
@@ -698,7 +698,7 @@
     },
     {
       "id": 417324,
-      "ownerName": "GNZ48-王翠菲",
+      "ownerName": "GNZ48-王芊诺",
       "roomId": "67293873",
       "account": "20190415141200_3fd45yrw49tww9f"
     },
@@ -776,7 +776,7 @@
     },
     {
       "id": 460004,
-      "ownerName": "IDFT-杨允涵",
+      "ownerName": "CKG48-杨允涵",
       "roomId": "67390969",
       "account": "20190415142131_kwct5b7frup5q85"
     },
@@ -793,8 +793,14 @@
       "account": "20190415142142_q92v8u2h24126ep"
     },
     {
+      "id": 480675,
+      "ownerName": "IDFT-张爱静",
+      "roomId": "67265495",
+      "account": "20190415142156_42p2y146i8jb6g3"
+    },
+    {
       "id": 480680,
-      "ownerName": "IDFT-张幼柠",
+      "ownerName": "CKG48-张幼柠",
       "roomId": "114030785",
       "account": "20190711091742_ukmrrzyg2wg4t0v"
     },
@@ -878,13 +884,13 @@
     },
     {
       "id": 530439,
-      "ownerName": "IDFT-高雪逸",
+      "ownerName": "CKG48-高雪逸",
       "roomId": "67362340",
       "account": "20190415142408_sk15kfsl610tmy2"
     },
     {
       "id": 530440,
-      "ownerName": "IDFT-赖俊亦",
+      "ownerName": "CKG48-赖俊亦",
       "roomId": "67313885",
       "account": "20190415142352_1jyiyqmqc9d2gab"
     },
@@ -1010,19 +1016,19 @@
     },
     {
       "id": 614728,
-      "ownerName": "IDFT-雷宇霄",
+      "ownerName": "CKG48-雷宇霄",
       "roomId": "67390996",
       "account": "20190415142632_27gmko9gu78den4"
     },
     {
       "id": 614731,
-      "ownerName": "IDFT-毛译晗",
+      "ownerName": "CKG48-毛译晗",
       "roomId": "67333166",
       "account": "20190415142651_10u9x4sl3zg9i5c"
     },
     {
       "id": 614733,
-      "ownerName": "IDFT-谯玉珍",
+      "ownerName": "CKG48-谯玉珍",
       "roomId": "67246114",
       "account": "20190415142616_vq2ja4ttla17v3y"
     },
@@ -1034,7 +1040,7 @@
     },
     {
       "id": 614735,
-      "ownerName": "IDFT-田倩兰",
+      "ownerName": "CKG48-田倩兰",
       "roomId": "67342133",
       "account": "20190415142551_p7u5449mwytxoc6"
     },
@@ -1052,13 +1058,13 @@
     },
     {
       "id": 614742,
-      "ownerName": "IDFT-左欣",
+      "ownerName": "CKG48-左欣",
       "roomId": "67236674",
       "account": "20190415142548_41ca23q2ixtx1lw"
     },
     {
       "id": 614750,
-      "ownerName": "IDFT-刘弋菡",
+      "ownerName": "CKG48-刘弋菡",
       "roomId": "67390997",
       "account": "20190415142703_8uvbrjf59z142lx"
     },
@@ -1082,9 +1088,21 @@
     },
     {
       "id": 614761,
-      "ownerName": "IDFT-吴学雨",
+      "ownerName": "CKG48-吴学雨",
       "roomId": "67199643",
       "account": "20190415142711_4nouco13mac2en3"
+    },
+    {
+      "id": 614773,
+      "ownerName": "CKG48-赵泽慧",
+      "roomId": "67256391",
+      "account": "20190415142627_893moj85zsuc7q5"
+    },
+    {
+      "id": 614776,
+      "ownerName": "IDFT-吴晶晶",
+      "roomId": "67390993",
+      "account": "20190415142607_7f44o8gar7xmb17"
     },
     {
       "id": 618319,
@@ -1154,7 +1172,7 @@
     },
     {
       "id": 679455,
-      "ownerName": "IDFT-刁滢",
+      "ownerName": "CKG48-刁滢",
       "roomId": "67370603",
       "account": "20190415142828_9ktq3546r7sf5q5"
     },
@@ -1166,7 +1184,7 @@
     },
     {
       "id": 679464,
-      "ownerName": "IDFT-王嘉瑜",
+      "ownerName": "CKG48-王嘉瑜",
       "roomId": "67275543",
       "account": "20190415142815_klus13hz4d28r9h"
     },
@@ -1175,6 +1193,12 @@
       "ownerName": "BEJ48-王雨兰",
       "roomId": "67265535",
       "account": "20190415142812_gon6r1gjiqgiotp"
+    },
+    {
+      "id": 707365,
+      "ownerName": "IDFT-戴紫薇",
+      "roomId": "67380647",
+      "account": "20190415142941_znds4jlk69f40zj"
     },
     {
       "id": 707369,
@@ -1286,7 +1310,7 @@
     },
     {
       "id": 867888,
-      "ownerName": "IDFT-曹露丹",
+      "ownerName": "CKG48-曹露丹",
       "roomId": "67256412",
       "account": "20190415143036_71s3d78j2wfbwei"
     },
@@ -1304,7 +1328,7 @@
     },
     {
       "id": 867895,
-      "ownerName": "IDFT-彭榆涵",
+      "ownerName": "CKG48-彭榆涵",
       "roomId": "67236697",
       "account": "20190415143033_5a9uk5ncojh4b9w"
     },
@@ -1394,13 +1418,13 @@
     },
     {
       "id": 39911921,
-      "ownerName": "IDFT-陈妮亚",
+      "ownerName": "CKG48-陈妮亚",
       "roomId": "224665866",
       "account": "20200901180303_60eh1i1p2x0d54o"
     },
     {
       "id": 39911923,
-      "ownerName": "IDFT-潘颖",
+      "ownerName": "CKG48-潘颖",
       "roomId": "224670690",
       "account": "20200901180537_86386ao1d9ddf9w"
     },
@@ -1513,6 +1537,24 @@
       "account": "20201208142539_vxw8aw9xkjmhzdl"
     },
     {
+      "id": 52494482,
+      "ownerName": "GNZ48-江雨航",
+      "roomId": "381012316",
+      "account": "20210420173157_b9iafwij2mvm58j"
+    },
+    {
+      "id": 52494487,
+      "ownerName": "GNZ48-王琰",
+      "roomId": "387989946",
+      "account": "20210506162918_wcqh3z7nxt340sc"
+    },
+    {
+      "id": 52494490,
+      "ownerName": "GNZ48-郑奕雯",
+      "roomId": "387989957",
+      "account": "20210506163018_424aqenkw2q718l"
+    },
+    {
       "id": 54526093,
       "ownerName": "SNH48-林佳怡",
       "roomId": "377992915",
@@ -1549,6 +1591,24 @@
       "account": "20210412201224_22sloacwls14p8i"
     },
     {
+      "id": 57737429,
+      "ownerName": "GNZ48-陈泓宇",
+      "roomId": "396390530",
+      "account": "20210531123930_oorm9i4q0nqbh0l"
+    },
+    {
+      "id": 57737430,
+      "ownerName": "GNZ48-周培溪",
+      "roomId": "396394228",
+      "account": "20210531124028_7hrfz8t40qgh13y"
+    },
+    {
+      "id": 57737478,
+      "ownerName": "GNZ48-项宇婧",
+      "roomId": "396399552",
+      "account": "20210531134105_0pk94tu2sm2afa4"
+    },
+    {
       "id": 4344250371,
       "ownerName": "SNH48-陈雨孜",
       "roomId": "147283635",
@@ -1559,6 +1619,12 @@
       "ownerName": "SNH48-刘丽千",
       "roomId": "147269132",
       "account": "20200109180106_5s5dg72fv3oz2ki"
+    },
+    {
+      "id": 4344250373,
+      "ownerName": "CKG48-江鑫",
+      "roomId": "170000713",
+      "account": "20200413155702_peptuxhtj6fkuy6"
     },
     {
       "id": 4344250374,
@@ -1640,7 +1706,7 @@
     },
     {
       "id": 9276751977,
-      "ownerName": "IDFT-梁晶金",
+      "ownerName": "CKG48-梁晶金",
       "roomId": "187441935",
       "account": "20200706182555_0gsw8eef2dqf012"
     },
@@ -1651,5 +1717,5 @@
       "account": "20200706182614_rvr8uq2mnr81il4"
     }
   ],
-  "buildTime": "2021-04-14 21:41:09"
+  "buildTime": "2021-06-15 21:58:29"
 }

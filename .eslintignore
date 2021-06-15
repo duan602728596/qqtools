@@ -13,3 +13,4 @@ packages/qqtools/src/QQ/sdk/eval.js
 packages/NIMTest/src/sdk/eval.js
 packages/NIMTest/src/sdk/NIM_Web_SDK_v8.0.0.js
 packages/NIMTest/node/NIM_Web_SDK_nodejs_v7.1.0.js
+packages/NIMTest/node/eval.js

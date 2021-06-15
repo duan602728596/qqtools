@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { randomUUID } = require('crypto');
 const got = require('got');
 const _ = require('lodash');
 const dayjs = require('dayjs');
@@ -7,14 +8,13 @@ const dayjs = require('dayjs');
 require('dayjs/locale/zh-cn');
 
 const NIM_SDK = require('./NIM_Web_SDK_nodejs_v7.1.0');
-const el = require('../src/sdk/eval');
+const el = require('./eval');
 
 dayjs.locale('zh-cn');
 
 const fsP = fs.promises;
 const { Chatroom } = NIM_SDK;
 
-const nimToken = '';
 const token = '';
 const pa = '';
 
@@ -42,8 +42,9 @@ function getRoomInfo(chatroomId) {
   return new Promise((resolve, reject) => {
     const nimChatroomSocket = Chatroom.getInstance({
       appKey: el,
-      account: nimToken,
-      token: nimToken,
+      isAnonymous: true,
+      chatroomNick: randomUUID(),
+      chatroomAvatar: '',
       chatroomId,
       chatroomAddresses: ['chatweblink01.netease.im:443'],
       onconnect(event) {
@@ -79,19 +80,19 @@ async function main() {
       json: {}
     });
     const friends = resFriends.body.content.data;
-    let forIndex = 0;
 
-    for (const friend of friends) {
-      console.log(forIndex, friends.length - 1);
-      forIndex++;
+    for (let i = 0, j = friends.length; i < j; i++) {
+      const friend = friends[i];
+
+      console.log(i, friends.length - 1);
 
       const index = _.findIndex(roomId, { id: friend });
+      let item = {};
 
       if (index >= 0) {
+        item = roomId[index];
         continue;
       }
-
-      const item = {};
 
       // 获取账号信息
       const resMembersInfo = await got.post('https://pocketapi.48.cn/im/api/v1/im/room/info/type/source', {
@@ -111,7 +112,13 @@ async function main() {
 
         nimChatroomSocket.disconnect();
         Object.assign(item, { id: friend, ownerName, roomId: rid, account });
-        roomId.push(item);
+
+        if (index >= 0) {
+          roomId[index] = item;
+        } else {
+          roomId.push(item);
+        }
+
         console.log(`ID: ${ friend } ownerName: ${ ownerName } roomId: ${ rid } account: ${ account }`);
 
         const newData = JSON.stringify({
