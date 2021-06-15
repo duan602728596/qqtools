@@ -1,6 +1,6 @@
 {
   "name": "@qqtools3/main",
-  "version": "4.6.1",
+  "version": "4.6.2",
   "scripts": {
     "start": "npm run clean && cross-env NODE_ENV=development WATCH=1 gulp",
     "dev": "npm run clean && cross-env NODE_ENV=development gulp",
