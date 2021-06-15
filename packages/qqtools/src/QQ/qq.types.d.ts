@@ -235,10 +235,10 @@ export interface PRESENT_TEXTMessage extends CustomMessage {
   giftInfo: {
     fullPicPath?: string; // 完整图片，图片地址以 https://source.48.cn/ 开头
     giftId: string;
-    giftName: string; // 礼物名称
+    giftName: `${ number }投票权`; // 礼物名称
     giftNum: number;  // 礼物数量
     picPath: string;
-    typeId: string;
+    special: true;
   };
 }
 

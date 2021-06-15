@@ -123,11 +123,14 @@ ${ customInfo.question }
 
     // 投票
     if (customInfo.messageType === 'PRESENT_TEXT') {
-      sendGroup.push(
-        plain(`${ nickName }：投出了${ customInfo.giftInfo.giftNum }票。`),
-        image(`https://source.48.cn${ customInfo.giftInfo.picPath }`),
-        plain(`时间：${ msgTime }${ memberInfoContent }`)
-      );
+      // 判断是否为总选投票
+      if (customInfo.giftInfo.giftName.includes('投票权') || customInfo.giftInfo.special) {
+        sendGroup.push(
+          plain(`${ nickName }：投出了${ customInfo.giftInfo.giftNum }票。`),
+          image(`https://source.48.cn${ customInfo.giftInfo.picPath }`),
+          plain(`时间：${ msgTime }${ memberInfoContent }`)
+        );
+      }
     } else
 
     // 发表情
@@ -259,8 +262,11 @@ ${ customInfo.question }
 
     // 投票
     if (customInfo.messageType === 'PRESENT_TEXT') {
-      logData = `${ nickName }：投出了${ customInfo.giftInfo.giftNum }票。
+      // 判断是否为总选投票
+      if (customInfo.giftInfo.giftName.includes('投票权') || customInfo.giftInfo.special) {
+        logData = `${ nickName }：投出了${ customInfo.giftInfo.giftNum }票。
 时间：${ msgTime }${ memberInfoContent }`;
+      }
     } else
 
     // 发表情
