@@ -175,7 +175,11 @@ export interface SESSION_DIANTAIMessage extends CustomMessage {
 // 语音翻牌
 export interface FLIPCARD_AUDIOMessage extends CustomMessage {
   messageType: 'FLIPCARD_AUDIO';
-  answer: `{"url":"${ string }.aac","duration":${ number },"size":${ number }`;
+  answer: `{
+    "url": "${ string }.aac",
+    "duration": ${ number },
+    "size": ${ number }
+  }`;
   answerId: string;
   answerType: string;
   question: string;
@@ -186,7 +190,14 @@ export interface FLIPCARD_AUDIOMessage extends CustomMessage {
 // 视频翻牌
 export interface FLIPCARD_VIDEOMessage extends CustomMessage {
   messageType: 'FLIPCARD_VIDEO';
-  answer: `{"url":"${ string }.mp4","duration":${ number },"size":${ number },"previewImg":"${ string }","width":${ number },"height":${ number }`;
+  answer: `{
+    "url": "${ string }.mp4",
+    "duration": ${ number },
+    "size": ${ number },
+    "previewImg": "${ string }",
+    "width": ${ number },
+    "height": ${ number }
+  }`;
   answerId: string;
   answerType: string;
   question: string;
