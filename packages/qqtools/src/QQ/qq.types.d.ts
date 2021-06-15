@@ -225,6 +225,20 @@ export interface TRIP_INFOMessage extends CustomMessage {
   jumpType: string;
 }
 
+// 投票信息：投票时，同时触发 PRESENT_TEXT 和 PRESENT_FULLSCREEN 两种类型
+export interface PRESENT_TEXTMessage extends CustomMessage {
+  messageType: 'PRESENT_TEXT';
+  sessionRole: 0;
+  giftInfo: {
+    fullPicPath: string; // 完整图片，图片地址以 https://source.48.cn/ 开头
+    giftId: string;
+    giftName: string; // 礼物名称
+    giftNum: number;  // 礼物数量
+    picPath: string;
+    typeId: string;
+  };
+}
+
 export type CustomMessageAll =
   | TEXTMessage
   | REPLYMessage
@@ -240,7 +254,8 @@ export type CustomMessageAll =
   | FLIPCARD_AUDIOMessage
   | FLIPCARD_VIDEOMessage
   | OPEN_LIVEMessage
-  | TRIP_INFOMessage;
+  | TRIP_INFOMessage
+  | PRESENT_TEXTMessage;
 
 /* 微博类型 */
 export interface WeiboTab {
