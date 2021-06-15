@@ -121,6 +121,15 @@ ${ customInfo.question }
       );
     } else
 
+    // 投票
+    if (customInfo.messageType === 'PRESENT_TEXT') {
+      sendGroup.push(
+        plain(`${ nickName }：投出了${ customInfo.giftInfo.giftNum }票。`),
+        image(`https://source.48.cn${ customInfo.giftInfo.picPath }`),
+        plain(`时间：${ msgTime }${ memberInfoContent }`)
+      );
+    } else
+
     // 发表情
     if (customInfo.messageType === 'EXPRESS') {
       sendGroup.push(
@@ -245,6 +254,12 @@ ${ customInfo.question }
       logData = `${ nickName } 翻牌了问题：
 ${ customInfo.question }
 回答：https://mp4.48.cn${ answer.url }
+时间：${ msgTime }${ memberInfoContent }`;
+    } else
+
+    // 投票
+    if (customInfo.messageType === 'PRESENT_TEXT') {
+      logData = `${ nickName }：投出了${ customInfo.giftInfo.giftNum }票。
 时间：${ msgTime }${ memberInfoContent }`;
     } else
 

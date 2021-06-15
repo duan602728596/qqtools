@@ -233,7 +233,7 @@ export interface PRESENT_TEXTMessage extends CustomMessage {
   messageType: 'PRESENT_TEXT';
   sessionRole: 0;
   giftInfo: {
-    fullPicPath: string; // 完整图片，图片地址以 https://source.48.cn/ 开头
+    fullPicPath?: string; // 完整图片，图片地址以 https://source.48.cn/ 开头
     giftId: string;
     giftName: string; // 礼物名称
     giftNum: number;  // 礼物数量

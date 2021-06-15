@@ -187,7 +187,7 @@ class OicqQQ {
     const customInfo: CustomMessageAll = JSON.parse(data.custom); // 房间自定义信息
     const { sessionRole }: CustomMessageAll = customInfo;         // 信息类型和sessionRole
 
-    if (Number(sessionRole) === 0) return; // 过滤发言
+    if (Number(sessionRole) === 0 && customInfo.messageType !== 'PRESENT_TEXT') return; // 过滤发言
 
     if (pocket48ShieldMsgType && pocket48ShieldMsgType.includes(customInfo.messageType)) {
       return; // 屏蔽信息类型
