@@ -342,7 +342,8 @@ class OicqQQ {
       pocket48IsAnonymous,
       pocket48Account,
       pocket48Token,
-      pocket48RoomEntryListener
+      pocket48RoomEntryListener,
+      pocket48MemberInfo
     }: OptionsItemValue = this.config;
 
     if (!pocket48RoomListener) return;
@@ -377,7 +378,7 @@ class OicqQQ {
       this.nimChatroom = nimChatroomSocketList[index];
     }
 
-    if (pocket48RoomEntryListener && this.membersList?.length) {
+    if ((pocket48RoomEntryListener || pocket48MemberInfo) && this.membersList?.length) {
       const idx: number = findIndex(this.membersList, (o: MemberInfo) => o.roomId === `${ pocket48RoomId }`);
 
       if (idx >= 0) {
