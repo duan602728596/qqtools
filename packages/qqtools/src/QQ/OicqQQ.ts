@@ -382,7 +382,7 @@ class OicqQQ {
 
       if (idx >= 0) {
         this.memberInfo = this.membersList[idx];
-        this.handleRoomEntryTimer();
+        pocket48RoomEntryListener && this.handleRoomEntryTimer();
       }
     }
   }
