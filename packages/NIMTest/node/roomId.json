@@ -637,6 +637,12 @@
       "account": "20190415141654_jbnjpmy9lelfzo8"
     },
     {
+      "id": 399674,
+      "ownerName": "SNH48-徐诗琪",
+      "roomId": "67313751",
+      "account": "20190415141256_mj5y9m4a61bpjs3"
+    },
+    {
       "id": 407106,
       "ownerName": "SNH48-黄恩茹",
       "roomId": "67333041",
@@ -1717,5 +1723,5 @@
       "account": "20200706182614_rvr8uq2mnr81il4"
     }
   ],
-  "buildTime": "2021-06-15 21:58:29"
+  "buildTime": "2021-06-17 12:21:24"
 }
