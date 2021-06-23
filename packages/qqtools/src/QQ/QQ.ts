@@ -91,7 +91,7 @@ class QQ extends Basic {
         }
 
         if (command === 'pocketroom') {
-          this.xoxInRoom(groupId);
+          this.membersInRoom(groupId);
 
           return;
         }
@@ -351,7 +351,7 @@ class QQ extends Basic {
   };
 
   // 输出当前房间的游客信息
-  xoxInRoom(groupId: number): void {
+  membersInRoom(groupId: number): void {
     const { pocket48RoomEntryListener }: OptionsItemValue = this.config;
 
     if (pocket48RoomEntryListener && this.membersList?.length && this.memberInfo) {
