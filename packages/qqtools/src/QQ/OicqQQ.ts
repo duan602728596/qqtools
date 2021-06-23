@@ -5,31 +5,15 @@ import { CronJob } from 'cron';
 import { findIndex } from 'lodash-es';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
-import BilibiliWorker from 'worker-loader!./utils/bilibili.worker';
-import WeiboWorker from 'worker-loader!./utils/weibo.worker';
-import Basic from './Basic';
+import Basic, { nimChatroomSocketList, MessageListener } from './Basic';
 import NimChatroomSocket, { ChatroomMember } from './NimChatroomSocket';
 import { getGroupNumbers, getSocketHost, LogCommandData } from './utils/miraiUtils';
 import { isGroupMessageEventData, isMemberIncreaseEventData } from './utils/oicqUtils';
 import { getRoomMessageForOicq, getLogMessage, log, RoomMessageArgs } from './utils/pocket48Utils';
-import { requestRoomInfo, requestWeiboInfo } from './services/services';
 import { requestSendGroupMessage } from './services/oicq';
-import { requestDetail, requestJoinRank } from './services/taoba';
+import { requestJoinRank } from './services/taoba';
 import type { OptionsItemValue, MemberInfo } from '../types';
-import type {
-  NIMMessage,
-  CustomMessageAll,
-  WeiboTab,
-  WeiboInfo,
-  BilibiliRoomInfo,
-  TaobaDetail,
-  TaobaRankItem,
-  TaobaJoinRank
-} from './qq.types';
-
-type MessageListener = (event: MessageEvent) => void | Promise<void>;
-
-const nimChatroomSocketList: Array<NimChatroomSocket> = []; // 缓存连接
+import type { NIMMessage, CustomMessageAll, TaobaRankItem, TaobaJoinRank } from './qq.types';
 
 /* oicq的连接 */
 class OicqQQ extends Basic {
@@ -205,22 +189,6 @@ class OicqQQ extends Basic {
     }
   }
 
-  // 循环处理所有消息
-  async roomSocketMessageAll(event: Array<NIMMessage>): Promise<void> {
-    for (const item of event) {
-      try {
-        await this.roomSocketMessage([item]);
-      } catch (err) {
-        console.error(err);
-      }
-    }
-  }
-
-  // 事件监听
-  handleRoomSocketMessage: Function = (event: Array<NIMMessage>): void => {
-    this.roomSocketMessageAll(event);
-  };
-
   // 输出当前房间的游客信息
   membersInRoom(groupId: number): void {
     const { pocket48RoomEntryListener }: OptionsItemValue = this.config;
@@ -369,52 +337,10 @@ class OicqQQ extends Basic {
     }
   }
 
-  // 移除socket连接
-  disconnectPocket48(): void {
-    const { pocket48RoomId }: OptionsItemValue = this.config;
-    const index: number = findIndex(nimChatroomSocketList, { pocket48RoomId });
-
-    if (this.roomEntryListener !== null) {
-      clearTimeout(this.roomEntryListener);
-    }
-
-    if (index >= 0 && this.nimChatroomSocketId) {
-      nimChatroomSocketList[index].removeQueue(this.nimChatroomSocketId);
-
-      if (nimChatroomSocketList[index].queues.length === 0) {
-        nimChatroomSocketList[index].disconnect();
-        nimChatroomSocketList.splice(index, 1);
-      }
-    }
-
-    this.nimChatroomSocketId = undefined;
-  }
-
   // 微博监听
   handleWeiboWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
     await this.sendMessage(event.data.sendGroup);
   };
-
-  // 微博初始化
-  async initWeiboWorker(): Promise<void> {
-    const { weiboListener, weiboUid, weiboAtAll }: OptionsItemValue = this.config;
-
-    if (!(weiboListener && weiboUid)) return;
-
-    const resWeiboInfo: WeiboInfo = await requestWeiboInfo(weiboUid);
-    const weiboTab: Array<WeiboTab> = resWeiboInfo.data.tabsInfo.tabs
-      .filter((o: WeiboTab): boolean => o.tabKey === 'weibo');
-
-    if (weiboTab.length > 0) {
-      this.weiboLfid = weiboTab[0].containerid;
-      this.weiboWorker = new WeiboWorker();
-      this.weiboWorker.addEventListener('message', this.handleWeiboWorkerMessage, false);
-      this.weiboWorker.postMessage({
-        lfid: this.weiboLfid,
-        weiboAtAll
-      });
-    }
-  }
 
   // bilibili message监听事件
   handleBilibiliWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
@@ -424,20 +350,6 @@ class OicqQQ extends Basic {
 
     await this.sendMessage(sendMessage);
   };
-
-  // bilibili直播监听初始化
-  async initBilibiliWorker(): Promise<void> {
-    const { bilibiliLive, bilibiliLiveId }: OptionsItemValue = this.config;
-
-    if (bilibiliLive && bilibiliLiveId) {
-      const res: BilibiliRoomInfo = await requestRoomInfo(bilibiliLiveId);
-
-      this.bilibiliUsername = res.data.anchor_info.base_info.uname;
-      this.bilibiliWorker = new BilibiliWorker();
-      this.bilibiliWorker.addEventListener('message', this.handleBilibiliWorkerMessage, false);
-      this.bilibiliWorker.postMessage({ id: bilibiliLiveId });
-    }
-  }
 
   // 桃叭命令的回调函数
   async taobaoCommandCallback(groupId: number): Promise<void> {
@@ -466,21 +378,6 @@ class OicqQQ extends Basic {
 集资参与人数：${ res.juser }人`;
 
       await this.sendMessage([oicq.segment.text(msg)].concat(list), groupId);
-    }
-  }
-
-  // 桃叭初始化
-  async initTaoba(): Promise<void> {
-    const { taobaListen, taobaId }: OptionsItemValue = this.config;
-
-    if (taobaListen && taobaId) {
-      const res: TaobaDetail = await requestDetail(taobaId);
-
-      this.taobaInfo = {
-        title: res.datas.title,   // 项目名称
-        amount: res.datas.amount, // 集资总金额
-        expire: res.datas.expire  // 项目结束时间（时间戳，秒）
-      };
     }
   }
 
