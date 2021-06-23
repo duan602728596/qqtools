@@ -7,6 +7,7 @@ import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
 import BilibiliWorker from 'worker-loader!./utils/bilibili.worker';
 import WeiboWorker from 'worker-loader!./utils/weibo.worker';
+import Basic from './Basic';
 import NimChatroomSocket, { ChatroomMember } from './NimChatroomSocket';
 import { getGroupNumbers, getSocketHost, LogCommandData } from './utils/miraiUtils';
 import { isGroupMessageEventData, isMemberIncreaseEventData } from './utils/oicqUtils';
@@ -31,33 +32,13 @@ type MessageListener = (event: MessageEvent) => void | Promise<void>;
 const nimChatroomSocketList: Array<NimChatroomSocket> = []; // 缓存连接
 
 /* oicq的连接 */
-class OicqQQ {
+class OicqQQ extends Basic {
   public protocol: string = 'oicq';
-  public id: string;
-  public config: OptionsItemValue;
-  public groupNumbers: Array<number>; // 多个群
-  public socketHost: string;
   public oicqSocket?: WebSocket;
-  public startTime: string; // 启动时间
-
-  public nimChatroomSocketId?: string;     // socketId
-  public nimChatroom?: NimChatroomSocket;  // socket
-  public memberInfo?: MemberInfo;          // 房间成员信息
-  public membersList?: Array<MemberInfo>;  // 所有成员信息
-  public membersCache?: Array<MemberInfo>; // 缓存
-  public roomEntryListener: number | null = null; // 监听器
-
-  public weiboLfid: string;        // 微博的lfid
-  public weiboWorker?: Worker;     // 微博监听
-
-  public bilibiliWorker?: Worker;  // b站直播监听
-  public bilibiliUsername: string; // 用户名
-
-  public taobaInfo: { title: string; amount: number; expire: number }; // 桃叭信息
-
-  public cronJob?: CronJob;        // 定时任务
 
   constructor(id: string, config: OptionsItemValue, membersList?: Array<MemberInfo>) {
+    super();
+
     this.id = id;         // 当前登陆的唯一id
     this.config = config; // 配置
     this.membersList = membersList;

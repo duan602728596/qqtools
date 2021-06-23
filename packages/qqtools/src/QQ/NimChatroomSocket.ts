@@ -22,6 +22,7 @@ interface NimChatroomSocketArgs {
 export interface ChatroomMember {
   type: string;
   account: string;
+  online: boolean;
 }
 
 /**
