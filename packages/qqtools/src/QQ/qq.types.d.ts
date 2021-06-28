@@ -242,6 +242,11 @@ export interface PRESENT_TEXTMessage extends CustomMessage {
   };
 }
 
+// 房间关闭信息
+export interface CLOSE_ROOM_CHATMessage extends CustomMessage {
+  messageType: 'CLOSE_ROOM_CHAT';
+}
+
 export type CustomMessageAll =
   | TEXTMessage
   | REPLYMessage
@@ -258,7 +263,8 @@ export type CustomMessageAll =
   | FLIPCARD_VIDEOMessage
   | OPEN_LIVEMessage
   | TRIP_INFOMessage
-  | PRESENT_TEXTMessage;
+  | PRESENT_TEXTMessage
+  | CLOSE_ROOM_CHATMessage;
 
 /* 微博类型 */
 export interface WeiboTab {

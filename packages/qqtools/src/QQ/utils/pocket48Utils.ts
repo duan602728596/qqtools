@@ -133,6 +133,14 @@ ${ customInfo.question }
       }
     } else
 
+    // 关闭房间
+    if (customInfo.messageType === 'CLOSE_ROOM_CHAT') {
+      sendGroup.push(
+        plain(`${ nickName } 房间被关闭了。：
+时间：${ msgTime }${ memberInfoContent }`)
+      );
+    } else
+
     // 发表情
     if (customInfo.messageType === 'EXPRESS') {
       sendGroup.push(
@@ -267,6 +275,12 @@ ${ customInfo.question }
         logData = `${ nickName }：投出了${ customInfo.giftInfo.giftNum }票。
 时间：${ msgTime }${ memberInfoContent }`;
       }
+    } else
+
+    // 关闭房间
+    if (customInfo.messageType === 'CLOSE_ROOM_CHAT') {
+      logData = `${ nickName } 房间被关闭了。：
+时间：${ msgTime }${ memberInfoContent }`;
     } else
 
     // 发表情
