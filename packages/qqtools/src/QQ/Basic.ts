@@ -26,6 +26,8 @@ abstract class Basic {
   public memberInfo?: MemberInfo;                 // 房间成员信息
   public membersList?: Array<MemberInfo>;         // 所有成员信息
   public membersCache?: Array<MemberInfo>;        // 缓存
+  public ownerOnlineCache?: boolean;              // 成员是否在线
+  public ownerOnlineTimer?: number;               // 判断成员是否在线的监听
   public roomEntryListener: number | null = null; // 成员进出的监听器
 
   public weiboLfid: string;    // 微博的lfid
@@ -41,6 +43,7 @@ abstract class Basic {
   // 定义一些方法
   abstract roomSocketMessage(event: Array<NIMMessage>): Promise<void>; // 处理单个消息
   abstract handleRoomEntryTimer: Function;                             // 轮循获取房间信息
+  abstract handleOwnerOnlineTimer: Function;                           // 轮循成员是否在线
   abstract handleWeiboWorkerMessage: MessageListener;                  // 微博监听
   abstract handleBilibiliWorkerMessage: MessageListener;               // bilibili message监听事件
 
@@ -69,6 +72,7 @@ abstract class Basic {
       pocket48Account,
       pocket48Token,
       pocket48RoomEntryListener,
+      pocket48OwnerOnlineListener,
       pocket48MemberInfo
     }: OptionsItemValue = this.config;
 
@@ -104,12 +108,13 @@ abstract class Basic {
       this.nimChatroom = nimChatroomSocketList[index];
     }
 
-    if ((pocket48RoomEntryListener || pocket48MemberInfo) && this.membersList?.length) {
+    if ((pocket48RoomEntryListener || pocket48OwnerOnlineListener || pocket48MemberInfo) && this.membersList?.length) {
       const idx: number = findIndex(this.membersList, (o: MemberInfo) => o.roomId === `${ pocket48RoomId }`);
 
       if (idx >= 0) {
         this.memberInfo = this.membersList[idx];
         pocket48RoomEntryListener && this.handleRoomEntryTimer();
+        pocket48OwnerOnlineListener && this.handleOwnerOnlineTimer();
       }
     }
   }

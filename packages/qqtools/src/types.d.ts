@@ -22,6 +22,7 @@ export interface OptionsItemValue {
   pocket48LiveAtAll?: boolean;
   pocket48ShieldMsgType?: Array<string>;
   pocket48RoomEntryListener?: boolean;
+  pocket48OwnerOnlineListener?: boolean;
   pocket48MemberInfo?: boolean;
   pocket48LogSave?: boolean;
   pocket48LogDir?: string;

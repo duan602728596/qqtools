@@ -1,12 +1,11 @@
-import { randomUUID } from 'crypto';
 import * as oicq from 'oicq';
 import type { EventData, GroupMessageEventData, RetCommon, MessageElem, TextElem } from 'oicq';
 import { CronJob } from 'cron';
 import { findIndex } from 'lodash-es';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
-import Basic, { nimChatroomSocketList, MessageListener } from './Basic';
-import NimChatroomSocket, { ChatroomMember } from './NimChatroomSocket';
+import Basic, { MessageListener } from './Basic';
+import { ChatroomMember } from './NimChatroomSocket';
 import { getGroupNumbers, getSocketHost, LogCommandData } from './utils/miraiUtils';
 import { isGroupMessageEventData, isMemberIncreaseEventData } from './utils/oicqUtils';
 import { getRoomMessageForOicq, getLogMessage, log, RoomMessageArgs } from './utils/pocket48Utils';
@@ -283,59 +282,31 @@ class OicqQQ extends Basic {
     this.roomEntryListener = setTimeout(this.handleRoomEntryTimer, 20_000);
   };
 
-  // 口袋48监听初始化
-  async initPocket48(): Promise<void> {
-    const {
-      pocket48RoomListener,
-      pocket48RoomId,
-      pocket48IsAnonymous,
-      pocket48Account,
-      pocket48Token,
-      pocket48RoomEntryListener,
-      pocket48MemberInfo
-    }: OptionsItemValue = this.config;
+  // 成员在线离线监听
+  handleOwnerOnlineTimer: Function = async (): Promise<void> => {
+    try {
+      const members: Array<ChatroomMember> = await this.nimChatroom!.getChatroomMembers(false);
+      const online: boolean = members[0]?.online;
+      const name: string = this.memberInfo?.ownerName!;
 
-    if (!pocket48RoomListener) return;
-
-    if (!(pocket48IsAnonymous || (pocket48RoomId && pocket48Account && pocket48Token))) return;
-
-    // 判断socket列表内是否有当前房间的socket连接
-    const index: number = findIndex(nimChatroomSocketList, { pocket48RoomId });
-
-    this.nimChatroomSocketId = randomUUID();
-
-    if (index < 0) {
-      const nimChatroomSocket: NimChatroomSocket = new NimChatroomSocket({
-        pocket48IsAnonymous,
-        pocket48Account,
-        pocket48Token,
-        pocket48RoomId
-      });
-
-      await nimChatroomSocket.init();
-      nimChatroomSocket.addQueue({
-        id: this.nimChatroomSocketId,
-        onmsgs: this.handleRoomSocketMessage
-      });
-      nimChatroomSocketList.push(nimChatroomSocket); // 添加到列表
-      this.nimChatroom = nimChatroomSocket;
-    } else {
-      nimChatroomSocketList[index].addQueue({
-        id: this.nimChatroomSocketId,
-        onmsgs: this.handleRoomSocketMessage
-      });
-      this.nimChatroom = nimChatroomSocketList[index];
-    }
-
-    if ((pocket48RoomEntryListener || pocket48MemberInfo) && this.membersList?.length) {
-      const idx: number = findIndex(this.membersList, (o: MemberInfo) => o.roomId === `${ pocket48RoomId }`);
-
-      if (idx >= 0) {
-        this.memberInfo = this.membersList[idx];
-        pocket48RoomEntryListener && this.handleRoomEntryTimer();
+      if (this.ownerOnlineCache === false && online === true) {
+        // 上线
+        await this.sendMessage(`${ name } 上线了。
+时间：${ dayjs().format('YYYY-MM-DD HH:mm:ss') }`);
       }
+
+      if (this.ownerOnlineCache === true && online === false) {
+        await this.sendMessage(`${ name } 下线了。
+时间：${ dayjs().format('YYYY-MM-DD HH:mm:ss') }`);
+      }
+
+      this.ownerOnlineCache = online;
+    } catch (err) {
+      console.error(err);
     }
-  }
+
+    this.ownerOnlineTimer = setTimeout(this.handleOwnerOnlineTimer, 20_000);
+  };
 
   // 微博监听
   handleWeiboWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
