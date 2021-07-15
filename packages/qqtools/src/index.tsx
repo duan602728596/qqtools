@@ -8,6 +8,7 @@ import 'dayjs/locale/zh-cn';
 import { storeFactory } from './store/store';
 import Routers from './router/Routers';
 import dbInit from './utils/idb/dbInit';
+import './QQ/sdk/BlythE.min';
 
 dayjs.locale('zh-cn');
 

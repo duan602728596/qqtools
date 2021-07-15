@@ -86,7 +86,7 @@ export default function(info: object): { [key: string]: any } {
     js: {
       ecmascript: true,
       plugins,
-      exclude: /node_modules|NIM_Web_SDK/i
+      exclude: /node_modules|NIM_Web_SDK|BlythE/i
     },
     ts: {
       configFile: isDev ? 'tsconfig.json' : 'tsconfig.prod.json',
