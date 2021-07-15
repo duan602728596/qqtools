@@ -32,6 +32,8 @@ function LoginModal(props: { form: FormInstance }): ReactElement {
       return console.error(err);
     }
 
+    setLoading(true);
+
     try {
       const loginRes: LoginInfo = await requestPocketLogin(formValue.pwd, formValue.mobile);
 
@@ -42,6 +44,8 @@ function LoginModal(props: { form: FormInstance }): ReactElement {
       if (loginRes.status === 200) {
         token = loginRes.content.userInfo.token;
       } else {
+        setLoading(false);
+
         return message.error('口袋账号登陆失败！');
       }
 
@@ -62,6 +66,8 @@ function LoginModal(props: { form: FormInstance }): ReactElement {
       console.error(err);
       message.error('登陆失败！');
     }
+
+    setLoading(false);
   }
 
   return (
@@ -73,6 +79,7 @@ function LoginModal(props: { form: FormInstance }): ReactElement {
         centered={ true }
         destroyOnClose={ true }
         closable={ false }
+        confirmLoading={ loading }
         afterClose={ form.resetFields }
         onOk={ handleLoginClick }
         onCancel={ handleCloseModalClick }
