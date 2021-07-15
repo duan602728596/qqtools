@@ -1,5 +1,4 @@
-import got from 'got';
-import type { Response as GotResponse } from 'got';
+import got, { Response as GotResponse } from 'got';
 import type {
   AuthResponse,
   MessageResponse,

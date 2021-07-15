@@ -13,6 +13,7 @@ import { random, transform } from 'lodash-es';
 import style from './index.sass';
 import { saveFormData, getOptionItem } from '../reducers/reducers';
 import CustomCmd from './CustomCmd';
+import LoginModal from './LoginModal';
 import type { OptionsItem } from '../../../types';
 
 const pocket48ShieldMsgTypeOptions: Array<CheckboxOptionType> = [
@@ -176,8 +177,11 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="pocket48Account" label="IM的account">
         <Input />
       </Form.Item>
-      <Form.Item name="pocket48Token" label="IM的token">
-        <Input />
+      <Form.Item label="IM的token">
+        <Form.Item name="pocket48Token" noStyle={ true }>
+          <Input />
+        </Form.Item>
+        <LoginModal form={ form } />
       </Form.Item>
       <Form.Item name="pocket48LiveAtAll" label="@全体成员" valuePropName="checked">
         <Checkbox>直播时@全体成员（需要有管理员权限）</Checkbox>
@@ -242,17 +246,6 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="taobaCommandTemplate" label="集资命令模板">
         <Input.TextArea rows={ 3 } />
       </Form.Item>
-      {/*
-      <Form.Item name="taobaTemplate" label="集资结果模板">
-        <Input.TextArea rows={ 7 } />
-      </Form.Item>
-      <Form.Item name="taobaRankList" label="结果包含排行榜" valuePropName="checked">
-        <Switch />
-      </Form.Item>
-      <Form.Item name="otherTaobaIds" label="其他桃叭ID">
-        <Input />
-      </Form.Item>
-      */}
 
       {/* 群欢迎功能 */}
       <Divider>群欢迎功能</Divider>
