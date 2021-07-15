@@ -91,14 +91,14 @@ export default function(info: object): { [key: string]: any } {
     ts: {
       configFile: isDev ? 'tsconfig.json' : 'tsconfig.prod.json',
       plugins,
-      exclude: /node_modules/
+      exclude: /node_modules|NIM_Web_SDK|BlythE/i
     },
     rules: [
       {
         test: /NIM_Web_SDK/,
         type: 'asset/resource',
         generator: {
-          filename: isDev ? '[name]_[hash:5][ext]' : '[name]_[hash:15][ext]'
+          filename: isDev ? '[name]_[hash:5][ext]' : '[name][ext]'
         }
       }
     ],
