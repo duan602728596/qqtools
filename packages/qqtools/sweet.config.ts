@@ -98,7 +98,7 @@ export default function(info: object): { [key: string]: any } {
         test: /NIM_Web_SDK/,
         type: 'asset/resource',
         generator: {
-          filename: isDev ? '[name]_[hash:5][ext]' : '[name][ext]'
+          filename: '[name][ext]' // TODO: js文件生成的hash和注入的hash不一致
         }
       }
     ],
