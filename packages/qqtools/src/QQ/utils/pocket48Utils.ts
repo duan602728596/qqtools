@@ -151,7 +151,7 @@ ${ customInfo.question }
 
     // 删除回复、禁言、open live、trip info
     // TODO: SESSION_DIANTA目前会导致重复发送信息，所以暂时不处理
-    if (['DELETE', 'SESSION_DIANTA', 'DISABLE_SPEAK', 'OPEN_LIVE', 'TRIP_INFO'].includes(customInfo.messageType)) {
+    if (['DELETE', 'SESSION_DIANTAI', 'DISABLE_SPEAK', 'OPEN_LIVE', 'TRIP_INFO'].includes(customInfo.messageType)) {
       // 什么都不做
     } else {
       // 未知信息类型
@@ -296,7 +296,7 @@ ${ JSON.stringify(event) }`;
     } else
 
     // 禁言、open live、trip info
-    if (['SESSION_DIANTA', 'OPEN_LIVE', 'TRIP_INFO'].includes(customInfo.messageType)) {
+    if (['SESSION_DIANTAI', 'OPEN_LIVE', 'TRIP_INFO'].includes(customInfo.messageType)) {
       // 什么都不做
     } else {
       // 未知信息类型

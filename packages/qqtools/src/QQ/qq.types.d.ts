@@ -169,7 +169,7 @@ export interface DISABLE_SPEAKMessage extends CustomMessage {
 
 // 电台
 export interface SESSION_DIANTAIMessage extends CustomMessage {
-  messageType: 'SESSION_DIANTA';
+  messageType: 'SESSION_DIANTAI';
   streamPath: string;
 }
 
