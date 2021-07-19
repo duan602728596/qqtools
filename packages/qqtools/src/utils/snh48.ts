@@ -13,7 +13,7 @@ export function rStr(len: number): string {
 }
 
 function $token(): string {
-  return globalThis.__x6c2adf8__.call();
+  return Reflect.get(globalThis, '__x6c2adf8__').call();
 }
 
 /* 创建请求头 */
