@@ -1,6 +1,6 @@
 import * as fse from 'fs-extra';
-import type { MessageElem } from 'oicq';
 import * as dayjs from 'dayjs';
+import type { MessageElem } from 'oicq';
 import { plain, image, atAll } from './miraiUtils';
 import { miraiMessageTooicqMessage } from './oicqUtils';
 import type { CustomMessageAll, MessageChain, NIMMessage } from '../qq.types';
@@ -124,7 +124,7 @@ ${ customInfo.question }
     // 投票
     if (customInfo.messageType === 'PRESENT_TEXT') {
       // 判断是否为总选投票
-      if (customInfo.giftInfo.giftName.includes('投票权') || customInfo.giftInfo.special) {
+      if (customInfo.giftInfo.giftName.includes('投票')) {
         sendGroup.push(
           plain(`${ nickName }：投出了${ customInfo.giftInfo.giftNum }票。`),
           image(`https://source.48.cn${ customInfo.giftInfo.picPath }`),
@@ -271,7 +271,7 @@ ${ customInfo.question }
     // 投票
     if (customInfo.messageType === 'PRESENT_TEXT') {
       // 判断是否为总选投票
-      if (customInfo.giftInfo.giftName.includes('投票权') || customInfo.giftInfo.special) {
+      if (customInfo.giftInfo.giftName.includes('投票')) {
         logData = `${ nickName }：投出了${ customInfo.giftInfo.giftNum }票。
 时间：${ msgTime }${ memberInfoContent }`;
       }
