@@ -1,23 +1,25 @@
 import path from 'path';
-import { promises as fsPromise } from 'fs';
+import { promises as fsP } from 'fs';
 import puppeteer from 'puppeteer-core';
 import { metaHelper } from '@sweet-milktea/utils';
 
 const { __dirname } = metaHelper(import.meta.url);
 
 /**
+ * 需要替换该滑块地址！
+ */
+const verifyUri = 'https://ti.qq.com/safe/verify?';
+
+/**
  * 浏览器的可执行文件
- * 运行前请配置
+ * 运行前请配置！
  */
 const executablePath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 
 /**
- * 需要替换该滑块地址
+ * 读取并修改脚本，改为自己实现的方法
  */
-const verifyUri = 'https://ti.qq.com/safe/verify?';
-
-// 修改脚本
-const qqapiFile = await fsPromise.readFile(path.join(__dirname, 'qqapi.wk.js'), {
+const qqapiFile = await fsP.readFile(path.join(__dirname, 'qqapi.wk.js'), {
   encoding: 'utf8'
 });
 const qqapiReplaceFile = qqapiFile.replace(
@@ -25,6 +27,10 @@ const qqapiReplaceFile = qqapiFile.replace(
   'try{__webkit_postMessage__('
 );
 
+/**
+ * 注入自己实现的打开新窗口的方法
+ * @param { object } data
+ */
 function __webkit_postMessage__(data) {
   const uri = decodeURIComponent(data.src.split('?p=')[1])
     .replace('jsbridge://nav/openLinkInNewWebView,', '')
@@ -36,18 +42,24 @@ function __webkit_postMessage__(data) {
   }
 }
 
-// 运行脚本
+/**
+ * 运行无头浏览器
+ */
 const browser = await puppeteer.launch({
   headless: false,
   devtools: false,
   executablePath
 });
 const page = await browser.newPage();
+const qqUserAgent = `Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko)
+ Mobile/18F72 QQ/8.8.0.608 V1_IPH_SQ_8.8.0_1_APP_A Pixel/828 SimpleUISwitch/0 StudyMode/0 QQTheme/1000 Core/WKWebView
+  Device/Apple(iPhone XR) NetType/WIFI QBWebViewType/1 WKType/1`;
 
-await page.setUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/18F72 QQ/8.8.0.608 V1_IPH_SQ_8.8.0_1_APP_A Pixel/828 SimpleUISwitch/0 StudyMode/0 QQTheme/1000 Core/WKWebView Device/Apple(iPhone XR) NetType/WIFI QBWebViewType/1 WKType/1');
-
+await page.setUserAgent(qqUserAgent.replaceAll(/\n/g, ''));
 await page.setCacheEnabled(false);
 await page.setRequestInterception(true);
+
+// 拦截脚本并替换为自己的脚本
 page.on('request', async function(req) {
   if (/qqapi\.wk/i.test(req.url())) {
     await req.respond({
