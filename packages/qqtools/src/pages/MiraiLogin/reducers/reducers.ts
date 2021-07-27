@@ -6,7 +6,7 @@ import {
   CaseReducerActions,
   ActionCreator
 } from '@reduxjs/toolkit';
-import { differenceBy, findIndex } from 'lodash-es';
+import { differenceBy } from 'lodash-es';
 import dbRedux, { qqObjectStoreName } from '../../../utils/idb/dbRedux';
 import type { QQLoginItem } from '../types';
 
@@ -54,7 +54,7 @@ const { actions, reducer }: Slice = createSlice<MiraiLoginInitialState, CaseRedu
     // 添加配置
     setQQLoginAdd(state: MiraiLoginInitialState, action: PayloadAction<{ data: QQLoginItem }>): void {
       const qqLoginList: Array<QQLoginItem> = state.qqLoginList;
-      const index: number = findIndex(qqLoginList, { qq: action.payload.data.qq });
+      const index: number = qqLoginList.findIndex((o: QQLoginItem): boolean => o.qq === action.payload.data.qq);
 
       if (index >= 0) {
         qqLoginList[index] = action.payload.data;

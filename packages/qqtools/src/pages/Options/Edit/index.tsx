@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import type { OpenDialogReturnValue } from 'electron';
 import { dialog } from '@electron/remote';
 import { useEffect, ReactElement, MouseEvent } from 'react';
@@ -9,7 +10,6 @@ import { Form, Button, Space, Input, InputNumber, Divider, Switch, Checkbox, Sel
 import type { FormInstance } from 'antd/es/form';
 import type { Store } from 'rc-field-form/es/interface';
 import type { CheckboxOptionType } from 'antd/es/checkbox';
-import { random, transform } from 'lodash-es';
 import style from './index.sass';
 import { saveFormData, getOptionItem } from '../reducers/reducers';
 import CustomCmd from './CustomCmd';
@@ -69,14 +69,16 @@ function Edit(props: {}): ReactElement {
     if (!formValue) return;
 
     // 获取id或者随机id
-    const id: string = params?.id ?? String(random(1, 10000000));
+    const id: string = params?.id ?? randomUUID();
     const name: string = formValue.optionName;
 
     // 剔除undefined
-    const formatFormValue: Store = transform(formValue, function(result: Store, value: any, key: string): void {
-      if (value !== undefined) {
-        result[key] = value;
+    const formatFormValue: Store = Object.keys(formValue).reduce(function(result: Store, key: string): Store {
+      if (formValue && formValue[key] !== undefined) {
+        result[key] = formValue[key];
       }
+
+      return result;
     }, {});
 
     await dispatch(saveFormData({

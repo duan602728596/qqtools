@@ -1,7 +1,6 @@
 import * as querystring from 'querystring';
 import { CronJob } from 'cron';
 import { message } from 'antd';
-import { findIndex } from 'lodash-es';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
 import Basic, { MessageListener } from './Basic';
@@ -19,7 +18,7 @@ import { requestJoinRank } from './services/taoba';
 import { ChatroomMember } from './NimChatroomSocket';
 import { plain, atAll, miraiTemplate, getGroupNumbers, getSocketHost, LogCommandData } from './utils/miraiUtils';
 import { getRoomMessage, getLogMessage, log, RoomMessageArgs } from './utils/pocket48Utils';
-import type { OptionsItemValue, MemberInfo } from '../types';
+import type { OptionsItemValue, MemberInfo, EditItem } from '../types';
 import type {
   Plain,
   AuthResponse,
@@ -100,7 +99,7 @@ class QQ extends Basic {
 
         // 自定义信息处理
         if (customCmd?.length) {
-          const index: number = findIndex(customCmd, { cmd: command });
+          const index: number = customCmd.findIndex((o: EditItem): boolean => o.cmd === command);
 
           if (index >= 0) {
             const value: Array<MessageChain> = miraiTemplate(customCmd[index].value);
@@ -360,7 +359,7 @@ class QQ extends Basic {
       // 获取进入房间的信息
       for (const member of members) {
         // 判断是否是小偶像
-        const idx: number = findIndex(this.membersList, (o: MemberInfo): boolean => o.account === member.account);
+        const idx: number = (this.membersList ?? []).findIndex((o: MemberInfo): boolean => o.account === member.account);
 
         if (idx < 0) {
           continue;
@@ -377,7 +376,7 @@ class QQ extends Basic {
         }
 
         // 判断是否进入过房间（存在于缓存中）
-        const idx1: number = findIndex(this.membersCache, (o: MemberInfo): boolean => o.account === xoxMember.account);
+        const idx1: number = this.membersCache.findIndex((o: MemberInfo): boolean => o.account === xoxMember.account);
 
         if (idx1 < 0) {
           entryLog.push(`${ xoxMember.ownerName } 进入了 ${ name } 的房间`);
@@ -387,7 +386,7 @@ class QQ extends Basic {
       // 离开房间的信息（缓存内的信息不在新信息中）
       if (this.membersCache) {
         for (const member of this.membersCache) {
-          const idx: number = findIndex(nowMembers, (o: MemberInfo): boolean => o.account === member.account);
+          const idx: number = nowMembers.findIndex((o: MemberInfo): boolean => o.account === member.account);
 
           if (idx < 0) {
             outputLog.push(`${ member.ownerName } 离开了 ${ name } 的房间`);

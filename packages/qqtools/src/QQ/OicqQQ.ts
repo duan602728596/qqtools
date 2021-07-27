@@ -1,7 +1,6 @@
 import * as oicq from 'oicq';
 import type { EventData, GroupMessageEventData, RetCommon, MessageElem, TextElem } from 'oicq';
 import { CronJob } from 'cron';
-import { findIndex } from 'lodash-es';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
 import Basic, { MessageListener } from './Basic';
@@ -11,7 +10,7 @@ import { isGroupMessageEventData, isMemberIncreaseEventData } from './utils/oicq
 import { getRoomMessageForOicq, getLogMessage, log, RoomMessageArgs } from './utils/pocket48Utils';
 import { requestSendGroupMessage } from './services/oicq';
 import { requestJoinRank } from './services/taoba';
-import type { OptionsItemValue, MemberInfo } from '../types';
+import type { OptionsItemValue, MemberInfo, EditItem } from '../types';
 import type { NIMMessage, CustomMessageAll, TaobaRankItem, TaobaJoinRank } from './qq.types';
 
 /* oicq的连接 */
@@ -67,7 +66,7 @@ class OicqQQ extends Basic {
 
       // 自定义信息处理
       if (customCmd?.length) {
-        const index: number = findIndex(customCmd, { cmd: command });
+        const index: number = customCmd.findIndex((o: EditItem): boolean => o.cmd === command);
 
         if (index >= 0) {
           await this.sendMessage(customCmd[index].value, groupId);
@@ -226,7 +225,7 @@ class OicqQQ extends Basic {
       // 获取进入房间的信息
       for (const member of members) {
         // 判断是否是小偶像
-        const idx: number = findIndex(this.membersList, (o: MemberInfo): boolean => o.account === member.account);
+        const idx: number = (this.membersList ?? []).findIndex((o: MemberInfo): boolean => o.account === member.account);
 
         if (idx < 0) {
           continue;
@@ -243,7 +242,7 @@ class OicqQQ extends Basic {
         }
 
         // 判断是否进入过房间（存在于缓存中）
-        const idx1: number = findIndex(this.membersCache, (o: MemberInfo): boolean => o.account === xoxMember.account);
+        const idx1: number = this.membersCache.findIndex((o: MemberInfo): boolean => o.account === xoxMember.account);
 
         if (idx1 < 0) {
           entryLog.push(`${ xoxMember.ownerName } 进入了 ${ name } 的房间`);
@@ -253,7 +252,7 @@ class OicqQQ extends Basic {
       // 离开房间的信息（缓存内的信息不在新信息中）
       if (this.membersCache) {
         for (const member of this.membersCache) {
-          const idx: number = findIndex(nowMembers, (o: MemberInfo): boolean => o.account === member.account);
+          const idx: number = nowMembers.findIndex((o: MemberInfo): boolean => o.account === member.account);
 
           if (idx < 0) {
             outputLog.push(`${ member.ownerName } 离开了 ${ name } 的房间`);

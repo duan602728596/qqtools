@@ -1,10 +1,10 @@
+import { randomUUID } from 'crypto';
 import { Fragment, useState, ReactElement, Dispatch as D, SetStateAction as S, MouseEvent } from 'react';
 import * as PropTypes from 'prop-types';
 import { Table, Button, Space, Input, Modal, Form } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { FormInstance } from 'antd/es/form';
 import type { Store } from 'rc-field-form/es/interface';
-import { random, findIndex } from 'lodash-es';
 import style from './customCmd.sass';
 import type { EditItem } from '../../../types';
 
@@ -47,7 +47,7 @@ function CustomCmd(props: CustomCmdProps): ReactElement {
     const val: Array<EditItem> = props.value ?? [];
 
     if (editItem && props.value) {
-      const index: number = findIndex(val, { id: editItem.id });
+      const index: number = val.findIndex((o: EditItem): boolean => o.id === editItem.id);
 
       props.value[index] = {
         id: editItem.id,
@@ -56,7 +56,7 @@ function CustomCmd(props: CustomCmdProps): ReactElement {
       };
     } else {
       val.push({
-        id: String(random(1, 10000000)),
+        id: randomUUID(),
         cmd: formValue.cmd,
         value: formValue.value
       });

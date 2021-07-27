@@ -1,5 +1,4 @@
 import { randomUUID } from 'crypto';
-import { findIndex } from 'lodash-es';
 import type { CronJob } from 'cron';
 import BilibiliWorker from 'worker-loader!./utils/bilibili.worker';
 import WeiboWorker from 'worker-loader!./utils/weibo.worker';
@@ -81,7 +80,7 @@ abstract class Basic {
     if (!(pocket48IsAnonymous || (pocket48RoomId && pocket48Account && pocket48Token))) return;
 
     // 判断socket列表内是否有当前房间的socket连接
-    const index: number = findIndex(nimChatroomSocketList, { pocket48RoomId });
+    const index: number = nimChatroomSocketList.findIndex((o: NimChatroomSocket): boolean => o.pocket48RoomId === pocket48RoomId);
 
     this.nimChatroomSocketId = randomUUID();
 
@@ -109,7 +108,7 @@ abstract class Basic {
     }
 
     if ((pocket48RoomEntryListener || pocket48OwnerOnlineListener || pocket48MemberInfo) && this.membersList?.length) {
-      const idx: number = findIndex(this.membersList, (o: MemberInfo) => o.roomId === `${ pocket48RoomId }`);
+      const idx: number = this.membersList.findIndex((o: MemberInfo): boolean => o.roomId === `${ pocket48RoomId }`);
 
       if (idx >= 0) {
         this.memberInfo = this.membersList[idx];
@@ -122,7 +121,7 @@ abstract class Basic {
   // 移除socket连接
   disconnectPocket48(): void {
     const { pocket48RoomId }: OptionsItemValue = this.config;
-    const index: number = findIndex(nimChatroomSocketList, { pocket48RoomId });
+    const index: number = nimChatroomSocketList.findIndex((o: NimChatroomSocket): boolean => o.pocket48RoomId === pocket48RoomId);
 
     if (this.roomEntryListener !== null) {
       clearTimeout(this.roomEntryListener);

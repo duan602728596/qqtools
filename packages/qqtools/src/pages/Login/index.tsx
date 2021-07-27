@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import {
   useState,
   useEffect,
@@ -13,7 +14,6 @@ import { createSelector, createStructuredSelector, Selector } from 'reselect';
 import { Link } from 'react-router-dom';
 import { Select, Button, Space, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { random, findIndex } from 'lodash-es';
 import style from './index.sass';
 import { queryOptionsList, OptionsInitialState } from '../Options/reducers/reducers';
 import { setAddLogin, setDeleteLogin, getRoomId, LoginInitialState } from './reducers/reducers';
@@ -66,9 +66,9 @@ function Index(props: {}): ReactElement {
       const { result: roomIdResult }: { result: { value: Array<MemberInfo> } } = await dispatch(getRoomId({
         query: 'roomId'
       }));
-      const index: number = findIndex(optionsList, { id: optionValue });
+      const index: number = optionsList.findIndex((o: OptionsItem): boolean => o.id === optionValue);
       const qqOptions: OptionsItemValue = optionsList[index].value;
-      const id: string = String(random(1, 10000000));
+      const id: string = randomUUID();
       let qq: QQ | OicqQQ;
 
       if (qqOptions.optionType === '1') {

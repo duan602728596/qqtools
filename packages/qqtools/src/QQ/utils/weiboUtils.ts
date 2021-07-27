@@ -1,5 +1,4 @@
 import * as dayjs from 'dayjs';
-import { orderBy } from 'lodash-es';
 import type { WeiboCard, WeiboSendData, WeiboMBlog } from '../qq.types';
 
 /**
@@ -7,18 +6,17 @@ import type { WeiboCard, WeiboSendData, WeiboMBlog } from '../qq.types';
  * @param { Array<WeiboCard> } cards: 微博信息
  */
 export function filterCards(cards: Array<WeiboCard>): Array<WeiboCard> {
-  return orderBy<WeiboCard>(
-    cards
-      // 过滤非发文微博
-      .filter((o: WeiboCard): boolean => {
-        return o.card_type === 9 && 'mblog' in o;
-      })
-      .map((item: WeiboCard, index: number): WeiboCard => {
-        return Object.assign(item, {
-          _id: BigInt(item.mblog.id)
-        });
-      }),
-    ['_id'], ['desc']);
+  return cards
+    // 过滤非发文微博
+    .filter((o: WeiboCard): boolean => {
+      return o.card_type === 9 && 'mblog' in o;
+    })
+    .map((item: WeiboCard, index: number): WeiboCard => {
+      return Object.assign(item, {
+        _id: BigInt(item.mblog.id)
+      });
+    })
+    .sort((a: WeiboCard, b: WeiboCard): number => a._id > b._id ? -1 : (a._id < b._id ? 1 : 0));
 }
 
 /**

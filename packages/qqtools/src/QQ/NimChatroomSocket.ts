@@ -1,7 +1,6 @@
 import { randomUUID } from 'crypto';
 import NIM_SDK from 'SDK';
 import { message } from 'antd';
-import { findIndex } from 'lodash-es';
 import el from './sdk/eval';
 import type { NIMMessage, NIMError } from './qq.types';
 
@@ -102,7 +101,7 @@ class NimChatroomSocket {
 
   // 移除队列
   removeQueue(id: string): void {
-    const index: number = findIndex(this.queues, { id });
+    const index: number = this.queues.findIndex((o: Queue): boolean => o.id === id);
 
     if (index >= 0) {
       this.queues.splice(index, 1);
