@@ -1,5 +1,4 @@
 import { createSlice, Slice, SliceCaseReducers, PayloadAction, CaseReducerActions, ActionCreator } from '@reduxjs/toolkit';
-import { differenceBy } from 'lodash-es';
 import dbRedux, { loginOptionsObjectStoreName, roomIdObjectStoreName } from '../../../utils/idb/dbRedux';
 import type { OptionsItem } from '../../../types';
 
@@ -22,14 +21,7 @@ const { actions, reducer }: Slice = createSlice<OptionsInitialState, CaseReducer
 
     // 删除配置
     setOptionsDeleteList(state: OptionsInitialState, action: PayloadAction<{ query: string }>): void {
-      const optionsList: Array<OptionsItem> = state.optionsList;
-      const newList: Array<OptionsItem> = differenceBy<OptionsItem, { id: string }>(
-        optionsList,
-        [{ id: action.payload.query }],
-        'id'
-      );
-
-      state.optionsList = newList;
+      state.optionsList = state.optionsList.filter((o: OptionsItem): boolean => o.id !== action.payload.query);
     }
   }
 });

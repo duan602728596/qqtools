@@ -8,8 +8,8 @@ import { Button, Space, Table, Checkbox, message, notification, Tooltip, Select 
 import type { ColumnsType } from 'antd/es/table';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { ToolTwoTone as IconToolTwoTone } from '@ant-design/icons';
-import { omit } from 'lodash-es';
 import style from './index.sass';
+import { omit } from '../../utils/lodash';
 import Header from './Header/Header';
 import LoginModal from './LoginModal';
 import {

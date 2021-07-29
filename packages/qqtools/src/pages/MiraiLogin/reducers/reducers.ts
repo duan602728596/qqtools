@@ -6,7 +6,6 @@ import {
   CaseReducerActions,
   ActionCreator
 } from '@reduxjs/toolkit';
-import { differenceBy } from 'lodash-es';
 import dbRedux, { qqObjectStoreName } from '../../../utils/idb/dbRedux';
 import type { QQLoginItem } from '../types';
 
@@ -41,14 +40,7 @@ const { actions, reducer }: Slice = createSlice<MiraiLoginInitialState, CaseRedu
 
     // 删除配置
     setQQLoginDeleteList(state: MiraiLoginInitialState, action: PayloadAction<{ query: string }>): void {
-      const qqLoginList: Array<QQLoginItem> = state.qqLoginList;
-      const newList: Array<QQLoginItem> = differenceBy<QQLoginItem, { qq: string }>(
-        qqLoginList,
-        [{ qq: action.payload.query }],
-        'qq'
-      );
-
-      state.qqLoginList = newList;
+      state.qqLoginList = state.qqLoginList.filter((o: QQLoginItem): boolean => o.qq !== action.payload.query);
     },
 
     // 添加配置

@@ -6,7 +6,6 @@ import {
   CaseReducerActions,
   ActionCreator
 } from '@reduxjs/toolkit';
-import { differenceBy } from 'lodash-es';
 import dbRedux, { roomIdObjectStoreName } from '../../../utils/idb/dbRedux';
 import QQ from '../../../QQ/QQ';
 import OicqQQ from '../../../QQ/OicqQQ';
@@ -30,11 +29,7 @@ const { actions, reducer }: Slice = createSlice<LoginInitialState, CaseReducers>
 
     // 删除登陆
     setDeleteLogin(state: LoginInitialState, action: PayloadAction<QQ | OicqQQ>): void {
-      state.loginList = differenceBy<QQ | OicqQQ, { id: string }>(
-        state.loginList,
-        [{ id: action.payload.id }],
-        'id'
-      );
+      state.loginList = state.loginList.filter((o: QQ | OicqQQ): boolean => o.id !== action.payload.id);
     }
   }
 });
