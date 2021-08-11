@@ -26,6 +26,7 @@ const pocket48ShieldMsgTypeOptions: Array<CheckboxOptionType> = [
   { value: 'FLIPCARD', label: '翻牌' },
   { value: 'FLIPCARD_AUDIO', label: '语音翻牌' },
   { value: 'FLIPCARD_VIDEO', label: '视频翻牌' },
+  { value: 'EXPRESSIMAGE', label: '2021表情图片' },
   { value: 'EXPRESS', label: '表情' },
   { value: 'GIFTREPLY', label: '礼物回复信息' },
   { value: 'PRESENT_TEXT', label: '投票' },
