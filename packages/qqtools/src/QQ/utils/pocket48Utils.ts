@@ -121,6 +121,15 @@ ${ customInfo.question }
       );
     } else
 
+    // 发送2021表情包
+    if (customInfo.messageType === 'EXPRESSIMAGE') {
+      sendGroup.push(
+        plain(`${ nickName } ：`),
+        image(customInfo.emotionRemote),
+        plain(`时间：${ msgTime }${ memberInfoContent }`)
+      );
+    } else
+
     // 投票
     if (customInfo.messageType === 'PRESENT_TEXT') {
       // 判断是否为总选投票
@@ -265,6 +274,13 @@ ${ customInfo.question }
       logData = `${ nickName } 翻牌了问题：
 ${ customInfo.question }
 回答：https://mp4.48.cn${ answer.url }
+时间：${ msgTime }${ memberInfoContent }`;
+    } else
+
+    // 发送2021表情包
+    if (customInfo.messageType === 'EXPRESSIMAGE') {
+      logData = `${ nickName } 发送了一个表情：
+地址：${ customInfo.emotionRemote }
 时间：${ msgTime }${ memberInfoContent }`;
     } else
 

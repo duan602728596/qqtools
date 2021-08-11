@@ -208,6 +208,12 @@ export interface FLIPCARD_VIDEOMessage extends CustomMessage {
   roomId: string;
 }
 
+// 2021表情包
+export interface EXPRESSIMAGEMessage extends CustomMessage {
+  messageType: 'EXPRESSIMAGE';
+  emotionRemote: string; // 表情包地址
+}
+
 // open live
 export interface OPEN_LIVEMessage extends CustomMessage {
   messageType: 'OPEN_LIVE';
@@ -261,6 +267,7 @@ export type CustomMessageAll =
   | SESSION_DIANTAIMessage
   | FLIPCARD_AUDIOMessage
   | FLIPCARD_VIDEOMessage
+  | EXPRESSIMAGEMessage
   | OPEN_LIVEMessage
   | TRIP_INFOMessage
   | PRESENT_TEXTMessage
