@@ -2,7 +2,7 @@
   "packages": [
     "packages/*"
   ],
-  "version": "4.7.3",
+  "version": "4.7.4",
   "npmClient": "npm",
   "useWorkspaces": true
 }
