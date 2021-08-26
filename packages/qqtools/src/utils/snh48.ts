@@ -24,9 +24,9 @@ export function createHeaders(token?: string): { [key: string]: string } {
     appInfo: JSON.stringify({
       vendor: 'apple',
       deviceId: `${ rStr(8) }-${ rStr(4) }-${ rStr(4) }-${ rStr(4) }-${ rStr(12) }`,
-      appVersion: '6.2.1',
-      appBuild: '21062502',
-      osVersion: '13.5.1',
+      appVersion: '6.2.2',
+      appBuild: '21080401',
+      osVersion: '11.4.1',
       osType: 'ios',
       deviceName: 'iPhone XR',
       os: 'ios'
