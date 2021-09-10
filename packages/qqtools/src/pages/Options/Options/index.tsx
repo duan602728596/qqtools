@@ -21,6 +21,11 @@ import { queryOptionsList, deleteOption, saveFormData, OptionsInitialState } fro
 import dbConfig from '../../../utils/idb/dbConfig';
 import type { OptionsItem } from '../../../types';
 
+/* 判断yaml解析后是否为object类型 */
+function isObject(val: unknown): val is number {
+  return typeof val === 'object';
+}
+
 /* redux selector */
 interface SelectorRData {
   optionsList: Array<OptionsItem>;
@@ -56,9 +61,9 @@ function Options(props: {}): ReactElement {
 
     // 导入yaml文件
     const fsData: string = await fs.readFile(filePath, { encoding: 'utf8' });
-    const yamlParseResult: object | string | number | null | undefined = yaml.load(fsData);
+    const yamlParseResult: unknown = yaml.load(fsData);
 
-    if (!yamlParseResult || typeof yamlParseResult !== 'object') {
+    if (!yamlParseResult || !isObject(yamlParseResult)) {
       return message.error('配置文件解析失败！');
     }
 
