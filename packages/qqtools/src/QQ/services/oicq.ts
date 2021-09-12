@@ -11,7 +11,7 @@ export async function requestSendGroupMessage(
   groupNumber: number,
   socketHost: string,
   port: number,
-  message: MessageElem | Iterable<MessageElem> | string
+  message: MessageElem | Array<MessageElem> | string
 ): Promise<RetCommon> {
   const res: Response = await fetch(`http://${ socketHost }:${ port }/oicq/action`, {
     method: 'POST',

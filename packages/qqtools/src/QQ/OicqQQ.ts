@@ -104,10 +104,10 @@ class OicqQQ extends Basic {
 
   /**
    * 发送信息
-   * @param { MessageElem | Iterable<MessageElem> | string } value: 要发送的信息
+   * @param { MessageElem | Array<MessageElem> | string } value: 要发送的信息
    * @param { number } groupId: 单个群的群号
    */
-  async sendMessage(value: MessageElem | Iterable<MessageElem> | string, groupId?: number): Promise<void> {
+  async sendMessage(value: MessageElem | Array<MessageElem> | string, groupId?: number): Promise<void> {
     try {
       const { socketHost }: this = this;
       const { socketPort }: OptionsItemValue = this.config;
@@ -290,12 +290,12 @@ class OicqQQ extends Basic {
 
       if (this.ownerOnlineCache === false && online === true) {
         // 上线
-        await this.sendMessage(`${ name } 上线了。
+        await this.sendMessage(`${ name } 进入自己的房间。
 时间：${ dayjs().format('YYYY-MM-DD HH:mm:ss') }`);
       }
 
       if (this.ownerOnlineCache === true && online === false) {
-        await this.sendMessage(`${ name } 下线了。
+        await this.sendMessage(`${ name } 离开自己的房间。
 时间：${ dayjs().format('YYYY-MM-DD HH:mm:ss') }`);
       }
 
