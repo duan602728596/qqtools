@@ -6,7 +6,7 @@ import { metaHelper } from '@sweet-milktea/utils';
 const { __dirname } = metaHelper(import.meta.url);
 
 /**
- * 需要替换该滑块地址！
+ * 需要替换该扫码地址！
  */
 const verifyUri = 'https://ti.qq.com/safe/verify?';
 
