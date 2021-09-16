@@ -317,13 +317,19 @@ export interface WeiboContainerList {
 }
 
 // 微博超话
+export interface WeiboSuperTopicContainerCard {
+  show_type: '1'; // 帖子列表
+  card_group: Array<WeiboCard>;
+}
+
 export interface WeiboSuperTopicContainerList {
   ok: number;
   data: {
-    cards: Array<{
-      show_type: '1'; // 帖子列表
-      card_group: Array<WeiboCard>;
-    }>;
+    pageInfo: {
+      nick: string;
+      page_title: string;
+    };
+    cards: Array<WeiboSuperTopicContainerCard>;
   };
 }
 

@@ -5,7 +5,7 @@ import type { WeiboContainerList } from '../qq.types';
  * 超话列表也用这个接口，containerid_-_sort_time可以按照发帖时间排序
  * @param { string } lfid: 微博的lfid
  */
-export async function requestWeiboContainer(lfid: string): Promise<WeiboContainerList> {
+export async function requestWeiboContainer<T = WeiboContainerList>(lfid: string): Promise<T> {
   const res: Response = await fetch(`https://m.weibo.cn/api/container/getIndex?containerid=${ lfid }`, {
     mode: 'no-cors'
   });
