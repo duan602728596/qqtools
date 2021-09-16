@@ -127,9 +127,6 @@ async function main() {
         }, null, 2);
 
         await fsP.writeFile(fileName, newData);
-      } else if (status === 500) {
-        console.error('pa过期');
-        break;
       }
     }
   } catch (err) {
