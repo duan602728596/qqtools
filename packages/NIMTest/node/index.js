@@ -28,14 +28,17 @@ const appInfo = JSON.stringify({
   deviceName: 'iPhone XR',
   os: 'ios'
 });
-const headers = {
-  appInfo,
-  'Content-Type': 'application/json;charset=utf-8',
-  Host: 'pocketapi.48.cn',
-  'User-Agent': 'PocketFans201807/6.0.23 (iPhone; iOS 14.2; Scale/2.00)',
-  token,
-  pa
-};
+
+function headers() {
+  return {
+    appInfo,
+    'Content-Type': 'application/json;charset=utf-8',
+    Host: 'pocketapi.48.cn',
+    'User-Agent': 'PocketFans201807/6.0.23 (iPhone; iOS 14.2; Scale/2.00)',
+    token,
+    pa
+  };
+}
 
 // 获取房间信息
 function getRoomInfo(chatroomId) {
@@ -75,7 +78,7 @@ async function main() {
   try {
     // 获取当前账号的关注id
     const resFriends = await got.post('https://pocketapi.48.cn/user/api/v1/friendships/friends/id', {
-      headers,
+      headers: headers(),
       responseType: 'json',
       json: {}
     });
@@ -96,7 +99,7 @@ async function main() {
 
       // 获取账号信息
       const resMembersInfo = await got.post('https://pocketapi.48.cn/im/api/v1/im/room/info/type/source', {
-        headers,
+        headers: headers(),
         responseType: 'json',
         json: {
           type: 0,

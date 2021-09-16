@@ -2,7 +2,7 @@
 name: 功能要求
 about: 为这个项目提出一个想法
 title: ''
-labels: ''
+labels: feature
 assignees: ''
 
 ---

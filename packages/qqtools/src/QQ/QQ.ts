@@ -424,12 +424,12 @@ class QQ extends Basic {
 
       if (this.ownerOnlineCache === false && online === true) {
         // 上线
-        await this.sendMessage([plain(`${ name } 上线了。
+        await this.sendMessage([plain(`${ name } 进入自己的房间。
 时间：${ dayjs().format('YYYY-MM-DD HH:mm:ss') }`)]);
       }
 
       if (this.ownerOnlineCache === true && online === false) {
-        await this.sendMessage([plain(`${ name } 下线了。
+        await this.sendMessage([plain(`${ name } 离开自己的房间。
 时间：${ dayjs().format('YYYY-MM-DD HH:mm:ss') }`)]);
       }
 
