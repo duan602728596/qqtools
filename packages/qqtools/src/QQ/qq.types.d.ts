@@ -316,6 +316,17 @@ export interface WeiboContainerList {
   };
 }
 
+// 微博超话
+export interface WeiboSuperTopicContainerList {
+  ok: number;
+  data: {
+    cards: Array<{
+      show_type: '1'; // 帖子列表
+      card_group: Array<WeiboCard>;
+    }>;
+  };
+}
+
 export interface WeiboSendData {
   id: bigint;
   name: string;
