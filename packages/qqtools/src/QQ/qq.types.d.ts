@@ -253,6 +253,11 @@ export interface CLOSE_ROOM_CHATMessage extends CustomMessage {
   messageType: 'CLOSE_ROOM_CHAT';
 }
 
+// 中秋活动
+export interface ZHONGQIU_ACTIVITY_LANTERN_FANSMessage extends CustomMessage {
+  messageType: 'ZHONGQIU_ACTIVITY_LANTERN_FANS';
+}
+
 export type CustomMessageAll =
   | TEXTMessage
   | REPLYMessage
@@ -271,7 +276,8 @@ export type CustomMessageAll =
   | OPEN_LIVEMessage
   | TRIP_INFOMessage
   | PRESENT_TEXTMessage
-  | CLOSE_ROOM_CHATMessage;
+  | CLOSE_ROOM_CHATMessage
+  | ZHONGQIU_ACTIVITY_LANTERN_FANSMessage;
 
 /* 微博类型 */
 export interface WeiboTab {
