@@ -2,6 +2,7 @@ import { randomUUID } from 'crypto';
 import type { CronJob } from 'cron';
 import BilibiliWorker from 'worker-loader!./utils/bilibili.worker';
 import WeiboWorker from 'worker-loader!./utils/weibo.worker';
+import WeiboSuperTopicWorker from 'worker-loader!./utils/weiboSuperTopic.worker';
 import { requestDetail } from './services/taoba';
 import { requestRoomInfo, requestWeiboInfo } from './services/services';
 import NimChatroomSocket from './NimChatroomSocket';
@@ -31,6 +32,8 @@ abstract class Basic {
 
   public weiboLfid: string;    // 微博的lfid
   public weiboWorker?: Worker; // 微博监听
+  public weiboSuperTopicLfid: string;    // 微博的超级话题lfid
+  public weiboSuperTopicWorker?: Worker; // 微博超级话题监听
 
   public bilibiliWorker?: Worker;  // b站直播监听
   public bilibiliUsername: string; // 用户名
@@ -43,7 +46,7 @@ abstract class Basic {
   abstract roomSocketMessage(event: Array<NIMMessage>): Promise<void>; // 处理单个消息
   abstract handleRoomEntryTimer: Function;                             // 轮循获取房间信息
   abstract handleOwnerOnlineTimer: Function;                           // 轮循成员是否在线
-  abstract handleWeiboWorkerMessage: MessageListener;                  // 微博监听
+  abstract handleWeiboWorkerMessage: MessageListener;                  // 微博监听、微博超级话题监听
   abstract handleBilibiliWorkerMessage: MessageListener;               // bilibili message监听事件
 
   // 循环处理所有消息
@@ -159,6 +162,21 @@ abstract class Basic {
         protocol: this.protocol
       });
     }
+  }
+
+  // 微博初始化
+  initWeiboSuperTopicWorker(): void {
+    const { weiboSuperTopicListener, weiboSuperTopicLfid }: OptionsItemValue = this.config;
+
+    if (!(weiboSuperTopicListener && weiboSuperTopicLfid)) return;
+
+    this.weiboSuperTopicLfid = weiboSuperTopicLfid;
+    this.weiboSuperTopicWorker = new WeiboSuperTopicWorker();
+    this.weiboSuperTopicWorker.addEventListener('message', this.handleWeiboWorkerMessage, false);
+    this.weiboSuperTopicWorker.postMessage({
+      lfid: this.weiboSuperTopicLfid,
+      protocol: this.protocol
+    });
   }
 
   // bilibili直播监听初始化

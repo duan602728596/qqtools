@@ -225,6 +225,12 @@ function Edit(props: {}): ReactElement {
       <Form.Item name="weiboAtAll" label="@全体成员" valuePropName="checked">
         <Checkbox>发微博时@全体成员（需要有管理员权限）</Checkbox>
       </Form.Item>
+      <Form.Item name="weiboSuperTopicListener" label="开启微博超级话题监听" valuePropName="checked">
+        <Switch />
+      </Form.Item>
+      <Form.Item name="weiboSuperTopicLfid" label="微博超话lfid">
+        <Input />
+      </Form.Item>
 
       {/* B站直播监听 */}
       <Divider>B站直播监听</Divider>

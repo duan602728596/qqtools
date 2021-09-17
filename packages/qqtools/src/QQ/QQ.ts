@@ -511,6 +511,7 @@ class QQ extends Basic {
       this.initWebSocket();
       await this.initPocket48();
       await this.initWeiboWorker();
+      this.initWeiboSuperTopicWorker();
       await this.initBilibiliWorker();
       await this.initTaoba();
       this.initCronJob();
@@ -553,6 +554,12 @@ class QQ extends Basic {
       if (this.weiboWorker) {
         this.weiboWorker.terminate();
         this.weiboWorker = undefined;
+      }
+
+      // 销毁微博超级话题监听
+      if (this.weiboSuperTopicWorker) {
+        this.weiboSuperTopicWorker.terminate();
+        this.weiboSuperTopicWorker = undefined;
       }
 
       // 销毁bilibili监听

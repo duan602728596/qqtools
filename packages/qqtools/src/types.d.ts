@@ -30,6 +30,8 @@ export interface OptionsItemValue {
   weiboListener?: boolean;
   weiboUid?: string;
   weiboAtAll?: string;
+  weiboSuperTopicListener?: boolean;
+  weiboSuperTopicLfid?: string;
 
   bilibiliLive?: boolean;
   bilibiliLiveId: string;
