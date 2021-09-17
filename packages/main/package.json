@@ -8,7 +8,7 @@
     "clean": "rimraf ./lib"
   },
   "dependencies": {
-    "@electron/remote": "^1.2.1"
+    "@electron/remote": "^2.0.1"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
