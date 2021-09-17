@@ -58,10 +58,11 @@ function oicqSendGroup(item: WeiboSendData): string {
 async function weiboContainerListTimer(): Promise<void> {
   try {
     const resWeiboList: WeiboSuperTopicContainerList = await requestWeiboContainer<WeiboSuperTopicContainerList>(lfid);
-    const cardsGroupItem: WeiboSuperTopicContainerCard | undefined
-      = resWeiboList.data.cards.find((o: WeiboSuperTopicContainerCard) => o.show_type === '1');
-    const newList: Array<WeiboSendData> = filterNewCards(
-      filterCards(cardsGroupItem?.card_group ?? []), weiboId); // 过滤新的微博
+    const cardsGroup: Array<WeiboCard> = resWeiboList.data.cards
+      .filter((o: WeiboSuperTopicContainerCard): boolean => Number(o.show_type) === 1)
+      .map((o: WeiboSuperTopicContainerCard): Array<WeiboCard> => o.card_group)
+      .flat();
+    const newList: Array<WeiboSendData> = filterNewCards(filterCards(cardsGroup), weiboId); // 过滤新的微博
 
     if (newList.length > 0) {
       weiboId = newList[0].id;
@@ -81,12 +82,14 @@ async function weiboContainerListTimer(): Promise<void> {
 /* 初始化微博查询 */
 async function weiboInit(): Promise<void> {
   const resWeiboList: WeiboSuperTopicContainerList = await requestWeiboContainer<WeiboSuperTopicContainerList>(lfid);
-  const cardsGroupItem: WeiboSuperTopicContainerCard | undefined
-    = resWeiboList.data.cards.find((o: WeiboSuperTopicContainerCard) => o.show_type === '1');
-  const list: Array<WeiboCard> = filterCards(cardsGroupItem?.card_group ?? []);
+  const cardsGroup: Array<WeiboCard> = resWeiboList.data.cards
+    .filter((o: WeiboSuperTopicContainerCard): boolean => Number(o.show_type) === 1)
+    .map((o: WeiboSuperTopicContainerCard): Array<WeiboCard> => o.card_group)
+    .flat();
+  const list: Array<WeiboCard> = filterCards(cardsGroup);
 
   superNick = resWeiboList.data.pageInfo.nick;
-  weiboId = list?.[0]._id ?? BigInt(0);
+  weiboId = list?.[0]?._id ?? BigInt(0);
   weiboTimer = self.setTimeout(weiboContainerListTimer, 45_000);
 }
 

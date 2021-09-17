@@ -42,7 +42,7 @@ function oicqSendGroup(item: WeiboSendData): string {
   let sendText: string = '';
 
   if (weiboAtAll) {
-    sendText += oicq.cqcode.at('all' as any);
+    sendText += `${ oicq.cqcode.at('all' as any) } `;
   }
 
   sendText += `${ item.name } 在${ item.time }发送了一条微博：${ item.text }
@@ -85,7 +85,7 @@ async function weiboInit(): Promise<void> {
   const resWeiboList: WeiboContainerList = await requestWeiboContainer(lfid);
   const list: Array<WeiboCard> = filterCards(resWeiboList.data.cards);
 
-  weiboId = list?.[0]._id ?? BigInt(0);
+  weiboId = list?.[0]?._id ?? BigInt(0);
   weiboTimer = self.setTimeout(weiboContainerListTimer, 45_000);
 }
 

@@ -8,14 +8,10 @@ import type { WeiboCard, WeiboSendData, WeiboMBlog } from '../qq.types';
 export function filterCards(cards: Array<WeiboCard>): Array<WeiboCard> {
   return cards
     // 过滤非发文微博
-    .filter((o: WeiboCard): boolean => {
-      return o.card_type === 9 && 'mblog' in o;
-    })
-    .map((item: WeiboCard, index: number): WeiboCard => {
-      return Object.assign(item, {
-        _id: BigInt(item.mblog.id)
-      });
-    })
+    .filter((o: WeiboCard): boolean => Number(o.card_type) === 9 && ('mblog' in o))
+    .map((item: WeiboCard, index: number): WeiboCard => Object.assign(item, {
+      _id: BigInt(item.mblog.id)
+    }))
     .sort((a: WeiboCard, b: WeiboCard): number => a._id > b._id ? -1 : (a._id < b._id ? 1 : 0));
 }
 
