@@ -1,5 +1,5 @@
-import path from 'path';
-import { promises as fsP } from 'fs';
+import path from 'node:path';
+import { promises as fsP } from 'node:fs';
 import puppeteer from 'puppeteer-core';
 import { metaHelper } from '@sweet-milktea/utils';
 
