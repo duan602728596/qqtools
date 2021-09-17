@@ -155,7 +155,8 @@ abstract class Basic {
       this.weiboWorker.addEventListener('message', this.handleWeiboWorkerMessage, false);
       this.weiboWorker.postMessage({
         lfid: this.weiboLfid,
-        weiboAtAll
+        weiboAtAll,
+        protocol: this.protocol
       });
     }
   }

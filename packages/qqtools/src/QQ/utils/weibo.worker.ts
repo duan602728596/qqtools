@@ -1,3 +1,4 @@
+import * as oicq from 'oicq';
 import { filterCards, filterNewCards } from './weiboUtils';
 import { atAll, image, plain } from './miraiUtils';
 import { requestWeiboContainer } from '../services/weibo';
@@ -7,6 +8,53 @@ let lfid: string;       // 账号的lfid
 let weiboTimer: number; // 轮询定时器
 let weiboAtAll: boolean | undefined; // 是否at全体成员
 let weiboId: bigint;    // 记录查询位置
+let protocol: string;   // 协议：mirai或者oicq
+
+/**
+ * mirai的消息
+ * @param { WeiboSendData } item
+ */
+function miraiSendGroup(item: WeiboSendData): Array<MessageChain> {
+  const sendGroup: Array<MessageChain> = [];
+
+  if (weiboAtAll) {
+    sendGroup.push(atAll());
+  }
+
+  sendGroup.push(
+    plain(`${ item.name } 在${ item.time }发送了一条微博：${ item.text }
+类型：${ item.type }
+地址：${ item.scheme }`)
+  );
+
+  if (item.pics.length > 0) {
+    sendGroup.push(image(item.pics[0]));
+  }
+
+  return sendGroup;
+}
+
+/**
+ * oicq的消息
+ * @param { WeiboSendData } item
+ */
+function oicqSendGroup(item: WeiboSendData): string {
+  let sendText: string = '';
+
+  if (weiboAtAll) {
+    sendText += oicq.cqcode.at('all' as any);
+  }
+
+  sendText += `${ item.name } 在${ item.time }发送了一条微博：${ item.text }
+类型：${ item.type }
+地址：${ item.scheme }`;
+
+  if (item.pics.length > 0) {
+    sendText += oicq.cqcode.image(item.pics[0]);
+  }
+
+  return sendText;
+}
 
 /* 轮询 */
 async function weiboContainerListTimer(): Promise<void> {
@@ -19,24 +67,10 @@ async function weiboContainerListTimer(): Promise<void> {
       weiboId = newList[0].id;
 
       for (const item of newList) {
-        const sendGroup: Array<MessageChain> = [];
-
-        if (weiboAtAll) {
-          sendGroup.push(atAll());
-        }
-
-        sendGroup.push(
-          plain(`${ item.name } 在${ item.time }发送了一条微博：${ item.text }
-类型：${ item.type }
-地址：${ item.scheme }`)
-        );
-
-        if (item.pics.length > 0) {
-          sendGroup.push(image(item.pics[0]));
-        }
-
         // @ts-ignore
-        postMessage({ sendGroup });
+        postMessage({
+          sendGroup: protocol === 'oicq' ? oicqSendGroup(item) : miraiSendGroup(item)
+        });
       }
     }
   } catch (err) {
@@ -58,5 +92,6 @@ async function weiboInit(): Promise<void> {
 addEventListener('message', function(event: MessageEvent) {
   lfid = event.data.lfid;
   weiboAtAll = event.data.weiboAtAll;
+  protocol = event.data.protocol;
   weiboInit();
 });
