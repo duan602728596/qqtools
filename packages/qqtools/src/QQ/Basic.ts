@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto';
 import type { CronJob } from 'cron';
+import { message } from 'antd';
 import BilibiliWorker from 'worker-loader!./utils/bilibili.worker';
 import WeiboWorker from 'worker-loader!./utils/weibo.worker';
 import WeiboSuperTopicWorker from 'worker-loader!./utils/weiboSuperTopic.worker';
@@ -149,7 +150,7 @@ abstract class Basic {
     if (!(weiboListener && weiboUid)) return;
 
     const resWeiboInfo: WeiboInfo = await requestWeiboInfo(weiboUid);
-    const weiboTab: Array<WeiboTab> = resWeiboInfo.data.tabsInfo.tabs
+    const weiboTab: Array<WeiboTab> = resWeiboInfo?.data?.tabsInfo?.tabs
       .filter((o: WeiboTab): boolean => o.tabKey === 'weibo');
 
     if (weiboTab.length > 0) {
@@ -161,6 +162,8 @@ abstract class Basic {
         weiboAtAll,
         protocol: this.protocol
       });
+    } else {
+      message.warn('没有获取到微博用户的相关信息！请稍后重新登录。');
     }
   }
 
