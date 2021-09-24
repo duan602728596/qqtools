@@ -1,6 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const { randomUUID } = require('crypto');
+const fs = require('node:fs');
+const path = require('node:path');
+const { randomUUID } = require('node:crypto');
 const got = require('got');
 const _ = require('lodash');
 const dayjs = require('dayjs');
@@ -8,7 +8,6 @@ const dayjs = require('dayjs');
 require('dayjs/locale/zh-cn');
 
 const NIM_SDK = require('./NIM_Web_SDK_nodejs_v7.1.0');
-const el = require('./eval');
 
 dayjs.locale('zh-cn');
 
@@ -42,9 +41,10 @@ function headers() {
 
 // 获取房间信息
 function getRoomInfo(chatroomId) {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
+    const appKey = await import(path.join(__dirname, '../../qqtools/src/QQ/sdk/appKey.mjs'));
     const nimChatroomSocket = Chatroom.getInstance({
-      appKey: el,
+      appKey: atob(appKey.default),
       isAnonymous: true,
       chatroomNick: randomUUID(),
       chatroomAvatar: '',
