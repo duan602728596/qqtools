@@ -1,4 +1,4 @@
-import * as process from 'process';
+import * as process from 'node:process';
 import type { Plain, Image, At, AtAll, MessageChain } from '../qq.types';
 
 const packageJson: any = require('../../../package.json');

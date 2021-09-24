@@ -36,6 +36,14 @@ function nodeExternals(node: Array<string>): { [k: string]: string } {
   return result;
 }
 
+/**
+ * 为node原生模块添加"node:"
+ * @param { Array<string> } node: node模块名称
+ */
+function nodeModules(node: Array<string>): Array<string> {
+  return node.concat(node.map((o: string): string => `node:${ o }`));
+}
+
 export default function(info: object): { [key: string]: any } {
   const plugins: Array<any> = [['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }]];
 
@@ -62,7 +70,7 @@ export default function(info: object): { [key: string]: any } {
     html: [{ template: path.join(__dirname, 'src/index.pug'), minify: htmlWebpackPluginMinify }],
     externals: {
       SDK: 'window.SDK',
-      ...nodeExternals([
+      ...nodeExternals(nodeModules([
         'child_process',
         'crypto',
         'fs',
@@ -71,7 +79,8 @@ export default function(info: object): { [key: string]: any } {
         'process',
         'querystring',
         'util',
-        'zlib',
+        'zlib'
+      ]).concat([
         '@electron/remote',
         'cron',
         'electron',
@@ -81,7 +90,7 @@ export default function(info: object): { [key: string]: any } {
         'js-yaml',
         'nunjucks',
         'oicq'
-      ])
+      ]))
     },
     js: {
       ecmascript: true,

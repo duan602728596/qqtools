@@ -1,4 +1,4 @@
-import * as querystring from 'querystring';
+import * as querystring from 'node:querystring';
 import { CronJob } from 'cron';
 import { message } from 'antd';
 import * as dayjs from 'dayjs';

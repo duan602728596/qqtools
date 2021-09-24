@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 import type { OpenDialogReturnValue } from 'electron';
 import { dialog } from '@electron/remote';
 import { useEffect, ReactElement, MouseEvent } from 'react';

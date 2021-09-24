@@ -1,7 +1,7 @@
-import { randomUUID } from 'crypto';
-import * as path from 'path';
-import { promises as fs } from 'fs';
-import type { ParsedPath } from 'path';
+import { randomUUID } from 'node:crypto';
+import * as path from 'node:path';
+import { promises as fs } from 'node:fs';
+import type { ParsedPath } from 'node:path';
 import type { SaveDialogReturnValue, OpenDialogReturnValue } from 'electron';
 import { dialog } from '@electron/remote';
 import * as yaml from 'js-yaml';

@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 import NIM_SDK from 'SDK';
 import { message } from 'antd';
 import el from './sdk/eval';

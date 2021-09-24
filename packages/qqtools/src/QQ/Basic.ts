@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 import type { CronJob } from 'cron';
 import { message } from 'antd';
 import BilibiliWorker from 'worker-loader!./utils/bilibili.worker';
