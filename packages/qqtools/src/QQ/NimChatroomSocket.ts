@@ -1,7 +1,8 @@
 import { randomUUID } from 'node:crypto';
 import NIM_SDK from 'SDK';
 import { message } from 'antd';
-import el from './sdk/eval';
+// @ts-ignore
+import appKey from './sdk/appKey.mjs';
 import type { NIMMessage, NIMError } from './qq.types';
 
 const { Chatroom }: any = NIM_SDK;
@@ -59,7 +60,7 @@ class NimChatroomSocket {
       };
 
       this.nimChatroomSocket = Chatroom.getInstance({
-        appKey: el,
+        appKey: atob(appKey),
         chatroomId: this.pocket48RoomId,
         chatroomAddresses: ['chatweblink01.netease.im:443'],
         onconnect(event: any): void {
