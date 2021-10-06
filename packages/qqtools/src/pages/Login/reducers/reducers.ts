@@ -16,7 +16,7 @@ export interface LoginInitialState {
 
 type CaseReducers = SliceCaseReducers<LoginInitialState>;
 
-const { actions, reducer }: Slice = createSlice<LoginInitialState, CaseReducers>({
+const { actions, reducer }: Slice = createSlice<LoginInitialState, CaseReducers, 'login'>({
   name: 'login',
   initialState: {
     loginList: [] // 使用Map存储数组，保证里面的值不被immer处理

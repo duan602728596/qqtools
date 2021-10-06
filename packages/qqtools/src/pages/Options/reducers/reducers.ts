@@ -8,7 +8,7 @@ export interface OptionsInitialState {
 
 type CaseReducers = SliceCaseReducers<OptionsInitialState>;
 
-const { actions, reducer }: Slice = createSlice<OptionsInitialState, CaseReducers>({
+const { actions, reducer }: Slice = createSlice<OptionsInitialState, CaseReducers, 'options'>({
   name: 'options',
   initialState: {
     optionsList: []

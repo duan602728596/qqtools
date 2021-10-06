@@ -16,7 +16,7 @@ export interface MiraiLoginInitialState {
 
 type CaseReducers = SliceCaseReducers<MiraiLoginInitialState>;
 
-const { actions, reducer }: Slice = createSlice<MiraiLoginInitialState, CaseReducers>({
+const { actions, reducer }: Slice = createSlice<MiraiLoginInitialState, CaseReducers, 'miraiLogin'>({
   name: 'miraiLogin',
   initialState: {
     childProcessWorker: null, // worker
