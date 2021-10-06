@@ -145,7 +145,7 @@ ${ customInfo.question }
     // 关闭房间
     if (customInfo.messageType === 'CLOSE_ROOM_CHAT') {
       sendGroup.push(
-        plain(`${ nickName } 房间被关闭了。：
+        plain(`${ nickName } 房间被关闭了。
 时间：${ msgTime }${ memberInfoContent }`)
       );
     } else
@@ -302,7 +302,7 @@ ${ customInfo.question }
 
     // 关闭房间
     if (customInfo.messageType === 'CLOSE_ROOM_CHAT') {
-      logData = `${ nickName } 房间被关闭了。：
+      logData = `${ nickName } 房间被关闭了。
 时间：${ msgTime }${ memberInfoContent }`;
     } else
 
