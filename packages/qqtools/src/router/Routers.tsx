@@ -7,7 +7,7 @@ import MiraiLogin from '../pages/MiraiLogin/index';
 
 function Routers(props: {}): ReactElement | null {
   const routes: ReactElement | null = useRoutes([
-    { path: '//*', element: <Index /> },
+    { path: '/*', element: <Index /> },
     { path: '/Login', element: <Login /> },
     { path: '/Options/*', element: <Options /> },
     { path: '/MiraiLogin/*', element: <MiraiLogin /> }
