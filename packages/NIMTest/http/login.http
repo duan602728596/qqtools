@@ -1,0 +1,7 @@
+POST https://pa48.vercel.app/api/login
+Content-Type: application/json
+
+{
+  "username": "",
+  "password": ""
+}
