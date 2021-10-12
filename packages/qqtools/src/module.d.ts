@@ -62,7 +62,7 @@ declare module 'SDK' {
 
 declare module 'worker-loader!*' {
   class WorkerLoader extends Worker {
-    constructor(): Worker;
+    constructor();
   }
 
   export default WorkerLoader;
