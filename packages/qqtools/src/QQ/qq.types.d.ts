@@ -248,6 +248,13 @@ export interface PRESENT_TEXTMessage extends CustomMessage {
   };
 }
 
+// 发起投票
+export interface VOTEMessage extends CustomMessage {
+  messageType: 'VOTE';
+  text: string;
+  content: string;
+}
+
 // 房间关闭信息
 export interface CLOSE_ROOM_CHATMessage extends CustomMessage {
   messageType: 'CLOSE_ROOM_CHAT';
@@ -276,6 +283,7 @@ export type CustomMessageAll =
   | OPEN_LIVEMessage
   | TRIP_INFOMessage
   | PRESENT_TEXTMessage
+  | VOTEMessage
   | CLOSE_ROOM_CHATMessage
   | ZHONGQIU_ACTIVITY_LANTERN_FANSMessage;
 
@@ -397,7 +405,7 @@ export interface TaobaIdolsJoinItem {
   userid: number;
 }
 
-export interface TaobaRankItem extends TaobaIdolsJoinItem {
+export interface TaobaRankItem extends Omit<TaobaIdolsJoinItem, 'id' | 'userid'> {
   id: string;
   userid: string;
 }
@@ -408,7 +416,7 @@ export interface TaobaIdolsJoin {
   mine: null | any;
 }
 
-export interface TaobaJoinRank extends TaobaIdolsJoin {
+export interface TaobaJoinRank extends Omit<TaobaIdolsJoin, 'list'> {
   juser: number;
   stime: number;
   list: Array<TaobaRankItem>;

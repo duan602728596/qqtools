@@ -142,6 +142,16 @@ ${ customInfo.question }
       }
     } else
 
+    // 房间发起投票
+    if (customInfo.messageType === 'VOTE') {
+      sendGroup.push(
+        plain(`${ nickName }：发起投票
+标题：${ customInfo.text }
+正文：${ customInfo.content }
+时间：${ msgTime }${ memberInfoContent }`)
+      );
+    } else
+
     // 关闭房间
     if (customInfo.messageType === 'CLOSE_ROOM_CHAT') {
       sendGroup.push(
@@ -298,6 +308,14 @@ ${ customInfo.question }
         logData = `${ nickName }：投出了${ customInfo.giftInfo.giftNum }票。
 时间：${ msgTime }${ memberInfoContent }`;
       }
+    } else
+
+    // 房间发起投票
+    if (customInfo.messageType === 'VOTE') {
+      logData = `${ nickName }：发起投票
+标题：${ customInfo.text }
+正文：${ customInfo.content }
+时间：${ msgTime }${ memberInfoContent }`;
     } else
 
     // 关闭房间
