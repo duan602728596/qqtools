@@ -154,7 +154,7 @@ function Options(props: {}): ReactElement {
             <Button type="primary">添加配置</Button>
           </Link>
           <RoomId />
-          <Link to="../">
+          <Link to="/">
             <Button type="primary" danger={ true }>返回</Button>
           </Link>
         </Space>
