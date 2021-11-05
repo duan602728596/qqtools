@@ -379,6 +379,12 @@
       "account": "20190415142033_ok2fvwwrmu3allo"
     },
     {
+      "id": 63573,
+      "ownerName": "CKG48-熊素君",
+      "roomId": "67256348",
+      "account": "20190415141738_cud43lhnoe15746"
+    },
+    {
       "id": 63574,
       "ownerName": "SNH48-严佼君",
       "roomId": "67303260",
@@ -395,6 +401,12 @@
       "ownerName": "GNZ48-曾艾佳",
       "roomId": "67293879",
       "account": "20190415141420_2jota0mz0c5g3nw"
+    },
+    {
+      "id": 63580,
+      "ownerName": "IDFT-张凯祺",
+      "roomId": "67246084",
+      "account": "20190415141921_3887wlx6ymx5dea"
     },
     {
       "id": 63581,
@@ -1621,6 +1633,36 @@
       "account": "20210616115438_jqr9gj94s4s47wp"
     },
     {
+      "id": 64422010,
+      "ownerName": "SNH48-熊紫轶",
+      "roomId": "442998267",
+      "account": "20210915125947_kl613114d31806p"
+    },
+    {
+      "id": 64422016,
+      "ownerName": "SNH48-王依柳",
+      "roomId": "442997428",
+      "account": "20210915130009_5obg0o6g7tyuvdo"
+    },
+    {
+      "id": 64487703,
+      "ownerName": "SNH48-芦馨怡",
+      "roomId": "443004994",
+      "account": "20210915130029_dvw83qxuiw4n9kh"
+    },
+    {
+      "id": 64487705,
+      "ownerName": "SNH48-朱涵佳",
+      "roomId": "442998283",
+      "account": "20210915130047_eechqzjprm7p8hn"
+    },
+    {
+      "id": 64487708,
+      "ownerName": "SNH48-贝楚涵",
+      "roomId": "443003991",
+      "account": "20210915130111_8eegz744wubcg1w"
+    },
+    {
       "id": 4344250371,
       "ownerName": "SNH48-陈雨孜",
       "roomId": "147283635",
@@ -1729,5 +1771,5 @@
       "account": "20200706182614_rvr8uq2mnr81il4"
     }
   ],
-  "buildTime": "2021-06-17 12:49:38"
+  "buildTime": "2021-11-03 22:40:13"
 }

@@ -20,8 +20,8 @@ const pa = '';
 const appInfo = JSON.stringify({
   vendor: 'apple',
   deviceId: '52727911-9996-4449-8888-137923752345',
-  appVersion: '6.0.23',
-  appBuild: '201127',
+  appVersion: '6.2.2',
+  appBuild: '21080401',
   osVersion: '14.2.0',
   osType: 'ios',
   deviceName: 'iPhone XR',
