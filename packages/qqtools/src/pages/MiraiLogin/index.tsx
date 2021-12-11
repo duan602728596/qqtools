@@ -1,7 +1,7 @@
 import { ipcRenderer } from 'electron';
 import { Fragment, useState, useEffect, ReactElement, MouseEvent, Dispatch as D, SetStateAction as S } from 'react';
-import type { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
+import type { Dispatch } from '@reduxjs/toolkit';
 import { createStructuredSelector, Selector } from 'reselect';
 import { Link } from 'react-router-dom';
 import { Button, Space, Table, Checkbox, message, notification, Tooltip, Select } from 'antd';

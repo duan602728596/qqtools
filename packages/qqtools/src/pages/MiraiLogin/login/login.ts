@@ -1,4 +1,4 @@
-import type { Store } from 'redux';
+import type { Store } from '@reduxjs/toolkit';
 import { Queue } from '@bbkkbkk/q';
 import MiraiChildWorker from 'worker-loader!./miraiChild.worker';
 import type { InitMessage, LoginMessage, InitSendMessage, CloseMessage, LoginInfoSendMessage } from './miraiChild.worker';

@@ -1,6 +1,6 @@
 import { Fragment, ReactElement, useState, Dispatch as D, SetStateAction as S, MouseEvent } from 'react';
-import type { Dispatch } from 'redux';
 import { useDispatch } from 'react-redux';
+import type { Dispatch } from '@reduxjs/toolkit';
 import { Button, Modal, Form, Checkbox, Input, message, Select } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import * as dayjs from 'dayjs';

@@ -7,10 +7,10 @@ import {
   DeepPartial,
   ImmutableStateInvariantMiddlewareOptions,
   SerializableStateInvariantMiddlewareOptions,
-  MiddlewareArray
+  MiddlewareArray,
+  Middleware
 } from '@reduxjs/toolkit';
 import type { CurriedGetDefaultMiddleware, ThunkMiddlewareFor } from '@reduxjs/toolkit/src/getDefaultMiddleware';
-import type { Middleware } from 'redux';
 import { reducersMapObject, ignoreOptions } from './reducers';
 
 interface ThunkOptions<E = any> {
