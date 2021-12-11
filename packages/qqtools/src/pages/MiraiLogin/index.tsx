@@ -2,7 +2,7 @@ import { ipcRenderer } from 'electron';
 import { Fragment, useState, useEffect, ReactElement, MouseEvent, Dispatch as D, SetStateAction as S } from 'react';
 import type { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
-import { createSelector, createStructuredSelector, Selector } from 'reselect';
+import { createStructuredSelector, Selector } from 'reselect';
 import { Link } from 'react-router-dom';
 import { Button, Space, Table, Checkbox, message, notification, Tooltip, Select } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
@@ -41,18 +41,14 @@ async function loginFunc(username: string, password: string): Promise<void> {
 }
 
 /* redux selector */
-const selector: Selector<any, MiraiLoginInitialState> = createStructuredSelector({
+type RState = { miraiLogin: MiraiLoginInitialState };
+
+const selector: Selector<RState, MiraiLoginInitialState> = createStructuredSelector({
   // worker
-  childProcessWorker: createSelector(
-    ({ miraiLogin }: { miraiLogin: MiraiLoginInitialState }): Worker | null => miraiLogin.childProcessWorker,
-    (data: Worker | null): Worker | null => (data)
-  ),
+  childProcessWorker: ({ miraiLogin }: RState): Worker | null => miraiLogin.childProcessWorker,
 
   // 账户列表
-  qqLoginList: createSelector(
-    ({ miraiLogin }: { miraiLogin: MiraiLoginInitialState }): Array<QQLoginItem> => miraiLogin.qqLoginList,
-    (data: Array<QQLoginItem>): Array<QQLoginItem> => (data)
-  )
+  qqLoginList: ({ miraiLogin }: RState): Array<QQLoginItem> => miraiLogin.qqLoginList
 });
 
 /* 启动mirai */

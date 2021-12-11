@@ -9,7 +9,7 @@ import * as fse from 'fs-extra';
 import { useEffect, ReactElement, MouseEvent } from 'react';
 import type { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
-import { createSelector, createStructuredSelector, Selector } from 'reselect';
+import { createStructuredSelector, Selector } from 'reselect';
 import { Link } from 'react-router-dom';
 import { Button, Space, Table, Popconfirm, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
@@ -27,21 +27,17 @@ function isObject(val: unknown): val is number {
 }
 
 /* redux selector */
-interface SelectorRData {
-  optionsList: Array<OptionsItem>;
-}
+type RSelector = { optionsList: Array<OptionsItem> };
+type RState = { options: OptionsInitialState };
 
-const selector: Selector<any, SelectorRData> = createStructuredSelector({
+const selector: Selector<RState, RSelector> = createStructuredSelector({
   // 配置列表
-  optionsList: createSelector(
-    ({ options }: { options: OptionsInitialState }): Array<OptionsItem> => options.optionsList,
-    (data: Array<OptionsItem>): Array<OptionsItem> => (data)
-  )
+  optionsList: ({ options }: RState): Array<OptionsItem> => options.optionsList
 });
 
 /* 配置列表 */
 function Options(props: {}): ReactElement {
-  const { optionsList }: SelectorRData = useSelector(selector);
+  const { optionsList }: RSelector = useSelector(selector);
   const dispatch: Dispatch = useDispatch();
 
   // 导入配置

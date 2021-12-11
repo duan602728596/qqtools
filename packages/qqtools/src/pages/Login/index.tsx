@@ -10,7 +10,7 @@ import {
 } from 'react';
 import type { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
-import { createSelector, createStructuredSelector, Selector } from 'reselect';
+import { createStructuredSelector, Selector } from 'reselect';
 import { Link } from 'react-router-dom';
 import { Select, Button, Space, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
@@ -24,28 +24,26 @@ import { getGroupNumbers } from '../../QQ/utils/miraiUtils';
 import type { OptionsItem, OptionsItemValue, MemberInfo } from '../../types';
 
 /* redux selector */
-interface SelectorRData {
+type RSelector = {
   optionsList: Array<OptionsItem>;
   loginList: Array<QQ | OicqQQ>;
-}
+};
+type RState = {
+  options: OptionsInitialState;
+  login: LoginInitialState;
+};
 
-const selector: Selector<any, SelectorRData> = createStructuredSelector({
+const selector: Selector<RState, RSelector> = createStructuredSelector({
   // 配置列表
-  optionsList: createSelector(
-    ({ options }: { options: OptionsInitialState }): Array<OptionsItem> => options.optionsList,
-    (data: Array<OptionsItem>): Array<OptionsItem> => (data)
-  ),
+  optionsList: ({ options }: RState): Array<OptionsItem> => options.optionsList,
 
   // 登陆列表
-  loginList: createSelector(
-    ({ login }: { login: LoginInitialState }): Array<QQ | OicqQQ> => login.loginList,
-    (data: Array<QQ | OicqQQ>): Array<QQ | OicqQQ> => data
-  )
+  loginList: ({ login }: RState): Array<QQ | OicqQQ> => login.loginList
 });
 
 /* 登陆 */
 function Index(props: {}): ReactElement {
-  const { optionsList, loginList }: SelectorRData = useSelector(selector);
+  const { optionsList, loginList }: RSelector = useSelector(selector);
   const dispatch: Dispatch = useDispatch();
   const [optionValue, setOptionValue]: [string, D<S<string>>] = useState('');        // 配置的值
   const [loginLoading, setLoginLoading]: [boolean, D<S<boolean>>] = useState(false); // loading
