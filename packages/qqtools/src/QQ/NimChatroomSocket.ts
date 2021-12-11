@@ -1,7 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import NIM_SDK from 'SDK';
 import { message } from 'antd';
-// @ts-ignore
 import appKey from './sdk/appKey.mjs';
 import type { NIMMessage, NIMError } from './qq.types';
 

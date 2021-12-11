@@ -3,11 +3,11 @@ import type { EventData, GroupMessageEventData, RetCommon, MessageElem, TextElem
 import { CronJob } from 'cron';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
-import Basic, { MessageListener } from './Basic';
+import Basic, { type MessageListener } from './Basic';
 import { ChatroomMember } from './NimChatroomSocket';
 import { getGroupNumbers, getSocketHost, LogCommandData } from './utils/miraiUtils';
 import { isGroupMessageEventData, isMemberIncreaseEventData } from './utils/oicqUtils';
-import { getRoomMessageForOicq, getLogMessage, log, RoomMessageArgs } from './utils/pocket48Utils';
+import { getRoomMessageForOicq, getLogMessage, log, type RoomMessageArgs } from './utils/pocket48Utils';
 import { requestSendGroupMessage } from './services/oicq';
 import { requestJoinRank } from './services/taoba';
 import type { OptionsItemValue, MemberInfo, EditItem } from '../types';

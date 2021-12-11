@@ -2,13 +2,13 @@
 import {
   configureStore,
   combineReducers,
-  Reducer,
-  Store,
-  DeepPartial,
-  ImmutableStateInvariantMiddlewareOptions,
-  SerializableStateInvariantMiddlewareOptions,
-  MiddlewareArray,
-  Middleware
+  type Reducer,
+  type Store,
+  type DeepPartial,
+  type ImmutableStateInvariantMiddlewareOptions,
+  type SerializableStateInvariantMiddlewareOptions,
+  type MiddlewareArray,
+  type Middleware
 } from '@reduxjs/toolkit';
 import type { CurriedGetDefaultMiddleware, ThunkMiddlewareFor } from '@reduxjs/toolkit/src/getDefaultMiddleware';
 import { reducersMapObject, ignoreOptions } from './reducers';

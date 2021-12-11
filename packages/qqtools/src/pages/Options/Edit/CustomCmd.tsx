@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { Fragment, useState, ReactElement, Dispatch as D, SetStateAction as S, MouseEvent } from 'react';
+import { Fragment, useState, type ReactElement, type Dispatch as D, type SetStateAction as S, type MouseEvent } from 'react';
 import * as PropTypes from 'prop-types';
 import { Table, Button, Space, Input, Modal, Form } from 'antd';
 import type { ColumnsType } from 'antd/es/table';

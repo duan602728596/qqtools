@@ -2,11 +2,11 @@ import { randomUUID } from 'node:crypto';
 import {
   useState,
   useEffect,
-  ReactElement,
-  ReactNodeArray,
-  Dispatch as D,
-  SetStateAction as S,
-  MouseEvent
+  type ReactElement,
+  type ReactNode,
+  type Dispatch as D,
+  type SetStateAction as S,
+  type MouseEvent
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { Dispatch } from '@reduxjs/toolkit';
@@ -94,7 +94,7 @@ function Index(props: {}): ReactElement {
   }
 
   // 渲染select
-  function optionsListSelectOptionRender(): ReactNodeArray {
+  function optionsListSelectOptionRender(): Array<ReactNode> {
     return optionsList.map((item: OptionsItem, index: number): ReactElement => {
       return <Select.Option key={ item.name } value={ item.id }>{ item.name }</Select.Option>;
     });

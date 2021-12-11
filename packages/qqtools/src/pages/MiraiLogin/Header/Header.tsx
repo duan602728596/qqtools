@@ -1,6 +1,6 @@
 import type { OpenDialogReturnValue } from 'electron';
 import { dialog } from '@electron/remote';
-import { Fragment, useEffect, ReactElement, MouseEvent } from 'react';
+import { Fragment, useEffect, ReactElement, type MouseEvent } from 'react';
 import { Button, Space, Input, Form, Divider, message } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import style from './header.sass';

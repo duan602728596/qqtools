@@ -1,8 +1,16 @@
 import { ipcRenderer } from 'electron';
-import { Fragment, useState, useEffect, ReactElement, MouseEvent, Dispatch as D, SetStateAction as S } from 'react';
+import {
+  Fragment,
+  useState,
+  useEffect,
+  type ReactElement,
+  type MouseEvent,
+  type Dispatch as D,
+  type SetStateAction as S
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { Dispatch } from '@reduxjs/toolkit';
-import { createStructuredSelector, Selector } from 'reselect';
+import { createStructuredSelector, type Selector } from 'reselect';
 import { Link } from 'react-router-dom';
 import { Button, Space, Table, Checkbox, message, notification, Tooltip, Select } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
@@ -17,7 +25,7 @@ import {
   queryQQLoginList,
   saveQQLoginItemData,
   deleteQQLoginItem,
-  MiraiLoginInitialState
+  type MiraiLoginInitialState
 } from './reducers/reducers';
 import dbConfig from '../../utils/idb/dbConfig';
 import { login, queue } from './login/login';

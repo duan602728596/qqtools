@@ -1,4 +1,4 @@
-import got, { Response as GotResponse } from 'got';
+import got, { type Response as GotResponse } from 'got';
 import { createHeaders } from '../../../utils/snh48';
 import type { LoginInfo, IMUserInfo } from './interface';
 

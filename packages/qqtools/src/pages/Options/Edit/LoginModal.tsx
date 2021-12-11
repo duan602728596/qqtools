@@ -1,6 +1,6 @@
-import { Fragment, useState, ReactElement, Dispatch as D, SetStateAction as S, MouseEvent } from 'react';
+import { Fragment, useState, type ReactElement, type Dispatch as D, type SetStateAction as S, type MouseEvent } from 'react';
 import * as PropTypes from 'prop-types';
-import { Button, Modal, Form, Input, message, FormInstance } from 'antd';
+import { Button, Modal, Form, Input, message, type FormInstance } from 'antd';
 import style from './loginModal.sass';
 import { requestPocketLogin, requestImUserInfo } from '../services/services';
 import type { LoginInfo, IMUserInfo } from '../services/interface';

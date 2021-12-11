@@ -1,4 +1,4 @@
-import { ipcMain, BrowserWindow, IpcMainEvent } from 'electron';
+import { ipcMain, BrowserWindow, type IpcMainEvent } from 'electron';
 
 const DEVELOP_TOOLS_CHANNEL: string = 'developer-tools';
 

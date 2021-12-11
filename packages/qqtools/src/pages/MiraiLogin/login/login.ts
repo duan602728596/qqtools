@@ -1,9 +1,15 @@
 import type { Store } from '@reduxjs/toolkit';
 import { Queue } from '@bbkkbkk/q';
 import MiraiChildWorker from 'worker-loader!./miraiChild.worker';
-import type { InitMessage, LoginMessage, InitSendMessage, CloseMessage, LoginInfoSendMessage } from './miraiChild.worker';
+import type {
+  InitMessage,
+  LoginMessage,
+  InitSendMessage,
+  CloseMessage,
+  LoginInfoSendMessage
+} from './miraiChild.worker';
 import { store } from '../../../store/store';
-import { setChildProcessWorker, MiraiLoginInitialState } from '../reducers/reducers';
+import { setChildProcessWorker, type MiraiLoginInitialState } from '../reducers/reducers';
 import { getJavaPath, getJarDir } from '../miraiPath';
 import type { ProtocolType } from '../types';
 

@@ -1,11 +1,10 @@
 import { randomUUID } from 'node:crypto';
 import type { OpenDialogReturnValue } from 'electron';
 import { dialog } from '@electron/remote';
-import { useEffect, ReactElement, MouseEvent } from 'react';
+import { useEffect, type ReactElement, type MouseEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import type { Dispatch } from '@reduxjs/toolkit';
-import { Link, useParams, useNavigate } from 'react-router-dom';
-import type { Params, NavigateFunction } from 'react-router';
+import { Link, useParams, useNavigate, type Params, type NavigateFunction } from 'react-router-dom';
 import { Form, Button, Space, Input, InputNumber, Divider, Switch, Checkbox, Select } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import type { Store } from 'rc-field-form/es/interface';

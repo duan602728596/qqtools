@@ -1,14 +1,14 @@
 import {
   createSlice,
-  Slice,
-  SliceCaseReducers,
-  PayloadAction,
-  CaseReducerActions,
-  ActionCreator
+  type Slice,
+  type SliceCaseReducers,
+  type PayloadAction,
+  type CaseReducerActions,
+  type ActionCreator
 } from '@reduxjs/toolkit';
 import dbRedux, { roomIdObjectStoreName } from '../../../utils/idb/dbRedux';
-import QQ from '../../../QQ/QQ';
-import OicqQQ from '../../../QQ/OicqQQ';
+import type QQ from '../../../QQ/QQ';
+import type OicqQQ from '../../../QQ/OicqQQ';
 
 export interface LoginInitialState {
   loginList: Array<QQ | OicqQQ>;
