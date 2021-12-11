@@ -55,15 +55,17 @@ export default function(info: object): { [key: string]: any } {
   const config: { [key: string]: any } = {
     frame: 'react',
     dll: [
+      'classnames',
+      'indexeddb-tools',
+      'indexeddb-tools-redux',
+      'js-base64',
       'react',
       'react-dom',
       'prop-types',
       '@reduxjs/toolkit',
       'react-redux',
       'reselect',
-      'react-router',
-      'react-router-dom',
-      'history'
+      'react-router-dom'
     ],
     entry: {
       index: [path.join(__dirname, 'src/index.tsx')]
