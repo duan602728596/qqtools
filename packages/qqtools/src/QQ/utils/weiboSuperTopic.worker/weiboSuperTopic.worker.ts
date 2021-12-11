@@ -1,14 +1,14 @@
 import * as oicq from 'oicq';
-import { filterCards, filterNewCards } from './weiboUtils';
-import { image, plain } from './miraiUtils';
-import { requestWeiboContainer } from '../services/weibo';
+import { filterCards, filterNewCards } from '../weiboUtils';
+import { image, plain } from '../miraiUtils';
+import { requestWeiboContainer } from '../../services/weibo';
 import type {
   MessageChain,
   WeiboSendData,
   WeiboCard,
   WeiboSuperTopicContainerList,
   WeiboSuperTopicContainerCard
-} from '../qq.types';
+} from '../../qq.types';
 
 let lfid: `${ string }_-_sort_time`; // 账号的lfid
 let weiboTimer: number; // 轮询定时器

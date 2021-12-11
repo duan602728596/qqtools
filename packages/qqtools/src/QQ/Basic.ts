@@ -1,9 +1,9 @@
 import { randomUUID } from 'node:crypto';
 import type { CronJob } from 'cron';
 import { message } from 'antd';
-import BilibiliWorker from 'worker-loader!./utils/bilibili.worker';
-import WeiboWorker from 'worker-loader!./utils/weibo.worker';
-import WeiboSuperTopicWorker from 'worker-loader!./utils/weiboSuperTopic.worker';
+import getBilibiliWorker from './utils/bilibili.worker/getBilibiliWorker';
+import getWeiboWorker from './utils/weibo.worker/getWeiboWorker';
+import getWeiboSuperTopicWorker from './utils/weiboSuperTopic.worker/getWeiboSuperTopicWorker';
 import { requestDetail } from './services/taoba';
 import { requestRoomInfo, requestWeiboInfo } from './services/services';
 import NimChatroomSocket from './NimChatroomSocket';
@@ -155,7 +155,7 @@ abstract class Basic {
 
     if (weiboTab.length > 0) {
       this.weiboLfid = weiboTab[0].containerid;
-      this.weiboWorker = new WeiboWorker();
+      this.weiboWorker = getWeiboWorker();
       this.weiboWorker.addEventListener('message', this.handleWeiboWorkerMessage, false);
       this.weiboWorker.postMessage({
         lfid: this.weiboLfid,
@@ -174,7 +174,7 @@ abstract class Basic {
     if (!(weiboSuperTopicListener && weiboSuperTopicLfid)) return;
 
     this.weiboSuperTopicLfid = weiboSuperTopicLfid;
-    this.weiboSuperTopicWorker = new WeiboSuperTopicWorker();
+    this.weiboSuperTopicWorker = getWeiboSuperTopicWorker();
     this.weiboSuperTopicWorker.addEventListener('message', this.handleWeiboWorkerMessage, false);
     this.weiboSuperTopicWorker.postMessage({
       lfid: this.weiboSuperTopicLfid,
@@ -190,7 +190,7 @@ abstract class Basic {
       const res: BilibiliRoomInfo = await requestRoomInfo(bilibiliLiveId);
 
       this.bilibiliUsername = res.data.anchor_info.base_info.uname;
-      this.bilibiliWorker = new BilibiliWorker();
+      this.bilibiliWorker = getBilibiliWorker();
       this.bilibiliWorker.addEventListener('message', this.handleBilibiliWorkerMessage, false);
       this.bilibiliWorker.postMessage({ id: bilibiliLiveId });
     }

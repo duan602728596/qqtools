@@ -47,7 +47,6 @@
     "electron": "^16.0.4",
     "jest": "^27.4.4",
     "ts-loader": "^9.2.6",
-    "webpack-bundle-analyzer": "^4.5.0",
-    "worker-loader": "^3.0.8"
+    "webpack-bundle-analyzer": "^4.5.0"
   }
 }

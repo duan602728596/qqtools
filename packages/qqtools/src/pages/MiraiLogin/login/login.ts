@@ -1,13 +1,13 @@
 import type { Store } from '@reduxjs/toolkit';
 import { Queue } from '@bbkkbkk/q';
-import MiraiChildWorker from 'worker-loader!./miraiChild.worker';
+import getMiraiChildWorker from './miraiChild.worker/getMiraiChildWorker';
 import type {
   InitMessage,
   LoginMessage,
   InitSendMessage,
   CloseMessage,
   LoginInfoSendMessage
-} from './miraiChild.worker';
+} from './miraiChild.worker/miraiChild.worker';
 import { store } from '../../../store/store';
 import { setChildProcessWorker, type MiraiLoginInitialState } from '../reducers/reducers';
 import { getJavaPath, getJarDir } from '../miraiPath';
@@ -18,7 +18,7 @@ export const queue: Queue = new Queue({ workerLen: 1 }); // 用来限制登陆�
 /* 初始化worker */
 function initWorker(): Promise<Worker> {
   return new Promise((resolve: Function, reject: Function): void => {
-    const worker: Worker = new MiraiChildWorker();
+    const worker: Worker = getMiraiChildWorker();
 
     function handleWorkerInitMessage(event: MessageEvent<InitSendMessage | CloseMessage>): void {
       const data: InitSendMessage | CloseMessage = event.data;

@@ -29,7 +29,7 @@ import {
 } from './reducers/reducers';
 import dbConfig from '../../utils/idb/dbConfig';
 import { login, queue } from './login/login';
-import type { LoginInfoSendMessage } from './login/miraiChild.worker';
+import type { LoginInfoSendMessage } from './login/miraiChild.worker/miraiChild.worker';
 import type { QQLoginItem, ProtocolType } from './types';
 
 /* 登陆 */

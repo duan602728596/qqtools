@@ -7,7 +7,7 @@ import * as dayjs from 'dayjs';
 import style from './loginModal.sass';
 import { login, queue } from './login/login';
 import { saveQQLoginItemData } from './reducers/reducers';
-import type { LoginInfoSendMessage } from './login/miraiChild.worker';
+import type { LoginInfoSendMessage } from './login/miraiChild.worker/miraiChild.worker';
 import type { ProtocolType } from './types';
 
 interface FormValue {
