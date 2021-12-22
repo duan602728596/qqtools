@@ -1,9 +1,9 @@
 import { promises as fsP } from 'node:fs';
-import { shell, OpenDialogReturnValue } from 'electron';
+import { shell, type OpenDialogReturnValue } from 'electron';
 import { dialog } from '@electron/remote';
-import { Fragment, useState, ReactElement, Dispatch as D, SetStateAction as S, MouseEvent } from 'react';
-import type { Dispatch } from 'redux';
+import { Fragment, useState, type ReactElement, type Dispatch as D, type SetStateAction as S, type MouseEvent } from 'react';
 import { useDispatch } from 'react-redux';
+import type { Dispatch } from '@reduxjs/toolkit';
 import { Button, Modal, Space, Alert, message } from 'antd';
 import style from './roomId.sass';
 import { saveRoomId, deleteRoomId } from '../reducers/reducers';

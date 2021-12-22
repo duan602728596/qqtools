@@ -1,10 +1,10 @@
 import {
   createSlice,
-  Slice,
-  SliceCaseReducers,
-  PayloadAction,
-  CaseReducerActions,
-  ActionCreator
+  type Slice,
+  type SliceCaseReducers,
+  type PayloadAction,
+  type CaseReducerActions,
+  type ActionCreator
 } from '@reduxjs/toolkit';
 import dbRedux, { qqObjectStoreName } from '../../../utils/idb/dbRedux';
 import type { QQLoginItem } from '../types';

@@ -1,8 +1,16 @@
 import { ipcRenderer } from 'electron';
-import { Fragment, useState, useEffect, ReactElement, MouseEvent, Dispatch as D, SetStateAction as S } from 'react';
-import type { Dispatch } from 'redux';
+import {
+  Fragment,
+  useState,
+  useEffect,
+  type ReactElement,
+  type MouseEvent,
+  type Dispatch as D,
+  type SetStateAction as S
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { createSelector, createStructuredSelector, Selector } from 'reselect';
+import type { Dispatch } from '@reduxjs/toolkit';
+import { createStructuredSelector, type Selector } from 'reselect';
 import { Link } from 'react-router-dom';
 import { Button, Space, Table, Checkbox, message, notification, Tooltip, Select } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
@@ -17,11 +25,11 @@ import {
   queryQQLoginList,
   saveQQLoginItemData,
   deleteQQLoginItem,
-  MiraiLoginInitialState
+  type MiraiLoginInitialState
 } from './reducers/reducers';
 import dbConfig from '../../utils/idb/dbConfig';
 import { login, queue } from './login/login';
-import type { LoginInfoSendMessage } from './login/miraiChild.worker';
+import type { LoginInfoSendMessage } from './login/miraiChild.worker/miraiChild.worker';
 import type { QQLoginItem, ProtocolType } from './types';
 
 /* 登陆 */
@@ -41,18 +49,14 @@ async function loginFunc(username: string, password: string): Promise<void> {
 }
 
 /* redux selector */
-const selector: Selector<any, MiraiLoginInitialState> = createStructuredSelector({
+type RState = { miraiLogin: MiraiLoginInitialState };
+
+const selector: Selector<RState, MiraiLoginInitialState> = createStructuredSelector({
   // worker
-  childProcessWorker: createSelector(
-    ({ miraiLogin }: { miraiLogin: MiraiLoginInitialState }): Worker | null => miraiLogin.childProcessWorker,
-    (data: Worker | null): Worker | null => (data)
-  ),
+  childProcessWorker: ({ miraiLogin }: RState): Worker | null => miraiLogin.childProcessWorker,
 
   // 账户列表
-  qqLoginList: createSelector(
-    ({ miraiLogin }: { miraiLogin: MiraiLoginInitialState }): Array<QQLoginItem> => miraiLogin.qqLoginList,
-    (data: Array<QQLoginItem>): Array<QQLoginItem> => (data)
-  )
+  qqLoginList: ({ miraiLogin }: RState): Array<QQLoginItem> => miraiLogin.qqLoginList
 });
 
 /* 启动mirai */

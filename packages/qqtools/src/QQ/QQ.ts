@@ -3,7 +3,7 @@ import { CronJob } from 'cron';
 import { message } from 'antd';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
-import Basic, { MessageListener } from './Basic';
+import Basic, { type MessageListener } from './Basic';
 import {
   requestAuth,
   requestAuthV2,
@@ -17,7 +17,7 @@ import {
 import { requestJoinRank } from './services/taoba';
 import { ChatroomMember } from './NimChatroomSocket';
 import { plain, atAll, miraiTemplate, getGroupNumbers, getSocketHost, LogCommandData } from './utils/miraiUtils';
-import { getRoomMessage, getLogMessage, log, RoomMessageArgs } from './utils/pocket48Utils';
+import { getRoomMessage, getLogMessage, log, type RoomMessageArgs } from './utils/pocket48Utils';
 import type { OptionsItemValue, MemberInfo, EditItem } from '../types';
 import type {
   Plain,
@@ -109,7 +109,7 @@ class QQ extends Basic {
         }
       }
     }
-  }
+  };
 
   // socket事件监听
   handleEventSocketMessage: MessageListener = async (event: MessageEvent): Promise<void> => {

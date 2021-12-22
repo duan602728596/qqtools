@@ -1,5 +1,5 @@
 import IndexedDBRedux from 'indexeddb-tools-redux';
-import dbConfig, { ObjectStoreItem } from './dbConfig';
+import dbConfig, { type ObjectStoreItem } from './dbConfig';
 
 /* indexeddb redux */
 const db: IndexedDBRedux = new IndexedDBRedux(dbConfig.name, dbConfig.version);

@@ -1,13 +1,13 @@
 import { Fragment, ReactElement, useState, Dispatch as D, SetStateAction as S, MouseEvent } from 'react';
-import type { Dispatch } from 'redux';
 import { useDispatch } from 'react-redux';
+import type { Dispatch } from '@reduxjs/toolkit';
 import { Button, Modal, Form, Checkbox, Input, message, Select } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import * as dayjs from 'dayjs';
 import style from './loginModal.sass';
 import { login, queue } from './login/login';
 import { saveQQLoginItemData } from './reducers/reducers';
-import type { LoginInfoSendMessage } from './login/miraiChild.worker';
+import type { LoginInfoSendMessage } from './login/miraiChild.worker/miraiChild.worker';
 import type { ProtocolType } from './types';
 
 interface FormValue {

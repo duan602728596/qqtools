@@ -1,5 +1,5 @@
-import type { BilibiliLiveStatus } from '../qq.types';
-import { requestRoomStatus } from '../services/bilibili';
+import type { BilibiliLiveStatus } from '../../qq.types';
+import { requestRoomStatus } from '../../services/bilibili';
 
 /* B站直播监听 */
 let id: string;       // 直播间id

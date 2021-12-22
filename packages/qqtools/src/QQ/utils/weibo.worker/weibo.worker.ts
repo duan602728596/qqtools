@@ -1,8 +1,8 @@
 import * as oicq from 'oicq';
-import { filterCards, filterNewCards } from './weiboUtils';
-import { atAll, image, plain } from './miraiUtils';
-import { requestWeiboContainer } from '../services/weibo';
-import type { MessageChain, WeiboSendData, WeiboCard, WeiboContainerList } from '../qq.types';
+import { filterCards, filterNewCards } from '../weiboUtils';
+import { atAll, image, plain } from '../miraiUtils';
+import { requestWeiboContainer } from '../../services/weibo';
+import type { MessageChain, WeiboSendData, WeiboCard, WeiboContainerList } from '../../qq.types';
 
 let lfid: string;       // 账号的lfid
 let weiboTimer: number; // 轮询定时器

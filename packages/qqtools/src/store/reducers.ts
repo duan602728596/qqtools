@@ -1,4 +1,4 @@
-import { ReducersMapObject } from '@reduxjs/toolkit';
+import type { ReducersMapObject } from '@reduxjs/toolkit';
 import loginReducers from '../pages/Login/reducers/reducers';
 import optionsReducers from '../pages/Options/reducers/reducers';
 import miraiLoginReducers from '../pages/MiraiLogin/reducers/reducers';
