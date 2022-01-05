@@ -1,5 +1,6 @@
 import * as process from 'node:process';
 import * as path from 'node:path';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import AntdDayjsWebpackPlugin from 'antd-dayjs-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import type { Options as HtmlMinifierOptions } from 'html-minifier-terser';
@@ -95,25 +96,16 @@ export default function(info: object): { [key: string]: any } {
         'oicq'
       ]))
     },
-    js: {
+    javascript: {
       ecmascript: true,
       plugins,
       exclude: /node_modules|NIM_Web_SDK|BlythE/i
     },
-    ts: {
+    typescript: {
       configFile: isDev ? 'tsconfig.json' : 'tsconfig.prod.json',
       plugins,
       exclude: /node_modules|NIM_Web_SDK|BlythE/i
     },
-    rules: [
-      {
-        test: /NIM_Web_SDK/,
-        type: 'asset/resource',
-        generator: {
-          filename: '[name][ext]' // TODO: js文件生成的hash和注入的hash不一致
-        }
-      }
-    ],
     sass: {
       include: /src/
     },
@@ -122,8 +114,22 @@ export default function(info: object): { [key: string]: any } {
         // https://github.com/ant-design/ant-design/blob/master/components/style/themes/default.less
         '@primary-color': '#eb2f96'
       },
-      include: /node_modules[\\/]_?antd/
+      include: /node_modules[\\/]_?antd/,
+      exclude: /tailwindcss/i
     },
+    rules: [
+      {
+        test: /NIM_Web_SDK/,
+        type: 'asset/resource',
+        generator: {
+          filename: '[name][ext]' // TODO: js文件生成的hash和注入的hash不一致
+        }
+      },
+      {
+        test: /\.tailwindcss\.css$/i,
+        use: [isDev ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
+      }
+    ],
     plugins: [new AntdDayjsWebpackPlugin()].concat(analyzer ? [new BundleAnalyzerPlugin()] : [])
   };
 

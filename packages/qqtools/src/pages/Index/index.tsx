@@ -9,7 +9,6 @@ import {
   ToolTwoTone as IconToolTwoTone,
   ClusterOutlined as IconClusterOutlined
 } from '@ant-design/icons';
-import style from './index.sass';
 
 /* 首页 */
 function Index(props: {}): ReactElement {
@@ -24,7 +23,7 @@ function Index(props: {}): ReactElement {
   }
 
   return (
-    <div className={ style.main }>
+    <div className="p-[16px]">
       <h1>qqtools-mirai</h1>
       <Space>
         <Link to="Login">
@@ -45,8 +44,8 @@ function Index(props: {}): ReactElement {
       {/* 二维码 */}
       <p>欢迎打赏：</p>
       <Space size={ 8 }>
-        <Image className={ style.dashangImage } src={ require('./images/zfb.avif') } />
-        <Image className={ style.dashangImage } src={ require('./images/wx.avif') } />
+        <Image className="w-[180px] cursor-pointer" src={ require('./images/zfb.avif') } />
+        <Image className="w-[180px] cursor-pointer" src={ require('./images/wx.avif') } />
       </Space>
     </div>
   );

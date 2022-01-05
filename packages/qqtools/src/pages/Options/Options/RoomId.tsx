@@ -5,7 +5,6 @@ import { Fragment, useState, type ReactElement, type Dispatch as D, type SetStat
 import { useDispatch } from 'react-redux';
 import type { Dispatch } from '@reduxjs/toolkit';
 import { Button, Modal, Space, Alert, message } from 'antd';
-import style from './roomId.sass';
 import { saveRoomId, deleteRoomId } from '../reducers/reducers';
 import type { MemberInfo } from '../../../types';
 
@@ -61,8 +60,8 @@ function RoomId(props: {}): ReactElement {
         centered={ true }
         onCancel={ (event: MouseEvent<HTMLButtonElement>): void => setVisible(false) }
       >
-        <div className={ style.box }>
-          <Space className={ style.marginBottom }>
+        <div className="h-[110px]">
+          <Space className="mb-[16px]">
             <Button onClick={ handleImportRoomIdJsonClick }>导入房间信息</Button>
             <Button type="primary" danger={ true } onClick={ handleDeleteRoomIdJsonClick }>清除房间信息</Button>
           </Space>

@@ -143,8 +143,8 @@ function Index(props: {}): ReactElement {
   }, []);
 
   return (
-    <div className={ style.content }>
-      <Space className={ style.loginTools }>
+    <div className="p-[16px]">
+      <Space className="mb-[16px]">
         <Select className={ style.optionSelect } value={ optionValue } onSelect={ handleSelect }>
           { optionsListSelectOptionRender() }
         </Select>

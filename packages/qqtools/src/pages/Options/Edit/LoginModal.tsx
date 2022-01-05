@@ -1,7 +1,6 @@
 import { Fragment, useState, type ReactElement, type Dispatch as D, type SetStateAction as S, type MouseEvent } from 'react';
 import * as PropTypes from 'prop-types';
 import { Button, Modal, Form, Input, message, type FormInstance } from 'antd';
-import style from './loginModal.sass';
 import { requestPocketLogin, requestImUserInfo } from '../services/services';
 import type { LoginInfo, IMUserInfo } from '../services/interface';
 
@@ -72,7 +71,7 @@ function LoginModal(props: { form: FormInstance }): ReactElement {
 
   return (
     <Fragment>
-      <Button className={ style.marginTop } onClick={ handleOpenModalClick }>登陆并获取口袋48的IM信息</Button>
+      <Button className="mt-[14px]" onClick={ handleOpenModalClick }>登陆并获取口袋48的IM信息</Button>
       <Modal title="登陆并获取IM信息"
         visible={ visible }
         width={ 400 }
@@ -84,7 +83,7 @@ function LoginModal(props: { form: FormInstance }): ReactElement {
         onOk={ handleLoginClick }
         onCancel={ handleCloseModalClick }
       >
-        <Form className={ style.form } form={ form } labelCol={{ span: 5 }} wrapperCol={{ span: 19 }}>
+        <Form className="h-[120px]" form={ form } labelCol={{ span: 5 }} wrapperCol={{ span: 19 }}>
           <Form.Item name="mobile" label="用户名" rules={ [{ required: true, message: '请输入用户名', whitespace: true }] }>
             <Input />
           </Form.Item>

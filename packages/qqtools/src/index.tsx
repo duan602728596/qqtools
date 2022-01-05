@@ -9,6 +9,7 @@ import { storeFactory } from './store/store';
 import Routers from './router/Routers';
 import dbInit from './utils/idb/dbInit';
 import './QQ/sdk/BlythE.min';
+import './main.tailwindcss.css';
 
 dayjs.locale('zh-cn');
 

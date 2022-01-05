@@ -15,7 +15,6 @@ import { Button, Space, Table, Popconfirm, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import * as dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
-import style from './index.sass';
 import RoomId from './RoomId';
 import { queryOptionsList, deleteOption, saveFormData, type OptionsInitialState } from '../reducers/reducers';
 import dbConfig from '../../../utils/idb/dbConfig';
@@ -143,9 +142,9 @@ function Options(props: {}): ReactElement {
   }, []);
 
   return (
-    <div className={ style.content }>
-      <div className={ style.toolsGroup }>
-        <Space className={ style.toolsItem }>
+    <div className="p-[16px]">
+      <div className="flex mb-[16px]">
+        <Space className="grow">
           <Link to="Edit">
             <Button type="primary">添加配置</Button>
           </Link>
