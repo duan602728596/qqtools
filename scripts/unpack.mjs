@@ -53,7 +53,8 @@ function config(outputDir, target) {
       '!**/node_modules/*/AUTHORS',
       '!version.json',
       '!package-lock.json',
-      '!**/node_modules/.package-lock.json'
+      '!**/node_modules/.package-lock.json',
+      '!**/dependenciesOtherFiles.json'
     ],
     mac: {
       target: 'dir',
@@ -118,12 +119,17 @@ async function unpack() {
   // 拷贝编译的临时文件到中间代码文件夹
   const packages = path.join(cwd, 'packages');
 
-  await fse.copy(path.join(packages, 'app'), appDir);
+  await command('node', ['./scripts/taskfile.mjs'], cwd);
+  await fse.copy(path.join(packages, 'app'), appDir, {
+    filter(src, dest) {
+      return !src.includes('dependenciesOtherFiles');
+    }
+  });
   await Promise.all([
     fse.copy(path.join(packages, 'main/lib'), path.join(appDir, 'bin/lib')),
     fse.copy(path.join(packages, 'qqtools/dist'), path.join(appDir, 'dist'))
   ]);
-  await command('npm', ['install', '--production', '--legacy-peer-deps=true'], appDir);
+  // await command('npm', ['install', '--production', '--legacy-peer-deps=true'], appDir);
 
   // 编译mac
   await builder.build({
