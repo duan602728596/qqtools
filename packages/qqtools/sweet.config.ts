@@ -56,9 +56,9 @@ export default function(info: object): { [key: string]: any } {
   const config: { [key: string]: any } = {
     frame: 'react',
     dll: [
+      '@indexeddb-tools/indexeddb',
+      '@indexeddb-tools/indexeddb-redux',
       'classnames',
-      'indexeddb-tools',
-      'indexeddb-tools-redux',
       'js-base64',
       'react',
       'react-dom',

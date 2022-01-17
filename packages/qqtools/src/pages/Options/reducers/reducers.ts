@@ -1,12 +1,6 @@
-import {
-  createSlice,
-  type Slice,
-  type SliceCaseReducers,
-  type PayloadAction,
-  type CaseReducerActions,
-  type ActionCreator
-} from '@reduxjs/toolkit';
-import dbRedux, { loginOptionsObjectStoreName, roomIdObjectStoreName } from '../../../utils/idb/dbRedux';
+import { createSlice, type Slice, type SliceCaseReducers, type PayloadAction, type CaseReducerActions } from '@reduxjs/toolkit';
+import type { DataDispatchFunc, QueryDispatchFunc, CursorDispatchFunc } from '@indexeddb-tools/indexeddb-redux';
+import IDBRedux, { loginOptionsObjectStoreName, roomIdObjectStoreName } from '../../../utils/IDB/IDBRedux';
 import type { OptionsItem } from '../../../types';
 
 export interface OptionsInitialState {
@@ -35,35 +29,34 @@ const { actions, reducer }: Slice = createSlice<OptionsInitialState, CaseReducer
 
 export const { setOptionsList, setOptionsDeleteList }: CaseReducerActions<CaseReducers> = actions;
 
-
 // 保存数据
-export const saveFormData: ActionCreator<any> = dbRedux.putAction({
+export const saveFormData: DataDispatchFunc = IDBRedux.putAction({
   objectStoreName: loginOptionsObjectStoreName
 });
 
 // 配置列表
-export const queryOptionsList: ActionCreator<any> = dbRedux.cursorAction({
+export const queryOptionsList: CursorDispatchFunc = IDBRedux.cursorAction({
   objectStoreName: loginOptionsObjectStoreName,
   successAction: setOptionsList
 });
 
 // 删除
-export const deleteOption: ActionCreator<any> = dbRedux.deleteAction({
+export const deleteOption: QueryDispatchFunc = IDBRedux.deleteAction({
   objectStoreName: loginOptionsObjectStoreName,
   successAction: setOptionsDeleteList
 });
 
 // 获取单个配置
-export const getOptionItem: ActionCreator<any> = dbRedux.getAction({
+export const getOptionItem: QueryDispatchFunc = IDBRedux.getAction({
   objectStoreName: loginOptionsObjectStoreName
 });
 
 // 获取单个配置
-export const saveRoomId: ActionCreator<any> = dbRedux.putAction({
+export const saveRoomId: DataDispatchFunc = IDBRedux.putAction({
   objectStoreName: roomIdObjectStoreName
 });
 
-export const deleteRoomId: ActionCreator<any> = dbRedux.deleteAction({
+export const deleteRoomId: QueryDispatchFunc = IDBRedux.deleteAction({
   objectStoreName: roomIdObjectStoreName
 });
 

@@ -17,7 +17,7 @@ import type { ColumnsType } from 'antd/es/table';
 import style from './index.sass';
 import { queryOptionsList, OptionsInitialState } from '../Options/reducers/reducers';
 import { setAddLogin, setDeleteLogin, getRoomId, LoginInitialState } from './reducers/reducers';
-import dbConfig from '../../utils/idb/dbConfig';
+import dbConfig from '../../utils/IDB/IDBConfig';
 import QQ from '../../QQ/QQ';
 import OicqQQ from '../../QQ/OicqQQ';
 import { getGroupNumbers } from '../../QQ/utils/miraiUtils';

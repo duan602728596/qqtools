@@ -17,7 +17,7 @@ import * as dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import RoomId from './RoomId';
 import { queryOptionsList, deleteOption, saveFormData, type OptionsInitialState } from '../reducers/reducers';
-import dbConfig from '../../../utils/idb/dbConfig';
+import dbConfig from '../../../utils/IDB/IDBConfig';
 import type { OptionsItem } from '../../../types';
 
 /* 判断yaml解析后是否为object类型 */

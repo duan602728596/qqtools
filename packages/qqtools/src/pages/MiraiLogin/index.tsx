@@ -27,7 +27,7 @@ import {
   deleteQQLoginItem,
   type MiraiLoginInitialState
 } from './reducers/reducers';
-import dbConfig from '../../utils/idb/dbConfig';
+import dbConfig from '../../utils/IDB/IDBConfig';
 import { login, queue } from './login/login';
 import type { LoginInfoSendMessage } from './login/miraiChild.worker/miraiChild.worker';
 import type { QQLoginItem, ProtocolType } from './types';

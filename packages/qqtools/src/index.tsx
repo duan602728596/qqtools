@@ -7,7 +7,7 @@ import * as dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 import { storeFactory } from './store/store';
 import Routers from './router/Routers';
-import dbInit from './utils/idb/dbInit';
+import IDBInit from './utils/IDB/IDBInit';
 import './QQ/sdk/BlythE.min';
 import './main.tailwindcss.css';
 
@@ -25,4 +25,4 @@ render(
   document.getElementById('app')
 );
 
-dbInit();
+IDBInit();
