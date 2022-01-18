@@ -48,11 +48,13 @@ function Edit(props: {}): ReactElement {
 
   // 数据回填
   async function getData(): Promise<void> {
-    const { result }: { result: OptionsItem } = await dispatch(getOptionItem({
-      query: params.id
-    }));
+    if (params?.id) {
+      const { result }: { result: OptionsItem } = await dispatch(getOptionItem({
+        query: params.id
+      }));
 
-    form.setFieldsValue(result.value);
+      form.setFieldsValue(result.value);
+    }
   }
 
   // 保存
@@ -106,9 +108,7 @@ function Edit(props: {}): ReactElement {
   }
 
   useEffect(function() {
-    if (params?.id) {
-      getData();
-    }
+    getData();
   }, [params?.id]);
 
   return (
