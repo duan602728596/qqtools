@@ -1711,6 +1711,48 @@
       "account": "20211205183431_fl38zrtq66kairc"
     },
     {
+      "id": 70385972,
+      "ownerName": "BEJ48-郭晓盈",
+      "roomId": "668845413",
+      "account": "20220122223213_7hp4yodbs3as62g"
+    },
+    {
+      "id": 70385975,
+      "ownerName": "BEJ48-韩雪",
+      "roomId": "668829484",
+      "account": "20220122222422_k9hp16btv0ulp7d"
+    },
+    {
+      "id": 70385982,
+      "ownerName": "BEJ48-李思奥",
+      "roomId": "668812685",
+      "account": "20220122222635_o9njuvi8beuffh0"
+    },
+    {
+      "id": 70385987,
+      "ownerName": "BEJ48-林滢",
+      "roomId": "668845159",
+      "account": "20220122222837_6lmg1bd5pms0kms"
+    },
+    {
+      "id": 70385989,
+      "ownerName": "BEJ48-王思奕",
+      "roomId": "668730543",
+      "account": "20220122222525_bntf6v2vot8cz1l"
+    },
+    {
+      "id": 70385991,
+      "ownerName": "BEJ48-王言蹊",
+      "roomId": "668812879",
+      "account": "20220122222915_w7pmj6vn27ri869"
+    },
+    {
+      "id": 70385998,
+      "ownerName": "BEJ48-朱虹蓉",
+      "roomId": "668812898",
+      "account": "20220122223018_l7z134jdcy0ixcq"
+    },
+    {
       "id": 4344250371,
       "ownerName": "SNH48-陈雨孜",
       "roomId": "147283635",
@@ -1819,5 +1861,5 @@
       "account": "20200706182614_rvr8uq2mnr81il4"
     }
   ],
-  "buildTime": "2021-12-10 13:51:54"
+  "buildTime": "2022-01-24 16:51:10"
 }
