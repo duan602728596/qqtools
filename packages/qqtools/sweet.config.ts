@@ -1,5 +1,6 @@
 import * as process from 'node:process';
 import * as path from 'node:path';
+// @ts-ignore
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import AntdDayjsWebpackPlugin from 'antd-dayjs-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
@@ -81,7 +82,6 @@ export default function(info: object): { [key: string]: any } {
         'os',
         'path',
         'process',
-        'querystring',
         'util',
         'zlib'
       ]).concat([

@@ -1,4 +1,3 @@
-import * as querystring from 'node:querystring';
 import { CronJob } from 'cron';
 import { message } from 'antd';
 import * as dayjs from 'dayjs';
@@ -166,15 +165,15 @@ class QQ extends Basic {
   initWebSocket(): void {
     const { socketHost }: this = this;
     const { socketPort, authKey, qqNumber }: OptionsItemValue = this.config;
-    const query: string = querystring.stringify(
+    const query: string = new URLSearchParams(
       this.#miraiApiHttpV2 ? {
         verifyKey: authKey,
         sessionKey: this.session,
-        qq: qqNumber
+        qq: String(qqNumber)
       } : {
         sessionKey: this.session
       }
-    );
+    ).toString();
 
     this.messageSocket = new WebSocket(`ws://${ socketHost }:${ socketPort }/message?${ query }`);
     this.eventSocket = new WebSocket(`ws://${ socketHost }:${ socketPort }/event?${ query }`);
