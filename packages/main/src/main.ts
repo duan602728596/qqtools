@@ -1,6 +1,5 @@
 import * as process from 'node:process';
 import * as path from 'node:path';
-import * as url from 'node:url';
 import { app, BrowserWindow, Menu } from 'electron';
 import * as remoteMain from '@electron/remote/main';
 import { isDevelopment } from './utils';
@@ -32,13 +31,11 @@ function createWindow(): void {
     win.webContents.openDevTools();
   }
 
-  win.loadURL(url.format({
-    pathname: isDevelopment
+  win.loadFile(
+    isDevelopment
       ? path.join(__dirname, '../../qqtools/dist/index.html')
-      : path.join(__dirname, '../../dist/index.html'),
-    protocol: 'file:',
-    slashes: true
-  }));
+      : path.join(__dirname, '../../dist/index.html')
+  );
 
   // 去掉顶层菜单
   Menu.setApplicationMenu(null);
