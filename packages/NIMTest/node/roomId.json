@@ -1561,6 +1561,12 @@
       "account": "20201208142539_vxw8aw9xkjmhzdl"
     },
     {
+      "id": 52494479,
+      "ownerName": "IDFT-姜欣瑶",
+      "roomId": "387978713",
+      "account": "20210506162958_350utut1hz1hzst"
+    },
+    {
       "id": 52494482,
       "ownerName": "GNZ48-江雨航",
       "roomId": "381012316",
@@ -1753,6 +1759,18 @@
       "account": "20220122223018_l7z134jdcy0ixcq"
     },
     {
+      "id": 71500016,
+      "ownerName": "GNZ48-惠煜轩",
+      "roomId": "1001456798",
+      "account": "20220403215938_5mzga3wpapw727c"
+    },
+    {
+      "id": 71500018,
+      "ownerName": "GNZ48-林恩同",
+      "roomId": "1019856837",
+      "account": "20220405222702_qew8ki0enie7v53"
+    },
+    {
       "id": 72811098,
       "ownerName": "CKG48-罗恩妮",
       "roomId": "639289246",
@@ -1867,5 +1885,5 @@
       "account": "20200706182614_rvr8uq2mnr81il4"
     }
   ],
-  "buildTime": "2022-01-26 16:21:02"
+  "buildTime": "2022-04-07 18:51:20"
 }
