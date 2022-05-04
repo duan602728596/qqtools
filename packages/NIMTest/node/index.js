@@ -1,7 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { randomUUID } = require('node:crypto');
-const got = require('got');
 const _ = require('lodash');
 const dayjs = require('dayjs');
 
@@ -64,6 +63,9 @@ function getRoomInfo(chatroomId) {
 }
 
 async function main() {
+  const Got = await import('got');
+  const got = Got.default;
+
   // 写入文件
   const fileName = path.join(__dirname, 'roomId.json');
   let roomId = [];
