@@ -2,7 +2,7 @@
   "name": "@qqtools3/nimtest",
   "version": "0.0.0",
   "dependencies": {
-    "got": "^11.8.2",
+    "got": "^12.0.4",
     "lodash": "^4.17.21"
   }
 }
