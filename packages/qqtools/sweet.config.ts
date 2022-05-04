@@ -62,7 +62,7 @@ export default function(info: object): { [key: string]: any } {
       'classnames',
       'js-base64',
       'react',
-      'react-dom',
+      'react-dom/client',
       'prop-types',
       '@reduxjs/toolkit',
       'react-redux',
