@@ -174,7 +174,7 @@ export function getSocketHost(socketHost: string | undefined): string {
  */
 export function LogCommandData(protocol: 'mirai' | 'oicq', qqNumber: number, time: string): string {
   return `qqtools-mirai
-软件版本：${ packageJson.version }
+软件版本：${ Reflect.get(packageJson, 'version') }
 运行平台：${ process.platform }
 Electron：${ process.versions.electron }
 Chrome：${ process.versions.chrome }

@@ -48,7 +48,10 @@ function nodeModules(node: Array<string>): Array<string> {
 }
 
 export default function(info: object): { [key: string]: any } {
-  const plugins: Array<any> = [['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }]];
+  const plugins: Array<any> = [
+    '@babel/plugin-syntax-import-assertions',
+    ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }]
+  ];
 
   if (!isDev) {
     plugins.unshift(['transform-react-remove-prop-types', { mode: 'remove', removeImport: true }]);
