@@ -1,12 +1,6 @@
-import {
-  createSlice,
-  type Slice,
-  type SliceCaseReducers,
-  type PayloadAction,
-  type CaseReducerActions,
-  type ActionCreator
-} from '@reduxjs/toolkit';
-import dbRedux, { roomIdObjectStoreName } from '../../../utils/idb/dbRedux';
+import { createSlice, type Slice, type SliceCaseReducers, type PayloadAction, type CaseReducerActions } from '@reduxjs/toolkit';
+import type { QueryDispatchFunc } from '@indexeddb-tools/indexeddb-redux';
+import IDBRedux, { roomIdObjectStoreName } from '../../../utils/IDB/IDBRedux';
 import type QQ from '../../../QQ/QQ';
 import type OicqQQ from '../../../QQ/OicqQQ';
 
@@ -36,7 +30,7 @@ const { actions, reducer }: Slice = createSlice<LoginInitialState, CaseReducers,
 
 export const { setAddLogin, setDeleteLogin }: CaseReducerActions<CaseReducers> = actions;
 
-export const getRoomId: ActionCreator<any> = dbRedux.getAction({
+export const getRoomId: QueryDispatchFunc = IDBRedux.getAction({
   objectStoreName: roomIdObjectStoreName
 });
 

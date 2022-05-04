@@ -9,7 +9,6 @@ import { Form, Button, Space, Input, InputNumber, Divider, Switch, Checkbox, Sel
 import type { FormInstance } from 'antd/es/form';
 import type { Store } from 'rc-field-form/es/interface';
 import type { CheckboxOptionType } from 'antd/es/checkbox';
-import style from './index.sass';
 import { saveFormData, getOptionItem } from '../reducers/reducers';
 import CustomCmd from './CustomCmd';
 import LoginModal from './LoginModal';
@@ -49,11 +48,13 @@ function Edit(props: {}): ReactElement {
 
   // 数据回填
   async function getData(): Promise<void> {
-    const { result }: { result: OptionsItem } = await dispatch(getOptionItem({
-      query: params.id
-    }));
+    if (params?.id) {
+      const { result }: { result: OptionsItem } = await dispatch(getOptionItem({
+        query: params.id
+      }));
 
-    form.setFieldsValue(result.value);
+      form.setFieldsValue(result.value);
+    }
   }
 
   // 保存
@@ -107,13 +108,11 @@ function Edit(props: {}): ReactElement {
   }
 
   useEffect(function() {
-    if (params?.id) {
-      getData();
-    }
+    getData();
   }, [params?.id]);
 
   return (
-    <Form className={ style.form }
+    <Form className="p-[16px]"
       form={ form }
       initialValues={ initialStates }
       labelCol={{ span: 5 }}
@@ -133,7 +132,7 @@ function Edit(props: {}): ReactElement {
         </Select>
       </Form.Item>
       <Form.Item name="qqNumber" label="QQ号" rules={ [{ required: true, message: '必须填写QQ号' }] }>
-        <InputNumber className={ style.inputNumber } />
+        <InputNumber className="w-full" />
       </Form.Item>
       <Form.Item name="groupNumber" label="群号" rules={ [{ required: true, message: '必须填写群号' }] }>
         <Input placeholder={ '支持配置多个群，以 "," 分隔' } />
@@ -142,7 +141,7 @@ function Edit(props: {}): ReactElement {
         <Input placeholder="配置socket的host，默认为localhost，一般不需要填写" />
       </Form.Item>
       <Form.Item name="socketPort" label="端口号" rules={ [{ required: true, message: '必须填写端口号' }] }>
-        <InputNumber className={ style.inputNumber } />
+        <InputNumber className="w-full" />
       </Form.Item>
       <Form.Item label="authKey"
         required={ true }

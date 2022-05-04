@@ -4,7 +4,6 @@ import type { Dispatch } from '@reduxjs/toolkit';
 import { Button, Modal, Form, Checkbox, Input, message, Select } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import * as dayjs from 'dayjs';
-import style from './loginModal.sass';
 import { login, queue } from './login/login';
 import { saveQQLoginItemData } from './reducers/reducers';
 import type { LoginInfoSendMessage } from './login/miraiChild.worker/miraiChild.worker';
@@ -97,7 +96,7 @@ function LoginModal(props: {}): ReactElement {
         onOk={ handleLoginSubmit }
         onCancel={ handleCloseLoginModalClick }
       >
-        <Form className={ style.form }
+        <Form className="h-[200px]"
           form={ form }
           initialValues={{ protocol: 'ANDROID_PAD' }}
           labelCol={{ span: 4 }}

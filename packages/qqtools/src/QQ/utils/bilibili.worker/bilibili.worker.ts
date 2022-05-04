@@ -14,7 +14,6 @@ async function getLiveStatusTimer(): Promise<void> {
 
     // 上次查询不在直播状态，但是这次直播在播放状态，说明开启了直播
     if (!status && newStatus) {
-      // @ts-ignore
       postMessage({ type: 'bilibili' });
     }
 

@@ -5,8 +5,8 @@ import { cwd, command } from './utils.mjs';
 async function delivery() {
   await command('npm', ['run', 'build'], path.join(cwd, 'packages/main'));
   await command('npm', ['run', 'build'], path.join(cwd, 'packages/qqtools'));
-  await command('node', ['./scripts/unpack.mjs'], cwd);
-  await command('node', ['./scripts/clean.mjs'], cwd);
+  await command('node', ['--experimental-json-modules', './scripts/unpack.mjs'], cwd);
+  await command('node', ['--experimental-json-modules', './scripts/clean.mjs'], cwd);
 }
 
 delivery();

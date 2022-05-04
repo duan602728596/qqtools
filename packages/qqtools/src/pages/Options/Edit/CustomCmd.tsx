@@ -5,7 +5,6 @@ import { Table, Button, Space, Input, Modal, Form } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { FormInstance } from 'antd/es/form';
 import type { Store } from 'rc-field-form/es/interface';
-import style from './customCmd.sass';
 import type { EditItem } from '../../../types';
 
 interface CustomCmdProps {
@@ -92,7 +91,7 @@ function CustomCmd(props: CustomCmdProps): ReactElement {
 
   return (
     <Fragment>
-      <Space className={ style.customCmdBox } direction="vertical">
+      <Space className="w-full" direction="vertical">
         <Button onClick={ (event: MouseEvent): void => handleAddClick(undefined, event) }>添加命令</Button>
         <Table columns={ columns } dataSource={ props.value ?? [] } rowKey="id" />
       </Space>
@@ -105,7 +104,7 @@ function CustomCmd(props: CustomCmdProps): ReactElement {
         onOk={ handleOkClick }
         onCancel={ handleCancelClick }
       >
-        <Form className={ style.edit } form={ form }>
+        <Form className="h-[380px] mr-[16px]" form={ form }>
           <Form.Item name="cmd" rules={ [{ required: true, message: '必须填写命令' }] }>
             <Input placeholder="命令" />
           </Form.Item>

@@ -27,7 +27,7 @@ import {
   deleteQQLoginItem,
   type MiraiLoginInitialState
 } from './reducers/reducers';
-import dbConfig from '../../utils/idb/dbConfig';
+import dbConfig from '../../utils/IDB/IDBConfig';
 import { login, queue } from './login/login';
 import type { LoginInfoSendMessage } from './login/miraiChild.worker/miraiChild.worker';
 import type { QQLoginItem, ProtocolType } from './types';
@@ -147,7 +147,7 @@ function Index(props: {}): ReactElement {
       width: '270px',
       render: (value: boolean, record: QQLoginItem, index: number): ReactElement => (
         <Fragment>
-          <Checkbox className={ style.marginRight }
+          <Checkbox className="mr-[8px]"
             checked={ value }
             onChange={ (event: CheckboxChangeEvent): void => handleAutoLoginChange(record, event) }
           />
@@ -188,9 +188,9 @@ function Index(props: {}): ReactElement {
   }, []);
 
   return (
-    <div className={ style.content }>
+    <div className="p-[16px]">
       <Header />
-      <Space className={ style.marginBottom }>
+      <Space className="mb-[16px]">
         <LoginModal />
         <Button onClick={ handleAutoLoginClick }>一键登陆</Button>
         <Button type="primary"

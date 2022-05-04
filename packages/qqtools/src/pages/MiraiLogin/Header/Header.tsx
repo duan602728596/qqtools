@@ -3,7 +3,6 @@ import { dialog } from '@electron/remote';
 import { Fragment, useEffect, ReactElement, type MouseEvent } from 'react';
 import { Button, Space, Input, Form, Divider, message } from 'antd';
 import type { FormInstance } from 'antd/es/form';
-import style from './header.sass';
 import { getJarDir, setJarDir, getJavaPath, setJavaPath } from '../miraiPath';
 
 /* 返回、表单配置 */
@@ -55,22 +54,22 @@ function Header(props: {}): ReactElement {
 
   return (
     <Fragment>
-      <Form className={ style.marginBottom } form={ form }>
+      <Form className="mb-[16px]" form={ form }>
         <Space direction="vertical">
           <div>
-            <label className={ style.label } htmlFor="jarDir">jar的文件夹地址：</label>
+            <label className="inline-block w-[125px]" htmlFor="jarDir">jar的文件夹地址：</label>
             <Form.Item name="jarDir" noStyle={ true }>
-              <Input className={ style.input } id="jarDir" allowClear={ true } />
+              <Input className="mr-[8px] w-[300px]" id="jarDir" allowClear={ true } />
             </Form.Item>
-            <Button className={ style.width105 } onClick={ handleSelectJarDirClick }>选择文件夹</Button>
+            <Button className="w-[105px]" onClick={ handleSelectJarDirClick }>选择文件夹</Button>
           </div>
           <div>
-            <label className={ style.label } htmlFor="javaPath">java的文件地址：</label>
+            <label className="inline-block w-[125px]" htmlFor="javaPath">java的文件地址：</label>
             <Form.Item name="javaPath" noStyle={ true }>
-              <Input className={ style.input } id="javaPath" allowClear={ true } />
+              <Input className="mr-[8px] w-[300px]" id="javaPath" allowClear={ true } />
             </Form.Item>
-            <Button className={ style.width105 } onClick={ handleSelectJdkPathClick }>选择文件</Button>
-            <Button className={ style.marginLeft16 } type="primary" onClick={ handleSubmit }>保存</Button>
+            <Button className="w-[105px]" onClick={ handleSelectJdkPathClick }>选择文件</Button>
+            <Button className="ml-[16px]" type="primary" onClick={ handleSubmit }>保存</Button>
           </div>
         </Space>
       </Form>

@@ -114,7 +114,6 @@ function childProcessInit(data: InitMessage): void {
     if (/^>/.test(text) && !isInitialized) {
       isInitialized = true; // 首次启动
       sendData.isFirst = true;
-      // @ts-ignore
       postMessage({ type: MessageType.INIT } as InitSendMessage);
     }
 
@@ -128,14 +127,12 @@ function childProcessInit(data: InitMessage): void {
   });
 
   childProcess.on('close', function() {
-    // @ts-ignore
     postMessage({ type: MessageType.CLOSE } as CloseMessage);
   });
 
   childProcess.on('error', function(err: Error): void {
     console.error(err);
-    // @ts-ignore
-    postMessage({ type: MessageType.CLOSE, error: Error } as CloseMessage);
+    postMessage({ type: MessageType.CLOSE, error: err } as CloseMessage);
   });
 }
 
@@ -148,7 +145,7 @@ function miraiLogin(data: LoginMessage): void {
     const { text, isFirst }: StdoutEventMessage = event.data;
 
     if (/Login successful/i.test(text) && text.includes(data.username)) {
-      // @ts-ignore 登陆成功
+      // 登陆成功
       postMessage({
         type: MessageType.LOGIN_INFO,
         loginType: 'success',
@@ -164,7 +161,7 @@ function miraiLogin(data: LoginMessage): void {
         message = '当前上网环境异常，请更换网络环境或在常用设备上登录或稍后再试。';
       }
 
-      // @ts-ignore 登陆失败
+      // 登陆失败
       postMessage({
         type: MessageType.LOGIN_INFO,
         loginType: 'failed',

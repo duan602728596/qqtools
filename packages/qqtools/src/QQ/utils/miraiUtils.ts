@@ -1,7 +1,6 @@
 import * as process from 'node:process';
+import * as packageJson from '../../../package.json' assert { type: 'json' };
 import type { Plain, Image, At, AtAll, MessageChain } from '../qq.types';
-
-const packageJson: any = require('../../../package.json');
 
 /**
  * 发送文字

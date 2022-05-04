@@ -68,7 +68,6 @@ async function weiboContainerListTimer(): Promise<void> {
       weiboId = newList[0].id;
 
       for (const item of newList) {
-        // @ts-ignore
         postMessage({ sendGroup: protocol === 'oicq' ? oicqSendGroup(item) : miraiSendGroup(item) });
       }
     }

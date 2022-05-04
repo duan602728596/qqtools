@@ -1,12 +1,6 @@
-import {
-  createSlice,
-  type Slice,
-  type SliceCaseReducers,
-  type PayloadAction,
-  type CaseReducerActions,
-  type ActionCreator
-} from '@reduxjs/toolkit';
-import dbRedux, { qqObjectStoreName } from '../../../utils/idb/dbRedux';
+import { createSlice, type Slice, type SliceCaseReducers, type PayloadAction, type CaseReducerActions } from '@reduxjs/toolkit';
+import type { QueryDispatchFunc, CursorDispatchFunc, DataDispatchFunc } from '@indexeddb-tools/indexeddb-redux';
+import IDBRedux, { qqObjectStoreName } from '../../../utils/IDB/IDBRedux';
 import type { QQLoginItem } from '../types';
 
 export interface MiraiLoginInitialState {
@@ -67,19 +61,19 @@ export const {
 }: CaseReducerActions<CaseReducers> = actions;
 
 // 配置列表
-export const queryQQLoginList: ActionCreator<any> = dbRedux.cursorAction({
+export const queryQQLoginList: CursorDispatchFunc = IDBRedux.cursorAction({
   objectStoreName: qqObjectStoreName,
   successAction: setQQLoginList
 });
 
 // 删除数据
-export const deleteQQLoginItem: ActionCreator<any> = dbRedux.deleteAction({
+export const deleteQQLoginItem: QueryDispatchFunc = IDBRedux.deleteAction({
   objectStoreName: qqObjectStoreName,
   successAction: setQQLoginDeleteList
 });
 
 // 保存数据
-export const saveQQLoginItemData: ActionCreator<any> = dbRedux.putAction({
+export const saveQQLoginItemData: DataDispatchFunc = IDBRedux.putAction({
   objectStoreName: qqObjectStoreName,
   successAction: setQQLoginAdd
 });
