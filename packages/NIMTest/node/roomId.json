@@ -1759,6 +1759,12 @@
       "account": "20220122223018_l7z134jdcy0ixcq"
     },
     {
+      "id": 71500014,
+      "ownerName": "GNZ48-黄汝彤",
+      "roomId": "1104987861",
+      "account": "20220416110239_vt2al53l38qj2x5"
+    },
+    {
       "id": 71500016,
       "ownerName": "GNZ48-惠煜轩",
       "roomId": "1001456798",
@@ -1771,10 +1777,22 @@
       "account": "20220405222702_qew8ki0enie7v53"
     },
     {
+      "id": 71500020,
+      "ownerName": "GNZ48-雷淑怡",
+      "roomId": "1159317111",
+      "account": "20220416115336_y6zvt055rymuqhf"
+    },
+    {
       "id": 72811098,
       "ownerName": "CKG48-罗恩妮",
       "roomId": "639289246",
       "account": "20220116151919_7l2k07x51p1sukt"
+    },
+    {
+      "id": 81199151,
+      "ownerName": "CKG48-彭含灵",
+      "roomId": "1482409146",
+      "account": "20220524012839_i2qbwdxmpw65f2u"
     },
     {
       "id": 4344250371,
@@ -1885,5 +1903,5 @@
       "account": "20200706182614_rvr8uq2mnr81il4"
     }
   ],
-  "buildTime": "2022-04-07 18:51:20"
+  "buildTime": "2022-06-25 20:31:56"
 }
