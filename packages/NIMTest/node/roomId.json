@@ -1795,6 +1795,24 @@
       "account": "20220524012839_i2qbwdxmpw65f2u"
     },
     {
+      "id": 83099892,
+      "ownerName": "BEJ48-吴睿莎",
+      "roomId": "1764607240",
+      "account": "20220706191038_o8crvcft0t23zor"
+    },
+    {
+      "id": 83099897,
+      "ownerName": "BEJ48-朱力维",
+      "roomId": "1764361769",
+      "account": "20220706193627_e1hfhvtt283t245"
+    },
+    {
+      "id": 83231314,
+      "ownerName": "GNZ48-陆靖婷",
+      "roomId": "1696941858",
+      "account": "20220628191742_bikisryde9kw1ys"
+    },
+    {
       "id": 4344250371,
       "ownerName": "SNH48-陈雨孜",
       "roomId": "147283635",
@@ -1903,5 +1921,5 @@
       "account": "20200706182614_rvr8uq2mnr81il4"
     }
   ],
-  "buildTime": "2022-06-25 20:31:56"
+  "buildTime": "2022-07-10 15:24:01"
 }
