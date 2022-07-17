@@ -1,35 +1,27 @@
+/* @deprecated */
 /* 获取和设置变量 */
 const JAR_DIR: string = 'JAR_DIR';
 const JAVA_PATH: string = 'JAVA_PATH';
 
-/* 获取jar文件夹位置 */
-export function getJarDir(): string | null {
-  const jarDir: string | null = localStorage.getItem(JAR_DIR);
+/* 删除旧的数据配置 */
+localStorage.getItem(JAR_DIR) && localStorage.removeItem(JAR_DIR);
+localStorage.getItem(JAVA_PATH) && localStorage.removeItem(JAVA_PATH);
 
-  return jarDir;
+/* 设置mcl文件夹的位置 */
+const MCL_DIR: string = 'MCL_DIR';
+
+/* 获取mcl文件夹位置 */
+export function getMclDir(): string | null {
+  const mclDir: string | null = localStorage.getItem(MCL_DIR);
+
+  return mclDir;
 }
 
-/* 设置jdk文件位置 */
-export function setJarDir(value: string | undefined): void {
+/* 设置mcl文件位置 */
+export function setMclDir(value: string | null | undefined): void {
   if (value && !/^\s*$/.test(value)) {
-    localStorage.setItem(JAR_DIR, value);
+    localStorage.setItem(MCL_DIR, value);
   } else {
-    localStorage.removeItem(JAR_DIR);
-  }
-}
-
-/* 获取jdk文件位置 */
-export function getJavaPath(): string | null {
-  const javaPath: string | null = localStorage.getItem(JAVA_PATH);
-
-  return javaPath;
-}
-
-/* 设置jdk文件位置 */
-export function setJavaPath(value: string | undefined): void {
-  if (value && !/^\s*$/.test(value)) {
-    localStorage.setItem(JAVA_PATH, value);
-  } else {
-    localStorage.removeItem(JAVA_PATH);
+    localStorage.removeItem(MCL_DIR);
   }
 }

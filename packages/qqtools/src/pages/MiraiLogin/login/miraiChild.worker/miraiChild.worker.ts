@@ -1,5 +1,4 @@
 import { spawn, ChildProcessWithoutNullStreams } from 'node:child_process';
-import * as path from 'node:path';
 import * as os from 'node:os';
 import * as iconv from 'iconv-lite';
 import type { ProtocolType } from '../../types';
@@ -15,8 +14,7 @@ export enum MessageType {
 // 初始化
 export interface InitMessage {
   type: MessageType.INIT;
-  javaPath: string;
-  jarDir: string;
+  mclDir: string;
 }
 
 // 登陆
@@ -100,12 +98,12 @@ function chcp(): Promise<string> {
  * 滑块获取ticket的地址为https://t.captcha.qq.com/cap_union_new_verify
  */
 function childProcessInit(data: InitMessage): void {
-  childProcess = spawn(data.javaPath, [
-    '-Dmirai.slider.captcha.supported',
-    '-cp',
-    `${ data.jarDir }/*`,
-    'net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader'
-  ], { cwd: path.join(data.jarDir, '..') });
+  const isWin32: boolean = os.platform() === 'win32';
+
+  childProcess = spawn(isWin32 ? './mcl.cmd' : './mcl', {
+    cwd: data.mclDir,
+    detached: true
+  });
 
   childProcess.stdout.on('data', function(chunk: Buffer): void {
     const text: string = BufferToString(chunk);
@@ -185,7 +183,8 @@ function miraiLogin(data: LoginMessage): void {
 
 /* 关闭线程 */
 function closeLogin(): void {
-  childProcess.kill();
+  // 也可以用process.kill(-childProcess.pid!)杀掉进程
+  childProcess.stdin.write('stop');
 }
 
 addEventListener('message', async function(event: MessageEvent<Message>): Promise<void> {
