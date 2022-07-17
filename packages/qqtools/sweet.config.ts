@@ -47,10 +47,31 @@ function nodeModules(node: Array<string>): Array<string> {
   return node.concat(node.map((o: string): string => `node:${ o }`));
 }
 
+const externalsName: Array<string> = nodeModules([
+  'child_process',
+  'crypto',
+  'fs',
+  'os',
+  'path',
+  'process',
+  'util'
+]).concat([
+  '@electron/remote',
+  'cron',
+  'electron',
+  'fs-extra',
+  'got',
+  'iconv-lite',
+  'js-yaml',
+  'nunjucks',
+  'oicq'
+]);
+
 export default function(info: object): { [key: string]: any } {
   const plugins: Array<any> = [
     '@babel/plugin-syntax-import-assertions',
-    ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }]
+    ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }],
+    ['@48tools/babel-plugin-delay-require', { moduleNames: externalsName }]
   ];
 
   if (!isDev) {
@@ -77,25 +98,7 @@ export default function(info: object): { [key: string]: any } {
     html: [{ template: path.join(__dirname, 'src/index.pug'), minify: htmlWebpackPluginMinify }],
     externals: {
       SDK: 'window.SDK',
-      ...nodeExternals(nodeModules([
-        'child_process',
-        'crypto',
-        'fs',
-        'os',
-        'path',
-        'process',
-        'util'
-      ]).concat([
-        '@electron/remote',
-        'cron',
-        'electron',
-        'fs-extra',
-        'got',
-        'iconv-lite',
-        'js-yaml',
-        'nunjucks',
-        'oicq'
-      ]))
+      ...nodeExternals(externalsName)
     },
     javascript: {
       ecmascript: true,
