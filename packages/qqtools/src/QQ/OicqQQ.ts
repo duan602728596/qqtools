@@ -9,9 +9,8 @@ import { getGroupNumbers, getSocketHost, LogCommandData } from './utils/miraiUti
 import { isGroupMessageEventData, isMemberIncreaseEventData } from './utils/oicqUtils';
 import { getRoomMessageForOicq, getLogMessage, log, type RoomMessageArgs } from './utils/pocket48Utils';
 import { requestSendGroupMessage } from './services/oicq';
-import { requestJoinRank } from './services/taoba';
 import type { OptionsItemValue, MemberInfo, EditItem } from '../types';
-import type { NIMMessage, CustomMessageAll, TaobaRankItem, TaobaJoinRank } from './qq.types';
+import type { NIMMessage, CustomMessageAll } from './qq.types';
 
 /* oicq的连接 */
 class OicqQQ extends Basic {
@@ -46,20 +45,6 @@ class OicqQQ extends Basic {
 
       if (command === 'pocketroom') {
         this.membersInRoom(groupId);
-
-        return;
-      }
-
-      // 集资命令处理
-      if (['taoba', '桃叭', 'jizi', 'jz', '集资'].includes(command)) {
-        this.taobaoCommandCallback(groupId);
-
-        return;
-      }
-
-      // 排行榜命令处理
-      if (['排行榜', 'phb'].includes(command)) {
-        this.taobaoCommandRankCallback(groupId);
 
         return;
       }
@@ -321,36 +306,6 @@ class OicqQQ extends Basic {
     await this.sendMessage(sendMessage);
   };
 
-  // 桃叭命令的回调函数
-  async taobaoCommandCallback(groupId: number): Promise<void> {
-    const { taobaListen, taobaId, taobaCommandTemplate }: OptionsItemValue = this.config;
-
-    if (taobaListen && taobaId) {
-      const msg: string = renderString(taobaCommandTemplate, {
-        title: this.taobaInfo.title,
-        taobaid: taobaId
-      });
-
-      await this.sendMessage(msg, groupId);
-    }
-  }
-
-  // 桃叭排行榜的回调函数
-  async taobaoCommandRankCallback(groupId: number): Promise<void> {
-    const { taobaListen, taobaId }: OptionsItemValue = this.config;
-
-    if (taobaListen && taobaId) {
-      const res: TaobaJoinRank = await requestJoinRank(taobaId);
-      const list: Array<TextElem> = res.list.map((item: TaobaRankItem, index: number): TextElem => {
-        return oicq.segment.text(`\n${ index + 1 }、${ item.nick }：${ item.money }`);
-      });
-      const msg: string = `${ this.taobaInfo.title } 排行榜
-集资参与人数：${ res.juser }人`;
-
-      await this.sendMessage([oicq.segment.text(msg)].concat(list), groupId);
-    }
-  }
-
   // 定时任务初始化
   initCronJob(): void {
     const { cronJob, cronTime, cronSendData }: OptionsItemValue = this.config;
@@ -371,7 +326,6 @@ class OicqQQ extends Basic {
       await this.initWeiboWorker();
       this.initWeiboSuperTopicWorker();
       await this.initBilibiliWorker();
-      await this.initTaoba();
       this.initCronJob();
       this.startTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
 

@@ -34,9 +34,7 @@ const pocket48ShieldMsgTypeOptions: Array<CheckboxOptionType> = [
 
 /* 表单的初始化值 */
 const initialStates: Store = {
-  groupWelcomeSend: '<%= qqtools:At %>欢迎入群。',
-  taobaCommandTemplate: `桃叭：{{ title }}
-https://www.taoba.club/#/pages/idols/detail?id={{ taobaid }}`
+  groupWelcomeSend: '<%= qqtools:At %>欢迎入群。'
 };
 
 /* 配置表单 */
@@ -240,18 +238,6 @@ function Edit(props: {}): ReactElement {
       </Form.Item>
       <Form.Item name="bilibiliAtAll" label="@全体成员" valuePropName="checked">
         <Checkbox>直播时@全体成员（需要有管理员权限）</Checkbox>
-      </Form.Item>
-
-      {/* 桃叭集资监听 */}
-      <Divider>桃叭集资配置</Divider>
-      <Form.Item name="taobaListen" label="开启功能" valuePropName="checked">
-        <Switch />
-      </Form.Item>
-      <Form.Item name="taobaId" label="桃叭ID">
-        <Input />
-      </Form.Item>
-      <Form.Item name="taobaCommandTemplate" label="集资命令模板">
-        <Input.TextArea rows={ 3 } />
       </Form.Item>
 
       {/* 群欢迎功能 */}

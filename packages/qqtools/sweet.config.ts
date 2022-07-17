@@ -63,7 +63,6 @@ export default function(info: object): { [key: string]: any } {
       '@indexeddb-tools/indexeddb',
       '@indexeddb-tools/indexeddb-redux',
       'classnames',
-      'js-base64',
       'react',
       'react-dom/client',
       'prop-types',
@@ -85,8 +84,7 @@ export default function(info: object): { [key: string]: any } {
         'os',
         'path',
         'process',
-        'util',
-        'zlib'
+        'util'
       ]).concat([
         '@electron/remote',
         'cron',

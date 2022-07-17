@@ -4,11 +4,10 @@ import { message } from 'antd';
 import getBilibiliWorker from './utils/bilibili.worker/getBilibiliWorker';
 import getWeiboWorker from './utils/weibo.worker/getWeiboWorker';
 import getWeiboSuperTopicWorker from './utils/weiboSuperTopic.worker/getWeiboSuperTopicWorker';
-import { requestDetail } from './services/taoba';
 import { requestRoomInfo, requestWeiboInfo } from './services/services';
 import NimChatroomSocket from './NimChatroomSocket';
 import type { OptionsItemValue, MemberInfo } from '../types';
-import type { WeiboInfo, WeiboTab, TaobaDetail, BilibiliRoomInfo, NIMMessage } from './qq.types';
+import type { WeiboInfo, WeiboTab, BilibiliRoomInfo, NIMMessage } from './qq.types';
 
 export type MessageListener = (event: MessageEvent) => void | Promise<void>;
 
@@ -38,8 +37,6 @@ abstract class Basic {
 
   public bilibiliWorker?: Worker;  // b站直播监听
   public bilibiliUsername: string; // 用户名
-
-  public taobaInfo: { title: string; amount: number; expire: number }; // 桃叭信息
 
   public cronJob?: CronJob; // 定时任务
 
@@ -193,21 +190,6 @@ abstract class Basic {
       this.bilibiliWorker = getBilibiliWorker();
       this.bilibiliWorker.addEventListener('message', this.handleBilibiliWorkerMessage, false);
       this.bilibiliWorker.postMessage({ id: bilibiliLiveId });
-    }
-  }
-
-  // 桃叭初始化
-  async initTaoba(): Promise<void> {
-    const { taobaListen, taobaId }: OptionsItemValue = this.config;
-
-    if (taobaListen && taobaId) {
-      const res: TaobaDetail = await requestDetail(taobaId);
-
-      this.taobaInfo = {
-        title: res.datas.title,   // 项目名称
-        amount: res.datas.amount, // 集资总金额
-        expire: res.datas.expire  // 项目结束时间（时间戳，秒）
-      };
     }
   }
 }
