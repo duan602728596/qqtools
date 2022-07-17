@@ -23,3 +23,4 @@ lib
 www
 build
 dist
+packages/babel-plugin-delay-require

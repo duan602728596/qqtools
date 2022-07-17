@@ -8,6 +8,7 @@
     "lerna:install": "lerna bootstrap --force-local",
     "update-version": "milktea-esm update",
     "update-version:dev": "milktea-esm update --__DEV__",
+    "install:babel": "zx scripts/installBabelPluginDelayRequire.mjs",
     "build": "node scripts/delivery.mjs",
     "build:cn": "ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/ npm run build",
     "build:png": "ffmpeg -i statics/titleBarIcon512.png -vf scale=128:128 packages/app/titleBarIcon.png",
@@ -35,7 +36,8 @@
     "lerna": "^5.1.8",
     "rimraf": "^3.0.2",
     "tslib": "^2.4.0",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "zx": "^7.0.7"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.18.2",

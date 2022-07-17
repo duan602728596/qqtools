@@ -27,7 +27,7 @@ module.exports = {
       version: 'detect'
     },
     'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.tsx']
+      '@typescript-eslint/parser': ['.ts', '.tsx', '.mts', '.cts']
     },
     'import/resolver': {
       typescript: {
@@ -35,7 +35,7 @@ module.exports = {
         project: 'tsconfig.json'
       },
       node: {
-        extensions: ['.js', '.jsx', '.cjs', '.mjs', '.ts', '.tsx']
+        extensions: ['.js', '.jsx', '.mjs', '.cjs', '.ts', '.tsx', '.mts', '.cts']
       }
     }
   },
@@ -45,7 +45,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['*.ts', '*.tsx'],
+      files: ['*.ts', '*.tsx', '.mts', '.cts'],
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: 'tsconfig.json',
@@ -292,7 +292,7 @@ module.exports = {
       'error',
       {
         commonjs: true,
-        ignore: ['^worker-loader!', '^SDK$']
+        ignore: ['^worker-loader!', 'filenamify/browser']
       }
     ]
   }
