@@ -12,11 +12,11 @@ const zipPromise = util.promisify(zip.zip);
 
 const { version } = lernaJson;
 const renameDir = {
-  mac: path.join(build, `mac/qqtools-mirai-${ version }-mac`),
-  macArm64: path.join(build, `mac-arm64/qqtools-mirai-${ version }-mac-arm64`),
-  win: path.join(build, `win/qqtools-mirai-${ version }-win64`),
-  win32: path.join(build, `win32/qqtools-mirai-${ version }-win32`),
-  linux: path.join(build, `linux/qqtools-mirai-${ version }-linux64`)
+  mac: path.join(build, `mac/qqtools-${ version }-mac`),
+  macArm64: path.join(build, `mac-arm64/qqtools-${ version }-mac-arm64`),
+  win: path.join(build, `win/qqtools-${ version }-win64`),
+  win32: path.join(build, `win32/qqtools-${ version }-win32`),
+  linux: path.join(build, `linux/qqtools-${ version }-linux64`)
 };
 
 /**
