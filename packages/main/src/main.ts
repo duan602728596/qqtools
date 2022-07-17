@@ -2,7 +2,7 @@ import * as process from 'node:process';
 import * as path from 'node:path';
 import { app, BrowserWindow, Menu } from 'electron';
 import * as remoteMain from '@electron/remote/main';
-import { isDevelopment } from './utils';
+import { isDevelopment, packageJson } from './utils';
 import { ipc, removeIpc } from './ipc';
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1'; // 关闭警告
@@ -22,6 +22,7 @@ function createWindow(): void {
       webSecurity: false,
       contextIsolation: false
     },
+    title: `qqtools - ${ packageJson.version }`,
     icon: isDevelopment ? undefined : path.join(__dirname, '../../titleBarIcon.png')
   });
 

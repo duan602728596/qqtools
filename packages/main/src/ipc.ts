@@ -1,10 +1,9 @@
-import { ipcMain, BrowserWindow, type IpcMainEvent } from 'electron';
-
-const DEVELOP_TOOLS_CHANNEL: string = 'developer-tools';
+import { ipcMain, type BrowserWindow } from 'electron';
+import openDevTools, { type as openDevToolsType } from './ipcListener/openDevTools';
 
 /* 移除所有监听的通信 */
 const removeListenerChannel: Array<string> = [
-  DEVELOP_TOOLS_CHANNEL
+  openDevToolsType
 ];
 
 export function removeIpc(): void {
@@ -15,7 +14,5 @@ export function removeIpc(): void {
 
 /* ipc通信 */
 export function ipc(win: BrowserWindow): void {
-  ipcMain.on(DEVELOP_TOOLS_CHANNEL, function(event: IpcMainEvent, ...args: any[]): void {
-    win.webContents.openDevTools();
-  });
+  openDevTools(win);
 }
