@@ -1,3 +1,4 @@
+import * as process from 'node:process';
 import { spawn, ChildProcessWithoutNullStreams } from 'node:child_process';
 import * as os from 'node:os';
 import * as iconv from 'iconv-lite';
@@ -183,8 +184,7 @@ function miraiLogin(data: LoginMessage): void {
 
 /* 关闭线程 */
 function closeLogin(): void {
-  // 也可以用process.kill(-childProcess.pid!)杀掉进程
-  childProcess.stdin.write('stop');
+  process.kill(-childProcess.pid!);
 }
 
 addEventListener('message', async function(event: MessageEvent<Message>): Promise<void> {
