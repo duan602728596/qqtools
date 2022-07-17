@@ -81,10 +81,10 @@ class QQ extends Basic {
 
         // 自定义信息处理
         if (customCmd?.length) {
-          const index: number = customCmd.findIndex((o: EditItem): boolean => o.cmd === command);
+          const customCmdItem: EditItem | undefined = customCmd.find((o: EditItem): boolean => o.cmd === command);
 
-          if (index >= 0) {
-            const value: Array<MessageChain> = miraiTemplate(customCmd[index].value);
+          if (customCmdItem) {
+            const value: Array<MessageChain> = miraiTemplate(customCmdItem.value);
 
             await this.sendMessage(value, groupId);
           }
