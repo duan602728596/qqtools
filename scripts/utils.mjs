@@ -1,4 +1,5 @@
 import path from 'node:path';
+import process from 'node:process';
 import { spawn } from 'node:child_process';
 import { metaHelper } from '@sweet-milktea/utils';
 
@@ -26,6 +27,10 @@ export const unpacked = {
   win32: path.join(output.win32, 'win-ia32-unpacked'),
   linux: path.join(output.linux, 'linux-unpacked')
 };
+
+// 系统环境
+export const isMacOS = process.platform === 'darwin';
+export const isWindows = process.platform === 'win32';
 
 /**
  * 执行命令
