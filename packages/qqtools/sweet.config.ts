@@ -112,7 +112,7 @@ export default function(info: object): { [key: string]: any } {
     sass: {
       include: /src/
     },
-    css: {
+    less: {
       modifyVars: {
         // https://github.com/ant-design/ant-design/blob/master/components/style/themes/default.less
         '@primary-color': '#eb2f96'
@@ -130,7 +130,7 @@ export default function(info: object): { [key: string]: any } {
       },
       {
         test: /\.tailwindcss\.css$/i,
-        use: [isDev ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
       }
     ],
     plugins: [new AntdDayjsWebpackPlugin()].concat(analyzer ? [new BundleAnalyzerPlugin()] : [])
