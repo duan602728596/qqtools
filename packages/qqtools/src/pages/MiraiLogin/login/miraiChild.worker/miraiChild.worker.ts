@@ -101,7 +101,7 @@ function chcp(): Promise<string> {
 function childProcessInit(data: InitMessage): void {
   const isWin32: boolean = os.platform() === 'win32';
 
-  childProcess = spawn(isWin32 ? './mcl.cmd' : './mcl', {
+  childProcess = spawn(isWin32 ? 'mcl.cmd' : './mcl', {
     cwd: data.mclDir,
     detached: true
   });
