@@ -71,7 +71,7 @@ export default function(info: object): { [key: string]: any } {
   const plugins: Array<any> = [
     '@babel/plugin-syntax-import-assertions',
     ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }],
-    ['@48tools/babel-plugin-delay-require', { moduleNames: externalsName }]
+    [require.resolve(path.join(__dirname, '../babel-plugin-delay-require')), { moduleNames: externalsName }]
   ];
 
   if (!isDev) {
