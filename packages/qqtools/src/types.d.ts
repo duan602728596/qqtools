@@ -41,13 +41,6 @@ export interface OptionsItemValue {
   taobaId?: string;
   taobaCommandTemplate?: string;
 
-  /* @deprecated */
-  taobaTemplate?: string;
-  /* @deprecated */
-  taobaRankList?: boolean;
-  /* @deprecated */
-  otherTaobaIds?: string;
-
   groupWelcome?: boolean;
   groupWelcomeSend?: string;
 
