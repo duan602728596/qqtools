@@ -1,5 +1,4 @@
-import * as process from 'node:process';
-import { spawn, ChildProcessWithoutNullStreams } from 'node:child_process';
+import { spawn, type ChildProcessWithoutNullStreams } from 'node:child_process';
 import * as os from 'node:os';
 import * as iconv from 'iconv-lite';
 import type { ProtocolType } from '../../types';
@@ -102,8 +101,7 @@ function childProcessInit(data: InitMessage): void {
   const isWin32: boolean = os.platform() === 'win32';
 
   childProcess = spawn(isWin32 ? 'mcl.cmd' : './mcl', {
-    cwd: data.mclDir,
-    detached: true
+    cwd: data.mclDir
   });
 
   childProcess.stdout.on('data', function(chunk: Buffer): void {
@@ -184,7 +182,7 @@ function miraiLogin(data: LoginMessage): void {
 
 /* 关闭线程 */
 function closeLogin(): void {
-  process.kill(-childProcess.pid!);
+  childProcess.stdin.write('stop \n');
 }
 
 addEventListener('message', async function(event: MessageEvent<Message>): Promise<void> {
