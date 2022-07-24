@@ -376,6 +376,7 @@
             "id": "$root/properties/customCmd/items/properties/value",
             "type": "string",
             "title": "发送的数据",
+            "$tableColumnHidden": true,
             "$componentType": "textArea"
           }
         }
