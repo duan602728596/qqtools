@@ -1,0 +1,385 @@
+{
+  "id": "$root",
+  "type": "object",
+  "title": "登录配置",
+  "properties": {
+    "version": {
+      "id": "$root/properties/version",
+      "type": "string",
+      "title": "version",
+      "$hidden": true,
+      "$defaultValue": "v2"
+    },
+    "optionName": {
+      "id": "$root/properties/optionName",
+      "type": "string",
+      "title": "配置名称",
+      "$required": true,
+      "$requiredMessage": "必须填写配置名称"
+    },
+    "optionType": {
+      "id": "$root/properties/optionType",
+      "type": "string",
+      "title": "配置类型",
+      "$required": false,
+      "$componentType": "select",
+      "$options": [
+        {
+          "label": "mirai",
+          "value": "0"
+        },
+        {
+          "label": "oicq",
+          "value": "1"
+        }
+      ]
+    },
+    "qqNumber": {
+      "id": "$root/properties/qqNumber",
+      "type": "number",
+      "title": "QQ号",
+      "$required": true,
+      "$requiredMessage": "必须填写QQ号"
+    },
+    "groupNumber": {
+      "id": "$root/properties/groupNumber",
+      "type": "string",
+      "title": "群号",
+      "description": "",
+      "$required": true,
+      "$requiredMessage": "必须填写群号",
+      "$placeholder": "支持配置多个群，以 \",\" 分隔"
+    },
+    "socketHost": {
+      "id": "$root/properties/socketHost",
+      "type": "string",
+      "title": "host",
+      "$placeholder": "配置socket的host，默认为localhost，一般不需要填写"
+    },
+    "socketPort": {
+      "id": "$root/properties/socketPort",
+      "type": "number",
+      "title": "端口号",
+      "$required": true,
+      "$requiredMessage": "必须填写端口号"
+    },
+    "authKey": {
+      "id": "$root/properties/authKey",
+      "type": "string",
+      "title": "authKey",
+      "$placeholder": "mirai配置类型时需要填写"
+    },
+    "pocket48": {
+      "id": "$root/properties/pocket48",
+      "type": "array",
+      "title": "口袋监听配置",
+      "items": {
+        "id": "$root/properties/pocket48/items",
+        "type": "object",
+        "title": "口袋监听配置",
+        "properties": {
+          "pocket48RoomListener": {
+            "id": "$root/properties/pocket48/items/properties/pocket48RoomListener",
+            "type": "boolean",
+            "title": "开启监听",
+            "$componentType": "switch"
+          },
+          "pocket48RoomId": {
+            "id": "$root/properties/pocket48/items/properties/pocket48RoomId",
+            "type": "string",
+            "title": "房间ID"
+          },
+          "pocket48IsAnonymous": {
+            "id": "$root/properties/pocket48/items/properties/pocket48IsAnonymous",
+            "type": "boolean",
+            "title": "游客模式",
+            "$hidden": false,
+            "$tableColumnHidden": true,
+            "$componentType": "switch"
+          },
+          "pocket48Account": {
+            "id": "$root/properties/pocket48/items/properties/pocket48Account",
+            "type": "string",
+            "title": "IM的account",
+            "$hidden": false,
+            "$tableColumnHidden": true
+          },
+          "pocket48Token": {
+            "id": "$root/properties/pocket48/items/properties/pocket48Token",
+            "type": "string",
+            "title": "IM的token",
+            "$tableColumnHidden": true,
+            "$componentType": "IMLogin"
+          },
+          "pocket48LiveAtAll": {
+            "id": "$root/properties/pocket48/items/properties/pocket48LiveAtAll",
+            "type": "boolean",
+            "title": "@全体成员",
+            "description": "直播时@全体成员（需要有管理员权限）",
+            "$tableColumnHidden": true,
+            "$componentType": "checkboxDesc"
+          },
+          "pocket48ShieldMsgType": {
+            "id": "$root/properties/pocket48/items/properties/pocket48ShieldMsgType",
+            "type": "array",
+            "title": "屏蔽信息类型",
+            "$componentType": "checkboxGroup",
+            "$options": [
+              {
+                "label": "普通信息",
+                "value": "TEXT"
+              },
+              {
+                "label": "回复信息",
+                "value": "REPLY"
+              },
+              {
+                "label": "图片",
+                "value": "IMAGE"
+              },
+              {
+                "label": "语音",
+                "value": "AUDIO"
+              },
+              {
+                "label": "视频",
+                "value": "VIDEO"
+              },
+              {
+                "label": "直播",
+                "value": "LIVEPUSH"
+              },
+              {
+                "label": "翻牌",
+                "value": "FLIPCARD"
+              },
+              {
+                "label": "语音翻牌",
+                "value": "FLIPCARD_AUDIO"
+              },
+              {
+                "label": "视频翻牌",
+                "value": "FLIPCARD_VIDEO"
+              },
+              {
+                "label": "2021表情图片",
+                "value": "EXPRESSIMAGE"
+              },
+              {
+                "label": "表情",
+                "value": "EXPRESS"
+              },
+              {
+                "label": "礼物回复信息",
+                "value": "GIFTREPLY"
+              },
+              {
+                "label": "投票",
+                "value": "PRESENT_TEXT"
+              },
+              {
+                "label": "未知类型",
+                "value": "UNKNOWN"
+              },
+              {
+                "label": "错误信息",
+                "value": "ERROR"
+              }
+            ],
+            "$tableColumnHidden": true,
+            "items": {
+              "id": "$root/properties/pocket48/items/properties/pocket48ShieldMsgType/items",
+              "type": "string",
+              "title": "屏蔽类型"
+            }
+          },
+          "pocket48RoomEntryListener": {
+            "id": "$root/properties/pocket48/items/properties/pocket48RoomEntryListener",
+            "type": "boolean",
+            "title": "口袋房间进出监听",
+            "description": "口袋房间进出监听（需要先导入房间信息）",
+            "$tableColumnHidden": true,
+            "$componentType": "checkboxDesc"
+          },
+          "pocket48OwnerOnlineListener": {
+            "id": "$root/properties/pocket48/items/properties/pocket48OwnerOnlineListener",
+            "type": "boolean",
+            "title": "成员上线下线监听",
+            "description": "成员上线下线监听（需要先导入房间信息）",
+            "$tableColumnHidden": true,
+            "$componentType": "checkboxDesc"
+          },
+          "pocket48MemberInfo": {
+            "id": "$root/properties/pocket48/items/properties/pocket48MemberInfo",
+            "type": "boolean",
+            "title": "发送时带上房间信息",
+            "description": "发送时带上房间信息（需要先导入房间信息）",
+            "$tableColumnHidden": true,
+            "$componentType": "checkboxDesc"
+          },
+          "pocket48LogSave": {
+            "id": "$root/properties/pocket48/items/properties/pocket48LogSave",
+            "type": "boolean",
+            "title": "房间信息日志",
+            "description": "口袋消息会同步记录到日志",
+            "$tableColumnHidden": true,
+            "$componentType": "checkboxDesc"
+          },
+          "pocket48LogDir": {
+            "id": "$root/properties/pocket48/items/properties/pocket48LogDir",
+            "type": "string",
+            "title": "日志保存位置",
+            "$tableColumnHidden": true,
+            "$componentType": "pocket48LogDir"
+          }
+        }
+      }
+    },
+    "weibo": {
+      "id": "$root/properties/weibo",
+      "type": "array",
+      "title": "微博监听配置",
+      "items": {
+        "id": "$root/properties/weibo/items",
+        "type": "object",
+        "title": "微博监听配置",
+        "properties": {
+          "weiboListener": {
+            "id": "$root/properties/weibo/items/properties/weiboListener",
+            "type": "boolean",
+            "title": "开启监听",
+            "$componentType": "switch"
+          },
+          "weiboUid": {
+            "id": "$root/properties/weibo/items/properties/weiboUid",
+            "type": "string",
+            "title": "微博uid"
+          },
+          "weiboAtAll": {
+            "id": "$root/properties/weibo/items/properties/weiboAtAll",
+            "type": "boolean",
+            "title": "@全体成员",
+            "description": "发微博时@全体成员（需要有管理员权限）",
+            "$tableColumnHidden": true,
+            "$componentType": "checkboxDesc"
+          },
+          "weiboSuperTopicListener": {
+            "id": "$root/properties/weibo/items/properties/weiboSuperTopicListener",
+            "type": "boolean",
+            "title": "开启微博超级话题监听",
+            "$componentType": "switch"
+          },
+          "weiboSuperTopicLfid": {
+            "id": "$root/properties/weibo/items/properties/weiboSuperTopicLfid",
+            "type": "string",
+            "title": "微博超话lfid"
+          }
+        }
+      }
+    },
+    "bilibili": {
+      "id": "$root/properties/bilibili",
+      "type": "array",
+      "title": "B站直播监听",
+      "items": {
+        "id": "$root/properties/bilibili/items",
+        "type": "object",
+        "title": "B站直播监听",
+        "properties": {
+          "bilibiliLive": {
+            "id": "$root/properties/bilibili/items/properties/bilibiliLive",
+            "type": "boolean",
+            "title": "开启监听",
+            "$componentType": "switch"
+          },
+          "bilibiliLiveId": {
+            "id": "$root/properties/bilibili/items/properties/bilibiliLiveId",
+            "type": "string",
+            "title": "直播间ID"
+          },
+          "bilibiliAtAll": {
+            "id": "$root/properties/bilibili/items/properties/bilibiliAtAll",
+            "type": "boolean",
+            "title": "@全体成员",
+            "description": "直播时@全体成员（需要有管理员权限）",
+            "$componentType": "checkboxDesc"
+          }
+        }
+      }
+    },
+    "cronTimer": {
+      "id": "$root/properties/cronTimer",
+      "type": "array",
+      "title": "定时任务",
+      "items": {
+        "id": "$root/properties/cronTimer/items",
+        "type": "object",
+        "title": "定时任务",
+        "properties": {
+          "cronJob": {
+            "id": "$root/properties/cronTimer/items/properties/cronJob",
+            "type": "boolean",
+            "title": "开启任务",
+            "$componentType": "switch"
+          },
+          "cronTime": {
+            "id": "$root/properties/cronTimer/items/properties/cronTime",
+            "type": "string",
+            "title": "执行时间"
+          },
+          "cronSendData": {
+            "id": "$root/properties/cronTimer/items/properties/cronSendData",
+            "type": "string",
+            "title": "发送信息",
+            "$componentType": "textArea",
+            "$tableColumnHidden": true
+          }
+        }
+      }
+    },
+    "groupWelcome": {
+      "id": "$root/properties/groupWelcome",
+      "type": "boolean",
+      "title": "群欢迎功能",
+      "$componentType": "switch"
+    },
+    "groupWelcomeSend": {
+      "id": "$root/properties/groupWelcomeSend",
+      "type": "string",
+      "title": "发送信息",
+      "$defaultValue": "<%= qqtools:At %>欢迎入群。",
+      "$componentType": "textArea"
+    },
+    "customCmd": {
+      "id": "$root/properties/customCmd",
+      "type": "array",
+      "title": "自定义命令",
+      "items": {
+        "id": "$root/properties/customCmd/items",
+        "type": "object",
+        "title": "自定义命令",
+        "properties": {
+          "id": {
+            "id": "$root/properties/customCmd/items/properties/id",
+            "type": "string",
+            "title": "ID",
+            "$tableColumnHidden": true,
+            "$hidden": true,
+            "$componentType": "randomId"
+          },
+          "cmd": {
+            "id": "$root/properties/customCmd/items/properties/cmd",
+            "type": "string",
+            "title": "命令"
+          },
+          "value": {
+            "id": "$root/properties/customCmd/items/properties/value",
+            "type": "string",
+            "title": "发送的数据",
+            "$componentType": "textArea"
+          }
+        }
+      }
+    }
+  }
+}

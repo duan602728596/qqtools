@@ -103,12 +103,12 @@ export default function(info: object): { [key: string]: any } {
     javascript: {
       ecmascript: true,
       plugins,
-      exclude: /node_modules|NIM_Web_SDK|BlythE/i
+      exclude: /node_modules[\\/](?!antd-schema-form)|NIM_Web_SDK|BlythE/i
     },
     typescript: {
       configFile: isDev ? 'tsconfig.json' : 'tsconfig.prod.json',
       plugins,
-      exclude: /node_modules|NIM_Web_SDK|BlythE/i
+      exclude: /node_modules[\\/](?!antd-schema-form)|NIM_Web_SDK|BlythE/i
     },
     sass: {
       include: /src/

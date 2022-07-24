@@ -123,7 +123,7 @@ function Options(props: {}): ReactElement {
       render: (value: undefined, record: OptionsItem, index: number): ReactElement => {
         return (
           <Button.Group>
-            <Link to={ `Edit/${ record.id }` }>
+            <Link to={ `EditV2/${ record.id }` }>
               <Button>修改</Button>
             </Link>
             <Popconfirm title="确定要删除吗？" onConfirm={ (event?: MouseEvent): void => handleDeleteClick(record, event) }>
@@ -145,8 +145,15 @@ function Options(props: {}): ReactElement {
     <div className="p-[16px]">
       <div className="flex mb-[16px]">
         <Space className="grow">
-          <Link to="Edit">
-            <Button type="primary">添加配置</Button>
+          {
+            process.env.NODE_ENV === 'development' && (
+              <Link to="Edit">
+                <Button type="primary">添加配置</Button>
+              </Link>
+            )
+          }
+          <Link to="EditV2">
+            <Button type="primary">添加配置(V2)</Button>
           </Link>
           <RoomId />
           <Link to="/">

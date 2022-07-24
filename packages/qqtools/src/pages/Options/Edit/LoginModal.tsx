@@ -4,9 +4,14 @@ import { Button, Modal, Form, Input, message, type FormInstance } from 'antd';
 import { requestPocketLogin, requestImUserInfo } from '../services/services';
 import type { LoginInfo, IMUserInfo } from '../services/interface';
 
+interface LoginModalProps {
+  form: FormInstance;
+  onLoginSuccess?: Function;
+}
+
 /* 账号登陆 */
-function LoginModal(props: { form: FormInstance }): ReactElement {
-  const { form: fatherForm }: { form: FormInstance } = props;
+function LoginModal(props: LoginModalProps): ReactElement {
+  const { form: fatherForm, onLoginSuccess }: LoginModalProps = props;
   const [visible, setVisible]: [boolean, D<S<boolean>>] = useState(false),
     [loading, setLoading]: [boolean, D<S<boolean>>] = useState(false);
   const [form]: [FormInstance] = Form.useForm();
@@ -53,7 +58,7 @@ function LoginModal(props: { form: FormInstance }): ReactElement {
       console.log('IM信息：', imUserInfoRes);
 
       if (imUserInfoRes.status === 200) {
-        fatherForm.setFieldsValue({
+        (onLoginSuccess ?? fatherForm.setFieldsValue)({
           pocket48Account: imUserInfoRes.content.accid,
           pocket48Token: imUserInfoRes.content.pwd
         });
@@ -97,7 +102,8 @@ function LoginModal(props: { form: FormInstance }): ReactElement {
 }
 
 LoginModal.propTypes = {
-  form: PropTypes.object
+  form: PropTypes.object,
+  onLoginSuccess: PropTypes.func
 };
 
 export default LoginModal;
