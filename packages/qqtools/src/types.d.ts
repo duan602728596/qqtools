@@ -37,17 +37,6 @@ export interface OptionsItemValue {
   bilibiliLiveId: string;
   bilibiliAtAll?: string;
 
-  taobaListen?: boolean;
-  taobaId?: string;
-  taobaCommandTemplate?: string;
-
-  /* @deprecated */
-  taobaTemplate?: string;
-  /* @deprecated */
-  taobaRankList?: boolean;
-  /* @deprecated */
-  otherTaobaIds?: string;
-
   groupWelcome?: boolean;
   groupWelcomeSend?: string;
 
