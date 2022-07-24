@@ -3,7 +3,7 @@ import type { MessageElem } from 'oicq';
 import * as dayjs from 'dayjs';
 import NimChatroomSocket, { type ChatroomMember } from '../NimChatroomSocket';
 import { nimChatroomSocketList } from '../Basic';
-import { getLogMessage, getRoomMessage, getRoomMessageForOicq, log, type RoomMessageArgs } from '../utils/pocket48Utils';
+import { getRoomMessage, getRoomMessageForOicq, getLogMessage, log, type RoomMessageArgs } from '../utils/pocket48Utils';
 import { plain } from '../utils/miraiUtils';
 import { isOicq } from '../utils/utils';
 import type QQ from '../QQ';
