@@ -15,7 +15,6 @@ import type { NIMMessage, CustomMessageAll, MessageChain } from '../qq.types';
 class Pocket48Expand {
   public config: OptionsItemPocket48;
   public qq: QQ | OicqQQ;
-  public isOicq: boolean;
   public nimChatroomSocketId?: string;     // 对应的nim的唯一socketId
   public nimChatroom?: NimChatroomSocket;  // socket
   public memberInfo?: MemberInfo;          // 房间成员信息
@@ -25,13 +24,9 @@ class Pocket48Expand {
   public ownerOnlineTimer?: number;        // 判断成员是否在线的监听
   public roomEntryListener?: number;       // 成员进出的监听器
 
-  constructor({ config, qq }: {
-    config: OptionsItemPocket48;
-    qq: QQ | OicqQQ;
-  }) {
+  constructor({ config, qq }: { config: OptionsItemPocket48; qq: QQ | OicqQQ }) {
     this.config = config;
     this.qq = qq;
-    this.isOicq = isOicq(this.qq);
   }
 
   // 处理单个消息
