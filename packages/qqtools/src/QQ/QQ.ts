@@ -1,4 +1,3 @@
-import { CronJob } from 'cron';
 import { message } from 'antd';
 import * as dayjs from 'dayjs';
 import Basic, { type MessageListener } from './Basic';
@@ -12,10 +11,9 @@ import {
   requestManagers,
   requestAbout
 } from './services/services';
-import { ChatroomMember } from './NimChatroomSocket';
-import { plain, atAll, miraiTemplate, getGroupNumbers, getSocketHost, LogCommandData } from './utils/miraiUtils';
-import { getRoomMessage, getLogMessage, log, type RoomMessageArgs } from './utils/pocket48Utils';
-import type { OptionsItemValue, MemberInfo, EditItem } from '../types';
+import { plain, miraiTemplate, getGroupNumbers, getSocketHost, LogCommandData } from './utils/miraiUtils';
+import { log } from './utils/pocket48Utils';
+import type { OptionsItemValueV2, MemberInfo, EditItem } from '../types';
 import type {
   Plain,
   AuthResponse,
@@ -25,15 +23,13 @@ import type {
   MessageSocketEventData,
   MessageSocketEventDataV2,
   EventSocketEventData,
-  EventSocketEventDataV2,
-  NIMMessage,
-  CustomMessageAll
+  EventSocketEventDataV2
 } from './qq.types';
 
 type CloseListener = (event: CloseEvent) => void | Promise<void>;
 
 class QQ extends Basic {
-  public protocol: string = 'mirai';
+  public protocol: 'mirai' = 'mirai';
   public socketStatus: -1 | 0; // -1 关闭，0 正常
   public eventSocket?: WebSocket;
   public messageSocket?: WebSocket;
@@ -41,7 +37,7 @@ class QQ extends Basic {
   public session: string;
   #miraiApiHttpV2: boolean = false;
 
-  constructor(id: string, config: OptionsItemValue, membersList?: Array<MemberInfo>) {
+  constructor(id: string, config: OptionsItemValueV2, membersList?: Array<MemberInfo>) {
     super();
 
     this.id = id;         // 当前登陆的唯一id
@@ -54,7 +50,7 @@ class QQ extends Basic {
 
   // message事件监听
   handleMessageSocketMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
-    const { qqNumber, customCmd }: OptionsItemValue = this.config;
+    const { qqNumber, customCmd }: OptionsItemValueV2 = this.config;
     const groupNumbers: Array<number> = this.groupNumbers;
     const eventData: MessageSocketEventData | MessageSocketEventDataV2 = JSON.parse(event.data);
     const data: MessageSocketEventData = 'syncId' in eventData ? eventData.data : eventData;
@@ -94,7 +90,7 @@ class QQ extends Basic {
 
   // socket事件监听
   handleEventSocketMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
-    const { qqNumber, groupWelcome, groupWelcomeSend }: OptionsItemValue = this.config;
+    const { qqNumber, groupWelcome, groupWelcomeSend }: OptionsItemValueV2 = this.config;
     const groupNumbers: Array<number> = this.groupNumbers;
     const eventData: EventSocketEventData | EventSocketEventDataV2 = JSON.parse(event.data);
     const data: EventSocketEventData = 'syncId' in eventData ? eventData.data : eventData;
@@ -123,7 +119,7 @@ class QQ extends Basic {
   reconnectLogin: Function = async (): Promise<void> => {
     try {
       const { socketHost }: this = this;
-      const { socketPort, qqNumber }: OptionsItemValue = this.config;
+      const { socketPort, qqNumber }: OptionsItemValueV2 = this.config;
       const res: MessageResponse | Array<any> = await requestManagers(socketHost, socketPort, qqNumber);
 
       if (Array.isArray(res)) {
@@ -146,7 +142,7 @@ class QQ extends Basic {
   // websocket初始化
   initWebSocket(): void {
     const { socketHost }: this = this;
-    const { socketPort, authKey, qqNumber }: OptionsItemValue = this.config;
+    const { socketPort, authKey, qqNumber }: OptionsItemValueV2 = this.config;
     const query: string = new URLSearchParams(
       this.#miraiApiHttpV2 ? {
         verifyKey: authKey,
@@ -185,7 +181,7 @@ class QQ extends Basic {
   // 获取session
   async getSession(): Promise<boolean> {
     const { socketHost }: this = this;
-    const { qqNumber, socketPort, authKey }: OptionsItemValue = this.config;
+    const { qqNumber, socketPort, authKey }: OptionsItemValueV2 = this.config;
 
     // 获取插件版本号
     const about: AboutResponse = await requestAbout(socketHost, socketPort);
@@ -223,7 +219,7 @@ class QQ extends Basic {
   async sendMessage(value: Array<MessageChain>, groupId?: number): Promise<void> {
     try {
       const { socketHost }: this = this;
-      const { socketPort }: OptionsItemValue = this.config;
+      const { socketPort }: OptionsItemValueV2 = this.config;
       const groupNumbers: Array<number> = this.groupNumbers;
 
       if (typeof groupId === 'number') {
@@ -244,212 +240,10 @@ class QQ extends Basic {
 
   // 日志回调函数
   async logCommandCallback(groupId: number): Promise<void> {
-    const { qqNumber }: OptionsItemValue = this.config;
+    const { qqNumber }: OptionsItemValueV2 = this.config;
     const msg: string = LogCommandData('mirai', qqNumber, this.startTime);
 
     await this.sendMessage([plain(msg)], groupId);
-  }
-
-  /* ==================== 业务相关 ==================== */
-
-  // 处理单个消息
-  async roomSocketMessage(event: Array<NIMMessage>): Promise<void> {
-    const {
-      pocket48LiveAtAll,
-      pocket48ShieldMsgType,
-      pocket48MemberInfo,
-      pocket48LogSave,
-      pocket48LogDir
-    }: OptionsItemValue = this.config;
-    const data: NIMMessage = event[0];                            // 房间信息数组
-    const customInfo: CustomMessageAll = JSON.parse(data.custom); // 房间自定义信息
-    const { sessionRole }: CustomMessageAll = customInfo;         // 信息类型和sessionRole
-
-    if (Number(sessionRole) === 0 && customInfo.messageType !== 'PRESENT_TEXT') return; // 过滤发言
-
-    if (pocket48ShieldMsgType && pocket48ShieldMsgType.includes(customInfo.messageType)) {
-      return; // 屏蔽信息类型
-    }
-
-    // 发送的数据
-    const roomMessageArgs: RoomMessageArgs = {
-      customInfo,
-      data,
-      pocket48LiveAtAll,
-      event,
-      pocket48ShieldMsgType,
-      memberInfo: this.memberInfo,
-      pocket48MemberInfo
-    };
-    const sendGroup: Array<MessageChain> = getRoomMessage(roomMessageArgs);
-
-    if (sendGroup.length > 0) {
-      await this.sendMessage(sendGroup);
-    }
-
-    // 日志
-    if (pocket48LogSave && pocket48LogDir && !/^\s*$/.test(pocket48LogDir)) {
-      const logData: string | undefined = getLogMessage({
-        customInfo,
-        data,
-        event,
-        memberInfo: this.memberInfo
-      });
-
-      if (logData) {
-        await log(pocket48LogDir, logData);
-      }
-    }
-  }
-
-  // 输出当前房间的游客信息
-  membersInRoom(groupId: number): void {
-    const { pocket48RoomEntryListener }: OptionsItemValue = this.config;
-
-    if (pocket48RoomEntryListener && this.membersList?.length && this.memberInfo) {
-      const members: Array<MemberInfo> = this.membersCache ?? [];
-      const nowMembers: string[] = []; // 本次房间内小偶像的数组
-      const name: string = this.memberInfo?.ownerName!;
-
-      for (const member of members) {
-        nowMembers.push(member.ownerName);
-      }
-
-      let text: string = `${ dayjs().format('YYYY-MM-DD HH:mm:ss') }在 ${ name } 的房间：\n`;
-
-      if (nowMembers?.length) {
-        text += `${ nowMembers.join('\n') }`;
-      } else {
-        text += '暂无成员';
-      }
-
-      this.sendMessage([plain(text)], groupId);
-    }
-  }
-
-  // 获取房间信息
-  handleRoomEntryTimer: Function = async (): Promise<void> => {
-    try {
-      const members: Array<ChatroomMember> = await this.nimChatroom!.getChatroomMembers();
-      const entryLog: string[] = [], // 进入房间的log日志的数组
-        outputLog: string[] = [];    // 退出房间的log日志的数组
-      const nowMembers: Array<MemberInfo> = []; // 本次房间内小偶像的数组
-      const name: string = this.memberInfo?.ownerName!;
-      const { pocket48LogSave, pocket48LogDir }: OptionsItemValue = this.config;
-
-      // 获取进入房间的信息
-      for (const member of members) {
-        // 判断是否是小偶像
-        const idx: number = (this.membersList ?? []).findIndex((o: MemberInfo): boolean => o.account === member.account);
-
-        if (idx < 0) {
-          continue;
-        }
-
-        const xoxMember: MemberInfo = this.membersList![idx];
-
-        nowMembers.push(xoxMember); // 当前房间的小偶像
-
-        // 没有缓存时不做判断
-        if (!this.membersCache) {
-          console.log(`${ xoxMember.ownerName } 在 ${ name } 的房间内`);
-          continue;
-        }
-
-        // 判断是否进入过房间（存在于缓存中）
-        const idx1: number = this.membersCache.findIndex((o: MemberInfo): boolean => o.account === xoxMember.account);
-
-        if (idx1 < 0) {
-          entryLog.push(`${ xoxMember.ownerName } 进入了 ${ name } 的房间`);
-        }
-      }
-
-      // 离开房间的信息（缓存内的信息不在新信息中）
-      if (this.membersCache) {
-        for (const member of this.membersCache) {
-          const idx: number = nowMembers.findIndex((o: MemberInfo): boolean => o.account === member.account);
-
-          if (idx < 0) {
-            outputLog.push(`${ member.ownerName } 离开了 ${ name } 的房间`);
-          }
-        }
-      }
-
-      this.membersCache = nowMembers; // 保存当前房间的xox信息
-
-      const allLogs: Array<string> = entryLog.concat(outputLog);
-
-      if (allLogs?.length) {
-        const logText: string = `${ dayjs().format('YYYY-MM-DD HH:mm:ss') }\n${ allLogs.join('\n') }`;
-
-        await this.sendMessage([plain(logText)]);
-
-        // 日志
-        if (pocket48LogSave && pocket48LogDir && !/^\s*$/.test(pocket48LogDir)) {
-          await log(pocket48LogDir, logText);
-        }
-      }
-    } catch (err) {
-      console.error(err);
-    }
-
-    this.roomEntryListener = setTimeout(this.handleRoomEntryTimer, 20_000);
-  };
-
-  // 成员在线离线监听
-  handleOwnerOnlineTimer: Function = async (): Promise<void> => {
-    try {
-      const members: Array<ChatroomMember> = await this.nimChatroom!.getChatroomMembers(false);
-      const online: boolean = members[0]?.online;
-      const name: string = this.memberInfo?.ownerName!;
-
-      if (this.ownerOnlineCache === false && online === true) {
-        // 上线
-        await this.sendMessage([plain(`${ name } 进入自己的房间。
-时间：${ dayjs().format('YYYY-MM-DD HH:mm:ss') }`)]);
-      }
-
-      if (this.ownerOnlineCache === true && online === false) {
-        await this.sendMessage([plain(`${ name } 离开自己的房间。
-时间：${ dayjs().format('YYYY-MM-DD HH:mm:ss') }`)]);
-      }
-
-      this.ownerOnlineCache = online;
-    } catch (err) {
-      console.error(err);
-    }
-
-    this.ownerOnlineTimer = setTimeout(this.handleOwnerOnlineTimer, 20_000);
-  };
-
-  // 微博监听
-  handleWeiboWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
-    await this.sendMessage(event.data.sendGroup);
-  };
-
-  // bilibili message监听事件
-  handleBilibiliWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
-    const { bilibiliAtAll }: OptionsItemValue = this.config;
-    const text: string = `bilibili：${ this.bilibiliUsername }在B站开启了直播。`;
-    const sendMessage: Array<MessageChain> = [plain(text)];
-
-    if (bilibiliAtAll) {
-      sendMessage.unshift(atAll());
-    }
-
-    await this.sendMessage(sendMessage);
-  };
-
-  // 定时任务初始化
-  initCronJob(): void {
-    const { cronJob, cronTime, cronSendData }: OptionsItemValue = this.config;
-
-    if (cronJob && cronTime && cronSendData) {
-      this.cronJob = new CronJob(cronTime, (): void => {
-        this.sendMessage(miraiTemplate(cronSendData));
-      });
-      this.cronJob.start();
-    }
   }
 
   // 项目初始化
@@ -460,11 +254,7 @@ class QQ extends Basic {
       if (!result) throw new Error('登陆失败！');
 
       this.initWebSocket();
-      await this.initPocket48();
-      await this.initWeiboWorker();
-      this.initWeiboSuperTopicWorker();
-      await this.initBilibiliWorker();
-      this.initCronJob();
+      await Basic.initExpand.call(this);
       this.startTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
 
       return true;
@@ -478,7 +268,7 @@ class QQ extends Basic {
   // 项目销毁
   async destroy(): Promise<boolean> {
     const { socketHost }: this = this;
-    const { qqNumber, socketPort }: OptionsItemValue = this.config;
+    const { qqNumber, socketPort }: OptionsItemValueV2 = this.config;
 
     try {
       await requestRelease(qqNumber, socketHost, socketPort, this.session); // 清除session
@@ -494,35 +284,7 @@ class QQ extends Basic {
 
       this.socketStatus = -1;
       this.destroyWebsocket();
-
-      // 销毁口袋监听
-      if (this.nimChatroomSocketId) {
-        this.disconnectPocket48();
-      }
-
-      // 销毁微博监听
-      if (this.weiboWorker) {
-        this.weiboWorker.terminate();
-        this.weiboWorker = undefined;
-      }
-
-      // 销毁微博超级话题监听
-      if (this.weiboSuperTopicWorker) {
-        this.weiboSuperTopicWorker.terminate();
-        this.weiboSuperTopicWorker = undefined;
-      }
-
-      // 销毁bilibili监听
-      if (this.bilibiliWorker) {
-        this.bilibiliWorker.terminate();
-        this.bilibiliWorker = undefined;
-      }
-
-      // 销毁定时任务
-      if (this.cronJob) {
-        this.cronJob.stop();
-        this.cronJob = undefined;
-      }
+      Basic.destroyExpand.call(this);
 
       return true;
     } catch (err) {

@@ -18,7 +18,6 @@ class Pocket48Expand {
   public nimChatroomSocketId?: string;     // 对应的nim的唯一socketId
   public nimChatroom?: NimChatroomSocket;  // socket
   public memberInfo?: MemberInfo;          // 房间成员信息
-  public membersList?: Array<MemberInfo>;  // 所有成员信息
   public membersCache?: Array<MemberInfo>; // 缓存
   public ownerOnlineCache?: boolean;       // 成员是否在线
   public ownerOnlineTimer?: number;        // 判断成员是否在线的监听
@@ -117,13 +116,13 @@ class Pocket48Expand {
       // 获取进入房间的信息
       for (const member of members) {
         // 判断是否是小偶像
-        const idx: number = (this.membersList ?? []).findIndex((o: MemberInfo): boolean => o.account === member.account);
+        const idx: number = (this.qq.membersList ?? []).findIndex((o: MemberInfo): boolean => o.account === member.account);
 
         if (idx < 0) {
           continue;
         }
 
-        const xoxMember: MemberInfo = this.membersList![idx];
+        const xoxMember: MemberInfo = this.qq.membersList![idx];
 
         nowMembers.push(xoxMember); // 当前房间的小偶像
 
@@ -214,6 +213,35 @@ class Pocket48Expand {
     this.ownerOnlineTimer = setTimeout(this.handleOwnerOnlineTimer, 20_000);
   };
 
+  // 输出当前房间的游客信息
+  membersInRoom(groupId: number): void {
+    const { pocket48RoomEntryListener }: OptionsItemPocket48 = this.config;
+
+    if (pocket48RoomEntryListener && this.qq.membersList?.length && this.memberInfo) {
+      const members: Array<MemberInfo> = this.membersCache ?? [];
+      const nowMembers: string[] = []; // 本次房间内小偶像的数组
+      const name: string = this.memberInfo?.ownerName!;
+
+      for (const member of members) {
+        nowMembers.push(member.ownerName);
+      }
+
+      let text: string = `${ dayjs().format('YYYY-MM-DD HH:mm:ss') }在 ${ name } 的房间：\n`;
+
+      if (nowMembers?.length) {
+        text += `${ nowMembers.join('\n') }`;
+      } else {
+        text += '暂无成员';
+      }
+
+      if (isOicq(this.qq)) {
+        this.qq.sendMessage(text, groupId);
+      } else {
+        this.qq.sendMessage([plain(text)], groupId);
+      }
+    }
+  }
+
   // 口袋48监听初始化
   async initPocket48(): Promise<void> {
     const {
@@ -232,7 +260,8 @@ class Pocket48Expand {
     if (!(pocket48IsAnonymous || (pocket48RoomId && pocket48Account && pocket48Token))) return;
 
     // 判断socket列表内是否有当前房间的socket连接
-    const index: number = nimChatroomSocketList.findIndex((o: NimChatroomSocket): boolean => o.pocket48RoomId === pocket48RoomId);
+    const index: number = nimChatroomSocketList.findIndex(
+      (o: NimChatroomSocket): boolean => o.pocket48RoomId === pocket48RoomId);
 
     this.nimChatroomSocketId = randomUUID();
 
@@ -259,11 +288,11 @@ class Pocket48Expand {
       this.nimChatroom = nimChatroomSocketList[index];
     }
 
-    if ((pocket48RoomEntryListener || pocket48OwnerOnlineListener || pocket48MemberInfo) && this.membersList?.length) {
-      const idx: number = this.membersList.findIndex((o: MemberInfo): boolean => o.roomId === `${ pocket48RoomId }`);
+    if ((pocket48RoomEntryListener || pocket48OwnerOnlineListener || pocket48MemberInfo) && this.qq.membersList?.length) {
+      const idx: number = this.qq.membersList.findIndex((o: MemberInfo): boolean => o.roomId === `${ pocket48RoomId }`);
 
       if (idx >= 0) {
-        this.memberInfo = this.membersList[idx];
+        this.memberInfo = this.qq.membersList[idx];
         pocket48RoomEntryListener && this.handleRoomEntryTimer();
         pocket48OwnerOnlineListener && this.handleOwnerOnlineTimer();
       }
