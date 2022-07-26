@@ -5,7 +5,7 @@ import NimChatroomSocket, { type ChatroomMember } from '../NimChatroomSocket';
 import { nimChatroomSocketList } from '../Basic';
 import { getRoomMessage, getRoomMessageForOicq, getLogMessage, log, type RoomMessageArgs } from '../utils/pocket48Utils';
 import { plain } from '../utils/miraiUtils';
-import { isOicq } from '../utils/utils';
+import { isOicq } from './utils';
 import type QQ from '../QQ';
 import type OicqQQ from '../OicqQQ';
 import type { OptionsItemPocket48, MemberInfo } from '../../types';
