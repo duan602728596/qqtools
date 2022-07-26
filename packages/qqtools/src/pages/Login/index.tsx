@@ -20,8 +20,9 @@ import { setAddLogin, setDeleteLogin, getRoomId, LoginInitialState } from './red
 import dbConfig from '../../utils/IDB/IDBConfig';
 import QQ from '../../QQ/QQ';
 import OicqQQ from '../../QQ/OicqQQ';
+import formatToV2Config from '../../QQ/formatToV2Config';
 import { getGroupNumbers } from '../../QQ/utils/miraiUtils';
-import type { OptionsItem, OptionsItemValue, MemberInfo } from '../../types';
+import type { OptionsItem, OptionsItemValueV2, MemberInfo } from '../../types';
 
 /* redux selector */
 type RSelector = {
@@ -65,7 +66,7 @@ function Index(props: {}): ReactElement {
         query: 'roomId'
       }));
       const index: number = optionsList.findIndex((o: OptionsItem): boolean => o.id === optionValue);
-      const qqOptions: OptionsItemValue = optionsList[index].value;
+      const qqOptions: OptionsItemValueV2 = formatToV2Config(optionsList[index].value);
       const id: string = randomUUID();
       let qq: QQ | OicqQQ;
 
@@ -104,7 +105,7 @@ function Index(props: {}): ReactElement {
     {
       title: '登陆配置',
       dataIndex: 'config',
-      render: (value: OptionsItemValue, record: QQ | OicqQQ, index: number): string => value.optionName
+      render: (value: OptionsItemValueV2, record: QQ | OicqQQ, index: number): string => value.optionName
     },
     {
       title: 'QQ',
