@@ -145,15 +145,8 @@ function Options(props: {}): ReactElement {
     <div className="p-[16px]">
       <div className="flex mb-[16px]">
         <Space className="grow">
-          {
-            process.env.NODE_ENV === 'development' && (
-              <Link to="Edit">
-                <Button type="primary">添加配置</Button>
-              </Link>
-            )
-          }
           <Link to="EditV2">
-            <Button type="primary">添加配置(V2)</Button>
+            <Button type="primary">添加配置</Button>
           </Link>
           <RoomId />
           <Link to="/">
