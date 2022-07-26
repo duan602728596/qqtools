@@ -292,6 +292,7 @@ class Pocket48Expand {
 
   // 销毁
   destroy(): void {
+    // 销毁口袋监听
     if (this.nimChatroomSocketId) {
       this.disconnectPocket48();
     }
