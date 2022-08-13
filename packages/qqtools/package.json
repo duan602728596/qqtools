@@ -45,7 +45,6 @@
     "webpack-bundle-analyzer": "^4.5.0"
   },
   "optionalDependencies": {
-    "@electron/remote": "^2.0.8",
     "cron": "^2.1.0",
     "fs-extra": "^10.1.0",
     "got": "^11.8.2",

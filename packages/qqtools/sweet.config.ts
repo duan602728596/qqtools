@@ -56,7 +56,6 @@ const externalsName: Array<string> = nodeModules([
   'process',
   'util'
 ]).concat([
-  '@electron/remote',
   'cron',
   'electron',
   'fs-extra',

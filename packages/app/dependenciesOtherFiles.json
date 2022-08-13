@@ -1,9 +1,3 @@
 {
-  "dependenciesOtherFiles": {
-    "@electron/remote": [{
-      "type": "build",
-      "input": "main/index.js",
-      "output": "main/index.js"
-    }]
-  }
+  "dependenciesOtherFiles": {}
 }

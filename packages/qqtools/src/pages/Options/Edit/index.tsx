@@ -1,6 +1,5 @@
 import { randomUUID } from 'node:crypto';
 import type { OpenDialogReturnValue } from 'electron';
-import { dialog } from '@electron/remote';
 import { useEffect, type ReactElement, type MouseEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import type { Dispatch } from '@reduxjs/toolkit';
@@ -9,6 +8,7 @@ import { Form, Button, Space, Input, InputNumber, Divider, Switch, Checkbox, Sel
 import type { FormInstance } from 'antd/es/form';
 import type { Store } from 'rc-field-form/es/interface';
 import type { CheckboxOptionType } from 'antd/es/checkbox';
+import { showOpenDialog } from '../../../utils/remote/dialog';
 import { saveFormData, getOptionItem } from '../reducers/reducers';
 import CustomCmd from './CustomCmd';
 import LoginModal from './LoginModal';
@@ -89,7 +89,7 @@ function Edit(props: {}): ReactElement {
 
   // 选择日志保存位置
   async function handleLogSaveDirClick(event: MouseEvent<HTMLButtonElement>): Promise<void> {
-    const result: OpenDialogReturnValue = await dialog.showOpenDialog({
+    const result: OpenDialogReturnValue = await showOpenDialog({
       properties: ['openDirectory']
     });
 

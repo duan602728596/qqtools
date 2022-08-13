@@ -1,12 +1,11 @@
 import * as process from 'node:process';
 import * as path from 'node:path';
 import { app, BrowserWindow, Menu } from 'electron';
-import * as remoteMain from '@electron/remote/main';
 import { isDevelopment, packageJson } from './utils';
 import { ipc, removeIpc } from './ipc';
+import ipcRemoteHandle from './ipcHandle/ipcRemoteHandle';
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1'; // 关闭警告
-remoteMain.initialize();
 
 /* BrowserWindow窗口对象 */
 let win: BrowserWindow | null = null;
@@ -26,8 +25,6 @@ function createWindow(): void {
     icon: isDevelopment ? undefined : path.join(__dirname, '../../titleBarIcon.png')
   });
 
-  remoteMain.enable(win.webContents);
-
   if (isDevelopment) {
     win.webContents.openDevTools();
   }
@@ -42,6 +39,7 @@ function createWindow(): void {
   Menu.setApplicationMenu(null);
 
   ipc(win);
+  ipcRemoteHandle(win);
 
   win.on('closed', function(): void {
     removeIpc();

@@ -1,9 +1,9 @@
-import { dialog } from '@electron/remote';
 import type { OpenDialogReturnValue } from 'electron';
 import type { ReactElement, MouseEvent } from 'react';
 import * as PropTypes from 'prop-types';
 import { Space, Input, Button, type FormInstance } from 'antd';
 import type { StringItem } from 'antd-schema-form/es/types';
+import { showOpenDialog } from '../../../../utils/remote/dialog';
 
 interface LogDirProps {
   form: FormInstance;
@@ -18,7 +18,7 @@ function LogDir(props: LogDirProps): ReactElement {
 
   // 选择日志保存位置
   async function handleLogSaveDirClick(event: MouseEvent<HTMLButtonElement>): Promise<void> {
-    const result: OpenDialogReturnValue = await dialog.showOpenDialog({
+    const result: OpenDialogReturnValue = await showOpenDialog({
       properties: ['openDirectory']
     });
 

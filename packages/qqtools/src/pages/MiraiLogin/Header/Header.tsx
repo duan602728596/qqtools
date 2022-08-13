@@ -1,8 +1,8 @@
 import type { OpenDialogReturnValue } from 'electron';
-import { dialog } from '@electron/remote';
 import { Fragment, useEffect, ReactElement, type MouseEvent } from 'react';
 import { Button, Input, Form, Divider, message } from 'antd';
 import type { FormInstance } from 'antd/es/form';
+import { showOpenDialog } from '../../../utils/remote/dialog';
 import { getMclDir, setMclDir } from '../miraiPath';
 
 /* 返回、表单配置 */
@@ -12,7 +12,7 @@ function Header(props: {}): ReactElement {
 
   // 选择mcl文件夹的位置
   async function handleSelectJarDirClick(event: MouseEvent<HTMLButtonElement>): Promise<void> {
-    const result: OpenDialogReturnValue = await dialog.showOpenDialog({
+    const result: OpenDialogReturnValue = await showOpenDialog({
       properties: ['openDirectory']
     });
 

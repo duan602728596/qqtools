@@ -7,9 +7,6 @@
     "build": "npm run clean && cross-env NODE_ENV=production gulp",
     "clean": "rimraf ./lib"
   },
-  "dependencies": {
-    "@electron/remote": "^2.0.8"
-  },
   "devDependencies": {
     "cross-env": "^7.0.3",
     "gulp": "^4.0.2",

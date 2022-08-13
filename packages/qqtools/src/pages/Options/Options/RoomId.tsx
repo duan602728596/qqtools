@@ -1,10 +1,10 @@
 import { promises as fsP } from 'node:fs';
 import { shell, type OpenDialogReturnValue } from 'electron';
-import { dialog } from '@electron/remote';
 import { Fragment, useState, type ReactElement, type Dispatch as D, type SetStateAction as S, type MouseEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import type { Dispatch } from '@reduxjs/toolkit';
 import { Button, Modal, Space, Alert, message } from 'antd';
+import { showOpenDialog } from '../../../utils/remote/dialog';
 import { saveRoomId, deleteRoomId } from '../reducers/reducers';
 import type { MemberInfo } from '../../../types';
 
@@ -20,7 +20,7 @@ function RoomId(props: {}): ReactElement {
 
   // 导入文件
   async function handleImportRoomIdJsonClick(event: MouseEvent<HTMLButtonElement>): Promise<void> {
-    const result: OpenDialogReturnValue = await dialog.showOpenDialog({
+    const result: OpenDialogReturnValue = await showOpenDialog({
       properties: ['openFile']
     });
 

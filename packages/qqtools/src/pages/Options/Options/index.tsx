@@ -3,7 +3,6 @@ import * as path from 'node:path';
 import { promises as fs } from 'node:fs';
 import type { ParsedPath } from 'node:path';
 import type { SaveDialogReturnValue, OpenDialogReturnValue } from 'electron';
-import { dialog } from '@electron/remote';
 import * as yaml from 'js-yaml';
 import * as fse from 'fs-extra';
 import { useEffect, type ReactElement, type MouseEvent } from 'react';
@@ -15,6 +14,7 @@ import { Button, Space, Table, Popconfirm, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import * as dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
+import { showOpenDialog, showSaveDialog } from '../../../utils/remote/dialog';
 import RoomId from './RoomId';
 import { queryOptionsList, deleteOption, saveFormData, type OptionsInitialState } from '../reducers/reducers';
 import dbConfig from '../../../utils/IDB/IDBConfig';
@@ -41,7 +41,7 @@ function Options(props: {}): ReactElement {
 
   // 导入配置
   async function handleImportConfigurationFileClick(event: MouseEvent): Promise<void> {
-    const result: OpenDialogReturnValue = await dialog.showOpenDialog({
+    const result: OpenDialogReturnValue = await showOpenDialog({
       properties: ['openFile']
     });
 
@@ -85,7 +85,7 @@ function Options(props: {}): ReactElement {
   // 导出配置
   async function handleExportConfigurationFileClick(event: MouseEvent): Promise<void> {
     const time: Dayjs = dayjs();
-    const result: SaveDialogReturnValue = await dialog.showSaveDialog({
+    const result: SaveDialogReturnValue = await showSaveDialog({
       defaultPath: `配置备份_${ time.format('YYYY.MM.DD.HH.mm.ss') }_.yaml`
     });
 
