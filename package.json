@@ -23,13 +23,10 @@
     "packages/*"
   ],
   "packageManager": "yarn@3.2.1",
-  "engines": {
-    "pm": "yarn@^3.2.1"
-  },
   "dependencies": {
     "@vercel/ncc": "^0.34.0",
     "cross-zip": "^4.0.0",
-    "electron": "^19.0.8",
+    "electron": "^20.0.2",
     "electron-builder": "^23.3.1",
     "fs-extra": "^10.1.0",
     "glob": "^8.0.3",
