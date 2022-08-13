@@ -1,6 +1,7 @@
 export interface EditItem {
   id: string;
   cmd: string;
+  isRegexp?: boolean;
   value: string;
 }
 

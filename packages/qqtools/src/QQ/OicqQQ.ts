@@ -1,4 +1,4 @@
-import type { EventData, GroupMessageEventData, RetCommon, MessageElem, TextElem } from 'oicq';
+import type { EventData, GroupMessageEventData, RetCommon, MessageElem } from 'oicq';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
 import Basic, { type MessageListener } from './Basic';
@@ -47,7 +47,13 @@ class OicqQQ extends Basic {
 
       // 自定义信息处理
       if (customCmd?.length) {
-        const index: number = customCmd.findIndex((o: EditItem): boolean => o.cmd === command);
+        const index: number = customCmd.findIndex((o: EditItem): boolean => {
+          if (o.isRegexp) {
+            return new RegExp(o.cmd, 'i').test(command);
+          } else {
+            return o.cmd === command;
+          }
+        });
 
         if (index >= 0) {
           await this.sendMessage(customCmd[index].value, groupId);

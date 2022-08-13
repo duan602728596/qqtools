@@ -76,7 +76,13 @@ class QQ extends Basic {
 
         // 自定义信息处理
         if (customCmd?.length) {
-          const customCmdItem: EditItem | undefined = customCmd.find((o: EditItem): boolean => o.cmd === command);
+          const customCmdItem: EditItem | undefined = customCmd.find((o: EditItem): boolean => {
+            if (o.isRegexp) {
+              return new RegExp(o.cmd, 'i').test(command);
+            } else {
+              return o.cmd === command;
+            }
+          });
 
           if (customCmdItem) {
             const value: Array<MessageChain> = miraiTemplate(customCmdItem.value);
