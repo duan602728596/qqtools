@@ -287,6 +287,63 @@ export type CustomMessageAll =
   | CLOSE_ROOM_CHATMessage
   | ZHONGQIU_ACTIVITY_LANTERN_FANSMessage;
 
+/* 发言类型v2 */
+// level = 1或roleId = 3为xox
+export interface CustomMessageV2 {
+  channelId: string;
+  serverId: string;
+  ext?: `{
+    "user": {
+      "avatar": ${ string },
+      "level": "${ number }",
+      "nickName": ${ string },
+      "roleId": ${ number },
+      "teamLogo": ${ string },
+      "userId": ${ number }
+    }
+  }`;
+  type: string;
+}
+
+// 普通信息
+export interface TEXTMessageV2 extends CustomMessageV2 {
+  type: 'text';
+  body: string;
+}
+
+// 图片信息
+export interface IMAGEMessageV2 extends CustomMessageV2 {
+  attach: {
+    ext: string;
+    h: number;
+    w: number;
+    url: string;
+  };
+  type: 'image';
+}
+
+// 回复信息
+export interface REPLYMessageV2 extends CustomMessageV2 {
+  attach: {
+    messageType: 'REPLY';
+    replyInfo: {
+      replyName: string;
+      replyText: string; // 被回复的消息
+      text: string;      // 回复的消息
+    };
+  };
+  type: 'custom';
+}
+
+// 删除回复
+export interface DELETEMessageV2 extends CustomMessageV2 {
+  attach: {
+    messageType: 'DELETE';
+    targetId: string;
+  };
+  type: 'custom';
+}
+
 /* 微博类型 */
 export interface WeiboTab {
   containerid: string;
