@@ -69,14 +69,162 @@
       "title": "authKey",
       "$placeholder": "mirai配置类型时需要填写"
     },
+    "pocket48V2": {
+      "id": "$root/properties/pocket48V2",
+      "type": "array",
+      "title": "口袋监听配置（新版本口袋48）",
+      "items": {
+        "id": "$root/properties/pocket48V2/items",
+        "type": "object",
+        "title": "口袋监听配置（新版本口袋48）",
+        "properties": {
+          "pocket48RoomListener": {
+            "id": "$root/properties/pocket48V2/items/properties/pocket48RoomListener",
+            "type": "boolean",
+            "title": "开启监听",
+            "$componentType": "switch"
+          },
+          "pocket48ServerId": {
+            "id": "$root/properties/pocket48V2/items/properties/pocket48ServerId",
+            "type": "string",
+            "title": "ServerID",
+            "$required": true,
+            "$requiredMessage": "必须填写ServerID"
+          },
+          "pocket48Account": {
+            "id": "$root/properties/pocket48V2/items/properties/pocket48Account",
+            "type": "string",
+            "title": "IM的account",
+            "$required": true,
+            "$requiredMessage": "必须填写account",
+            "$hidden": false,
+            "$tableColumnHidden": true
+          },
+          "pocket48Token": {
+            "id": "$root/properties/pocket48V2/items/properties/pocket48Token",
+            "type": "string",
+            "title": "IM的token",
+            "$required": true,
+            "$requiredMessage": "必须填写token",
+            "$tableColumnHidden": true,
+            "$componentType": "IMLogin"
+          },
+          "pocket48LiveAtAll": {
+            "id": "$root/properties/pocket48V2/items/properties/pocket48LiveAtAll",
+            "type": "boolean",
+            "title": "@全体成员",
+            "description": "直播时@全体成员（需要有管理员权限）",
+            "$tableColumnHidden": true,
+            "$componentType": "checkboxDesc"
+          },
+          "pocket48ShieldMsgType": {
+            "id": "$root/properties/pocket48V2/items/properties/pocket48ShieldMsgType",
+            "type": "array",
+            "title": "屏蔽信息类型",
+            "$componentType": "checkboxGroup",
+            "$options": [
+              {
+                "label": "普通信息",
+                "value": "TEXT"
+              },
+              {
+                "label": "回复信息",
+                "value": "REPLY"
+              },
+              {
+                "label": "图片",
+                "value": "IMAGE"
+              },
+              {
+                "label": "语音",
+                "value": "AUDIO"
+              },
+              {
+                "label": "视频",
+                "value": "VIDEO"
+              },
+              {
+                "label": "直播",
+                "value": "LIVEPUSH"
+              },
+              {
+                "label": "翻牌",
+                "value": "FLIPCARD"
+              },
+              {
+                "label": "语音翻牌",
+                "value": "FLIPCARD_AUDIO"
+              },
+              {
+                "label": "视频翻牌",
+                "value": "FLIPCARD_VIDEO"
+              },
+              {
+                "label": "2021表情图片",
+                "value": "EXPRESSIMAGE"
+              },
+              {
+                "label": "表情",
+                "value": "EXPRESS"
+              },
+              {
+                "label": "礼物回复信息",
+                "value": "GIFTREPLY"
+              },
+              {
+                "label": "投票",
+                "value": "PRESENT_TEXT"
+              },
+              {
+                "label": "未知类型",
+                "value": "UNKNOWN"
+              },
+              {
+                "label": "错误信息",
+                "value": "ERROR"
+              }
+            ],
+            "$tableColumnHidden": true,
+            "items": {
+              "id": "$root/properties/pocket48V2/items/properties/pocket48ShieldMsgType/items",
+              "type": "string",
+              "title": "屏蔽类型"
+            }
+          },
+          "pocket48MemberInfo": {
+            "id": "$root/properties/pocket48V2/items/properties/pocket48MemberInfo",
+            "type": "boolean",
+            "title": "发送时带上房间信息",
+            "description": "发送时带上房间信息（需要先导入房间信息）",
+            "$tableColumnHidden": true,
+            "$componentType": "checkboxDesc"
+          },
+          "pocket48LogSave": {
+            "id": "$root/properties/pocket48V2/items/properties/pocket48LogSave",
+            "type": "boolean",
+            "title": "房间信息日志",
+            "description": "口袋消息会同步记录到日志",
+            "$tableColumnHidden": true,
+            "$componentType": "checkboxDesc"
+          },
+          "pocket48LogDir": {
+            "id": "$root/properties/pocket48V2/items/properties/pocket48LogDir",
+            "type": "string",
+            "title": "日志保存位置",
+            "$tableColumnHidden": true,
+            "$componentType": "pocket48LogDir"
+          }
+        }
+      }
+    },
     "pocket48": {
       "id": "$root/properties/pocket48",
       "type": "array",
-      "title": "口袋监听配置",
+      "title": "口袋监听配置（旧版本口袋48）",
       "items": {
         "id": "$root/properties/pocket48/items",
         "type": "object",
-        "title": "口袋监听配置",
+        "title": "口袋监听配置（旧版本口袋48）",
         "properties": {
           "pocket48RoomListener": {
             "id": "$root/properties/pocket48/items/properties/pocket48RoomListener",

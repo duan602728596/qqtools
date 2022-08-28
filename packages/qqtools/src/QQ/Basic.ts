@@ -1,8 +1,10 @@
 import Pocket48Expand from './expand/Pocket48Expand';
+import Pocket48V2Expand from './expand/Pocket48V2Expand';
 import WeiboExpand from './expand/WeiboExpand';
 import BilibiliExpand from './expand/BilibiliExpand';
 import CronTimerExpand from './expand/CronTimerExpand';
 import NimChatroomSocket from './NimChatroomSocket';
+import QChatSocket from './QChatSocket';
 import type QQ from './QQ';
 import type OicqQQ from './OicqQQ';
 import type { OptionsItemValueV2, MemberInfo } from '../types';
@@ -10,6 +12,7 @@ import type { OptionsItemValueV2, MemberInfo } from '../types';
 export type MessageListener = (event: MessageEvent) => void | Promise<void>;
 
 export const nimChatroomSocketList: Array<NimChatroomSocket> = []; // 缓存连接
+export const qChatSocketList: Array<QChatSocket> = [];
 
 abstract class Basic {
   public protocol: string;            // mirai或者oicq
@@ -22,11 +25,26 @@ abstract class Basic {
   public membersList?: Array<MemberInfo>; // 所有成员信息
 
   public pocket48: Array<Pocket48Expand> | undefined;
+  public pocket48V2: Array<Pocket48V2Expand> | undefined;
   public weibo: Array<WeiboExpand> | undefined;
   public bilibili: Array<BilibiliExpand> | undefined;
   public cronTimer: Array<CronTimerExpand> | undefined;
 
   static async initExpand(this: QQ | OicqQQ): Promise<void> {
+    if (this.config.pocket48V2) {
+      this.pocket48V2 = [];
+
+      for (const item of this.config.pocket48V2) {
+        const pocket48: Pocket48V2Expand = new Pocket48V2Expand({
+          qq: this,
+          config: item
+        });
+
+        await pocket48.initPocket48();
+        this.pocket48V2.push(pocket48);
+      }
+    }
+
     if (this.config.pocket48) {
       this.pocket48 = [];
 
@@ -84,6 +102,11 @@ abstract class Basic {
 
   static destroyExpand(this: QQ | OicqQQ): void {
     // 销毁口袋监听
+    if (this.pocket48V2) {
+      this.pocket48V2.forEach((item: Pocket48V2Expand): unknown => item.destroy());
+      this.pocket48V2 = undefined;
+    }
+
     if (this.pocket48) {
       this.pocket48.forEach((item: Pocket48Expand): unknown => item.destroy());
       this.pocket48 = undefined;

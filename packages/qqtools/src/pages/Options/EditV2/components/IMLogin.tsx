@@ -15,6 +15,8 @@ interface LogDirProps {
 
 function IMLoginComponent(props: LogDirProps): ReactElement {
   const { form, id, value, onChange }: LogDirProps = props;
+  const isV2: boolean | undefined = id?.includes?.('/pocket48V2/');
+  const pocket48Key: string = isV2 ? 'pocket48V2' : 'pocket48';
 
   // input
   function handleInputChange(event: ChangeEvent): void {
@@ -24,8 +26,8 @@ function IMLoginComponent(props: LogDirProps): ReactElement {
   // 登录并获取口袋48的IM信息
   function handleLoginAndSetFormCallback(result: { pocket48Account: string; pocket48Token: string }): void {
     form.setFieldsValue({
-      [editV2SchemaJson.properties.pocket48.items.properties.pocket48Account.id]: result.pocket48Account,
-      [editV2SchemaJson.properties.pocket48.items.properties.pocket48Token.id]: result.pocket48Token
+      [editV2SchemaJson.properties[pocket48Key].items.properties.pocket48Account.id]: result.pocket48Account,
+      [editV2SchemaJson.properties[pocket48Key].items.properties.pocket48Token.id]: result.pocket48Token
     });
   }
 

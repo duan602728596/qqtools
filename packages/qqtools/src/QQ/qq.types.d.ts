@@ -1,3 +1,5 @@
+import type { UploadFileResult } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/CloudStorageServiceInterface';
+
 export interface AuthResponse {
   code: number;
   session: string;
@@ -288,6 +290,15 @@ export type CustomMessageAll =
   | ZHONGQIU_ACTIVITY_LANTERN_FANSMessage;
 
 /* 发言类型v2 */
+export interface UserV2 {
+  avatar: string;
+  level: `${ number }`;
+  nickName: string;
+  roleId: number;
+  teamLogo: string;
+  userId: number;
+}
+
 // roleId = 3为xox
 export interface CustomMessageV2 {
   channelId: string;
@@ -316,12 +327,7 @@ export interface TEXTMessageV2 extends CustomMessageV2 {
 // 图片信息
 export interface IMAGEMessageV2 extends CustomMessageV2 {
   type: 'image';
-  attach: {
-    ext: string;
-    h: number;
-    w: number;
-    url: string;
-  };
+  attach: UploadFileResult;
 }
 
 // 回复信息，礼物回复信息
@@ -339,6 +345,11 @@ export interface REPLYMessageV2 extends CustomMessageV2 {
 
 // 发送语音
 export interface AUDIOMessageV2 extends CustomMessageV2 {
+  type: 'audio';
+  attach: UploadFileResult;
+}
+
+export interface AUDIOMessage1_V2 extends CustomMessageV2 {
   type: 'custom';
   attach: {
     messageType: 'AUDIO';
@@ -349,7 +360,12 @@ export interface AUDIOMessageV2 extends CustomMessageV2 {
 }
 
 // 发送短视频
-export interface VideoMessageV2 extends CustomMessageV2 {
+export interface VIDEOMessageV2 extends CustomMessageV2 {
+  type: 'video';
+  attach: UploadFileResult;
+}
+
+export interface VIDEOMessage1_V2 extends CustomMessageV2 {
   type: 'custom';
   attach: {
     messageType: 'VIDEO';
@@ -422,43 +438,53 @@ export interface SESSION_DIANTAIMessageV2 extends CustomMessageV2 {
 }
 
 // 语音翻牌
+export interface FlipCardAudioInfo {
+  answer: `{
+    "url": "${ string }.aac",
+    "duration": ${ number },
+    "size": ${ number }
+  }`;
+  answerId: string;
+  answerType: string;
+  question: string;
+  questionId: string;
+  sourceId: string;
+  roomId: string;
+}
+
 export interface FLIPCARD_AUDIOMessageV2 extends CustomMessageV2 {
   type: 'custom';
   attach: {
     messageType: 'FLIPCARD_AUDIO';
-    answer: `{
-      "url": "${ string }.aac",
-      "duration": ${ number },
-      "size": ${ number }
-    }`;
-    answerId: string;
-    answerType: string;
-    question: string;
-    questionId: string;
-    sourceId: string;
-    roomId: string;
+    flipCardInfo: FlipCardAudioInfo;
+    flipCardAudioInfo: FlipCardAudioInfo;
   };
 }
 
 // 视频翻牌
+export interface FlipCardVideoInfo {
+  answer: `{
+    "url": "${ string }.mp4",
+    "duration": ${ number },
+    "size": ${ number },
+    "previewImg": "${ string }",
+    "width": ${ number },
+    "height": ${ number }
+  }`;
+  answerId: string;
+  answerType: string;
+  question: string;
+  questionId: string;
+  sourceId: string;
+  roomId: string;
+}
+
 export interface FLIPCARD_VIDEOMessageV2 extends CustomMessageV2 {
   type: 'custom';
   attach: {
     messageType: 'FLIPCARD_VIDEO';
-    answer: `{
-      "url": "${ string }.mp4",
-      "duration": ${ number },
-      "size": ${ number },
-      "previewImg": "${ string }",
-      "width": ${ number },
-      "height": ${ number }
-    }`;
-    answerId: string;
-    answerType: string;
-    question: string;
-    questionId: string;
-    sourceId: string;
-    roomId: string;
+    flipCardInfo: FlipCardVideoInfo;
+    flipCardVideoInfo: FlipCardVideoInfo;
   };
 }
 
@@ -467,6 +493,9 @@ export interface EXPRESSIMAGEMessageV2 extends CustomMessageV2 {
   type: 'custom';
   attach: {
     messageType: 'EXPRESSIMAGE';
+    expressImageInfo: {
+      emotionRemote: string;
+    };
     emotionRemote: string;
   };
 }
@@ -476,10 +505,12 @@ export interface OPEN_LIVEMessageV2 extends CustomMessageV2 {
   type: 'custom';
   attach: {
     messageType: 'OPEN_LIVE';
-    title: string;
-    id: number;
-    coverUrl: string;
-    jumpPath: string;
+    openLiveInfo: {
+      title: string;
+      id: number;
+      coverUrl: string;
+      jumpPath: string;
+    };
   };
 }
 
@@ -488,12 +519,14 @@ export interface TRIP_INFOMessageV2 extends CustomMessageV2 {
   type: 'custom';
   attach: {
     messageType: 'TRIP_INFO';
-    tripType: string;
-    id: number;
-    title: string;
-    describe: string;
-    jumpPath: string;
-    jumpType: string;
+    tripInfo: {
+      tripType: string;
+      id: number;
+      title: string;
+      describe: string;
+      jumpPath: string;
+      jumpType: string;
+    };
   };
 }
 
@@ -530,8 +563,10 @@ export interface VOTEMessageV2 extends CustomMessageV2 {
   type: 'custom';
   attach: {
     messageType: 'VOTE';
-    text: string;
-    content: string;
+    voteInfo: {
+      text: string;
+      content: string;
+    };
   };
 }
 
@@ -550,6 +585,32 @@ export interface ZHONGQIU_ACTIVITY_LANTERN_FANSMessageV2 extends CustomMessageV2
     messageType: 'ZHONGQIU_ACTIVITY_LANTERN_FANS';
   };
 }
+
+export type CustomMessageAllV2 =
+  | TEXTMessageV2
+  | REPLYMessageV2
+  | IMAGEMessageV2
+  | AUDIOMessageV2
+  | VIDEOMessageV2
+  | AUDIOMessage1_V2
+  | VIDEOMessage1_V2
+  | LIVEPUSHMessageV2
+  | FLIPCARDMessageV2
+  | EXPRESSMessageV2
+  | DELETEMessageV2
+  | DISABLE_SPEAKMessageV2
+  | SESSION_DIANTAIMessageV2
+  | FLIPCARD_AUDIOMessageV2
+  | FLIPCARD_VIDEOMessageV2
+  | EXPRESSIMAGEMessageV2
+  | OPEN_LIVEMessageV2
+  | TRIP_INFOMessageV2
+  | PRESENT_NORMALMessageV2
+  | PRESENT_TEXTMessageV2
+  | VOTEMessageV2
+  | CLOSE_ROOM_CHATMessageV2
+  | ZHONGQIU_ACTIVITY_LANTERN_FANSMessageV2;
+
 
 /* 微博类型 */
 export interface WeiboTab {

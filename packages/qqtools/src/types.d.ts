@@ -37,6 +37,18 @@ export interface OptionsItemPocket48 {
   pocket48LogDir?: string;
 }
 
+export interface OptionsItemPocket48V2 {
+  pocket48RoomListener?: boolean;
+  pocket48ServerId?: string;
+  pocket48Account?: string;
+  pocket48Token?: string;
+  pocket48LiveAtAll?: boolean;
+  pocket48ShieldMsgType?: Array<string>;
+  pocket48MemberInfo?: boolean;
+  pocket48LogSave?: boolean;
+  pocket48LogDir?: string;
+}
+
 // 微博
 export interface OptionsItemWeibo {
   weiboListener?: boolean;
@@ -71,6 +83,7 @@ export interface OptionsItemValue extends
 // 表单内的值v2，将部分字段转换成数组，从而支持多个配置
 export interface OptionsItemValueV2 extends OptionsItemBasic {
   version: 'v2';
+  pocket48V2?: Array<OptionsItemPocket48V2>;
   pocket48?: Array<OptionsItemPocket48>;
   weibo?: Array<OptionsItemWeibo>;
   bilibili?: Array<OptionsItemBilibili>;
@@ -89,4 +102,5 @@ export interface MemberInfo {
   ownerName: string;
   roomId: string;
   account: string;
+  serverId: string;
 }
