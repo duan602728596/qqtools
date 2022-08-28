@@ -82,7 +82,8 @@
             "id": "$root/properties/pocket48V2/items/properties/pocket48RoomListener",
             "type": "boolean",
             "title": "开启监听",
-            "$componentType": "switch"
+            "$componentType": "switch",
+            "$defaultValue": true
           },
           "pocket48ServerId": {
             "id": "$root/properties/pocket48V2/items/properties/pocket48ServerId",
@@ -230,7 +231,8 @@
             "id": "$root/properties/pocket48/items/properties/pocket48RoomListener",
             "type": "boolean",
             "title": "开启监听",
-            "$componentType": "switch"
+            "$componentType": "switch",
+            "$defaultValue": true
           },
           "pocket48RoomId": {
             "id": "$root/properties/pocket48/items/properties/pocket48RoomId",
@@ -396,7 +398,8 @@
             "id": "$root/properties/weibo/items/properties/weiboListener",
             "type": "boolean",
             "title": "开启监听",
-            "$componentType": "switch"
+            "$componentType": "switch",
+            "$defaultValue": true
           },
           "weiboUid": {
             "id": "$root/properties/weibo/items/properties/weiboUid",
@@ -438,7 +441,8 @@
             "id": "$root/properties/bilibili/items/properties/bilibiliLive",
             "type": "boolean",
             "title": "开启监听",
-            "$componentType": "switch"
+            "$componentType": "switch",
+            "$defaultValue": true
           },
           "bilibiliLiveId": {
             "id": "$root/properties/bilibili/items/properties/bilibiliLiveId",
@@ -468,7 +472,8 @@
             "id": "$root/properties/cronTimer/items/properties/cronJob",
             "type": "boolean",
             "title": "开启任务",
-            "$componentType": "switch"
+            "$componentType": "switch",
+            "$defaultValue": true
           },
           "cronTime": {
             "id": "$root/properties/cronTimer/items/properties/cronTime",
