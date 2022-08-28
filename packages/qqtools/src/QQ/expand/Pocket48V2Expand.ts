@@ -13,7 +13,7 @@ import type { CustomMessageAllV2, UserV2, MessageChain } from '../qq.types';
 
 /* 口袋48 */
 class Pocket48V2Expand {
-  static channelIdMap: Map<string, Array<ChannelInfo>>;
+  static channelIdMap: Map<string, Array<ChannelInfo>> = new Map();
 
   public config: OptionsItemPocket48V2;
   public qq: QQ | OicqQQ;
