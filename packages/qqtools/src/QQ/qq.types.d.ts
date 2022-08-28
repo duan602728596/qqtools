@@ -303,6 +303,8 @@ export interface CustomMessageV2 {
     }
   }`;
   type: string;
+  time: number;
+  updateTime: number;
 }
 
 // 普通信息
@@ -322,11 +324,11 @@ export interface IMAGEMessageV2 extends CustomMessageV2 {
   };
 }
 
-// 回复信息
+// 回复信息，礼物回复信息
 export interface REPLYMessageV2 extends CustomMessageV2 {
   type: 'custom';
   attach: {
-    messageType: 'REPLY';
+    messageType: 'REPLY' | 'GIFTREPLY';
     replyInfo: {
       replyName: string;
       replyText: string; // 被回复的消息
@@ -335,15 +337,59 @@ export interface REPLYMessageV2 extends CustomMessageV2 {
   };
 }
 
-// 礼物
-export interface PRESENTMessageV2 extends CustomMessageV2 {
+// 发送语音
+export interface AUDIOMessageV2 extends CustomMessageV2 {
   type: 'custom';
   attach: {
-    messageType: 'PRESENT_NORMAL' | 'PRESENT_TEXT' | 'PRESENT_FULLSCREEN';
-    giftInfo: {
-      giftName: string;
-      picPath: string;
+    messageType: 'AUDIO';
+    audioInfo: {
+      url: string;
     };
+  };
+}
+
+// 发送短视频
+export interface VideoMessageV2 extends CustomMessageV2 {
+  type: 'custom';
+  attach: {
+    messageType: 'VIDEO';
+    videoInfo: {
+      url: string;
+    };
+  };
+}
+
+// 直播
+export interface LIVEPUSHMessageV2 extends CustomMessageV2 {
+  type: 'custom';
+  attach: {
+    messageType: 'LIVEPUSH';
+    livePushInfo: {
+      liveCover: string;
+      liveTitle: string;
+      liveId: string;
+      shortPath: string;
+    };
+  };
+}
+
+// 鸡腿翻牌
+export interface FLIPCARDMessageV2 extends CustomMessageV2 {
+  type: 'custom';
+  attach: {
+    messageType: 'FLIPCARD';
+    flipCardInfo: {
+      question: string;
+      answer: string;
+    };
+  };
+}
+
+// 发送表情
+export interface EXPRESSMessageV2 extends CustomMessageV2 {
+  type: 'custom';
+  attach: {
+    messageType: 'EXPRESS';
   };
 }
 
@@ -353,6 +399,155 @@ export interface DELETEMessageV2 extends CustomMessageV2 {
   attach: {
     messageType: 'DELETE';
     targetId: string;
+  };
+}
+
+// 禁言
+export interface DISABLE_SPEAKMessageV2 extends CustomMessageV2 {
+  type: 'custom';
+  attach: {
+    messageType: 'DISABLE_SPEAK';
+    targetId: string;
+    sourceId: string;
+  };
+}
+
+// 电台
+export interface SESSION_DIANTAIMessageV2 extends CustomMessageV2 {
+  type: 'custom';
+  attach: {
+    messageType: 'SESSION_DIANTAI';
+    streamPath: string;
+  };
+}
+
+// 语音翻牌
+export interface FLIPCARD_AUDIOMessageV2 extends CustomMessageV2 {
+  type: 'custom';
+  attach: {
+    messageType: 'FLIPCARD_AUDIO';
+    answer: `{
+      "url": "${ string }.aac",
+      "duration": ${ number },
+      "size": ${ number }
+    }`;
+    answerId: string;
+    answerType: string;
+    question: string;
+    questionId: string;
+    sourceId: string;
+    roomId: string;
+  };
+}
+
+// 视频翻牌
+export interface FLIPCARD_VIDEOMessageV2 extends CustomMessageV2 {
+  type: 'custom';
+  attach: {
+    messageType: 'FLIPCARD_VIDEO';
+    answer: `{
+      "url": "${ string }.mp4",
+      "duration": ${ number },
+      "size": ${ number },
+      "previewImg": "${ string }",
+      "width": ${ number },
+      "height": ${ number }
+    }`;
+    answerId: string;
+    answerType: string;
+    question: string;
+    questionId: string;
+    sourceId: string;
+    roomId: string;
+  };
+}
+
+// 2021表情包
+export interface EXPRESSIMAGEMessageV2 extends CustomMessageV2 {
+  type: 'custom';
+  attach: {
+    messageType: 'EXPRESSIMAGE';
+    emotionRemote: string;
+  };
+}
+
+// open live
+export interface OPEN_LIVEMessageV2 extends CustomMessageV2 {
+  type: 'custom';
+  attach: {
+    messageType: 'OPEN_LIVE';
+    title: string;
+    id: number;
+    coverUrl: string;
+    jumpPath: string;
+  };
+}
+
+// trip info
+export interface TRIP_INFOMessageV2 extends CustomMessageV2 {
+  type: 'custom';
+  attach: {
+    messageType: 'TRIP_INFO';
+    tripType: string;
+    id: number;
+    title: string;
+    describe: string;
+    jumpPath: string;
+    jumpType: string;
+  };
+}
+
+// 礼物
+export interface PRESENT_NORMALMessageV2 extends CustomMessageV2 {
+  type: 'custom';
+  attach: {
+    messageType: 'PRESENT_NORMAL';
+    giftInfo: {
+      giftName: string;
+      picPath: string;
+    };
+  };
+}
+
+// 投票信息：投票时，同时触发 PRESENT_TEXT 和 PRESENT_FULLSCREEN 两种类型
+export interface PRESENT_TEXTMessageV2 extends CustomMessageV2 {
+  type: 'custom';
+  attach: {
+    messageType: 'PRESENT_TEXT';
+    giftInfo: {
+      fullPicPath?: string; // 完整图片，图片地址以 https://source.48.cn/ 开头
+      giftId: string;
+      giftName: `${ number }投票权`; // 礼物名称
+      giftNum: number;  // 礼物数量
+      picPath: string;
+      special: true;
+    };
+  };
+}
+
+// 发起投票
+export interface VOTEMessageV2 extends CustomMessageV2 {
+  type: 'custom';
+  attach: {
+    messageType: 'VOTE';
+    text: string;
+    content: string;
+  };
+}
+
+// 房间关闭信息
+export interface CLOSE_ROOM_CHATMessageV2 extends CustomMessageV2 {
+  type: 'custom';
+  attach: {
+    messageType: 'CLOSE_ROOM_CHAT';
+  };
+}
+
+// 中秋活动
+export interface ZHONGQIU_ACTIVITY_LANTERN_FANSMessageV2 extends CustomMessageV2 {
+  type: 'custom';
+  attach: {
+    messageType: 'ZHONGQIU_ACTIVITY_LANTERN_FANS';
   };
 }
 
