@@ -68,6 +68,8 @@ class Pocket48V2Expand {
       channel = channelResult;
     }
 
+    if (channel?.[0]?.name === '直播') return; // 过滤直播房间
+
     // 发送的数据
     const roomMessageArgs: RoomMessageArgs = {
       user,
