@@ -7,11 +7,13 @@ const dayjs = require('dayjs');
 require('dayjs/locale/zh-cn');
 
 const NIM_SDK = require('./NIM_Web_SDK_nodejs_v7.1.0');
+const userServerMapJson = require('./userServerMap.json');
 
 dayjs.locale('zh-cn');
 
 const fsP = fs.promises;
 const { Chatroom } = NIM_SDK;
+const { userServerMap } = userServerMapJson;
 
 const token = '';
 const pa = '';
@@ -77,6 +79,19 @@ async function main() {
     roomId = json.roomId;
   }
 
+  for (const item of roomId) {
+    if (!item.serverId && userServerMap[item.id]) {
+      item.serverId = userServerMap[item.id];
+
+      const newData = JSON.stringify({
+        roomId: _.orderBy(roomId, ['id'], ['asc']),
+        buildTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+      }, null, 2);
+
+      await fsP.writeFile(fileName, newData);
+    }
+  }
+
   try {
     // 获取当前账号的关注id
     const resFriends = await got.post('https://pocketapi.48.cn/user/api/v1/friendships/friends/id', {
@@ -92,6 +107,11 @@ async function main() {
       console.log(i, friends.length - 1);
 
       const index = _.findIndex(roomId, { id: friend });
+
+      if (index >= 0 && !roomId[index].serverId && userServerMap[roomId[index].id]) {
+        roomId[index].serverId = userServerMap[roomId[index].id];
+      }
+
       let item = {};
 
       if (index >= 0) {
@@ -116,7 +136,13 @@ async function main() {
         const account = event?.chatroom?.creator;
 
         nimChatroomSocket.disconnect();
-        Object.assign(item, { id: friend, ownerName, roomId: rid, account });
+        Object.assign(item, {
+          id: friend,
+          ownerName,
+          roomId: rid,
+          account,
+          serverId: userServerMap[friend]
+        });
 
         if (index >= 0) {
           roomId[index] = item;
