@@ -292,7 +292,7 @@ module.exports = {
       'error',
       {
         commonjs: true,
-        ignore: ['^worker-loader!', 'filenamify/browser']
+        ignore: ['^worker-loader!', 'filenamify/browser', 'SDK']
       }
     ]
   }
