@@ -6,6 +6,7 @@ import type {
   ServerInfo
 } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatServerServiceInterface';
 import type { QChatMessage } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatMsgServiceInterface';
+import { message } from 'antd';
 import appKey from './sdk/appKey.mjs';
 
 interface Queue {
@@ -53,6 +54,8 @@ class QChatSocket {
 
     this.qChat.on('logined', this.handleLogined);
     this.qChat.on('message', this.handleMessage);
+    this.qChat.on('disconnect', this.handleRoomSocketDisconnect);
+    await this.qChat.login();
   }
 
   // 登录成功
@@ -76,6 +79,12 @@ class QChatSocket {
     for (const item of this.queues) {
       item.onmsgs(event);
     }
+  };
+
+  // 断开连接
+  handleRoomSocketDisconnect: () => void = (...args: any[]): void => {
+    console.log('连接断开', args);
+    message.error(`连接断开。ServerID：[${ this.pocket48ServerId }]`);
   };
 
   // 添加队列

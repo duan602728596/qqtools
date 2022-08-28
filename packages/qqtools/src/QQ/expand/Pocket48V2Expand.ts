@@ -114,8 +114,7 @@ class Pocket48V2Expand {
       pocket48RoomListener,
       pocket48ServerId,
       pocket48Account,
-      pocket48Token,
-      pocket48MemberInfo
+      pocket48Token
     }: OptionsItemPocket48V2 = this.config;
 
     if (!pocket48RoomListener) return;
@@ -129,19 +128,19 @@ class Pocket48V2Expand {
     this.qChatSocketId = randomUUID();
 
     if (index < 0) {
-      const nimChatroomSocket: QChatSocket = new QChatSocket({
+      const qChatSocket: QChatSocket = new QChatSocket({
         pocket48Account,
         pocket48Token,
         pocket48ServerId
       });
 
-      await nimChatroomSocket.init();
-      nimChatroomSocket.addQueue({
+      await qChatSocket.init();
+      qChatSocket.addQueue({
         id: this.qChatSocketId,
         onmsgs: this.handleRoomSocketMessage
       });
-      qChatSocketList.push(nimChatroomSocket); // 添加到列表
-      this.qChatSocket = nimChatroomSocket;
+      qChatSocketList.push(qChatSocket); // 添加到列表
+      this.qChatSocket = qChatSocket;
     } else {
       qChatSocketList[index].addQueue({
         id: this.qChatSocketId,
