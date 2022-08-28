@@ -65,6 +65,7 @@ class Pocket48V2Expand {
       });
 
       channelResult && Pocket48V2Expand.channelIdMap.set(event.channelId, channelResult);
+      channel = channelResult;
     }
 
     // 发送的数据
