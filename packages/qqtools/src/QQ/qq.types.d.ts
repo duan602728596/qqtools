@@ -288,7 +288,7 @@ export type CustomMessageAll =
   | ZHONGQIU_ACTIVITY_LANTERN_FANSMessage;
 
 /* 发言类型v2 */
-// level = 1或roleId = 3为xox
+// roleId = 3为xox
 export interface CustomMessageV2 {
   channelId: string;
   serverId: string;
@@ -313,17 +313,18 @@ export interface TEXTMessageV2 extends CustomMessageV2 {
 
 // 图片信息
 export interface IMAGEMessageV2 extends CustomMessageV2 {
+  type: 'image';
   attach: {
     ext: string;
     h: number;
     w: number;
     url: string;
   };
-  type: 'image';
 }
 
 // 回复信息
 export interface REPLYMessageV2 extends CustomMessageV2 {
+  type: 'custom';
   attach: {
     messageType: 'REPLY';
     replyInfo: {
@@ -332,16 +333,27 @@ export interface REPLYMessageV2 extends CustomMessageV2 {
       text: string;      // 回复的消息
     };
   };
+}
+
+// 礼物
+export interface PRESENTMessageV2 extends CustomMessageV2 {
   type: 'custom';
+  attach: {
+    messageType: 'PRESENT_NORMAL' | 'PRESENT_TEXT' | 'PRESENT_FULLSCREEN';
+    giftInfo: {
+      giftName: string;
+      picPath: string;
+    };
+  };
 }
 
 // 删除回复
 export interface DELETEMessageV2 extends CustomMessageV2 {
+  type: 'custom';
   attach: {
     messageType: 'DELETE';
     targetId: string;
   };
-  type: 'custom';
 }
 
 /* 微博类型 */
