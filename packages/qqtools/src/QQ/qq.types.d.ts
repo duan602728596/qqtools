@@ -390,14 +390,17 @@ export interface LIVEPUSHMessageV2 extends CustomMessageV2 {
 }
 
 // 鸡腿翻牌
+export interface FlipCardInfo {
+  question: string;
+  answer: string;
+}
+
 export interface FLIPCARDMessageV2 extends CustomMessageV2 {
   type: 'custom';
   attach: {
     messageType: 'FLIPCARD';
-    flipCardInfo: {
-      question: string;
-      answer: string;
-    };
+    flipCardInfo: FlipCardInfo;
+    filpCardInfo: FlipCardInfo;
   };
 }
 
@@ -458,6 +461,8 @@ export interface FLIPCARD_AUDIOMessageV2 extends CustomMessageV2 {
     messageType: 'FLIPCARD_AUDIO';
     flipCardInfo: FlipCardAudioInfo;
     flipCardAudioInfo: FlipCardAudioInfo;
+    filpCardInfo: FlipCardAudioInfo;
+    filpCardAudioInfo: FlipCardAudioInfo;
   };
 }
 
@@ -485,6 +490,8 @@ export interface FLIPCARD_VIDEOMessageV2 extends CustomMessageV2 {
     messageType: 'FLIPCARD_VIDEO';
     flipCardInfo: FlipCardVideoInfo;
     flipCardVideoInfo: FlipCardVideoInfo;
+    filpCardInfo: FlipCardVideoInfo;
+    filpCardVideoInfo: FlipCardVideoInfo;
   };
 }
 

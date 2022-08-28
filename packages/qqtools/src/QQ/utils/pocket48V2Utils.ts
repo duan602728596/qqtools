@@ -3,7 +3,14 @@ import type { MessageElem } from 'oicq';
 import type { ChannelInfo } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatChannelServiceInterface';
 import { plain, image, atAll } from './miraiUtils';
 import { miraiMessageTooicqMessage } from './oicqUtils';
-import type { CustomMessageAllV2, UserV2, FlipCardAudioInfo, FlipCardVideoInfo, MessageChain } from '../qq.types';
+import type {
+  CustomMessageAllV2,
+  UserV2,
+  FlipCardInfo,
+  FlipCardAudioInfo,
+  FlipCardVideoInfo,
+  MessageChain
+} from '../qq.types';
 import type { MemberInfo } from '../../types';
 
 export interface RoomMessageArgs {
@@ -118,10 +125,12 @@ ${ nickName }：${ data.attach.replyInfo.text }
 
     // 鸡腿翻牌
     if (data.type === 'custom' && data.attach.messageType === 'FLIPCARD') {
+      const info: FlipCardInfo = data.attach.filpCardInfo ?? data.attach.flipCardInfo;
+
       sendGroup.push(
         plain(`${ nickName } 翻牌了问题：
-${ data.attach.flipCardInfo.question }
-回答：${ data.attach.flipCardInfo.answer }
+${ info.question }
+回答：${ info.answer }
 时间：${ msgTime }${ memberInfoContent }`)
       );
     } else
@@ -132,8 +141,11 @@ ${ data.attach.flipCardInfo.question }
       && (data.attach.messageType === 'FLIPCARD_AUDIO'
       || data.attach.messageType === 'FLIPCARD_VIDEO')
     ) {
-      const info: FlipCardAudioInfo | FlipCardVideoInfo = data.attach.flipCardInfo ?? (
-        data.attach.messageType === 'FLIPCARD_AUDIO' ? data.attach.flipCardAudioInfo : data.attach.flipCardVideoInfo);
+      const info: FlipCardAudioInfo | FlipCardVideoInfo = (data.attach.filpCardInfo ?? data.attach.flipCardInfo)
+        ?? (data.attach.messageType === 'FLIPCARD_AUDIO'
+          ? (data.attach.filpCardAudioInfo ?? data.attach.flipCardAudioInfo)
+          : (data.attach.filpCardVideoInfo ?? data.attach.flipCardVideoInfo)
+        );
       const answer: { url: string } = JSON.parse(info.answer);
 
       sendGroup.push(
@@ -318,9 +330,11 @@ ${ nickName }：${ data.attach.replyInfo.text }
 
     // 鸡腿翻牌
     if (data.type === 'custom' && data.attach.messageType === 'FLIPCARD') {
+      const info: FlipCardInfo = data.attach.filpCardInfo ?? data.attach.flipCardInfo;
+
       logData = `${ nickName } 翻牌了问题：
-${ data.attach.flipCardInfo.question }
-回答：${ data.attach.flipCardInfo.answer }
+${ info.question }
+回答：${ info.answer }
 时间：${ msgTime }${ memberInfoContent }`;
     } else
 
@@ -330,8 +344,11 @@ ${ data.attach.flipCardInfo.question }
       && (data.attach.messageType === 'FLIPCARD_AUDIO'
       || data.attach.messageType === 'FLIPCARD_VIDEO')
     ) {
-      const info: FlipCardAudioInfo | FlipCardVideoInfo = data.attach.flipCardInfo ?? (
-        data.attach.messageType === 'FLIPCARD_AUDIO' ? data.attach.flipCardAudioInfo : data.attach.flipCardVideoInfo);
+      const info: FlipCardAudioInfo | FlipCardVideoInfo = (data.attach.filpCardInfo ?? data.attach.flipCardInfo)
+        ?? (data.attach.messageType === 'FLIPCARD_AUDIO'
+          ? (data.attach.filpCardAudioInfo ?? data.attach.flipCardAudioInfo)
+          : (data.attach.filpCardVideoInfo ?? data.attach.flipCardVideoInfo)
+        );
       const answer: { url: string } = JSON.parse(info.answer);
 
       logData = `${ nickName } 翻牌了问题：
