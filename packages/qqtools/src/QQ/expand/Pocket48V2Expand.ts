@@ -53,7 +53,7 @@ class Pocket48V2Expand {
     // 用户
     const user: UserV2 | undefined = event.ext ? JSON.parse(event.ext).user : undefined;
 
-    if ((!user || user?.roleId !== 3) && type !== 'PRESENT_TEXT') return; // 过滤非房间成员
+    if ((!user || user?.roleId !== 3 || user?.vip) && type !== 'PRESENT_TEXT') return; // 过滤非房间成员
 
     let channel: Array<ChannelInfo> | undefined;
 

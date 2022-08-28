@@ -297,6 +297,7 @@ export interface UserV2 {
   roleId: number;
   teamLogo: string;
   userId: number;
+  vip: boolean;
 }
 
 // roleId = 3为xox
@@ -310,7 +311,8 @@ export interface CustomMessageV2 {
       "nickName": ${ string },
       "roleId": ${ number },
       "teamLogo": ${ string },
-      "userId": ${ number }
+      "userId": ${ number },
+      "vip": ${ boolean }
     }
   }`;
   type: string;
