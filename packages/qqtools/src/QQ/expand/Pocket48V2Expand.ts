@@ -13,6 +13,8 @@ import type { CustomMessageAllV2, UserV2, MessageChain } from '../qq.types';
 
 /* 口袋48 */
 class Pocket48V2Expand {
+  static channelIdMap: Map<string, Array<ChannelInfo>>;
+
   public config: OptionsItemPocket48V2;
   public qq: QQ | OicqQQ;
   public qChatSocketId?: string;    // 对应的nim的唯一socketId
@@ -53,9 +55,17 @@ class Pocket48V2Expand {
 
     if ((!user || user?.roleId !== 3) && type !== 'PRESENT_TEXT') return; // 过滤非房间成员
 
-    const channel: Array<ChannelInfo> | undefined = await this.qChatSocket?.qChat!.qchatChannel.getChannels({
-      channelIds: [event.channelId]
-    });
+    let channel: Array<ChannelInfo> | undefined;
+
+    if (Pocket48V2Expand.channelIdMap.has(event.channelId)) {
+      channel = Pocket48V2Expand.channelIdMap.get(event.channelId);
+    } else {
+      const channelResult: Array<ChannelInfo> | undefined = await this.qChatSocket?.qChat!.qchatChannel.getChannels({
+        channelIds: [event.channelId]
+      });
+
+      channelResult && Pocket48V2Expand.channelIdMap.set(event.channelId, channelResult);
+    }
 
     // 发送的数据
     const roomMessageArgs: RoomMessageArgs = {
