@@ -28,11 +28,14 @@ class Pocket48V2Expand {
   async roomSocketMessage(event: CustomMessageAllV2): Promise<void> {
     const {
       pocket48LiveAtAll,
+      pocket48ServerId,
       pocket48ShieldMsgType,
       pocket48MemberInfo,
       pocket48LogSave,
       pocket48LogDir
     }: OptionsItemPocket48V2 = this.config;
+
+    if (event.serverId !== pocket48ServerId) return; // 频道不一致时不处理
 
     // 类型
     let type: string = event.type;
