@@ -25,3 +25,4 @@ www
 build
 dist
 packages/babel-plugin-delay-require
+packages/NIMNodePolyfill/.env
