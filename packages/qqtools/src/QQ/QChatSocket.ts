@@ -1,5 +1,6 @@
 import QChatSDK from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK';
 import NIMSDK from 'nim-web-sdk-ng/dist/NIM_BROWSER_SDK';
+import { notification } from 'antd';
 import type { LoginResult } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/types';
 import type {
   SubscribeAllChannelResult,
@@ -66,6 +67,13 @@ class QChatSocket {
     });
 
     console.log('订阅servers', result);
+
+    if (result.failServerIds.length) {
+      notification.error({
+        message: '订阅服务器失败',
+        description: `ServerId: ${ result.failServerIds[0] }`
+      });
+    }
 
     const serverInfo: Array<ServerInfo> = await this.qChat!.qchatServer.getServers({
       serverIds: [this.pocket48ServerId]
