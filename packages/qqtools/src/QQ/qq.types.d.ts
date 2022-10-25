@@ -333,15 +333,18 @@ export interface IMAGEMessageV2 extends CustomMessageV2 {
 }
 
 // 回复信息，礼物回复信息
+export interface ReplyInfo {
+  replyName: string;
+  replyText: string; // 被回复的消息
+  text: string;      // 回复的消息
+}
+
 export interface REPLYMessageV2 extends CustomMessageV2 {
   type: 'custom';
   attach: {
     messageType: 'REPLY' | 'GIFTREPLY';
-    replyInfo: {
-      replyName: string;
-      replyText: string; // 被回复的消息
-      text: string;      // 回复的消息
-    };
+    replyInfo: ReplyInfo;
+    giftReplyInfo: ReplyInfo;
   };
 }
 

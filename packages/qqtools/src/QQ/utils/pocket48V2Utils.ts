@@ -6,6 +6,7 @@ import { miraiMessageTooicqMessage } from './oicqUtils';
 import type {
   CustomMessageAllV2,
   UserV2,
+  ReplyInfo,
   FlipCardInfo,
   FlipCardAudioInfo,
   FlipCardVideoInfo,
@@ -62,9 +63,11 @@ export function getRoomMessage({
 
     // 回复信息
     if (data.type === 'custom' && (data.attach.messageType === 'REPLY' || data.attach.messageType === 'GIFTREPLY')) {
+      const replyInfo: ReplyInfo = data.attach.replyInfo ?? data.attach.giftReplyInfo;
+
       sendGroup.push(
-        plain(`${ data.attach.replyInfo.replyName }：${ data.attach.replyInfo.replyText }
-${ nickName }：${ data.attach.replyInfo.text }
+        plain(`${ replyInfo.replyName }：${ replyInfo.replyText }
+${ nickName }：${ replyInfo.text }
 时间：${ msgTime }${ memberInfoContent }`)
       );
     } else
