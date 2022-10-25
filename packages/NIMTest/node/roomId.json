@@ -1516,6 +1516,12 @@
       "serverId": "1147927"
     },
     {
+      "id": 874502,
+      "ownerName": "IDFT-黄逸",
+      "roomId": "2435351774",
+      "account": "20220831163852_qi6pcm7gtrw5l03"
+    },
+    {
       "id": 874505,
       "ownerName": "IDFT-刘宇晴",
       "roomId": "67352370",
@@ -1997,6 +2003,12 @@
       "serverId": "1115202"
     },
     {
+      "id": 89653437,
+      "ownerName": "GNZ48-黄艺暄",
+      "roomId": "2459191099",
+      "account": "20221009033526_yso7kzab579de7l"
+    },
+    {
       "id": 4344250371,
       "ownerName": "SNH48-陈雨孜",
       "roomId": "147283635",
@@ -2117,5 +2129,5 @@
       "account": "20200706182614_rvr8uq2mnr81il4"
     }
   ],
-  "buildTime": "2022-08-28 18:50:39"
+  "buildTime": "2022-10-11 13:03:33"
 }
