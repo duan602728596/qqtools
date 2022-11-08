@@ -2003,6 +2003,36 @@
       "serverId": "1115202"
     },
     {
+      "id": 87622891,
+      "ownerName": "SNH48-刘小涵",
+      "roomId": "2435418049",
+      "account": "20220831021109_g54euvz5ti870nm"
+    },
+    {
+      "id": 87622902,
+      "ownerName": "SNH48-吕相宜",
+      "roomId": "2435418051",
+      "account": "20220831021236_i33lo1im7ui8q5k"
+    },
+    {
+      "id": 87622911,
+      "ownerName": "SNH48-张文婷",
+      "roomId": "2435401034",
+      "account": "20220831021323_124l80l5teq9cp4"
+    },
+    {
+      "id": 89587917,
+      "ownerName": "SNH48-占迪",
+      "roomId": "2435253887",
+      "account": "20220929173847_0or8oghlp4g426j"
+    },
+    {
+      "id": 89587920,
+      "ownerName": "SNH48-施未希",
+      "roomId": "2435336134",
+      "account": "20220929173810_wrri4mexawur5h0"
+    },
+    {
       "id": 89653437,
       "ownerName": "GNZ48-黄艺暄",
       "roomId": "2459191099",
@@ -2129,5 +2159,5 @@
       "account": "20200706182614_rvr8uq2mnr81il4"
     }
   ],
-  "buildTime": "2022-10-11 13:03:33"
+  "buildTime": "2022-11-08 21:47:16"
 }
