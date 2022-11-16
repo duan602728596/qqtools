@@ -104,3 +104,7 @@ export interface MemberInfo {
   account: string;
   serverId: string;
 }
+
+export interface IDBActionFunc {
+  (ActionResult: any): any;
+}

@@ -1,7 +1,7 @@
-import { createSlice, type Slice, type SliceCaseReducers, type PayloadAction, type CaseReducerActions } from '@reduxjs/toolkit';
+import { createSlice, type Slice, type SliceCaseReducers, type PayloadAction } from '@reduxjs/toolkit';
 import type { DataDispatchFunc, QueryDispatchFunc, CursorDispatchFunc } from '@indexeddb-tools/indexeddb-redux';
 import IDBRedux, { loginOptionsObjectStoreName, roomIdObjectStoreName } from '../../../utils/IDB/IDBRedux';
-import type { OptionsItem } from '../../../types';
+import type { OptionsItem, IDBActionFunc } from '../../../types';
 
 export interface OptionsInitialState {
   optionsList: Array<OptionsItem>;
@@ -27,7 +27,7 @@ const { actions, reducer }: Slice = createSlice<OptionsInitialState, CaseReducer
   }
 });
 
-export const { setOptionsList, setOptionsDeleteList }: CaseReducerActions<CaseReducers> = actions;
+export const { setOptionsList, setOptionsDeleteList }: Record<string, Function> = actions;
 
 // 保存数据
 export const saveFormData: DataDispatchFunc = IDBRedux.putAction({
@@ -37,13 +37,13 @@ export const saveFormData: DataDispatchFunc = IDBRedux.putAction({
 // 配置列表
 export const queryOptionsList: CursorDispatchFunc = IDBRedux.cursorAction({
   objectStoreName: loginOptionsObjectStoreName,
-  successAction: setOptionsList
+  successAction: setOptionsList as IDBActionFunc
 });
 
 // 删除
 export const deleteOption: QueryDispatchFunc = IDBRedux.deleteAction({
   objectStoreName: loginOptionsObjectStoreName,
-  successAction: setOptionsDeleteList
+  successAction: setOptionsDeleteList as IDBActionFunc
 });
 
 // 获取单个配置
