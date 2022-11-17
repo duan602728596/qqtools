@@ -1,5 +1,7 @@
 # qqtools
 
+> [关于为什么内置启动器使用mcl以及推荐用户使用社区的启动器的说明。](https://github.com/duan602728596/qqtools/issues/143)
+
 基于mirai和mirai-api-http使用的机器人客户端。   
 
 ## 文档
