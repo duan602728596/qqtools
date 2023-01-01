@@ -2,7 +2,9 @@ import { createRoot, type Root } from 'react-dom/client';
 import { HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ConfigProvider } from 'antd';
-import zhCN from 'antd/es/locale-provider/zh_CN';
+import 'antd/dist/reset.css';
+import zhCN from 'antd/locale/zh_CN';
+import { magenta } from '@ant-design/colors';
 import * as dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 import { storeFactory } from './store/store';
@@ -18,7 +20,13 @@ const root: Root = createRoot(document.getElementById('app')!);
 
 root.render(
   <Provider store={ storeFactory() }>
-    <ConfigProvider locale={ zhCN }>
+    <ConfigProvider locale={ zhCN }
+      theme={{
+        token: {
+          colorPrimary: magenta.primary
+        }
+      }}
+    >
       <HashRouter>
         <Routers />
       </HashRouter>

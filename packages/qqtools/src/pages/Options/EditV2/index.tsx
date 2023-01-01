@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import type { Dispatch } from '@reduxjs/toolkit';
 import { useNavigate, useParams, type NavigateFunction, type Params } from 'react-router-dom';
 import SchemaForm, { getObjectFromValue } from 'antd-schema-form';
+import type { CustomComponentObject } from 'antd-schema-form/es/types';
 import 'antd-schema-form/style/antd-schema-form.css';
 import type { FormInstance } from 'antd';
 import type { Store } from 'rc-field-form/es/interface';
@@ -14,9 +15,9 @@ import randomId from './components/randomId';
 import { getOptionItem, saveFormData } from '../reducers/reducers';
 import formatToV2Config from '../../../QQ/formatToV2Config';
 import * as editV2SchemaJson from './editv2.schema.json' assert { type: 'json' };
-import type { OptionsItem, OptionsItemValue, OptionsItemValueV2 } from '../../../types';
+import type { OptionsItem, OptionsItemValueV2 } from '../../../commonTypes';
 
-const customComponent: Record<string, Function> = {
+const customComponent: CustomComponentObject = {
   checkboxDesc,
   pocket48LogDir,
   IMLogin,
@@ -67,7 +68,7 @@ function EditV2(props: {}): ReactElement {
   }
 
   // 返回到上一页
-  function handleGoBackClick(event: MouseEvent<HTMLButtonElement>): void {
+  function handleGoBackClick(event: MouseEvent): void {
     navigate('/Options');
   }
 

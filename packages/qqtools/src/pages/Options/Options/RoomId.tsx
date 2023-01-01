@@ -6,11 +6,12 @@ import type { Dispatch } from '@reduxjs/toolkit';
 import { Button, Modal, Space, Alert, message } from 'antd';
 import { showOpenDialog } from '../../../utils/remote/dialog';
 import { saveRoomId, deleteRoomId } from '../reducers/reducers';
-import type { MemberInfo } from '../../../types';
+import type { UseMessageReturnType, MemberInfo } from '../../../commonTypes';
 
 /* 房间信息导入 */
 function RoomId(props: {}): ReactElement {
   const dispatch: Dispatch = useDispatch();
+  const [messageApi, messageContextHolder]: UseMessageReturnType = message.useMessage();
   const [visible, setVisible]: [boolean, D<S<boolean>>] = useState(false);
 
   // 下载列表文件
@@ -19,7 +20,7 @@ function RoomId(props: {}): ReactElement {
   }
 
   // 导入文件
-  async function handleImportRoomIdJsonClick(event: MouseEvent<HTMLButtonElement>): Promise<void> {
+  async function handleImportRoomIdJsonClick(event: MouseEvent): Promise<void> {
     const result: OpenDialogReturnValue = await showOpenDialog({
       properties: ['openFile']
     });
@@ -36,29 +37,29 @@ function RoomId(props: {}): ReactElement {
           value: roomIdJson.roomId
         }
       }));
-      message.success('房间信息导入成功！');
+      messageApi.success('房间信息导入成功！');
       setVisible(false);
     } catch (err) {
       console.error(err);
-      message.error('房间信息导入失败！');
+      messageApi.error('房间信息导入失败！');
     }
   }
 
   // 删除文件
-  function handleDeleteRoomIdJsonClick(event: MouseEvent<HTMLButtonElement>): void {
+  function handleDeleteRoomIdJsonClick(event: MouseEvent): void {
     dispatch(deleteRoomId({
       query: 'roomId'
     }));
-    message.success('已删除房间信息，你可以重新导入。');
+    messageApi.success('已删除房间信息，你可以重新导入。');
   }
 
   return (
     <Fragment>
-      <Button onClick={ (event: MouseEvent<HTMLButtonElement>): void => setVisible(true) }>导入房间信息</Button>
-      <Modal visible={ visible }
+      <Button onClick={ (event: MouseEvent): void => setVisible(true) }>导入房间信息</Button>
+      <Modal open={ visible }
         width={ 500 }
         centered={ true }
-        onCancel={ (event: MouseEvent<HTMLButtonElement>): void => setVisible(false) }
+        onCancel={ (event: MouseEvent): void => setVisible(false) }
       >
         <div className="h-[110px]">
           <Space className="mb-[16px]">
@@ -72,6 +73,7 @@ function RoomId(props: {}): ReactElement {
           ] } />
         </div>
       </Modal>
+      { messageContextHolder }
     </Fragment>
   );
 }

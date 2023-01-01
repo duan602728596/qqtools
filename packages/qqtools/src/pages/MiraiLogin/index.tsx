@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import { Button, Space, Table, Checkbox, message, notification, Tooltip, Select } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
+import type { MessageInstance } from 'antd/es/message/interface';
 import { ToolTwoTone as IconToolTwoTone } from '@ant-design/icons';
 import style from './index.sass';
 import { omit } from '../../utils/lodash';
@@ -29,22 +30,23 @@ import {
 } from './reducers/reducers';
 import dbConfig from '../../utils/IDB/IDBConfig';
 import { login, queue } from './login/login';
+import type { UseMessageReturnType } from '../../commonTypes';
 import type { LoginInfoSendMessage } from './login/miraiChild.worker/miraiChild.worker';
 import type { QQLoginItem, ProtocolType } from './types';
 
 /* 登陆 */
-async function loginFunc(username: string, password: string): Promise<void> {
+async function loginFunc(messageApi: MessageInstance, username: string, password: string): Promise<void> {
   try {
     const [result, loginInfoSendMessage]: [boolean, LoginInfoSendMessage] = await login(username, password);
 
     if (result) {
-      message.success(`[${ username }] 登陆成功！`);
+      messageApi.success(`[${ username }] 登陆成功！`);
     } else {
-      message.error(`[${ username }] ${ loginInfoSendMessage?.message ?? '登陆失败！' }`);
+      messageApi.error(`[${ username }] ${ loginInfoSendMessage?.message ?? '登陆失败！' }`);
     }
   } catch (err) {
     console.error(err);
-    message.error('登陆失败！');
+    messageApi.error('登陆失败！');
   }
 }
 
@@ -63,10 +65,11 @@ const selector: Selector<RState, MiraiLoginInitialState> = createStructuredSelec
 function Index(props: {}): ReactElement {
   const { childProcessWorker, qqLoginList }: MiraiLoginInitialState = useSelector(selector);
   const dispatch: Dispatch = useDispatch();
+  const [messageApi, messageContextHolder]: UseMessageReturnType = message.useMessage();
   const [closeBtnLoading, setCloseBtnLoading]: [boolean, D<S<boolean>>] = useState(false); // 关闭进程的loading
 
   // 关闭线程
-  function handleCloseMiraiWorkerClick(event: MouseEvent<HTMLButtonElement>): void {
+  function handleCloseMiraiWorkerClick(event: MouseEvent): void {
     setCloseBtnLoading(true);
 
     function handleChildProcessWorkerClose(event1: MessageEvent): void {
@@ -82,7 +85,7 @@ function Index(props: {}): ReactElement {
   }
 
   // 删除
-  function handleDeleteClick(item: QQLoginItem, event: MouseEvent<HTMLButtonElement>): void {
+  function handleDeleteClick(item: QQLoginItem, event: MouseEvent): void {
     dispatch(deleteQQLoginItem({
       query: item.qq
     }));
@@ -105,7 +108,7 @@ function Index(props: {}): ReactElement {
   }
 
   // 登陆
-  function handleLoginClick(item: QQLoginItem, event: MouseEvent<HTMLButtonElement>): void {
+  function handleLoginClick(item: QQLoginItem, event: MouseEvent): void {
     notification.info({
       message: '账号登陆',
       description: childProcessWorker
@@ -113,12 +116,12 @@ function Index(props: {}): ReactElement {
         : `正在启动mirai并登陆账号[${ item.qq }]，请稍等...`
     });
 
-    queue.use([loginFunc, undefined, item.qq, item.password, item.protocol]);
+    queue.use([loginFunc, undefined, messageApi, item.qq, item.password, item.protocol]);
     queue.run();
   }
 
   // 一键登陆
-  function handleAutoLoginClick(event: MouseEvent<HTMLButtonElement>): void {
+  function handleAutoLoginClick(event: MouseEvent): void {
     notification.info({
       message: '一键登陆',
       description: childProcessWorker ? '正在一键登陆，请稍等...' : '正在启动mirai并一键登陆，请稍等...'
@@ -126,8 +129,8 @@ function Index(props: {}): ReactElement {
 
     queue.use(
       ...qqLoginList.filter((o: QQLoginItem): boolean => o.autoLogin)
-        .map((o: QQLoginItem): [Function, any, string, string, ProtocolType | undefined] => {
-          return [loginFunc, undefined, o.qq, o.password, o.protocol];
+        .map((o: QQLoginItem): [Function, any, MessageInstance, string, string, ProtocolType | undefined] => {
+          return [loginFunc, undefined, messageApi, o.qq, o.password, o.protocol];
         })
     );
     queue.run();
@@ -169,10 +172,10 @@ function Index(props: {}): ReactElement {
       width: '96px',
       render: (value: undefined, record: QQLoginItem, index: number): ReactElement => (
         <Button.Group size="small">
-          <Button onClick={ (event: MouseEvent<HTMLButtonElement>): void => handleLoginClick(record, event) }>登陆</Button>
+          <Button onClick={ (event: MouseEvent): void => handleLoginClick(record, event) }>登陆</Button>
           <Button type="primary"
             danger={ true }
-            onClick={ (event: MouseEvent<HTMLButtonElement>): void => handleDeleteClick(record, event) }
+            onClick={ (event: MouseEvent): void => handleDeleteClick(record, event) }
           >
             删除
           </Button>
@@ -188,37 +191,40 @@ function Index(props: {}): ReactElement {
   }, []);
 
   return (
-    <div className="p-[16px]">
-      <Header />
-      <Space className="mb-[16px]">
-        <LoginModal />
-        <Button onClick={ handleAutoLoginClick }>一键登陆</Button>
-        <Button type="primary"
-          danger={ true }
-          loading={ closeBtnLoading }
-          disabled={ childProcessWorker === null }
-          onClick={ handleCloseMiraiWorkerClick }
-        >
-          关闭mirai
-        </Button>
-        <div>
-          <Tooltip title="开发者工具">
-            <Button type="text" icon={ <IconToolTwoTone /> } onClick={ handleOpenDeveloperToolsClick } />
-          </Tooltip>
-          打开控制台可以查看日志信息
-        </div>
-        <Link to="/">
-          <Button type="primary" danger={ true }>返回</Button>
-        </Link>
-      </Space>
-      <Table size="small"
-        bordered={ true }
-        dataSource={ qqLoginList }
-        columns={ columns }
-        rowKey="qq"
-        pagination={ false }
-      />
-    </div>
+    <Fragment>
+      <div className="p-[16px]">
+        <Header />
+        <Space className="mb-[16px]">
+          <LoginModal />
+          <Button onClick={ handleAutoLoginClick }>一键登陆</Button>
+          <Button type="primary"
+            danger={ true }
+            loading={ closeBtnLoading }
+            disabled={ childProcessWorker === null }
+            onClick={ handleCloseMiraiWorkerClick }
+          >
+            关闭mirai
+          </Button>
+          <div>
+            <Tooltip title="开发者工具">
+              <Button type="text" icon={ <IconToolTwoTone /> } onClick={ handleOpenDeveloperToolsClick } />
+            </Tooltip>
+            打开控制台可以查看日志信息
+          </div>
+          <Link to="/">
+            <Button type="primary" danger={ true }>返回</Button>
+          </Link>
+        </Space>
+        <Table size="small"
+          bordered={ true }
+          dataSource={ qqLoginList }
+          columns={ columns }
+          rowKey="qq"
+          pagination={ false }
+        />
+      </div>
+      { messageContextHolder }
+    </Fragment>
   );
 }
 

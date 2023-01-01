@@ -5,7 +5,7 @@ import { Table, Button, Space, Input, Modal, Form } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { FormInstance } from 'antd/es/form';
 import type { Store } from 'rc-field-form/es/interface';
-import type { EditItem } from '../../../types';
+import type { EditItem } from '../../../commonTypes';
 
 interface CustomCmdProps {
   id?: string;
@@ -95,7 +95,7 @@ function CustomCmd(props: CustomCmdProps): ReactElement {
         <Button onClick={ (event: MouseEvent): void => handleAddClick(undefined, event) }>添加命令</Button>
         <Table columns={ columns } dataSource={ props.value ?? [] } rowKey="id" />
       </Space>
-      <Modal visible={ visible }
+      <Modal open={ visible }
         width={ 500 }
         destroyOnClose={ true }
         centered={ true }

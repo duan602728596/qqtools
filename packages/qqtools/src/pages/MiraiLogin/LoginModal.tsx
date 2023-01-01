@@ -6,6 +6,7 @@ import type { FormInstance } from 'antd/es/form';
 import * as dayjs from 'dayjs';
 import { login, queue } from './login/login';
 import { saveQQLoginItemData } from './reducers/reducers';
+import type { UseMessageReturnType } from '../../commonTypes';
 import type { LoginInfoSendMessage } from './login/miraiChild.worker/miraiChild.worker';
 import type { ProtocolType } from './types';
 
@@ -19,6 +20,7 @@ interface FormValue {
 /* 账号登陆 */
 function LoginModal(props: {}): ReactElement {
   const dispatch: Dispatch = useDispatch();
+  const [messageApi, messageContextHolder]: UseMessageReturnType = message.useMessage();
   const [visible, setVisible]: [boolean, D<S<boolean>>] = useState(false); // 登陆
   const [loginLoading, setLoginLoading]: [boolean, D<S<boolean>>] = useState(false); // loading
   const [form]: [FormInstance] = Form.useForm();
@@ -43,20 +45,20 @@ function LoginModal(props: {}): ReactElement {
         }
 
         setVisible(false);
-        message.success(`[${ value.username }] 登陆成功！`);
+        messageApi.success(`[${ value.username }] 登陆成功！`);
       } else {
-        message.error(`[${ value.username }] ${ loginInfoSendMessage?.message ?? '登陆失败！' }`);
+        messageApi.error(`[${ value.username }] ${ loginInfoSendMessage?.message ?? '登陆失败！' }`);
       }
     } catch (err) {
       console.error(err);
-      message.error('登陆失败！');
+      messageApi.error('登陆失败！');
     }
 
     setLoginLoading(false);
   }
 
   // 登陆
-  async function handleLoginSubmit(event: MouseEvent<HTMLButtonElement>): Promise<void> {
+  async function handleLoginSubmit(event: MouseEvent): Promise<void> {
     let value: FormValue;
 
     try {
@@ -72,12 +74,12 @@ function LoginModal(props: {}): ReactElement {
   }
 
   // 打开弹出层
-  function handleOpenLoginModalClick(event: MouseEvent<HTMLButtonElement>): void {
+  function handleOpenLoginModalClick(event: MouseEvent): void {
     setVisible(true);
   }
 
   // 关闭弹出层
-  function handleCloseLoginModalClick(event: MouseEvent<HTMLButtonElement>): void {
+  function handleCloseLoginModalClick(event: MouseEvent): void {
     setVisible(false);
   }
 
@@ -85,7 +87,7 @@ function LoginModal(props: {}): ReactElement {
     <Fragment>
       <Button type="primary" onClick={ handleOpenLoginModalClick }>账号登陆</Button>
       <Modal title="账号登陆"
-        visible={ visible }
+        open={ visible }
         width={ 500 }
         centered={ true }
         destroyOnClose={ true }
@@ -120,6 +122,7 @@ function LoginModal(props: {}): ReactElement {
           </Form.Item>
         </Form>
       </Modal>
+      { messageContextHolder }
     </Fragment>
   );
 }

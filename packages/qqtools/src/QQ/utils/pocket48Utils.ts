@@ -4,7 +4,7 @@ import type { MessageElem } from 'oicq';
 import { plain, image, atAll } from './miraiUtils';
 import { miraiMessageTooicqMessage } from './oicqUtils';
 import type { CustomMessageAll, MessageChain, NIMMessage } from '../qq.types';
-import type { MemberInfo } from '../../types';
+import type { MemberInfo } from '../../commonTypes';
 
 export interface RoomMessageArgs {
   customInfo: CustomMessageAll;

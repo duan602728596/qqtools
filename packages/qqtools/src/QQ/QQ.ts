@@ -13,7 +13,7 @@ import {
 } from './services/services';
 import { plain, miraiTemplate, getGroupNumbers, getSocketHost, LogCommandData } from './utils/miraiUtils';
 import { log } from './utils/pocket48Utils';
-import type { OptionsItemValueV2, MemberInfo, EditItem } from '../types';
+import type { OptionsItemValueV2, MemberInfo, EditItem } from '../commonTypes';
 import type {
   Plain,
   AuthResponse,

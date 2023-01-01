@@ -3,7 +3,7 @@ import { miraiTemplate } from '../utils/miraiUtils';
 import { isOicq } from './utils';
 import type QQ from '../QQ';
 import type OicqQQ from '../OicqQQ';
-import type { OptionsItemCronTimer } from '../../types';
+import type { OptionsItemCronTimer } from '../../commonTypes';
 
 /* 定时任务 */
 class CronTimerExpand {

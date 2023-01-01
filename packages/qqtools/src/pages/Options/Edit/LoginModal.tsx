@@ -2,6 +2,7 @@ import { Fragment, useState, type ReactElement, type Dispatch as D, type SetStat
 import * as PropTypes from 'prop-types';
 import { Button, Modal, Form, Input, message, type FormInstance } from 'antd';
 import { requestPocketLogin, requestImUserInfo } from '../services/services';
+import type { UseMessageReturnType } from '../../../commonTypes';
 import type { LoginInfo, IMUserInfo } from '../services/interface';
 
 interface LoginModalProps {
@@ -12,22 +13,23 @@ interface LoginModalProps {
 /* 账号登陆 */
 function LoginModal(props: LoginModalProps): ReactElement {
   const { form: fatherForm, onLoginSuccess }: LoginModalProps = props;
+  const [messageApi, messageContextHolder]: UseMessageReturnType = message.useMessage();
   const [visible, setVisible]: [boolean, D<S<boolean>>] = useState(false),
     [loading, setLoading]: [boolean, D<S<boolean>>] = useState(false);
   const [form]: [FormInstance] = Form.useForm();
 
   // 点击显示modal
-  function handleOpenModalClick(event: MouseEvent<HTMLButtonElement>): void {
+  function handleOpenModalClick(event: MouseEvent): void {
     setVisible(true);
   }
 
   // 关闭modal
-  function handleCloseModalClick(event: MouseEvent<HTMLButtonElement>): void {
+  function handleCloseModalClick(event: MouseEvent): void {
     setVisible(false);
   }
 
   // 确认登陆
-  async function handleLoginClick(event: MouseEvent<HTMLButtonElement>): Promise<void> {
+  async function handleLoginClick(event: MouseEvent): Promise<void> {
     let formValue: { mobile: string; pwd: string };
 
     try {
@@ -50,7 +52,9 @@ function LoginModal(props: LoginModalProps): ReactElement {
       } else {
         setLoading(false);
 
-        return message.error('口袋账号登陆失败！');
+        messageApi.error('口袋账号登陆失败！');
+
+        return;
       }
 
       const imUserInfoRes: IMUserInfo = await requestImUserInfo(token);
@@ -64,11 +68,11 @@ function LoginModal(props: LoginModalProps): ReactElement {
         });
         setVisible(false);
       } else {
-        message.error('获取IM信息失败！');
+        messageApi.error('获取IM信息失败！');
       }
     } catch (err) {
       console.error(err);
-      message.error('登陆失败！');
+      messageApi.error('登陆失败！');
     }
 
     setLoading(false);
@@ -78,7 +82,7 @@ function LoginModal(props: LoginModalProps): ReactElement {
     <Fragment>
       <Button className="mt-[14px]" onClick={ handleOpenModalClick }>登陆并获取口袋48的IM信息</Button>
       <Modal title="登陆并获取IM信息"
-        visible={ visible }
+        open={ visible }
         width={ 400 }
         centered={ true }
         destroyOnClose={ true }
@@ -97,6 +101,7 @@ function LoginModal(props: LoginModalProps): ReactElement {
           </Form.Item>
         </Form>
       </Modal>
+      { messageContextHolder }
     </Fragment>
   );
 }

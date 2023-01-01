@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { useEffect, type ReactElement } from 'react';
-import { Input, type FormInstance } from 'antd';
-import type { StringItem } from 'antd-schema-form/es/types';
+import { Input } from 'antd';
+import type { CustomComponentFuncArgs, StringItem } from 'antd-schema-form/es/types';
 
 interface RandomUUIDProps {
   id?: string;
@@ -22,7 +22,7 @@ function RandomUUID(props: RandomUUIDProps): ReactElement {
 }
 
 /* 随机生成ID */
-function randomId(root: StringItem, form: FormInstance, required: boolean): ReactElement {
+function randomId({ root, form, required }: CustomComponentFuncArgs<StringItem>): ReactElement {
   return <RandomUUID />;
 }
 

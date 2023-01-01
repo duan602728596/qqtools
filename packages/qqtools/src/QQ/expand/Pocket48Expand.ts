@@ -8,7 +8,7 @@ import { plain } from '../utils/miraiUtils';
 import { isOicq } from './utils';
 import type QQ from '../QQ';
 import type OicqQQ from '../OicqQQ';
-import type { OptionsItemPocket48, MemberInfo } from '../../types';
+import type { OptionsItemPocket48, MemberInfo } from '../../commonTypes';
 import type { NIMMessage, CustomMessageAll, MessageChain } from '../qq.types';
 
 /* 口袋48 */

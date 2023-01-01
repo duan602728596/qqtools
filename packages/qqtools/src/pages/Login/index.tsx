@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import {
+  Fragment,
   useState,
   useEffect,
   type ReactElement,
@@ -22,7 +23,7 @@ import QQ from '../../QQ/QQ';
 import OicqQQ from '../../QQ/OicqQQ';
 import formatToV2Config from '../../QQ/formatToV2Config';
 import { getGroupNumbers } from '../../QQ/utils/miraiUtils';
-import type { OptionsItem, OptionsItemValueV2, MemberInfo } from '../../types';
+import type { UseMessageReturnType, OptionsItem, OptionsItemValueV2, MemberInfo } from '../../commonTypes';
 
 /* redux selector */
 type RSelector = {
@@ -46,6 +47,7 @@ const selector: Selector<RState, RSelector> = createStructuredSelector({
 function Index(props: {}): ReactElement {
   const { optionsList, loginList }: RSelector = useSelector(selector);
   const dispatch: Dispatch = useDispatch();
+  const [messageApi, messageContextHolder]: UseMessageReturnType = message.useMessage();
   const [optionValue, setOptionValue]: [string, D<S<string>>] = useState('');        // 配置的值
   const [loginLoading, setLoginLoading]: [boolean, D<S<boolean>>] = useState(false); // loading
 
@@ -80,7 +82,7 @@ function Index(props: {}): ReactElement {
 
       if (result) {
         dispatch(setAddLogin(qq));
-        message.success('登陆成功！');
+        messageApi.success('登陆成功！');
       }
     } catch (err) {
       console.error(err);
@@ -144,20 +146,23 @@ function Index(props: {}): ReactElement {
   }, []);
 
   return (
-    <div className="p-[16px]">
-      <Space className="mb-[16px]">
-        <Select className={ style.optionSelect } value={ optionValue } onSelect={ handleSelect }>
-          { optionsListSelectOptionRender() }
-        </Select>
-        <Button type="primary" disabled={ optionValue === '' } loading={ loginLoading } onClick={ handleLoginClick }>
-          登陆
-        </Button>
-        <Link to="../">
-          <Button type="primary" danger={ true }>返回</Button>
-        </Link>
-      </Space>
-      <Table columns={ columns } dataSource={ loginList } rowKey="id" />
-    </div>
+    <Fragment>
+      <div className="p-[16px]">
+        <Space className="mb-[16px]">
+          <Select className={ style.optionSelect } value={ optionValue } onSelect={ handleSelect }>
+            { optionsListSelectOptionRender() }
+          </Select>
+          <Button type="primary" disabled={ optionValue === '' } loading={ loginLoading } onClick={ handleLoginClick }>
+            登陆
+          </Button>
+          <Link to="../">
+            <Button type="primary" danger={ true }>返回</Button>
+          </Link>
+        </Space>
+        <Table columns={ columns } dataSource={ loginList } rowKey="id" />
+      </div>
+      { messageContextHolder }
+    </Fragment>
   );
 }
 

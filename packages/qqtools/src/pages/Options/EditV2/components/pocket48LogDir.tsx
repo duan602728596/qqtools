@@ -2,7 +2,7 @@ import type { OpenDialogReturnValue } from 'electron';
 import type { ReactElement, MouseEvent } from 'react';
 import * as PropTypes from 'prop-types';
 import { Space, Input, Button, type FormInstance } from 'antd';
-import type { StringItem } from 'antd-schema-form/es/types';
+import type { CustomComponentFuncArgs, StringItem } from 'antd-schema-form/es/types';
 import { showOpenDialog } from '../../../../utils/remote/dialog';
 
 interface LogDirProps {
@@ -17,7 +17,7 @@ function LogDir(props: LogDirProps): ReactElement {
   const { form, root, id, value, onChange }: LogDirProps = props;
 
   // 选择日志保存位置
-  async function handleLogSaveDirClick(event: MouseEvent<HTMLButtonElement>): Promise<void> {
+  async function handleLogSaveDirClick(event: MouseEvent): Promise<void> {
     const result: OpenDialogReturnValue = await showOpenDialog({
       properties: ['openDirectory']
     });
@@ -28,7 +28,7 @@ function LogDir(props: LogDirProps): ReactElement {
   }
 
   // 清除保存位置
-  function handleLogSaveDirResetClick(event: MouseEvent<HTMLButtonElement>): void {
+  function handleLogSaveDirResetClick(event: MouseEvent): void {
     form.resetFields([root.id]);
   }
 
@@ -50,7 +50,7 @@ LogDir.propTypes = {
 };
 
 /* 选择日志保存位置 */
-function pocket48LogDir(root: StringItem, form: FormInstance, required: boolean): ReactElement {
+function pocket48LogDir({ root, form, required }: CustomComponentFuncArgs<StringItem>): ReactElement {
   return <LogDir form={ form } root={ root } />;
 }
 

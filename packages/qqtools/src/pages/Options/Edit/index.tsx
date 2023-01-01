@@ -12,7 +12,7 @@ import { showOpenDialog } from '../../../utils/remote/dialog';
 import { saveFormData, getOptionItem } from '../reducers/reducers';
 import CustomCmd from './CustomCmd';
 import LoginModal from './LoginModal';
-import type { OptionsItem } from '../../../types';
+import type { OptionsItem } from '../../../commonTypes';
 
 const pocket48ShieldMsgTypeOptions: Array<CheckboxOptionType> = [
   { value: 'TEXT', label: '普通信息' },
@@ -88,7 +88,7 @@ function Edit(props: {}): ReactElement {
   }
 
   // 选择日志保存位置
-  async function handleLogSaveDirClick(event: MouseEvent<HTMLButtonElement>): Promise<void> {
+  async function handleLogSaveDirClick(event: MouseEvent): Promise<void> {
     const result: OpenDialogReturnValue = await showOpenDialog({
       properties: ['openDirectory']
     });
@@ -101,7 +101,7 @@ function Edit(props: {}): ReactElement {
   }
 
   // 清除保存位置
-  function handleLogSaveDirResetClick(event: MouseEvent<HTMLButtonElement>): void {
+  function handleLogSaveDirResetClick(event: MouseEvent): void {
     form.resetFields(['pocket48LogDir']);
   }
 

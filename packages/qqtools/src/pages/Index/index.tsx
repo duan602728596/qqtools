@@ -44,8 +44,12 @@ function Index(props: {}): ReactElement {
       {/* 二维码 */}
       <p>欢迎打赏：</p>
       <Space size={ 8 }>
-        <Image className="w-[180px] cursor-pointer" src={ require('./images/zfb.avif') } />
-        <Image className="w-[180px] cursor-pointer" src={ require('./images/wx.avif') } />
+        <div className="w-[180px]">
+          <Image className="cursor-pointer" src={ require('./images/zfb.avif') } />
+        </div>
+        <div className="w-[180px]">
+          <Image className="cursor-pointer" src={ require('./images/wx.avif') } />
+        </div>
       </Space>
     </div>
   );

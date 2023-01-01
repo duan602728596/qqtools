@@ -6,7 +6,7 @@ import { getGroupNumbers, getSocketHost, LogCommandData } from './utils/miraiUti
 import { isGroupMessageEventData, isMemberIncreaseEventData } from './utils/oicqUtils';
 import { log } from './utils/pocket48Utils';
 import { requestSendGroupMessage } from './services/oicq';
-import type { OptionsItemValueV2, MemberInfo, EditItem } from '../types';
+import type { OptionsItemValueV2, MemberInfo, EditItem } from '../commonTypes';
 
 /* oicq的连接 */
 class OicqQQ extends Basic {

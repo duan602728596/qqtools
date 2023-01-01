@@ -1,7 +1,7 @@
 import { Fragment, type ReactElement, ChangeEvent } from 'react';
 import * as PropTypes from 'prop-types';
 import { Input, type FormInstance } from 'antd';
-import type { StringItem } from 'antd-schema-form/es/types';
+import type { CustomComponentFuncArgs, StringItem } from 'antd-schema-form/es/types';
 import LoginModal from '../../Edit/LoginModal';
 // @ts-ignore
 import editV2SchemaJson from '../editv2.schema.json' assert { type: 'json' };
@@ -47,7 +47,7 @@ IMLoginComponent.propTypes = {
 };
 
 /* 登录并获取口袋48的IM信息 */
-function IMLogin(root: StringItem, form: FormInstance, required: boolean): ReactElement {
+function IMLogin({ root, form, required }: CustomComponentFuncArgs<StringItem>): ReactElement {
   return <IMLoginComponent form={ form } />;
 }
 

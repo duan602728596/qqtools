@@ -2,7 +2,7 @@ import { createSlice, type Slice, type SliceCaseReducers, type PayloadAction } f
 import type { QueryDispatchFunc, CursorDispatchFunc, DataDispatchFunc } from '@indexeddb-tools/indexeddb-redux';
 import IDBRedux, { qqObjectStoreName } from '../../../utils/IDB/IDBRedux';
 import type { QQLoginItem } from '../types';
-import type { IDBActionFunc } from '../../../types';
+import type { IDBActionFunc } from '../../../commonTypes';
 
 export interface MiraiLoginInitialState {
   childProcessWorker: Worker | null;

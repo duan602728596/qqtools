@@ -69,13 +69,9 @@ const externalsName: Array<string> = nodeModules([
 export default function(info: object): { [key: string]: any } {
   const plugins: Array<any> = [
     '@babel/plugin-syntax-import-assertions',
-    ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }],
-    [require.resolve(path.join(__dirname, '../babel-plugin-delay-require')), { moduleNames: externalsName }]
-  ];
-
-  if (!isDev) {
-    plugins.unshift(['transform-react-remove-prop-types', { mode: 'remove', removeImport: true }]);
-  }
+    [require.resolve(path.join(__dirname, '../babel-plugin-delay-require')), { moduleNames: externalsName }],
+    !isDev && ['transform-react-remove-prop-types', { mode: 'remove', removeImport: true }]
+  ].filter(Boolean);
 
   const config: { [key: string]: any } = {
     frame: 'react',
@@ -102,22 +98,17 @@ export default function(info: object): { [key: string]: any } {
     javascript: {
       ecmascript: true,
       plugins,
-      exclude: /node_modules[\\/](?!antd-schema-form)|NIM_Web_SDK|BlythE/i
+      exclude: /node_modules|NIM_Web_SDK|BlythE/i
     },
     typescript: {
       configFile: isDev ? 'tsconfig.json' : 'tsconfig.prod.json',
       plugins,
-      exclude: /node_modules[\\/](?!antd-schema-form)|NIM_Web_SDK|BlythE/i
+      exclude: /node_modules|NIM_Web_SDK|BlythE/i
     },
     sass: {
       include: /src/
     },
     less: {
-      modifyVars: {
-        // https://github.com/ant-design/ant-design/blob/master/components/style/themes/default.less
-        '@primary-color': '#eb2f96'
-      },
-      include: /node_modules[\\/]_?antd/,
       exclude: /tailwindcss/i
     },
     rules: [

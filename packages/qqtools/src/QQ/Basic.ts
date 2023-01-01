@@ -7,7 +7,7 @@ import NimChatroomSocket from './NimChatroomSocket';
 import QChatSocket from './QChatSocket';
 import type QQ from './QQ';
 import type OicqQQ from './OicqQQ';
-import type { OptionsItemValueV2, MemberInfo } from '../types';
+import type { OptionsItemValueV2, MemberInfo } from '../commonTypes';
 
 export type MessageListener = (event: MessageEvent) => void | Promise<void>;
 

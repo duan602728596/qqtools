@@ -5,7 +5,7 @@ import type { ParsedPath } from 'node:path';
 import type { SaveDialogReturnValue, OpenDialogReturnValue } from 'electron';
 import * as yaml from 'js-yaml';
 import * as fse from 'fs-extra';
-import { useEffect, type ReactElement, type MouseEvent } from 'react';
+import { Fragment, useEffect, type ReactElement, type MouseEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { Dispatch } from '@reduxjs/toolkit';
 import { createStructuredSelector, type Selector } from 'reselect';
@@ -18,7 +18,8 @@ import { showOpenDialog, showSaveDialog } from '../../../utils/remote/dialog';
 import RoomId from './RoomId';
 import { queryOptionsList, deleteOption, saveFormData, type OptionsInitialState } from '../reducers/reducers';
 import dbConfig from '../../../utils/IDB/IDBConfig';
-import type { OptionsItem } from '../../../types';
+import type { UseMessageReturnType } from '../../../commonTypes';
+import type { OptionsItem } from '../../../commonTypes';
 
 /* 判断yaml解析后是否为object类型 */
 function isObject(val: unknown): val is number {
@@ -38,6 +39,7 @@ const selector: Selector<RState, RSelector> = createStructuredSelector({
 function Options(props: {}): ReactElement {
   const { optionsList }: RSelector = useSelector(selector);
   const dispatch: Dispatch = useDispatch();
+  const [messageApi, messageContextHolder]: UseMessageReturnType = message.useMessage();
 
   // 导入配置
   async function handleImportConfigurationFileClick(event: MouseEvent): Promise<void> {
@@ -51,7 +53,9 @@ function Options(props: {}): ReactElement {
     const filePathResult: ParsedPath = path.parse(filePath);
 
     if (!/^\.ya?ml$/i.test(filePathResult.ext)) {
-      return message.warn('请导入*.yaml或*.yml格式的文件！');
+      messageApi.warning('请导入*.yaml或*.yml格式的文件！');
+
+      return;
     }
 
     // 导入yaml文件
@@ -59,7 +63,9 @@ function Options(props: {}): ReactElement {
     const yamlParseResult: unknown = yaml.load(fsData);
 
     if (!yamlParseResult || !isObject(yamlParseResult)) {
-      return message.error('配置文件解析失败！');
+      messageApi.error('配置文件解析失败！');
+
+      return;
     }
 
     const option: Array<OptionsItem> = yamlParseResult['qqtools']['option'];
@@ -74,7 +80,7 @@ function Options(props: {}): ReactElement {
     await dispatch(saveFormData({
       data: option
     }));
-    message.success('配置文件导入成功！');
+    messageApi.success('配置文件导入成功！');
 
     // 改变ui
     dispatch(queryOptionsList({
@@ -102,7 +108,7 @@ function Options(props: {}): ReactElement {
     ymlResult = `# qqtools配置文件导出\n# ${ time1 }\n\n${ ymlResult }`;
 
     await fse.outputFile(result.filePath, ymlResult);
-    message.success('配置文件导出成功！');
+    messageApi.success('配置文件导出成功！');
   }
 
   // 删除
@@ -142,24 +148,27 @@ function Options(props: {}): ReactElement {
   }, []);
 
   return (
-    <div className="p-[16px]">
-      <div className="flex mb-[16px]">
-        <Space className="grow">
-          <Link to="EditV2">
-            <Button type="primary">添加配置</Button>
-          </Link>
-          <RoomId />
-          <Link to="/">
-            <Button type="primary" danger={ true }>返回</Button>
-          </Link>
-        </Space>
-        <Space>
-          <Button onClick={ handleImportConfigurationFileClick }>导入配置</Button>
-          <Button onClick={ handleExportConfigurationFileClick }>导出配置</Button>
-        </Space>
+    <Fragment>
+      <div className="p-[16px]">
+        <div className="flex mb-[16px]">
+          <Space className="grow">
+            <Link to="EditV2">
+              <Button type="primary">添加配置</Button>
+            </Link>
+            <RoomId />
+            <Link to="/">
+              <Button type="primary" danger={ true }>返回</Button>
+            </Link>
+          </Space>
+          <Space>
+            <Button onClick={ handleImportConfigurationFileClick }>导入配置</Button>
+            <Button onClick={ handleExportConfigurationFileClick }>导出配置</Button>
+          </Space>
+        </div>
+        <Table columns={ columns } dataSource={ optionsList } rowKey="id" />
       </div>
-      <Table columns={ columns } dataSource={ optionsList } rowKey="id" />
-    </div>
+      { messageContextHolder }
+    </Fragment>
   );
 }
 

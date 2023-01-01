@@ -4,14 +4,16 @@ import { Button, Input, Form, Divider, message } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import { showOpenDialog } from '../../../utils/remote/dialog';
 import { getMclDir, setMclDir } from '../miraiPath';
+import type { UseMessageReturnType } from '../../../commonTypes';
 
 /* 返回、表单配置 */
 function Header(props: {}): ReactElement {
   const [form]: [FormInstance] = Form.useForm();
   const { setFieldsValue, getFieldsValue }: FormInstance = form;
+  const [messageApi, messageContextHolder]: UseMessageReturnType = message.useMessage();
 
   // 选择mcl文件夹的位置
-  async function handleSelectJarDirClick(event: MouseEvent<HTMLButtonElement>): Promise<void> {
+  async function handleSelectJarDirClick(event: MouseEvent): Promise<void> {
     const result: OpenDialogReturnValue = await showOpenDialog({
       properties: ['openDirectory']
     });
@@ -24,11 +26,11 @@ function Header(props: {}): ReactElement {
   }
 
   // 修改配置
-  function handleSubmit(event: MouseEvent<HTMLButtonElement>): void {
+  function handleSubmit(event: MouseEvent): void {
     const { mclDir }: { mclDir: string | null | undefined } = getFieldsValue();
 
     setMclDir(mclDir);
-    message.success('配置修改成功！');
+    messageApi.success('配置修改成功！');
   }
 
   useEffect(function(): void {
@@ -48,6 +50,7 @@ function Header(props: {}): ReactElement {
         <Button className="ml-[16px]" type="primary" onClick={ handleSubmit }>保存</Button>
       </Form>
       <Divider />
+      { messageContextHolder }
     </Fragment>
   );
 }

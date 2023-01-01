@@ -4,7 +4,7 @@ import { plain, atAll } from '../utils/miraiUtils';
 import { isOicq } from './utils';
 import type QQ from '../QQ';
 import type OicqQQ from '../OicqQQ';
-import type { OptionsItemBilibili } from '../../types';
+import type { OptionsItemBilibili } from '../../commonTypes';
 import type { MessageChain, BilibiliRoomInfo } from '../qq.types';
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;

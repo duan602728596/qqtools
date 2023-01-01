@@ -8,7 +8,7 @@ import { getRoomMessage, getRoomMessageForOicq, getLogMessage, type RoomMessageA
 import { isOicq } from './utils';
 import type QQ from '../QQ';
 import type OicqQQ from '../OicqQQ';
-import type { OptionsItemPocket48V2, MemberInfo } from '../../types';
+import type { OptionsItemPocket48V2, MemberInfo } from '../../commonTypes';
 import type { CustomMessageAllV2, UserV2, MessageChain } from '../qq.types';
 
 /* 口袋48 */

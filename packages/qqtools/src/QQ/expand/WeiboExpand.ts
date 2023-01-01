@@ -4,7 +4,7 @@ import getWeiboWorker from '../utils/weibo.worker/getWeiboWorker';
 import getWeiboSuperTopicWorker from '../utils/weiboSuperTopic.worker/getWeiboSuperTopicWorker';
 import type QQ from '../QQ';
 import type OicqQQ from '../OicqQQ';
-import type { OptionsItemWeibo } from '../../types';
+import type { OptionsItemWeibo } from '../../commonTypes';
 import type { WeiboTab, WeiboInfo } from '../qq.types';
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
@@ -54,7 +54,7 @@ class WeiboExpand {
         protocol: this.protocol
       });
     } else {
-      message.warn('没有获取到微博用户的相关信息！请稍后重新登录。');
+      message.warning('没有获取到微博用户的相关信息！请稍后重新登录。');
     }
   }
 

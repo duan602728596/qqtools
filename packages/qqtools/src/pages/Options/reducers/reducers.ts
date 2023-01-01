@@ -1,7 +1,7 @@
 import { createSlice, type Slice, type SliceCaseReducers, type PayloadAction } from '@reduxjs/toolkit';
 import type { DataDispatchFunc, QueryDispatchFunc, CursorDispatchFunc } from '@indexeddb-tools/indexeddb-redux';
 import IDBRedux, { loginOptionsObjectStoreName, roomIdObjectStoreName } from '../../../utils/IDB/IDBRedux';
-import type { OptionsItem, IDBActionFunc } from '../../../types';
+import type { OptionsItem, IDBActionFunc } from '../../../commonTypes';
 
 export interface OptionsInitialState {
   optionsList: Array<OptionsItem>;

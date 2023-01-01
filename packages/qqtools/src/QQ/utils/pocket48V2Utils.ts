@@ -12,7 +12,7 @@ import type {
   FlipCardVideoInfo,
   MessageChain
 } from '../qq.types';
-import type { MemberInfo } from '../../types';
+import type { MemberInfo } from '../../commonTypes';
 
 export interface RoomMessageArgs {
   user: UserV2 | undefined;
