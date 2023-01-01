@@ -109,6 +109,7 @@ export default function(info: object): { [key: string]: any } {
       include: /src/
     },
     less: {
+      include: /node_modules[\\/]_?antd/,
       exclude: /tailwindcss/i
     },
     rules: [
