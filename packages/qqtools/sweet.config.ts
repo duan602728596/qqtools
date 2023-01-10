@@ -69,8 +69,8 @@ const externalsName: Array<string> = nodeModules([
 export default function(info: object): { [key: string]: any } {
   const plugins: Array<any> = [
     '@babel/plugin-syntax-import-assertions',
-    [require.resolve(path.join(__dirname, '../babel-plugin-delay-require')), { moduleNames: externalsName }],
-    !isDev && ['transform-react-remove-prop-types', { mode: 'remove', removeImport: true }]
+    !isDev && ['transform-react-remove-prop-types', { mode: 'remove', removeImport: true }],
+    [require.resolve(path.join(__dirname, '../babel-plugin-delay-require')), { moduleNames: externalsName }]
   ].filter(Boolean);
 
   const config: { [key: string]: any } = {
