@@ -25,7 +25,8 @@ const teams = {
   '1202': 'TEAM NIII',
   '1203': 'TEAM Z',
   '1207': '预备生',
-  '1404': 'CKG48'
+  '1404': 'CKG48',
+  '1501': 'IDFT'
 };
 
 const token = '';
@@ -63,6 +64,8 @@ function teamsPrefix(teamId) {
   if ([1201, 1202, 1203, 1207].includes(t)) return 'GNZ48-';
 
   if (t === 1404) return 'CKG48-';
+
+  if (t === 1501) return 'IDFT-';
 
   return '';
 }

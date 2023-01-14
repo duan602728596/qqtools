@@ -278,7 +278,8 @@
       "ownerName": "IDFT-阳青颖",
       "roomId": "67352300",
       "account": "20190415141831_ojfmetiwn49c232",
-      "serverId": 1148122
+      "serverId": 1148122,
+      "team": "IDFT"
     },
     {
       "id": 63577,
@@ -293,7 +294,8 @@
       "ownerName": "IDFT-张凯祺",
       "roomId": "67246084",
       "account": "20190415141921_3887wlx6ymx5dea",
-      "serverId": 951795
+      "serverId": 951795,
+      "team": "IDFT"
     },
     {
       "id": 286977,
@@ -308,7 +310,8 @@
       "ownerName": "IDFT-张嘉予",
       "roomId": "67313734",
       "account": "20190415141136_vq3044bsreq4viq",
-      "serverId": 1115383
+      "serverId": 1115383,
+      "team": "IDFT"
     },
     {
       "id": 286983,
@@ -395,7 +398,8 @@
       "ownerName": "IDFT-熊心瑶",
       "roomId": "67380527",
       "account": "20190415141239_2fcb6a45rh87c2q",
-      "serverId": 1181031
+      "serverId": 1181031,
+      "team": "IDFT"
     },
     {
       "id": 327575,
@@ -508,7 +512,8 @@
       "ownerName": "IDFT-江真仪",
       "roomId": "67342039",
       "account": "20190415141344_blap4tb241ovmvu",
-      "serverId": 951793
+      "serverId": 951793,
+      "team": "IDFT"
     },
     {
       "id": 399669,
@@ -539,7 +544,8 @@
       "ownerName": "IDFT-李泓瑶",
       "roomId": "67313801",
       "account": "20190415141700_em3l5pq25xo06ln",
-      "serverId": 1147928
+      "serverId": 1147928,
+      "team": "IDFT"
     },
     {
       "id": 407110,
@@ -570,7 +576,8 @@
       "ownerName": "IDFT-张韩紫陌",
       "roomId": "67370544",
       "account": "20190415141935_3r37qly29ptf412",
-      "serverId": 1099639
+      "serverId": 1099639,
+      "team": "IDFT"
     },
     {
       "id": 417311,
@@ -637,7 +644,8 @@
       "ownerName": "IDFT-赵翊民",
       "roomId": "67265449",
       "account": "20190415141556_de4o8f6gwtxxz59",
-      "serverId": 1164291
+      "serverId": 1164291,
+      "team": "IDFT"
     },
     {
       "id": 458335,
@@ -660,7 +668,8 @@
       "ownerName": "IDFT-朱燕",
       "roomId": "67303271",
       "account": "20190415142139_apnzskd2sk642j4",
-      "serverId": 951796
+      "serverId": 951796,
+      "team": "IDFT"
     },
     {
       "id": 459999,
@@ -725,7 +734,8 @@
     {
       "id": 528336,
       "ownerName": "IDFT-兰昊",
-      "roomId": "67207870"
+      "roomId": "67207870",
+      "team": "IDFT"
     },
     {
       "id": 529287,
@@ -738,7 +748,8 @@
       "ownerName": "IDFT-郑诗琪",
       "roomId": "67246100",
       "account": "20190415142312_73bplbc6673n6hq",
-      "serverId": 1181032
+      "serverId": 1181032,
+      "team": "IDFT"
     },
     {
       "id": 530385,
@@ -911,7 +922,8 @@
       "ownerName": "IDFT-黄琬璎",
       "roomId": "67303313",
       "account": "20190415142700_qqfeqgq70n5uuid",
-      "serverId": 951792
+      "serverId": 951792,
+      "team": "IDFT"
     },
     {
       "id": 614756,
@@ -961,7 +973,8 @@
       "ownerName": "IDFT-王欣颜甜甜",
       "roomId": "67284484",
       "account": "20190415142904_bne0bfy30nt46j6",
-      "serverId": 1246465
+      "serverId": 1246465,
+      "team": "IDFT"
     },
     {
       "id": 677403,
@@ -984,20 +997,23 @@
       "ownerName": "IDFT-李苏洪",
       "roomId": "67303319",
       "account": "20190415142823_rtahky6vs1wov3o",
-      "serverId": 1148121
+      "serverId": 1148121,
+      "team": "IDFT"
     },
     {
       "id": 707365,
       "ownerName": "IDFT-戴紫薇",
       "roomId": "67380647",
-      "account": "20190415142941_znds4jlk69f40zj"
+      "account": "20190415142941_znds4jlk69f40zj",
+      "team": "IDFT"
     },
     {
       "id": 707369,
       "ownerName": "IDFT-魏小燕",
       "roomId": "67391014",
       "account": "20190415142951_oxmpwuhsyzp91ye",
-      "serverId": 1115382
+      "serverId": 1115382,
+      "team": "IDFT"
     },
     {
       "id": 707371,
@@ -1012,7 +1028,8 @@
       "ownerName": "IDFT-邹冰清",
       "roomId": "345764122",
       "account": "20210201153256_91906ar7jxcp9w5",
-      "serverId": 951794
+      "serverId": 951794,
+      "team": "IDFT"
     },
     {
       "id": 711726,
@@ -1067,7 +1084,8 @@
       "ownerName": "IDFT-谢菲菲",
       "roomId": "67352360",
       "account": "20190415142957_qbf9u5132wfanc1",
-      "serverId": 1853317
+      "serverId": 1853317,
+      "team": "IDFT"
     },
     {
       "id": 844544,
@@ -1116,7 +1134,8 @@
       "ownerName": "IDFT-田密",
       "roomId": "67189884",
       "account": "20190415143027_fl6hq638faocvwo",
-      "serverId": 1016837
+      "serverId": 1016837,
+      "team": "IDFT"
     },
     {
       "id": 868352,
@@ -1131,28 +1150,32 @@
       "ownerName": "IDFT-卞佳宁",
       "roomId": "67342194",
       "account": "20190415143112_kscip0pio9on2kg",
-      "serverId": 951791
+      "serverId": 951791,
+      "team": "IDFT"
     },
     {
       "id": 874500,
       "ownerName": "IDFT-冯嘉宝",
       "roomId": "67284494",
       "account": "20190415143115_0nm13zomt3fhj1q",
-      "serverId": 1147927
+      "serverId": 1147927,
+      "team": "IDFT"
     },
     {
       "id": 874502,
       "ownerName": "IDFT-黄逸",
       "roomId": "2435351774",
       "account": "20220831163852_qi6pcm7gtrw5l03",
-      "serverId": 1492455
+      "serverId": 1492455,
+      "team": "IDFT"
     },
     {
       "id": 874505,
       "ownerName": "IDFT-刘宇晴",
       "roomId": "67352370",
       "account": "20190415143123_8cu52u5wdesdpbe",
-      "serverId": 1148719
+      "serverId": 1148719,
+      "team": "IDFT"
     },
     {
       "id": 874512,
@@ -1175,7 +1198,8 @@
       "ownerName": "IDFT-鄢羽蝶",
       "roomId": "67265546",
       "account": "20190415143131_gx721vlpsuqj0dm",
-      "serverId": 1099638
+      "serverId": 1099638,
+      "team": "IDFT"
     },
     {
       "id": 874701,
@@ -1190,7 +1214,8 @@
       "ownerName": "IDFT-王永祺",
       "roomId": "1983874513",
       "account": "20220802141633_bt99g42xoxqmwqz",
-      "serverId": 1213958
+      "serverId": 1213958,
+      "team": "IDFT"
     },
     {
       "id": 874723,
@@ -1269,7 +1294,8 @@
       "ownerName": "IDFT-姜欣瑶",
       "roomId": "387978713",
       "account": "20210506162958_350utut1hz1hzst",
-      "serverId": 1099636
+      "serverId": 1099636,
+      "team": "IDFT"
     },
     {
       "id": 52494482,
@@ -1742,7 +1768,8 @@
       "ownerName": "IDFT-吴思琪",
       "roomId": "155333671",
       "account": "20200211151733_v24roigtus3qdia",
-      "serverId": 1099637
+      "serverId": 1099637,
+      "team": "IDFT"
     },
     {
       "id": 6827278358,
@@ -1765,7 +1792,8 @@
       "ownerName": "IDFT-石竹君",
       "roomId": "181393187",
       "account": "20200617192501_451ye1c4w95q0w4",
-      "serverId": 1164290
+      "serverId": 1164290,
+      "team": "IDFT"
     },
     {
       "id": 8957984818,
@@ -1786,7 +1814,8 @@
       "ownerName": "IDFT-余芸萱",
       "roomId": "187441914",
       "account": "20200706182342_ogam748hadiogtt",
-      "serverId": 1147929
+      "serverId": 1147929,
+      "team": "IDFT"
     },
     {
       "id": 9276751977,
