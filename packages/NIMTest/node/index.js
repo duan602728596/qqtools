@@ -7,13 +7,26 @@ const dayjs = require('dayjs');
 require('dayjs/locale/zh-cn');
 
 const NIM_SDK = require('./NIM_Web_SDK_nodejs_v7.1.0');
-const userServerMapJson = require('./userServerMap.json');
 
 dayjs.locale('zh-cn');
 
 const fsP = fs.promises;
 const { Chatroom } = NIM_SDK;
-const { userServerMap } = userServerMapJson;
+
+const teams = {
+  '2001': '丝芭影视',
+  '1001': 'TEAM SII',
+  '1002': 'TEAM NII',
+  '1003': 'TEAM HII',
+  '1004': 'TEAM X',
+  '1007': '预备生',
+  '1105': 'BEJ48',
+  '1201': 'TEAM G',
+  '1202': 'TEAM NIII',
+  '1203': 'TEAM Z',
+  '1207': '预备生',
+  '1404': 'CKG48'
+};
 
 const token = '';
 const pa = '';
@@ -40,6 +53,20 @@ function headers() {
   };
 }
 
+function teamsPrefix(teamId) {
+  const t = Number(teamId);
+
+  if ([1001, 1002, 1003, 1004, 1007].includes(t)) return 'SNH48-';
+
+  if (t === 1105) return 'BEJ48-';
+
+  if ([1201, 1202, 1203, 1207].includes(t)) return 'GNZ48-';
+
+  if (t === 1404) return 'CKG48-';
+
+  return '';
+}
+
 // 获取房间信息
 function getRoomInfo(chatroomId) {
   return new Promise(async (resolve, reject) => {
@@ -54,7 +81,15 @@ function getRoomInfo(chatroomId) {
       onconnect(event) {
         resolve({
           nimChatroomSocket,
-          event
+          event,
+          success: 1
+        });
+      },
+      ondisconnect(event) {
+        resolve({
+          nimChatroomSocket,
+          event,
+          success: 0
         });
       },
       onerror(err) {
@@ -79,19 +114,6 @@ async function main() {
     roomId = json.roomId;
   }
 
-  for (const item of roomId) {
-    if (!item.serverId && userServerMap[item.id]) {
-      item.serverId = userServerMap[item.id];
-
-      const newData = JSON.stringify({
-        roomId: _.orderBy(roomId, ['id'], ['asc']),
-        buildTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
-      }, null, 2);
-
-      await fsP.writeFile(fileName, newData);
-    }
-  }
-
   try {
     // 获取当前账号的关注id
     const resFriends = await got.post('https://pocketapi.48.cn/user/api/v1/friendships/friends/id', {
@@ -108,10 +130,6 @@ async function main() {
 
       const index = _.findIndex(roomId, { id: friend });
 
-      if (index >= 0 && !roomId[index].serverId && userServerMap[roomId[index].id]) {
-        roomId[index].serverId = userServerMap[roomId[index].id];
-      }
-
       let item = {};
 
       if (index >= 0) {
@@ -120,37 +138,68 @@ async function main() {
       }
 
       // 获取账号信息
-      const resMembersInfo = await got.post('https://pocketapi.48.cn/im/api/v1/im/room/info/type/source', {
-        headers: headers(),
-        responseType: 'json',
-        json: {
-          type: 0,
-          sourceId: friend
+      const [resMembersInfo, resServerJumpInfo] = await Promise.all([
+        got.post('https://pocketapi.48.cn/im/api/v1/im/room/info/type/source', {
+          headers: headers(),
+          responseType: 'json',
+          json: {
+            type: 0,
+            sourceId: friend
+          }
+        }),
+        got.post('https://pocketapi.48.cn/im/api/v1/im/server/jump', {
+          headers: headers(),
+          responseType: 'json',
+          json: {
+            targetType: 1,
+            starId: friend
+          }
+        })
+      ]);
+
+      if (resMembersInfo.body.status === 200 || resServerJumpInfo.body.status === 200) {
+        if (resMembersInfo.body.status === 200 && resMembersInfo?.body?.content?.roomInfo) {
+          const { roomId: rid, ownerName } = resMembersInfo.body.content.roomInfo;
+          const { nimChatroomSocket, event, success } = await getRoomInfo(rid);
+          const account = success ? event?.chatroom?.creator : undefined;
+
+          nimChatroomSocket.disconnect();
+          Object.assign(item, {
+            id: friend,
+            ownerName,
+            roomId: rid,
+            account
+          });
+
+          console.log(`ID: ${ friend } ownerName: ${ ownerName } roomId: ${ rid } account: ${ account }`);
         }
-      });
-      const { status, content } = resMembersInfo.body;
 
-      if (status === 200) {
-        const { roomId: rid, ownerName } = content.roomInfo;
-        const { nimChatroomSocket, event } = await getRoomInfo(rid);
-        const account = event?.chatroom?.creator;
+        if (resServerJumpInfo.body.status === 200 && resServerJumpInfo?.body?.content?.jumpServerInfo) {
+          const { serverId, serverOwner, serverOwnerName, teamId } = resServerJumpInfo.body.content.jumpServerInfo;
 
-        nimChatroomSocket.disconnect();
-        Object.assign(item, {
-          id: friend,
-          ownerName,
-          roomId: rid,
-          account,
-          serverId: userServerMap[friend]
-        });
+          if (!item.ownerName) {
+            item.ownerName = `${ teamsPrefix(teamId) }${ serverOwnerName }`;
+          }
 
-        if (index >= 0) {
-          roomId[index] = item;
-        } else {
-          roomId.push(item);
+          if (!item.id) {
+            item.id = serverOwner;
+          }
+
+          Object.assign(item, {
+            serverId,
+            team: teams[`${ teamId }`]
+          });
+
+          console.log(`ID: ${ serverOwner } ownerName: ${ item.serverOwnerName } serverId: ${ item.serverId } team: ${ item.team }`);
         }
 
-        console.log(`ID: ${ friend } ownerName: ${ ownerName } roomId: ${ rid } account: ${ account }`);
+        if (Object.keys(item).length > 0) {
+          if (index >= 0) {
+            roomId[index] = item;
+          } else {
+            roomId.push(item);
+          }
+        }
 
         const newData = JSON.stringify({
           roomId: _.orderBy(roomId, ['id'], ['asc']),
