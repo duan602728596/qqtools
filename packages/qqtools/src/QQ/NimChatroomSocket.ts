@@ -1,10 +1,9 @@
 import { randomUUID } from 'node:crypto';
-import NIM_SDK from 'SDK';
+import NIM_SDK from '@yxim/nim-web-sdk/dist/SDK/NIM_Web_SDK.js';
+import type NIM_Web_Chatroom from '@yxim/nim-web-sdk/dist/SDK/NIM_Web_Chatroom';
 import { message } from 'antd';
 import appKey from './sdk/appKey.mjs';
 import type { NIMMessage, NIMError } from './qq.types';
-
-const { Chatroom }: any = NIM_SDK;
 
 interface Queue {
   id: string;
@@ -34,7 +33,7 @@ class NimChatroomSocket {
   public pocket48Token?: string;
   public pocket48RoomId?: string;
   public queues: Array<Queue>;
-  public nimChatroomSocket: any; // 口袋48
+  public nimChatroomSocket: NIM_Web_Chatroom | undefined; // 口袋48
 
   constructor(arg: NimChatroomSocketArgs) {
     this.pocket48IsAnonymous = arg.pocket48IsAnonymous; // 是否为游客模式
@@ -58,7 +57,7 @@ class NimChatroomSocket {
         token: this.pocket48Token
       };
 
-      this.nimChatroomSocket = Chatroom.getInstance({
+      this.nimChatroomSocket = NIM_SDK.Chatroom.getInstance({
         appKey: atob(appKey),
         chatroomId: this.pocket48RoomId,
         chatroomAddresses: ['chatweblink01.netease.im:443'],
@@ -111,7 +110,7 @@ class NimChatroomSocket {
   // 断开连接
   disconnect(): void {
     if (this.queues.length === 0) {
-      this.nimChatroomSocket.disconnect();
+      this.nimChatroomSocket?.disconnect?.({ done(): void { /* noop */ } });
       this.nimChatroomSocket = undefined;
     }
   }
@@ -122,7 +121,8 @@ class NimChatroomSocket {
    */
   getChatroomMembers(guest: boolean = true): Promise<Array<ChatroomMember>> {
     return new Promise((resolve: Function, reject: Function): void => {
-      this.nimChatroomSocket.getChatroomMembers({
+      this.nimChatroomSocket!.getChatroomMembers({
+        // @ts-ignore
         guest,
         done(err: Error, arg1: { members: Array<ChatroomMember> }): void {
           resolve(arg1?.members ?? []);

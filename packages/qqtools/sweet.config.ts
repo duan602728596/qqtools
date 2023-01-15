@@ -78,6 +78,7 @@ export default function(info: object): { [key: string]: any } {
     dll: [
       '@indexeddb-tools/indexeddb',
       '@indexeddb-tools/indexeddb-redux',
+      '@yxim/nim-web-sdk/dist/SDK/NIM_Web_SDK.js',
       'classnames',
       'react',
       'react-dom/client',
@@ -91,19 +92,16 @@ export default function(info: object): { [key: string]: any } {
       index: [path.join(__dirname, 'src/index.tsx')]
     },
     html: [{ template: path.join(__dirname, 'src/index.pug'), minify: htmlWebpackPluginMinify }],
-    externals: {
-      SDK: 'window.SDK',
-      ...nodeExternals(externalsName)
-    },
+    externals: nodeExternals(externalsName),
     javascript: {
       ecmascript: true,
       plugins,
-      exclude: /node_modules|NIM_Web_SDK|BlythE/i
+      exclude: /node_modules|BlythE/i
     },
     typescript: {
       configFile: isDev ? 'tsconfig.json' : 'tsconfig.prod.json',
       plugins,
-      exclude: /node_modules|NIM_Web_SDK|BlythE/i
+      exclude: /node_modules|BlythE/i
     },
     sass: {
       include: /src/
@@ -112,19 +110,10 @@ export default function(info: object): { [key: string]: any } {
       include: /node_modules[\\/]_?antd/,
       exclude: /tailwindcss/i
     },
-    rules: [
-      {
-        test: /NIM_Web_SDK/,
-        type: 'asset/resource',
-        generator: {
-          filename: '[name][ext]' // TODO: js文件生成的hash和注入的hash不一致
-        }
-      },
-      {
-        test: /\.tailwindcss\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
-      }
-    ],
+    rules: [{
+      test: /\.tailwindcss\.css$/i,
+      use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
+    }],
     plugins: [new AntdDayjsWebpackPlugin()].concat(analyzer ? [new BundleAnalyzerPlugin()] : [])
   };
 
