@@ -6,7 +6,7 @@ const dayjs = require('dayjs');
 
 require('dayjs/locale/zh-cn');
 
-const NIM_SDK = require('./NIM_Web_SDK_nodejs_v7.1.0');
+const NIM_SDK = require('@yxim/nim-web-sdk/dist/SDK/NIM_Web_SDK_nodejs');
 
 dayjs.locale('zh-cn');
 
@@ -29,8 +29,8 @@ const teams = {
   '1501': 'IDFT'
 };
 
-const token = '';
-const pa = '';
+const token = 'F4cCyX/RICmS4YSSfeY1vbS3zPJMN2iyBqZ49kYH71ib1O3T5uHRqfEfSaOAX4vyIKbX/5e4e+5JkCInIInsYxHQ8CdxIKW2+XWVO17bC3uI7H7RwIX9Ha5Glr0pff+k';
+const pa = 'MTY3Mzc3NDk4NTk3OSxmNzVlMmI5YmMxZDc0NWY5Yjg1N2ZmNGFjMjI1NDRhYSw3Yzk2NzVkZWM1YTcyMWY5ZjYxZTZjMTRlZWU4N2RmYiwyMDIxMDYwOTAx';
 
 const appInfo = JSON.stringify({
   vendor: 'apple',
@@ -107,7 +107,7 @@ async function main() {
   const got = Got.default;
 
   // 写入文件
-  const fileName = path.join(__dirname, 'roomId.json');
+  const fileName = path.join(__dirname, 'roomId-test.json');
   let roomId = [];
 
   if (fs.existsSync(fileName)) {
