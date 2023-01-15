@@ -53,9 +53,3 @@ declare module '*.svg' {
 
   export default url;
 }
-
-declare module 'SDK' {
-  const sdk: any;
-
-  export default sdk;
-}
