@@ -70,7 +70,7 @@ export default function(info: object): { [key: string]: any } {
   const plugins: Array<any> = [
     '@babel/plugin-syntax-import-assertions',
     !isDev && ['transform-react-remove-prop-types', { mode: 'remove', removeImport: true }],
-    [require.resolve(path.join(__dirname, '../babel-plugin-delay-require')), { moduleNames: externalsName }]
+    [require.resolve(path.join(__dirname, '../babel-plugin-delay-require')), { moduleNames: externalsName, idle: true }]
   ].filter(Boolean);
 
   const config: { [key: string]: any } = {
