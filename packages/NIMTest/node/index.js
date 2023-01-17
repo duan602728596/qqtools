@@ -29,8 +29,8 @@ const teams = {
   '1501': 'IDFT'
 };
 
-const token = 'F4cCyX/RICmS4YSSfeY1vbS3zPJMN2iyBqZ49kYH71ib1O3T5uHRqfEfSaOAX4vyIKbX/5e4e+5JkCInIInsYxHQ8CdxIKW2+XWVO17bC3uI7H7RwIX9Ha5Glr0pff+k';
-const pa = 'MTY3Mzc3NDk4NTk3OSxmNzVlMmI5YmMxZDc0NWY5Yjg1N2ZmNGFjMjI1NDRhYSw3Yzk2NzVkZWM1YTcyMWY5ZjYxZTZjMTRlZWU4N2RmYiwyMDIxMDYwOTAx';
+const token = '';
+const pa = '';
 
 const appInfo = JSON.stringify({
   vendor: 'apple',
