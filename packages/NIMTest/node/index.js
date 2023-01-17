@@ -107,7 +107,7 @@ async function main() {
   const got = Got.default;
 
   // 写入文件
-  const fileName = path.join(__dirname, 'roomId-test.json');
+  const fileName = path.join(__dirname, 'roomId.json');
   let roomId = [];
 
   if (fs.existsSync(fileName)) {
