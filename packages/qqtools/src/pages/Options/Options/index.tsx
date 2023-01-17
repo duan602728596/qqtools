@@ -12,13 +12,13 @@ import { createStructuredSelector, type Selector } from 'reselect';
 import { Link } from 'react-router-dom';
 import { Button, Space, Table, Popconfirm, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import type { UseMessageReturnType } from '@qqtools-types/antd';
 import * as dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import { showOpenDialog, showSaveDialog } from '../../../utils/remote/dialog';
 import RoomId from './RoomId';
 import { queryOptionsList, deleteOption, saveFormData, type OptionsInitialState } from '../reducers/reducers';
 import dbConfig from '../../../utils/IDB/IDBConfig';
-import type { UseMessageReturnType } from '../../../commonTypes';
 import type { OptionsItem } from '../../../commonTypes';
 
 /* 判断yaml解析后是否为object类型 */

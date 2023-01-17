@@ -15,6 +15,7 @@ import { createStructuredSelector, Selector } from 'reselect';
 import { Link } from 'react-router-dom';
 import { Select, Button, Space, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import type { UseMessageReturnType } from '@qqtools-types/antd';
 import style from './index.sass';
 import { queryOptionsList, OptionsInitialState } from '../Options/reducers/reducers';
 import { setAddLogin, setDeleteLogin, getRoomId, LoginInitialState } from './reducers/reducers';
@@ -23,7 +24,7 @@ import QQ from '../../QQ/QQ';
 import OicqQQ from '../../QQ/OicqQQ';
 import formatToV2Config from '../../QQ/formatToV2Config';
 import { getGroupNumbers } from '../../QQ/utils/miraiUtils';
-import type { UseMessageReturnType, OptionsItem, OptionsItemValueV2, MemberInfo } from '../../commonTypes';
+import type { OptionsItem, OptionsItemValueV2, MemberInfo } from '../../commonTypes';
 
 /* redux selector */
 type RSelector = {

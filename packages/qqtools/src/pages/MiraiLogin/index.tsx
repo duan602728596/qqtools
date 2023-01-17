@@ -16,6 +16,7 @@ import { Button, Space, Table, Checkbox, message, notification, Tooltip, Select 
 import type { ColumnsType } from 'antd/es/table';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import type { MessageInstance } from 'antd/es/message/interface';
+import type { UseMessageReturnType } from '@qqtools-types/antd';
 import { ToolTwoTone as IconToolTwoTone } from '@ant-design/icons';
 import style from './index.sass';
 import { omit } from '../../utils/lodash';
@@ -30,7 +31,6 @@ import {
 } from './reducers/reducers';
 import dbConfig from '../../utils/IDB/IDBConfig';
 import { login, queue } from './login/login';
-import type { UseMessageReturnType } from '../../commonTypes';
 import type { LoginInfoSendMessage } from './login/miraiChild.worker/miraiChild.worker';
 import type { QQLoginItem, ProtocolType } from './types';
 

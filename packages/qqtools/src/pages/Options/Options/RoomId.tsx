@@ -4,9 +4,10 @@ import { Fragment, useState, type ReactElement, type Dispatch as D, type SetStat
 import { useDispatch } from 'react-redux';
 import type { Dispatch } from '@reduxjs/toolkit';
 import { Button, Modal, Space, Alert, message } from 'antd';
+import type { UseMessageReturnType } from '@qqtools-types/antd';
 import { showOpenDialog } from '../../../utils/remote/dialog';
 import { saveRoomId, deleteRoomId } from '../reducers/reducers';
-import type { UseMessageReturnType, MemberInfo } from '../../../commonTypes';
+import type { MemberInfo } from '../../../commonTypes';
 
 /* 房间信息导入 */
 function RoomId(props: {}): ReactElement {

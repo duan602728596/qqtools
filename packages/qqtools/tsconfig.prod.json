@@ -4,7 +4,10 @@
     "module": "ESNext",
     "jsx": "react-jsx",
     "importHelpers": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "@qqtools-types/*": ["./src/types/*"]
+    }
   },
   "exclude": [
     "node_modules"

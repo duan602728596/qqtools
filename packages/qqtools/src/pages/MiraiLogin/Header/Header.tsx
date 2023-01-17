@@ -2,9 +2,9 @@ import type { OpenDialogReturnValue } from 'electron';
 import { Fragment, useEffect, ReactElement, type MouseEvent } from 'react';
 import { Button, Input, Form, Divider, message } from 'antd';
 import type { FormInstance } from 'antd/es/form';
+import type { UseMessageReturnType } from '@qqtools-types/antd';
 import { showOpenDialog } from '../../../utils/remote/dialog';
 import { getMclDir, setMclDir } from '../miraiPath';
-import type { UseMessageReturnType } from '../../../commonTypes';
 
 /* 返回、表单配置 */
 function Header(props: {}): ReactElement {

@@ -3,10 +3,10 @@ import { useDispatch } from 'react-redux';
 import type { Dispatch } from '@reduxjs/toolkit';
 import { Button, Modal, Form, Checkbox, Input, message, Select } from 'antd';
 import type { FormInstance } from 'antd/es/form';
+import type { UseMessageReturnType } from '@qqtools-types/antd';
 import * as dayjs from 'dayjs';
 import { login, queue } from './login/login';
 import { saveQQLoginItemData } from './reducers/reducers';
-import type { UseMessageReturnType } from '../../commonTypes';
 import type { LoginInfoSendMessage } from './login/miraiChild.worker/miraiChild.worker';
 import type { ProtocolType } from './types';
 
