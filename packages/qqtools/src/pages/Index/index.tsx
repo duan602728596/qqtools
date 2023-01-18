@@ -9,6 +9,7 @@ import {
   ToolTwoTone as IconToolTwoTone,
   ClusterOutlined as IconClusterOutlined
 } from '@ant-design/icons';
+import License from './License/License';
 
 /* 首页 */
 function Index(props: {}): ReactElement {
@@ -23,7 +24,7 @@ function Index(props: {}): ReactElement {
   }
 
   return (
-    <div className="p-[16px]">
+    <div className="p-[8px]">
       <h1>qqtools-mirai</h1>
       <Space>
         <Link to="Login">
@@ -39,6 +40,7 @@ function Index(props: {}): ReactElement {
         <Tooltip title="开发者工具">
           <Button type="text" icon={ <IconToolTwoTone /> } onClick={ handleOpenDeveloperToolsClick } />
         </Tooltip>
+        <License />
       </Space>
       <Divider />
       {/* 二维码 */}
