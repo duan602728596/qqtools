@@ -79,6 +79,8 @@ export default function(info: object): { [key: string]: any } {
       '@indexeddb-tools/indexeddb-redux',
       '@yxim/nim-web-sdk/dist/SDK/NIM_Web_SDK.js',
       'classnames',
+      'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK',
+      'nim-web-sdk-ng/dist/NIM_BROWSER_SDK',
       'react',
       'react-dom/client',
       'prop-types',
