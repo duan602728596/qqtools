@@ -2,7 +2,6 @@ import * as process from 'node:process';
 import * as path from 'node:path';
 // @ts-ignore
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import AntdDayjsWebpackPlugin from 'antd-dayjs-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import type { Options as HtmlMinifierOptions } from 'html-minifier-terser';
 
@@ -114,7 +113,9 @@ export default function(info: object): { [key: string]: any } {
       test: /\.tailwindcss\.css$/i,
       use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
     }],
-    plugins: [new AntdDayjsWebpackPlugin()].concat(analyzer ? [new BundleAnalyzerPlugin()] : [])
+    plugins: [
+      analyzer && new BundleAnalyzerPlugin()
+    ].filter(Boolean)
   };
 
   return config;
