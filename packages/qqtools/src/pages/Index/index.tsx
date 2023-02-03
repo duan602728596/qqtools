@@ -24,8 +24,8 @@ function Index(props: {}): ReactElement {
   }
 
   return (
-    <div className="p-[8px]">
-      <h1>qqtools-mirai</h1>
+    <div className="p-[16px]">
+      <h1>qqtools</h1>
       <Space>
         <Link to="Login">
           <Button type="primary" icon={ <IconQqOutlined /> }>账号登陆</Button>

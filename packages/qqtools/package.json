@@ -33,7 +33,6 @@
   "devDependencies": {
     "@sweet-milktea/milktea": "^4.0.0",
     "@sweet-milktea/milktea-cli": "^4.1.0",
-    "antd-dayjs-webpack-plugin": "^1.0.6",
     "babel-jest": "^29.4.1",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "cross-env": "^7.0.3",

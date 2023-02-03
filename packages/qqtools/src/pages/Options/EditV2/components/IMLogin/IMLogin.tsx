@@ -2,9 +2,9 @@ import { Fragment, type ReactElement, ChangeEvent } from 'react';
 import * as PropTypes from 'prop-types';
 import { Input, type FormInstance } from 'antd';
 import type { CustomComponentFuncArgs, StringItem } from 'antd-schema-form/es/types';
-import LoginModal from '../../Edit/LoginModal';
+import LoginModal from './LoginModal';
 // @ts-ignore
-import editV2SchemaJson from '../editv2.schema.json' assert { type: 'json' };
+import editV2SchemaJson from '../../editv2.schema.json' assert { type: 'json' };
 
 interface LogDirProps {
   form: FormInstance;

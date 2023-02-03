@@ -69,6 +69,8 @@ class NimChatroomSocket {
         onmsgs: this.handleRoomSocketMessage,
         onerror: this.handleRoomSocketError,
         ondisconnect: this.handleRoomSocketDisconnect,
+        db: false,
+        dbLog: false,
         ...options
       });
     });

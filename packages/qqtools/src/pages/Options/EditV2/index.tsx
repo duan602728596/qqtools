@@ -10,7 +10,7 @@ import type { FormInstance } from 'antd';
 import type { Store } from 'rc-field-form/es/interface';
 import checkboxDesc from './components/checkboxDesc';
 import pocket48LogDir from './components/pocket48LogDir';
-import IMLogin from './components/IMLogin';
+import IMLogin from './components/IMLogin/IMLogin';
 import randomId from './components/randomId';
 import { getOptionItem, saveFormData } from '../reducers/reducers';
 import formatToV2Config from '../../../QQ/formatToV2Config';

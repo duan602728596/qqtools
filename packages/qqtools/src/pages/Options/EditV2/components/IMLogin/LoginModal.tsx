@@ -2,8 +2,8 @@ import { Fragment, useState, type ReactElement, type Dispatch as D, type SetStat
 import * as PropTypes from 'prop-types';
 import { Button, Modal, Form, Input, message, type FormInstance } from 'antd';
 import type { UseMessageReturnType } from '@qqtools-types/antd';
-import { requestPocketLogin, requestImUserInfo } from '../services/services';
-import type { LoginInfo, IMUserInfo } from '../services/interface';
+import { requestPocketLogin, requestImUserInfo } from '../../../services/services';
+import type { LoginInfo, IMUserInfo } from '../../../services/interface';
 
 interface LoginModalProps {
   form: FormInstance;
