@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "type": "module",
   "dependencies": {
-    "@sweet-milktea/utils": "^3.0.2",
-    "puppeteer-core": "^13.7.0"
+    "@sweet-milktea/utils": "^4.0.0",
+    "puppeteer-core": "^19.6.3"
   }
 }

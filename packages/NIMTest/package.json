@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "dependencies": {
     "@yxim/nim-web-sdk": "^8.9.106",
-    "got": "^12.1.0",
+    "got": "^12.5.3",
     "lodash": "^4.17.21"
   }
 }
