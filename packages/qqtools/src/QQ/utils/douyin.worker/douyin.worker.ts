@@ -4,7 +4,10 @@ import {
   type Browser,
   type ChromiumBrowserContext,
   type Page,
-  type JSHandle
+  type JSHandle,
+  type Route,
+  type APIResponse,
+  type Request
 } from 'playwright-core';
 import * as dayjs from 'dayjs';
 import type * as oicq from 'oicq';
@@ -61,13 +64,16 @@ async function getDouyinData(): Promise<UserScriptRendedData | void> {
     context = await browser.newContext({
       ignoreHTTPSErrors: true,
       userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) '
-        + 'Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.52'
+        + 'Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.52',
+      serviceWorkers: 'block'
     });
     console.log('无头浏览器启动成功！', userId);
   }
 
   try {
     page = await context.newPage();
+
+    await page.route((url: URL): boolean => !/^\/user\//i.test(url.pathname), (route: Route) => route.abort());
     await page.goto(`https://www.douyin.com/user/${ userId }`);
     await page.locator('#RENDER_DATA');
 
