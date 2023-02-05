@@ -1,6 +1,7 @@
 import Pocket48Expand from './expand/Pocket48Expand';
 import Pocket48V2Expand from './expand/Pocket48V2Expand';
 import WeiboExpand from './expand/WeiboExpand';
+import DouyinExpand from './expand/DouyinExpand';
 import BilibiliExpand from './expand/BilibiliExpand';
 import CronTimerExpand from './expand/CronTimerExpand';
 import NimChatroomSocket from './NimChatroomSocket';
@@ -27,6 +28,7 @@ abstract class Basic {
   public pocket48: Array<Pocket48Expand> | undefined;
   public pocket48V2: Array<Pocket48V2Expand> | undefined;
   public weibo: Array<WeiboExpand> | undefined;
+  public douyin: Array<DouyinExpand> | undefined;
   public bilibili: Array<BilibiliExpand> | undefined;
   public cronTimer: Array<CronTimerExpand> | undefined;
 
@@ -77,6 +79,21 @@ abstract class Basic {
       }
     }
 
+    if (this.config.douyin) {
+      this.douyin = [];
+
+      for (const item of this.config.douyin) {
+        const douyin: DouyinExpand = new DouyinExpand({
+          qq: this,
+          config: item,
+          protocol: this.protocol
+        });
+
+        douyin.initDouyinWorker();
+        this.douyin.push(douyin);
+      }
+    }
+
     if (this.config.bilibili) {
       this.bilibili = [];
 
@@ -116,6 +133,12 @@ abstract class Basic {
     if (this.weibo) {
       this.weibo.forEach((item: WeiboExpand): unknown => item.destroy());
       this.weibo = undefined;
+    }
+
+    // 销毁抖音监听
+    if (this.douyin) {
+      this.douyin.forEach((item: DouyinExpand): unknown => item.destroy());
+      this.douyin = undefined;
     }
 
     // 销毁bilibili监听

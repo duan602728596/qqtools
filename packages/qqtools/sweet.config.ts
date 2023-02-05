@@ -53,6 +53,7 @@ const externalsName: Array<string> = nodeModules([
   'os',
   'path',
   'process',
+  'timers',
   'util'
 ]).concat([
   'cron',
@@ -62,7 +63,8 @@ const externalsName: Array<string> = nodeModules([
   'iconv-lite',
   'js-yaml',
   'nunjucks',
-  'oicq'
+  'oicq',
+  'playwright-core'
 ]);
 
 export default function(info: object): { [key: string]: any } {

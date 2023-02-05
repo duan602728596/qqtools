@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import type { Dispatch } from '@reduxjs/toolkit';
 import { useNavigate, useParams, type NavigateFunction, type Params } from 'react-router-dom';
 import SchemaForm, { getObjectFromValue } from 'antd-schema-form';
-import type { CustomComponentObject } from 'antd-schema-form/es/types';
+import type { CustomComponentObject, CustomTableRenderObject, CustomTableRenderFuncArgs } from 'antd-schema-form/es/types';
 import 'antd-schema-form/style/antd-schema-form.css';
 import type { FormInstance } from 'antd';
 import type { Store } from 'rc-field-form/es/interface';
@@ -22,6 +22,13 @@ const customComponent: CustomComponentObject = {
   pocket48LogDir,
   IMLogin,
   randomId
+};
+
+const customTableRender: CustomTableRenderObject = {
+  // 自定义组件
+  douyinUserId({ value, record, index, root, form }: CustomTableRenderFuncArgs): ReactElement {
+    return <div className="w-[200px]">{ value }</div>;
+  }
 };
 
 /* 配置表单V2 */
@@ -81,6 +88,7 @@ function EditV2(props: {}): ReactElement {
       <SchemaForm ref={ formRef }
         json={ editV2SchemaJson }
         customComponent={ customComponent }
+        customTableRender={ customTableRender }
         okText="保存"
         cancelText="返回"
         onOk={ handleSaveClick }

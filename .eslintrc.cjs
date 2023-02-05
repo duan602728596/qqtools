@@ -40,6 +40,7 @@ module.exports = {
     }
   },
   globals: {
+    NodeJS: 'readonly',
     el: 'readonly',
     Chatroom: 'readonly'
   },

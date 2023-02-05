@@ -58,6 +58,12 @@ export interface OptionsItemWeibo {
   weiboSuperTopicLfid?: string;
 }
 
+// 抖音
+export interface OptionsItemDouyin {
+  douyinListener?: boolean;
+  userId: string;
+}
+
 // bilibili
 export interface OptionsItemBilibili {
   bilibiliLive?: boolean;
@@ -86,6 +92,7 @@ export interface OptionsItemValueV2 extends OptionsItemBasic {
   pocket48V2?: Array<OptionsItemPocket48V2>;
   pocket48?: Array<OptionsItemPocket48>;
   weibo?: Array<OptionsItemWeibo>;
+  douyin?: Array<OptionsItemDouyin>;
   bilibili?: Array<OptionsItemBilibili>;
   cronTimer?: Array<OptionsItemCronTimer>;
 }
@@ -94,7 +101,7 @@ export interface OptionsItemValueV2 extends OptionsItemBasic {
 export interface OptionsItem {
   id: string;
   name: string;
-  value: OptionsItemValue;
+  value: OptionsItemValueV2;
 }
 
 export interface MemberInfo {

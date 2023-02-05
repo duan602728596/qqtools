@@ -261,6 +261,32 @@
         }
       }
     },
+    "douyin": {
+      "id": "$root/properties/douyin",
+      "type": "array",
+      "title": "抖音监听",
+      "items": {
+        "id": "$root/properties/douyin/items",
+        "type": "object",
+        "title": "抖音监听配置",
+        "properties": {
+          "douyinListener": {
+            "id": "$root/properties/douyin/items/properties/douyinListener",
+            "type": "boolean",
+            "title": "抖音监听",
+            "$componentType": "switch",
+            "$defaultValue": true
+          },
+          "userId": {
+            "id": "$root/properties/douyin/items/properties/userId",
+            "type": "string",
+            "title": "用户ID",
+            "$required": true,
+            "$tableRender": "douyinUserId"
+          }
+        }
+      }
+    },
     "bilibili": {
       "id": "$root/properties/bilibili",
       "type": "array",
