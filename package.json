@@ -1,5 +1,5 @@
 {
-  "name": "qqtools-mirai",
+  "name": "qqtools",
   "description": "QQ群工具，配合mirai使用。",
   "license": "AGPL-3.0",
   "scripts": {
