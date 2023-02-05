@@ -27,6 +27,7 @@ interface DouyinSendMsg {
   url: string;
   time: string;
   desc: string;
+  nickname: string;
 }
 
 /* mirai的消息 */
@@ -34,7 +35,7 @@ function miraiSendGroup(item: DouyinSendMsg): Array<MessageChain> {
   const sendGroup: Array<MessageChain> = [];
 
   sendGroup.push(
-    plain(`${ nickname } 在${ item.time }发送了一条抖音：${ item.desc }
+    plain(`${ item.nickname } 在${ item.time }发送了一条抖音：${ item.desc }
 视频下载地址：${ item.url }`)
   );
 
@@ -45,7 +46,7 @@ function miraiSendGroup(item: DouyinSendMsg): Array<MessageChain> {
 function oicqSendGroup(item: DouyinSendMsg): string {
   let sendText: string = '';
 
-  sendText += `${ nickname } 在${ item.time }发送了一条抖音：${ item.desc }
+  sendText += `${ item.nickname } 在${ item.time }发送了一条抖音：${ item.desc }
 视频下载地址：${ item.url }`;
 
   return sendText;
@@ -123,7 +124,8 @@ async function handleDouyinListener(): Promise<void> {
         const sendData: DouyinSendMsg = {
           url: `https:${ data[0].video.playApi }`,
           time: dayjs.unix(data[0].createTime).format('YYYY-MM-DD HH:mm:ss'),
-          desc: data[0].desc
+          desc: data[0].desc,
+          nickname: userItem2.user.user.nickname
         };
 
         postMessage({
