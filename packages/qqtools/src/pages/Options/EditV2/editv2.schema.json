@@ -283,6 +283,11 @@
             "title": "用户ID",
             "$required": true,
             "$tableRender": "douyinUserId"
+          },
+          "description": {
+            "id": "$root/properties/douyin/items/properties/description",
+            "type": "string",
+            "title": "监听介绍"
           }
         }
       }
