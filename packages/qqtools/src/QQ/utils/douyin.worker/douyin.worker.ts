@@ -5,9 +5,7 @@ import {
   type ChromiumBrowserContext,
   type Page,
   type JSHandle,
-  type Route,
-  type APIResponse,
-  type Request
+  type Route
 } from 'playwright-core';
 import * as dayjs from 'dayjs';
 import type * as oicq from 'oicq';
