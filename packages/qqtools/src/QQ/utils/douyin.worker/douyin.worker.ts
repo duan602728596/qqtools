@@ -20,6 +20,7 @@ let protocol: string; // 协议：mirai或者oicq
 let id: string; // 记录查询位置
 let nickname: string | undefined;
 let douyinTimer: NodeJS.Timer | undefined = undefined;
+let executablePath: string;
 
 interface DouyinSendMsg {
   url: string;
@@ -54,7 +55,7 @@ async function getDouyinData(): Promise<UserScriptRendedData | void> {
   if (!(browser && context)) {
     browser = await chromium.launch({
       headless: true,
-      executablePath: '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
+      executablePath,
       timeout: 0
     });
     context = await browser.newContext({
@@ -168,6 +169,7 @@ addEventListener('message', function(event: MessageEvent) {
   } else {
     userId = event.data.userId;
     protocol = event.data.protocol;
+    executablePath = event.data.executablePath;
     douyinInit();
   }
 });
