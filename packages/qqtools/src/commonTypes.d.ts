@@ -62,6 +62,7 @@ export interface OptionsItemWeibo {
 export interface OptionsItemDouyin {
   douyinListener?: boolean;
   userId: string;
+  description: string;
 }
 
 // bilibili

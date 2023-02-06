@@ -47,6 +47,7 @@ class DouyinExpand {
     this.douyinWorker.addEventListener('message', this.handleDouyinMessage);
     this.douyinWorker.postMessage({
       userId: this.config.userId,
+      description: this.config.description,
       protocol: this.protocol,
       executablePath
     });

@@ -20,6 +20,7 @@ let closePageTimer: NodeJS.Timer | undefined = undefined;    // 监听并关闭p
 
 /* 抖音 */
 let userId: string;                                    // 用户userId
+let description: string;                               // 描述
 let protocol: string;                                  // 协议：mirai或者oicq
 let id: string | '0' | null = null;                    // 记录查询位置，为0表示当前没有数据，和null不同，null表示请求数据失败了
 let douyinTimer: NodeJS.Timer | undefined = undefined; // 轮询定时器
@@ -112,7 +113,7 @@ async function handleDouyinListener(): Promise<void> {
   try {
     const renderData: UserScriptRendedData | void = await getDouyinData();
 
-    if (!renderData) return console.warn('没有获取到RENDER_DATA。', userId, dayjs().format('YYYY-MM-DD HH:mm:ss'));
+    if (!renderData) return console.warn('没有获取到RENDER_DATA。', description ?? userId, dayjs().format('YYYY-MM-DD HH:mm:ss'));
 
     const userItemArray: Array<UserItem1 | UserItem2> = Object.values(renderData);
     const userItem2: UserItem2 | undefined = userItemArray.find((o: UserItem1 | UserItem2): o is UserItem2 => typeof o === 'object' && ('post' in o));
@@ -151,7 +152,7 @@ async function douyinInit(): Promise<void> {
   try {
     const renderData: UserScriptRendedData | void = await getDouyinData();
 
-    if (!renderData) return console.warn('初始化时没有获取到RENDER_DATA。', userId, dayjs().format('YYYY-MM-DD HH:mm:ss'));
+    if (!renderData) return console.warn('初始化时没有获取到RENDER_DATA。', description ?? userId, dayjs().format('YYYY-MM-DD HH:mm:ss'));
 
     const userItemArray: Array<UserItem1 | UserItem2> = Object.values(renderData);
     const userItem2: UserItem2 | undefined = userItemArray.find((o: UserItem1 | UserItem2): o is UserItem2 => typeof o === 'object' && ('post' in o));
@@ -177,6 +178,7 @@ addEventListener('message', function(event: MessageEvent) {
     } catch { /* noop */ }
   } else {
     userId = event.data.userId;
+    description = event.data.description;
     protocol = event.data.protocol;
     executablePath = event.data.executablePath;
     douyinInit();

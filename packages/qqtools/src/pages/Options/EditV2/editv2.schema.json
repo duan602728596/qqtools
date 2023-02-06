@@ -287,7 +287,8 @@
           "description": {
             "id": "$root/properties/douyin/items/properties/description",
             "type": "string",
-            "title": "监听介绍"
+            "title": "监听介绍",
+            "$required": true
           }
         }
       }
