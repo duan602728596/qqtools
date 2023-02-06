@@ -112,7 +112,7 @@ async function handleDouyinListener(): Promise<void> {
   try {
     const renderData: UserScriptRendedData | void = await getDouyinData();
 
-    if (!renderData) return console.warn('没有获取到RENDER_DATA。', userId);
+    if (!renderData) return console.warn('没有获取到RENDER_DATA。', userId, dayjs().format('YYYY-MM-DD HH:mm:ss'));
 
     const userItemArray: Array<UserItem1 | UserItem2> = Object.values(renderData);
     const userItem2: UserItem2 | undefined = userItemArray.find((o: UserItem1 | UserItem2): o is UserItem2 => typeof o === 'object' && ('post' in o));
@@ -151,7 +151,7 @@ async function douyinInit(): Promise<void> {
   try {
     const renderData: UserScriptRendedData | void = await getDouyinData();
 
-    if (!renderData) return console.warn('初始化时没有获取到RENDER_DATA。', userId);
+    if (!renderData) return console.warn('初始化时没有获取到RENDER_DATA。', userId, dayjs().format('YYYY-MM-DD HH:mm:ss'));
 
     const userItemArray: Array<UserItem1 | UserItem2> = Object.values(renderData);
     const userItem2: UserItem2 | undefined = userItemArray.find((o: UserItem1 | UserItem2): o is UserItem2 => typeof o === 'object' && ('post' in o));
