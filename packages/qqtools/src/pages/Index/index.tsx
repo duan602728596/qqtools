@@ -33,7 +33,6 @@ function Index(props: {}): ReactElement {
 
   return (
     <div className="p-[16px]">
-      <h1>qqtools</h1>
       <div>
         <Space className="mb-[8px]">
           <Link to="Login">

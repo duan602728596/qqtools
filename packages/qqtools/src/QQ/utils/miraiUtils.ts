@@ -173,7 +173,7 @@ export function getSocketHost(socketHost: string | undefined): string {
  * @param { string } time: 登陆时间
  */
 export function LogCommandData(protocol: 'mirai' | 'oicq', qqNumber: number, time: string): string {
-  return `qqtools-mirai
+  return `qqtools
 软件版本：${ Reflect.get(packageJson, 'version') }
 运行平台：${ process.platform }
 Electron：${ process.versions.electron }

@@ -732,8 +732,10 @@ export interface VideoInfoItem {
   playAddr: Array<{
     src: noProtocolUrl;
   }>;
-  playApi: noProtocolUrl; // 无水印
+  playApi: noProtocolUrl | ''; // 无水印
   ratio: string;
+  cover: noProtocolUrl;
+  coverUrlList: Array<string>;
 }
 
 export interface UserItem1 {

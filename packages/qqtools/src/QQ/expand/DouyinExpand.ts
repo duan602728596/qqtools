@@ -55,11 +55,8 @@ class DouyinExpand {
 
   // 销毁
   destroy(): void {
-    // 销毁微博监听
     if (this.douyinWorker) {
-      this.douyinWorker.postMessage({
-        close: true
-      });
+      this.douyinWorker.postMessage({ close: true });
       this.douyinWorker.terminate();
       this.douyinWorker = undefined;
     }

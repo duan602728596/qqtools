@@ -7,9 +7,9 @@ import {
   type JSHandle,
   type Route
 } from 'playwright-core';
+import * as oicq from 'oicq';
 import * as dayjs from 'dayjs';
-import type * as oicq from 'oicq';
-import { plain } from '../miraiUtils';
+import { plain, image } from '../miraiUtils';
 import type { UserScriptRendedData, UserItem1, UserItem2, UserDataItem, MessageChain } from '../../qq.types';
 
 /* playwright相关 */
@@ -27,36 +27,39 @@ let douyinTimer: NodeJS.Timer | undefined = undefined; // 轮询定时器
 let executablePath: string;                            // 浏览器路径
 
 interface DouyinSendMsg {
-  url: string;
+  url: string | undefined;
   time: string;
   desc: string;
   nickname: string;
+  cover: string;
 }
 
 /* mirai的消息 */
 function miraiSendGroup(item: DouyinSendMsg): Array<MessageChain> {
-  const sendGroup: Array<MessageChain> = [];
+  const sendGroup: Array<MessageChain> = [
+    plain(`${ item.nickname } 在${ item.time }发送了一条抖音：${ item.desc }`),
+    image(item.cover)
+  ];
 
-  sendGroup.push(
-    plain(`${ item.nickname } 在${ item.time }发送了一条抖音：${ item.desc }
-视频下载地址：${ item.url }`)
-  );
+  item.url && sendGroup.push(plain(`视频下载地址：${ item.url }`));
 
   return sendGroup;
 }
 
 /* oicq的消息 */
 function oicqSendGroup(item: DouyinSendMsg): string {
-  let sendText: string = '';
+  const sendGroup: Array<string> = [
+    `${ item.nickname } 在${ item.time }发送了一条抖音：${ item.desc }`,
+    oicq.cqcode.image(item.cover)
+  ];
 
-  sendText += `${ item.nickname } 在${ item.time }发送了一条抖音：${ item.desc }
-视频下载地址：${ item.url }`;
+  item.url && sendGroup.push(`视频下载地址：${ item.url }`);
 
-  return sendText;
+  return sendGroup.join('');
 }
 
 /* 获取数据 */
-async function getDouyinData(): Promise<UserScriptRendedData | void> {
+async function getDouyinData(): Promise<UserScriptRendedData | undefined> {
   if (!(browser && context)) {
     browser = await chromium.launch({
       headless: true,
@@ -69,7 +72,7 @@ async function getDouyinData(): Promise<UserScriptRendedData | void> {
         + 'Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.52',
       serviceWorkers: 'block'
     });
-    console.log('无头浏览器启动成功！', userId);
+    console.log('无头浏览器启动成功！', '--->', description ?? userId, dayjs().format('YYYY-MM-DD HH:mm:ss'));
   }
 
   try {
@@ -88,11 +91,14 @@ async function getDouyinData(): Promise<UserScriptRendedData | void> {
       }
     }, 90_000);
 
-    const renderDataHandle: JSHandle = await page.evaluateHandle(
-      (): string => document.getElementById('RENDER_DATA')!.innerHTML);
-    const renderData: string = await renderDataHandle.evaluate(
-      (node: string): string => decodeURIComponent(node));
-    const renderDataJson: UserScriptRendedData = JSON.parse(renderData);
+    const renderDataHandle: JSHandle = await page.evaluateHandle((): string | null => {
+      const scriptElement: HTMLElement | null = document.getElementById('RENDER_DATA');
+
+      return scriptElement ? scriptElement.innerHTML : null;
+    });
+    const renderData: string | null = await renderDataHandle.evaluate(
+      (node: string | null): string | null => node ? decodeURIComponent(node) : null);
+    const renderDataJson: UserScriptRendedData | undefined = renderData ? JSON.parse(renderData) : undefined;
 
     await page.close();
     page = undefined;
@@ -111,12 +117,16 @@ async function getDouyinData(): Promise<UserScriptRendedData | void> {
 /* 抖音监听轮询 */
 async function handleDouyinListener(): Promise<void> {
   try {
-    const renderData: UserScriptRendedData | void = await getDouyinData();
+    const renderData: UserScriptRendedData | undefined = await getDouyinData();
 
-    if (!renderData) return console.warn('没有获取到RENDER_DATA。', description ?? userId, dayjs().format('YYYY-MM-DD HH:mm:ss'));
+    if (!renderData) {
+      return console.warn('没有获取到RENDER_DATA。', '--->', description ?? userId,
+        dayjs().format('YYYY-MM-DD HH:mm:ss'));
+    }
 
     const userItemArray: Array<UserItem1 | UserItem2> = Object.values(renderData);
-    const userItem2: UserItem2 | undefined = userItemArray.find((o: UserItem1 | UserItem2): o is UserItem2 => typeof o === 'object' && ('post' in o));
+    const userItem2: UserItem2 | undefined = userItemArray.find(
+      (o: UserItem1 | UserItem2): o is UserItem2 => typeof o === 'object' && ('post' in o));
 
     if (userItem2) {
       const data: Array<UserDataItem> = userItem2.post.data.sort(
@@ -128,10 +138,11 @@ async function handleDouyinListener(): Promise<void> {
 
       if (data.length && data[0].awemeId !== id && id !== null) {
         const sendData: DouyinSendMsg = {
-          url: `https:${ data[0].video.playApi }`,
+          url: data[0].video.playApi === '' ? undefined : `https:${ data[0].video.playApi }`,
           time: dayjs.unix(data[0].createTime).format('YYYY-MM-DD HH:mm:ss'),
           desc: data[0].desc,
-          nickname: userItem2.user.user.nickname
+          nickname: userItem2.user.user.nickname,
+          cover: `https:${ data[0].video.cover }`
         };
 
         postMessage({
@@ -150,9 +161,12 @@ async function handleDouyinListener(): Promise<void> {
 /* 初始化获取抖音的记录位置 */
 async function douyinInit(): Promise<void> {
   try {
-    const renderData: UserScriptRendedData | void = await getDouyinData();
+    const renderData: UserScriptRendedData | undefined = await getDouyinData();
 
-    if (!renderData) return console.warn('初始化时没有获取到RENDER_DATA。', description ?? userId, dayjs().format('YYYY-MM-DD HH:mm:ss'));
+    if (!renderData) {
+      return console.warn('初始化时没有获取到RENDER_DATA。', '--->', description ?? userId,
+        dayjs().format('YYYY-MM-DD HH:mm:ss'));
+    }
 
     const userItemArray: Array<UserItem1 | UserItem2> = Object.values(renderData);
     const userItem2: UserItem2 | undefined = userItemArray.find((o: UserItem1 | UserItem2): o is UserItem2 => typeof o === 'object' && ('post' in o));
