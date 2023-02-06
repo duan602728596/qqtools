@@ -1,6 +1,6 @@
 {
   "name": "@qqtools3/main",
-  "version": "4.12.1",
+  "version": "4.12.2",
   "scripts": {
     "start": "npm run clean && tsc --outDir lib --watch",
     "dev": "npm run clean && tsc --outDir lib",
