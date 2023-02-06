@@ -91,7 +91,7 @@ async function getDouyinData(): Promise<UserScriptRendedData | undefined> {
       }
     }, 90_000);
 
-    const renderDataHandle: JSHandle = await page.evaluateHandle((): string | null => {
+    const renderDataHandle: JSHandle<string | null> = await page.evaluateHandle((): string | null => {
       const scriptElement: HTMLElement | null = document.getElementById('RENDER_DATA');
 
       return scriptElement ? scriptElement.innerHTML : null;
