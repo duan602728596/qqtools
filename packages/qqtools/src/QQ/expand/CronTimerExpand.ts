@@ -1,4 +1,4 @@
-import { CronJob } from 'cron';
+import { scheduleJob, type Job } from 'node-schedule';
 import { miraiTemplate } from '../utils/miraiUtils';
 import { isOicq } from './utils';
 import type QQ from '../QQ';
@@ -9,7 +9,7 @@ import type { OptionsItemCronTimer } from '../../commonTypes';
 class CronTimerExpand {
   public config: OptionsItemCronTimer;
   public qq: QQ | OicqQQ;
-  public cronJob?: CronJob; // 定时任务
+  public cronJob?: Job; // 定时任务
 
   constructor({ config, qq }: { config: OptionsItemCronTimer; qq: QQ | OicqQQ }) {
     this.config = config;
@@ -21,15 +21,13 @@ class CronTimerExpand {
     const { cronJob, cronTime, cronSendData }: OptionsItemCronTimer = this.config;
 
     if (cronJob && cronTime && cronSendData) {
-      this.cronJob = new CronJob(cronTime, (): void => {
+      this.cronJob = scheduleJob(cronTime, (): void => {
         if (isOicq(this.qq)) {
           this.qq.sendMessage(cronSendData);
         } else {
           this.qq.sendMessage(miraiTemplate(cronSendData));
         }
       });
-
-      this.cronJob.start();
     }
   }
 
@@ -37,7 +35,7 @@ class CronTimerExpand {
   destroy(): void {
     // 销毁定时任务
     if (this.cronJob) {
-      this.cronJob.stop();
+      this.cronJob.cancel();
       this.cronJob = undefined;
     }
   }

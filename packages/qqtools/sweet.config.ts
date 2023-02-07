@@ -56,12 +56,12 @@ const externalsName: Array<string> = nodeModules([
   'timers',
   'util'
 ]).concat([
-  'cron',
   'electron',
   'fs-extra',
   'got',
   'iconv-lite',
   'js-yaml',
+  'node-schedule',
   'nunjucks',
   'oicq',
   'playwright-core'
