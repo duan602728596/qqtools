@@ -116,45 +116,58 @@ async function getDouyinData(): Promise<UserScriptRendedData | undefined> {
 
 /* 抖音监听轮询 */
 async function handleDouyinListener(): Promise<void> {
+  const $douyinLogSendData: {
+    type: 'log';
+    data?: UserScriptRendedData | undefined;
+    time?: string;
+    change?: 1;
+  } = { type: 'log' };
+
   try {
     const renderData: UserScriptRendedData | undefined = await getDouyinData();
 
-    if (!renderData) {
-      return console.warn('没有获取到RENDER_DATA。', '--->', description ?? userId,
+    $douyinLogSendData.data = renderData;
+
+    if (renderData) {
+      const userItemArray: Array<UserItem1 | UserItem2> = Object.values(renderData);
+      const userItem2: UserItem2 | undefined = userItemArray.find(
+        (o: UserItem1 | UserItem2): o is UserItem2 => typeof o === 'object' && ('post' in o));
+
+      if (userItem2) {
+        const data: Array<UserDataItem> = userItem2.post.data.sort(
+          (a: UserDataItem, b: UserDataItem) => b.createTime - a.createTime);
+
+        if (id === null) {
+          id = data.length ? data[0].awemeId : '0';
+        }
+
+        if (data.length && data[0].awemeId !== id && id !== null) {
+          const sendData: DouyinSendMsg = {
+            url: data[0].video.playApi === '' ? undefined : `https:${ data[0].video.playApi }`,
+            time: dayjs.unix(data[0].createTime).format('YYYY-MM-DD HH:mm:ss'),
+            desc: data[0].desc,
+            nickname: userItem2.user.user.nickname,
+            cover: `https:${ data[0].video.cover }`
+          };
+
+          postMessage({
+            type: 'message',
+            sendGroup: protocol === 'oicq' ? oicqSendGroup(sendData) : miraiSendGroup(sendData)
+          });
+          id = data[0].awemeId;
+          $douyinLogSendData.change = 1;
+        }
+      }
+    } else {
+      console.warn('没有获取到RENDER_DATA。', '--->', description ?? userId,
         dayjs().format('YYYY-MM-DD HH:mm:ss'));
-    }
-
-    const userItemArray: Array<UserItem1 | UserItem2> = Object.values(renderData);
-    const userItem2: UserItem2 | undefined = userItemArray.find(
-      (o: UserItem1 | UserItem2): o is UserItem2 => typeof o === 'object' && ('post' in o));
-
-    if (userItem2) {
-      const data: Array<UserDataItem> = userItem2.post.data.sort(
-        (a: UserDataItem, b: UserDataItem) => b.createTime - a.createTime);
-
-      if (id === null) {
-        id = data.length ? data[0].awemeId : '0';
-      }
-
-      if (data.length && data[0].awemeId !== id && id !== null) {
-        const sendData: DouyinSendMsg = {
-          url: data[0].video.playApi === '' ? undefined : `https:${ data[0].video.playApi }`,
-          time: dayjs.unix(data[0].createTime).format('YYYY-MM-DD HH:mm:ss'),
-          desc: data[0].desc,
-          nickname: userItem2.user.user.nickname,
-          cover: `https:${ data[0].video.cover }`
-        };
-
-        postMessage({
-          sendGroup: protocol === 'oicq' ? oicqSendGroup(sendData) : miraiSendGroup(sendData)
-        });
-        id = data[0].awemeId;
-      }
     }
   } catch (err) {
     console.error(err);
   }
 
+  $douyinLogSendData.time = dayjs().format('YYYY-MM-DD HH:mm:ss');
+  postMessage($douyinLogSendData);
   douyinTimer = setTimeout(handleDouyinListener, 180_000);
 }
 
@@ -163,19 +176,26 @@ async function douyinInit(): Promise<void> {
   try {
     const renderData: UserScriptRendedData | undefined = await getDouyinData();
 
-    if (!renderData) {
-      return console.warn('初始化时没有获取到RENDER_DATA。', '--->', description ?? userId,
+    postMessage({
+      type: 'log',
+      data: renderData,
+      time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+      init: 1
+    });
+
+    if (renderData) {
+      const userItemArray: Array<UserItem1 | UserItem2> = Object.values(renderData);
+      const userItem2: UserItem2 | undefined = userItemArray.find((o: UserItem1 | UserItem2): o is UserItem2 => typeof o === 'object' && ('post' in o));
+
+      if (userItem2) {
+        const data: Array<UserDataItem> = userItem2.post.data.sort(
+          (a: UserDataItem, b: UserDataItem) => b.createTime - a.createTime);
+
+        id = data.length ? data[0].awemeId : '0';
+      }
+    } else {
+      console.warn('初始化时没有获取到RENDER_DATA。', '--->', description ?? userId,
         dayjs().format('YYYY-MM-DD HH:mm:ss'));
-    }
-
-    const userItemArray: Array<UserItem1 | UserItem2> = Object.values(renderData);
-    const userItem2: UserItem2 | undefined = userItemArray.find((o: UserItem1 | UserItem2): o is UserItem2 => typeof o === 'object' && ('post' in o));
-
-    if (userItem2) {
-      const data: Array<UserDataItem> = userItem2.post.data.sort(
-        (a: UserDataItem, b: UserDataItem) => b.createTime - a.createTime);
-
-      id = data.length ? data[0].awemeId : '0';
     }
   } catch (err) {
     console.error(err);
