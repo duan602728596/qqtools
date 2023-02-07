@@ -22,15 +22,17 @@ class DouyinLog {
   maxlength: number;
   readonly log: Array<LogItem>;
   lastChange: string | undefined;
+  readonly index: number;
 
   constructor({ description, userId, maxlength }: { description: string; userId: string; maxlength?: number }) {
     this.description = description;
     this.userId = userId;
     this.maxlength = maxlength ?? 100;
     this.log = [];
+    this.index = DouyinLog.logIndex++;
 
     globalThis.$l ??= {};
-    globalThis.$l[`$${ DouyinLog.logIndex++ }`] = {
+    globalThis.$l[`$${ this.index }`] = {
       $d: this.description ?? this.userId,
       $g: this.log,
       $t: this.lastChange
@@ -46,7 +48,7 @@ class DouyinLog {
   }
 
   destroy(): void {
-    delete globalThis.__$$DOUYIN_LOG__[this.description ?? this.userId];
+    delete globalThis.$l[`$${ this.index }`];
   }
 }
 
