@@ -76,7 +76,7 @@ function oicqSendGroup(item: DouyinSendMsg): string {
 async function getDouyinData(): Promise<UserScriptRendedData | undefined> {
   if (!(browser && context)) {
     browser = await getBrowser(browserExecutablePath).launch({
-      headless: false,
+      headless: true,
       executablePath: browserExecutablePath,
       timeout: 0
     });
