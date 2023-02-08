@@ -1,6 +1,9 @@
 import { setTimeout, clearTimeout } from 'node:timers';
 import {
   chromium,
+  webkit,
+  firefox,
+  type BrowserType,
   type Browser,
   type ChromiumBrowserContext,
   type Page,
@@ -11,6 +14,17 @@ import * as oicq from 'oicq';
 import * as dayjs from 'dayjs';
 import { plain, image } from '../miraiUtils';
 import type { UserScriptRendedData, UserItem1, UserItem2, UserDataItem, MessageChain } from '../../qq.types';
+
+/* 根据路径获取不同的启动器 */
+function getBrowser(executablePath: string): BrowserType {
+  if (/Safari/i.test(executablePath)) {
+    return webkit;
+  } else if (/(Firefox|火狐)/i.test(executablePath)) {
+    return firefox;
+  } else {
+    return chromium;
+  }
+}
 
 /* playwright相关 */
 let browser: Browser | undefined = undefined;                // 浏览器browser
@@ -24,7 +38,7 @@ let description: string;                               // 描述
 let protocol: string;                                  // 协议：mirai或者oicq
 let lastUpdateTime: number | 0 | null = null;          // 记录最新发布视频的更新时间，为0表示当前没有数据，null表示请求数据失败了
 let douyinTimer: NodeJS.Timer | undefined = undefined; // 轮询定时器
-let executablePath: string;                            // 浏览器路径
+let browserExecutablePath: string;                     // 浏览器路径
 
 interface DouyinSendMsg {
   url: string | undefined;
@@ -61,9 +75,9 @@ function oicqSendGroup(item: DouyinSendMsg): string {
 /* 获取数据 */
 async function getDouyinData(): Promise<UserScriptRendedData | undefined> {
   if (!(browser && context)) {
-    browser = await chromium.launch({
-      headless: true,
-      executablePath,
+    browser = await getBrowser(browserExecutablePath).launch({
+      headless: false,
+      executablePath: browserExecutablePath,
       timeout: 0
     });
     context = await browser.newContext({
@@ -226,7 +240,7 @@ addEventListener('message', function(event: MessageEvent) {
     userId = event.data.userId;
     description = event.data.description;
     protocol = event.data.protocol;
-    executablePath = event.data.executablePath;
+    browserExecutablePath = event.data.executablePath;
     douyinInit();
   }
 });
