@@ -22,7 +22,7 @@ let closePageTimer: NodeJS.Timer | undefined = undefined;    // 监听并关闭p
 let userId: string;                                    // 用户userId
 let description: string;                               // 描述
 let protocol: string;                                  // 协议：mirai或者oicq
-let id: string | '0' | null = null;                    // 记录查询位置，为0表示当前没有数据，和null不同，null表示请求数据失败了
+let lastUpdateTime: number | 0 | null = null;          // 记录最新发布视频的更新时间，为0表示当前没有数据，null表示请求数据失败了
 let douyinTimer: NodeJS.Timer | undefined = undefined; // 轮询定时器
 let executablePath: string;                            // 浏览器路径
 
@@ -72,13 +72,12 @@ async function getDouyinData(): Promise<UserScriptRendedData | undefined> {
         + 'Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.52',
       serviceWorkers: 'block'
     });
+    await context.route((url: URL): boolean => !/^\/user\//i.test(url.pathname), (route: Route) => route.abort());
     console.log('无头浏览器启动成功！', '--->', description ?? userId, dayjs().format('YYYY-MM-DD HH:mm:ss'));
   }
 
   try {
     page = await context.newPage();
-
-    await page.route((url: URL): boolean => !/^\/user\//i.test(url.pathname), (route: Route) => route.abort());
     await page.goto(`https://www.douyin.com/user/${ userId }`);
     await page.locator('#RENDER_DATA');
 
@@ -117,11 +116,9 @@ async function getDouyinData(): Promise<UserScriptRendedData | undefined> {
 /* 抖音监听轮询 */
 async function handleDouyinListener(): Promise<void> {
   const $douyinLogSendData: {
-    type: 'log';
     data?: UserScriptRendedData | undefined;
-    time?: string;
     change?: 1;
-  } = { type: 'log' };
+  } = {};
 
   try {
     const renderData: UserScriptRendedData | undefined = await getDouyinData();
@@ -137,25 +134,37 @@ async function handleDouyinListener(): Promise<void> {
         const data: Array<UserDataItem> = userItem2.post.data.sort(
           (a: UserDataItem, b: UserDataItem) => b.createTime - a.createTime);
 
-        if (id === null) {
-          id = data.length ? data[0].awemeId : '0';
+        if (lastUpdateTime === null) {
+          lastUpdateTime = data.length ? data[0].createTime : 0;
         }
 
-        if (data.length && data[0].awemeId !== id && id !== null) {
-          const sendData: DouyinSendMsg = {
-            url: data[0].video.playApi === '' ? undefined : `https:${ data[0].video.playApi }`,
-            time: dayjs.unix(data[0].createTime).format('YYYY-MM-DD HH:mm:ss'),
-            desc: data[0].desc,
-            nickname: userItem2.user.user.nickname,
-            cover: `https:${ data[0].video.cover }`
-          };
+        if (data.length) {
+          const sendGroup: Array<MessageChain[] | string> = [];
 
-          postMessage({
-            type: 'message',
-            sendGroup: protocol === 'oicq' ? oicqSendGroup(sendData) : miraiSendGroup(sendData)
-          });
-          id = data[0].awemeId;
-          $douyinLogSendData.change = 1;
+          for (const item of data) {
+            if (item.createTime > lastUpdateTime) {
+              const sendData: DouyinSendMsg = {
+                url: item.video.playApi === '' ? undefined : `https:${ item.video.playApi }`,
+                time: dayjs.unix(item.createTime).format('YYYY-MM-DD HH:mm:ss'),
+                desc: item.desc,
+                nickname: userItem2.user.user.nickname,
+                cover: `https:${ item.video.cover }`
+              };
+
+              sendGroup.push(protocol === 'oicq' ? oicqSendGroup(sendData) : miraiSendGroup(sendData));
+            } else {
+              break;
+            }
+          }
+
+          if (sendGroup.length) {
+            postMessage({
+              type: 'message',
+              sendGroup
+            });
+            lastUpdateTime = data[0].createTime;
+            $douyinLogSendData.change = 1;
+          }
         }
       }
     } else {
@@ -166,8 +175,11 @@ async function handleDouyinListener(): Promise<void> {
     console.error(err);
   }
 
-  $douyinLogSendData.time = dayjs().format('YYYY-MM-DD HH:mm:ss');
-  postMessage($douyinLogSendData);
+  postMessage({
+    ...$douyinLogSendData,
+    type: 'log',
+    time: dayjs().format('YYYY-MM-DD HH:mm:ss')
+  });
   douyinTimer = setTimeout(handleDouyinListener, 180_000);
 }
 
@@ -191,7 +203,7 @@ async function douyinInit(): Promise<void> {
         const data: Array<UserDataItem> = userItem2.post.data.sort(
           (a: UserDataItem, b: UserDataItem) => b.createTime - a.createTime);
 
-        id = data.length ? data[0].awemeId : '0';
+        lastUpdateTime = data.length ? data[0].createTime : 0;
       }
     } else {
       console.warn('初始化时没有获取到RENDER_DATA。', '--->', description ?? userId,

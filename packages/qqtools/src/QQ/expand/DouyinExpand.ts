@@ -13,6 +13,8 @@ interface LogItem {
   change?: 1;
 }
 
+globalThis.$l = {};
+
 /* 记录抖音获取的数据，便于debug */
 class DouyinLog {
   static logIndex: number = 0;
@@ -31,20 +33,27 @@ class DouyinLog {
     this.log = [];
     this.index = DouyinLog.logIndex++;
 
-    globalThis.$l ??= {};
+    const $self: this = this;
+
     globalThis.$l[`$${ this.index }`] = {
       $d: this.description ?? this.userId,
       $g: this.log,
-      $t: this.lastChange
+      get $t(): string | undefined {
+        return $self.lastChange;
+      }
     };
   }
 
   addLog(item: LogItem): void {
     this.log.unshift(item);
 
-    if (item.change) this.lastChange = item.time;
+    if (item.change) {
+      this.lastChange = item.time;
+    }
 
-    if (this.log.length > 100) this.log.pop();
+    if (this.log.length > 100) {
+      this.log.pop();
+    }
   }
 
   destroy(): void {
@@ -54,7 +63,7 @@ class DouyinLog {
 
 interface DouyinMessageData {
   type: 'message';
-  sendGroup: Array<MessageChain> | string;
+  sendGroup: Array<MessageChain[] | string>;
 }
 
 interface DouyinLogData {
@@ -86,7 +95,9 @@ class DouyinExpand {
   // 微博监听
   handleDouyinMessage: MessageListener = async (event: MessageEvent<DouyinMessageData | DouyinLogData>): Promise<void> => {
     if (event.data.type === 'message') {
-      await this.qq.sendMessage(event.data.sendGroup as any);
+      for (let i: number = event.data.sendGroup.length - 1; i >= 0; i--) {
+        await this.qq.sendMessage(event.data.sendGroup[i] as any);
+      }
     } else {
       this.douyinLog.addLog(omit(event.data, ['type']));
     }
