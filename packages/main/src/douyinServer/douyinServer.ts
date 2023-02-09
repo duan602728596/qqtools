@@ -27,7 +27,7 @@ export function douyinServerInit(): void {
     douyinServerWorker = new Worker(
       isDevelopment
         ? path.join(__dirname, 'httpDouyinServer.worker.js')
-        : path.join(process.resourcesPath, 'app.asar.unpacked/bin/lib/proxyServer/httpDouyinServer.worker.js'),
+        : path.join(process.resourcesPath, 'app.asar.unpacked/bin/lib/douyinServer/httpDouyinServer.worker.js'),
       {
         workerData: {
           ...arg,
