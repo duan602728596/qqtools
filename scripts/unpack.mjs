@@ -5,6 +5,7 @@ import builder from 'electron-builder';
 import { cwd, appDir, staticsDir, build, output, unpacked, isMacOS } from './utils.mjs';
 import taskfile from './taskfile.mjs';
 import packageJson from '../package.json' assert { type: 'json' };
+import mainPackageJson from '../packages/main/package.json' assert { type: 'json' };
 
 const staticsFiles = {
   LICENSE: path.join(cwd, 'LICENSE'),  // 许可协议
@@ -73,7 +74,13 @@ function config(outputDir, target) {
     directories: {
       app: appDir,
       output: outputDir
-    }
+    },
+    asarUnpack: [
+      ...Object.keys(mainPackageJson.dependencies).map((name) => `node_modules/${ name }`),
+      'node_modules/asar-node',
+      'bin/lib/douyinServer/server.worker.js',
+      'bin/lib/proxyServer/httpDouyinServer.worker.js'
+    ]
   };
 
   // 重写编译目标
