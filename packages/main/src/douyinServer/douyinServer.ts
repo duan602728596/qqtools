@@ -29,7 +29,10 @@ export function douyinServerInit(): void {
         ? path.join(__dirname, 'httpDouyinServer.worker.js')
         : path.join(process.resourcesPath, 'app.asar.unpacked/bin/lib/proxyServer/httpDouyinServer.worker.js'),
       {
-        workerData: arg
+        workerData: {
+          ...arg,
+          isDevelopment
+        }
       }
     );
   });
