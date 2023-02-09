@@ -39,7 +39,10 @@ function createWindow(): void {
   Menu.setApplicationMenu(null);
 
   ipc(win);
-  ipcRemoteHandle(win);
+
+  try {
+    ipcRemoteHandle(win);
+  } catch {}
 
   win.on('closed', function(): void {
     removeIpc();
