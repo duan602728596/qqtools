@@ -50,6 +50,7 @@ const externalsName: Array<string> = nodeModules([
   'child_process',
   'crypto',
   'fs',
+  'net',
   'os',
   'path',
   'process',
@@ -63,8 +64,7 @@ const externalsName: Array<string> = nodeModules([
   'js-yaml',
   'node-schedule',
   'nunjucks',
-  'oicq',
-  'playwright-core'
+  'oicq'
 ]);
 
 export default function(info: object): { [key: string]: any } {

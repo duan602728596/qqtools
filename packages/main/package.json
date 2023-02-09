@@ -7,6 +7,9 @@
     "build": "npm run clean && tsc --outDir .lib.mid && gulp",
     "clean": "rimraf ./lib && rimraf ./.lib.mid"
   },
+  "dependencies": {
+    "playwright-core": "^1.30.0"
+  },
   "devDependencies": {
     "gulp": "^4.0.2",
     "gulp-terser": "^2.1.0",
