@@ -7,7 +7,7 @@ import type { BrowserType, Browser, BrowserContext, Page, JSHandle, Route } from
 import type { UserScriptRendedData } from '@qqtools3/qqtools/src/QQ/qq.types';
 import workerRequire from '../workerRequire';
 
-const playwright: typeof Playwright = workerRequire('playwright-core', workerData.isDevelopment);
+const playwright: typeof Playwright = workerRequire('playwright-core');
 
 /* 根据路径获取不同的启动器 */
 function getBrowser(executablePath: string): BrowserType {
