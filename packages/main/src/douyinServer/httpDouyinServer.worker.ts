@@ -80,7 +80,7 @@ async function douyinResponseHandle(urlParse: URL, httpResponse: ServerResponse)
   } catch (err) {
     browser && (await browser.close());
     httpResponse.statusCode = 400;
-    httpResponse.end({ error: err });
+    httpResponse.end(JSON.stringify({ error: err.toString() }));
   }
 }
 
