@@ -76,7 +76,7 @@ function config(outputDir, target) {
     },
     asarUnpack: [
       'node_modules/asar-node',
-      'bin/lib/workerRequire.js',
+      'bin/lib/asarNodeRequire.js',
       'bin/lib/douyinServer/httpDouyinServer.worker.js'
     ]
   };
