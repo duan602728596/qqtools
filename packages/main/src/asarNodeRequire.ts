@@ -8,11 +8,19 @@ const asarDir: string = path.join(__dirname, '../../../app.asar');
 const asarDirNodeModules: string = path.join(asarDir, 'node_modules');
 
 /**
- * 在worker中加载模块
+ * 开发环境在worker中加载模块
  * @param { string } moduleName: 模块名称
  */
-function asarNodeRequire<T>(moduleName: string): T {
-  return require(isDevelopment ? moduleName : path.join(asarDirNodeModules, `${ moduleName }/index.js`));
+function asarNodeDevRequire<T>(moduleName: string): T {
+  return require(moduleName);
 }
 
-export default asarNodeRequire;
+/**
+ * 生产环境在worker中加载模块
+ * @param { string } moduleName: 模块名称
+ */
+function asarNodeProRequire<T>(moduleName: string): T {
+  return require(path.join(asarDirNodeModules, `${ moduleName }/index.js`));
+}
+
+export default isDevelopment ? asarNodeDevRequire : asarNodeProRequire;
