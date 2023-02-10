@@ -2,27 +2,21 @@ import * as http from 'node:http';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { workerData } from 'node:worker_threads';
 import 'asar-node';
-import {
-  webkit,
-  firefox,
-  chromium,
-  type BrowserType,
-  type Browser,
-  type BrowserContext,
-  type Page,
-  type JSHandle,
-  type Route
-} from 'playwright-core';
+import type * as Playwright from 'playwright-core';
+import type { BrowserType, Browser, BrowserContext, Page, JSHandle, Route } from 'playwright-core';
 import type { UserScriptRendedData } from '@qqtools3/qqtools/src/QQ/qq.types';
+import workerRequire from '../workerRequire';
+
+const playwright: typeof Playwright = workerRequire('playwright-core', workerData.isDevelopment);
 
 /* 根据路径获取不同的启动器 */
 function getBrowser(executablePath: string): BrowserType {
   if (/Safari/i.test(executablePath)) {
-    return webkit;
+    return playwright.webkit;
   } else if (/(Firefox|火狐)/i.test(executablePath)) {
-    return firefox;
+    return playwright.firefox;
   } else {
-    return chromium;
+    return playwright.chromium;
   }
 }
 
