@@ -10,10 +10,10 @@ import {
   requestSendGroupMessage,
   requestManagers,
   requestAbout
-} from './services/services';
-import { plain, miraiTemplate, getGroupNumbers, getSocketHost, LogCommandData } from './utils/miraiUtils';
-import { log } from './utils/pocket48Utils';
-import type { OptionsItemValueV2, MemberInfo, EditItem } from '../commonTypes';
+} from '../services/services';
+import { plain, miraiTemplate, getGroupNumbers, getSocketHost, LogCommandData } from '../utils/miraiUtils';
+import { log } from '../utils/pocket48Utils';
+import type { OptionsItemValueV2, MemberInfo, EditItem } from '../../commonTypes';
 import type {
   Plain,
   AuthResponse,
@@ -24,11 +24,11 @@ import type {
   MessageSocketEventDataV2,
   EventSocketEventData,
   EventSocketEventDataV2
-} from './qq.types';
+} from '../qq.types';
 
 type CloseListener = (event: CloseEvent) => void | Promise<void>;
 
-class QQ extends Basic {
+class MiraiQQ extends Basic {
   public protocol: 'mirai' = 'mirai';
   public socketStatus: -1 | 0; // -1 关闭，0 正常
   public eventSocket?: WebSocket;
@@ -301,4 +301,4 @@ class QQ extends Basic {
   }
 }
 
-export default QQ;
+export default MiraiQQ;

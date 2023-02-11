@@ -2,8 +2,8 @@ import { message } from 'antd';
 import { requestWeiboInfo } from '../services/services';
 import getWeiboWorker from '../utils/weibo.worker/getWeiboWorker';
 import getWeiboSuperTopicWorker from '../utils/weiboSuperTopic.worker/getWeiboSuperTopicWorker';
-import type QQ from '../QQ';
-import type OicqQQ from '../OicqQQ';
+import type MiraiQQ from '../QQBotModals/MiraiQQ';
+import type OicqQQ from '../QQBotModals/OicqQQ';
 import type { OptionsItemWeibo } from '../../commonTypes';
 import type { WeiboTab, WeiboInfo } from '../qq.types';
 
@@ -12,7 +12,7 @@ type MessageListener = (event: MessageEvent) => void | Promise<void>;
 /* 微博 */
 class WeiboExpand {
   public config: OptionsItemWeibo;
-  public qq: QQ | OicqQQ;
+  public qq: MiraiQQ | OicqQQ;
   public protocol: 'mirai' | 'oicq';
   public weiboLfid: string;    // 微博的lfid
   public weiboWorker?: Worker; // 微博监听
@@ -21,7 +21,7 @@ class WeiboExpand {
 
   constructor({ config, qq, protocol }: {
     config: OptionsItemWeibo;
-    qq: QQ | OicqQQ;
+    qq: MiraiQQ | OicqQQ;
     protocol: 'mirai' | 'oicq';
   }) {
     this.config = config;

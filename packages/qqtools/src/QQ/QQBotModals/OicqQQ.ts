@@ -2,11 +2,11 @@ import type { EventData, GroupMessageEventData, RetCommon, MessageElem } from 'o
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
 import Basic, { type MessageListener } from './Basic';
-import { getGroupNumbers, getSocketHost, LogCommandData } from './utils/miraiUtils';
-import { isGroupMessageEventData, isMemberIncreaseEventData } from './utils/oicqUtils';
-import { log } from './utils/pocket48Utils';
-import { requestSendGroupMessage } from './services/oicq';
-import type { OptionsItemValueV2, MemberInfo, EditItem } from '../commonTypes';
+import { getGroupNumbers, getSocketHost, LogCommandData } from '../utils/miraiUtils';
+import { isGroupMessageEventData, isMemberIncreaseEventData } from '../utils/oicqUtils';
+import { log } from '../utils/pocket48Utils';
+import { requestSendGroupMessage } from '../services/oicq';
+import type { OptionsItemValueV2, MemberInfo, EditItem } from '../../commonTypes';
 
 /* oicq的连接 */
 class OicqQQ extends Basic {

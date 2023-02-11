@@ -1,14 +1,14 @@
-import Pocket48Expand from './expand/Pocket48Expand';
-import Pocket48V2Expand from './expand/Pocket48V2Expand';
-import WeiboExpand from './expand/WeiboExpand';
-import DouyinExpand from './expand/DouyinExpand';
-import BilibiliExpand from './expand/BilibiliExpand';
-import CronTimerExpand from './expand/CronTimerExpand';
-import NimChatroomSocket from './NimChatroomSocket';
-import QChatSocket from './QChatSocket';
-import type QQ from './QQ';
+import Pocket48Expand from '../expand/Pocket48Expand';
+import Pocket48V2Expand from '../expand/Pocket48V2Expand';
+import WeiboExpand from '../expand/WeiboExpand';
+import DouyinExpand from '../expand/DouyinExpand';
+import BilibiliExpand from '../expand/BilibiliExpand';
+import CronTimerExpand from '../expand/CronTimerExpand';
+import NimChatroomSocket from '../sdk/NimChatroomSocket';
+import QChatSocket from '../sdk/QChatSocket';
+import type MiraiQQ from './MiraiQQ';
 import type OicqQQ from './OicqQQ';
-import type { OptionsItemValueV2, MemberInfo } from '../commonTypes';
+import type { OptionsItemValueV2, MemberInfo } from '../../commonTypes';
 
 export type MessageListener = (event: MessageEvent) => void | Promise<void>;
 
@@ -32,7 +32,7 @@ abstract class Basic {
   public bilibili: Array<BilibiliExpand> | undefined;
   public cronTimer: Array<CronTimerExpand> | undefined;
 
-  static async initExpand(this: QQ | OicqQQ): Promise<void> {
+  static async initExpand(this: MiraiQQ | OicqQQ): Promise<void> {
     if (this.config.pocket48V2) {
       this.pocket48V2 = [];
 
@@ -117,7 +117,7 @@ abstract class Basic {
     }
   }
 
-  static destroyExpand(this: QQ | OicqQQ): void {
+  static destroyExpand(this: MiraiQQ | OicqQQ): void {
     // 销毁口袋监听
     if (this.pocket48V2) {
       this.pocket48V2.forEach((item: Pocket48V2Expand): unknown => item.destroy());

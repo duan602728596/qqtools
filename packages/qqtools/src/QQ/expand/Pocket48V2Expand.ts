@@ -1,13 +1,13 @@
 import { randomUUID } from 'node:crypto';
 import type { MessageElem } from 'oicq';
 import type { ChannelInfo } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatChannelServiceInterface';
-import QChatSocket from '../QChatSocket';
-import { qChatSocketList } from '../Basic';
+import QChatSocket from '../sdk/QChatSocket';
+import { qChatSocketList } from '../QQBotModals/Basic';
 import { log } from '../utils/pocket48Utils';
 import { getRoomMessage, getRoomMessageForOicq, getLogMessage, type RoomMessageArgs } from '../utils/pocket48V2Utils';
 import { isOicq } from './utils';
-import type QQ from '../QQ';
-import type OicqQQ from '../OicqQQ';
+import type MiraiQQ from '../QQBotModals/MiraiQQ';
+import type OicqQQ from '../QQBotModals/OicqQQ';
 import type { OptionsItemPocket48V2, MemberInfo } from '../../commonTypes';
 import type { CustomMessageAllV2, UserV2, MessageChain } from '../qq.types';
 
@@ -16,12 +16,12 @@ class Pocket48V2Expand {
   static channelIdMap: Map<string, Array<ChannelInfo>> = new Map();
 
   public config: OptionsItemPocket48V2;
-  public qq: QQ | OicqQQ;
+  public qq: MiraiQQ | OicqQQ;
   public qChatSocketId?: string;    // 对应的nim的唯一socketId
   public qChatSocket?: QChatSocket; // socket
   public memberInfo?: MemberInfo;   // 房间成员信息
 
-  constructor({ config, qq }: { config: OptionsItemPocket48V2; qq: QQ | OicqQQ }) {
+  constructor({ config, qq }: { config: OptionsItemPocket48V2; qq: MiraiQQ | OicqQQ }) {
     this.config = config;
     this.qq = qq;
   }

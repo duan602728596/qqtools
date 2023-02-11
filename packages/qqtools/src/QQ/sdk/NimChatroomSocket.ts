@@ -2,8 +2,8 @@ import { randomUUID } from 'node:crypto';
 import NIM_SDK from '@yxim/nim-web-sdk/dist/SDK/NIM_Web_SDK.js';
 import type NIM_Web_Chatroom from '@yxim/nim-web-sdk/dist/SDK/NIM_Web_Chatroom';
 import { message } from 'antd';
-import appKey from './sdk/appKey.mjs';
-import type { NIMMessage, NIMError } from './qq.types';
+import appKey from './appKey.mjs';
+import type { NIMMessage, NIMError } from '../qq.types';
 
 interface Queue {
   id: string;

@@ -1,20 +1,20 @@
 import { randomUUID } from 'node:crypto';
 import type { MessageElem } from 'oicq';
 import * as dayjs from 'dayjs';
-import NimChatroomSocket, { type ChatroomMember } from '../NimChatroomSocket';
-import { nimChatroomSocketList } from '../Basic';
+import NimChatroomSocket, { type ChatroomMember } from '../sdk/NimChatroomSocket';
+import { nimChatroomSocketList } from '../QQBotModals/Basic';
 import { getRoomMessage, getRoomMessageForOicq, getLogMessage, log, type RoomMessageArgs } from '../utils/pocket48Utils';
 import { plain } from '../utils/miraiUtils';
 import { isOicq } from './utils';
-import type QQ from '../QQ';
-import type OicqQQ from '../OicqQQ';
+import type MiraiQQ from '../QQBotModals/MiraiQQ';
+import type OicqQQ from '../QQBotModals/OicqQQ';
 import type { OptionsItemPocket48, MemberInfo } from '../../commonTypes';
 import type { NIMMessage, CustomMessageAll, MessageChain } from '../qq.types';
 
 /* 口袋48 */
 class Pocket48Expand {
   public config: OptionsItemPocket48;
-  public qq: QQ | OicqQQ;
+  public qq: MiraiQQ | OicqQQ;
   public nimChatroomSocketId?: string;     // 对应的nim的唯一socketId
   public nimChatroom?: NimChatroomSocket;  // socket
   public memberInfo?: MemberInfo;          // 房间成员信息
@@ -23,7 +23,7 @@ class Pocket48Expand {
   public ownerOnlineTimer?: number;        // 判断成员是否在线的监听
   public roomEntryListener?: number;       // 成员进出的监听器
 
-  constructor({ config, qq }: { config: OptionsItemPocket48; qq: QQ | OicqQQ }) {
+  constructor({ config, qq }: { config: OptionsItemPocket48; qq: MiraiQQ | OicqQQ }) {
     this.config = config;
     this.qq = qq;
   }

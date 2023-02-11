@@ -8,7 +8,7 @@ import type {
 } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatServerServiceInterface';
 import type { QChatMessage } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatMsgServiceInterface';
 import { message } from 'antd';
-import appKey from './sdk/appKey.mjs';
+import appKey from './appKey.mjs';
 
 interface Queue {
   id: string;
