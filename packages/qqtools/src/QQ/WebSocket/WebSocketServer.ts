@@ -34,6 +34,15 @@ class WebSocketOnce {
     this.pingTimer = setInterval(this.pingTimerFunc, 180_000); // ping
   }
 
+  // 监听事件
+  on(type: EmitterType, cb: any): void {
+    this.emitter.on(type, cb);
+  }
+
+  off(type: EmitterType, cb: any): void {
+    this.emitter.off(type, cb);
+  }
+
   // socket end
   socketClose(): void {
     this.pingTimer !== null && clearInterval(this.pingTimer);
@@ -74,6 +83,12 @@ class WebSocketOnce {
       this.emitter.emit(EmitterType.Error, err);
     }
   };
+
+  // 关闭
+  close(): void {
+    this.socket.write(encodeWsFrame({ opcode: 8 }));
+    this.socketClose();
+  }
 }
 
 /* 创建websocket server服务 */
@@ -95,6 +110,15 @@ class WebSocketServer {
     this.port = args.port;
     this.url = args.url ?? '/';
     this.authorizationToken = args.authorizationToken;
+  }
+
+  // 监听事件
+  on(type: EmitterType, cb: any): void {
+    this.emitter.on(type, cb);
+  }
+
+  off(type: EmitterType, cb: any): void {
+    this.emitter.off(type, cb);
   }
 
   // 建立请求
@@ -162,6 +186,13 @@ class WebSocketServer {
     } catch (err) {
       this.emitter.emit(EmitterType.Error, err);
     }
+  }
+
+  // 关闭
+  close(): void {
+    this.socketsMap.forEach((value: WebSocketOnce, key: Socket): unknown => value.close());
+    this.server.close();
+    this.emitter.emit(EmitterType.Close);
   }
 }
 

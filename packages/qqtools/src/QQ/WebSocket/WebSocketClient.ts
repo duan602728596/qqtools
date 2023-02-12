@@ -38,6 +38,15 @@ class WebSocketClient {
     this.authorizationToken = args.authorizationToken;
   }
 
+  // 监听事件
+  on(type: EmitterType, cb: any): void {
+    this.emitter.on(type, cb);
+  }
+
+  off(type: EmitterType, cb: any): void {
+    this.emitter.off(type, cb);
+  }
+
   // 接收消息的回调函数
   handleSocketDataCallback: (buffer: Buffer) => void = (buffer: Buffer): void => {
     try {
@@ -123,6 +132,13 @@ class WebSocketClient {
     } catch (err) {
       this.emitter.emit(EmitterType.Error, err);
     }
+  }
+
+  // 关闭
+  close(): void {
+    this.client.write(encodeWsFrame({ opcode: 8 }));
+    this.client.end();
+    this.emitter.emit(EmitterType.Close);
   }
 }
 
