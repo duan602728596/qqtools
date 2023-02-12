@@ -4,7 +4,7 @@ import { renderString } from 'nunjucks';
 import Basic, { type MessageListener } from './Basic';
 import { getGroupNumbers, getSocketHost, LogCommandData } from '../utils/miraiUtils';
 import { isGroupMessageEventData, isMemberIncreaseEventData } from '../utils/oicqUtils';
-import { log } from '../utils/pocket48Utils';
+import { log } from '../utils/pocket48V2Utils';
 import { requestSendGroupMessage } from '../services/oicq';
 import type { OptionsItemValueV2, MemberInfo, EditItem } from '../../commonTypes';
 
@@ -35,12 +35,6 @@ class OicqQQ extends Basic {
       // 日志信息输出
       if (command === 'log') {
         this.logCommandCallback(groupId);
-
-        return;
-      }
-
-      if (command === 'pocketroom') {
-        this.membersInRoom(groupId);
 
         return;
       }

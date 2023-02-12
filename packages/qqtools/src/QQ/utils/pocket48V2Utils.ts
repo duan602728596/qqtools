@@ -1,3 +1,4 @@
+import * as fse from 'fs-extra';
 import * as dayjs from 'dayjs';
 import type { MessageElem } from 'oicq';
 import type { ChannelInfo } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatChannelServiceInterface';
@@ -424,4 +425,18 @@ ${ JSON.stringify(data) }
   }
 
   return logData;
+}
+
+/**
+ * 输出日志
+ * @param { string } dir: 日志输出目录
+ * @param { string } logData: 日志内容
+ */
+export async function log(dir: string, logData: string): Promise<void> {
+  const logDay: string = dayjs().format('YYYY-MM-DD');
+
+  await fse.outputFile(`${ dir }/${ logDay }.log`, `${ logData }\n\n`, {
+    encoding: 'utf8',
+    flag: 'a'
+  });
 }

@@ -12,7 +12,7 @@ import {
   requestAbout
 } from '../services/services';
 import { plain, miraiTemplate, getGroupNumbers, getSocketHost, LogCommandData } from '../utils/miraiUtils';
-import { log } from '../utils/pocket48Utils';
+import { log } from '../utils/pocket48V2Utils';
 import type { OptionsItemValueV2, MemberInfo, EditItem } from '../../commonTypes';
 import type {
   Plain,
@@ -64,12 +64,6 @@ class MiraiQQ extends Basic {
         // 日志信息输出
         if (command === 'log') {
           this.logCommandCallback(groupId);
-
-          return;
-        }
-
-        if (command === 'pocketroom') {
-          this.membersInRoom(groupId);
 
           return;
         }

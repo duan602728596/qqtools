@@ -1,4 +1,3 @@
-import Pocket48Expand from '../expand/Pocket48Expand';
 import Pocket48V2Expand from '../expand/Pocket48V2Expand';
 import WeiboExpand from '../expand/WeiboExpand';
 import DouyinExpand from '../expand/DouyinExpand';
@@ -25,7 +24,6 @@ abstract class Basic {
 
   public membersList?: Array<MemberInfo>; // 所有成员信息
 
-  public pocket48: Array<Pocket48Expand> | undefined;
   public pocket48V2: Array<Pocket48V2Expand> | undefined;
   public weibo: Array<WeiboExpand> | undefined;
   public douyin: Array<DouyinExpand> | undefined;
@@ -44,20 +42,6 @@ abstract class Basic {
 
         await pocket48.initPocket48();
         this.pocket48V2.push(pocket48);
-      }
-    }
-
-    if (this.config.pocket48) {
-      this.pocket48 = [];
-
-      for (const item of this.config.pocket48) {
-        const pocket48: Pocket48Expand = new Pocket48Expand({
-          qq: this,
-          config: item
-        });
-
-        await pocket48.initPocket48();
-        this.pocket48.push(pocket48);
       }
     }
 
@@ -124,11 +108,6 @@ abstract class Basic {
       this.pocket48V2 = undefined;
     }
 
-    if (this.pocket48) {
-      this.pocket48.forEach((item: Pocket48Expand): unknown => item.destroy());
-      this.pocket48 = undefined;
-    }
-
     // 销毁微博监听
     if (this.weibo) {
       this.weibo.forEach((item: WeiboExpand): unknown => item.destroy());
@@ -151,15 +130,6 @@ abstract class Basic {
     if (this.cronTimer) {
       this.cronTimer.forEach((item: CronTimerExpand): unknown => item.destroy());
       this.cronTimer = undefined;
-    }
-  }
-
-  // 输出当前房间的游客信息
-  async membersInRoom(groupId: number): Promise<void> {
-    if (this.pocket48) {
-      for (const item of this.pocket48) {
-        await item.membersInRoom(groupId);
-      }
     }
   }
 }
