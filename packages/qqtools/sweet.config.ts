@@ -49,7 +49,9 @@ function nodeModules(node: Array<string>): Array<string> {
 const externalsName: Array<string> = nodeModules([
   'child_process',
   'crypto',
+  'events',
   'fs',
+  'http',
   'net',
   'os',
   'path',
