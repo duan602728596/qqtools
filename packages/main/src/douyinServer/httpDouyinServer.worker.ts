@@ -21,6 +21,11 @@ function getBrowser(executablePath: string): BrowserType {
 
 const baseUrl: string = `http://localhost:${ workerData.port }`;
 
+function response404NotFound(httpResponse: ServerResponse): void {
+  httpResponse.statusCode = 404;
+  httpResponse.end('404 not found.');
+}
+
 /**
  * @param { URL } urlParse
  * @param { ServerResponse } httpResponse
@@ -79,11 +84,15 @@ async function douyinResponseHandle(urlParse: URL, httpResponse: ServerResponse)
 
 /* 开启代理服务，加载ts文件 */
 http.createServer(function(httpRequest: IncomingMessage, httpResponse: ServerResponse): void {
-  if (!httpRequest.url) return;
+  if (!httpRequest.url) {
+    return response404NotFound(httpResponse);
+  }
 
   const urlParse: URL = new URL(httpRequest.url, baseUrl);
 
   if (urlParse.pathname === '/douyin/renderdata' ) {
     douyinResponseHandle(urlParse, httpResponse);
+  } else {
+    response404NotFound(httpResponse);
   }
 }).listen(workerData.port);
