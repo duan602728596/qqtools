@@ -64,6 +64,7 @@ export interface OptionsItemDouyin {
   douyinListener?: boolean;
   userId: string;
   description: string;
+  intervalTime?: number;
 }
 
 // bilibili

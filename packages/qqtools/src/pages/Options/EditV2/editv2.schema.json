@@ -298,6 +298,12 @@
             "type": "string",
             "title": "监听介绍",
             "$required": true
+          },
+          "intervalTime": {
+            "id": "$root/properties/douyin/items/properties/intervalTime",
+            "type": "number",
+            "title": "轮询间隔（分钟）",
+            "minLength": 3
           }
         }
       }

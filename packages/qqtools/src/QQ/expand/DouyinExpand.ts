@@ -42,7 +42,7 @@ class DouyinExpand {
 
   // 抖音监听初始化
   initDouyinWorker(): void {
-    const { douyinListener, userId }: OptionsItemDouyin = this.config;
+    const { douyinListener, userId, intervalTime }: OptionsItemDouyin = this.config;
 
     if (!(douyinListener && userId && !/^\s*$/.test(userId))) return;
 
@@ -62,7 +62,8 @@ class DouyinExpand {
       description: this.config.description,
       protocol: this.protocol,
       executablePath,
-      port: getDouyinServerPort().port
+      port: getDouyinServerPort().port,
+      intervalTime
     });
   }
 

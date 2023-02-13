@@ -12,6 +12,7 @@ let lastUpdateTime: number | 0 | null = null;          // 记录最新发布视�
 let douyinTimer: NodeJS.Timer | undefined = undefined; // 轮询定时器
 let browserExecutablePath: string;                     // 浏览器路径
 let port: number;                                      // 端口号
+let intervalTime: number = 180_000;                    // 轮询间隔
 
 interface DouyinSendMsg {
   url: string | undefined;
@@ -146,7 +147,7 @@ async function handleDouyinListener(): Promise<void> {
     type: 'log',
     time: dayjs().format('YYYY-MM-DD HH:mm:ss')
   });
-  douyinTimer = setTimeout(handleDouyinListener, 180_000);
+  douyinTimer = setTimeout(handleDouyinListener, intervalTime);
 }
 
 /* 初始化获取抖音的记录位置 */
@@ -163,7 +164,8 @@ async function douyinInit(): Promise<void> {
 
     if (renderData) {
       const userItemArray: Array<UserItem1 | UserItem2> = Object.values(renderData);
-      const userItem2: UserItem2 | undefined = userItemArray.find((o: UserItem1 | UserItem2): o is UserItem2 => typeof o === 'object' && ('post' in o));
+      const userItem2: UserItem2 | undefined = userItemArray.find(
+        (o: UserItem1 | UserItem2): o is UserItem2 => typeof o === 'object' && ('post' in o));
 
       if (userItem2) {
         const data: Array<UserDataItem> = userItem2.post.data.sort(
@@ -179,7 +181,7 @@ async function douyinInit(): Promise<void> {
     console.error(err);
   }
 
-  douyinTimer = setTimeout(handleDouyinListener, 180_000);
+  douyinTimer = setTimeout(handleDouyinListener, intervalTime);
 }
 
 addEventListener('message', function(event: MessageEvent) {
@@ -193,6 +195,11 @@ addEventListener('message', function(event: MessageEvent) {
     protocol = event.data.protocol;
     browserExecutablePath = event.data.executablePath;
     port = event.data.port;
+
+    if (event.data.intervalTime && event.data.intervalTime >= 3) {
+      intervalTime = event.data.intervalTime * 60 * 1_000;
+    }
+
     douyinInit();
   }
 });
