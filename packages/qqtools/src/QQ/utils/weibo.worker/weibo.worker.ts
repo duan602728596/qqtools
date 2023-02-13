@@ -9,6 +9,7 @@ let weiboTimer: number; // 轮询定时器
 let weiboAtAll: boolean | undefined; // 是否at全体成员
 let weiboId: bigint;    // 记录查询位置
 let protocol: 'mirai' | 'oicq' | 'go-cqhttp'; // 协议：mirai或者oicq
+let port: number; // 端口号
 
 /**
  * mirai的消息
@@ -50,7 +51,8 @@ function oicqSendGroup(item: WeiboSendData): string {
 地址：${ item.scheme }`;
 
   if (item.pics.length > 0) {
-    sendText += oicq.cqcode.image(item.pics[0]);
+    sendText += oicq.cqcode.image(
+      `http://localhost:${ port }/proxy/weibo/image?url=${ encodeURIComponent(item.pics[0]) }`);
   }
 
   return sendText;
@@ -92,5 +94,6 @@ addEventListener('message', function(event: MessageEvent) {
   lfid = event.data.lfid;
   weiboAtAll = event.data.weiboAtAll;
   protocol = event.data.protocol;
+  port = event.data.port;
   weiboInit();
 });

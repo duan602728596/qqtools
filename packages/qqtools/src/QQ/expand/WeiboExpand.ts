@@ -2,6 +2,7 @@ import { message } from 'antd';
 import { requestWeiboInfo } from '../services/services';
 import getWeiboWorker from '../utils/weibo.worker/getWeiboWorker';
 import getWeiboSuperTopicWorker from '../utils/weiboSuperTopic.worker/getWeiboSuperTopicWorker';
+import { getDouyinServerPort } from '../../utils/douyinServer/douyinServer';
 import type MiraiQQ from '../QQBotModals/MiraiQQ';
 import type OicqQQ from '../QQBotModals/OicqQQ';
 import type GoCQHttp from '../QQBotModals/GoCQHttp';
@@ -13,7 +14,7 @@ type MessageListener = (event: MessageEvent) => void | Promise<void>;
 /* 微博 */
 class WeiboExpand {
   public config: OptionsItemWeibo;
-  public qq: MiraiQQ | OicqQQ;
+  public qq: MiraiQQ | OicqQQ | GoCQHttp;
   public protocol: 'mirai' | 'oicq' | 'go-cqhttp';
   public weiboLfid: string;    // 微博的lfid
   public weiboWorker?: Worker; // 微博监听
@@ -22,7 +23,7 @@ class WeiboExpand {
 
   constructor({ config, qq, protocol }: {
     config: OptionsItemWeibo;
-    qq: MiraiQQ | OicqQQ;
+    qq: MiraiQQ | OicqQQ | GoCQHttp;
     protocol: 'mirai' | 'oicq' | 'go-cqhttp';
   }) {
     this.config = config;
@@ -52,7 +53,8 @@ class WeiboExpand {
       this.weiboWorker.postMessage({
         lfid: this.weiboLfid,
         weiboAtAll,
-        protocol: this.protocol
+        protocol: this.protocol,
+        port: getDouyinServerPort().port
       });
     } else {
       message.warning('没有获取到微博用户的相关信息！请稍后重新登录。');
@@ -70,7 +72,8 @@ class WeiboExpand {
     this.weiboSuperTopicWorker.addEventListener('message', this.handleWeiboWorkerMessage, false);
     this.weiboSuperTopicWorker.postMessage({
       lfid: this.weiboSuperTopicLfid,
-      protocol: this.protocol
+      protocol: this.protocol,
+      port: getDouyinServerPort().port
     });
   }
 
