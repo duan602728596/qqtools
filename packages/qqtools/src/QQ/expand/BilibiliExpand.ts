@@ -1,7 +1,7 @@
 import { requestRoomInfo } from '../services/services';
 import getBilibiliWorker from '../utils/bilibili.worker/getBilibiliWorker';
 import { plain, atAll } from '../utils/miraiUtils';
-import { isOicq } from './utils';
+import { isOicqOrGoCQHttp } from './utils';
 import type MiraiQQ from '../QQBotModals/MiraiQQ';
 import type OicqQQ from '../QQBotModals/OicqQQ';
 import type { OptionsItemBilibili } from '../../commonTypes';
@@ -26,7 +26,7 @@ class BilibiliExpand {
     const { bilibiliAtAll }: OptionsItemBilibili = this.config;
     const text: string = `bilibili：${ this.bilibiliUsername }在B站开启了直播。`;
 
-    if (isOicq(this.qq)) {
+    if (isOicqOrGoCQHttp(this.qq)) {
       const sendMessage: string = `${ bilibiliAtAll ? '[CQ:at,qq=all]' : '' }${ text }`;
 
       await this.qq.sendMessage(sendMessage);

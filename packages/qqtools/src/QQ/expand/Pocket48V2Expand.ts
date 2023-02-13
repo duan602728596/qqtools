@@ -4,7 +4,7 @@ import type { ChannelInfo } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatCha
 import QChatSocket from '../sdk/QChatSocket';
 import { qChatSocketList } from '../QQBotModals/Basic';
 import { getRoomMessage, getRoomMessageForOicq, getLogMessage, log, type RoomMessageArgs } from '../utils/pocket48V2Utils';
-import { isOicq } from './utils';
+import { isOicqOrGoCQHttp } from './utils';
 import type MiraiQQ from '../QQBotModals/MiraiQQ';
 import type OicqQQ from '../QQBotModals/OicqQQ';
 import type { OptionsItemPocket48V2, MemberInfo } from '../../commonTypes';
@@ -80,7 +80,7 @@ class Pocket48V2Expand {
       channel
     };
 
-    if (isOicq(this.qq)) {
+    if (isOicqOrGoCQHttp(this.qq)) {
       const sendGroup: Array<MessageElem> = getRoomMessageForOicq(roomMessageArgs);
 
       if (sendGroup.length > 0) {

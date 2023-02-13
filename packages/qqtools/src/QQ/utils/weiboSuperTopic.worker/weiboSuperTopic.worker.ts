@@ -14,7 +14,7 @@ let lfid: `${ string }_-_sort_time`; // 账号的lfid
 let weiboTimer: number; // 轮询定时器
 let weiboId: bigint;    // 记录查询位置
 let superNick: string;  // 超话名称
-let protocol: string;   // 协议：mirai或者oicq
+let protocol: 'mirai' | 'oicq' | 'go-cqhttp'; // 协议：mirai或者oicq
 
 /**
  * mirai的消息
@@ -68,7 +68,9 @@ async function weiboContainerListTimer(): Promise<void> {
       weiboId = newList[0].id;
 
       for (const item of newList) {
-        postMessage({ sendGroup: protocol === 'oicq' ? oicqSendGroup(item) : miraiSendGroup(item) });
+        postMessage({
+          sendGroup: ['oicq', 'go-cqhttp'].includes(protocol) ? oicqSendGroup(item) : miraiSendGroup(item)
+        });
       }
     }
   } catch (err) {
