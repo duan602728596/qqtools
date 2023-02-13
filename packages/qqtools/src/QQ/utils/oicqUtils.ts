@@ -33,11 +33,19 @@ export function miraiMessageTooicqMessage(miraiMessage: Array<MessageChain>): Ar
 }
 
 /* 判断为群信息 */
-export function isGroupMessageEventData(data: EventData): data is GroupMessageEventData {
+export function isGroupMessageEventData(data: EventData | MemberIncreaseEventData | {
+  post_type: 'meta_event';
+  meta_event_type: 'heartbeat';
+}): data is GroupMessageEventData {
   return data.post_type === 'message' && data.message_type === 'group';
 }
 
 /* 判断为有人入群 */
-export function isMemberIncreaseEventData(data: EventData): data is MemberIncreaseEventData {
-  return data.post_type === 'notice' && data.notice_type === 'group' && data.sub_type === 'increase';
+export function isMemberIncreaseEventData(data: EventData | MemberIncreaseEventData | {
+  post_type: 'meta_event';
+  meta_event_type: 'heartbeat';
+}): data is MemberIncreaseEventData {
+  return data.post_type === 'notice'
+    && ['group', 'group_increase'].includes(data.notice_type)
+    && ['increase', 'approve', 'invite'].includes(data.sub_type);
 }

@@ -168,11 +168,11 @@ export function getSocketHost(socketHost: string | undefined): string {
 
 /**
  * 输出机器人的相关信息
- * @param { 'mirai' | 'oicq' } protocol: 机器人使用的库
+ * @param { 'mirai' | 'oicq' | 'go-cqhttp' } protocol: 机器人使用的库
  * @param { number } qqNumber: qq号
  * @param { string } time: 登陆时间
  */
-export function LogCommandData(protocol: 'mirai' | 'oicq', qqNumber: number, time: string): string {
+export function LogCommandData(protocol: 'mirai' | 'oicq' | 'go-cqhttp', qqNumber: number, time: string): string {
   return `qqtools
 软件版本：${ Reflect.get(packageJson, 'version') }
 运行平台：${ process.platform }

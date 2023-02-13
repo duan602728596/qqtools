@@ -22,6 +22,7 @@ import { setAddLogin, setDeleteLogin, getRoomId, LoginInitialState } from './red
 import dbConfig from '../../utils/IDB/IDBConfig';
 import MiraiQQ from '../../QQ/QQBotModals/MiraiQQ';
 import OicqQQ from '../../QQ/QQBotModals/OicqQQ';
+import GoCQHttp from '../../QQ/QQBotModals/GoCQHttp';
 import formatToV2Config from '../../QQ/formatToV2Config';
 import { getGroupNumbers } from '../../QQ/utils/miraiUtils';
 import type { OptionsItem, OptionsItemValueV2, MemberInfo } from '../../commonTypes';
@@ -29,7 +30,7 @@ import type { OptionsItem, OptionsItemValueV2, MemberInfo } from '../../commonTy
 /* redux selector */
 type RSelector = {
   optionsList: Array<OptionsItem>;
-  loginList: Array<MiraiQQ | OicqQQ>;
+  loginList: Array<MiraiQQ | OicqQQ | GoCQHttp>;
 };
 type RState = {
   options: OptionsInitialState;
@@ -41,7 +42,7 @@ const selector: Selector<RState, RSelector> = createStructuredSelector({
   optionsList: ({ options }: RState): Array<OptionsItem> => options.optionsList,
 
   // 登陆列表
-  loginList: ({ login }: RState): Array<MiraiQQ | OicqQQ> => login.loginList
+  loginList: ({ login }: RState): Array<MiraiQQ | OicqQQ | GoCQHttp> => login.loginList
 });
 
 /* 登陆 */
@@ -53,7 +54,7 @@ function Index(props: {}): ReactElement {
   const [loginLoading, setLoginLoading]: [boolean, D<S<boolean>>] = useState(false); // loading
 
   // 退出
-  async function handleLogoutClick(qq: MiraiQQ | OicqQQ, event?: MouseEvent): Promise<void> {
+  async function handleLogoutClick(qq: MiraiQQ | OicqQQ | GoCQHttp, event?: MouseEvent): Promise<void> {
     await qq.destroy();
     dispatch(setDeleteLogin(qq));
   }
@@ -71,10 +72,12 @@ function Index(props: {}): ReactElement {
       const index: number = optionsList.findIndex((o: OptionsItem): boolean => o.id === optionValue);
       const qqOptions: OptionsItemValueV2 = formatToV2Config(optionsList[index].value);
       const id: string = randomUUID();
-      let qq: MiraiQQ | OicqQQ;
+      let qq: MiraiQQ | OicqQQ | GoCQHttp;
 
       if (qqOptions.optionType === '1') {
         qq = new OicqQQ(id, qqOptions, roomIdResult?.value);
+      } else if (qqOptions.optionType === '2') {
+        qq = new GoCQHttp(id, qqOptions, roomIdResult?.value);
       } else {
         qq = new MiraiQQ(id, qqOptions, roomIdResult?.value);
       }

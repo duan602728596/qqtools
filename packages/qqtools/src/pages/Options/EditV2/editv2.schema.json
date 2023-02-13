@@ -29,6 +29,10 @@
           "value": "0"
         },
         {
+          "label": "go-cqhttp",
+          "value": "2"
+        },
+        {
           "label": "oicq",
           "value": "1"
         }
@@ -63,10 +67,15 @@
       "$required": true,
       "$requiredMessage": "必须填写端口号"
     },
+    "reverseWebsocket": {
+      "id": "$root/properties/reverseWebsocket",
+      "type": "boolean",
+      "title": "go-cqhttp反向websocket"
+    },
     "authKey": {
       "id": "$root/properties/authKey",
       "type": "string",
-      "title": "authKey",
+      "title": "mirai的authKey或go-cqhttp的token",
       "$placeholder": "mirai配置类型时需要填写"
     },
     "pocket48V2": {

@@ -3,7 +3,6 @@ import WeiboExpand from '../expand/WeiboExpand';
 import DouyinExpand from '../expand/DouyinExpand';
 import BilibiliExpand from '../expand/BilibiliExpand';
 import CronTimerExpand from '../expand/CronTimerExpand';
-import NimChatroomSocket from '../sdk/NimChatroomSocket';
 import QChatSocket from '../sdk/QChatSocket';
 import type MiraiQQ from './MiraiQQ';
 import type OicqQQ from './OicqQQ';
@@ -11,7 +10,6 @@ import type { OptionsItemValueV2, MemberInfo } from '../../commonTypes';
 
 export type MessageListener = (event: MessageEvent) => void | Promise<void>;
 
-export const nimChatroomSocketList: Array<NimChatroomSocket> = []; // 缓存连接
 export const qChatSocketList: Array<QChatSocket> = [];
 
 abstract class Basic {

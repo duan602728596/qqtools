@@ -16,6 +16,7 @@
     "node-schedule": "^2.1.1",
     "nunjucks": "^3.2.3",
     "oicq": "^1.21.3",
-    "playwright-core": "^1.30.0"
+    "playwright-core": "^1.30.0",
+    "ws": "^8.12.0"
   }
 }

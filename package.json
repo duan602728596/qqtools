@@ -49,6 +49,7 @@
     "@types/node-schedule": "^2",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/ws": "^8",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@typescript-eslint/parser": "^5.50.0",
     "commitizen": "^4.3.0",
