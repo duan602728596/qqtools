@@ -303,7 +303,7 @@
             "id": "$root/properties/douyin/items/properties/intervalTime",
             "type": "number",
             "title": "轮询间隔（分钟）",
-            "minLength": 3
+            "minimum": 3
           }
         }
       }
