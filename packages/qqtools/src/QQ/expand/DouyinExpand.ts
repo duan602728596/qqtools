@@ -1,10 +1,8 @@
 import { message } from 'antd';
 import getDouyinWorker from '../utils/douyin.worker/getDouyinWorker';
 import { getDouyinServerPort } from '../../utils/douyinServer/douyinServer';
+import type { QQProtocol, QQModals } from '../QQBotModals/ModalTypes';
 import type { OptionsItemDouyin } from '../../commonTypes';
-import type MiraiQQ from '../QQBotModals/MiraiQQ';
-import type OicqQQ from '../QQBotModals/OicqQQ';
-import type GoCQHttp from '../QQBotModals/GoCQHttp';
 import type { MessageChain } from '../qq.types';
 
 interface DouyinMessageData {
@@ -17,14 +15,14 @@ type MessageListener = (event: MessageEvent<DouyinMessageData>) => void | Promis
 /* 抖音监听 */
 class DouyinExpand {
   public config: OptionsItemDouyin;
-  public qq: MiraiQQ | OicqQQ | GoCQHttp;
-  public protocol: 'mirai' | 'oicq' | 'go-cqhttp';
+  public qq: QQModals;
+  public protocol: QQProtocol;
   public douyinWorker?: Worker;
 
   constructor({ config, qq, protocol }: {
     config: OptionsItemDouyin;
-    qq: MiraiQQ | OicqQQ | GoCQHttp;
-    protocol: 'mirai' | 'oicq' | 'go-cqhttp';
+    qq: QQModals;
+    protocol: QQProtocol;
   }) {
     this.config = config;
     this.qq = qq;

@@ -1,17 +1,16 @@
 import { scheduleJob, type Job } from 'node-schedule';
 import { miraiTemplate } from '../utils/miraiUtils';
 import { isOicqOrGoCQHttp } from './utils';
-import type MiraiQQ from '../QQBotModals/MiraiQQ';
-import type OicqQQ from '../QQBotModals/OicqQQ';
+import type { QQModals } from '../QQBotModals/ModalTypes';
 import type { OptionsItemCronTimer } from '../../commonTypes';
 
 /* 定时任务 */
 class CronTimerExpand {
   public config: OptionsItemCronTimer;
-  public qq: MiraiQQ | OicqQQ;
+  public qq: QQModals;
   public cronJob?: Job; // 定时任务
 
-  constructor({ config, qq }: { config: OptionsItemCronTimer; qq: MiraiQQ | OicqQQ }) {
+  constructor({ config, qq }: { config: OptionsItemCronTimer; qq: QQModals }) {
     this.config = config;
     this.qq = qq;
   }

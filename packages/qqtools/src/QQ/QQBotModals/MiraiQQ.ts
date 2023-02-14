@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import * as dayjs from 'dayjs';
 import Basic, { type MessageListener } from './Basic';
+import { QQProtocol } from './ModalTypes';
 import {
   requestAuth,
   requestAuthV2,
@@ -29,7 +30,7 @@ import type {
 type CloseListener = (event: CloseEvent) => void | Promise<void>;
 
 class MiraiQQ extends Basic {
-  public protocol: 'mirai' = 'mirai';
+  public protocol: QQProtocol = QQProtocol.Mirai;
   public socketStatus: -1 | 0; // -1 关闭，0 正常
   public eventSocket?: WebSocket;
   public messageSocket?: WebSocket;

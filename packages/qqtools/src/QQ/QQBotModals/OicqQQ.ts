@@ -2,6 +2,7 @@ import type { EventData, GroupMessageEventData, RetCommon, MessageElem } from 'o
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
 import Basic, { type MessageListener } from './Basic';
+import { QQProtocol } from './ModalTypes';
 import { getGroupNumbers, getSocketHost, LogCommandData } from '../utils/miraiUtils';
 import { isGroupMessageEventData, isMemberIncreaseEventData } from '../utils/oicqUtils';
 import { log } from '../utils/pocket48V2Utils';
@@ -10,7 +11,7 @@ import type { OptionsItemValueV2, MemberInfo, EditItem } from '../../commonTypes
 
 /* oicq的连接 */
 class OicqQQ extends Basic {
-  public protocol: 'oicq' = 'oicq';
+  public protocol: QQProtocol = QQProtocol.Oicq;
   public oicqSocket?: WebSocket;
 
   constructor(id: string, config: OptionsItemValueV2, membersList?: Array<MemberInfo>) {

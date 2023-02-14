@@ -5,6 +5,7 @@ import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
 import { message } from 'antd';
 import Basic from './Basic';
+import { QQProtocol } from './ModalTypes';
 import { getGroupNumbers, getSocketHost, LogCommandData } from '../utils/miraiUtils';
 import { isGroupMessageEventData, isMemberIncreaseEventData } from '../utils/oicqUtils';
 import type { MemberInfo, OptionsItemValueV2, EditItem } from '../../commonTypes';
@@ -24,7 +25,7 @@ class GoCQHttp extends Basic {
     return ['bearer', 'token'].includes(bearerStr) && authValue === token;
   }
 
-  public protocol: 'go-cqhttp' = 'go-cqhttp';
+  public protocol: QQProtocol = QQProtocol.GoCQHttp;
   public websocket: WebSocketClient | WebSocketServer | undefined;
 
   constructor(id: string, config: OptionsItemValueV2, membersList?: Array<MemberInfo>) {

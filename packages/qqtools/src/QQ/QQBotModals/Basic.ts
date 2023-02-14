@@ -4,8 +4,7 @@ import DouyinExpand from '../expand/DouyinExpand';
 import BilibiliExpand from '../expand/BilibiliExpand';
 import CronTimerExpand from '../expand/CronTimerExpand';
 import QChatSocket from '../sdk/QChatSocket';
-import type MiraiQQ from './MiraiQQ';
-import type OicqQQ from './OicqQQ';
+import { QQProtocol, type QQModals } from './ModalTypes';
 import type { OptionsItemValueV2, MemberInfo } from '../../commonTypes';
 
 export type MessageListener = (event: MessageEvent) => void | Promise<void>;
@@ -13,7 +12,7 @@ export type MessageListener = (event: MessageEvent) => void | Promise<void>;
 export const qChatSocketList: Array<QChatSocket> = [];
 
 abstract class Basic {
-  public protocol: string;            // mirai或者oicq
+  public protocol: QQProtocol;        // mirai或者oicq
   public id: string;                  // 当前进程的唯一ID
   public config: OptionsItemValueV2;  // 配置
   public groupNumbers: Array<number>; // 多个群号
@@ -28,7 +27,7 @@ abstract class Basic {
   public bilibili: Array<BilibiliExpand> | undefined;
   public cronTimer: Array<CronTimerExpand> | undefined;
 
-  static async initExpand(this: MiraiQQ | OicqQQ): Promise<void> {
+  static async initExpand(this: QQModals): Promise<void> {
     if (this.config.pocket48V2) {
       this.pocket48V2 = [];
 
@@ -99,7 +98,7 @@ abstract class Basic {
     }
   }
 
-  static destroyExpand(this: MiraiQQ | OicqQQ): void {
+  static destroyExpand(this: QQModals): void {
     // 销毁口袋监听
     if (this.pocket48V2) {
       this.pocket48V2.forEach((item: Pocket48V2Expand): unknown => item.destroy());

@@ -1,13 +1,14 @@
 import { setTimeout, clearTimeout } from 'node:timers';
 import * as oicq from 'oicq';
 import * as dayjs from 'dayjs';
+import { QQProtocol } from '../../QQBotModals/ModalTypes';
 import { plain, image } from '../miraiUtils';
 import type { UserScriptRendedData, UserItem1, UserItem2, UserDataItem, MessageChain } from '../../qq.types';
 
 /* 抖音 */
 let userId: string;                                    // 用户userId
 let description: string;                               // 描述
-let protocol: 'mirai' | 'oicq' | 'go-cqhttp';          // 协议：mirai或者oicq
+let protocol: QQProtocol;                              // 协议：mirai或者oicq
 let lastUpdateTime: number | 0 | null = null;          // 记录最新发布视频的更新时间，为0表示当前没有数据，null表示请求数据失败了
 let douyinTimer: NodeJS.Timer | undefined = undefined; // 轮询定时器
 let browserExecutablePath: string;                     // 浏览器路径
@@ -117,7 +118,7 @@ async function handleDouyinListener(): Promise<void> {
                 cover: `https:${ item.video.cover }`
               };
 
-              sendGroup.push(['oicq', 'go-cqhttp'].includes(protocol)
+              sendGroup.push([QQProtocol.Oicq, QQProtocol.GoCQHttp].includes(protocol)
                 ? oicqSendGroup(sendData) : miraiSendGroup(sendData));
             } else {
               break;

@@ -5,8 +5,7 @@ import QChatSocket from '../sdk/QChatSocket';
 import { qChatSocketList } from '../QQBotModals/Basic';
 import { getRoomMessage, getRoomMessageForOicq, getLogMessage, log, type RoomMessageArgs } from '../utils/pocket48V2Utils';
 import { isOicqOrGoCQHttp } from './utils';
-import type MiraiQQ from '../QQBotModals/MiraiQQ';
-import type OicqQQ from '../QQBotModals/OicqQQ';
+import type { QQModals } from '../QQBotModals/ModalTypes';
 import type { OptionsItemPocket48V2, MemberInfo } from '../../commonTypes';
 import type { CustomMessageAllV2, UserV2, MessageChain } from '../qq.types';
 
@@ -15,12 +14,12 @@ class Pocket48V2Expand {
   static channelIdMap: Map<string, Array<ChannelInfo>> = new Map();
 
   public config: OptionsItemPocket48V2;
-  public qq: MiraiQQ | OicqQQ;
+  public qq: QQModals;
   public qChatSocketId?: string;    // 对应的nim的唯一socketId
   public qChatSocket?: QChatSocket; // socket
   public memberInfo?: MemberInfo;   // 房间成员信息
 
-  constructor({ config, qq }: { config: OptionsItemPocket48V2; qq: MiraiQQ | OicqQQ }) {
+  constructor({ config, qq }: { config: OptionsItemPocket48V2; qq: QQModals }) {
     this.config = config;
     this.qq = qq;
   }
@@ -84,6 +83,7 @@ class Pocket48V2Expand {
       const sendGroup: Array<MessageElem> = getRoomMessageForOicq(roomMessageArgs);
 
       if (sendGroup.length > 0) {
+        // @ts-ignore TODO: need fix
         await this.qq.sendMessage(sendGroup);
       }
     } else {

@@ -2,8 +2,7 @@ import { requestRoomInfo } from '../services/services';
 import getBilibiliWorker from '../utils/bilibili.worker/getBilibiliWorker';
 import { plain, atAll } from '../utils/miraiUtils';
 import { isOicqOrGoCQHttp } from './utils';
-import type MiraiQQ from '../QQBotModals/MiraiQQ';
-import type OicqQQ from '../QQBotModals/OicqQQ';
+import type { QQModals } from '../QQBotModals/ModalTypes';
 import type { OptionsItemBilibili } from '../../commonTypes';
 import type { MessageChain, BilibiliRoomInfo } from '../qq.types';
 
@@ -12,11 +11,11 @@ type MessageListener = (event: MessageEvent) => void | Promise<void>;
 /* bilibili */
 class BilibiliExpand {
   public config: OptionsItemBilibili;
-  public qq: MiraiQQ | OicqQQ;
+  public qq: QQModals;
   public bilibiliWorker?: Worker;  // b站直播监听
   public bilibiliUsername: string; // 用户名
 
-  constructor({ config, qq }: { config: OptionsItemBilibili; qq: MiraiQQ | OicqQQ }) {
+  constructor({ config, qq }: { config: OptionsItemBilibili; qq: QQModals }) {
     this.config = config;
     this.qq = qq;
   }

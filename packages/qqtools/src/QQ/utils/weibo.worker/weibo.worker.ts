@@ -1,4 +1,5 @@
 import * as oicq from 'oicq';
+import { QQProtocol } from '../../QQBotModals/ModalTypes';
 import { filterCards, filterNewCards } from '../weiboUtils';
 import { atAll, image, plain } from '../miraiUtils';
 import { requestWeiboContainer } from '../../services/weibo';
@@ -7,8 +8,8 @@ import type { MessageChain, WeiboSendData, WeiboCard, WeiboContainerList } from 
 let lfid: string;       // 账号的lfid
 let weiboTimer: number; // 轮询定时器
 let weiboAtAll: boolean | undefined; // 是否at全体成员
-let weiboId: bigint;    // 记录查询位置
-let protocol: 'mirai' | 'oicq' | 'go-cqhttp'; // 协议：mirai或者oicq
+let weiboId: bigint;      // 记录查询位置
+let protocol: QQProtocol; // 协议：mirai或者oicq
 let port: number; // 端口号
 
 /**
@@ -70,7 +71,7 @@ async function weiboContainerListTimer(): Promise<void> {
 
       for (const item of newList) {
         postMessage({
-          sendGroup: ['oicq', 'go-cqhttp'].includes(protocol) ? oicqSendGroup(item) : miraiSendGroup(item)
+          sendGroup: [QQProtocol.Oicq, QQProtocol.GoCQHttp].includes(protocol) ? oicqSendGroup(item) : miraiSendGroup(item)
         });
       }
     }

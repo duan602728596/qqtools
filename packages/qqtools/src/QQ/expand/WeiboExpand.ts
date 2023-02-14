@@ -3,9 +3,7 @@ import { requestWeiboInfo } from '../services/services';
 import getWeiboWorker from '../utils/weibo.worker/getWeiboWorker';
 import getWeiboSuperTopicWorker from '../utils/weiboSuperTopic.worker/getWeiboSuperTopicWorker';
 import { getDouyinServerPort } from '../../utils/douyinServer/douyinServer';
-import type MiraiQQ from '../QQBotModals/MiraiQQ';
-import type OicqQQ from '../QQBotModals/OicqQQ';
-import type GoCQHttp from '../QQBotModals/GoCQHttp';
+import type { QQProtocol, QQModals } from '../QQBotModals/ModalTypes';
 import type { OptionsItemWeibo } from '../../commonTypes';
 import type { WeiboTab, WeiboInfo } from '../qq.types';
 
@@ -14,8 +12,8 @@ type MessageListener = (event: MessageEvent) => void | Promise<void>;
 /* 微博 */
 class WeiboExpand {
   public config: OptionsItemWeibo;
-  public qq: MiraiQQ | OicqQQ | GoCQHttp;
-  public protocol: 'mirai' | 'oicq' | 'go-cqhttp';
+  public qq: QQModals;
+  public protocol: QQProtocol;
   public weiboLfid: string;    // 微博的lfid
   public weiboWorker?: Worker; // 微博监听
   public weiboSuperTopicLfid: string;    // 微博的超级话题lfid
@@ -23,8 +21,8 @@ class WeiboExpand {
 
   constructor({ config, qq, protocol }: {
     config: OptionsItemWeibo;
-    qq: MiraiQQ | OicqQQ | GoCQHttp;
-    protocol: 'mirai' | 'oicq' | 'go-cqhttp';
+    qq: QQModals;
+    protocol: QQProtocol;
   }) {
     this.config = config;
     this.qq = qq;

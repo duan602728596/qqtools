@@ -25,12 +25,13 @@ import OicqQQ from '../../QQ/QQBotModals/OicqQQ';
 import GoCQHttp from '../../QQ/QQBotModals/GoCQHttp';
 import formatToV2Config from '../../QQ/formatToV2Config';
 import { getGroupNumbers } from '../../QQ/utils/miraiUtils';
+import type { QQModals } from '../../QQ/QQBotModals/ModalTypes';
 import type { OptionsItem, OptionsItemValueV2, MemberInfo } from '../../commonTypes';
 
 /* redux selector */
 type RSelector = {
   optionsList: Array<OptionsItem>;
-  loginList: Array<MiraiQQ | OicqQQ | GoCQHttp>;
+  loginList: Array<QQModals>;
 };
 type RState = {
   options: OptionsInitialState;
@@ -42,7 +43,7 @@ const selector: Selector<RState, RSelector> = createStructuredSelector({
   optionsList: ({ options }: RState): Array<OptionsItem> => options.optionsList,
 
   // 登陆列表
-  loginList: ({ login }: RState): Array<MiraiQQ | OicqQQ | GoCQHttp> => login.loginList
+  loginList: ({ login }: RState): Array<QQModals> => login.loginList
 });
 
 /* 登陆 */
@@ -54,7 +55,7 @@ function Index(props: {}): ReactElement {
   const [loginLoading, setLoginLoading]: [boolean, D<S<boolean>>] = useState(false); // loading
 
   // 退出
-  async function handleLogoutClick(qq: MiraiQQ | OicqQQ | GoCQHttp, event?: MouseEvent): Promise<void> {
+  async function handleLogoutClick(qq: QQModals, event?: MouseEvent): Promise<void> {
     await qq.destroy();
     dispatch(setDeleteLogin(qq));
   }
@@ -72,7 +73,7 @@ function Index(props: {}): ReactElement {
       const index: number = optionsList.findIndex((o: OptionsItem): boolean => o.id === optionValue);
       const qqOptions: OptionsItemValueV2 = formatToV2Config(optionsList[index].value);
       const id: string = randomUUID();
-      let qq: MiraiQQ | OicqQQ | GoCQHttp;
+      let qq: QQModals;
 
       if (qqOptions.optionType === '1') {
         qq = new OicqQQ(id, qqOptions, roomIdResult?.value);
@@ -107,32 +108,32 @@ function Index(props: {}): ReactElement {
     });
   }
 
-  const columns: ColumnsType<MiraiQQ> = [
+  const columns: ColumnsType<QQModals> = [
     {
       title: '登陆配置',
       dataIndex: 'config',
-      render: (value: OptionsItemValueV2, record: MiraiQQ | OicqQQ, index: number): string => value.optionName
+      render: (value: OptionsItemValueV2, record: QQModals, index: number): string => value.optionName
     },
     {
       title: 'MiraiQQ',
       dataIndex: 'qqNumber',
-      render: (value: undefined, record: MiraiQQ | OicqQQ, index: number): number => record.config.qqNumber
+      render: (value: undefined, record: QQModals, index: number): number => record.config.qqNumber
     },
     {
       title: '群号',
       dataIndex: 'groupNumber',
-      render: (value: undefined, record: MiraiQQ | OicqQQ, index: number): string => getGroupNumbers(record.config.groupNumber).join(', ')
+      render: (value: undefined, record: QQModals, index: number): string => getGroupNumbers(record.config.groupNumber).join(', ')
     },
     {
       title: '协议',
       key: 'protocol',
-      render: (value: undefined, record: MiraiQQ | OicqQQ, index: number): string => record.protocol
+      render: (value: undefined, record: QQModals, index: number): string => record.protocol
     },
     {
       title: '操作',
       dataIndex: 'handle',
       width: 130,
-      render: (value: undefined, record: MiraiQQ | OicqQQ, index: number): ReactElement => (
+      render: (value: undefined, record: QQModals, index: number): ReactElement => (
         <Button type="primary"
           danger={ true }
           onClick={ (event?: MouseEvent): Promise<void> => handleLogoutClick(record, event) }
