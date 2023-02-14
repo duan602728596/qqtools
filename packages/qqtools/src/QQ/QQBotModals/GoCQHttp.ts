@@ -1,6 +1,6 @@
 import type { IncomingMessage } from 'node:http';
 import { WebSocket as WebSocketClient, WebSocketServer } from 'ws';
-import type { GroupMessageEventData, MemberIncreaseEventData } from 'oicq';
+import type { GroupMessage, MemberIncreaseEvent as OicqMemberIncreaseEvent } from 'oicq';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
 import { message } from 'antd';
@@ -9,6 +9,16 @@ import { QQProtocol } from './ModalTypes';
 import { getGroupNumbers, getSocketHost, LogCommandData } from '../utils/miraiUtils';
 import { isGroupMessageEventData, isMemberIncreaseEventData } from '../utils/oicqUtils';
 import type { MemberInfo, OptionsItemValueV2, EditItem } from '../../commonTypes';
+
+export interface HeartbeatMessage {
+  post_type: 'meta_event';
+  meta_event_type: 'heartbeat';
+}
+
+export interface MemberIncreaseEvent extends Omit<OicqMemberIncreaseEvent, 'notice_type' | 'sub_type'> {
+  notice_type: 'group_increase';
+  sub_type: 'approve' | 'invite';
+}
 
 /* go-cqhttp */
 class GoCQHttp extends Basic {
@@ -42,15 +52,12 @@ class GoCQHttp extends Basic {
   handleMessageSocketMessage: (buffer: Buffer) => void | Promise<void> = async (buffer: Buffer): Promise<void> => {
     const { qqNumber, customCmd, groupWelcome, groupWelcomeSend }: OptionsItemValueV2 = this.config;
     const groupNumbers: Array<number> = this.groupNumbers;
-    const data: GroupMessageEventData | MemberIncreaseEventData | {
-      post_type: 'meta_event';
-      meta_event_type: 'heartbeat';
-    } = JSON.parse(buffer.toString());
+    const data: GroupMessage | MemberIncreaseEvent | HeartbeatMessage = JSON.parse(buffer.toString());
 
     if (data.post_type === 'meta_event' && data.meta_event_type === 'heartbeat') return;
 
     if (isGroupMessageEventData(data) && data.sender.user_id !== qqNumber && groupNumbers.includes(data.group_id)) {
-      const { raw_message: command, /* 当前命令 */ group_id: groupId /* 收到消息的群 */ }: GroupMessageEventData = data;
+      const { raw_message: command, /* 当前命令 */ group_id: groupId /* 收到消息的群 */ }: GroupMessage = data;
 
       // 日志信息输出
       if (command === 'log') {

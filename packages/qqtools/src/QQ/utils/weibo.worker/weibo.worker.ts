@@ -1,9 +1,8 @@
-import * as oicq from 'oicq';
 import { QQProtocol } from '../../QQBotModals/ModalTypes';
 import { filterCards, filterNewCards } from '../weiboUtils';
-import { atAll, image, plain } from '../miraiUtils';
 import { requestWeiboContainer } from '../../services/weibo';
-import type { MessageChain, WeiboSendData, WeiboCard, WeiboContainerList } from '../../qq.types';
+import parser from '../../parser/index';
+import type { WeiboCard, WeiboContainerList, WeiboSendData } from '../../qq.types';
 
 let lfid: string;       // 账号的lfid
 let weiboTimer: number; // 轮询定时器
@@ -13,38 +12,13 @@ let protocol: QQProtocol; // 协议：mirai或者oicq
 let port: number; // 端口号
 
 /**
- * mirai的消息
  * @param { WeiboSendData } item
  */
-function miraiSendGroup(item: WeiboSendData): Array<MessageChain> {
-  const sendGroup: Array<MessageChain> = [];
-
-  if (weiboAtAll) {
-    sendGroup.push(atAll());
-  }
-
-  sendGroup.push(
-    plain(`${ item.name } 在${ item.time }发送了一条微博：${ item.text }
-类型：${ item.type }
-地址：${ item.scheme }`)
-  );
-
-  if (item.pics.length > 0) {
-    sendGroup.push(image(item.pics[0]));
-  }
-
-  return sendGroup;
-}
-
-/**
- * oicq的消息
- * @param { WeiboSendData } item
- */
-function oicqSendGroup(item: WeiboSendData): string {
+function QQSendGroup(item: WeiboSendData): string {
   let sendText: string = '';
 
   if (weiboAtAll) {
-    sendText += `${ oicq.cqcode.at('all' as any) } `;
+    sendText += '[CQ:at,qq=all]';
   }
 
   sendText += `${ item.name } 在${ item.time }发送了一条微博：${ item.text }
@@ -52,8 +26,11 @@ function oicqSendGroup(item: WeiboSendData): string {
 地址：${ item.scheme }`;
 
   if (item.pics.length > 0) {
-    sendText += oicq.cqcode.image(
-      `http://localhost:${ port }/proxy/weibo/image?url=${ encodeURIComponent(item.pics[0]) }`);
+    const imgUrl: string = protocol === QQProtocol.Mirai
+      ? item.pics[0]
+      : `http://localhost:${ port }/proxy/weibo/image?url=${ encodeURIComponent(item.pics[0]) }`;
+
+    sendText += `[CQ:image,file=${ imgUrl }]`;
   }
 
   return sendText;
@@ -71,7 +48,7 @@ async function weiboContainerListTimer(): Promise<void> {
 
       for (const item of newList) {
         postMessage({
-          sendGroup: [QQProtocol.Oicq, QQProtocol.GoCQHttp].includes(protocol) ? oicqSendGroup(item) : miraiSendGroup(item)
+          sendGroup: parser(QQSendGroup(item), protocol)
         });
       }
     }

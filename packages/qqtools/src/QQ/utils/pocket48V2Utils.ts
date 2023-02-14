@@ -2,7 +2,7 @@ import * as fse from 'fs-extra';
 import * as dayjs from 'dayjs';
 import type { MessageElem } from 'oicq';
 import type { ChannelInfo } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatChannelServiceInterface';
-import { plain, image, atAll } from './miraiUtils';
+import { plain, image, atAll, type MiraiMessageProps } from '../parser/mirai';
 import { miraiMessageTooicqMessage } from './oicqUtils';
 import type {
   CustomMessageAllV2,
@@ -10,8 +10,7 @@ import type {
   ReplyInfo,
   FlipCardInfo,
   FlipCardAudioInfo,
-  FlipCardVideoInfo,
-  MessageChain
+  FlipCardVideoInfo
 } from '../qq.types';
 import type { MemberInfo } from '../../commonTypes';
 
@@ -43,8 +42,8 @@ export function getRoomMessage({
   memberInfo,
   pocket48MemberInfo,
   channel
-}: RoomMessageArgs): Array<MessageChain> {
-  const sendGroup: Array<MessageChain> = [];     // 发送的数据
+}: RoomMessageArgs): Array<MiraiMessageProps> {
+  const sendGroup: Array<MiraiMessageProps> = [];     // 发送的数据
   const nickName: string = user?.nickName ?? ''; // 用户名
   const msgTime: string = dayjs(data.time).format('YYYY-MM-DD HH:mm:ss'); // 发送时间
 
@@ -247,8 +246,8 @@ ${ info.question }
  * 获取房间数据
  * @param { RoomMessageArgs } roomMessageArgs
  */
-export function getRoomMessageForOicq(roomMessageArgs: RoomMessageArgs): Array<MessageElem> {
-  const message: Array<MessageChain> = getRoomMessage(roomMessageArgs);
+export function getRoomMessageForOicq(roomMessageArgs: RoomMessageArgs): string {
+  const message: Array<MiraiMessageProps> = getRoomMessage(roomMessageArgs);
 
   return miraiMessageTooicqMessage(message);
 }

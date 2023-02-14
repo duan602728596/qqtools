@@ -1,4 +1,4 @@
-import type { RetCommon, MessageElem } from 'oicq';
+import type { MessageElem } from 'oicq';
 
 /**
  * 发送群消息
@@ -12,7 +12,7 @@ export async function requestSendGroupMessage(
   socketHost: string,
   port: number,
   message: MessageElem | Array<MessageElem> | string
-): Promise<RetCommon> {
+): Promise<unknown> {
   const res: Response = await fetch(`http://${ socketHost }:${ port }/oicq/action`, {
     method: 'POST',
     headers: {

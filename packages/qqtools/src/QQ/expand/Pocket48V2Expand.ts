@@ -7,7 +7,8 @@ import { getRoomMessage, getRoomMessageForOicq, getLogMessage, log, type RoomMes
 import { isOicqOrGoCQHttp } from './utils';
 import type { QQModals } from '../QQBotModals/ModalTypes';
 import type { OptionsItemPocket48V2, MemberInfo } from '../../commonTypes';
-import type { CustomMessageAllV2, UserV2, MessageChain } from '../qq.types';
+import type { CustomMessageAllV2, UserV2 } from '../qq.types';
+import type { MiraiMessageProps } from '../parser/mirai';
 
 /* 口袋48 */
 class Pocket48V2Expand {
@@ -80,14 +81,13 @@ class Pocket48V2Expand {
     };
 
     if (isOicqOrGoCQHttp(this.qq)) {
-      const sendGroup: Array<MessageElem> = getRoomMessageForOicq(roomMessageArgs);
+      const sendGroup: string = getRoomMessageForOicq(roomMessageArgs);
 
       if (sendGroup.length > 0) {
-        // @ts-ignore TODO: need fix
-        await this.qq.sendMessage(sendGroup);
+        await this.qq.sendMessage(sendGroup as any);
       }
     } else {
-      const sendGroup: Array<MessageChain> = getRoomMessage(roomMessageArgs);
+      const sendGroup: Array<MiraiMessageProps> = getRoomMessage(roomMessageArgs);
 
       if (sendGroup.length > 0) {
         await this.qq.sendMessage(sendGroup);

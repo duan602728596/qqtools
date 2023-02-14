@@ -1,5 +1,6 @@
 import { message } from 'antd';
 import * as dayjs from 'dayjs';
+import { renderString } from 'nunjucks';
 import Basic, { type MessageListener } from './Basic';
 import { QQProtocol } from './ModalTypes';
 import {
@@ -12,15 +13,15 @@ import {
   requestManagers,
   requestAbout
 } from '../services/services';
-import { plain, miraiTemplate, getGroupNumbers, getSocketHost, LogCommandData } from '../utils/miraiUtils';
+import { plain, type MiraiMessageProps } from '../parser/mirai';
+import { getGroupNumbers, getSocketHost, LogCommandData } from '../utils/miraiUtils';
 import { log } from '../utils/pocket48V2Utils';
+import parser from '../parser/index';
 import type { OptionsItemValueV2, MemberInfo, EditItem } from '../../commonTypes';
 import type {
-  Plain,
   AuthResponse,
   MessageResponse,
   AboutResponse,
-  MessageChain,
   MessageSocketEventData,
   MessageSocketEventDataV2,
   EventSocketEventData,
@@ -80,9 +81,7 @@ class MiraiQQ extends Basic {
           });
 
           if (customCmdItem) {
-            const value: Array<MessageChain> = miraiTemplate(customCmdItem.value);
-
-            await this.sendMessage(value, groupId);
+            await this.sendMessage(parser(customCmdItem.value, this.protocol) as Array<MiraiMessageProps>, groupId);
           }
         }
       }
@@ -99,11 +98,11 @@ class MiraiQQ extends Basic {
     // 欢迎进群
     if (data.type === 'MemberJoinEvent' && data.member.id !== qqNumber && groupNumbers.includes(data.member.group.id)) {
       if (groupWelcome && groupWelcomeSend) {
-        const value: Array<MessageChain> = miraiTemplate(groupWelcomeSend, {
-          qqNumber: data.member.id
+        const msg: string = renderString(groupWelcomeSend, {
+          at: `[CQ:at,qq=${ data.member.id }]`
         });
 
-        await this.sendMessage(value, data.member.group.id);
+        await this.sendMessage(parser(msg, this.protocol) as Array<MiraiMessageProps>, data.member.group.id);
       }
     }
   };
@@ -214,10 +213,10 @@ class MiraiQQ extends Basic {
 
   /**
    * 发送信息
-   * @param { Array<MessageChain> } value: 要发送的信息
+   * @param { Array<MiraiMessageProps> } value: 要发送的信息
    * @param { number } groupId: 单个群的群号
    */
-  async sendMessage(value: Array<MessageChain>, groupId?: number): Promise<void> {
+  async sendMessage(value: Array<MiraiMessageProps>, groupId?: number): Promise<void> {
     try {
       const { socketHost }: this = this;
       const { socketPort }: OptionsItemValueV2 = this.config;

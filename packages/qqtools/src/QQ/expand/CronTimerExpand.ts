@@ -1,6 +1,5 @@
 import { scheduleJob, type Job } from 'node-schedule';
-import { miraiTemplate } from '../utils/miraiUtils';
-import { isOicqOrGoCQHttp } from './utils';
+import parser from '../parser/index';
 import type { QQModals } from '../QQBotModals/ModalTypes';
 import type { OptionsItemCronTimer } from '../../commonTypes';
 
@@ -21,11 +20,7 @@ class CronTimerExpand {
 
     if (cronJob && cronTime && cronSendData) {
       this.cronJob = scheduleJob(cronTime, (): void => {
-        if (isOicqOrGoCQHttp(this.qq)) {
-          this.qq.sendMessage(cronSendData);
-        } else {
-          this.qq.sendMessage(miraiTemplate(cronSendData));
-        }
+        this.qq.sendMessage(parser(cronSendData, this.qq.protocol) as any);
       });
     }
   }

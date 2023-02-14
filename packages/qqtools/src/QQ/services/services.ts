@@ -1,9 +1,9 @@
 import got, { type Response as GotResponse } from 'got';
+import type { MiraiMessageProps } from '../parser/mirai';
 import type {
   AuthResponse,
   MessageResponse,
   AboutResponse,
-  MessageChain,
   WeiboInfo,
   BilibiliRoomInfo
 } from '../qq.types';
@@ -101,14 +101,14 @@ export async function requestRelease(qq: number, socketHost: string, port: numbe
  * @param { string } socketHost
  * @param { number } port: 端口号
  * @param { string } session
- * @param { Array<MessageChain> } messageChain: 发送信息
+ * @param { Array<MiraiMessageProps> } messageChain: 发送信息
  */
 export async function requestSendGroupMessage(
   groupNumber: number,
   socketHost: string,
   port: number,
   session: string,
-  messageChain: Array<MessageChain>
+  messageChain: Array<MiraiMessageProps>
 ): Promise<MessageResponse> {
   const res: Response = await fetch(`http://${ socketHost }:${ port }/sendGroupMessage`, {
     mode: 'no-cors',

@@ -1,10 +1,9 @@
 import { requestRoomInfo } from '../services/services';
 import getBilibiliWorker from '../utils/bilibili.worker/getBilibiliWorker';
-import { plain, atAll } from '../utils/miraiUtils';
-import { isOicqOrGoCQHttp } from './utils';
+import parser, { type ParserResult } from '../parser/index';
 import type { QQModals } from '../QQBotModals/ModalTypes';
 import type { OptionsItemBilibili } from '../../commonTypes';
-import type { MessageChain, BilibiliRoomInfo } from '../qq.types';
+import type { BilibiliRoomInfo } from '../qq.types';
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
 
@@ -24,20 +23,9 @@ class BilibiliExpand {
   handleBilibiliWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
     const { bilibiliAtAll }: OptionsItemBilibili = this.config;
     const text: string = `bilibili：${ this.bilibiliUsername }在B站开启了直播。`;
+    const sendMessage: ParserResult = parser(`${ bilibiliAtAll ? '[CQ:at,qq=all]' : '' }${ text }`, this.qq.protocol);
 
-    if (isOicqOrGoCQHttp(this.qq)) {
-      const sendMessage: string = `${ bilibiliAtAll ? '[CQ:at,qq=all]' : '' }${ text }`;
-
-      await this.qq.sendMessage(sendMessage);
-    } else {
-      const sendMessage: Array<MessageChain> = [plain(text)];
-
-      if (bilibiliAtAll) {
-        sendMessage.unshift(atAll());
-      }
-
-      await this.qq.sendMessage(sendMessage);
-    }
+    await this.qq.sendMessage(sendMessage as any);
   };
 
   // bilibili直播监听初始化

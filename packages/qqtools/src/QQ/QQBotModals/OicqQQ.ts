@@ -1,4 +1,4 @@
-import type { EventData, GroupMessageEventData, RetCommon, MessageElem } from 'oicq';
+import type { GroupMessage, MemberIncreaseEvent, MessageElem } from 'oicq';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
 import Basic, { type MessageListener } from './Basic';
@@ -28,10 +28,10 @@ class OicqQQ extends Basic {
   handleMessageSocketMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
     const { qqNumber, customCmd, groupWelcome, groupWelcomeSend }: OptionsItemValueV2 = this.config;
     const groupNumbers: Array<number> = this.groupNumbers;
-    const data: EventData = JSON.parse(event.data);
+    const data: GroupMessage | MemberIncreaseEvent = JSON.parse(event.data);
 
     if (isGroupMessageEventData(data) && data.sender.user_id !== qqNumber && groupNumbers.includes(data.group_id)) {
-      const { raw_message: command, /* 当前命令 */ group_id: groupId /* 收到消息的群 */ }: GroupMessageEventData = data;
+      const { raw_message: command, /* 当前命令 */ group_id: groupId /* 收到消息的群 */ }: GroupMessage = data;
 
       // 日志信息输出
       if (command === 'log') {
@@ -86,10 +86,10 @@ class OicqQQ extends Basic {
 
   /**
    * 发送信息
-   * @param { MessageElem | Array<MessageElem> | string } value: 要发送的信息
+   * @param { Array<MessageElem> | string } value: 要发送的信息
    * @param { number } groupId: 单个群的群号
    */
-  async sendMessage(value: MessageElem | Array<MessageElem> | string, groupId?: number): Promise<void> {
+  async sendMessage(value: Array<MessageElem> | string, groupId?: number): Promise<void> {
     try {
       const { socketHost }: this = this;
       const { socketPort }: OptionsItemValueV2 = this.config;
@@ -101,7 +101,7 @@ class OicqQQ extends Basic {
       } else {
         // 发送到多个群
         await Promise.all(
-          groupNumbers.map((item: number, index: number): Promise<RetCommon> => {
+          groupNumbers.map((item: number, index: number): Promise<unknown> => {
             return requestSendGroupMessage(item, socketHost, socketPort, value);
           })
         );

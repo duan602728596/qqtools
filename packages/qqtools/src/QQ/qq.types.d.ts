@@ -1,4 +1,5 @@
 import type { UploadFileResult } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/CloudStorageServiceInterface';
+import type { MiraiMessageProps } from './parser/mirai';
 
 export interface AuthResponse {
   code: number;
@@ -19,34 +20,6 @@ export interface AboutResponse {
   };
 }
 
-/**
- * 发送的信息类型
- * 类型文档：https://github.com/project-mirai/mirai-api-http/blob/master/docs/MessageType.md
- */
-export interface Plain {
-  type: 'Plain';
-  text: string;
-}
-
-export interface Image {
-  type: 'Image';
-  url?: string;
-  path?: string;
-}
-
-export interface At {
-  type: 'At';
-  target: number;
-  display: 'name';
-}
-
-export interface AtAll {
-  type: 'AtAll';
-  target: 0;
-}
-
-export type MessageChain = Plain | Image | At | AtAll;
-
 /* socket信息 */
 // 群信息
 export interface MessageSocketEventData {
@@ -57,7 +30,7 @@ export interface MessageSocketEventData {
       id: number; // 群号
     };
   };
-  messageChain: Array<MessageChain>;
+  messageChain: Array<MiraiMessageProps>;
 }
 
 export interface MessageSocketEventDataV2 {

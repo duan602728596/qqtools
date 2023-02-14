@@ -3,11 +3,11 @@ import getDouyinWorker from '../utils/douyin.worker/getDouyinWorker';
 import { getDouyinServerPort } from '../../utils/douyinServer/douyinServer';
 import type { QQProtocol, QQModals } from '../QQBotModals/ModalTypes';
 import type { OptionsItemDouyin } from '../../commonTypes';
-import type { MessageChain } from '../qq.types';
+import type { ParserResult } from '../parser/index';
 
 interface DouyinMessageData {
   type: 'message';
-  sendGroup: Array<MessageChain[] | string>;
+  sendGroup: Array<ParserResult[] | string>;
 }
 
 type MessageListener = (event: MessageEvent<DouyinMessageData>) => void | Promise<void>;

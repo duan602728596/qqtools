@@ -1,10 +1,8 @@
-import * as oicq from 'oicq';
 import { QQProtocol } from '../../QQBotModals/ModalTypes';
 import { filterCards, filterNewCards } from '../weiboUtils';
-import { image, plain } from '../miraiUtils';
 import { requestWeiboContainer } from '../../services/weibo';
+import parser from '../../parser';
 import type {
-  MessageChain,
   WeiboSendData,
   WeiboCard,
   WeiboSuperTopicContainerList,
@@ -19,30 +17,9 @@ let protocol: QQProtocol; // 协议：mirai或者oicq
 let port: number; // 端口号
 
 /**
- * mirai的消息
  * @param { WeiboSendData } item
  */
-function miraiSendGroup(item: WeiboSendData): Array<MessageChain> {
-  const sendGroup: Array<MessageChain> = [];
-
-  sendGroup.push(
-    plain(`${ item.name } 在${ item.time }，在超话#${ superNick }#发送了一条微博：${ item.text }
-类型：${ item.type }
-地址：${ item.scheme }`)
-  );
-
-  if (item.pics.length > 0) {
-    sendGroup.push(image(item.pics[0]));
-  }
-
-  return sendGroup;
-}
-
-/**
- * oicq的消息
- * @param { WeiboSendData } item
- */
-function oicqSendGroup(item: WeiboSendData): string {
+function QQSendGroup(item: WeiboSendData): string {
   let sendText: string = '';
 
   sendText += `${ item.name } 在${ item.time }，在超话#${ superNick }#发送了一条微博：${ item.text }
@@ -50,8 +27,11 @@ function oicqSendGroup(item: WeiboSendData): string {
 地址：${ item.scheme }`;
 
   if (item.pics.length > 0) {
-    sendText += oicq.cqcode.image(
-      `http://localhost:${ port }/proxy/weibo/image?url=${ encodeURIComponent(item.pics[0]) }`);
+    const imgUrl: string = protocol === QQProtocol.Mirai
+      ? item.pics[0]
+      : `http://localhost:${ port }/proxy/weibo/image?url=${ encodeURIComponent(item.pics[0]) }`;
+
+    sendText += `[CQ:image,file=${ imgUrl }]`;
   }
 
   return sendText;
@@ -72,7 +52,7 @@ async function weiboContainerListTimer(): Promise<void> {
 
       for (const item of newList) {
         postMessage({
-          sendGroup: [QQProtocol.Oicq, QQProtocol.GoCQHttp].includes(protocol) ? oicqSendGroup(item) : miraiSendGroup(item)
+          sendGroup: parser(QQSendGroup(item), protocol)
         });
       }
     }

@@ -1,9 +1,8 @@
 import { setTimeout, clearTimeout } from 'node:timers';
-import * as oicq from 'oicq';
 import * as dayjs from 'dayjs';
 import { QQProtocol } from '../../QQBotModals/ModalTypes';
-import { plain, image } from '../miraiUtils';
-import type { UserScriptRendedData, UserItem1, UserItem2, UserDataItem, MessageChain } from '../../qq.types';
+import parser, { type ParserResult } from '../../parser/index';
+import type { UserScriptRendedData, UserItem1, UserItem2, UserDataItem } from '../../qq.types';
 
 /* 抖音 */
 let userId: string;                                    // 用户userId
@@ -23,28 +22,15 @@ interface DouyinSendMsg {
   cover: string;
 }
 
-/* mirai的消息 */
-function miraiSendGroup(item: DouyinSendMsg): Array<MessageChain> {
-  const sendGroup: Array<MessageChain> = [
-    plain(`${ item.nickname } 在${ item.time }发送了一条抖音：${ item.desc }`),
-    image(item.cover)
-  ];
-
-  item.url && sendGroup.push(plain(`视频下载地址：${ item.url }`));
-
-  return sendGroup;
-}
-
-/* oicq的消息 */
-function oicqSendGroup(item: DouyinSendMsg): string {
-  const sendGroup: Array<string> = [
+function QQSendGroup(item: DouyinSendMsg): string {
+  const sendMessageGroup: Array<string> = [
     `${ item.nickname } 在${ item.time }发送了一条抖音：${ item.desc }`,
-    oicq.cqcode.image(item.cover)
+    `[CQ:image,file=${ item.cover }]`
   ];
 
-  item.url && sendGroup.push(`视频下载地址：${ item.url }`);
+  item.url && sendMessageGroup.push(`视频下载地址：${ item.url }`);
 
-  return sendGroup.join('');
+  return sendMessageGroup.join('');
 }
 
 /* 获取数据 */
@@ -106,7 +92,7 @@ async function handleDouyinListener(): Promise<void> {
         }
 
         if (data.length) {
-          const sendGroup: Array<MessageChain[] | string> = [];
+          const sendGroup: Array<ParserResult> = [];
 
           for (const item of data) {
             if (item.createTime > lastUpdateTime) {
@@ -118,8 +104,7 @@ async function handleDouyinListener(): Promise<void> {
                 cover: `https:${ item.video.cover }`
               };
 
-              sendGroup.push([QQProtocol.Oicq, QQProtocol.GoCQHttp].includes(protocol)
-                ? oicqSendGroup(sendData) : miraiSendGroup(sendData));
+              sendGroup.push(parser(QQSendGroup(sendData), protocol));
             } else {
               break;
             }

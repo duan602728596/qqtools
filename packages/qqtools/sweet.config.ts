@@ -66,7 +66,8 @@ const externalsName: Array<string> = nodeModules([
   'js-yaml',
   'node-schedule',
   'nunjucks',
-  'oicq'
+  'oicq',
+  'ws'
 ]);
 
 export default function(info: object): { [key: string]: any } {

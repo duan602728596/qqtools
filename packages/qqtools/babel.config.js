@@ -8,6 +8,9 @@ module.exports = function(api) {
         { modules: 'commonjs' }
       ],
       ['@babel/preset-typescript']
+    ],
+    plugins: [
+      '@babel/plugin-syntax-import-assertions'
     ]
   };
 };

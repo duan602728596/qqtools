@@ -1,49 +1,6 @@
 import * as process from 'node:process';
+import { plain, image, at, atAll, type MiraiMessageProps } from '../parser/mirai';
 import * as packageJson from '../../../package.json' assert { type: 'json' };
-import type { Plain, Image, At, AtAll, MessageChain } from '../qq.types';
-
-/**
- * 发送文字
- * @param { string } text: 文字
- */
-export function plain(text: string): Plain {
-  return { type: 'Plain', text };
-}
-
-/**
- * 发送图片
- * @param { string } url: 图片地址或本地地址
- */
-export function image(url: string): Image {
-  const send: Image = { type: 'Image' };
-
-  if (/^https?:\/\//.test(url)) {
-    send.url = url;
-  } else {
-    send.path = url;
-  }
-
-  return send;
-}
-
-/**
- * 圈人
- * @param { number } target: QQ号
- */
-export function at(target: number): At {
-  return {
-    type: 'At',
-    target,
-    display: 'name'
-  };
-}
-
-/**
- * 圈所有成员
- */
-export function atAll(): AtAll {
-  return { type: 'AtAll', target: 0 };
-}
 
 interface ParsingResult {
   type: 'Plain' | 'Other';
@@ -62,9 +19,9 @@ interface Options {
  *       atAll，at全体成员 <%= qqtools:atAll %>
  * @param { string } message: 信息
  * @param { Options } options: 配置
- * @return { Array<MessageChain> }
+ * @return { Array<MiraiMessageProps> }
  */
-export function miraiTemplate(message: string, options: Options = {}): Array<MessageChain> {
+export function miraiTemplate(message: string, options: Options = {}): Array<MiraiMessageProps> {
   const msgArr: Array<string> = message.split(''); // 将字符串拆分成一个一个文字的数组
   const result: Array<ParsingResult> = [];
   let cache: string = '';                // 文本缓冲区
@@ -104,7 +61,7 @@ export function miraiTemplate(message: string, options: Options = {}): Array<Mes
   }
 
   // 解析数组内的Other类型，不满足条件的将会变成Plain类型
-  const textResult: Array<MessageChain> = [];
+  const textResult: Array<MiraiMessageProps> = [];
 
   for (const item of result) {
     // 解析other类型
