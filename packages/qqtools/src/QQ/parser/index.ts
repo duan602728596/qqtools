@@ -1,6 +1,6 @@
 import { segment, type MessageElem } from 'oicq';
 import { QQProtocol } from '../QQBotModals/ModalTypes';
-import { plain, face, dice, image, at, atAll, miraiCode, type MiraiMessageProps } from './mirai';
+import { plain, face, dice, image, at, atAll, voice, miraiCode, type MiraiMessageProps } from './mirai';
 import { miraiTemplate } from '../utils/miraiUtils';
 
 export type ParserResult = Array<MiraiMessageProps> | Array<MessageElem> | string;
@@ -52,6 +52,13 @@ function parser(text: string, protocol: QQProtocol): ParserResult {
             return at(ele.qq);
           }
 
+        case 'record':
+          if (typeof ele.file === 'string') {
+            return voice(ele.file, ele.seconds);
+          } else if (ele.url) {
+            return voice(ele.url, ele.seconds);
+          } else break;
+
         case 'mirai':
           return plain(ele.data);
 
@@ -84,8 +91,6 @@ function parser(text: string, protocol: QQProtocol): ParserResult {
       }
     }
   }
-
-  console.log(miraiMessageGroup);
 
   return miraiMessageGroup.flat();
 }

@@ -59,6 +59,8 @@ class MiraiQQ extends Basic {
 
     // 群信息
     if (data.type === 'GroupMessage' && data.sender.id !== qqNumber && groupNumbers.includes(data.sender.group.id)) {
+      console.log(data);
+
       if (data.messageChain?.[1].type === 'Plain') {
         const command: string = data.messageChain[1].text; // 当前命令
         const groupId: number = data.sender.group.id;      // 收到消息的群
@@ -85,15 +87,23 @@ class MiraiQQ extends Basic {
           }
         }
 
-        if (process.env.NODE_ENV === 'development' && command === 'test-msg-ej') {
-          const mockImg: string[] = [
-            'https://wx2.sinaimg.cn/mw690/00689qXxly1hat3deahenj32c0340kjn.jpg',
-            'https://wx4.sinaimg.cn/mw690/00689qXxly1hat3cvbbpgj325e2w7qv7.jpg'
-          ];
+        // mock测试用
+        if (process.env.NODE_ENV === 'development') {
+          if (command === 'test-msg-ej') {
+            const mockImg: string[] = [
+              'https://wx2.sinaimg.cn/mw690/00689qXxly1hat3deahenj32c0340kjn.jpg',
+              'https://wx4.sinaimg.cn/mw690/00689qXxly1hat3cvbbpgj325e2w7qv7.jpg'
+            ];
 
-          await this.sendMessage(parser(
-            `恩瑾[CQ:image,file=${ mockImg[0] }]<%= qqtools:image, ${ mockImg[1] } %>[mirai:at:${ qqNumber }]\n恩瑾`,
-            this.protocol) as Array<MiraiMessageProps>, groupId);
+            await this.sendMessage(parser(
+              `恩瑾[CQ:image,file=${ mockImg[0] }]<%= qqtools:image, ${ mockImg[1] } %>[mirai:at:${ qqNumber }]\n恩瑾`,
+              this.protocol) as Array<MiraiMessageProps>, groupId);
+          } else if (command === 'test-voice-gxy') {
+            const wav: string = 'https://nim-nosdn.netease.im/NDA5MzEwOA==/bmltYV80NjQxMTg5MjM2Nl8xNjc2MDEyNjkwMzc5XzA5MGQzMDY1LWMyM2ItNDBjZC1hYWRkLWI5ZmNmMGZkYzcxYQ==';
+
+            await this.sendMessage(parser(
+              `[CQ:record,file=${ wav },second=13]`, this.protocol) as Array<MiraiMessageProps>, groupId);
+          }
         }
       }
     }

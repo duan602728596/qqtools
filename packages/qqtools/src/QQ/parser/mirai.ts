@@ -39,6 +39,15 @@ export interface AtAllProps {
   target: 0;
 }
 
+export interface VoiceCodeProps {
+  type: 'Voice';
+  base64: string | null;
+  length: number;
+  path: string | null;
+  url: string | null;
+  voiceId: string | null;
+}
+
 export interface MiraiCodeProps {
   type: 'MiraiCode';
   code: string;
@@ -51,6 +60,7 @@ export type MiraiMessageProps = PlainProps
   | ImagePathProps
   | AtProps
   | AtAllProps
+  | VoiceCodeProps
   | MiraiCodeProps;
 
 /**
@@ -95,11 +105,23 @@ export function at(target: number): AtProps {
   return { type: 'At', target, display: 'name' };
 }
 
-/**
- * 圈所有成员
- */
+/* 圈所有成员 */
 export function atAll(): AtAllProps {
   return { type: 'AtAll', target: 0 };
+}
+
+/* 语音 */
+export function voice(url: string, seconds?: number): VoiceCodeProps {
+  const isHttp: boolean = /^https?:\/\//.test(url);
+
+  return {
+    type: 'Voice',
+    base64: null,
+    length: seconds ?? 5,
+    path: isHttp ? null : url,
+    url: isHttp ? url : null,
+    voiceId: null
+  };
 }
 
 export function miraiCode(code: string): MiraiCodeProps {
