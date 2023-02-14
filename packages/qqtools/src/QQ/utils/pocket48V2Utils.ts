@@ -1,6 +1,5 @@
 import * as fse from 'fs-extra';
 import * as dayjs from 'dayjs';
-import type { MessageElem } from 'oicq';
 import type { ChannelInfo } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatChannelServiceInterface';
 import { plain, image, atAll, type MiraiMessageProps } from '../parser/mirai';
 import { miraiMessageTooicqMessage } from './oicqUtils';

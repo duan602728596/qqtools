@@ -1,0 +1,29 @@
+{
+  "message" : [
+    {
+      "channelId": 1164574,
+      "serverId": 1181234,
+      "body": "发个wb[得意][得意][得意]",
+      "ext": "{\"module\":\"QCHAT\",\"channelRole\":\"2\",\"user\":{\"userId\":711746,\"nickName\":\"BEJ48-周湘\",\"teamLogo\":\"\/20200904\/15992025288054qD21JfZgU.png\",\"avatar\":\"\/avatar\/2022\/0317\/711746x4oupo49d4s0xht0s60rz4rv.jpg\",\"level\":4,\"roleId\":3,\"vip\":false,\"pfUrl\":\"\"},\"bubbleId\":\"338785331586015531\"}",
+      "type": "text",
+      "time": 1676382266665,
+      "updateTime": 1676382266665
+    },
+    {
+      "channelId": 1164574,
+      "serverId": 1181234,
+      "attach": {
+        "size": 91372,
+        "ext": "jpg",
+        "h":1198,
+        "w": 828,
+        "url": "https://nim-nosdn.netease.im/NDA5MzEwOA==/bmltYV83MjUxODQ3Njc0XzE2NzU5OTkxMzIwMzRfMWJlZWNmNmEtN2I2OC00MjA5LTk2NTctODVjYmVlMDYwYTFm",
+        "md5": "9bee4c99fff3a4cc5cf82941bbc9d57f"
+      },
+      "ext": "{\"module\":\"QCHAT\",\"channelRole\":\"2\",\"user\":{\"userId\":711746,\"nickName\":\"BEJ48-周湘\",\"teamLogo\":\"\/20200904\/15992025288054qD21JfZgU.png\",\"avatar\":\"\/avatar\/2022\/0317\/711746x4oupo49d4s0xht0s60rz4rv.jpg\",\"level\":4,\"roleId\":3,\"vip\":false,\"pfUrl\":\"\"},\"bubbleId\":\"338785331586015531\"}",
+      "type": "image",
+      "time": 1676382254101,
+      "updateTime": 1676382254101
+    }
+  ]
+}

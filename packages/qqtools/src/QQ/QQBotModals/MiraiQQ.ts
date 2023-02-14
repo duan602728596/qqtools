@@ -84,6 +84,17 @@ class MiraiQQ extends Basic {
             await this.sendMessage(parser(customCmdItem.value, this.protocol) as Array<MiraiMessageProps>, groupId);
           }
         }
+
+        if (process.env.NODE_ENV === 'development' && command === 'test-msg-ej') {
+          const mockImg: string[] = [
+            'https://wx2.sinaimg.cn/mw690/00689qXxly1hat3deahenj32c0340kjn.jpg',
+            'https://wx4.sinaimg.cn/mw690/00689qXxly1hat3cvbbpgj325e2w7qv7.jpg'
+          ];
+
+          await this.sendMessage(parser(
+            `恩瑾[CQ:image,file=${ mockImg[0] }]<%= qqtools:image, ${ mockImg[1] } %>恩瑾`,
+            this.protocol) as Array<MiraiMessageProps>, groupId);
+        }
       }
     }
   };

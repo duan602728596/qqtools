@@ -8,7 +8,10 @@ import Basic from './Basic';
 import { QQProtocol } from './ModalTypes';
 import { getGroupNumbers, getSocketHost, LogCommandData } from '../utils/miraiUtils';
 import { isGroupMessageEventData, isMemberIncreaseEventData } from '../utils/oicqUtils';
+import { getRoomMessageForOicq } from '../utils/pocket48V2Utils';
 import type { MemberInfo, OptionsItemValueV2, EditItem } from '../../commonTypes';
+import type { RoomMessageArgs } from '../utils/pocket48V2Utils';
+import type { UserV2 } from '../qq.types';
 
 export interface HeartbeatMessage {
   post_type: 'meta_event';
@@ -78,6 +81,28 @@ class GoCQHttp extends Basic {
 
         if (index >= 0) {
           await this.sendMessage(customCmd[index].value, groupId);
+        }
+      }
+
+      // mock测试用
+      if (process.env.NODE_ENV === 'development' && command === 'test-pocket-zx') {
+        const mockData: { message: any } = await import('../mock/zhouxiang.json', {
+          assert: { type: 'json' }
+        });
+
+        for (const msg of mockData.message) {
+          const user: UserV2 = JSON.parse(msg.ext).user ;
+          const roomMessageArgs: RoomMessageArgs = {
+            user,
+            data: msg,
+            pocket48ShieldMsgType: undefined,
+            channel: undefined
+          };
+          const sendGroup: string = getRoomMessageForOicq(roomMessageArgs);
+
+          if (sendGroup.length > 0) {
+            await this.sendMessage(sendGroup);
+          }
         }
       }
     }
