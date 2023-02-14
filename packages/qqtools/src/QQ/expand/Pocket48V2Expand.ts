@@ -1,5 +1,4 @@
 import { randomUUID } from 'node:crypto';
-import type { MessageElem } from 'oicq';
 import type { ChannelInfo } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatChannelServiceInterface';
 import QChatSocket from '../sdk/QChatSocket';
 import { qChatSocketList } from '../QQBotModals/Basic';
