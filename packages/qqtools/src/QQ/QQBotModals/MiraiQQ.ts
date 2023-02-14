@@ -92,7 +92,7 @@ class MiraiQQ extends Basic {
           ];
 
           await this.sendMessage(parser(
-            `恩瑾[CQ:image,file=${ mockImg[0] }]<%= qqtools:image, ${ mockImg[1] } %>恩瑾`,
+            `恩瑾[CQ:image,file=${ mockImg[0] }]<%= qqtools:image, ${ mockImg[1] } %>[mirai:at:${ qqNumber }]\n恩瑾`,
             this.protocol) as Array<MiraiMessageProps>, groupId);
         }
       }

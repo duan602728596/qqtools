@@ -62,18 +62,30 @@ function parser(text: string, protocol: QQProtocol): ParserResult {
 
   // 兼容旧的qqtools标记
   for (let i: number = 0, j: number = miraiMessageGroup.length; i < j; i++) {
-    const item: MiraiMessageProps | MiraiMessageProps[] = miraiMessageGroup[i];
+    let item: MiraiMessageProps | MiraiMessageProps[] = miraiMessageGroup[i];
 
-    if (!Array.isArray(item) && item.type === 'Plain') {
+    if (!Array.isArray(item) && (item.type === 'Plain' || item.type === 'MiraiCode')) {
+      const itemText: string = item.type === 'MiraiCode' ? item.code : item.text;
 
-      if (/\[mirai\s*:/.test(item.text)) {
-        miraiMessageGroup[i] = miraiCode(item.text);
-      } else if (/<%=\s*qqtools\s*:/.test(item.text)) {
-        miraiMessageGroup[i] = miraiTemplate(item.text);
+      if (/<%=\s*qqtools\s*:/.test(itemText)) {
+        item = miraiMessageGroup[i] = miraiTemplate(itemText);
+      }
+
+      if (Array.isArray(item)) {
+        for (let u: number = 0, t: number = item.length; u < t; u++) {
+          const childItem: MiraiMessageProps = item[u];
+
+          if (childItem.type === 'Plain' && /\[mirai\s*:/.test(childItem.text)) {
+            miraiMessageGroup[i][u] = miraiCode(childItem.text);
+          }
+        }
+      } else if (/\[mirai\s*:/.test(itemText)) {
+        miraiMessageGroup[i] = miraiCode(itemText);
       }
     }
   }
 
+  console.log(miraiMessageGroup);
 
   return miraiMessageGroup.flat();
 }

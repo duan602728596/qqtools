@@ -115,7 +115,7 @@ function Index(props: {}): ReactElement {
       render: (value: OptionsItemValueV2, record: QQModals, index: number): string => value.optionName
     },
     {
-      title: 'MiraiQQ',
+      title: 'QQ',
       dataIndex: 'qqNumber',
       render: (value: undefined, record: QQModals, index: number): number => record.config.qqNumber
     },
