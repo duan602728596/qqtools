@@ -117,7 +117,7 @@ export function voice(url: string, seconds?: number): VoiceCodeProps {
   return {
     type: 'Voice',
     base64: null,
-    length: seconds ?? null,
+    length: seconds ?? 5,
     path: isHttp ? null : url,
     url: isHttp ? url : null,
     voiceId: null
