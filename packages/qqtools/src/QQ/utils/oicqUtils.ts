@@ -1,4 +1,5 @@
 import type { GroupMessage, MemberIncreaseEvent } from 'oicq';
+import * as CQ from '../parser/CQ';
 import type { MemberIncreaseEvent as GoCQHttpMemberIncreaseEvent, HeartbeatMessage } from '../QQBotModals/GoCQHttp';
 import type { MiraiMessageProps } from '../parser/mirai';
 
@@ -13,15 +14,15 @@ export function miraiMessageTooicqMessage(miraiMessage: Array<MiraiMessageProps>
         break;
 
       case 'Image':
-        oicqMessage.push(`[CQ:image,file=${ item['url'] ?? item['path'] }]`);
+        oicqMessage.push(CQ.image(item['url'] ?? item['path']));
         break;
 
       case 'At':
-        oicqMessage.push(`[CQ:at,qq=${ item.target }]`);
+        oicqMessage.push(CQ.at(item.target));
         break;
 
       case 'AtAll':
-        oicqMessage.push('[CQ:at,qq=all]');
+        oicqMessage.push(CQ.atAll());
         break;
     }
   }

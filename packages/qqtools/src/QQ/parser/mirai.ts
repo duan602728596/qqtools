@@ -42,7 +42,7 @@ export interface AtAllProps {
 export interface VoiceCodeProps {
   type: 'Voice';
   base64: string | null;
-  length: number;
+  length: number | null;
   path: string | null;
   url: string | null;
   voiceId: string | null;
@@ -117,7 +117,7 @@ export function voice(url: string, seconds?: number): VoiceCodeProps {
   return {
     type: 'Voice',
     base64: null,
-    length: seconds ?? 5,
+    length: seconds ?? null,
     path: isHttp ? null : url,
     url: isHttp ? url : null,
     voiceId: null

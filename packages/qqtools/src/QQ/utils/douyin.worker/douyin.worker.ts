@@ -2,6 +2,7 @@ import { setTimeout, clearTimeout } from 'node:timers';
 import * as dayjs from 'dayjs';
 import { QQProtocol } from '../../QQBotModals/ModalTypes';
 import parser, { type ParserResult } from '../../parser/index';
+import * as CQ from '../../parser/CQ';
 import type { UserScriptRendedData, UserItem1, UserItem2, UserDataItem } from '../../qq.types';
 
 /* 抖音 */
@@ -25,7 +26,7 @@ interface DouyinSendMsg {
 function QQSendGroup(item: DouyinSendMsg): string {
   const sendMessageGroup: Array<string> = [
     `${ item.nickname } 在${ item.time }发送了一条抖音：${ item.desc }`,
-    `[CQ:image,file=${ item.cover }]`
+    CQ.image(item.cover)
   ];
 
   item.url && sendMessageGroup.push(`视频下载地址：${ item.url }`);

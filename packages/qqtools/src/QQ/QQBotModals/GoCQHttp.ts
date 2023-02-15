@@ -9,6 +9,7 @@ import { QQProtocol } from './ModalTypes';
 import { getGroupNumbers, getSocketHost, LogCommandData } from '../utils/miraiUtils';
 import { isGroupMessageEventData, isMemberIncreaseEventData } from '../utils/oicqUtils';
 import { getRoomMessageForOicq } from '../utils/pocket48V2Utils';
+import * as CQ from '../parser/CQ';
 import type { MemberInfo, OptionsItemValueV2, EditItem } from '../../commonTypes';
 import type { RoomMessageArgs } from '../utils/pocket48V2Utils';
 import type { UserV2 } from '../qq.types';
@@ -110,7 +111,7 @@ class GoCQHttp extends Basic {
     if (isMemberIncreaseEventData(data) && data.user_id !== qqNumber && groupNumbers.includes(data.group_id)) {
       if (groupWelcome && groupWelcomeSend) {
         const msg: string = renderString(groupWelcomeSend, {
-          at: `[CQ:at,qq=${ data.user_id }]`
+          at: CQ.at(data.user_id)
         });
 
         await this.sendMessage(msg, data.group_id);

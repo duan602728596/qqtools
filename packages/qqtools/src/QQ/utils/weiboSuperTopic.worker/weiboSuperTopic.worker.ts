@@ -2,6 +2,7 @@ import { QQProtocol } from '../../QQBotModals/ModalTypes';
 import { filterCards, filterNewCards } from '../weiboUtils';
 import { requestWeiboContainer } from '../../services/weibo';
 import parser from '../../parser';
+import * as CQ from '../../parser/CQ';
 import type {
   WeiboSendData,
   WeiboCard,
@@ -27,11 +28,11 @@ function QQSendGroup(item: WeiboSendData): string {
 地址：${ item.scheme }`;
 
   if (item.pics.length > 0) {
-    const imgUrl: string = protocol === QQProtocol.Mirai
-      ? item.pics[0]
-      : `http://localhost:${ port }/proxy/weibo/image?url=${ encodeURIComponent(item.pics[0]) }`;
-
-    sendText += `[CQ:image,file=${ imgUrl }]`;
+    sendText += CQ.image(
+      protocol === QQProtocol.Mirai
+        ? item.pics[0]
+        : `http://localhost:${ port }/proxy/weibo/image?url=${ encodeURIComponent(item.pics[0]) }`
+    );
   }
 
   return sendText;

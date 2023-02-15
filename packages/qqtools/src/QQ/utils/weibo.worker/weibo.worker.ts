@@ -2,6 +2,7 @@ import { QQProtocol } from '../../QQBotModals/ModalTypes';
 import { filterCards, filterNewCards } from '../weiboUtils';
 import { requestWeiboContainer } from '../../services/weibo';
 import parser from '../../parser/index';
+import * as CQ from '../../parser/CQ';
 import type { WeiboCard, WeiboContainerList, WeiboSendData } from '../../qq.types';
 
 let lfid: string;       // 账号的lfid
@@ -18,7 +19,7 @@ function QQSendGroup(item: WeiboSendData): string {
   let sendText: string = '';
 
   if (weiboAtAll) {
-    sendText += '[CQ:at,qq=all]';
+    sendText += CQ.atAll();
   }
 
   sendText += `${ item.name } 在${ item.time }发送了一条微博：${ item.text }
@@ -26,11 +27,11 @@ function QQSendGroup(item: WeiboSendData): string {
 地址：${ item.scheme }`;
 
   if (item.pics.length > 0) {
-    const imgUrl: string = protocol === QQProtocol.Mirai
-      ? item.pics[0]
-      : `http://localhost:${ port }/proxy/weibo/image?url=${ encodeURIComponent(item.pics[0]) }`;
-
-    sendText += `[CQ:image,file=${ imgUrl }]`;
+    sendText += CQ.image(
+      protocol === QQProtocol.Mirai
+        ? item.pics[0]
+        : `http://localhost:${ port }/proxy/weibo/image?url=${ encodeURIComponent(item.pics[0]) }`
+    );
   }
 
   return sendText;

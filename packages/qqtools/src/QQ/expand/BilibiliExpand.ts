@@ -1,6 +1,7 @@
 import { requestRoomInfo } from '../services/services';
 import getBilibiliWorker from '../utils/bilibili.worker/getBilibiliWorker';
 import parser, { type ParserResult } from '../parser/index';
+import * as CQ from '../parser/CQ';
 import type { QQModals } from '../QQBotModals/ModalTypes';
 import type { OptionsItemBilibili } from '../../commonTypes';
 import type { BilibiliRoomInfo } from '../qq.types';
@@ -23,7 +24,7 @@ class BilibiliExpand {
   handleBilibiliWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
     const { bilibiliAtAll }: OptionsItemBilibili = this.config;
     const text: string = `bilibili：${ this.bilibiliUsername }在B站开启了直播。`;
-    const sendMessage: ParserResult = parser(`${ bilibiliAtAll ? '[CQ:at,qq=all]' : '' }${ text }`, this.qq.protocol);
+    const sendMessage: ParserResult = parser(`${ bilibiliAtAll ? CQ.atAll() : '' }${ text }`, this.qq.protocol);
 
     await this.qq.sendMessage(sendMessage as any);
   };

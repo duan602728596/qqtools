@@ -17,6 +17,7 @@ import { plain, type MiraiMessageProps } from '../parser/mirai';
 import { getGroupNumbers, getSocketHost, LogCommandData } from '../utils/miraiUtils';
 import { log } from '../utils/pocket48V2Utils';
 import parser from '../parser/index';
+import * as CQ from '../parser/CQ';
 import type { OptionsItemValueV2, MemberInfo, EditItem } from '../../commonTypes';
 import type {
   AuthResponse,
@@ -59,8 +60,6 @@ class MiraiQQ extends Basic {
 
     // 群信息
     if (data.type === 'GroupMessage' && data.sender.id !== qqNumber && groupNumbers.includes(data.sender.group.id)) {
-      console.log(data);
-
       if (data.messageChain?.[1].type === 'Plain') {
         const command: string = data.messageChain[1].text; // 当前命令
         const groupId: number = data.sender.group.id;      // 收到消息的群
@@ -96,13 +95,13 @@ class MiraiQQ extends Basic {
             ];
 
             await this.sendMessage(parser(
-              `恩瑾[CQ:image,file=${ mockImg[0] }]<%= qqtools:image, ${ mockImg[1] } %>[mirai:at:${ qqNumber }]\n恩瑾`,
+              `恩瑾${ CQ.image(mockImg[0]) }<%= qqtools:image, ${ mockImg[1] } %>[mirai:at:${ qqNumber }]\n恩瑾`,
               this.protocol) as Array<MiraiMessageProps>, groupId);
           } else if (command === 'test-voice-gxy') {
             const wav: string = 'https://nim-nosdn.netease.im/NDA5MzEwOA==/bmltYV80NjQxMTg5MjM2Nl8xNjc2MDEyNjkwMzc5XzA5MGQzMDY1LWMyM2ItNDBjZC1hYWRkLWI5ZmNmMGZkYzcxYQ==';
 
             await this.sendMessage(parser(
-              `[CQ:record,file=${ wav },second=13]`, this.protocol) as Array<MiraiMessageProps>, groupId);
+              CQ.record(wav), this.protocol) as Array<MiraiMessageProps>, groupId);
           }
         }
       }
@@ -120,7 +119,7 @@ class MiraiQQ extends Basic {
     if (data.type === 'MemberJoinEvent' && data.member.id !== qqNumber && groupNumbers.includes(data.member.group.id)) {
       if (groupWelcome && groupWelcomeSend) {
         const msg: string = renderString(groupWelcomeSend, {
-          at: `[CQ:at,qq=${ data.member.id }]`
+          at: CQ.at(data.member.id)
         });
 
         await this.sendMessage(parser(msg, this.protocol) as Array<MiraiMessageProps>, data.member.group.id);

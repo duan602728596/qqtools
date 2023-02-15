@@ -7,6 +7,7 @@ import { getGroupNumbers, getSocketHost, LogCommandData } from '../utils/miraiUt
 import { isGroupMessageEventData, isMemberIncreaseEventData } from '../utils/oicqUtils';
 import { log } from '../utils/pocket48V2Utils';
 import { requestSendGroupMessage } from '../services/oicq';
+import * as CQ from '../parser/CQ';
 import type { OptionsItemValueV2, MemberInfo, EditItem } from '../../commonTypes';
 
 /* oicq的连接 */
@@ -59,7 +60,7 @@ class OicqQQ extends Basic {
     if (isMemberIncreaseEventData(data) && data.user_id !== qqNumber && groupNumbers.includes(data.group_id)) {
       if (groupWelcome && groupWelcomeSend) {
         const msg: string = renderString(groupWelcomeSend, {
-          at: `[CQ:at,qq=${ data.user_id }]`
+          at: CQ.at(data.user_id)
         });
 
         await this.sendMessage(msg, data.group_id);
