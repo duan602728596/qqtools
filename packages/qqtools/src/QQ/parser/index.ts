@@ -44,6 +44,8 @@ function parser(text: string, protocol: QQProtocol): ParserResult {
       case 'image':
         if (typeof ele.file === 'string') {
           return image(ele.file);
+        } else if (ele.url === 'string') {
+          return image(ele.url);
         } else break;
 
       case 'at':

@@ -9,4 +9,4 @@ export const enum QQProtocol {
   GoCQHttp = 'go-cqhttp'
 }
 
-export type QQModals = MiraiQQ | OicqQQ | GoCQHttp;
+export type QQModals = (MiraiQQ | OicqQQ | GoCQHttp);

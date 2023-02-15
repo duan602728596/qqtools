@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
-import Basic, { type MessageListener } from './Basic';
+import Basic, { BasicImplement, type MessageListener } from './Basic';
 import { QQProtocol } from './ModalTypes';
 import {
   requestAuth,
@@ -15,7 +15,7 @@ import {
 } from '../services/services';
 import { plain, type MiraiMessageProps } from '../parser/mirai';
 import { getGroupNumbers, getSocketHost, LogCommandData } from '../utils/miraiUtils';
-import { log } from '../utils/pocket48V2Utils';
+import { getRoomMessage, log, type RoomMessageArgs } from '../utils/pocket48V2Utils';
 import parser from '../parser/index';
 import * as CQ from '../parser/CQ';
 import type { OptionsItemValueV2, MemberInfo, EditItem } from '../../commonTypes';
@@ -28,10 +28,11 @@ import type {
   EventSocketEventData,
   EventSocketEventDataV2
 } from '../qq.types';
+import type { DynamicMockFunc } from '../mock/mock';
 
 type CloseListener = (event: CloseEvent) => void | Promise<void>;
 
-class MiraiQQ extends Basic {
+class MiraiQQ extends Basic implements BasicImplement<Array<MiraiMessageProps>> {
   public protocol: QQProtocol = QQProtocol.Mirai;
   public socketStatus: -1 | 0; // -1 关闭，0 正常
   public eventSocket?: WebSocket;
@@ -86,23 +87,9 @@ class MiraiQQ extends Basic {
           }
         }
 
-        // mock测试用
+        // mock
         if (process.env.NODE_ENV === 'development') {
-          if (command === 'test-msg-ej') {
-            const mockImg: string[] = [
-              'https://wx2.sinaimg.cn/mw690/00689qXxly1hat3deahenj32c0340kjn.jpg',
-              'https://wx4.sinaimg.cn/mw690/00689qXxly1hat3cvbbpgj325e2w7qv7.jpg'
-            ];
-
-            await this.sendMessage(parser(
-              `恩瑾${ CQ.image(mockImg[0]) }<%= qqtools:image, ${ mockImg[1] } %>[mirai:at:${ qqNumber }]\n恩瑾`,
-              this.protocol) as Array<MiraiMessageProps>, groupId);
-          } else if (command === 'test-voice-gxy') {
-            const wav: string = 'https://nim-nosdn.netease.im/NDA5MzEwOA==/bmltYV80NjQxMTg5MjM2Nl8xNjc2MDEyNjkwMzc5XzA5MGQzMDY1LWMyM2ItNDBjZC1hYWRkLWI5ZmNmMGZkYzcxYQ==';
-
-            await this.sendMessage(parser(
-              CQ.record(wav), this.protocol) as Array<MiraiMessageProps>, groupId);
-          }
+          (await import('../mock/mock')).default(this, command, qqNumber, groupId);
         }
       }
     }

@@ -1,4 +1,4 @@
-import type { MessageElem } from 'oicq';
+import type { Sendable } from 'oicq';
 
 /**
  * 发送群消息
@@ -11,7 +11,7 @@ export async function requestSendGroupMessage(
   groupNumber: number,
   socketHost: string,
   port: number,
-  message: MessageElem | Array<MessageElem> | string
+  message: Sendable
 ): Promise<unknown> {
   const res: Response = await fetch(`http://${ socketHost }:${ port }/oicq/action`, {
     method: 'POST',

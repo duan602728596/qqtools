@@ -1,8 +1,8 @@
 import * as fse from 'fs-extra';
 import * as dayjs from 'dayjs';
 import type { ChannelInfo } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatChannelServiceInterface';
-import { plain, image, atAll, type MiraiMessageProps } from '../parser/mirai';
 import { miraiMessageTooicqMessage } from './oicqUtils';
+import * as CQ from '../parser/CQ';
 import type {
   CustomMessageAllV2,
   UserV2,
@@ -41,8 +41,8 @@ export function getRoomMessage({
   memberInfo,
   pocket48MemberInfo,
   channel
-}: RoomMessageArgs): Array<MiraiMessageProps> {
-  const sendGroup: Array<MiraiMessageProps> = [];     // 发送的数据
+}: RoomMessageArgs): Array<string> {
+  const sendGroup: Array<string> = [];     // 发送的数据
   const nickName: string = user?.nickName ?? ''; // 用户名
   const msgTime: string = dayjs(data.time).format('YYYY-MM-DD HH:mm:ss'); // 发送时间
 
@@ -55,8 +55,8 @@ export function getRoomMessage({
     // 普通信息
     if (data.type === 'text') {
       sendGroup.push(
-        plain(`${ nickName }：${ data.body }
-时间：${ msgTime }${ memberInfoContent }`)
+        `${ nickName }：${ data.body }
+时间：${ msgTime }${ memberInfoContent }`
       );
     } else
 
@@ -65,63 +65,63 @@ export function getRoomMessage({
       const replyInfo: ReplyInfo = data.attach.replyInfo ?? data.attach.giftReplyInfo;
 
       sendGroup.push(
-        plain(`${ replyInfo.replyName }：${ replyInfo.replyText }
+        `${ replyInfo.replyName }：${ replyInfo.replyText }
 ${ nickName }：${ replyInfo.text }
-时间：${ msgTime }${ memberInfoContent }`)
+时间：${ msgTime }${ memberInfoContent }`
       );
     } else
 
     // 发送图片
     if (data.type === 'image') {
       sendGroup.push(
-        plain(`${ nickName } 发送了一张图片：`),
-        image(data.attach.url),
-        plain(`时间：${ msgTime }${ memberInfoContent }`)
+        `${ nickName } 发送了一张图片：`,
+        CQ.image(data.attach.url),
+        `时间：${ msgTime }${ memberInfoContent }`
       );
     } else
 
     // 发送语音
     if (data.type === 'audio') {
       sendGroup.push(
-        plain(`${ nickName } 发送了一条语音：${ data.attach.url }
-时间：${ msgTime }${ memberInfoContent }`)
+        `${ nickName } 发送了一条语音：${ data.attach.url }
+时间：${ msgTime }${ memberInfoContent }`
       );
     } else
 
     // 发送短视频
     if (data.type === 'video') {
       sendGroup.push(
-        plain(`${ nickName } 发送了一个视频：${ data.attach.url }
-时间：${ msgTime }${ memberInfoContent }`)
+        `${ nickName } 发送了一个视频：${ data.attach.url }
+时间：${ msgTime }${ memberInfoContent }`
       );
     } else
 
     // 发送语音_1
     if (data.type === 'custom' && data.attach.messageType === 'AUDIO') {
       sendGroup.push(
-        plain(`${ nickName } 发送了一条语音：${ data.attach.audioInfo.url }
-时间：${ msgTime }${ memberInfoContent }`)
+        `${ nickName } 发送了一条语音：${ data.attach.audioInfo.url }
+时间：${ msgTime }${ memberInfoContent }`
       );
     } else
 
     // 发送短视频_1
     if (data.type === 'custom' && data.attach.messageType === 'VIDEO') {
       sendGroup.push(
-        plain(`${ nickName } 发送了一条语音：${ data.attach.videoInfo.url }
-时间：${ msgTime }${ memberInfoContent }`)
+        `${ nickName } 发送了一个视频：${ data.attach.videoInfo.url }
+时间：${ msgTime }${ memberInfoContent }`
       );
     } else
 
     // 直播
     if (data.type === 'custom' && data.attach.messageType === 'LIVEPUSH') {
       if (pocket48LiveAtAll) {
-        sendGroup.push(atAll());
+        sendGroup.push(CQ.atAll());
       }
 
       sendGroup.push(
-        plain(`${ nickName } 正在直播
+        `${ nickName } 正在直播
 直播标题：${ data.attach.livePushInfo.liveTitle }
-时间：${ msgTime }${ memberInfoContent }`)
+时间：${ msgTime }${ memberInfoContent }`
       );
     } else
 
@@ -130,10 +130,10 @@ ${ nickName }：${ replyInfo.text }
       const info: FlipCardInfo = data.attach.filpCardInfo ?? data.attach.flipCardInfo;
 
       sendGroup.push(
-        plain(`${ nickName } 翻牌了问题：
+        `${ nickName } 翻牌了问题：
 ${ info.question }
 回答：${ info.answer }
-时间：${ msgTime }${ memberInfoContent }`)
+时间：${ msgTime }${ memberInfoContent }`
       );
     } else
 
@@ -151,19 +151,19 @@ ${ info.question }
       const answer: { url: string } = JSON.parse(info.answer);
 
       sendGroup.push(
-        plain(`${ nickName } 翻牌了问题：
+        `${ nickName } 翻牌了问题：
 ${ info.question }
 回答：https://mp4.48.cn${ answer.url }
-时间：${ msgTime }${ memberInfoContent }`)
+时间：${ msgTime }${ memberInfoContent }`
       );
     } else
 
     // 发送2021表情包
     if (data.type === 'custom' && data.attach.messageType === 'EXPRESSIMAGE') {
       sendGroup.push(
-        plain(`${ nickName } ：`),
-        image(data.attach?.expressImageInfo?.emotionRemote ?? data.attach.emotionRemote),
-        plain(`时间：${ msgTime }${ memberInfoContent }`)
+        `${ nickName } ：`,
+        CQ.image(data.attach?.expressImageInfo?.emotionRemote ?? data.attach.emotionRemote),
+        `时间：${ msgTime }${ memberInfoContent }`
       );
     } else
 
@@ -172,9 +172,9 @@ ${ info.question }
       // 判断是否为总选投票
       if (data.attach.giftInfo.giftName.includes('投票')) {
         sendGroup.push(
-          plain(`${ nickName }：投出了${ data.attach.giftInfo.giftNum }票。`),
-          image(`https://source.48.cn${ data.attach.giftInfo.picPath }`),
-          plain(`时间：${ msgTime }${ memberInfoContent }`)
+          `${ nickName }：投出了${ data.attach.giftInfo.giftNum }票。`,
+          CQ.image(`https://source.48.cn${ data.attach.giftInfo.picPath }`),
+          `时间：${ msgTime }${ memberInfoContent }`
         );
       }
     } else
@@ -182,26 +182,26 @@ ${ info.question }
     // 房间发起投票
     if (data.type === 'custom' && data.attach.messageType === 'VOTE') {
       sendGroup.push(
-        plain(`${ nickName }：发起投票
+        `${ nickName }：发起投票
 标题：${ data.attach.voteInfo.text }
 正文：${ data.attach.voteInfo.content }
-时间：${ msgTime }${ memberInfoContent }`)
+时间：${ msgTime }${ memberInfoContent }`
       );
     } else
 
     // 关闭房间
     if (data.type === 'custom' && data.attach.messageType === 'CLOSE_ROOM_CHAT') {
       sendGroup.push(
-        plain(`${ nickName } 房间被关闭了。
-时间：${ msgTime }${ memberInfoContent }`)
+        `${ nickName } 房间被关闭了。
+时间：${ msgTime }${ memberInfoContent }`
       );
     } else
 
     // 发表情
     if (data.type === 'custom' && data.attach.messageType === 'EXPRESS') {
       sendGroup.push(
-        plain(`${ nickName }：发送了一个表情。
-时间：${ msgTime }${ memberInfoContent }`)
+        `${ nickName }：发送了一个表情。
+时间：${ msgTime }${ memberInfoContent }`
       );
     } else
 
@@ -220,9 +220,9 @@ ${ info.question }
       // 未知信息类型
       if (!(pocket48ShieldMsgType && pocket48ShieldMsgType.includes('UNKNOWN'))) {
         sendGroup.push(
-          plain(`${ nickName }：未知信息类型，请联系开发者。
+          `${ nickName }：未知信息类型，请联系开发者。
 数据：${ JSON.stringify(data) }
-时间：${ msgTime }${ memberInfoContent }`)
+时间：${ msgTime }${ memberInfoContent }`
         );
       }
     }
@@ -231,24 +231,14 @@ ${ info.question }
 
     if (!(pocket48ShieldMsgType && pocket48ShieldMsgType.includes('ERROR'))) {
       sendGroup.push(
-        plain(`信息发送错误，请联系开发者。
+        `信息发送错误，请联系开发者。
 数据：${ JSON.stringify(data) }
-时间：${ msgTime }${ memberInfoContent }`)
+时间：${ msgTime }${ memberInfoContent }`
       );
     }
   }
 
   return sendGroup;
-}
-
-/**
- * 获取房间数据
- * @param { RoomMessageArgs } roomMessageArgs
- */
-export function getRoomMessageForOicq(roomMessageArgs: RoomMessageArgs): string {
-  const message: Array<MiraiMessageProps> = getRoomMessage(roomMessageArgs);
-
-  return miraiMessageTooicqMessage(message);
 }
 
 /**

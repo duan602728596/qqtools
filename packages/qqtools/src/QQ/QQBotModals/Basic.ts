@@ -11,6 +11,12 @@ export type MessageListener = (event: MessageEvent) => void | Promise<void>;
 
 export const qChatSocketList: Array<QChatSocket> = [];
 
+export interface BasicImplement<MessageType> {
+  sendMessage(value: MessageType, groupId?: number): void | Promise<void>;
+  init(): boolean | Promise<boolean>;
+  destroy(): boolean | Promise<boolean>;
+}
+
 abstract class Basic {
   public protocol: QQProtocol;        // mirai或者oicq
   public id: string;                  // 当前进程的唯一ID

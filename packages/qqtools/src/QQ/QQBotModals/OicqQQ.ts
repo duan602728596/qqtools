@@ -1,7 +1,7 @@
-import type { GroupMessage, MemberIncreaseEvent, MessageElem } from 'oicq';
+import type { GroupMessage, MemberIncreaseEvent, Sendable } from 'oicq';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
-import Basic, { type MessageListener } from './Basic';
+import Basic, { BasicImplement, type MessageListener } from './Basic';
 import { QQProtocol } from './ModalTypes';
 import { getGroupNumbers, getSocketHost, LogCommandData } from '../utils/miraiUtils';
 import { isGroupMessageEventData, isMemberIncreaseEventData } from '../utils/oicqUtils';
@@ -11,7 +11,7 @@ import * as CQ from '../parser/CQ';
 import type { OptionsItemValueV2, MemberInfo, EditItem } from '../../commonTypes';
 
 /* oicq的连接 */
-class OicqQQ extends Basic {
+class OicqQQ extends Basic implements BasicImplement<Sendable> {
   public protocol: QQProtocol = QQProtocol.Oicq;
   public oicqSocket?: WebSocket;
 
@@ -55,6 +55,11 @@ class OicqQQ extends Basic {
           await this.sendMessage(customCmd[index].value, groupId);
         }
       }
+
+      // mock
+      if (process.env.NODE_ENV === 'development') {
+        (await import('../mock/mock')).default(this, command, qqNumber, groupId);
+      }
     }
 
     if (isMemberIncreaseEventData(data) && data.user_id !== qqNumber && groupNumbers.includes(data.group_id)) {
@@ -87,10 +92,10 @@ class OicqQQ extends Basic {
 
   /**
    * 发送信息
-   * @param { Array<MessageElem> | string } value: 要发送的信息
+   * @param { Sendable } value: 要发送的信息
    * @param { number } groupId: 单个群的群号
    */
-  async sendMessage(value: Array<MessageElem> | string, groupId?: number): Promise<void> {
+  async sendMessage(value: Sendable, groupId?: number): Promise<void> {
     try {
       const { socketHost }: this = this;
       const { socketPort }: OptionsItemValueV2 = this.config;
