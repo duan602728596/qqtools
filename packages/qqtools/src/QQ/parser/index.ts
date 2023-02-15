@@ -5,6 +5,7 @@ import { plain, face, dice, image, at, atAll, voice, miraiCode, type MiraiMessag
 import { miraiTemplate } from '../utils/miraiUtils';
 
 export type ParserResult = Array<MiraiMessageProps> | Array<MessageElem> | string;
+type MiraiMT = MiraiMessageProps | MiraiMessageProps[];
 
 /**
  * 消息统一解析
@@ -25,48 +26,47 @@ function parser(text: string, protocol: QQProtocol): ParserResult {
   }
 
   // mirai根据oicq的解析来处理
-  const miraiMessageGroup: Array<MiraiMessageProps | MiraiMessageProps[]>
-    = message.map((ele: MessageElem): MiraiMessageProps | MiraiMessageProps[] | undefined => {
-      switch (ele.type) {
-        case 'text':
-          return plain(ele.text);
+  const miraiMessageGroup: Array<MiraiMT> = message.map((ele: MessageElem): MiraiMT | undefined => {
+    switch (ele.type) {
+      case 'text':
+        return plain(ele.text);
 
-        case 'face':
-        case 'sface':
-          return face(ele.id);
+      case 'face':
+      case 'sface':
+        return face(ele.id);
 
-        case 'rps':
-        case 'dice':
-          if (ele.id) {
-            return dice(ele.id);
-          } else break;
+      case 'rps':
+      case 'dice':
+        if (ele.id) {
+          return dice(ele.id);
+        } else break;
 
-        case 'image':
-          if (typeof ele.file === 'string') {
-            return image(ele.file);
-          } else break;
+      case 'image':
+        if (typeof ele.file === 'string') {
+          return image(ele.file);
+        } else break;
 
-        case 'at':
-          if (ele.qq === 'all') {
-            return atAll();
-          } else {
-            return at(ele.qq);
-          }
+      case 'at':
+        if (ele.qq === 'all') {
+          return atAll();
+        } else {
+          return at(ele.qq);
+        }
 
-        case 'record':
-          if (typeof ele.file === 'string') {
-            return voice(ele.file, ele.seconds);
-          } else if (ele.url) {
-            return voice(ele.url, ele.seconds);
-          } else break;
+      case 'record':
+        if (typeof ele.file === 'string') {
+          return voice(ele.file, ele.seconds);
+        } else if (ele.url) {
+          return voice(ele.url, ele.seconds);
+        } else break;
 
-        case 'mirai':
-          return plain(ele.data);
+      case 'mirai':
+        return plain(ele.data);
 
-        default:
-          return plain(JSON.stringify(ele));
-      }
-    }).filter((o: MiraiMessageProps | MiraiMessageProps[] | void): o is (MiraiMessageProps | MiraiMessageProps[]) => o !== undefined);
+      default:
+        return plain(JSON.stringify(ele));
+    }
+  }).filter((o: MiraiMT | void): o is MiraiMT => o !== undefined);
 
   // 兼容旧的qqtools标记
   for (let i: number = 0, j: number = miraiMessageGroup.length; i < j; i++) {
