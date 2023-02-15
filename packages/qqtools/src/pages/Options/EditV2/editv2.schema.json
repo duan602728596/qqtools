@@ -380,7 +380,7 @@
       "id": "$root/properties/groupWelcomeSend",
       "type": "string",
       "title": "发送信息",
-      "$defaultValue": "<%= qqtools:At %>欢迎入群。",
+      "$defaultValue": "{{ at }} 欢迎入群。",
       "$componentType": "textArea"
     },
     "customCmd": {
