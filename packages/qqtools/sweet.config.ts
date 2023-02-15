@@ -66,7 +66,6 @@ const externalsName: Array<string> = nodeModules([
   'js-yaml',
   'node-schedule',
   'nunjucks',
-  'oicq',
   'ws'
 ]);
 

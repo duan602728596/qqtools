@@ -23,6 +23,7 @@
     "classnames": "^2.3.2",
     "dayjs": "^1.11.7",
     "nim-web-sdk-ng": "^0.8.0",
+    "oicq": "^2.3.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -51,7 +52,6 @@
     "js-yaml": "^4.1.0",
     "node-schedule": "^2.1.1",
     "nunjucks": "^3.2.3",
-    "oicq": "^2.3.1",
     "ws": "^8.12.0"
   }
 }
