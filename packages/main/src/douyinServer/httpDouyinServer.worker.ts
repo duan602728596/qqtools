@@ -39,10 +39,10 @@ function weiboResponseHandle(urlParse: URL, httpResponse: ServerResponse): void 
 
   if (!imageUrl) return response404NotFound(httpResponse);
 
-  const deTsUrl: string = decodeURIComponent(imageUrl);
-  const deTsUrlParse: URL = new URL(deTsUrl);
+  const deImageUrl: string = decodeURIComponent(imageUrl);
+  const deImageUrlParse: URL = new URL(deImageUrl);
 
-  const req: ClientRequest = (deTsUrlParse.protocol === 'https:' ? https : http)
+  const req: ClientRequest = (deImageUrlParse.protocol === 'https:' ? https : http)
     .get(deTsUrl, { headers: { Referer: 'https://www.weibo.com/' } }, function(response: IncomingMessage): void {
       const buffer: Array<Buffer> = [];
 
