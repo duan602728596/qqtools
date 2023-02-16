@@ -43,7 +43,7 @@ function weiboResponseHandle(urlParse: URL, httpResponse: ServerResponse): void 
   const deImageUrlParse: URL = new URL(deImageUrl);
 
   const req: ClientRequest = (deImageUrlParse.protocol === 'https:' ? https : http)
-    .get(deTsUrl, { headers: { Referer: 'https://www.weibo.com/' } }, function(response: IncomingMessage): void {
+    .get(deImageUrl, { headers: { Referer: 'https://www.weibo.com/' } }, function(response: IncomingMessage): void {
       const buffer: Array<Buffer> = [];
 
       response.on('data', (chunk: Buffer): unknown => buffer.push(chunk));
@@ -57,14 +57,14 @@ function weiboResponseHandle(urlParse: URL, httpResponse: ServerResponse): void 
       response.on('error', (error: Error): void => {
         httpResponse.statusCode = response.statusCode ?? 400;
         httpResponse.end(null);
-        console.error(`[Http response error] ${ deTsUrl }\n`, error, '\n');
+        console.error(`[Http response error] ${ deImageUrl }\n`, error, '\n');
       });
     });
 
   req.on('error', function(error: Error): void {
     httpResponse.statusCode = 400;
     httpResponse.end(null);
-    console.error(`[Http request error] ${ deTsUrl }\n`, error, '\n');
+    console.error(`[Http request error] ${ deImageUrl }\n`, error, '\n');
   });
 }
 
