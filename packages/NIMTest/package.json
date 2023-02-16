@@ -1,9 +1,6 @@
 {
   "name": "@qqtools3/nimtest",
   "version": "0.0.0",
-  "scripts": {
-    "rewrite": "node --experimental-json-modules node/rewrite.mjs"
-  },
   "dependencies": {
     "@yxim/nim-web-sdk": "^8.9.106",
     "got": "^12.5.3",
