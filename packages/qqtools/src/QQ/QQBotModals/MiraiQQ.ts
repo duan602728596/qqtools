@@ -14,7 +14,7 @@ import {
   requestAbout
 } from '../services/services';
 import { plain, type MiraiMessageProps } from '../parser/mirai';
-import { getGroupNumbers, getSocketHost, LogCommandData } from '../utils/miraiUtils';
+import { getGroupNumbers, getSocketHost, LogCommandData } from '../utils/qqUtils';
 import { getRoomMessage, log, type RoomMessageArgs } from '../utils/pocket48V2Utils';
 import parser from '../parser/index';
 import * as CQ from '../parser/CQ';
@@ -248,7 +248,7 @@ class MiraiQQ extends Basic implements BasicImplement<Array<MiraiMessageProps>> 
   // 日志回调函数
   async logCommandCallback(groupId: number): Promise<void> {
     const { qqNumber }: OptionsItemValueV2 = this.config;
-    const msg: string = LogCommandData('mirai', qqNumber, this.startTime);
+    const msg: string = LogCommandData(this.protocol, qqNumber, this.startTime);
 
     await this.sendMessage([plain(msg)], groupId);
   }

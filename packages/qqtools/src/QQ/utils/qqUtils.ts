@@ -1,6 +1,9 @@
 import * as process from 'node:process';
+import type { GroupMessage, MemberIncreaseEvent } from 'oicq';
 import { plain, image, at, atAll, type MiraiMessageProps } from '../parser/mirai';
 import * as packageJson from '../../../package.json' assert { type: 'json' };
+import type { MemberIncreaseEvent as GoCQHttpMemberIncreaseEvent, HeartbeatMessage } from '../QQBotModals/GoCQHttp';
+import type { QQProtocol } from '../QQBotModals/ModalTypes';
 
 interface ParsingResult {
   type: 'Plain' | 'Other';
@@ -125,11 +128,11 @@ export function getSocketHost(socketHost: string | undefined): string {
 
 /**
  * 输出机器人的相关信息
- * @param { 'mirai' | 'oicq' | 'go-cqhttp' } protocol: 机器人使用的库
+ * @param { QQProtocol } protocol: 机器人使用的库
  * @param { number } qqNumber: qq号
  * @param { string } time: 登陆时间
  */
-export function LogCommandData(protocol: 'mirai' | 'oicq' | 'go-cqhttp', qqNumber: number, time: string): string {
+export function LogCommandData(protocol: QQProtocol, qqNumber: number, time: string): string {
   return `qqtools
 软件版本：${ Reflect.get(packageJson, 'version') }
 运行平台：${ process.platform }
@@ -140,4 +143,18 @@ V8：${ process.versions.v8 }
 机器人账号：${ qqNumber }
 协议：${ protocol }
 启动时间：${ time }`;
+}
+
+type QQModalsMessage = GroupMessage | MemberIncreaseEvent | GoCQHttpMemberIncreaseEvent | HeartbeatMessage;
+
+/* 判断为群信息 */
+export function isGroupMessageEventData(data: QQModalsMessage): data is GroupMessage {
+  return data.post_type === 'message' && data.message_type === 'group';
+}
+
+/* 判断为有人入群 */
+export function isMemberIncreaseEventData(data: QQModalsMessage): data is (MemberIncreaseEvent | GoCQHttpMemberIncreaseEvent) {
+  return data.post_type === 'notice'
+    && ['group', 'group_increase'].includes(data.notice_type)
+    && ['increase', 'approve', 'invite'].includes(data.sub_type);
 }

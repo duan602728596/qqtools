@@ -6,8 +6,7 @@ import { renderString } from 'nunjucks';
 import { message } from 'antd';
 import Basic, { BasicImplement } from './Basic';
 import { QQProtocol } from './ModalTypes';
-import { getGroupNumbers, getSocketHost, LogCommandData } from '../utils/miraiUtils';
-import { isGroupMessageEventData, isMemberIncreaseEventData } from '../utils/oicqUtils';
+import { getGroupNumbers, getSocketHost, LogCommandData, isGroupMessageEventData, isMemberIncreaseEventData } from '../utils/qqUtils';
 import * as CQ from '../parser/CQ';
 import type { MemberInfo, OptionsItemValueV2, EditItem } from '../../commonTypes';
 
@@ -163,7 +162,7 @@ class GoCQHttp extends Basic implements BasicImplement<string> {
   // 日志回调函数
   async logCommandCallback(groupId: number): Promise<void> {
     const { qqNumber }: OptionsItemValueV2 = this.config;
-    const msg: string = LogCommandData('go-cqhttp', qqNumber, this.startTime);
+    const msg: string = LogCommandData(this.protocol, qqNumber, this.startTime);
 
     await this.sendMessage(msg, groupId);
   }

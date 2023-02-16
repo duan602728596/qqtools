@@ -24,7 +24,7 @@ import MiraiQQ from '../../QQ/QQBotModals/MiraiQQ';
 import OicqQQ from '../../QQ/QQBotModals/OicqQQ';
 import GoCQHttp from '../../QQ/QQBotModals/GoCQHttp';
 import formatToV2Config from '../../QQ/formatToV2Config';
-import { getGroupNumbers } from '../../QQ/utils/miraiUtils';
+import { getGroupNumbers } from '../../QQ/utils/qqUtils';
 import type { QQModals } from '../../QQ/QQBotModals/ModalTypes';
 import type { OptionsItem, OptionsItemValueV2, MemberInfo } from '../../commonTypes';
 

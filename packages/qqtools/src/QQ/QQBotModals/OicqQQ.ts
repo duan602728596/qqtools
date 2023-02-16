@@ -3,8 +3,7 @@ import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
 import Basic, { BasicImplement, type MessageListener } from './Basic';
 import { QQProtocol } from './ModalTypes';
-import { getGroupNumbers, getSocketHost, LogCommandData } from '../utils/miraiUtils';
-import { isGroupMessageEventData, isMemberIncreaseEventData } from '../utils/oicqUtils';
+import { getGroupNumbers, getSocketHost, LogCommandData, isGroupMessageEventData, isMemberIncreaseEventData } from '../utils/qqUtils';
 import { log } from '../utils/pocket48V2Utils';
 import { requestSendGroupMessage } from '../services/oicq';
 import * as CQ from '../parser/CQ';
@@ -120,7 +119,7 @@ class OicqQQ extends Basic implements BasicImplement<Sendable> {
   // 日志回调函数
   async logCommandCallback(groupId: number): Promise<void> {
     const { qqNumber }: OptionsItemValueV2 = this.config;
-    const msg: string = LogCommandData('oicq', qqNumber, this.startTime);
+    const msg: string = LogCommandData(this.protocol, qqNumber, this.startTime);
 
     await this.sendMessage(msg, groupId);
   }
