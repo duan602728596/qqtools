@@ -285,7 +285,7 @@ export interface EXPRESSIMAGEMessageV2 extends CustomMessageV2 {
   type: 'custom';
   attach: {
     messageType: 'EXPRESSIMAGE';
-    expressImageInfo: {
+    expressImgInfo: {
       emotionRemote: string;
     };
     emotionRemote: string;
