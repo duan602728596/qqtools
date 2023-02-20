@@ -2,6 +2,7 @@ import * as fse from 'fs-extra';
 import * as dayjs from 'dayjs';
 import type { ChannelInfo } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatChannelServiceInterface';
 import * as CQ from '../parser/CQ';
+import { mp4Source } from '../../utils/snh48';
 import type {
   CustomMessageAllV2,
   UserV2,
@@ -152,7 +153,7 @@ ${ info.question }
       sendGroup.push(
         `${ nickName } 翻牌了问题：
 ${ info.question }
-回答：https://mp4.48.cn${ answer.url }
+回答：${ mp4Source(answer.url) }
 时间：${ msgTime }${ memberInfoContent }`
       );
     } else
@@ -344,7 +345,7 @@ ${ info.question }
 
       logData = `${ nickName } 翻牌了问题：
 ${ info.question }
-回答：https://mp4.48.cn${ answer.url }
+回答：${ mp4Source(answer.url) }
 时间：${ msgTime }${ memberInfoContent }`;
     } else
 
