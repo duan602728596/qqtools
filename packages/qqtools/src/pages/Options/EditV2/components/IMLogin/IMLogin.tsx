@@ -2,7 +2,7 @@ import { Fragment, type ReactElement, ChangeEvent } from 'react';
 import * as PropTypes from 'prop-types';
 import { Input, type FormInstance } from 'antd';
 import type { CustomComponentFuncArgs, StringItem } from 'antd-schema-form/es/types';
-import LoginModal from './LoginModal';
+import Pocket48Login from './Pocket48Login/Pocket48Login';
 // @ts-ignore
 import editV2SchemaJson from '../../editv2.schema.json' assert { type: 'json' };
 
@@ -34,7 +34,7 @@ function IMLoginComponent(props: LogDirProps): ReactElement {
   return (
     <Fragment>
       <Input id={ id } value={ value } onChange={ handleInputChange } />
-      <LoginModal form={ form } onLoginSuccess={ handleLoginAndSetFormCallback } />
+      <Pocket48Login form={ form } onLoginSuccess={ handleLoginAndSetFormCallback } />
     </Fragment>
   );
 }

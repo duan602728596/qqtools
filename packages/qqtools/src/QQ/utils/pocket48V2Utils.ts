@@ -161,7 +161,7 @@ ${ info.question }
     if (data.type === 'custom' && data.attach.messageType === 'EXPRESSIMAGE') {
       sendGroup.push(
         `${ nickName } ：`,
-        CQ.image(data.attach?.expressImageInfo?.emotionRemote ?? data.attach.emotionRemote),
+        CQ.image(data.attach?.expressImgInfo?.emotionRemote ?? data.attach.emotionRemote),
         `时间：${ msgTime }${ memberInfoContent }`
       );
     } else
@@ -351,7 +351,7 @@ ${ info.question }
     // 发送2021表情包
     if (data.type === 'custom' && data.attach.messageType === 'EXPRESSIMAGE') {
       logData = `${ nickName } 发送了一个表情：
-地址：${ data.attach?.expressImageInfo?.emotionRemote ?? data.attach.emotionRemote }
+地址：${ data.attach?.expressImgInfo?.emotionRemote ?? data.attach.emotionRemote }
 时间：${ msgTime }${ memberInfoContent }`;
     } else
 

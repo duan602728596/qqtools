@@ -42,3 +42,24 @@ export function createHeaders(token?: string): { [key: string]: string } {
 
   return headers;
 }
+
+/* 拼接静态文件地址 */
+export function source(pathname: string | undefined): string {
+  if (!pathname || pathname === '') return '';
+
+  if (/^https?\/{2}/i.test(pathname)) {
+    return pathname;
+  } else {
+    const url: URL = new URL(pathname, 'https://source3.48.cn/');
+
+    return url.href;
+  }
+}
+
+export function mp4Source(pathname: string): string {
+  if (!pathname || pathname === '') return '';
+
+  const url: URL = new URL(pathname, 'https://mp4.48.cn/');
+
+  return url.href;
+}
