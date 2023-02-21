@@ -13,6 +13,7 @@ import IDBInit from './utils/IDB/IDBInit';
 import './QQ/sdk/BlythE.min';
 import './main.tailwindcss.css';
 import { douyinServerInit } from './utils/douyinServer/douyinServer';
+import './components/Accessibility/Accessibility';
 
 dayjs.locale('zh-cn');
 
