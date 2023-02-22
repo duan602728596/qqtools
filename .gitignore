@@ -26,3 +26,5 @@ build
 dist
 packages/babel-plugin-delay-require
 packages/NIMNodePolyfill/.env
+packages/node-oicqhttp/config.dev.js
+packages/node-oicqhttp/oicq

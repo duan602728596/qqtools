@@ -1,0 +1,19 @@
+{
+  "name": "@qqtools3/node-oicqhttp",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "npm run clean && tsc --outDir lib --watch",
+    "clean": "rimraf ./lib",
+    "run:dev": "cross-env NODE_ENV=development node lib/index.mjs"
+  },
+  "dependencies": {
+    "chalk": "^5.2.0",
+    "oicq": "^2.3.1"
+  },
+  "devDependencies": {
+    "cross-env": "*",
+    "rimraf": "*",
+    "typescript": "*"
+  }
+}
