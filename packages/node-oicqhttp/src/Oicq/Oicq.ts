@@ -77,6 +77,7 @@ class Oicq {
     this.client.on(Login.Error, this.handleSystemLoginError);
     this.client.on(System.Offline, this.handleSystemOffline);
     this.client.on(System.Online, this.handleSystemOnline);
+    this.client.login(this.config.password);
   }
 }
 
