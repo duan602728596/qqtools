@@ -4,6 +4,7 @@ import type { Config } from '../types.js';
 export interface OicqArgs {
   config: Config;
   onlineSuccessCallback();
+  onFailedCallback();
 }
 
 // system.login.slider

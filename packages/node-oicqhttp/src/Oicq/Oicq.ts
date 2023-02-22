@@ -26,10 +26,12 @@ class Oicq {
   public config: Config;
   public client: Client;
   private onlineSuccessCallback: () => any;
+  private onFailedCallback: () => any;
 
   constructor(args: OicqArgs) {
     this.config = args.config;
     this.onlineSuccessCallback = args.onlineSuccessCallback;
+    this.onFailedCallback = args.onFailedCallback;
   }
 
   // 监听验证码
@@ -50,6 +52,7 @@ class Oicq {
   handleSystemLoginError: SystemLoginErrorListener = (event: SystemLoginErrorEvent): void => {
     log.error(event.message);
     this.client.logout();
+    this.onFailedCallback();
   };
 
   // 被下线

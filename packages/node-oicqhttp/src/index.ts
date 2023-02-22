@@ -1,6 +1,18 @@
 import { isDevelopment } from './utils.js';
 import * as log from './log.js';
+import Oicq from './Oicq/Oicq.js';
 import type { Config } from './types.js';
+
+/* 登录oicq */
+function oicqLogin(config: Config): Promise<Oicq> {
+  return new Promise((resolve: Function, reject: Function): void => {
+    const oicq: Oicq = new Oicq({
+      config,
+      onlineSuccessCallback: (): void => resolve(oicq),
+      onFailedCallback: (): void => reject()
+    });
+  });
+}
 
 async function main(): Promise<void> {
   let config: Config;
@@ -17,6 +29,8 @@ async function main(): Promise<void> {
   } catch (err) {
     return log.error(err);
   }
+
+  const oicq: Oicq = await oicqLogin(config);
 }
 
 main();
