@@ -25,11 +25,7 @@ jobs:
           VERSION=${VERSION#refs/heads/build-node-oicqhttp/v}
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - run: npm run install:ci
-
-      - run: npm run install:babel
-
-      - run: npm run build:ci
+      - run: npm run build:node-oicqhttp
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
