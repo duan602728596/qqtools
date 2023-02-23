@@ -1,5 +1,6 @@
+import * as path from 'node:path';
+import * as process from 'process';
 import { isDevelopment } from './utils.js';
-import * as log from './log.js';
 import Oicq from './Oicq/Oicq.js';
 import Server from './Server/Server.js';
 import type { Config, ConfigImport } from './types.js';
@@ -27,14 +28,12 @@ async function main(): Promise<void> {
 
       config = configModule.default;
     } else {
-      // @ts-ignore
-      // eslint-disable-next-line import/no-unresolved
-      const configModule: ConfigImport = await import('./config.js');
+      const configModule: ConfigImport = await import(path.join(process.cwd(), 'config.js'));
 
       config = configModule.default;
     }
   } catch (err) {
-    return log.error(err);
+    return console.error(err);
   }
 
   const oicq: Oicq = await oicqLogin(config);

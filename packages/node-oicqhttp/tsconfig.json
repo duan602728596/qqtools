@@ -1,9 +1,10 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "moduleResolution": "Node16",
-    "module": "ESNext",
+    "moduleResolution": "Node",
+    "module": "commonjs",
     "rootDir": "./src",
+    "esModuleInterop": true,
     "skipLibCheck": true
   },
   "exclude": [

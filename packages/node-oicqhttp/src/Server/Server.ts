@@ -7,7 +7,6 @@ import Router from '@koa/router';
 import { koaBody } from 'koa-body';
 import { WebSocketServer, type WebSocket } from 'ws';
 import type { Client } from 'oicq';
-import * as log from '../log.js';
 import type { ServerArgs, KoaFunction, PostActionBody } from './types.js';
 
 /* Server */
@@ -78,13 +77,13 @@ class Server {
       try {
         client.send(JSON.stringify(event));
       } catch (err) {
-        log.error(err);
+        console.error(err);
       }
     });
   };
 
   // http server error
-  handleError: (err: Error) => void = (err: Error): void => log.error(err);
+  handleError: (err: Error) => void = (err: Error): void => console.error(err);
 
   // 初始化服务，包括创建中间件等
   init(): void {

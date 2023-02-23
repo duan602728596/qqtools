@@ -1,8 +1,7 @@
 import * as path from 'node:path';
 import * as process from 'node:process';
 import { createClient, type Client } from 'oicq';
-import { isDevelopment, __dirname } from '../utils.js';
-import * as log from '../log.js';
+import { isDevelopment } from '../utils.js';
 import type { Config } from '../types.js';
 import type {
   OicqArgs,
@@ -57,14 +56,14 @@ class Oicq {
 
   // 登录错误
   handleSystemLoginError: SystemLoginErrorListener = (event: SystemLoginErrorEvent): void => {
-    log.error(event.message);
+    console.error(event.message);
     this.client.logout();
     this.onFailedCallback();
   };
 
   // 被下线
   handleSystemOffline: SystemOfflineListener = (event: SystemOfflineEvent): void => {
-    log.warning(event.message);
+    console.warn(event.message);
     this.client.logout();
   };
 
@@ -80,7 +79,7 @@ class Oicq {
       log_level: 'info',
       platform: this.config.platform ?? 1,
       ignore_self: false,
-      data_dir: isDevelopment ? path.join(__dirname, '../oicq') : path.join(__dirname, 'oicq')
+      data_dir: isDevelopment ? path.join(__dirname, '../oicq') : path.join(process.cwd(), 'oicq')
     });
     this.client.on(Login.Slider, this.handleSystemLoginSlider);
     this.client.on(Login.Device, this.handleSystemLoginDevice);

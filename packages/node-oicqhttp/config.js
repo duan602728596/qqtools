@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   // 账号
   uin: 0,
 
