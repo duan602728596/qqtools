@@ -1,6 +1,6 @@
 {
   "name": "@qqtools3/node-oicqhttp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "commonjs",
   "scripts": {
     "start": "npm run clean && tsc --outDir lib --watch",
