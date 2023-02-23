@@ -33,8 +33,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          name: v${{ env.VERSION }}
-          tag_name: v${{ env.VERSION }}
+          name: node-oicqhttp-v${{ env.VERSION }}
+          tag_name: node-oicqhttp-v${{ env.VERSION }}
           draft: true
           prerelease: true
           files: |
