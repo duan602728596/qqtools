@@ -79,7 +79,7 @@ class Oicq {
       log_level: 'info',
       platform: this.config.platform ?? 1,
       ignore_self: false,
-      data_dir: isDevelopment ? path.join(__dirname, '../oicq') : path.join(process.cwd(), 'oicq')
+      data_dir: isDevelopment ? path.join(__dirname, '../../oicq') : path.join(process.cwd(), 'oicq')
     });
     this.client.on(Login.Slider, this.handleSystemLoginSlider);
     this.client.on(Login.Device, this.handleSystemLoginDevice);
