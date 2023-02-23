@@ -75,7 +75,11 @@ class Server {
   // oicq监听
   handleOicqEvent: (event: any) => void = (event: any): void => {
     this.wsServer.clients.forEach((client: WebSocket): void => {
-      client.send(JSON.stringify(event));
+      try {
+        client.send(JSON.stringify(event));
+      } catch (err) {
+        log.error(err);
+      }
     });
   };
 
