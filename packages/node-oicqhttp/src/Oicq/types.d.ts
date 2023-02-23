@@ -22,6 +22,9 @@ export interface SystemLoginDeviceEvent {
 
 export type SystemLoginDeviceListener = (event: SystemLoginDeviceEvent) => void | Promise<void>;
 
+// system.login.qrcode
+export type SystemLoginQrcodeListener = (event: any) => void | Promise<void>;
+
 // system.login.error
 export interface SystemLoginErrorEvent {
   code: LoginErrorCode | number;

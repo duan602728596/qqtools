@@ -9,6 +9,7 @@ import type {
   SystemLoginSliderListener,
   SystemLoginDeviceEvent,
   SystemLoginDeviceListener,
+  SystemLoginQrcodeListener,
   SystemLoginErrorEvent,
   SystemLoginErrorListener,
   SystemOfflineEvent,
@@ -19,6 +20,7 @@ import type {
 const enum Login {
   Slider = 'system.login.slider',
   Device = 'system.login.device',
+  Qrcode = 'system.login.qrcode',
   Error = 'system.login.error'
 }
 
@@ -54,6 +56,11 @@ class Oicq {
     process.stdin.once('data', (): Promise<void> => this.client.login(this.config.password));
   };
 
+  // 二维码登录
+  handleSystemLoginQrcode: SystemLoginQrcodeListener = (event: any): void => {
+    process.stdin.once('data', (): Promise<void> => this.client.login());
+  };
+
   // 登录错误
   handleSystemLoginError: SystemLoginErrorListener = (event: SystemLoginErrorEvent): void => {
     console.error(event.message);
@@ -83,6 +90,7 @@ class Oicq {
     });
     this.client.on(Login.Slider, this.handleSystemLoginSlider);
     this.client.on(Login.Device, this.handleSystemLoginDevice);
+    this.client.on(Login.Qrcode, this.handleSystemLoginQrcode);
     this.client.on(Login.Error, this.handleSystemLoginError);
     this.client.on(System.Offline, this.handleSystemOffline);
     this.client.on(System.Online, this.handleSystemOnline);
