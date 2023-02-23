@@ -6,6 +6,7 @@ import { QQProtocol } from './ModalTypes';
 import { getGroupNumbers, getSocketHost, LogCommandData, isGroupMessageEventData, isMemberIncreaseEventData } from '../utils/qqUtils';
 import { log } from '../utils/pocket48V2Utils';
 import { requestSendGroupMessage } from '../services/oicq';
+import parser, { type ParserResult } from '../parser/index';
 import * as CQ from '../parser/CQ';
 import type { OptionsItemValueV2, MemberInfo, EditItem } from '../../commonTypes';
 
@@ -99,15 +100,16 @@ class OicqQQ extends Basic implements BasicImplement<Sendable> {
       const { socketHost }: this = this;
       const { socketPort }: OptionsItemValueV2 = this.config;
       const groupNumbers: Array<number> = this.groupNumbers;
+      const sendValue: ParserResult | Sendable = typeof value === 'string' ? parser(value, this.protocol) : value;
 
       if (typeof groupId === 'number') {
         // 只发送到一个群
-        await requestSendGroupMessage(groupId, socketHost, socketPort, value);
+        await requestSendGroupMessage(groupId, socketHost, socketPort, sendValue);
       } else {
         // 发送到多个群
         await Promise.all(
           groupNumbers.map((item: number, index: number): Promise<unknown> => {
-            return requestSendGroupMessage(item, socketHost, socketPort, value);
+            return requestSendGroupMessage(item, socketHost, socketPort, sendValue);
           })
         );
       }

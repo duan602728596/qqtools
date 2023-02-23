@@ -1,4 +1,5 @@
 import type { Sendable } from 'oicq';
+import type { ParserResult } from '../parser';
 
 /**
  * 发送群消息
@@ -11,7 +12,7 @@ export async function requestSendGroupMessage(
   groupNumber: number,
   socketHost: string,
   port: number,
-  message: Sendable
+  message: ParserResult | Sendable
 ): Promise<unknown> {
   const res: Response = await fetch(`http://${ socketHost }:${ port }/oicq/action`, {
     method: 'POST',
