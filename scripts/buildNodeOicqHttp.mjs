@@ -5,7 +5,8 @@ import { rimraf } from 'rimraf';
 import fse from 'fs-extra/esm';
 import zip from 'cross-zip';
 import chalk from 'chalk';
-import { cwd, command, isWindows, isMacOS, build } from './utils.mjs';
+import { cwd, command, isWindows, build } from './utils.mjs';
+import nodeOicqHttpPackageJson from '../packages/node-oicqhttp/package.json' assert { type: 'json' };
 
 const zipPromise = util.promisify(zip.zip);
 
@@ -16,15 +17,15 @@ async function buildNodeOicqHttp() {
   const buildOptions = [
     {
       target: 'node18-linux-x64',
-      name: 'node-oicqhttp-linux64'
+      name: `node-oicqhttp-${ nodeOicqHttpPackageJson.version }-linux64`
     },
     {
       target: 'node18-win-x64',
-      name: 'node-oicqhttp-win'
+      name: `node-oicqhttp-${ nodeOicqHttpPackageJson.version }-win`
     },
     {
       target: 'node18-macos-x64',
-      name: 'node-oicqhttp-macos'
+      name: `node-oicqhttp-${ nodeOicqHttpPackageJson.version }-macos`
     }
   ];
 
