@@ -1,7 +1,7 @@
 import { isDevelopment } from './utils.js';
 import * as log from './log.js';
 import Oicq from './Oicq/Oicq.js';
-import type { Config } from './types.js';
+import type { Config, ConfigImport } from './types.js';
 
 /* 登录oicq */
 function oicqLogin(config: Config): Promise<Oicq> {
@@ -20,11 +20,15 @@ async function main(): Promise<void> {
   // 加载配置文件
   try {
     if (isDevelopment) {
-      config = await import('../config.dev.js');
+      const configModule: ConfigImport = await import('../config.dev.js');
+
+      config = configModule.default;
     } else {
       // @ts-ignore
       // eslint-disable-next-line import/no-unresolved
-      config = await import('./config.js');
+      const configModule: ConfigImport = await import('./config.js');
+
+      config = configModule.default;
     }
   } catch (err) {
     return log.error(err);

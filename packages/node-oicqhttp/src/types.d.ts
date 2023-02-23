@@ -6,3 +6,7 @@ export interface Config {
   password: string;
   platform?: Platform;
 }
+
+export interface ConfigImport {
+  default: Config;
+}
