@@ -77,7 +77,7 @@ class Oicq {
   // 初始化
   init(): void {
     this.client = createClient(this.config.uin, {
-      log_level: 'trace',
+      log_level: 'info',
       platform: this.config.platform ?? 1,
       ignore_self: false,
       data_dir: isDevelopment ? path.join(__dirname, '../oicq') : path.join(__dirname, 'oicq')
