@@ -1,6 +1,7 @@
 import { isDevelopment } from './utils.js';
 import * as log from './log.js';
 import Oicq from './Oicq/Oicq.js';
+import Server from './Server/Server.js';
 import type { Config, ConfigImport } from './types.js';
 
 /* 登录oicq */
@@ -11,6 +12,8 @@ function oicqLogin(config: Config): Promise<Oicq> {
       onlineSuccessCallback: (): void => resolve(oicq),
       onFailedCallback: (): void => reject()
     });
+
+    oicq.init();
   });
 }
 
@@ -35,6 +38,12 @@ async function main(): Promise<void> {
   }
 
   const oicq: Oicq = await oicqLogin(config);
+  const server: Server = new Server({
+    port: config.port,
+    client: oicq.client
+  });
+
+  server.init();
 }
 
 main();

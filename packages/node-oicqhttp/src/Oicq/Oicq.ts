@@ -3,7 +3,6 @@ import * as process from 'node:process';
 import { createClient, type Client } from 'oicq';
 import { isDevelopment, __dirname } from '../utils.js';
 import * as log from '../log.js';
-import { Login, System } from './EventType.js';
 import type { Config } from '../types.js';
 import type {
   OicqArgs,
@@ -18,10 +17,18 @@ import type {
   SystemOnlineListener
 } from './types.js';
 
-/**
- * oicq登录
- */
+const enum Login {
+  Slider = 'system.login.slider',
+  Device = 'system.login.device',
+  Error = 'system.login.error'
+}
 
+const enum System {
+  Offline = 'system.offline',
+  Online = 'system.online'
+}
+
+/* oicq登录 */
 class Oicq {
   public config: Config;
   public client: Client;

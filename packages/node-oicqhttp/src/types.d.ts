@@ -5,6 +5,7 @@ export interface Config {
   uin: number;
   password: string;
   platform?: Platform;
+  port: number;
 }
 
 export interface ConfigImport {
