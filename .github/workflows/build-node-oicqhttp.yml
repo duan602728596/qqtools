@@ -25,6 +25,8 @@ jobs:
           VERSION=${VERSION#refs/heads/build-node-oicqhttp/v}
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
+      - run: npm run install:ci
+
       - run: npm run build:node-oicqhttp
 
       - name: Create Release
