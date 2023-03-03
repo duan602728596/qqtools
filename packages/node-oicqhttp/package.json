@@ -4,7 +4,7 @@
   "type": "commonjs",
   "scripts": {
     "start": "npm run clean && tsc --outDir lib --watch",
-    "build": "npm run clean && tsc --outDir lib",
+    "build": "npm run clean && tsc --outDir .lib.mid",
     "clean": "rimraf ./lib",
     "run:dev": "cross-env NODE_ENV=development node lib/index.js"
   },
