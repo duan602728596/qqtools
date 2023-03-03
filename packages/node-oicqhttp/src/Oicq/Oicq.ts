@@ -53,7 +53,7 @@ class Oicq {
   handleSystemLoginDevice: SystemLoginDeviceListener = (event: SystemLoginDeviceEvent): void => {
     console.log('请打开下面的网址，处理设备锁。');
     console.log(event.url);
-    process.stdin.once('data', (): Promise<void> => this.client.login(this.config.password));
+    process.stdin.once('data', (): Promise<void> => this.client.login(this.config.uin, this.config.password));
   };
 
   // 二维码登录
@@ -82,7 +82,7 @@ class Oicq {
 
   // 初始化
   init(): void {
-    this.client = createClient(this.config.uin, {
+    this.client = createClient({
       log_level: 'info',
       platform: this.config.platform ?? 1,
       ignore_self: false,
@@ -94,7 +94,7 @@ class Oicq {
     this.client.on(Login.Error, this.handleSystemLoginError);
     this.client.on(System.Offline, this.handleSystemOffline);
     this.client.on(System.Online, this.handleSystemOnline);
-    this.client.login(this.config.password);
+    this.client.login(this.config.uin, this.config.password);
   }
 }
 
