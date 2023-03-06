@@ -66,7 +66,9 @@ class Server {
 
   // websocket connection
   handleWsServerConnection: (wsClient: WebSocket) => void = (wsClient: WebSocket): void => {
+    console.log('websocket连接。');
     wsClient.on('close', (): void => {
+      console.log('websocket断开。');
       wsClient.terminate();
     });
   };

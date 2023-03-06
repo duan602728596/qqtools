@@ -86,6 +86,7 @@ class OicqQQ extends Basic implements BasicImplement<Sendable> {
   destroyWebsocket(): void {
     if (this.oicqSocket) {
       this.oicqSocket.removeEventListener('message', this.handleMessageSocketMessage);
+      this.oicqSocket.close();
       this.oicqSocket = undefined;
     }
   }
