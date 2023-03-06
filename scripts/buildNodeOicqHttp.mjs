@@ -36,7 +36,9 @@ async function buildNodeOicqHttp() {
       }
     }, { spaces: 2 })
   ]);
-  await zipPromise(nodeOicqHttpBuild, `${ nodeOicqHttpBuild }-${ nodeOicqHttpPackageJson.version }.zip`);
+  await zipPromise(
+    nodeOicqHttpBuild,
+    `${ nodeOicqHttpBuild }/node-oicqhttp-${ nodeOicqHttpPackageJson.version }.zip`);
 }
 
 buildNodeOicqHttp();
