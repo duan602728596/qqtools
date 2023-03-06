@@ -4,7 +4,7 @@ import { Button, Input, Form, Divider, message } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import type { UseMessageReturnType } from '@qqtools-types/antd';
 import { showOpenDialog } from '../../../utils/remote/dialog';
-import { getMclDir, setMclDir } from '../miraiPath';
+import { getMclDir, setMclDir } from '../function/miraiPath';
 
 /* 返回、表单配置 */
 function Header(props: {}): ReactElement {

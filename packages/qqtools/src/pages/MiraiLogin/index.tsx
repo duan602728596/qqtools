@@ -12,11 +12,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { Dispatch } from '@reduxjs/toolkit';
 import { createStructuredSelector, type Selector } from 'reselect';
 import { Link } from 'react-router-dom';
-import { Button, Space, Table, Checkbox, message, notification, Tooltip, Select } from 'antd';
+import { Button, Space, Table, Checkbox, message, notification, Tooltip, Select, Alert } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import type { MessageInstance } from 'antd/es/message/interface';
-import type { UseMessageReturnType } from '@qqtools-types/antd';
+import type { UseMessageReturnType, UseNotificationType } from '@qqtools-types/antd';
 import { ToolTwoTone as IconToolTwoTone } from '@ant-design/icons';
 import style from './index.sass';
 import { omit } from '../../utils/lodash';
@@ -66,6 +66,7 @@ function Index(props: {}): ReactElement {
   const { childProcessWorker, qqLoginList }: MiraiLoginInitialState = useSelector(selector);
   const dispatch: Dispatch = useDispatch();
   const [messageApi, messageContextHolder]: UseMessageReturnType = message.useMessage();
+  const [notificationApi, notificationContextHolder]: UseNotificationType = notification.useNotification();
   const [closeBtnLoading, setCloseBtnLoading]: [boolean, D<S<boolean>>] = useState(false); // 关闭进程的loading
 
   // 关闭线程
@@ -109,7 +110,7 @@ function Index(props: {}): ReactElement {
 
   // 登陆
   function handleLoginClick(item: QQLoginItem, event: MouseEvent): void {
-    notification.info({
+    notificationApi.info({
       message: '账号登陆',
       description: childProcessWorker
         ? `正在登陆账号[${ item.qq }]，请稍等...`
@@ -122,7 +123,7 @@ function Index(props: {}): ReactElement {
 
   // 一键登陆
   function handleAutoLoginClick(event: MouseEvent): void {
-    notification.info({
+    notificationApi.info({
       message: '一键登陆',
       description: childProcessWorker ? '正在一键登陆，请稍等...' : '正在启动mirai并一键登陆，请稍等...'
     });
@@ -193,6 +194,7 @@ function Index(props: {}): ReactElement {
   return (
     <Fragment>
       <div className="p-[16px]">
+        <Alert className="mb-[16px]" type="warning" description="不推荐在这里登录，请选择在命令行启动mirai。" />
         <Header />
         <Space className="mb-[16px]">
           <LoginModal />
@@ -224,6 +226,7 @@ function Index(props: {}): ReactElement {
         />
       </div>
       { messageContextHolder }
+      { notificationContextHolder }
     </Fragment>
   );
 }

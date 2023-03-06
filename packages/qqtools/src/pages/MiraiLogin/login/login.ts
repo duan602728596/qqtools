@@ -10,7 +10,7 @@ import type {
 } from './miraiChild.worker/miraiChild.worker';
 import { store } from '../../../store/store';
 import { setChildProcessWorker, type MiraiLoginInitialState } from '../reducers/reducers';
-import { getMclDir } from '../miraiPath';
+import { getMclDir } from '../function/miraiPath';
 import type { ProtocolType } from '../types';
 
 export const queue: Queue = new Queue({ workerLen: 1 }); // 用来限制登陆的

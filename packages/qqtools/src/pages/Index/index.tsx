@@ -51,7 +51,7 @@ function Index(props: {}): ReactElement {
         <Space>
           <ExecutablePath />
           <Link to="MiraiLogin">
-            <Button icon={ <IconClusterOutlined /> }>mirai登录</Button>
+            <Button icon={ <IconClusterOutlined /> } danger={ true }>mirai登录（不推荐）</Button>
           </Link>
           <Button icon={ <IconQuestionCircleFilled /> } onClick={ handleOpenHelpClick }>使用说明</Button>
           <Tooltip title="开发者工具">
