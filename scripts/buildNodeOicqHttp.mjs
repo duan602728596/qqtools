@@ -17,7 +17,7 @@ async function buildNodeOicqHttp() {
   // 编译
   await rimraf(nodeOicqHttpBuild);
   const { code } = await ncc(src, {
-    minify: true,
+    minify: false,
     externals: ['config.mjs', 'config.dev.mjs'],
     target: 'es2022'
   });
