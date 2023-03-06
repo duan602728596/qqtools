@@ -13,7 +13,7 @@
     "chalk": "^5.2.0",
     "koa": "^2.14.1",
     "koa-body": "^6.0.1",
-    "oicq": "npm:icqq@^0.0.21",
+    "oicq": "npm:icqq@^0.0.27",
     "ws": "^8.12.1"
   },
   "devDependencies": {

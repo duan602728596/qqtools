@@ -44,16 +44,26 @@ class Oicq {
 
   // 监听验证码
   handleSystemLoginSlider: SystemLoginSliderListener = (event: SystemLoginSliderEvent): void => {
-    console.log('请打开下面的网址，滑动验证码后输入ticket。');
-    console.log(event.url);
     process.stdin.once('data', (ticket: Buffer): void => this.client.submitSlider(String(ticket).trim()));
   };
 
   // 监听设备锁
   handleSystemLoginDevice: SystemLoginDeviceListener = (event: SystemLoginDeviceEvent): void => {
-    console.log('请打开下面的网址，处理设备锁。');
-    console.log(event.url);
-    process.stdin.once('data', (): Promise<void> => this.client.login(this.config.uin, this.config.password));
+    console.log('请选择验证方式:（1：短信验证；其他：扫码验证）');
+    process.stdin.once('data', (data: Buffer): void => {
+      if (data.toString().trim() === '1') {
+        this.client.sendSmsCode();
+        console.log('请输入手机收到的短信验证码：');
+        process.stdin.once('data', (codeData: Buffer): void => {
+          this.client.submitSmsCode(codeData.toString().trim());
+        });
+      } else {
+        console.log(`扫码完成后回车继续：${ event.url }`);
+        process.stdin.once('data', (): void => {
+          this.client.login();
+        });
+      }
+    });
   };
 
   // 二维码登录
