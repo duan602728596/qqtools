@@ -38,6 +38,4 @@ jobs:
           draft: true
           prerelease: true
           files: |
-            build/node-oicqhttp/node-oicqhttp-${{ env.VERSION }}-linux64.zip
-            build/node-oicqhttp/node-oicqhttp-${{ env.VERSION }}-macos.zip
-            build/node-oicqhttp/node-oicqhttp-${{ env.VERSION }}-win.zip
+            build/node-oicqhttp.zip
