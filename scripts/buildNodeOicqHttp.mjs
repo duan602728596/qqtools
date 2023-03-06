@@ -15,13 +15,9 @@ async function buildNodeOicqHttp() {
   const src = path.join(nodeOicqHttpPath, 'src/index.ts');
 
   // 编译
-  await Promise.all([
-    rimraf(nodeOicqHttpBuild),
-    rimraf(`${ nodeOicqHttpBuild }.zip`)
-  ]);
-
+  await rimraf(nodeOicqHttpBuild);
   const { code } = await ncc(src, {
-    minify: false,
+    minify: true,
     externals: ['config.mjs', 'config.dev.mjs'],
     target: 'es2022'
   });
@@ -34,12 +30,13 @@ async function buildNodeOicqHttp() {
     fse.writeJson(path.join(nodeOicqHttpBuild, 'package.json'), {
       name: 'node-oicqhttp',
       version: nodeOicqHttpPackageJson.version,
+      type: 'module',
       scripts: {
         server: 'node node-oicqhttp.mjs'
       }
     }, { spaces: 2 })
   ]);
-  await zipPromise(nodeOicqHttpBuild, `${ nodeOicqHttpBuild }.zip`);
+  await zipPromise(nodeOicqHttpBuild, `${ nodeOicqHttpBuild }-${ nodeOicqHttpPackageJson.version }.zip`);
 }
 
 buildNodeOicqHttp();
