@@ -13,24 +13,28 @@ import {
 import License from './License/License';
 import ExecutablePath from './ExecutablePath/ExecutablePath';
 
+// 打开开发者工具
+function handleOpenDeveloperToolsClick(event: MouseEvent): void {
+  ipcRenderer.send('developer-tools');
+}
+
+// 打开使用说明
+function handleOpenHelpClick(event: MouseEvent): void {
+  shell.openExternal('https://www.yuque.com/bbkkbkk/qqtools');
+}
+
+// 打开issues
+function handleOpenIssuesClick(event: MouseEvent): void {
+  shell.openExternal('https://github.com/duan602728596/qqtools/issues');
+}
+
+// 打开软件下载地址
+function handleOpenDownloadUrlClick(event: MouseEvent): void {
+  shell.openExternal('https://github.com/duan602728596/qqtools/releases');
+}
+
 /* 首页 */
 function Index(props: {}): ReactElement {
-  // 打开开发者工具
-  function handleOpenDeveloperToolsClick(event: MouseEvent): void {
-    ipcRenderer.send('developer-tools');
-  }
-
-  // 打开使用说明
-  function handleOpenHelpClick(event: MouseEvent): void {
-    shell.openExternal('https://www.yuque.com/bbkkbkk/qqtools');
-  }
-
-  // 打开issues
-  function handleOpenIssuesClick(event: MouseEvent): void {
-    shell.openExternal('https://github.com/duan602728596/qqtools/issues');
-  }
-
-
   return (
     <div className="p-[16px]">
       <div>
@@ -60,16 +64,26 @@ function Index(props: {}): ReactElement {
         </Space>
       </div>
       <Divider />
-      {/* 二维码 */}
-      <p>欢迎打赏：</p>
-      <Space size={ 8 }>
-        <div className="w-[180px]">
-          <Image className="cursor-pointer" src={ require('./images/zfb.avif') } />
+      <div className="flex">
+        <div>
+          {/* 二维码 */}
+          <p>欢迎打赏：</p>
+          <Space size={ 8 }>
+            <div className="w-[180px]">
+              <Image className="cursor-pointer" src={ require('./images/zfb.avif') } />
+            </div>
+            <div className="w-[180px]">
+              <Image className="cursor-pointer" src={ require('./images/wx.avif') } />
+            </div>
+          </Space>
         </div>
-        <div className="w-[180px]">
-          <Image className="cursor-pointer" src={ require('./images/wx.avif') } />
+        <div className="ml-[32px]">
+          <p>软件最新版本下载地址：</p>
+          <Button type="link" onClick={ handleOpenDownloadUrlClick }>
+            https://github.com/duan602728596/qqtools/releases
+          </Button>
         </div>
-      </Space>
+      </div>
     </div>
   );
 }
