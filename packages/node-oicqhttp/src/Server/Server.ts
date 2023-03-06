@@ -6,7 +6,7 @@ import type { Context, Next } from 'koa';
 import Router from '@koa/router';
 import { koaBody } from 'koa-body';
 import { WebSocketServer, type WebSocket } from 'ws';
-import type { Client } from 'oicq';
+import type { Client } from 'icqq';
 import type { ServerArgs, KoaFunction, PostActionBody } from './types.js';
 
 /* Server */

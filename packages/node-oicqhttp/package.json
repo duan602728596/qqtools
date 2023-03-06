@@ -1,19 +1,17 @@
 {
   "name": "@qqtools3/node-oicqhttp",
   "version": "0.3.0",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "start": "npm run clean && tsc --outDir lib --watch",
-    "build": "npm run clean && tsc --outDir .lib.mid",
-    "clean": "rimraf ./lib",
     "run:dev": "cross-env NODE_ENV=development node lib/index.js"
   },
   "dependencies": {
     "@koa/router": "^12.0.0",
     "chalk": "^5.2.0",
+    "icqq": "^0.0.27",
     "koa": "^2.14.1",
     "koa-body": "^6.0.1",
-    "oicq": "npm:icqq@^0.0.27",
     "ws": "^8.12.1"
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
 import type { Context, Next } from 'koa';
-import type { Client } from 'oicq';
+import type { Client } from 'icqq';
 
 export interface ServerArgs {
   port: number;

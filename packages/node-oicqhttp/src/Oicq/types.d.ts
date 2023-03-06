@@ -1,4 +1,4 @@
-import type { LoginErrorCode } from 'oicq';
+import type { LoginErrorCode } from 'icqq';
 import type { Config } from '../types.js';
 
 export interface OicqArgs {

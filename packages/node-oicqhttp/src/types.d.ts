@@ -1,4 +1,4 @@
-import type { Platform } from 'oicq';
+import type { Platform } from 'icqq';
 
 // 配置文件类型
 export interface Config {

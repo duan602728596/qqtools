@@ -1,6 +1,7 @@
 import * as path from 'node:path';
-import * as process from 'process';
-import { isDevelopment } from './utils.js';
+import * as process from 'node:process';
+import { pathToFileURL } from 'node:url';
+import { isDevelopment, dynamicImport } from './utils.js';
 import Oicq from './Oicq/Oicq.js';
 import Server from './Server/Server.js';
 import type { Config, ConfigImport } from './types.js';
@@ -24,11 +25,12 @@ async function main(): Promise<void> {
   // 加载配置文件
   try {
     if (isDevelopment) {
-      const configModule: ConfigImport = await import('../config.dev.js');
+      const configModule: ConfigImport = await dynamicImport<ConfigImport>('../config.dev.mjs');
 
       config = configModule.default;
     } else {
-      const configModule: ConfigImport = await import(path.join(process.cwd(), 'config.js'));
+      const configModule: ConfigImport
+        = await dynamicImport<ConfigImport>(pathToFileURL(path.join(process.cwd(), 'config.mjs')).href);
 
       config = configModule.default;
     }
