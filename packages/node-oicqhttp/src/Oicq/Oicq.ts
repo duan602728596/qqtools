@@ -1,7 +1,7 @@
 import * as path from 'node:path';
 import * as process from 'node:process';
 import { createClient, type Client } from 'icqq';
-import { isDevelopment } from '../utils.js';
+import { isDevelopment, __dirname } from '../utils.js';
 import type { Config } from '../types.js';
 import type {
   OicqArgs,

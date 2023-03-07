@@ -4,10 +4,12 @@
   "type": "module",
   "scripts": {
     "start": "npm run clean && tsc --outDir lib --watch",
+    "clean": "rimraf lib",
     "run:dev": "cross-env NODE_ENV=development node lib/index.js"
   },
   "dependencies": {
     "@koa/router": "^12.0.0",
+    "@sweet-milktea/utils": "^4.0.0",
     "chalk": "^5.2.0",
     "icqq": "^0.0.27",
     "koa": "^2.14.1",

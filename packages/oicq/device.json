@@ -1,0 +1,18 @@
+{
+  "--begin--": "该设备为随机生成，丢失后不能得到原先配置",
+  "product": "ILPP-56095",
+  "device": "697A6",
+  "board": "2494F",
+  "brand": "6DBD",
+  "model": "ILPP 4BC4",
+  "wifi_ssid": "HUAWEI-a3a6409",
+  "bootloader": "U-boot",
+  "android_id": "IL.8448268.7319",
+  "boot_id": "7346f6c7-b1c2-438f-3f1b-47caf5ad9451",
+  "proc_version": "Linux version 5.10.101-android12-5cc41c5e",
+  "mac_address": "2D:99:C9:21:F5:E0",
+  "ip_address": "192.168.11.04",
+  "imei": "868398169309275",
+  "incremental": "D5DB4FCE6C",
+  "--end--": "修改后可能需要重新验证设备。"
+}
