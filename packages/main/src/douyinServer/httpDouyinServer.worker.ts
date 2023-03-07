@@ -3,7 +3,7 @@ import * as http from 'node:http';
 import type { IncomingMessage, ServerResponse, ClientRequest } from 'node:http';
 import { workerData } from 'node:worker_threads';
 import type * as Playwright from 'playwright-core';
-import type { BrowserType, Browser, BrowserContext, Page, JSHandle, Route } from 'playwright-core';
+import type { BrowserType, Browser, BrowserContext, Page, JSHandle, Route, Cookie } from 'playwright-core';
 import type { UserScriptRendedData } from '@qqtools3/qqtools/src/QQ/qq.types';
 import asarNodeRequire from '../asarNodeRequire';
 
@@ -68,15 +68,41 @@ function weiboResponseHandle(urlParse: URL, httpResponse: ServerResponse): void 
   });
 }
 
+/* 获取POST body */
+function getPostBody(httpRequest: IncomingMessage): Promise<string> {
+  return new Promise((resolve: Function, reject: Function): void => {
+    const body: Array<Buffer> = [];
+
+    httpRequest.on('data', (chunk: Buffer): void => {
+      body.push(chunk);
+    });
+
+    httpRequest.on('end', (): void => {
+      resolve(Buffer.concat(body).toString());
+    });
+  });
+}
+
 /**
  * @param { URL } urlParse
+ * @param { IncomingMessage } httpRequest
  * @param { ServerResponse } httpResponse
  */
-async function douyinResponseHandle(urlParse: URL, httpResponse: ServerResponse): Promise<void> {
-  const executablePath: string | null = urlParse.searchParams.get('e');
-  const userId: string | null = urlParse.searchParams.get('u');
+async function douyinResponseHandle(
+  urlParse: URL,
+  httpRequest: IncomingMessage,
+  httpResponse: ServerResponse
+): Promise<void> {
+  const body: { e: string | null; u: string | null; c: string } = JSON.parse(await getPostBody(httpRequest));
+  const executablePath: string | null = body.e;
+  const userId: string | null = body.u;
 
-  if (!(executablePath && !/^\s*$/.test(executablePath) && userId && !/^\s*$/.test(userId))) return;
+  if (!(executablePath && !/^\s*$/.test(executablePath) && userId && !/^\s*$/.test(userId))) {
+    httpResponse.statusCode = 400;
+    httpResponse.end(null);
+
+    return;
+  }
 
   let browser: Browser | null = null;
 
@@ -90,7 +116,8 @@ async function douyinResponseHandle(urlParse: URL, httpResponse: ServerResponse)
       ignoreHTTPSErrors: true,
       userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) '
         + 'Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.52',
-      serviceWorkers: 'block'
+      serviceWorkers: 'block',
+      extraHTTPHeaders: { Cookie: body.c }
     });
 
     await context.route(
@@ -98,8 +125,9 @@ async function douyinResponseHandle(urlParse: URL, httpResponse: ServerResponse)
       (route: Route) => route.abort());
 
     const page: Page = await context.newPage();
+    const userUrl: string = `https://www.douyin.com/user/${ userId }`;
 
-    await page.goto(`https://www.douyin.com/user/${ userId }`);
+    await page.goto(userUrl, { referer: userUrl });
     await page.locator('#RENDER_DATA');
 
     const renderDataHandle: JSHandle<string | null> = await page.evaluateHandle((): string | null => {
@@ -110,13 +138,14 @@ async function douyinResponseHandle(urlParse: URL, httpResponse: ServerResponse)
     const renderData: string | null = await renderDataHandle.evaluate(
       (node: string | null): string | null => node ? decodeURIComponent(node) : null);
     const renderDataJson: UserScriptRendedData | undefined = renderData ? JSON.parse(renderData) : undefined;
+    const cookie: Array<Cookie> = await context.cookies();
 
     await page.close();
     await browser.close();
     browser = null;
     httpResponse.setHeader('Content-type', 'application/json');
     httpResponse.statusCode = 200;
-    httpResponse.end(JSON.stringify({ data: renderDataJson ?? null }));
+    httpResponse.end(JSON.stringify({ data: renderDataJson ?? null, cookie }));
   } catch (err) {
     browser && (await browser.close());
     httpResponse.statusCode = 400;
@@ -133,7 +162,7 @@ http.createServer(function(httpRequest: IncomingMessage, httpResponse: ServerRes
   const urlParse: URL = new URL(httpRequest.url, baseUrl);
 
   if (urlParse.pathname === '/douyin/renderdata' ) {
-    douyinResponseHandle(urlParse, httpResponse);
+    douyinResponseHandle(urlParse, httpRequest, httpResponse);
   } else if (urlParse.pathname === '/proxy/weibo/image') {
     weiboResponseHandle(urlParse, httpResponse);
   } else {

@@ -76,7 +76,7 @@ abstract class Basic {
           protocol: this.protocol
         });
 
-        douyin.initDouyinWorker();
+        await douyin.initDouyinWorker();
         this.douyin.push(douyin);
       }
     }

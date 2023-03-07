@@ -1,5 +1,6 @@
 import { setTimeout, clearTimeout } from 'node:timers';
 import * as dayjs from 'dayjs';
+import type { Cookie } from 'playwright-core';
 import { QQProtocol } from '../../QQBotModals/ModalTypes';
 import parser, { type ParserResult } from '../../parser/index';
 import * as CQ from '../../parser/CQ';
@@ -14,6 +15,7 @@ let douyinTimer: NodeJS.Timer | undefined = undefined; // 轮询定时器
 let browserExecutablePath: string;                     // 浏览器路径
 let port: number;                                      // 端口号
 let intervalTime: number = 180_000;                    // 轮询间隔
+const cookieCache: Array<Cookie> = [];                 // cookie
 
 interface DouyinSendMsg {
   url: string | undefined;
@@ -49,16 +51,37 @@ async function getDouyinData(): Promise<UserScriptRendedData | undefined> {
       controller.abort();
       fetchTimeoutTimer = undefined;
     }, 90_000);
+
     const res: Response = await fetch(uri, {
-      method: 'GET',
-      signal: controller.signal
+      method: 'POST',
+      signal: controller.signal,
+      body: JSON.stringify({
+        e: browserExecutablePath,
+        u: userId,
+        c: cookieCache.map((c: Cookie): string => `${ c.name }=${ c.value }`).join(';')
+      })
     });
 
     fetchTimeoutTimer && clearTimeout(fetchTimeoutTimer);
 
     if (res.status === 200) {
-      const resData: { data: UserScriptRendedData | null } = await res.json();
+      const resData: { data: UserScriptRendedData | null; cookie: Array<Cookie> } = await res.json();
       const renderDataJson: UserScriptRendedData | null = resData.data;
+
+      // 合并cookie
+      const addNewCookie: Array<Cookie> = [];
+
+      resData.cookie.forEach((cookie: Cookie): void => {
+        const index: number = cookieCache.findIndex((o: Cookie): boolean => o.name === cookie.name);
+
+        if (index >= 0) {
+          cookieCache[index] = cookie;
+        } else {
+          addNewCookie.push(cookie);
+        }
+      });
+
+      resData.cookie.push(...addNewCookie);
 
       return renderDataJson ?? undefined;
     }
@@ -182,6 +205,7 @@ addEventListener('message', function(event: MessageEvent) {
     protocol = event.data.protocol;
     browserExecutablePath = event.data.executablePath;
     port = event.data.port;
+    cookieCache.push(...event.data.cookie);
 
     if (event.data.intervalTime && event.data.intervalTime >= 3) {
       intervalTime = event.data.intervalTime * 60 * 1_000;
