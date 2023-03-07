@@ -8,7 +8,7 @@ import type { WeiboCard, WeiboContainerList, WeiboSendData } from '../../qq.type
 let lfid: string;       // 账号的lfid
 let weiboTimer: number; // 轮询定时器
 let weiboAtAll: boolean | undefined; // 是否at全体成员
-let weiboId: bigint;      // 记录查询位置
+let weiboId: bigint | null = null;   // 记录查询位置
 let protocol: QQProtocol; // 协议：mirai或者oicq
 let port: number; // 端口号
 
@@ -41,16 +41,24 @@ function QQSendGroup(item: WeiboSendData): string {
 async function weiboContainerListTimer(): Promise<void> {
   try {
     const resWeiboList: WeiboContainerList = await requestWeiboContainer(lfid);
-    const newList: Array<WeiboSendData> = filterNewCards(
-      filterCards(resWeiboList.data.cards), weiboId); // 过滤新的微博
 
-    if (newList.length > 0) {
-      weiboId = newList[0].id;
+    if (resWeiboList?.data?.cards) {
+      const list: Array<WeiboCard> = filterCards(resWeiboList.data.cards);
 
-      for (const item of newList) {
-        postMessage({
-          sendGroup: parser(QQSendGroup(item), protocol)
-        });
+      if (weiboId === null) {
+        weiboId = list?.[0]?._id ?? BigInt(0);
+      }
+
+      const newList: Array<WeiboSendData> = filterNewCards(list, weiboId); // 过滤新的微博
+
+      if (newList.length > 0) {
+        weiboId = newList[0].id;
+
+        for (const item of newList) {
+          postMessage({
+            sendGroup: parser(QQSendGroup(item), protocol)
+          });
+        }
       }
     }
   } catch (err) {
@@ -63,9 +71,13 @@ async function weiboContainerListTimer(): Promise<void> {
 /* 初始化微博查询 */
 async function weiboInit(): Promise<void> {
   const resWeiboList: WeiboContainerList = await requestWeiboContainer(lfid);
-  const list: Array<WeiboCard> = filterCards(resWeiboList.data.cards);
 
-  weiboId = list?.[0]?._id ?? BigInt(0);
+  if (resWeiboList?.data?.cards) {
+    const list: Array<WeiboCard> = filterCards(resWeiboList.data.cards);
+
+    weiboId = list?.[0]?._id ?? BigInt(0);
+  }
+
   weiboTimer = self.setTimeout(weiboContainerListTimer, 45_000);
 }
 

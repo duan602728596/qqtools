@@ -12,7 +12,7 @@ import type {
 
 let lfid: `${ string }_-_sort_time`; // 账号的lfid
 let weiboTimer: number; // 轮询定时器
-let weiboId: bigint;    // 记录查询位置
+let weiboId: bigint | null = null; // 记录查询位置
 let superNick: string;  // 超话名称
 let protocol: QQProtocol; // 协议：mirai或者oicq
 let port: number; // 端口号
@@ -42,19 +42,29 @@ function QQSendGroup(item: WeiboSendData): string {
 async function weiboContainerListTimer(): Promise<void> {
   try {
     const resWeiboList: WeiboSuperTopicContainerList = await requestWeiboContainer<WeiboSuperTopicContainerList>(lfid);
-    const cardsGroup: Array<WeiboCard> = resWeiboList.data.cards
-      .filter((o: WeiboSuperTopicContainerCard): boolean => Number(o.show_type) === 1)
-      .map((o: WeiboSuperTopicContainerCard): Array<WeiboCard> => o.card_group)
-      .flat();
-    const newList: Array<WeiboSendData> = filterNewCards(filterCards(cardsGroup), weiboId); // 过滤新的微博
 
-    if (newList.length > 0) {
-      weiboId = newList[0].id;
+    if (resWeiboList?.data?.cards) {
+      const cardsGroup: Array<WeiboCard> = resWeiboList.data.cards
+        .filter((o: WeiboSuperTopicContainerCard): boolean => Number(o.show_type) === 1)
+        .map((o: WeiboSuperTopicContainerCard): Array<WeiboCard> => o.card_group)
+        .flat();
+      const list: Array<WeiboCard> = filterCards(cardsGroup);
 
-      for (const item of newList) {
-        postMessage({
-          sendGroup: parser(QQSendGroup(item), protocol)
-        });
+      if (weiboId === null) {
+        superNick = resWeiboList?.data?.pageInfo?.nick;
+        weiboId = list?.[0]?._id ?? BigInt(0);
+      }
+
+      const newList: Array<WeiboSendData> = filterNewCards(list, weiboId); // 过滤新的微博
+
+      if (newList.length > 0) {
+        weiboId = newList[0].id;
+
+        for (const item of newList) {
+          postMessage({
+            sendGroup: parser(QQSendGroup(item), protocol)
+          });
+        }
       }
     }
   } catch (err) {
@@ -67,14 +77,18 @@ async function weiboContainerListTimer(): Promise<void> {
 /* 初始化微博查询 */
 async function weiboInit(): Promise<void> {
   const resWeiboList: WeiboSuperTopicContainerList = await requestWeiboContainer<WeiboSuperTopicContainerList>(lfid);
-  const cardsGroup: Array<WeiboCard> = resWeiboList.data.cards
-    .filter((o: WeiboSuperTopicContainerCard): boolean => Number(o.show_type) === 1)
-    .map((o: WeiboSuperTopicContainerCard): Array<WeiboCard> => o.card_group)
-    .flat();
-  const list: Array<WeiboCard> = filterCards(cardsGroup);
 
-  superNick = resWeiboList.data.pageInfo.nick;
-  weiboId = list?.[0]?._id ?? BigInt(0);
+  if (resWeiboList?.data?.cards) {
+    const cardsGroup: Array<WeiboCard> = resWeiboList.data.cards
+      .filter((o: WeiboSuperTopicContainerCard): boolean => Number(o.show_type) === 1)
+      .map((o: WeiboSuperTopicContainerCard): Array<WeiboCard> => o.card_group)
+      .flat();
+    const list: Array<WeiboCard> = filterCards(cardsGroup);
+
+    superNick = resWeiboList.data.pageInfo.nick;
+    weiboId = list?.[0]?._id ?? BigInt(0);
+  }
+
   weiboTimer = self.setTimeout(weiboContainerListTimer, 45_000);
 }
 
