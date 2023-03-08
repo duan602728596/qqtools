@@ -17,6 +17,11 @@ let port: number;                                      // 端口号
 let intervalTime: number = 180_000;                    // 轮询间隔
 const cookieCache: Array<Cookie> = [];                 // cookie
 
+/* 调试 */
+let _isSendDebugMessage: boolean = false; // 是否发送调试信息
+let _debugTimes: number = 0;              // 调试次数
+const _startTime: string = dayjs().format('YYYY-MM-DD HH:mm:ss');
+
 interface DouyinSendMsg {
   url: string | undefined;
   time: string;
@@ -103,6 +108,8 @@ async function handleDouyinListener(): Promise<void> {
     $douyinLogSendData.data = renderData;
 
     if (renderData) {
+      _isSendDebugMessage && (_debugTimes = 0);
+
       const userItemArray: Array<UserItem1 | UserItem2> = Object.values(renderData);
       const userItem2: UserItem2 | undefined = userItemArray.find(
         (o: UserItem1 | UserItem2): o is UserItem2 => typeof o === 'object' && ('post' in o));
@@ -147,6 +154,21 @@ async function handleDouyinListener(): Promise<void> {
     } else {
       console.warn('没有获取到RENDER_DATA。', '--->', description ?? userId,
         dayjs().format('YYYY-MM-DD HH:mm:ss'));
+
+      if (_isSendDebugMessage) {
+        _debugTimes++;
+
+        if (_debugTimes > 6) {
+          postMessage({
+            type: 'message',
+            sendGroup: [parser(`[qqtools] Debug info: your Douyin cookie has expired.
+UserId: ${ userId }
+StartTime: ${ _startTime }
+EndTime: ${ dayjs().format('YYYY-MM-DD HH:mm:ss') }`, protocol)]
+          });
+          _debugTimes = 0;
+        }
+      }
     }
   } catch (err) {
     console.error(err);
@@ -186,6 +208,7 @@ async function douyinInit(): Promise<void> {
     } else {
       console.warn('初始化时没有获取到RENDER_DATA。', '--->', description ?? userId,
         dayjs().format('YYYY-MM-DD HH:mm:ss'));
+      _isSendDebugMessage && _debugTimes++;
     }
   } catch (err) {
     console.error(err);
@@ -205,6 +228,7 @@ addEventListener('message', function(event: MessageEvent) {
     protocol = event.data.protocol;
     browserExecutablePath = event.data.executablePath;
     port = event.data.port;
+    _isSendDebugMessage = event.data.isSendDebugMessage;
     cookieCache.push(...event.data.cookie);
 
     if (event.data.intervalTime && event.data.intervalTime >= 3) {

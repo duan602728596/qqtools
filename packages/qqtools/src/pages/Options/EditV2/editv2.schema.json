@@ -304,6 +304,11 @@
             "type": "number",
             "title": "轮询间隔（分钟）",
             "minimum": 3
+          },
+          "isSendDebugMessage": {
+            "id": "$root/properties/douyin/items/properties/isSendDebugMessage",
+            "type": "boolean",
+            "title": "cookie过期时，发送到群里提醒"
           }
         }
       }

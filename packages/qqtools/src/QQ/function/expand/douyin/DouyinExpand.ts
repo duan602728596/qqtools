@@ -83,7 +83,7 @@ class DouyinExpand {
 
   // 抖音监听初始化
   async initDouyinWorker(): Promise<void> {
-    const { douyinListener, userId, intervalTime }: OptionsItemDouyin = this.config;
+    const { douyinListener, userId, intervalTime, isSendDebugMessage }: OptionsItemDouyin = this.config;
 
     if (!(douyinListener && userId && !/^\s*$/.test(userId))) return;
 
@@ -109,7 +109,8 @@ class DouyinExpand {
       executablePath,
       port: getDouyinServerPort().port,
       intervalTime,
-      cookie: this.cookie
+      cookie: this.cookie,
+      isSendDebugMessage
     });
   }
 
