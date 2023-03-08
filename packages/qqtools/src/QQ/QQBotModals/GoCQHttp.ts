@@ -3,12 +3,17 @@ import { WebSocket as WebSocketClient, WebSocketServer } from 'ws';
 import type { GroupMessage, MemberIncreaseEvent as OicqMemberIncreaseEvent } from 'oicq';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
-import { message } from 'antd';
-import Basic, { BasicImplement } from './Basic';
+import Basic, { type BasicImplement, type BasicArgs } from './Basic';
 import { QQProtocol } from './ModalTypes';
-import { getGroupNumbers, getSocketHost, LogCommandData, isGroupMessageEventData, isMemberIncreaseEventData } from '../function/qq/qqUtils';
+import {
+  getGroupNumbers,
+  getSocketHost,
+  LogCommandData,
+  isGroupMessageEventData,
+  isMemberIncreaseEventData
+} from '../function/qq/qqUtils';
 import * as CQ from '../function/parser/CQ';
-import type { MemberInfo, OptionsItemValueV2, EditItem } from '../../commonTypes';
+import type { OptionsItemValueV2, EditItem } from '../../commonTypes';
 
 export interface HeartbeatMessage {
   post_type: 'meta_event';
@@ -38,8 +43,10 @@ class GoCQHttp extends Basic implements BasicImplement<string> {
   public protocol: QQProtocol = QQProtocol.GoCQHttp;
   public websocket: WebSocketClient | WebSocketServer | undefined;
 
-  constructor(id: string, config: OptionsItemValueV2, membersList?: Array<MemberInfo>) {
-    super();
+  constructor(args: BasicArgs) {
+    super(args);
+
+    const { id, config, membersList }: BasicArgs = args;
 
     this.id = id;         // 当前登陆的唯一id
     this.config = config; // 配置
@@ -100,7 +107,7 @@ class GoCQHttp extends Basic implements BasicImplement<string> {
 
   // 错误消息
   handleWebsocketError(err: Error): void {
-    message.error(err.toString());
+    this.messageApi.error(err.toString());
   }
 
   // 创建组消息

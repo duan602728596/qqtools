@@ -1,7 +1,6 @@
-import { setTimeout as setTimeoutPromise } from 'node:timers/promises';
 import type { Browser, BrowserContext, Page, Cookie, Route } from 'playwright-core';
 import { message } from 'antd';
-import * as dayjs from 'dayjs';
+import type { MessageInstance } from 'antd/es/message/interface';
 import { getBrowser } from '../../../../utils/utils';
 import getDouyinWorker from './douyin.worker/getDouyinWorker';
 import { getDouyinServerPort } from '../../../../utils/douyinServer/douyinServer';
@@ -61,7 +60,6 @@ class DouyinExpand {
       page.setDefaultTimeout(0);
       await page.goto(userUrl, { referer: userUrl, timeout: 0 });
       await page.waitForFunction((): boolean => !!document.getElementById('RENDER_DATA'));
-      await setTimeoutPromise(3_000);
       this.cookie = await context.cookies();
       await page.close();
       await browser.close();
@@ -78,15 +76,18 @@ class DouyinExpand {
   public protocol: QQProtocol;
   public douyinWorker?: Worker;
   public cookie: Array<Cookie> = [];
+  #messageApi: typeof message | MessageInstance = message;
 
-  constructor({ config, qq, protocol }: {
+  constructor({ config, qq, protocol, messageApi }: {
     config: OptionsItemDouyin;
     qq: QQModals;
     protocol: QQProtocol;
+    messageApi?: MessageInstance;
   }) {
     this.config = config;
     this.qq = qq;
     this.protocol = protocol;
+    messageApi && (this.#messageApi = messageApi);
   }
 
   // 抖音监听
@@ -101,12 +102,6 @@ class DouyinExpand {
   // 抖音重新请求cookie
   async requestDouyinCookie(executablePath: string): Promise<void> {
     await DouyinExpand.getCookie.call(this, executablePath, this.config.userId);
-
-    const SVWebId: Cookie | undefined = this.cookie.find((item: Cookie): boolean => item.name === 's_v_web_id');
-
-    if (SVWebId) {
-      message.info(`预计过期时间为：${ dayjs.unix(SVWebId.expires).format('YYYY-MM-DD HH:mm:ss') }`);
-    }
   }
 
   // 重新请求cookie
@@ -130,7 +125,7 @@ class DouyinExpand {
     const executablePath: string | null = localStorage.getItem('PUPPETEER_EXECUTABLE_PATH');
 
     if (!(executablePath && !/^\s*$/.test(executablePath))) {
-      message.warning('请先配置无头浏览器！');
+      this.#messageApi.warning('请先配置无头浏览器！');
       console.warn('请先配置无头浏览器！');
 
       return;

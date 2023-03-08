@@ -40,7 +40,7 @@ async function loginFunc(messageApi: MessageInstance, username: string, password
     const [result, loginInfoSendMessage]: [boolean, LoginInfoSendMessage] = await login(username, password);
 
     if (result) {
-      messageApi.success(`[${ username }] 登陆成功！`);
+      messageApi.success(`[${ username }] 登录成功！`);
     } else {
       messageApi.error(`[${ username }] ${ loginInfoSendMessage?.message ?? '登陆失败！' }`);
     }

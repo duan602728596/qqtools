@@ -1,3 +1,5 @@
+import { message } from 'antd';
+import type { MessageInstance } from 'antd/es/message/interface';
 import Pocket48V2Expand from '../function/expand/pocket48/Pocket48V2Expand';
 import WeiboExpand from '../function/expand/weibo/WeiboExpand';
 import DouyinExpand from '../function/expand/douyin/DouyinExpand';
@@ -17,6 +19,13 @@ export interface BasicImplement<MessageType> {
   destroy(): boolean | Promise<boolean>;
 }
 
+export interface BasicArgs {
+  id: string;
+  config: OptionsItemValueV2;
+  membersList?: Array<MemberInfo>;
+  messageApi?: MessageInstance;
+}
+
 abstract class Basic {
   public protocol: QQProtocol;        // mirai或者oicq
   public id: string;                  // 当前进程的唯一ID
@@ -24,7 +33,6 @@ abstract class Basic {
   public groupNumbers: Array<number>; // 多个群号
   public socketHost: string;          // socket的host
   public startTime: string;           // 启动时间
-
   public membersList?: Array<MemberInfo>; // 所有成员信息
 
   public pocket48V2: Array<Pocket48V2Expand> | undefined;
@@ -32,6 +40,7 @@ abstract class Basic {
   public douyin: Array<DouyinExpand> | undefined;
   public bilibili: Array<BilibiliExpand> | undefined;
   public cronTimer: Array<CronTimerExpand> | undefined;
+  messageApi: typeof message | MessageInstance = message;
 
   static async initExpand(this: QQModals): Promise<void> {
     if (this.config.pocket48V2) {
@@ -55,7 +64,8 @@ abstract class Basic {
         const weibo: WeiboExpand = new WeiboExpand({
           qq: this,
           config: item,
-          protocol: this.protocol
+          protocol: this.protocol,
+          messageApi: this.messageApi
         });
 
         await Promise.all([
@@ -73,7 +83,8 @@ abstract class Basic {
         const douyin: DouyinExpand = new DouyinExpand({
           qq: this,
           config: item,
-          protocol: this.protocol
+          protocol: this.protocol,
+          messageApi: this.messageApi
         });
 
         await douyin.initDouyinWorker();
@@ -134,6 +145,10 @@ abstract class Basic {
       this.cronTimer.forEach((item: CronTimerExpand): unknown => item.destroy());
       this.cronTimer = undefined;
     }
+  }
+
+  protected constructor(args: BasicArgs) {
+    args.messageApi && (this.messageApi = args.messageApi);
   }
 }
 

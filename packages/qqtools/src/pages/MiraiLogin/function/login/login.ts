@@ -82,7 +82,7 @@ export function loginWorker(
  * @param { string } username
  * @param { string } password
  * @param { ProtocolType } protocol: 登陆协议
- * @return { [boolean, LoginInfoSendMessage] } 返回是否登陆成功或失败，以及其他信息
+ * @return { [boolean, LoginInfoSendMessage] } 返回是否登录成功或失败，以及其他信息
  */
 export async function login(
   username: string,

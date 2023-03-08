@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
-import Basic, { BasicImplement, type MessageListener } from './Basic';
+import Basic, { type BasicImplement, type MessageListener, type BasicArgs } from './Basic';
 import { QQProtocol } from './ModalTypes';
 import {
   requestAuth,
@@ -15,10 +15,10 @@ import {
 } from '../services/services';
 import { plain, type MiraiMessageProps } from '../function/parser/mirai';
 import { getGroupNumbers, getSocketHost, LogCommandData } from '../function/qq/qqUtils';
-import { getRoomMessage, log, type RoomMessageArgs } from '../function/expand/pocket48/pocket48V2Utils';
+import { log } from '../function/expand/pocket48/pocket48V2Utils';
 import parser from '../function/parser/index';
 import * as CQ from '../function/parser/CQ';
-import type { OptionsItemValueV2, MemberInfo, EditItem } from '../../commonTypes';
+import type { OptionsItemValueV2, EditItem } from '../../commonTypes';
 import type {
   AuthResponse,
   MessageResponse,
@@ -28,7 +28,6 @@ import type {
   EventSocketEventData,
   EventSocketEventDataV2
 } from '../qq.types';
-import type { DynamicMockFunc } from '../function/mock/mock';
 
 type CloseListener = (event: CloseEvent) => void | Promise<void>;
 
@@ -41,8 +40,10 @@ class MiraiQQ extends Basic implements BasicImplement<Array<MiraiMessageProps>> 
   public session: string;
   #miraiApiHttpV2: boolean = false;
 
-  constructor(id: string, config: OptionsItemValueV2, membersList?: Array<MemberInfo>) {
-    super();
+  constructor(args: BasicArgs) {
+    super(args);
+
+    const { id, config, membersList }: BasicArgs = args;
 
     this.id = id;         // 当前登陆的唯一id
     this.config = config; // 配置
@@ -199,7 +200,7 @@ class MiraiQQ extends Basic implements BasicImplement<Array<MiraiMessageProps>> 
       socketHost, socketPort, authKey);
 
     if (authRes.code !== 0) {
-      message.error('登陆失败：获取session失败。');
+      this.messageApi.error('登陆失败：获取session失败。');
 
       return false;
     }
@@ -212,7 +213,7 @@ class MiraiQQ extends Basic implements BasicImplement<Array<MiraiMessageProps>> 
     if (verifyRes.code === 0) {
       return true;
     } else {
-      message.error('登陆失败：session认证失败。');
+      this.messageApi.error('登陆失败：session认证失败。');
 
       return false;
     }

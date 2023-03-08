@@ -34,7 +34,7 @@ export interface CloseMessage {
 export type Message = InitMessage | LoginMessage | CloseMessage;
 
 /* 定义返回的消息类型 */
-// 登陆成功或失败
+// 登录成功或失败
 export interface LoginInfoSendMessage {
   type: MessageType.LOGIN_INFO;
   loginType: 'success' | 'failed';
@@ -137,12 +137,12 @@ function childProcessInit(data: InitMessage): void {
 function miraiLogin(data: LoginMessage): void {
   const protocol: ProtocolType = data.protocol ?? 'ANDROID_PAD';
 
-  // 根据监听信息判断是登陆成功还是失败
+  // 根据监听信息判断是登录成功还是失败
   function handleStdout(event: MessageEvent<StdoutEventMessage>): void {
     const { text, isFirst }: StdoutEventMessage = event.data;
 
     if (/Login successful/i.test(text) && text.includes(data.username)) {
-      // 登陆成功
+      // 登录成功
       postMessage({
         type: MessageType.LOGIN_INFO,
         loginType: 'success',

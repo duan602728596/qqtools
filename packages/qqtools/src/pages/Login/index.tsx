@@ -87,18 +87,33 @@ function Index(props: {}): ReactElement {
       let qq: QQModals;
 
       if (qqOptions.optionType === '1') {
-        qq = new OicqQQ(id, qqOptions, roomIdResult?.value);
+        qq = new OicqQQ({
+          id,
+          config: qqOptions,
+          membersList: roomIdResult?.value,
+          messageApi
+        });
       } else if (qqOptions.optionType === '2') {
-        qq = new GoCQHttp(id, qqOptions, roomIdResult?.value);
+        qq = new GoCQHttp({
+          id,
+          config: qqOptions,
+          membersList: roomIdResult?.value,
+          messageApi
+        });
       } else {
-        qq = new MiraiQQ(id, qqOptions, roomIdResult?.value);
+        qq = new MiraiQQ({
+          id,
+          config: qqOptions,
+          membersList: roomIdResult?.value,
+          messageApi
+        });
       }
 
       const result: boolean = await qq.init();
 
       if (result) {
         dispatch(setAddLogin(qq));
-        messageApi.success('登陆成功！');
+        messageApi.success('登录成功！');
       }
     } catch (err) {
       console.error(err);

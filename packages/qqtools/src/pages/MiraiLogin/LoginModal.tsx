@@ -45,7 +45,7 @@ function LoginModal(props: {}): ReactElement {
         }
 
         setVisible(false);
-        messageApi.success(`[${ value.username }] 登陆成功！`);
+        messageApi.success(`[${ value.username }] 登录成功！`);
       } else {
         messageApi.error(`[${ value.username }] ${ loginInfoSendMessage?.message ?? '登陆失败！' }`);
       }

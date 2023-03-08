@@ -1,22 +1,30 @@
 import type { GroupMessage, MemberIncreaseEvent, Sendable } from 'oicq';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
-import Basic, { BasicImplement, type MessageListener } from './Basic';
+import Basic, { type BasicImplement, type MessageListener, type BasicArgs } from './Basic';
 import { QQProtocol } from './ModalTypes';
-import { getGroupNumbers, getSocketHost, LogCommandData, isGroupMessageEventData, isMemberIncreaseEventData } from '../function/qq/qqUtils';
+import {
+  getGroupNumbers,
+  getSocketHost,
+  LogCommandData,
+  isGroupMessageEventData,
+  isMemberIncreaseEventData
+} from '../function/qq/qqUtils';
 import { log } from '../function/expand/pocket48/pocket48V2Utils';
 import { requestSendGroupMessage } from '../services/oicq';
 import parser, { type ParserResult } from '../function/parser/index';
 import * as CQ from '../function/parser/CQ';
-import type { OptionsItemValueV2, MemberInfo, EditItem } from '../../commonTypes';
+import type { OptionsItemValueV2, EditItem } from '../../commonTypes';
 
 /* oicq的连接 */
 class OicqQQ extends Basic implements BasicImplement<Sendable> {
   public protocol: QQProtocol = QQProtocol.Oicq;
   public oicqSocket?: WebSocket;
 
-  constructor(id: string, config: OptionsItemValueV2, membersList?: Array<MemberInfo>) {
-    super();
+  constructor(args: BasicArgs) {
+    super(args);
+
+    const { id, config, membersList }: BasicArgs = args;
 
     this.id = id;         // 当前登陆的唯一id
     this.config = config; // 配置
