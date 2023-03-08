@@ -13,8 +13,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { Dispatch } from '@reduxjs/toolkit';
 import { createStructuredSelector, Selector } from 'reselect';
 import { Link } from 'react-router-dom';
-import { Select, Button, Space, Table, message, Alert } from 'antd';
+import { Select, Button, Space, Table, message, Alert, Dropdown } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import type { ItemType } from 'antd/es/menu/hooks/useItems';
+import type { MenuInfo } from 'rc-menu/es/interface';
 import type { UseMessageReturnType } from '@qqtools-types/antd';
 import style from './index.sass';
 import { queryOptionsList, OptionsInitialState } from '../Options/reducers/reducers';
@@ -58,6 +60,15 @@ function Index(props: {}): ReactElement {
   async function handleLogoutClick(qq: QQModals, event?: MouseEvent): Promise<void> {
     await qq.destroy();
     dispatch(setDeleteLogin(qq));
+  }
+
+  // 重新获取cookie
+  async function handleReRequestCookieClick(qq: QQModals, event: MenuInfo): Promise<void> {
+    if (event.key === 'reRequestCookie' && qq.douyin) {
+      for (const d of qq.douyin) {
+        await d.reRequestCookie();
+      }
+    }
   }
 
   // 登陆
@@ -132,15 +143,31 @@ function Index(props: {}): ReactElement {
     {
       title: '操作',
       dataIndex: 'handle',
-      width: 130,
-      render: (value: undefined, record: QQModals, index: number): ReactElement => (
-        <Button type="primary"
-          danger={ true }
-          onClick={ (event?: MouseEvent): Promise<void> => handleLogoutClick(record, event) }
-        >
-          退出
-        </Button>
-      )
+      width: 160,
+      render: (value: undefined, record: QQModals, index: number): ReactElement => {
+        const menuItems: Array<ItemType> = [{
+          key: 'reRequestCookie',
+          label: '重新获取Cookie',
+          disabled: !(record?.douyin?.length)
+        }];
+
+        return (
+          <Button.Group>
+            <Dropdown menu={{
+              items: menuItems,
+              onClick: (event: MenuInfo): Promise<void> => handleReRequestCookieClick(record, event)
+            }}>
+              <Button>操作</Button>
+            </Dropdown>
+            <Button type="primary"
+              danger={ true }
+              onClick={ (event?: MouseEvent): Promise<void> => handleLogoutClick(record, event) }
+            >
+              退出
+            </Button>
+          </Button.Group>
+        );
+      }
     }
   ];
 

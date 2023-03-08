@@ -15,7 +15,7 @@ let douyinTimer: NodeJS.Timer | undefined = undefined; // 轮询定时器
 let browserExecutablePath: string;                     // 浏览器路径
 let port: number;                                      // 端口号
 let intervalTime: number = 180_000;                    // 轮询间隔
-const cookieCache: Array<Cookie> = [];                 // cookie
+let cookieCache: Array<Cookie> = [];                   // cookie
 
 /* 调试 */
 let _isSendDebugMessage: boolean = false; // 是否发送调试信息
@@ -222,6 +222,8 @@ addEventListener('message', function(event: MessageEvent) {
     try {
       douyinTimer && clearTimeout(douyinTimer);
     } catch { /* noop */ }
+  } else if (event.data.type === 'cookie') {
+    cookieCache = event.data.cookie;
   } else {
     userId = event.data.userId;
     description = event.data.description;
@@ -229,7 +231,7 @@ addEventListener('message', function(event: MessageEvent) {
     browserExecutablePath = event.data.executablePath;
     port = event.data.port;
     _isSendDebugMessage = event.data.isSendDebugMessage;
-    cookieCache.push(...event.data.cookie);
+    cookieCache = event.data.cookie;
 
     if (event.data.intervalTime && event.data.intervalTime >= 3) {
       intervalTime = event.data.intervalTime * 60 * 1_000;

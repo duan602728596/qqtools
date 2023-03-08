@@ -98,6 +98,29 @@ class DouyinExpand {
     }
   };
 
+  // 抖音重新请求cookie
+  async requestDouyinCookie(executablePath: string): Promise<void> {
+    await DouyinExpand.getCookie.call(this, executablePath, this.config.userId);
+
+    const SVWebId: Cookie | undefined = this.cookie.find((item: Cookie): boolean => item.name === 's_v_web_id');
+
+    if (SVWebId) {
+      message.info(`预计过期时间为：${ dayjs.unix(SVWebId.expires).format('YYYY-MM-DD HH:mm:ss') }`);
+    }
+  }
+
+  // 重新请求cookie
+  async reRequestCookie(): Promise<void> {
+    const executablePath: string | null = localStorage.getItem('PUPPETEER_EXECUTABLE_PATH');
+
+    if (!(executablePath && !/^\s*$/.test(executablePath))) return;
+
+    if (this.douyinWorker) {
+      await this.requestDouyinCookie(executablePath);
+      this.douyinWorker.postMessage({ type: 'cookie', cookie: this.cookie });
+    }
+  }
+
   // 抖音监听初始化
   async initDouyinWorker(): Promise<void> {
     const { douyinListener, userId, intervalTime, isSendDebugMessage }: OptionsItemDouyin = this.config;
@@ -114,13 +137,7 @@ class DouyinExpand {
     }
 
     if (this.cookie.length <= 0) {
-      await DouyinExpand.getCookie.call(this, executablePath, this.config.userId);
-
-      const SVWebId: Cookie | undefined = this.cookie.find((item: Cookie): boolean => item.name === 's_v_web_id');
-
-      if (SVWebId) {
-        message.info(`预计过期时间为：${ dayjs.unix(SVWebId.expires).format('YYYY-MM-DD HH:mm:ss') }`);
-      }
+      await this.requestDouyinCookie(executablePath);
     }
 
     this.douyinWorker = getDouyinWorker();
