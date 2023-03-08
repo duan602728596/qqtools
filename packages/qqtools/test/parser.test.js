@@ -1,5 +1,5 @@
-import parser from '../src/QQ/parser/index';
-import { plain, image, atAll, at } from '../src/QQ/parser/mirai';
+import parser from '../src/QQ/function/parser/index';
+import { plain, image, atAll, at } from '../src/QQ/function/parser/mirai';
 
 test('mirai template 1', function() {
   const result = parser('君不见黄河之水天上来，奔流到海不复回。');

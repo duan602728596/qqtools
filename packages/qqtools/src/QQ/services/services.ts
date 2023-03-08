@@ -1,5 +1,5 @@
 import got, { type Response as GotResponse } from 'got';
-import type { MiraiMessageProps } from '../parser/mirai';
+import type { MiraiMessageProps } from '../function/parser/mirai';
 import type {
   AuthResponse,
   MessageResponse,

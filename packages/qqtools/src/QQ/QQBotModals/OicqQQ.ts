@@ -3,11 +3,11 @@ import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
 import Basic, { BasicImplement, type MessageListener } from './Basic';
 import { QQProtocol } from './ModalTypes';
-import { getGroupNumbers, getSocketHost, LogCommandData, isGroupMessageEventData, isMemberIncreaseEventData } from '../utils/qqUtils';
-import { log } from '../utils/pocket48V2Utils';
+import { getGroupNumbers, getSocketHost, LogCommandData, isGroupMessageEventData, isMemberIncreaseEventData } from '../function/qq/qqUtils';
+import { log } from '../function/expand/pocket48/pocket48V2Utils';
 import { requestSendGroupMessage } from '../services/oicq';
-import parser, { type ParserResult } from '../parser/index';
-import * as CQ from '../parser/CQ';
+import parser, { type ParserResult } from '../function/parser/index';
+import * as CQ from '../function/parser/CQ';
 import type { OptionsItemValueV2, MemberInfo, EditItem } from '../../commonTypes';
 
 /* oicq的连接 */
@@ -58,7 +58,7 @@ class OicqQQ extends Basic implements BasicImplement<Sendable> {
 
       // mock
       if (process.env.NODE_ENV === 'development') {
-        (await import('../mock/mock')).default(this, command, qqNumber, groupId);
+        (await import('../function/mock/mock')).default(this, command, qqNumber, groupId);
       }
     }
 

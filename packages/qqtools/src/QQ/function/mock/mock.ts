@@ -1,9 +1,9 @@
-import parser from '../parser/index';
+import parser from '../parser';
 import * as CQ from '../parser/CQ';
-import { getRoomMessage, type RoomMessageArgs } from '../utils/pocket48V2Utils';
-import { QQProtocol, type QQModals } from '../QQBotModals/ModalTypes';
-import { getDouyinServerPort } from '../../utils/douyinServer/douyinServer';
-import type { UserV2 } from '../qq.types';
+import { getRoomMessage, type RoomMessageArgs } from '../expand/pocket48/pocket48V2Utils';
+import { QQProtocol, type QQModals } from '../../QQBotModals/ModalTypes';
+import { getDouyinServerPort } from '../../../utils/douyinServer/douyinServer';
+import type { UserV2 } from '../../qq.types';
 
 const mockImg: string[] = [
   'https://wx2.sinaimg.cn/mw690/00689qXxly1hat3deahenj32c0340kjn.jpg',
@@ -39,7 +39,7 @@ async function mock(qq: QQModals, command: string, qqNumber: number, groupId: nu
       break;
 
     case 'test-pocket-zx':
-      const zhouxiangPocketMockData: { message: any } = await import('../mock/zhouxiang.json', {
+      const zhouxiangPocketMockData: { message: any } = await import('./zhouxiang.json', {
         assert: { type: 'json' }
       });
 

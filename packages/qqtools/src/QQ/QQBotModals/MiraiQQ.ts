@@ -13,11 +13,11 @@ import {
   requestManagers,
   requestAbout
 } from '../services/services';
-import { plain, type MiraiMessageProps } from '../parser/mirai';
-import { getGroupNumbers, getSocketHost, LogCommandData } from '../utils/qqUtils';
-import { getRoomMessage, log, type RoomMessageArgs } from '../utils/pocket48V2Utils';
-import parser from '../parser/index';
-import * as CQ from '../parser/CQ';
+import { plain, type MiraiMessageProps } from '../function/parser/mirai';
+import { getGroupNumbers, getSocketHost, LogCommandData } from '../function/qq/qqUtils';
+import { getRoomMessage, log, type RoomMessageArgs } from '../function/expand/pocket48/pocket48V2Utils';
+import parser from '../function/parser/index';
+import * as CQ from '../function/parser/CQ';
 import type { OptionsItemValueV2, MemberInfo, EditItem } from '../../commonTypes';
 import type {
   AuthResponse,
@@ -28,7 +28,7 @@ import type {
   EventSocketEventData,
   EventSocketEventDataV2
 } from '../qq.types';
-import type { DynamicMockFunc } from '../mock/mock';
+import type { DynamicMockFunc } from '../function/mock/mock';
 
 type CloseListener = (event: CloseEvent) => void | Promise<void>;
 
@@ -89,7 +89,7 @@ class MiraiQQ extends Basic implements BasicImplement<Array<MiraiMessageProps>> 
 
         // mock
         if (process.env.NODE_ENV === 'development') {
-          (await import('../mock/mock')).default(this, command, qqNumber, groupId);
+          (await import('../function/mock/mock')).default(this, command, qqNumber, groupId);
         }
       }
     }

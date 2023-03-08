@@ -1,8 +1,8 @@
 import { segment } from 'oicq/lib/message/elements';
 import type { MessageElem } from 'oicq';
-import { QQProtocol } from '../QQBotModals/ModalTypes';
+import { QQProtocol } from '../../QQBotModals/ModalTypes';
 import { plain, face, dice, image, at, atAll, voice, miraiCode, type MiraiMessageProps } from './mirai';
-import { miraiTemplate } from '../utils/qqUtils';
+import { miraiTemplate } from '../qq/qqUtils';
 
 export type ParserResult = Array<MiraiMessageProps> | Array<MessageElem> | string;
 type MiraiMT = MiraiMessageProps | MiraiMessageProps[];

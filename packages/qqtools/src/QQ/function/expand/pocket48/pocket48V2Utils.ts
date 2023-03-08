@@ -1,8 +1,8 @@
 import * as fse from 'fs-extra';
 import * as dayjs from 'dayjs';
 import type { ChannelInfo } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatChannelServiceInterface';
-import * as CQ from '../parser/CQ';
-import { mp4Source } from '../../utils/snh48';
+import * as CQ from '../../parser/CQ';
+import { mp4Source } from '../../../../utils/snh48';
 import type {
   CustomMessageAllV2,
   UserV2,
@@ -10,8 +10,8 @@ import type {
   FlipCardInfo,
   FlipCardAudioInfo,
   FlipCardVideoInfo
-} from '../qq.types';
-import type { MemberInfo } from '../../commonTypes';
+} from '../../../qq.types';
+import type { MemberInfo } from '../../../../commonTypes';
 
 export interface RoomMessageArgs {
   user: UserV2 | undefined;

@@ -1,5 +1,5 @@
 import type { Sendable } from 'oicq';
-import type { ParserResult } from '../parser';
+import type { ParserResult } from '../function/parser';
 
 /**
  * 发送群消息

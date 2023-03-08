@@ -13,7 +13,7 @@ import pocket48LogDir from './components/pocket48LogDir';
 import IMLogin from './components/IMLogin/IMLogin';
 import randomId from './components/randomId';
 import { getOptionItem, saveFormData } from '../reducers/reducers';
-import formatToV2Config from '../../../QQ/formatToV2Config';
+import formatToV2Config from '../../../QQ/function/formatToV2Config';
 import * as editV2SchemaJson from './editv2.schema.json' assert { type: 'json' };
 import type { OptionsItem, OptionsItemValueV2 } from '../../../commonTypes';
 

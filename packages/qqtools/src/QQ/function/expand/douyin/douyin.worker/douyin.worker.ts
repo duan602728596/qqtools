@@ -1,10 +1,10 @@
 import { setTimeout, clearTimeout } from 'node:timers';
 import * as dayjs from 'dayjs';
 import type { Cookie } from 'playwright-core';
-import { QQProtocol } from '../../QQBotModals/ModalTypes';
-import parser, { type ParserResult } from '../../parser/index';
-import * as CQ from '../../parser/CQ';
-import type { UserScriptRendedData, UserItem1, UserItem2, UserDataItem } from '../../qq.types';
+import { QQProtocol } from '../../../../QQBotModals/ModalTypes';
+import parser, { type ParserResult } from '../../../parser';
+import * as CQ from '../../../parser/CQ';
+import type { UserScriptRendedData, UserItem1, UserItem2, UserDataItem } from '../../../../qq.types';
 
 /* 抖音 */
 let userId: string;                                    // 用户userId

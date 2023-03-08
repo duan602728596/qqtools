@@ -6,8 +6,8 @@ import { renderString } from 'nunjucks';
 import { message } from 'antd';
 import Basic, { BasicImplement } from './Basic';
 import { QQProtocol } from './ModalTypes';
-import { getGroupNumbers, getSocketHost, LogCommandData, isGroupMessageEventData, isMemberIncreaseEventData } from '../utils/qqUtils';
-import * as CQ from '../parser/CQ';
+import { getGroupNumbers, getSocketHost, LogCommandData, isGroupMessageEventData, isMemberIncreaseEventData } from '../function/qq/qqUtils';
+import * as CQ from '../function/parser/CQ';
 import type { MemberInfo, OptionsItemValueV2, EditItem } from '../../commonTypes';
 
 export interface HeartbeatMessage {
@@ -83,7 +83,7 @@ class GoCQHttp extends Basic implements BasicImplement<string> {
 
       // mock
       if (process.env.NODE_ENV === 'development') {
-        (await import('../mock/mock')).default(this, command, qqNumber, groupId);
+        (await import('../function/mock/mock')).default(this, command, qqNumber, groupId);
       }
     }
 

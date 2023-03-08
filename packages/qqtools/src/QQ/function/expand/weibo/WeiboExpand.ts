@@ -1,11 +1,11 @@
 import { message } from 'antd';
-import { requestWeiboInfo } from '../services/services';
-import getWeiboWorker from '../utils/weibo.worker/getWeiboWorker';
-import getWeiboSuperTopicWorker from '../utils/weiboSuperTopic.worker/getWeiboSuperTopicWorker';
-import { getDouyinServerPort } from '../../utils/douyinServer/douyinServer';
-import type { QQProtocol, QQModals } from '../QQBotModals/ModalTypes';
-import type { OptionsItemWeibo } from '../../commonTypes';
-import type { WeiboTab, WeiboInfo } from '../qq.types';
+import { requestWeiboInfo } from '../../../services/services';
+import getWeiboWorker from './weibo.worker/getWeiboWorker';
+import getWeiboSuperTopicWorker from './weiboSuperTopic.worker/getWeiboSuperTopicWorker';
+import { getDouyinServerPort } from '../../../../utils/douyinServer/douyinServer';
+import type { QQProtocol, QQModals } from '../../../QQBotModals/ModalTypes';
+import type { OptionsItemWeibo } from '../../../../commonTypes';
+import type { WeiboTab, WeiboInfo } from '../../../qq.types';
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
 

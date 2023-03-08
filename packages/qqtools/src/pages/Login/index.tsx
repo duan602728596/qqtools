@@ -23,8 +23,8 @@ import dbConfig from '../../utils/IDB/IDBConfig';
 import MiraiQQ from '../../QQ/QQBotModals/MiraiQQ';
 import OicqQQ from '../../QQ/QQBotModals/OicqQQ';
 import GoCQHttp from '../../QQ/QQBotModals/GoCQHttp';
-import formatToV2Config from '../../QQ/formatToV2Config';
-import { getGroupNumbers } from '../../QQ/utils/qqUtils';
+import formatToV2Config from '../../QQ/function/formatToV2Config';
+import { getGroupNumbers } from '../../QQ/function/qq/qqUtils';
 import type { QQModals } from '../../QQ/QQBotModals/ModalTypes';
 import type { OptionsItem, OptionsItemValueV2, MemberInfo } from '../../commonTypes';
 

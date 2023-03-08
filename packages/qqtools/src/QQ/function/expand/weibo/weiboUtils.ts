@@ -1,5 +1,5 @@
 import * as dayjs from 'dayjs';
-import type { WeiboCard, WeiboSendData, WeiboMBlog } from '../qq.types';
+import type { WeiboCard, WeiboSendData, WeiboMBlog } from '../../../qq.types';
 
 /**
  * 过滤微博信息

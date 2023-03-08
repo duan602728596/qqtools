@@ -1,8 +1,8 @@
-import Pocket48V2Expand from '../expand/Pocket48V2Expand';
-import WeiboExpand from '../expand/WeiboExpand';
-import DouyinExpand from '../expand/DouyinExpand';
-import BilibiliExpand from '../expand/BilibiliExpand';
-import CronTimerExpand from '../expand/CronTimerExpand';
+import Pocket48V2Expand from '../function/expand/pocket48/Pocket48V2Expand';
+import WeiboExpand from '../function/expand/weibo/WeiboExpand';
+import DouyinExpand from '../function/expand/douyin/DouyinExpand';
+import BilibiliExpand from '../function/expand/bilibili/BilibiliExpand';
+import CronTimerExpand from '../function/expand/cronTimer/CronTimerExpand';
 import QChatSocket from '../sdk/QChatSocket';
 import { QQProtocol, type QQModals } from './ModalTypes';
 import type { OptionsItemValueV2, MemberInfo } from '../../commonTypes';

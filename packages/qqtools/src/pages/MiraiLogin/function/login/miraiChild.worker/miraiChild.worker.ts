@@ -1,7 +1,7 @@
 import { spawn, type ChildProcessWithoutNullStreams } from 'node:child_process';
 import * as os from 'node:os';
 import * as iconv from 'iconv-lite';
-import type { ProtocolType } from '../../types';
+import type { ProtocolType } from '../../../types';
 
 export enum MessageType {
   INIT = 'init',

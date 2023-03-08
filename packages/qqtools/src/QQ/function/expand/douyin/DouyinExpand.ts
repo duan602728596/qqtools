@@ -1,11 +1,11 @@
 import { message } from 'antd';
 import type { Browser, BrowserContext, Page, Cookie } from 'playwright-core';
-import { getBrowser } from '../../utils/utils';
-import getDouyinWorker from '../utils/douyin.worker/getDouyinWorker';
-import { getDouyinServerPort } from '../../utils/douyinServer/douyinServer';
-import type { QQProtocol, QQModals } from '../QQBotModals/ModalTypes';
-import type { OptionsItemDouyin } from '../../commonTypes';
-import type { ParserResult } from '../parser/index';
+import { getBrowser } from '../../../../utils/utils';
+import getDouyinWorker from './douyin.worker/getDouyinWorker';
+import { getDouyinServerPort } from '../../../../utils/douyinServer/douyinServer';
+import type { QQProtocol, QQModals } from '../../../QQBotModals/ModalTypes';
+import type { OptionsItemDouyin } from '../../../../commonTypes';
+import type { ParserResult } from '../../parser';
 
 interface DouyinMessageData {
   type: 'message';

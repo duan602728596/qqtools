@@ -1,5 +1,5 @@
-import { pick } from '../utils/lodash';
-import type { OptionsItemValue, OptionsItemValueV2 } from '../commonTypes';
+import { pick } from '../../utils/lodash';
+import type { OptionsItemValue, OptionsItemValueV2 } from '../../commonTypes';
 
 function isOldConfig(oldConfig: OptionsItemValue | OptionsItemValueV2): oldConfig is OptionsItemValue {
   return !('version' in oldConfig);

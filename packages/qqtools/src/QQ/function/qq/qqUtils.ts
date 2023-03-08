@@ -1,9 +1,9 @@
 import * as process from 'node:process';
 import type { GroupMessage, MemberIncreaseEvent } from 'oicq';
 import { plain, image, at, atAll, type MiraiMessageProps } from '../parser/mirai';
-import * as packageJson from '../../../package.json' assert { type: 'json' };
-import type { MemberIncreaseEvent as GoCQHttpMemberIncreaseEvent, HeartbeatMessage } from '../QQBotModals/GoCQHttp';
-import type { QQProtocol } from '../QQBotModals/ModalTypes';
+import * as packageJson from '../../../../package.json' assert { type: 'json' };
+import type { MemberIncreaseEvent as GoCQHttpMemberIncreaseEvent, HeartbeatMessage } from '../../QQBotModals/GoCQHttp';
+import type { QQProtocol } from '../../QQBotModals/ModalTypes';
 
 interface ParsingResult {
   type: 'Plain' | 'Other';

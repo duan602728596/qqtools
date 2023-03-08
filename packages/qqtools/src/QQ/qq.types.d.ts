@@ -1,5 +1,5 @@
 import type { UploadFileResult } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/CloudStorageServiceInterface';
-import type { MiraiMessageProps } from './parser/mirai';
+import type { MiraiMessageProps } from './function/parser/mirai';
 
 export interface AuthResponse {
   code: number;

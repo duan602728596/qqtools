@@ -30,8 +30,8 @@ import {
   type MiraiLoginInitialState
 } from './reducers/reducers';
 import dbConfig from '../../utils/IDB/IDBConfig';
-import { login, queue } from './login/login';
-import type { LoginInfoSendMessage } from './login/miraiChild.worker/miraiChild.worker';
+import { login, queue } from './function/login/login';
+import type { LoginInfoSendMessage } from './function/login/miraiChild.worker/miraiChild.worker';
 import type { QQLoginItem, ProtocolType } from './types';
 
 /* 登陆 */

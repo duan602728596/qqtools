@@ -1,10 +1,10 @@
-import { requestRoomInfo } from '../services/services';
-import getBilibiliWorker from '../utils/bilibili.worker/getBilibiliWorker';
-import parser, { type ParserResult } from '../parser/index';
-import * as CQ from '../parser/CQ';
-import type { QQModals } from '../QQBotModals/ModalTypes';
-import type { OptionsItemBilibili } from '../../commonTypes';
-import type { BilibiliRoomInfo } from '../qq.types';
+import { requestRoomInfo } from '../../../services/services';
+import getBilibiliWorker from './bilibili.worker/getBilibiliWorker';
+import parser, { type ParserResult } from '../../parser';
+import * as CQ from '../../parser/CQ';
+import type { QQModals } from '../../../QQBotModals/ModalTypes';
+import type { OptionsItemBilibili } from '../../../../commonTypes';
+import type { BilibiliRoomInfo } from '../../../qq.types';
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
 

@@ -1,7 +1,7 @@
 import { scheduleJob, type Job } from 'node-schedule';
-import parser from '../parser/index';
-import type { QQModals } from '../QQBotModals/ModalTypes';
-import type { OptionsItemCronTimer } from '../../commonTypes';
+import parser from '../../parser';
+import type { QQModals } from '../../../QQBotModals/ModalTypes';
+import type { OptionsItemCronTimer } from '../../../../commonTypes';
 
 /* 定时任务 */
 class CronTimerExpand {
