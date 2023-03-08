@@ -20,8 +20,7 @@ class DouyinExpand {
    * 由于抖音未登录账号出现验证码中间页，
    * 所以需要提前获取到cookie
    */
-  static cookie: Array<Cookie> = [];
-  static async getCookie(executablePath: string, userId: string): Promise<void> {
+  static async getCookie(this: DouyinExpand, executablePath: string, userId: string): Promise<void> {
     let browser: Browser | null = null;
 
     try {
@@ -46,7 +45,7 @@ class DouyinExpand {
       await page.goto(userUrl, { referer: userUrl, timeout: 0 });
       await page.waitForFunction(
         (): boolean => !!document.getElementById('RENDER_DATA'), { timeout: 0 });
-      DouyinExpand.cookie = await context.cookies();
+      this.cookie = await context.cookies();
       await page.close();
       await browser.close();
     } catch (err) {
@@ -61,6 +60,7 @@ class DouyinExpand {
   public qq: QQModals;
   public protocol: QQProtocol;
   public douyinWorker?: Worker;
+  public cookie: Array<Cookie> = [];
 
   constructor({ config, qq, protocol }: {
     config: OptionsItemDouyin;
@@ -96,8 +96,8 @@ class DouyinExpand {
       return;
     }
 
-    if (DouyinExpand.cookie.length <= 0) {
-      await DouyinExpand.getCookie(executablePath, this.config.userId);
+    if (this.cookie.length <= 0) {
+      await DouyinExpand.getCookie.call(this, executablePath, this.config.userId);
     }
 
     this.douyinWorker = getDouyinWorker();
@@ -109,7 +109,7 @@ class DouyinExpand {
       executablePath,
       port: getDouyinServerPort().port,
       intervalTime,
-      cookie: DouyinExpand.cookie
+      cookie: this.cookie
     });
   }
 

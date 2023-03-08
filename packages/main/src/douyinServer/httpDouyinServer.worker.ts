@@ -99,7 +99,7 @@ async function douyinResponseHandle(
 
   if (!(executablePath && !/^\s*$/.test(executablePath) && userId && !/^\s*$/.test(userId))) {
     httpResponse.statusCode = 400;
-    httpResponse.end(null);
+    httpResponse.end(JSON.stringify({ error: '参数缺失' }));
 
     return;
   }
@@ -142,7 +142,6 @@ async function douyinResponseHandle(
 
     await page.close();
     await browser.close();
-    browser = null;
     httpResponse.setHeader('Content-type', 'application/json');
     httpResponse.statusCode = 200;
     httpResponse.end(JSON.stringify({ data: renderDataJson ?? null, cookie }));
@@ -151,6 +150,8 @@ async function douyinResponseHandle(
     httpResponse.statusCode = 400;
     httpResponse.end(JSON.stringify({ error: err.toString() }));
   }
+
+  browser = null;
 }
 
 /* 开启代理服务，加载ts文件 */
