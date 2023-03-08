@@ -20,7 +20,7 @@ let cookieCache: Array<Cookie> = [];                   // cookie
 /* 调试 */
 let _isSendDebugMessage: boolean = false; // 是否发送调试信息
 let _debugTimes: number = 0;              // 调试次数
-const _startTime: string = dayjs().format('YYYY-MM-DD HH:mm:ss');
+let _startTime: string = dayjs().format('YYYY-MM-DD HH:mm:ss');
 
 interface DouyinSendMsg {
   url: string | undefined;
@@ -219,6 +219,7 @@ addEventListener('message', function(event: MessageEvent) {
     } catch { /* noop */ }
   } else if (event.data.type === 'cookie') {
     cookieCache = event.data.cookie;
+    _startTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
   } else {
     userId = event.data.userId;
     description = event.data.description;
