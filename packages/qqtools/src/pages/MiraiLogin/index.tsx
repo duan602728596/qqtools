@@ -194,7 +194,7 @@ function Index(props: {}): ReactElement {
   return (
     <Fragment>
       <div className="p-[16px]">
-        <Alert className="mb-[16px]" type="warning" description="不推荐在这里登录，请选择在命令行启动mirai。" />
+        <Alert className="mb-[16px]" type="warning" message="不推荐在这里登录，请选择在命令行启动mirai。" />
         <Header />
         <Space className="mb-[16px]">
           <LoginModal />

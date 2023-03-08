@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { Dispatch } from '@reduxjs/toolkit';
 import { createStructuredSelector, Selector } from 'reselect';
 import { Link } from 'react-router-dom';
-import { Select, Button, Space, Table, message } from 'antd';
+import { Select, Button, Space, Table, message, Alert } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { UseMessageReturnType } from '@qqtools-types/antd';
 import style from './index.sass';
@@ -163,6 +163,7 @@ function Index(props: {}): ReactElement {
           <Link to="../">
             <Button type="primary" danger={ true }>返回</Button>
           </Link>
+          <Alert className="ml-[8px]" type="warning" message="监听抖音需要先手动过验证码" />
         </Space>
         <Table columns={ columns } dataSource={ loginList } rowKey="id" />
       </div>
