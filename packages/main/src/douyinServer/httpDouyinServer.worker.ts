@@ -122,7 +122,7 @@ async function douyinResponseHandle(
 
     await context.route(
       (url: URL): boolean => !(/^\/user\//i.test(url.pathname) && /douyin\.com/i.test(url.hostname)),
-      (route: Route) => route.abort());
+      (route: Route): Promise<void> => route.abort());
 
     const page: Page = await context.newPage();
     const userUrl: string = `https://www.douyin.com/user/${ userId }`;
