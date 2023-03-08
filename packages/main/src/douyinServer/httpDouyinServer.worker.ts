@@ -162,7 +162,7 @@ http.createServer(function(httpRequest: IncomingMessage, httpResponse: ServerRes
 
   const urlParse: URL = new URL(httpRequest.url, baseUrl);
 
-  if (urlParse.pathname === '/douyin/renderdata' ) {
+  if (urlParse.pathname === '/douyin/renderdata') {
     douyinResponseHandle(urlParse, httpRequest, httpResponse);
   } else if (urlParse.pathname === '/proxy/weibo/image') {
     weiboResponseHandle(urlParse, httpResponse);
