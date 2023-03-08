@@ -44,12 +44,6 @@ function QQSendGroup(item: DouyinSendMsg): string {
 /* 获取数据 */
 async function getDouyinData(): Promise<UserScriptRendedData | undefined> {
   try {
-    const searchParams: URLSearchParams = new URLSearchParams({
-      e: encodeURIComponent(browserExecutablePath),
-      u: userId
-    });
-    const uri: string = `http://localhost:${ port }/douyin/renderdata?${ searchParams.toString() }`;
-
     // 添加超时控制
     const controller: AbortController = new AbortController();
     let fetchTimeoutTimer: NodeJS.Timer | undefined = setTimeout(() => {
@@ -57,7 +51,7 @@ async function getDouyinData(): Promise<UserScriptRendedData | undefined> {
       fetchTimeoutTimer = undefined;
     }, 90_000);
 
-    const res: Response = await fetch(uri, {
+    const res: Response = await fetch(`http://localhost:${ port }/douyin/renderdata`, {
       method: 'POST',
       signal: controller.signal,
       body: JSON.stringify({
