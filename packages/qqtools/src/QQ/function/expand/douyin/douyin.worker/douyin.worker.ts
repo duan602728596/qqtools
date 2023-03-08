@@ -152,8 +152,9 @@ async function handleDouyinListener(): Promise<void> {
         }
       }
     } else {
-      console.warn('没有获取到RENDER_DATA。', '--->', description ?? userId,
-        dayjs().format('YYYY-MM-DD HH:mm:ss'));
+      const _endTime: string = dayjs().format('YYYY-MM-DD HH:mm:ss');
+
+      console.warn('没有获取到RENDER_DATA。', '--->', description ?? userId, _endTime);
 
       if (_isSendDebugMessage) {
         _debugTimes++;
@@ -164,7 +165,7 @@ async function handleDouyinListener(): Promise<void> {
             sendGroup: [parser(`[qqtools] Debug info: your Douyin cookie has expired.
 UserId: ${ userId }
 StartTime: ${ _startTime }
-EndTime: ${ dayjs().format('YYYY-MM-DD HH:mm:ss') }`, protocol)]
+EndTime: ${ _endTime }`, protocol)]
           });
           _debugTimes = 0;
         }
