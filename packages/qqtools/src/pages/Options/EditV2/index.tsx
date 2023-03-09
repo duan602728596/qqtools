@@ -8,6 +8,7 @@ import type { CustomComponentObject, CustomTableRenderObject, CustomTableRenderF
 import 'antd-schema-form/style/antd-schema-form.css';
 import type { FormInstance } from 'antd';
 import type { Store } from 'rc-field-form/es/interface';
+import './index.global.sass';
 import checkboxDesc from './components/checkboxDesc';
 import pocket48LogDir from './components/pocket48LogDir';
 import IMLogin from './components/IMLogin/IMLogin';
