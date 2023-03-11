@@ -305,6 +305,14 @@
             "title": "轮询间隔（分钟）",
             "minimum": 3
           },
+          "cookieString": {
+            "id": "$root/properties/douyin/items/properties/cookieString",
+            "type": "string",
+            "title": "Cookie",
+            "$componentType": "textArea",
+            "$placeholder": "去抖音网页版登录后复制cookie",
+            "$tableColumnHidden": true
+          },
           "isSendDebugMessage": {
             "id": "$root/properties/douyin/items/properties/isSendDebugMessage",
             "type": "boolean",

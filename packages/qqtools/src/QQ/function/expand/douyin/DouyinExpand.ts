@@ -4,6 +4,7 @@ import type { MessageInstance } from 'antd/es/message/interface';
 import { getBrowser } from '../../../../utils/utils';
 import getDouyinWorker from './douyin.worker/getDouyinWorker';
 import { getDouyinServerPort } from '../../../../utils/douyinServer/douyinServer';
+import * as toutiaosdk from '../../../sdk/toutiao/toutiaosdk';
 import type { QQProtocol, QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemDouyin } from '../../../../commonTypes';
 import type { ParserResult } from '../../parser';
@@ -13,7 +14,11 @@ interface DouyinMessageData {
   sendGroup: Array<ParserResult[] | string>;
 }
 
-type MessageListener = (event: MessageEvent<DouyinMessageData>) => void | Promise<void>;
+interface XBogusMessageData {
+  type: 'X-Bogus';
+}
+
+type MessageListener = (event: MessageEvent<DouyinMessageData | XBogusMessageData>) => void | Promise<void>;
 
 /* 抖音监听 */
 class DouyinExpand {
@@ -91,11 +96,19 @@ class DouyinExpand {
   }
 
   // 抖音监听
-  handleDouyinMessage: MessageListener = async (event: MessageEvent<DouyinMessageData>): Promise<void> => {
+  handleDouyinMessage: MessageListener = async (event: MessageEvent<DouyinMessageData | XBogusMessageData>): Promise<void> => {
     if (event.data.type === 'message') {
       for (let i: number = event.data.sendGroup.length - 1; i >= 0; i--) {
         await this.qq.sendMessage(event.data.sendGroup[i] as any);
       }
+    } else if (event.data.type === 'X-Bogus') {
+      const frontierSign: { 'X-Bogus'?: string } = {};
+
+      await toutiaosdk.webmssdkES5('frontierSign', [frontierSign]);
+      this.douyinWorker!.postMessage({
+        type: 'X-Bogus',
+        value: frontierSign['X-Bogus']
+      });
     }
   };
 
@@ -118,35 +131,52 @@ class DouyinExpand {
 
   // 抖音监听初始化
   async initDouyinWorker(): Promise<void> {
-    const { douyinListener, userId, intervalTime, isSendDebugMessage }: OptionsItemDouyin = this.config;
+    const { douyinListener, userId, intervalTime, cookieString, isSendDebugMessage }: OptionsItemDouyin = this.config;
 
     if (!(douyinListener && userId && !/^\s*$/.test(userId))) return;
 
-    const executablePath: string | null = localStorage.getItem('PUPPETEER_EXECUTABLE_PATH');
+    if (cookieString && !/^\s*$/.test(cookieString)) {
+      // 用户自己添加了cookie
+      this.douyinWorker = getDouyinWorker();
+      this.douyinWorker.addEventListener('message', this.handleDouyinMessage);
+      this.douyinWorker.postMessage({
+        version: 'init-v2',
+        userId: this.config.userId,
+        description: this.config.description,
+        protocol: this.protocol,
+        port: getDouyinServerPort().port,
+        intervalTime,
+        cookieString,
+        isSendDebugMessage
+      });
+    } else {
+      // 无头浏览器请求cookie
+      const executablePath: string | null = localStorage.getItem('PUPPETEER_EXECUTABLE_PATH');
 
-    if (!(executablePath && !/^\s*$/.test(executablePath))) {
-      this.#messageApi.warning('请先配置无头浏览器！');
-      console.warn('请先配置无头浏览器！');
+      if (!(executablePath && !/^\s*$/.test(executablePath))) {
+        this.#messageApi.warning('请先配置无头浏览器！');
+        console.warn('请先配置无头浏览器！');
 
-      return;
+        return;
+      }
+
+      if (this.cookie.length <= 0) {
+        await this.requestDouyinCookie(executablePath);
+      }
+
+      this.douyinWorker = getDouyinWorker();
+      this.douyinWorker.addEventListener('message', this.handleDouyinMessage);
+      this.douyinWorker.postMessage({
+        userId: this.config.userId,
+        description: this.config.description,
+        protocol: this.protocol,
+        executablePath,
+        port: getDouyinServerPort().port,
+        intervalTime,
+        cookie: this.cookie,
+        isSendDebugMessage
+      });
     }
-
-    if (this.cookie.length <= 0) {
-      await this.requestDouyinCookie(executablePath);
-    }
-
-    this.douyinWorker = getDouyinWorker();
-    this.douyinWorker.addEventListener('message', this.handleDouyinMessage);
-    this.douyinWorker.postMessage({
-      userId: this.config.userId,
-      description: this.config.description,
-      protocol: this.protocol,
-      executablePath,
-      port: getDouyinServerPort().port,
-      intervalTime,
-      cookie: this.cookie,
-      isSendDebugMessage
-    });
   }
 
   // 销毁

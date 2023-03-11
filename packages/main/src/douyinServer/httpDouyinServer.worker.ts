@@ -29,8 +29,8 @@ function response404NotFound(httpResponse: ServerResponse): void {
   httpResponse.end('404 not found.');
 }
 
-/* 微博图片处理 */
 /**
+ * 微博图片处理
  * @param { URL } urlParse
  * @param { ServerResponse } httpResponse
  */

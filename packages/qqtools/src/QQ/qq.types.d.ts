@@ -568,3 +568,10 @@ export interface UserScriptRendedData {
   _location: string;
   [key: `${ number }`]: UserItem1 | UserItem2;
 }
+
+// 查询
+export interface VideoQuery {
+  secUserId: string;
+  webId: string;
+  hasMore: 1 | 0;
+}

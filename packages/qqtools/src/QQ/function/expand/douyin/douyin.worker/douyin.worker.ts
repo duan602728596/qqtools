@@ -4,7 +4,10 @@ import type { Cookie } from 'playwright-core';
 import { QQProtocol } from '../../../../QQBotModals/ModalTypes';
 import parser, { type ParserResult } from '../../../parser';
 import * as CQ from '../../../parser/CQ';
-import type { UserScriptRendedData, UserItem1, UserItem2, UserDataItem } from '../../../../qq.types';
+import { isCloseMessage, isCookieMessage, isXBogusMessage, isInitMessageV2, type MessageObject } from './messageTypes';
+import { requestDouyinUser, requestAwemePost } from '../../../../services/douyin';
+import type { UserScriptRendedData, UserItem1, UserItem2, UserDataItem, VideoQuery } from '../../../../qq.types';
+import type { AwemePostResponse, AwemeItem } from '../../../../services/interface';
 
 /* 抖音 */
 let userId: string;                                    // 用户userId
@@ -17,6 +20,12 @@ let port: number;                                      // 端口号
 let intervalTime: number = 180_000;                    // 轮询间隔
 let cookieCache: Array<Cookie> = [];                   // cookie
 
+/* v2 */
+let cookieString: string;
+let videoQuery: VideoQuery;
+let XBogusResolveFunction: Function | undefined;
+let useApi: boolean = false;
+
 /* 调试 */
 let _isSendDebugMessage: boolean = false; // 是否发送调试信息
 let _debugTimes: number = 0;              // 调试次数
@@ -27,18 +36,22 @@ interface DouyinSendMsg {
   time: string;
   desc: string;
   nickname: string;
-  cover: string;
+  cover?: string;
 }
 
 function QQSendGroup(item: DouyinSendMsg): string {
   const sendMessageGroup: Array<string> = [
-    `${ item.nickname } 在${ item.time }发送了一条抖音：${ item.desc }`,
-    CQ.image(item.cover)
+    `${ item.nickname } 在${ item.time }发送了一条抖音：${ item.desc }${ item.cover ? '\n' : '' }`
   ];
 
+  item.cover && sendMessageGroup.push(CQ.image(item.cover));
   item.url && sendMessageGroup.push(`视频下载地址：${ item.url }`);
 
   return sendMessageGroup.join('');
+}
+
+function isAwemePostResponse(u: boolean, r: UserScriptRendedData | AwemePostResponse): r is AwemePostResponse {
+  return u;
 }
 
 /* 获取数据 */
@@ -89,44 +102,88 @@ async function getDouyinData(): Promise<UserScriptRendedData | undefined> {
   }
 }
 
+/* 获取解析html和接口获取数据 */
+export async function getDouyinDataByHtmlAndApi(): Promise<AwemePostResponse | undefined> {
+  try {
+    // 解析html
+    if (!videoQuery) {
+      const html: string = await requestDouyinUser(userId, cookieString);
+      const matchResult: string[] | null
+        = html.match(/<script id="RENDER_DATA" type="application\/json">[^<>\/ "]+<\/script>/i);
+
+      if (matchResult) {
+        const renderDataString: string = matchResult[0].replace(/<\/script>$/, '')
+          .replace(/^<script id="RENDER_DATA" type="application\/json">/i, '');
+        const json: UserScriptRendedData = JSON.parse(decodeURIComponent(renderDataString));
+
+        // 处理用户
+        const userItemArray: Array<UserItem1 | UserItem2 | string> = Object.values(json);
+        const userItem1: UserItem1 | undefined = userItemArray.find(
+          (o: UserItem1 | UserItem2 | string): o is UserItem1 => typeof o === 'object' && ('odin' in o));
+        const userItem2: UserItem2 | undefined = userItemArray.find(
+          (o: UserItem1 | UserItem2 | string): o is UserItem2 => typeof o === 'object' && ('post' in o));
+
+        if (userItem1 && userItem2) {
+          videoQuery = {
+            secUserId: userItem2.uid,
+            webId: userItem1.odin.user_unique_id,
+            hasMore: userItem2.post.hasMore
+          };
+        }
+      }
+    }
+
+    if (videoQuery) {
+      const XBogus: string = await new Promise((resolve: Function): void => {
+        XBogusResolveFunction = resolve;
+        postMessage({ type: 'X-Bogus' });
+      });
+      const res: AwemePostResponse = await requestAwemePost(cookieString, videoQuery, XBogus);
+
+      return res;
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 /* 抖音监听轮询 */
 async function handleDouyinListener(): Promise<void> {
-  const $douyinLogSendData: {
-    data?: UserScriptRendedData | undefined;
-    change?: 1;
-  } = {};
-
   try {
-    const renderData: UserScriptRendedData | undefined = await getDouyinData();
+    let renderData: AwemePostResponse | UserScriptRendedData | undefined;
 
-    $douyinLogSendData.data = renderData;
+    if (useApi) {
+      renderData = await getDouyinDataByHtmlAndApi();
+    } else {
+      renderData = await getDouyinData();
+    }
 
     if (renderData) {
       _isSendDebugMessage && (_debugTimes = 0);
 
-      const userItemArray: Array<UserItem1 | UserItem2> = Object.values(renderData);
-      const userItem2: UserItem2 | undefined = userItemArray.find(
-        (o: UserItem1 | UserItem2): o is UserItem2 => typeof o === 'object' && ('post' in o));
+      let data: Array<AwemeItem> | Array<UserDataItem>;
 
-      if (userItem2) {
-        const data: Array<UserDataItem> = userItem2.post.data.sort(
-          (a: UserDataItem, b: UserDataItem) => b.createTime - a.createTime);
+      if (isAwemePostResponse(useApi, renderData)) {
+        data = renderData.aweme_list.sort((a: AwemeItem, b: AwemeItem): number => b.create_time - a.create_time);
 
         if (lastUpdateTime === null) {
-          lastUpdateTime = data.length ? data[0].createTime : 0;
+          lastUpdateTime = data.length ? data[0].create_time : 0;
         }
 
         if (data.length) {
           const sendGroup: Array<ParserResult> = [];
 
           for (const item of data) {
-            if (item.createTime > lastUpdateTime) {
+            if (item.create_time > lastUpdateTime) {
               const sendData: DouyinSendMsg = {
-                url: item.video.playApi === '' ? undefined : `https:${ item.video.playApi }`,
-                time: dayjs.unix(item.createTime).format('YYYY-MM-DD HH:mm:ss'),
+                url: item?.video?.bit_rate?.length
+                  ? (item.video.bit_rate[0].play_addr.url_list.find((o: string): boolean => /^https/i.test(o))
+                    ?? item.video.bit_rate[0].play_addr.url_list[0])
+                  : undefined,
+                time: dayjs.unix(item.create_time).format('YYYY-MM-DD HH:mm:ss'),
                 desc: item.desc,
-                nickname: userItem2.user.user.nickname,
-                cover: `https:${ item.video.cover }`
+                nickname: item.author.nickname,
+                cover: item.video.cover.url_list[0]
               };
 
               sendGroup.push(parser(QQSendGroup(sendData), protocol));
@@ -140,8 +197,47 @@ async function handleDouyinListener(): Promise<void> {
               type: 'message',
               sendGroup
             });
-            lastUpdateTime = data[0].createTime;
-            $douyinLogSendData.change = 1;
+            lastUpdateTime = data[0].create_time;
+          }
+        }
+      } else {
+        const userItemArray: Array<UserItem1 | UserItem2> = Object.values(renderData);
+        const userItem2: UserItem2 | undefined = userItemArray.find(
+          (o: UserItem1 | UserItem2): o is UserItem2 => typeof o === 'object' && ('post' in o));
+
+        if (userItem2) {
+          data = userItem2.post.data.sort((a: UserDataItem, b: UserDataItem): number => b.createTime - a.createTime);
+
+          if (lastUpdateTime === null) {
+            lastUpdateTime = data.length ? data[0].createTime : 0;
+          }
+
+          if (data.length) {
+            const sendGroup: Array<ParserResult> = [];
+
+            for (const item of data) {
+              if (item.createTime > lastUpdateTime) {
+                const sendData: DouyinSendMsg = {
+                  url: item.video.playApi === '' ? undefined : `https:${ item.video.playApi }`,
+                  time: dayjs.unix(item.createTime).format('YYYY-MM-DD HH:mm:ss'),
+                  desc: item.desc,
+                  nickname: userItem2.user.user.nickname,
+                  cover: `https:${ item.video.cover }`
+                };
+
+                sendGroup.push(parser(QQSendGroup(sendData), protocol));
+              } else {
+                break;
+              }
+            }
+
+            if (sendGroup.length) {
+              postMessage({
+                type: 'message',
+                sendGroup
+              });
+              lastUpdateTime = data[0].createTime;
+            }
           }
         }
       }
@@ -161,7 +257,6 @@ UserId: ${ userId }
 StartTime: ${ _startTime }
 EndTime: ${ _endTime }`, protocol)]
           });
-          _debugTimes = 0;
         }
       }
     }
@@ -169,36 +264,35 @@ EndTime: ${ _endTime }`, protocol)]
     console.error(err);
   }
 
-  postMessage({
-    ...$douyinLogSendData,
-    type: 'log',
-    time: dayjs().format('YYYY-MM-DD HH:mm:ss')
-  });
   douyinTimer = setTimeout(handleDouyinListener, intervalTime);
 }
 
 /* 初始化获取抖音的记录位置 */
 async function douyinInit(): Promise<void> {
   try {
-    const renderData: UserScriptRendedData | undefined = await getDouyinData();
+    let renderData: AwemePostResponse | UserScriptRendedData | undefined;
 
-    postMessage({
-      type: 'log',
-      data: renderData,
-      time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-      init: 1
-    });
+    if (useApi) {
+      renderData = await getDouyinDataByHtmlAndApi();
+    } else {
+      renderData = await getDouyinData();
+    }
 
     if (renderData) {
-      const userItemArray: Array<UserItem1 | UserItem2> = Object.values(renderData);
-      const userItem2: UserItem2 | undefined = userItemArray.find(
-        (o: UserItem1 | UserItem2): o is UserItem2 => typeof o === 'object' && ('post' in o));
+      let data: Array<AwemeItem> | Array<UserDataItem>;
 
-      if (userItem2) {
-        const data: Array<UserDataItem> = userItem2.post.data.sort(
-          (a: UserDataItem, b: UserDataItem) => b.createTime - a.createTime);
+      if (isAwemePostResponse(useApi, renderData)) {
+        data = renderData.aweme_list.sort((a: AwemeItem, b: AwemeItem): number => b.create_time - a.create_time);
+        lastUpdateTime = data.length ? data[0].create_time : 0;
+      } else {
+        const userItemArray: Array<UserItem1 | UserItem2> = Object.values(renderData);
+        const userItem2: UserItem2 | undefined = userItemArray.find(
+          (o: UserItem1 | UserItem2): o is UserItem2 => typeof o === 'object' && ('post' in o));
 
-        lastUpdateTime = data.length ? data[0].createTime : 0;
+        if (userItem2) {
+          data = userItem2.post.data.sort((a: UserDataItem, b: UserDataItem): number => b.createTime - a.createTime);
+          lastUpdateTime = data.length ? data[0].createTime : 0;
+        }
       }
     } else {
       console.warn('初始化时没有获取到RENDER_DATA。', '--->', description ?? userId,
@@ -212,22 +306,31 @@ async function douyinInit(): Promise<void> {
   douyinTimer = setTimeout(handleDouyinListener, intervalTime);
 }
 
-addEventListener('message', function(event: MessageEvent) {
-  if (event.data.close) {
+addEventListener('message', function(event: MessageEvent<MessageObject>) {
+  if (isCloseMessage(event.data)) {
     try {
       douyinTimer && clearTimeout(douyinTimer);
     } catch { /* noop */ }
-  } else if (event.data.type === 'cookie') {
+  } else if (isCookieMessage(event.data)) {
     cookieCache = event.data.cookie;
     _startTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
+  } else if (isXBogusMessage(event.data)) {
+    XBogusResolveFunction && XBogusResolveFunction(event.data.value);
+    XBogusResolveFunction = undefined;
   } else {
     userId = event.data.userId;
     description = event.data.description;
     protocol = event.data.protocol;
-    browserExecutablePath = event.data.executablePath;
     port = event.data.port;
     _isSendDebugMessage = event.data.isSendDebugMessage;
-    cookieCache = event.data.cookie;
+
+    if (isInitMessageV2(event.data)) {
+      cookieString = event.data.cookieString;
+      useApi = true;
+    } else {
+      browserExecutablePath = event.data.executablePath;
+      cookieCache = event.data.cookie;
+    }
 
     if (event.data.intervalTime && event.data.intervalTime >= 3) {
       intervalTime = event.data.intervalTime * 60 * 1_000;
