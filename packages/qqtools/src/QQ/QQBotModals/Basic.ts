@@ -87,7 +87,7 @@ abstract class Basic {
           messageApi: this.messageApi
         });
 
-        await douyin.initDouyinWorker();
+        douyin.initDouyinWorker();
         this.douyin.push(douyin);
       }
     }

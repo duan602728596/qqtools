@@ -1,5 +1,4 @@
 import got, { type Response as GotResponse } from 'got';
-import type { VideoQuery } from '../qq.types';
 import type { AwemePostResponse } from './interface';
 
 /**
@@ -23,24 +22,9 @@ function rStr(len: number): string {
   return result;
 }
 
-/**
- * 请求抖音的user
- * @param { string } userId: 抖音网页版那一长串的ID
- * @param { string } cookie: 登录后的cookie
- */
-export async function requestDouyinUser(userId: string, cookie: string): Promise<string> {
-  const res: GotResponse<string> = await got(`https://www.douyin.com/user/${ userId }`, {
-    responseType: 'text',
-    headers: {
-      'User-Agent': pcUserAgent,
-      Cookie: cookie,
-      Host: 'www.douyin.com',
-      Referer: 'https://www.douyin.com/'
-    },
-    followRedirect: false
-  });
-
-  return res.body;
+interface VideoQuery {
+  secUserId: string;
+  webId: string;
 }
 
 /**

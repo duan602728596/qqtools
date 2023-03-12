@@ -293,6 +293,13 @@
             "$required": true,
             "$tableRender": "douyinUserId"
           },
+          "webId": {
+            "id": "$root/properties/douyin/items/properties/webId",
+            "type": "string",
+            "title": "webId",
+            "$required": true,
+            "$componentType": "webId"
+          },
           "description": {
             "id": "$root/properties/douyin/items/properties/description",
             "type": "string",
