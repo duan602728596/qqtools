@@ -3,7 +3,7 @@ import { message } from 'antd';
 import type { MessageInstance } from 'antd/es/message/interface';
 import { getBrowser } from '../../../../utils/utils';
 import getDouyinWorker from './douyin.worker/getDouyinWorker';
-import { getDouyinServerPort } from '../../../../utils/douyinServer/douyinServer';
+import { getDouyinServerPort } from '../../../../utils/proxyServer/proxyServer';
 import * as toutiaosdk from '../../../sdk/toutiao/toutiaosdk';
 import type { QQProtocol, QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemDouyin } from '../../../../commonTypes';

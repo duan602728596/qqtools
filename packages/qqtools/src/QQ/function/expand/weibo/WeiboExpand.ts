@@ -3,7 +3,7 @@ import type { MessageInstance } from 'antd/es/message/interface';
 import { requestWeiboInfo } from '../../../services/services';
 import getWeiboWorker from './weibo.worker/getWeiboWorker';
 import getWeiboSuperTopicWorker from './weiboSuperTopic.worker/getWeiboSuperTopicWorker';
-import { getDouyinServerPort } from '../../../../utils/douyinServer/douyinServer';
+import { getDouyinServerPort } from '../../../../utils/proxyServer/proxyServer';
 import type { QQProtocol, QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemWeibo } from '../../../../commonTypes';
 import type { WeiboTab, WeiboInfo } from '../../../qq.types';

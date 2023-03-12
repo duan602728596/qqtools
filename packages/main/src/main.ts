@@ -4,7 +4,7 @@ import { app, BrowserWindow, Menu } from 'electron';
 import { isDevelopment, packageJson } from './utils';
 import { ipc, removeIpc } from './ipc';
 import ipcRemoteHandle from './ipcHandle/ipcRemoteHandle';
-import { douyinServerClose } from './douyinServer/douyinServer';
+import { proxyServerClose } from './proxyServer/proxyServer';
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1'; // 关闭警告
 
@@ -46,7 +46,7 @@ function createWindow(): void {
   } catch {}
 
   win.on('closed', async function(): Promise<void> {
-    await douyinServerClose();
+    await proxyServerClose();
     removeIpc();
     win = null;
   });
