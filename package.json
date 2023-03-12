@@ -19,6 +19,7 @@
     "build:linuxPng": "ffmpeg -i statics/titleBarIcon512.png -vf scale=128:128 statics/titleBarIcon_linux.png",
     "install:cn": "ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/ PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn install",
     "install:ci": "PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn install",
+    "check-token": "node scripts/checkToken.mjs",
     "postinstall": "husky install && npm run install:babel"
   },
   "private": true,
@@ -69,7 +70,9 @@
     "@types/react-dom": "^18"
   },
   "lint-staged": {
-    "**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}": "eslint"
+    "**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}": "eslint",
+    "packages/NIMTest/node/createRoomId.js": "npm run check-token",
+    "packages/NIMTest/http/login.http": "npm run check-token"
   },
   "config": {
     "commitizen": {
