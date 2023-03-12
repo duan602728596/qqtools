@@ -138,8 +138,8 @@ class DouyinExpand {
 
     if (!douyinListener) return;
 
-    if (!(userId && webId && !/^\s*$/.test(userId) && !/^\s*$/.test(webId))) {
-      this.#messageApi.warning('配置缺少userId或webId');
+    if (!(userId && webId && cookieString && !/^\s*$/.test(userId) && !/^\s*$/.test(webId) && !/^\s*$/.test(cookieString))) {
+      this.#messageApi.warning('配置缺少userId、webId或cookie，抖音监听功能将不会启动');
 
       return;
     }
