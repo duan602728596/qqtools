@@ -51,31 +51,45 @@ function QQSendGroup(item: DouyinSendMsg): string {
   return sendMessageGroup.join('');
 }
 
+/* 判断是否是API的数据 */
 function isAwemePostResponse(u: boolean, r: UserScriptRendedData | AwemePostResponse): r is AwemePostResponse {
   return u;
+}
+
+/**
+ * fetch请求数据
+ * @param { string } input: 请求地址
+ * @param { RequestInit } init: 配置参数
+ */
+async function Fetch(input: string, init: RequestInit): Promise<Response> {
+  // 添加超时控制
+  const controller: AbortController = new AbortController();
+  let fetchTimeoutTimer: NodeJS.Timer | undefined = setTimeout((): void => {
+    controller.abort();
+    fetchTimeoutTimer = undefined;
+  }, 90_000);
+
+  const res: Response = await fetch(input, {
+    signal: controller.signal,
+    ...init
+  });
+
+  fetchTimeoutTimer && clearTimeout(fetchTimeoutTimer);
+
+  return res;
 }
 
 /* 获取数据 */
 async function getDouyinData(): Promise<UserScriptRendedData | undefined> {
   try {
-    // 添加超时控制
-    const controller: AbortController = new AbortController();
-    let fetchTimeoutTimer: NodeJS.Timer | undefined = setTimeout(() => {
-      controller.abort();
-      fetchTimeoutTimer = undefined;
-    }, 90_000);
-
-    const res: Response = await fetch(`http://localhost:${ port }/douyin/renderdata`, {
+    const res: Response = await Fetch(`http://localhost:${ port }/douyin/renderdata`, {
       method: 'POST',
-      signal: controller.signal,
       body: JSON.stringify({
         e: browserExecutablePath,
         u: userId,
         c: cookieCache.map((c: Cookie): string => `${ c.name }=${ c.value }`).join(';')
       })
     });
-
-    fetchTimeoutTimer && clearTimeout(fetchTimeoutTimer);
 
     if (res.status === 200) {
       const resData: { data: UserScriptRendedData | null; cookie: Array<Cookie> } = await res.json();
@@ -242,6 +256,8 @@ async function handleDouyinListener(): Promise<void> {
           }
         }
       }
+
+      _debugTimes = 0;
     } else {
       const _endTime: string = dayjs().format('YYYY-MM-DD HH:mm:ss');
 
