@@ -30,6 +30,7 @@ let useApi: boolean = false;
 let _isSendDebugMessage: boolean = false; // 是否发送调试信息
 let _debugTimes: number = 0;              // 调试次数
 let _startTime: string = dayjs().format('YYYY-MM-DD HH:mm:ss');
+let _sendedDouyinDebugInfo: boolean = false;
 
 interface DouyinSendMsg {
   url: string | undefined;
@@ -249,7 +250,7 @@ async function handleDouyinListener(): Promise<void> {
       if (_isSendDebugMessage) {
         _debugTimes++;
 
-        if (_debugTimes > 6) {
+        if (_debugTimes > 6 && !_sendedDouyinDebugInfo) {
           postMessage({
             type: 'message',
             sendGroup: [parser(`[qqtools] Debug info: your Douyin cookie has expired.
@@ -257,6 +258,7 @@ UserId: ${ userId }
 StartTime: ${ _startTime }
 EndTime: ${ _endTime }`, protocol)]
           });
+          _sendedDouyinDebugInfo = true;
         }
       }
     }
