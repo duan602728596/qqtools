@@ -901,6 +901,12 @@
       "team": "TEAM X"
     },
     {
+      "ownerName": "IDFT-王梦竹",
+      "id": 614739,
+      "serverId": 3884907,
+      "team": "IDFT"
+    },
+    {
       "id": 614741,
       "ownerName": "GNZ48-曾佳",
       "roomId": "67380616",
@@ -1360,6 +1366,12 @@
       "team": "TEAM G"
     },
     {
+      "ownerName": "IDFT-项宇婧",
+      "id": 57737478,
+      "serverId": 4228256,
+      "team": "IDFT"
+    },
+    {
       "id": 58785983,
       "ownerName": "丝芭影视-陆婷玉",
       "roomId": "402672067",
@@ -1669,6 +1681,12 @@
       "team": "预备生"
     },
     {
+      "ownerName": "GNZ48-谭思慧",
+      "id": 89653513,
+      "serverId": 2262216,
+      "team": "预备生"
+    },
+    {
       "ownerName": "GNZ48-王语晨",
       "id": 89653517,
       "serverId": 2278592,
@@ -1824,5 +1842,5 @@
       "team": "CKG48"
     }
   ],
-  "buildTime": "2023-01-17 21:27:51"
+  "buildTime": "2023-03-12 15:43:57"
 }
