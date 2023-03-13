@@ -13,7 +13,8 @@ import checkboxDesc from './components/checkboxDesc';
 import pocket48LogDir from './components/pocket48LogDir';
 import IMLogin from './components/IMLogin/IMLogin';
 import randomId from './components/randomId';
-import webId from './components/WebId/webId';
+import webId from './components/webId';
+import cookieTextArea from './components/cookieTextArea';
 import { getOptionItem, saveFormData } from '../reducers/reducers';
 import formatToV2Config from '../../../QQ/function/formatToV2Config';
 import * as editV2SchemaJson from './editv2.schema.json' assert { type: 'json' };
@@ -24,7 +25,8 @@ const customComponent: CustomComponentObject = {
   pocket48LogDir,
   IMLogin,
   randomId,
-  webId
+  webId,
+  cookieTextArea
 };
 
 const customTableRender: CustomTableRenderObject = {

@@ -300,20 +300,20 @@
             "$required": true,
             "$componentType": "webId"
           },
-          "description": {
-            "id": "$root/properties/douyin/items/properties/description",
-            "type": "string",
-            "title": "监听介绍",
-            "$required": true
-          },
           "cookieString": {
             "id": "$root/properties/douyin/items/properties/cookieString",
             "type": "string",
             "title": "Cookie",
             "$required": true,
-            "$componentType": "textArea",
+            "$componentType": "cookieTextArea",
             "$placeholder": "去抖音网页版登录后复制cookie",
             "$tableColumnHidden": true
+          },
+          "description": {
+            "id": "$root/properties/douyin/items/properties/description",
+            "type": "string",
+            "title": "监听介绍",
+            "$required": true
           },
           "intervalTime": {
             "id": "$root/properties/douyin/items/properties/intervalTime",

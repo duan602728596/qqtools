@@ -1,10 +1,10 @@
 import { Fragment, type ReactElement, type ChangeEvent, type MouseEvent } from 'react';
 import { Input, Button, Space, message, type FormInstance } from 'antd';
 import type { UseMessageReturnType } from '@qqtools-types/antd';
-import * as editV2SchemaJson from '../../editv2.schema.json' assert { type: 'json' };
-import DouyinExpand from '../../../../../QQ/function/expand/douyin/DouyinExpand';
+import * as editV2SchemaJson from '../editv2.schema.json' assert { type: 'json' };
+import DouyinExpand from '../../../../QQ/function/expand/douyin/DouyinExpand';
 import type { CustomComponentFuncArgs, StringItem } from 'antd-schema-form/es/types';
-import type { UserScriptRendedData, UserItem1, UserItem2 } from '../../../../../QQ/qq.types';
+import type { UserScriptRendedData, UserItem1, UserItem2 } from '../../../../QQ/qq.types';
 
 const schema: Record<string, any> = editV2SchemaJson;
 
@@ -30,7 +30,6 @@ function WebIdComponent(props: WebIdComponentProps): ReactElement {
       return;
     }
 
-    // @ts-ignore
     const userId: string | undefined = form.getFieldValue(schema['properties']['douyin']['items']['properties']['userId']['id']);
 
     if (!(userId && !/^\s*$/.test(userId))) {
@@ -60,7 +59,7 @@ function WebIdComponent(props: WebIdComponentProps): ReactElement {
   return (
     <Fragment>
       <Space>
-        <Input id={ id } value={ value } onChange={ handleInputChange } />
+        <Input className="w-[220px]" id={ id } value={ value } onChange={ handleInputChange } />
         <Button onClick={ handleGetWebIdClick }>获取webId</Button>
       </Space>
       { messageContextHolder }
