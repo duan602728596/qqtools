@@ -293,22 +293,6 @@
             "$required": true,
             "$tableRender": "douyinUserId"
           },
-          "webId": {
-            "id": "$root/properties/douyin/items/properties/webId",
-            "type": "string",
-            "title": "webId",
-            "$required": true,
-            "$componentType": "webId"
-          },
-          "cookieString": {
-            "id": "$root/properties/douyin/items/properties/cookieString",
-            "type": "string",
-            "title": "Cookie",
-            "$required": true,
-            "$componentType": "cookieTextArea",
-            "$placeholder": "去抖音网页版登录后复制cookie",
-            "$tableColumnHidden": true
-          },
           "description": {
             "id": "$root/properties/douyin/items/properties/description",
             "type": "string",
@@ -319,7 +303,7 @@
             "id": "$root/properties/douyin/items/properties/intervalTime",
             "type": "number",
             "title": "轮询间隔（分钟）",
-            "minimum": 3
+            "minimum": 5
           },
           "isSendDebugMessage": {
             "id": "$root/properties/douyin/items/properties/isSendDebugMessage",

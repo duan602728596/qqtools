@@ -4,7 +4,6 @@ import type { MessageInstance } from 'antd/es/message/interface';
 import { getBrowser } from '../../../../utils/utils';
 import getDouyinWorker from './douyin.worker/getDouyinWorker';
 import { getDouyinServerPort } from '../../../../utils/proxyServer/proxyServer';
-import * as toutiaosdk from '../../../sdk/toutiao/toutiaosdk';
 import type { QQProtocol, QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemDouyin } from '../../../../commonTypes';
 import type { ParserResult } from '../../parser';
@@ -15,11 +14,7 @@ interface DouyinMessageData {
   sendGroup: Array<ParserResult[] | string>;
 }
 
-interface XBogusMessageData {
-  type: 'X-Bogus';
-}
-
-type MessageListener = (event: MessageEvent<DouyinMessageData | XBogusMessageData>) => void | Promise<void>;
+type MessageListener = (event: MessageEvent<DouyinMessageData>) => void | Promise<void>;
 
 /* 抖音监听 */
 class DouyinExpand {
@@ -108,51 +103,27 @@ class DouyinExpand {
   }
 
   // 抖音监听
-  handleDouyinMessage: MessageListener = async (event: MessageEvent<DouyinMessageData | XBogusMessageData>): Promise<void> => {
+  handleDouyinMessage: MessageListener = async (event: MessageEvent<DouyinMessageData>): Promise<void> => {
     if (event.data.type === 'message') {
       for (let i: number = event.data.sendGroup.length - 1; i >= 0; i--) {
         await this.qq.sendMessage(event.data.sendGroup[i] as any);
       }
-    } else if (event.data.type === 'X-Bogus') {
-      const frontierSign: { 'X-Bogus'?: string } = {};
-
-      await toutiaosdk.webmssdkES5('frontierSign', [frontierSign]);
-      this.douyinWorker!.postMessage({
-        type: 'X-Bogus',
-        value: frontierSign['X-Bogus']
-      });
     }
   };
 
   // 抖音监听初始化
   initDouyinWorker(): void {
-    const {
-      douyinListener,
-      userId,
-      webId,
-      description,
-      intervalTime,
-      cookieString,
-      isSendDebugMessage
-    }: OptionsItemDouyin = this.config;
+    const { douyinListener, userId, description, intervalTime, isSendDebugMessage }: OptionsItemDouyin = this.config;
 
-    if (!douyinListener) return;
-
-    if (!(userId && webId && cookieString && !/^\s*$/.test(userId) && !/^\s*$/.test(webId) && !/^\s*$/.test(cookieString))) {
-      this.#messageApi.warning('配置缺少userId、webId或cookie，抖音监听功能将不会启动');
-
-      return;
-    }
+    if (!(douyinListener && userId && !/^\s*$/.test(userId))) return;
 
     this.douyinWorker = getDouyinWorker();
     this.douyinWorker.addEventListener('message', this.handleDouyinMessage);
     this.douyinWorker.postMessage({
       userId,
-      webId,
       description,
       protocol: this.protocol,
       port: getDouyinServerPort().port,
-      cookieString,
       intervalTime,
       isSendDebugMessage
     });

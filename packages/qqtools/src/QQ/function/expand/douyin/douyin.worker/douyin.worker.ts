@@ -3,21 +3,19 @@ import * as dayjs from 'dayjs';
 import { QQProtocol } from '../../../../QQBotModals/ModalTypes';
 import parser, { type ParserResult } from '../../../parser';
 import * as CQ from '../../../parser/CQ';
-import { isCloseMessage, isXBogusMessage, type MessageObject } from './messageTypes';
-import { requestAwemePost } from '../../../../services/douyin';
+import { isCloseMessage, type MessageObject } from './messageTypes';
+import { requestTtwidCookie, requestAwemePost } from '../../../../services/douyin';
 import type { AwemePostResponse, AwemeItem } from '../../../../services/interface';
 
 /* 抖音 */
 let userId: string;                                    // 用户userId
-let webId: string;                                     // 用户webId
 let description: string;                               // 描述
 let protocol: QQProtocol;                              // 协议：mirai或者oicq
 let lastUpdateTime: number | 0 | null = null;          // 记录最新发布视频的更新时间，为0表示当前没有数据，null表示请求数据失败了
 let douyinTimer: NodeJS.Timer | undefined = undefined; // 轮询定时器
 let port: number;                                      // 端口号
-let intervalTime: number = 180_000;                    // 轮询间隔
-let cookieString: string;                              // cookie
-let XBogusResolveFunction: Function | undefined;       // XBogus resolve function
+let intervalTime: number = 5 * 60 * 1_000;             // 轮询间隔
+let cookieString: string | undefined;                  // cookie
 
 /* 调试 */
 const _startTime: string = dayjs().format('YYYY-MM-DD HH:mm:ss');
@@ -47,13 +45,23 @@ function QQSendGroup(item: DouyinSendMsg): string {
 /* 获取解析html和接口获取数据 */
 export async function getDouyinDataByHtmlAndApi(): Promise<AwemePostResponse | undefined> {
   try {
-    const XBogus: string = await new Promise((resolve: Function): void => {
-      XBogusResolveFunction = resolve;
-      postMessage({ type: 'X-Bogus' });
-    });
-    const res: AwemePostResponse = await requestAwemePost(cookieString, { secUserId: userId, webId }, XBogus);
+    cookieString ??= await requestTtwidCookie();
 
-    return res;
+    if (cookieString) {
+      const res: AwemePostResponse | string = await requestAwemePost(cookieString, {
+        secUserId: userId,
+        webId: `${ Math.random() }`.replace(/^0\./, '')
+      });
+
+      // res可能返回string，表示请求失败了
+      if (typeof res === 'string') {
+        cookieString ??= await requestTtwidCookie();
+
+        return undefined;
+      } else {
+        return res;
+      }
+    }
   } catch (err) {
     console.error(err);
   }
@@ -160,19 +168,14 @@ addEventListener('message', function(event: MessageEvent<MessageObject>) {
     try {
       douyinTimer && clearTimeout(douyinTimer);
     } catch { /* noop */ }
-  } else if (isXBogusMessage(event.data)) {
-    XBogusResolveFunction && XBogusResolveFunction(event.data.value);
-    XBogusResolveFunction = undefined;
   } else {
     userId = event.data.userId;
-    webId = event.data.webId;
     description = event.data.description;
     protocol = event.data.protocol;
     port = event.data.port;
-    cookieString = event.data.cookieString;
     _isSendDebugMessage = event.data.isSendDebugMessage;
 
-    if (event.data.intervalTime && event.data.intervalTime >= 3) {
+    if (event.data.intervalTime && event.data.intervalTime >= 5) {
       intervalTime = event.data.intervalTime * 60 * 1_000;
     }
 

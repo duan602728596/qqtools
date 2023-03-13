@@ -1,25 +1,31 @@
 import got, { type Response as GotResponse } from 'got';
+import Signer from '../sdk/Signer';
+import { msToken } from '../function/expand/douyin/signUtils';
 import type { AwemePostResponse } from './interface';
 
 /**
  * 该方法运行在worker线程中，所以需要和其他依赖隔离
  */
 
-const pcUserAgent: string = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 '
-  + '(KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.52';
+const pcUserAgent: string = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+  + '(KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69';
 
-/* 随机字符串 */
-function rStr(len: number): string {
-  const str: string = 'QWERTYUIOPASDFGHJKLZXCVBNM1234567890';
-  let result: string = '';
+/* 请求ttwid */
+export async function requestTtwidCookie(): Promise<string | undefined> {
+  const res: GotResponse = await got.post('https://ttwid.bytedance.com/ttwid/union/register/', {
+    responseType: 'json',
+    json: {
+      region: 'union',
+      aid: 1768,
+      needFid: false,
+      service: 'www.ixigua.com',
+      migrate_info: { ticket: '', source: 'source' },
+      cbUrlProtocol: 'https',
+      union: true
+    }
+  });
 
-  for (let i: number = 0; i < len; i++) {
-    const rIndex: number = Math.floor(Math.random() * str.length);
-
-    result += str[rIndex];
-  }
-
-  return result;
+  return res.headers?.['set-cookie']?.[0];
 }
 
 interface VideoQuery {
@@ -31,9 +37,9 @@ interface VideoQuery {
  * 请求user的视频列表
  * @param { string } cookie: string
  * @param { VideoQuery } videoQuery: user id
- * @param { string } XBogus
  */
-export async function requestAwemePost(cookie: string, videoQuery: VideoQuery, XBogus: string): Promise<AwemePostResponse> {
+export async function requestAwemePost(cookie: string, videoQuery: VideoQuery): Promise<AwemePostResponse | string> {
+  const token: string = msToken();
   const urlParam: URLSearchParams = new URLSearchParams({
     device_platform: 'webapp',
     aid: '6383',
@@ -53,24 +59,26 @@ export async function requestAwemePost(cookie: string, videoQuery: VideoQuery, X
     browser_language: 'zh-CN',
     browser_platform: 'MacIntel',
     browser_name: 'Edge',
-    browser_version: '109.0.1518.52',
+    browser_version: '110.0.1587.69',
     browser_online: 'true',
     engine_name: 'Blink',
-    engine_version: '109.0.0.0',
+    engine_version: '110.0.0.0',
     os_name: 'Mac+OS',
     os_version: '10.15.7',
     cpu_core_num: '4',
     device_memory: '8',
     platform: 'PC',
-    downlink: '0.95',
-    effective_type: '3g',
-    round_trip_time: '650',
-    webid: videoQuery.webId,
-    msToken: `${ rStr(36) }-${ rStr(43) }-${ rStr(47) }`,
-    'X-Bogus': XBogus
+    downlink: '3.6',
+    effective_type: '4g',
+    round_trip_time: '100',
+    webid: '123456778',
+    msToken: token
   });
+  const xbogus: string = Signer.sign(urlParam.toString(), pcUserAgent);
 
-  const res: GotResponse<AwemePostResponse> = await got.get(
+  urlParam.set('X-Bogus', xbogus);
+
+  const res: GotResponse<AwemePostResponse | string> = await got.get(
     `https://www.douyin.com/aweme/v1/web/aweme/post/?${ urlParam.toString() }`, {
       responseType: 'json',
       headers: {
