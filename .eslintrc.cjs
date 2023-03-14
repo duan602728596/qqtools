@@ -41,6 +41,7 @@ module.exports = {
   },
   globals: {
     NodeJS: 'readonly',
+    Generator: 'readonly',
     el: 'readonly',
     Chatroom: 'readonly'
   },

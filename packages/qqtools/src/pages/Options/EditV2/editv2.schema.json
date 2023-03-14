@@ -293,6 +293,14 @@
             "$required": true,
             "$tableRender": "douyinUserId"
           },
+          "cookieString": {
+            "id": "$root/properties/douyin/items/properties/cookieString",
+            "type": "string",
+            "title": "Cookie",
+            "$required": true,
+            "$componentType": "textArea",
+            "$tableColumnHidden": true
+          },
           "description": {
             "id": "$root/properties/douyin/items/properties/description",
             "type": "string",

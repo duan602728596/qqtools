@@ -33,12 +33,7 @@ interface VideoQuery {
   webId: string;
 }
 
-/**
- * 请求user的视频列表
- * @param { string } cookie: string
- * @param { VideoQuery } videoQuery: user id
- */
-export async function requestAwemePost(cookie: string, videoQuery: VideoQuery): Promise<AwemePostResponse | string> {
+export function awemePostQuery(videoQuery: VideoQuery): string {
   const token: string = msToken();
   const urlParam: URLSearchParams = new URLSearchParams({
     device_platform: 'webapp',
@@ -71,15 +66,25 @@ export async function requestAwemePost(cookie: string, videoQuery: VideoQuery): 
     downlink: '3.6',
     effective_type: '4g',
     round_trip_time: '100',
-    webid: '123456778',
+    webid: videoQuery.webId,
     msToken: token
   });
   const xbogus: string = Signer.sign(urlParam.toString(), pcUserAgent);
 
   urlParam.set('X-Bogus', xbogus);
 
+  return urlParam.toString();
+}
+
+/**
+ * 请求user的视频列表
+ * @param { string } cookie: string
+ * @param { VideoQuery } videoQuery: user id
+ */
+export async function requestAwemePost(cookie: string, videoQuery: VideoQuery): Promise<AwemePostResponse | string> {
+  const query: string = awemePostQuery(videoQuery);
   const res: GotResponse<AwemePostResponse | string> = await got.get(
-    `https://www.douyin.com/aweme/v1/web/aweme/post/?${ urlParam.toString() }`, {
+    `https://www.douyin.com/aweme/v1/web/aweme/post/?${ query }`, {
       responseType: 'json',
       headers: {
         Referer: `https://www.douyin.com/user/${ videoQuery.secUserId }`,

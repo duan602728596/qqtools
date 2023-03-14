@@ -1,4 +1,3 @@
-import type { Cookie } from 'playwright-core';
 import type { QQProtocol } from '../../../../QQBotModals/ModalTypes';
 
 // 关闭消息
@@ -15,7 +14,6 @@ interface BaseInitMessage {
   port: number;
   intervalTime: number | undefined;
   isSendDebugMessage: boolean;
-  version: 'init-v2';
   cookieString: string;
 }
 

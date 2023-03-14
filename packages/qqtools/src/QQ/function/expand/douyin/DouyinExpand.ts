@@ -113,14 +113,22 @@ class DouyinExpand {
 
   // 抖音监听初始化
   initDouyinWorker(): void {
-    const { douyinListener, userId, description, intervalTime, isSendDebugMessage }: OptionsItemDouyin = this.config;
+    const {
+      douyinListener,
+      userId,
+      cookieString,
+      description,
+      intervalTime,
+      isSendDebugMessage
+    }: OptionsItemDouyin = this.config;
 
-    if (!(douyinListener && userId && !/^\s*$/.test(userId))) return;
+    if (!(douyinListener && userId && !/^\s*$/.test(userId) && cookieString && !/^\s*$/.test(cookieString))) return;
 
     this.douyinWorker = getDouyinWorker();
     this.douyinWorker.addEventListener('message', this.handleDouyinMessage);
     this.douyinWorker.postMessage({
       userId,
+      cookieString,
       description,
       protocol: this.protocol,
       port: getDouyinServerPort().port,
