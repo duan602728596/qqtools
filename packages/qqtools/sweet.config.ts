@@ -118,13 +118,6 @@ export default function(info: object): { [key: string]: any } {
     },
     rules: [
       {
-        test: /toutiaosdk-(acrawler|captcha)\.js/,
-        type: 'asset/resource',
-        generator: {
-          filename: '[name][ext]'
-        }
-      },
-      {
         test: /\.tailwindcss\.css$/i,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
       }
