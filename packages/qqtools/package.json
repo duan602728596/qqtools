@@ -1,6 +1,6 @@
 {
   "name": "@qqtools3/qqtools",
-  "version": "4.13.6",
+  "version": "4.13.7",
   "main": "../main/lib/main.js",
   "scripts": {
     "runel": "cross-env NODE_ENV=development electron ./",
