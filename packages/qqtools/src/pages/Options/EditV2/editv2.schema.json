@@ -320,7 +320,8 @@
             "$tableColumnHidden": true
           }
         }
-      }
+      },
+      "maxItems": 5
     },
     "bilibili": {
       "id": "$root/properties/bilibili",
