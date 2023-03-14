@@ -167,7 +167,7 @@ async function douyinInit(): Promise<void> {
       const data: Array<AwemeItem> = renderData.aweme_list.sort(
         (a: AwemeItem, b: AwemeItem): number => b.create_time - a.create_time);
 
-      lastUpdateTime = data.length ? data[1].create_time : 0;
+      lastUpdateTime = data.length ? data[0].create_time : 0;
     } else {
       console.warn('初始化时没有获取到RENDER_DATA。', '--->', description ?? userId,
         dayjs().format('YYYY-MM-DD HH:mm:ss'));
