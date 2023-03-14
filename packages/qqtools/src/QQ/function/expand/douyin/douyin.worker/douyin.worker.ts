@@ -4,7 +4,7 @@ import { QQProtocol } from '../../../../QQBotModals/ModalTypes';
 import parser, { type ParserResult } from '../../../parser';
 import * as CQ from '../../../parser/CQ';
 import { isCloseMessage, type MessageObject } from './messageTypes';
-import { requestAwemePost, awemePostQuery } from '../../../../services/douyin';
+import { requestAwemePost } from '../../../../services/douyin';
 import type { AwemePostResponse, AwemeItem } from '../../../../services/interface';
 
 /* 抖音 */
@@ -13,8 +13,7 @@ let description: string;                               // 描述
 let protocol: QQProtocol;                              // 协议：mirai或者oicq
 let lastUpdateTime: number | 0 | null = null;          // 记录最新发布视频的更新时间，为0表示当前没有数据，null表示请求数据失败了
 let douyinTimer: NodeJS.Timer | undefined = undefined; // 轮询定时器
-let port: number;                                      // 端口号
-let intervalTime: number = 5 * 60 * 1_000;             // 轮询间隔
+let intervalTime: number = 10 * 60 * 1_000;            // 轮询间隔
 let cookieString: string;                              // cookie
 
 /* 调试 */
@@ -59,35 +58,10 @@ export async function getDouyinDataByApi(): Promise<AwemePostResponse | undefine
   }
 }
 
-/* 本地限流接口 */
-export async function getDouyinDataByLocal(): Promise<AwemePostResponse | null | undefined> {
-  try {
-    const res: Response = await fetch(`http://localhost:${ port }/proxy/douyin/user`, {
-      method: 'POST',
-      body: JSON.stringify({
-        cookieString,
-        userId,
-        query: awemePostQuery({
-          secUserId: userId,
-          webId: `${ Math.random() }`.replace(/^0\./, '')
-        })
-      })
-    });
-    const json: { data: AwemePostResponse | null } = await res.json();
-
-    // res可能返回string，表示请求失败了
-    if (typeof res === 'object') {
-      return json.data;
-    }
-  } catch (err) {
-    console.error(err);
-  }
-}
-
 /* 抖音监听轮询 */
 async function handleDouyinListener(): Promise<void> {
   try {
-    const renderData: AwemePostResponse | null | undefined = await getDouyinDataByLocal();
+    const renderData: AwemePostResponse | undefined = await getDouyinDataByApi();
 
     if (renderData) {
       _isSendDebugMessage && (_debugTimes = 0);
@@ -190,10 +164,9 @@ addEventListener('message', function(event: MessageEvent<MessageObject>) {
     cookieString = event.data.cookieString;
     description = event.data.description;
     protocol = event.data.protocol;
-    port = event.data.port;
     _isSendDebugMessage = event.data.isSendDebugMessage;
 
-    if (event.data.intervalTime && event.data.intervalTime >= 5) {
+    if (event.data.intervalTime && event.data.intervalTime >= 10) {
       intervalTime = event.data.intervalTime * 60 * 1_000;
     }
 

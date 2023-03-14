@@ -311,7 +311,7 @@
             "id": "$root/properties/douyin/items/properties/intervalTime",
             "type": "number",
             "title": "轮询间隔（分钟）",
-            "minimum": 5
+            "minimum": 10
           },
           "isSendDebugMessage": {
             "id": "$root/properties/douyin/items/properties/isSendDebugMessage",

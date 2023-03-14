@@ -131,7 +131,6 @@ class DouyinExpand {
       cookieString,
       description,
       protocol: this.protocol,
-      port: getDouyinServerPort().port,
       intervalTime,
       isSendDebugMessage
     });
