@@ -15,7 +15,6 @@
     "js-yaml": "^4.1.0",
     "node-schedule": "^2.1.1",
     "nunjucks": "^3.2.3",
-    "playwright-core": "^1.30.0",
     "ws": "^8.12.0"
   }
 }
