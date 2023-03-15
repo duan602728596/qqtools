@@ -5,6 +5,8 @@ import parser, { type ParserResult } from '../../../parser';
 import * as CQ from '../../../parser/CQ';
 import { isCloseMessage, type MessageObject } from './messageTypes';
 import { requestAwemePost } from '../../../../services/douyin';
+import broadcastName from '../limiting.worker/broadcastName';
+import { msToken } from '../signUtils';
 import type { AwemePostResponse, AwemeItem } from '../../../../services/interface';
 
 /* 抖音 */
@@ -41,9 +43,28 @@ function QQSendGroup(item: DouyinSendMsg): string {
   return sendMessageGroup.join('');
 }
 
+/* 限流等待 */
+function waitLimiting(id: string): Promise<void> {
+  let broadcastChannel: BroadcastChannel | undefined = new BroadcastChannel(broadcastName);
+
+  return new Promise((resolve: Function, reject: Function): void => {
+    function handleListeningMessage(event: MessageEvent<{ id: string; t: number }>): void {
+      if (event.data.id === id) {
+        resolve();
+        broadcastChannel!.removeEventListener('message', handleListeningMessage);
+        broadcastChannel = undefined;
+      }
+    }
+
+    broadcastChannel!.addEventListener('message', handleListeningMessage);
+    broadcastChannel!.postMessage({ id });
+  });
+}
+
 /* 获取解析html和接口获取数据 */
-export async function getDouyinDataByApi(): Promise<AwemePostResponse | undefined> {
+export async function getDouyinDataByApi(wait: boolean = true): Promise<AwemePostResponse | undefined> {
   try {
+    wait && await waitLimiting(msToken(10));
     const res: AwemePostResponse | string = await requestAwemePost(cookieString, {
       secUserId: userId,
       webId: `${ Math.random() }`.replace(/^0\./, '')
@@ -135,7 +156,7 @@ EndTime: ${ _endTime }`, protocol)]
 /* 初始化获取抖音的记录位置 */
 async function douyinInit(): Promise<void> {
   try {
-    const renderData: AwemePostResponse | undefined = await getDouyinDataByApi();
+    const renderData: AwemePostResponse | undefined = await getDouyinDataByApi(false);
 
     if (renderData) {
       const data: Array<AwemeItem> = renderData.aweme_list.sort(

@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import type { MessageInstance } from 'antd/es/message/interface';
 import getDouyinWorker from './douyin.worker/getDouyinWorker';
+import getLimitingWorker from './limiting.worker/getLimitingWorker';
 import type { QQProtocol, QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemDouyin } from '../../../../commonTypes';
 import type { ParserResult } from '../../parser';
@@ -14,6 +15,18 @@ type MessageListener = (event: MessageEvent<DouyinMessageData>) => void | Promis
 
 /* 抖音监听 */
 class DouyinExpand {
+  private static limitingWorker: SharedWorker;
+
+  static {
+    this.limitingWorker = getLimitingWorker();
+
+    this.limitingWorker.port.addEventListener('message', function(event: MessageEvent): void {
+      console.log(event.data);
+    });
+
+    this.limitingWorker.port.start();
+  }
+
   public config: OptionsItemDouyin;
   public qq: QQModals;
   public protocol: QQProtocol;

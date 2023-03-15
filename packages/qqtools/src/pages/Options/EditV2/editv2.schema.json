@@ -321,7 +321,7 @@
           }
         }
       },
-      "maxItems": 5
+      "maxItems": 15
     },
     "bilibili": {
       "id": "$root/properties/bilibili",
