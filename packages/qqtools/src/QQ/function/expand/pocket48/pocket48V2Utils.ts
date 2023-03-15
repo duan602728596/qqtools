@@ -162,7 +162,9 @@ ${ info.question }
     if (data.type === 'custom' && data.attach.messageType === 'EXPRESSIMAGE') {
       sendGroup.push(
         `${ nickName } ：`,
-        CQ.image(data.attach?.expressImgInfo?.emotionRemote ?? data.attach.emotionRemote),
+        CQ.image(data.attach?.expressImageInfo?.emotionRemote
+          ?? data.attach?.expressImgInfo?.emotionRemote
+          ?? data.attach.emotionRemote),
         `时间：${ msgTime }${ memberInfoContent }`
       );
     } else

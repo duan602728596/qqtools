@@ -288,6 +288,9 @@ export interface EXPRESSIMAGEMessageV2 extends CustomMessageV2 {
     expressImgInfo: {
       emotionRemote: string;
     };
+    expressImageInfo: {
+      emotionRemote: string;
+    };
     emotionRemote: string;
   };
 }
