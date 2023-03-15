@@ -6,15 +6,15 @@ import Pocket48Login from './Pocket48Login/Pocket48Login';
 // @ts-ignore
 import editV2SchemaJson from '../../editv2.schema.json' assert { type: 'json' };
 
-interface LogDirProps {
+interface IMLoginComponentProps {
   form: FormInstance;
   id?: string;
   value?: string;
   onChange?: Function;
 }
 
-function IMLoginComponent(props: LogDirProps): ReactElement {
-  const { form, id, value, onChange }: LogDirProps = props;
+function IMLoginComponent(props: IMLoginComponentProps): ReactElement {
+  const { form, id, value, onChange }: IMLoginComponentProps = props;
   const isV2: boolean | undefined = id?.includes?.('/pocket48V2/');
   const pocket48Key: string = isV2 ? 'pocket48V2' : 'pocket48';
 

@@ -79,7 +79,7 @@ abstract class Basic {
     if (this.config.douyin) {
       this.douyin = [];
 
-      for (const item of this.config.douyin) {
+      for (const item of this.config.douyin.slice(0, 5)) {
         const douyin: DouyinExpand = new DouyinExpand({
           qq: this,
           config: item,
@@ -87,7 +87,7 @@ abstract class Basic {
           messageApi: this.messageApi
         });
 
-        await douyin.initDouyinWorker();
+        douyin.initDouyinWorker();
         this.douyin.push(douyin);
       }
     }

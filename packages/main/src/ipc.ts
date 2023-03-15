@@ -1,11 +1,11 @@
 import { ipcMain, type BrowserWindow } from 'electron';
 import openDevTools, { type as openDevToolsType } from './ipcListener/openDevTools';
-import { douyinServerInit, type as douyinServerType } from './douyinServer/douyinServer';
+import { proxyServerInit, type as proxyServerType } from './proxyServer/proxyServer';
 
 /* 移除所有监听的通信 */
 const removeListenerChannel: Array<string> = [
   openDevToolsType,
-  douyinServerType
+  proxyServerType
 ];
 
 export function removeIpc(): void {
@@ -17,5 +17,5 @@ export function removeIpc(): void {
 /* ipc通信 */
 export function ipc(win: BrowserWindow): void {
   openDevTools(win);
-  douyinServerInit();
+  proxyServerInit();
 }

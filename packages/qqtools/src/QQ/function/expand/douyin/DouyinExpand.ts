@@ -1,12 +1,13 @@
-import type { Browser, BrowserContext, Page, Cookie, Route } from 'playwright-core';
+import type { Browser, BrowserContext, Page, Cookie, Route, JSHandle } from 'playwright-core';
 import { message } from 'antd';
 import type { MessageInstance } from 'antd/es/message/interface';
 import { getBrowser } from '../../../../utils/utils';
 import getDouyinWorker from './douyin.worker/getDouyinWorker';
-import { getDouyinServerPort } from '../../../../utils/douyinServer/douyinServer';
+import { getDouyinServerPort } from '../../../../utils/proxyServer/proxyServer';
 import type { QQProtocol, QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemDouyin } from '../../../../commonTypes';
 import type { ParserResult } from '../../parser';
+import type { UserScriptRendedData } from '../../../qq.types';
 
 interface DouyinMessageData {
   type: 'message';
@@ -17,11 +18,12 @@ type MessageListener = (event: MessageEvent<DouyinMessageData>) => void | Promis
 
 /* 抖音监听 */
 class DouyinExpand {
+  private static getCookie: any;
   /**
-   * 由于抖音未登录账号出现验证码中间页，
-   * 所以需要提前获取到cookie
+   * 由于抖音未登录账号出现验证码中间页
+   * 获取renderData
    */
-  static async getCookie(this: DouyinExpand, executablePath: string, userId: string): Promise<void> {
+  static async getRenderData(executablePath: string, userId: string): Promise<UserScriptRendedData | undefined> {
     let browser: Browser | null = null;
 
     try {
@@ -60,12 +62,23 @@ class DouyinExpand {
       page.setDefaultTimeout(0);
       await page.goto(userUrl, { referer: userUrl, timeout: 0 });
       await page.waitForFunction((): boolean => !!document.getElementById('RENDER_DATA'));
-      this.cookie = await context.cookies();
+
+      const renderDataHandle: JSHandle<string | null> = await page.evaluateHandle((): string | null => {
+        const scriptElement: HTMLElement | null = document.getElementById('RENDER_DATA');
+
+        return scriptElement ? scriptElement.innerHTML : null;
+      });
+      const renderData: string | null = await renderDataHandle.evaluate(
+        (node: string | null): string | null => node ? decodeURIComponent(node) : null);
+      const renderDataJson: UserScriptRendedData | undefined = renderData ? JSON.parse(renderData) : undefined;
+
       await page.close();
       await browser.close();
+
+      return renderDataJson;
     } catch (err) {
       console.error(err);
-      browser && (await browser.close());
+      await browser?.close?.();
     }
 
     browser = null;
@@ -75,7 +88,6 @@ class DouyinExpand {
   public qq: QQModals;
   public protocol: QQProtocol;
   public douyinWorker?: Worker;
-  public cookie: Array<Cookie> = [];
   #messageApi: typeof message | MessageInstance = message;
 
   constructor({ config, qq, protocol, messageApi }: {
@@ -99,52 +111,27 @@ class DouyinExpand {
     }
   };
 
-  // 抖音重新请求cookie
-  async requestDouyinCookie(executablePath: string): Promise<void> {
-    await DouyinExpand.getCookie.call(this, executablePath, this.config.userId);
-  }
-
-  // 重新请求cookie
-  async reRequestCookie(): Promise<void> {
-    const executablePath: string | null = localStorage.getItem('PUPPETEER_EXECUTABLE_PATH');
-
-    if (!(executablePath && !/^\s*$/.test(executablePath))) return;
-
-    if (this.douyinWorker) {
-      await this.requestDouyinCookie(executablePath);
-      this.douyinWorker.postMessage({ type: 'cookie', cookie: this.cookie });
-    }
-  }
-
   // 抖音监听初始化
-  async initDouyinWorker(): Promise<void> {
-    const { douyinListener, userId, intervalTime, isSendDebugMessage }: OptionsItemDouyin = this.config;
+  initDouyinWorker(): void {
+    const {
+      douyinListener,
+      userId,
+      cookieString,
+      description,
+      intervalTime,
+      isSendDebugMessage
+    }: OptionsItemDouyin = this.config;
 
-    if (!(douyinListener && userId && !/^\s*$/.test(userId))) return;
-
-    const executablePath: string | null = localStorage.getItem('PUPPETEER_EXECUTABLE_PATH');
-
-    if (!(executablePath && !/^\s*$/.test(executablePath))) {
-      this.#messageApi.warning('请先配置无头浏览器！');
-      console.warn('请先配置无头浏览器！');
-
-      return;
-    }
-
-    if (this.cookie.length <= 0) {
-      await this.requestDouyinCookie(executablePath);
-    }
+    if (!(douyinListener && userId && !/^\s*$/.test(userId) && cookieString && !/^\s*$/.test(cookieString))) return;
 
     this.douyinWorker = getDouyinWorker();
     this.douyinWorker.addEventListener('message', this.handleDouyinMessage);
     this.douyinWorker.postMessage({
-      userId: this.config.userId,
-      description: this.config.description,
+      userId,
+      cookieString,
+      description,
       protocol: this.protocol,
-      executablePath,
-      port: getDouyinServerPort().port,
       intervalTime,
-      cookie: this.cookie,
       isSendDebugMessage
     });
   }

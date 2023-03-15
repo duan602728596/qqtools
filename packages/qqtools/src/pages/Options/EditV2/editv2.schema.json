@@ -293,6 +293,14 @@
             "$required": true,
             "$tableRender": "douyinUserId"
           },
+          "cookieString": {
+            "id": "$root/properties/douyin/items/properties/cookieString",
+            "type": "string",
+            "title": "Cookie",
+            "$required": true,
+            "$componentType": "textArea",
+            "$tableColumnHidden": true
+          },
           "description": {
             "id": "$root/properties/douyin/items/properties/description",
             "type": "string",
@@ -303,7 +311,7 @@
             "id": "$root/properties/douyin/items/properties/intervalTime",
             "type": "number",
             "title": "轮询间隔（分钟）",
-            "minimum": 3
+            "minimum": 10
           },
           "isSendDebugMessage": {
             "id": "$root/properties/douyin/items/properties/isSendDebugMessage",
@@ -312,7 +320,8 @@
             "$tableColumnHidden": true
           }
         }
-      }
+      },
+      "maxItems": 5
     },
     "bilibili": {
       "id": "$root/properties/bilibili",

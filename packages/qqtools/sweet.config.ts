@@ -102,12 +102,12 @@ export default function(info: object): { [key: string]: any } {
     javascript: {
       ecmascript: true,
       plugins,
-      exclude: /node_modules|BlythE/i
+      exclude: /node_modules|BlythE|Signer\.js/i
     },
     typescript: {
       configFile: isDev ? 'tsconfig.json' : 'tsconfig.prod.json',
       plugins,
-      exclude: /node_modules|BlythE/i
+      exclude: /node_modules|BlythE|Signer\.js/i
     },
     sass: {
       include: /src/
@@ -116,10 +116,12 @@ export default function(info: object): { [key: string]: any } {
       include: /node_modules[\\/]_?antd/,
       exclude: /tailwindcss/i
     },
-    rules: [{
-      test: /\.tailwindcss\.css$/i,
-      use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
-    }],
+    rules: [
+      {
+        test: /\.tailwindcss\.css$/i,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
+      }
+    ],
     plugins: [
       analyzer && new BundleAnalyzerPlugin()
     ].filter(Boolean)

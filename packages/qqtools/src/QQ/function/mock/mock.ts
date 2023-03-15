@@ -2,7 +2,7 @@ import parser from '../parser';
 import * as CQ from '../parser/CQ';
 import { getRoomMessage, type RoomMessageArgs } from '../expand/pocket48/pocket48V2Utils';
 import { QQProtocol, type QQModals } from '../../QQBotModals/ModalTypes';
-import { getDouyinServerPort } from '../../../utils/douyinServer/douyinServer';
+import { getDouyinServerPort } from '../../../utils/proxyServer/proxyServer';
 import type { UserV2 } from '../../qq.types';
 
 const mockImg: string[] = [

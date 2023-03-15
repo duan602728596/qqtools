@@ -17,13 +17,13 @@ export function getDouyinServerPort(): ProxyServerPort {
 }
 
 /* 启动服务，将rtmp转换成flv */
-export async function douyinServerInit(): Promise<void> {
+export async function proxyServerInit(): Promise<void> {
   if (start) return;
 
   netMediaServerPort.port = await detectPort(netMediaServerPort.port);
 
   // 等待渲染线程启动后，发送消息到主线程，启动douyin-server服务
-  ipcRenderer.send('douyin-server', {
+  ipcRenderer.send('proxy-server', {
     port: netMediaServerPort.port
   });
   start = true;

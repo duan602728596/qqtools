@@ -11,7 +11,6 @@ import {
   BugTwoTone as IconBugTwoTone
 } from '@ant-design/icons';
 import License from './License/License';
-import ExecutablePath from './ExecutablePath/ExecutablePath';
 
 // 打开开发者工具
 function handleOpenDeveloperToolsClick(event: MouseEvent): void {
@@ -38,7 +37,7 @@ function Index(props: {}): ReactElement {
   return (
     <div className="p-[16px]">
       <div>
-        <Space className="mb-[8px]">
+        <Space className="mb-[16px]">
           <Link to="Login">
             <Button type="primary" icon={ <IconQqOutlined /> }>账号登陆</Button>
           </Link>
@@ -49,7 +48,6 @@ function Index(props: {}): ReactElement {
       </div>
       <div>
         <Space>
-          <ExecutablePath />
           <Link to="MiraiLogin">
             <Button icon={ <IconClusterOutlined /> } danger={ true }>mirai登录（不推荐）</Button>
           </Link>

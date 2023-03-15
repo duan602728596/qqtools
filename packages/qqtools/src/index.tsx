@@ -12,7 +12,7 @@ import Routers from './router/Routers';
 import IDBInit from './utils/IDB/IDBInit';
 import './QQ/sdk/BlythE.min';
 import './main.tailwindcss.css';
-import { douyinServerInit } from './utils/douyinServer/douyinServer';
+import { proxyServerInit } from './utils/proxyServer/proxyServer';
 import './components/Accessibility/Accessibility';
 
 dayjs.locale('zh-cn');
@@ -37,4 +37,4 @@ root.render(
 );
 
 IDBInit();
-douyinServerInit();
+proxyServerInit();
