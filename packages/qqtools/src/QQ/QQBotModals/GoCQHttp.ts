@@ -1,6 +1,6 @@
 import type { IncomingMessage } from 'node:http';
 import { WebSocket as WebSocketClient, WebSocketServer } from 'ws';
-import type { GroupMessage, MemberIncreaseEvent as OicqMemberIncreaseEvent } from 'oicq';
+import type { GroupMessage, MemberIncreaseEvent as OicqMemberIncreaseEvent } from 'icqq';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
 import Basic, { type BasicImplement, type BasicArgs } from './Basic';

@@ -1,5 +1,5 @@
 import * as process from 'node:process';
-import type { GroupMessage, MemberIncreaseEvent } from 'oicq';
+import type { GroupMessage, MemberIncreaseEvent } from 'icqq';
 import { plain, image, at, atAll, type MiraiMessageProps } from '../parser/mirai';
 import * as packageJson from '../../../../package.json' assert { type: 'json' };
 import type { MemberIncreaseEvent as GoCQHttpMemberIncreaseEvent, HeartbeatMessage } from '../../QQBotModals/GoCQHttp';

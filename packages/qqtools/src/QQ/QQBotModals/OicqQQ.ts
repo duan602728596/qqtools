@@ -1,4 +1,4 @@
-import type { GroupMessage, MemberIncreaseEvent, Sendable } from 'oicq';
+import type { GroupMessage, MemberIncreaseEvent, Sendable } from 'icqq';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
 import Basic, { type BasicImplement, type MessageListener, type BasicArgs } from './Basic';

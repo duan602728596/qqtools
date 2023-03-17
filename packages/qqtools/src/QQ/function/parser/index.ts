@@ -1,5 +1,5 @@
-import { segment } from 'oicq/lib/message/elements';
-import type { MessageElem } from 'oicq';
+import { segment } from 'icqq/lib/message/elements';
+import type { MessageElem } from 'icqq';
 import { QQProtocol } from '../../QQBotModals/ModalTypes';
 import { plain, face, dice, image, at, atAll, voice, miraiCode, type MiraiMessageProps } from './mirai';
 import { miraiTemplate } from '../qq/qqUtils';

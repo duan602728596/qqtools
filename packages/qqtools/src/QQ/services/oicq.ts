@@ -1,4 +1,4 @@
-import type { Sendable } from 'oicq';
+import type { Sendable } from 'icqq';
 import type { ParserResult } from '../function/parser';
 
 /**
