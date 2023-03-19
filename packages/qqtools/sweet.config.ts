@@ -2,6 +2,8 @@ import * as process from 'node:process';
 import * as path from 'node:path';
 // @ts-ignore
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+// @ts-ignore
+import CopyPlugin from 'copy-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import type { Options as HtmlMinifierOptions } from 'html-minifier-terser';
 
@@ -101,12 +103,12 @@ export default function(info: object): { [key: string]: any } {
     javascript: {
       ecmascript: true,
       plugins,
-      exclude: /node_modules|BlythE|Signer\.js/i
+      exclude: /node_modules|Signer\.js/i
     },
     typescript: {
       configFile: isDev ? 'tsconfig.json' : 'tsconfig.prod.json',
       plugins,
-      exclude: /node_modules|BlythE|Signer\.js/i
+      exclude: /node_modules|Signer\.js/i
     },
     sass: {
       include: /src/
@@ -122,6 +124,12 @@ export default function(info: object): { [key: string]: any } {
       }
     ],
     plugins: [
+      new CopyPlugin({
+        patterns: [{
+          from: path.join(__dirname, 'src/QQ/sdk/1'),
+          to: path.join(__dirname, 'dist')
+        }]
+      }),
       analyzer && new BundleAnalyzerPlugin()
     ].filter(Boolean)
   };

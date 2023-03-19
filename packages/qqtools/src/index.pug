@@ -13,5 +13,7 @@ html
     div.app#app
       include ./components/loading/loading.pug
 
+    include ./components/wasm/wasm.pug
+
     if htmlWebpackPlugin.options.mode === 'development'
       script(src=imports.dll)

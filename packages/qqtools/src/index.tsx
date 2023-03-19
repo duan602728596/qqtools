@@ -10,7 +10,6 @@ import 'dayjs/locale/zh-cn';
 import { storeFactory } from './store/store';
 import Routers from './router/Routers';
 import IDBInit from './utils/IDB/IDBInit';
-import './QQ/sdk/BlythE.min';
 import './main.tailwindcss.css';
 import { proxyServerInit } from './utils/proxyServer/proxyServer';
 import './components/Accessibility/Accessibility';
