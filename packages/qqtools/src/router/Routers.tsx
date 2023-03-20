@@ -4,13 +4,15 @@ import Index from '../pages/Index/index';
 import Login from '../pages/Login/index';
 import Options from '../pages/Options/index';
 import MiraiLogin from '../pages/MiraiLogin/index';
+import Credits from '../pages/Credits/Credits';
 
 function Routers(props: {}): ReactElement | null {
   const routes: ReactElement | null = useRoutes([
     { path: '/*', element: <Index /> },
     { path: '/Login', element: <Login /> },
     { path: '/Options/*', element: <Options /> },
-    { path: '/MiraiLogin/*', element: <MiraiLogin /> }
+    { path: '/MiraiLogin/*', element: <MiraiLogin /> },
+    { path: 'Credits', element: <Credits /> }
   ]);
 
   return routes;

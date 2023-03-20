@@ -1,0 +1,25 @@
+{
+  "software": [
+    { "name": "@vercel/ncc", "href": "https://github.com/vercel/ncc" },
+    { "name": "antd", "href": "https://ant.design" },
+    { "name": "antd-schema-form", "href": "https://github.com/duan602728596/antd-schema-form" },
+    { "name": "babel", "href": "https://babeljs.io" },
+    { "name": "electron", "href": "https://www.electronjs.org" },
+    { "name": "electron-builder", "href": "https://www.electron.build" },
+    { "name": "fs-extra", "href": "https://github.com/jprichardson/node-fs-extra" },
+    { "name": "got", "href": "https://github.com/sindresorhus/got" },
+    { "name": "js-yaml", "href": "https://github.com/nodeca/js-yaml" },
+    { "name": "node-schedule", "href": "https://github.com/node-schedule/node-schedule" },
+    { "name": "nunjucks", "href": "https://github.com/mozilla/nunjucks" },
+    { "name": "playwright", "href": "https://playwright.dev" },
+    { "name": "react", "href": "https://github.com/facebook/react" },
+    { "name": "react-redux", "href": "https://react-redux.js.org" },
+    { "name": "react-router", "href": "https://github.com/remix-run/react-router" },
+    { "name": "redux-toolkit", "href": "https://redux-toolkit.js.org" },
+    { "name": "sass", "href": "https://sass-lang.com" },
+    { "name": "tailwindcss", "href": "https://tailwindcss.com" },
+    { "name": "typescript", "href": "https://www.typescriptlang.org" },
+    { "name": "webpack", "href": "https://github.com/webpack/webpack" },
+    { "name": "ws", "href": "https://github.com/websockets/ws" }
+  ]
+}

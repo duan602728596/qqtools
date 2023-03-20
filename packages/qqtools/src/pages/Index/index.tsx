@@ -1,6 +1,5 @@
 import { ipcRenderer, shell } from 'electron';
 import type { ReactElement, MouseEvent } from 'react';
-import { Link } from 'react-router-dom';
 import { Button, Space, Divider, Image, Tooltip } from 'antd';
 import {
   QqOutlined as IconQqOutlined,
@@ -10,7 +9,7 @@ import {
   ClusterOutlined as IconClusterOutlined,
   BugTwoTone as IconBugTwoTone
 } from '@ant-design/icons';
-import License from './License/License';
+import ButtonLink from '../../components/ButtonLink/ButtonLink';
 
 // 打开开发者工具
 function handleOpenDeveloperToolsClick(event: MouseEvent): void {
@@ -38,19 +37,17 @@ function Index(props: {}): ReactElement {
     <div className="p-[16px]">
       <div>
         <Space className="mb-[16px]">
-          <Link to="Login">
-            <Button type="primary" icon={ <IconQqOutlined /> }>账号登陆</Button>
-          </Link>
-          <Link to="Options">
-            <Button icon={ <IconSettingOutlined /> }>登陆配置</Button>
-          </Link>
+          <ButtonLink linkProps={{ to: 'Login' }} buttonProps={{ type: 'primary', icon: <IconQqOutlined /> }}>
+            账号登陆
+          </ButtonLink>
+          <ButtonLink linkProps={{ to: 'Options' }} buttonProps={{ icon: <IconSettingOutlined /> }}>登陆配置</ButtonLink>
         </Space>
       </div>
       <div>
         <Space>
-          <Link to="MiraiLogin">
-            <Button icon={ <IconClusterOutlined /> } danger={ true }>mirai登录（不推荐）</Button>
-          </Link>
+          <ButtonLink linkProps={{ to: 'MiraiLogin' }} buttonProps={{ icon: <IconClusterOutlined />, danger: true }}>
+            登陆配置
+          </ButtonLink>
           <Button icon={ <IconQuestionCircleFilled /> } onClick={ handleOpenHelpClick }>使用说明</Button>
           <Tooltip title="开发者工具">
             <Button type="text" icon={ <IconToolTwoTone /> } onClick={ handleOpenDeveloperToolsClick } />
@@ -58,7 +55,7 @@ function Index(props: {}): ReactElement {
           <Tooltip title="问题反馈">
             <Button type="text" icon={ <IconBugTwoTone /> } onClick={ handleOpenIssuesClick } />
           </Tooltip>
-          <License />
+          <ButtonLink linkProps={{ to: '/Credits' }} buttonProps={{ type: 'text' }}>License</ButtonLink>
         </Space>
       </div>
       <Divider />
