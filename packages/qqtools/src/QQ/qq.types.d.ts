@@ -566,8 +566,3 @@ export interface UserItem2 {
     };
   };
 }
-
-export interface UserScriptRendedData {
-  _location: string;
-  [key: `${ number }`]: UserItem1 | UserItem2;
-}
