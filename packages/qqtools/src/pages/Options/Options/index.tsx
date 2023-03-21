@@ -17,7 +17,7 @@ import * as dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import { showOpenDialog, showSaveDialog } from '../../../utils/remote/dialog';
 import RoomId from './RoomId';
-import { queryOptionsList, deleteOption, saveFormData, type OptionsInitialState } from '../reducers/reducers';
+import { queryOptionsList, deleteOption, saveFormData, type OptionsInitialState } from '../reducers/options';
 import dbConfig from '../../../utils/IDB/IDBConfig';
 import type { OptionsItem } from '../../../commonTypes';
 

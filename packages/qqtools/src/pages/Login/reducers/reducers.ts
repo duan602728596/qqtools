@@ -1,4 +1,4 @@
-import { createSlice, type Slice, type SliceCaseReducers, type PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, type Slice, type PayloadAction, type CaseReducer, type CaseReducerActions } from '@reduxjs/toolkit';
 import type { QueryDispatchFunc } from '@indexeddb-tools/indexeddb-redux';
 import IDBRedux, { roomIdObjectStoreName } from '../../../utils/IDB/IDBRedux';
 import type { QQModals } from '../../../QQ/QQBotModals/ModalTypes';
@@ -7,10 +7,14 @@ export interface LoginInitialState {
   loginList: Array<QQModals>;
 }
 
-type CaseReducers = SliceCaseReducers<LoginInitialState>;
+type SliceReducers = {
+  setAddLogin: CaseReducer<LoginInitialState, PayloadAction<QQModals>>;
+  setDeleteLogin: CaseReducer<LoginInitialState, PayloadAction<QQModals>>;
+};
 
-const { actions, reducer }: Slice = createSlice<LoginInitialState, CaseReducers, 'login'>({
-  name: 'login',
+const sliceName: 'login' = 'login';
+const { actions, reducer }: Slice<LoginInitialState, SliceReducers, typeof sliceName> = createSlice({
+  name: sliceName,
   initialState: {
     loginList: [] // 使用Map存储数组，保证里面的值不被immer处理
   },
@@ -27,10 +31,10 @@ const { actions, reducer }: Slice = createSlice<LoginInitialState, CaseReducers,
   }
 });
 
-export const { setAddLogin, setDeleteLogin }: Record<string, Function> = actions;
+export const { setAddLogin, setDeleteLogin }: CaseReducerActions<SliceReducers, typeof sliceName> = actions;
 
 export const getRoomId: QueryDispatchFunc = IDBRedux.getAction({
   objectStoreName: roomIdObjectStoreName
 });
 
-export default { login: reducer };
+export default { [sliceName]: reducer };

@@ -28,7 +28,7 @@ import {
   saveQQLoginItemData,
   deleteQQLoginItem,
   type MiraiLoginInitialState
-} from './reducers/reducers';
+} from './reducers/miraiLogin';
 import dbConfig from '../../utils/IDB/IDBConfig';
 import { login, queue } from './function/login/login';
 import type { LoginInfoSendMessage } from './function/login/miraiChild.worker/miraiChild.worker';

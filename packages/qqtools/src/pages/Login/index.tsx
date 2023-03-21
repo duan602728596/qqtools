@@ -17,7 +17,7 @@ import { Select, Button, Space, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { UseMessageReturnType } from '@qqtools-types/antd';
 import style from './index.sass';
-import { queryOptionsList, OptionsInitialState } from '../Options/reducers/reducers';
+import { queryOptionsList, OptionsInitialState } from '../Options/reducers/options';
 import { setAddLogin, setDeleteLogin, getRoomId, LoginInitialState } from './reducers/reducers';
 import dbConfig from '../../utils/IDB/IDBConfig';
 import MiraiQQ from '../../QQ/QQBotModals/MiraiQQ';

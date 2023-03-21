@@ -6,7 +6,7 @@ import type { Dispatch } from '@reduxjs/toolkit';
 import { Button, Modal, Space, Alert, message } from 'antd';
 import type { UseMessageReturnType } from '@qqtools-types/antd';
 import { showOpenDialog } from '../../../utils/remote/dialog';
-import { saveRoomId, deleteRoomId } from '../reducers/reducers';
+import { saveRoomId, deleteRoomId } from '../reducers/options';
 import type { MemberInfo } from '../../../commonTypes';
 
 /* 房间信息导入 */

@@ -9,7 +9,7 @@ import type {
   LoginInfoSendMessage
 } from './miraiChild.worker/miraiChild.worker';
 import { store } from '../../../../store/store';
-import { setChildProcessWorker, type MiraiLoginInitialState } from '../../reducers/reducers';
+import { setChildProcessWorker, type MiraiLoginInitialState } from '../../reducers/miraiLogin';
 import { getMclDir } from '../miraiPath';
 import type { ProtocolType } from '../../types';
 

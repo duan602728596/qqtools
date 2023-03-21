@@ -1,4 +1,4 @@
-import { createSlice, type Slice, type SliceCaseReducers, type PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, type Slice, type PayloadAction, type CaseReducer, type CaseReducerActions } from '@reduxjs/toolkit';
 import type { DataDispatchFunc, QueryDispatchFunc, CursorDispatchFunc } from '@indexeddb-tools/indexeddb-redux';
 import IDBRedux, { loginOptionsObjectStoreName, roomIdObjectStoreName } from '../../../utils/IDB/IDBRedux';
 import type { OptionsItem, IDBActionFunc } from '../../../commonTypes';
@@ -7,10 +7,14 @@ export interface OptionsInitialState {
   optionsList: Array<OptionsItem>;
 }
 
-type CaseReducers = SliceCaseReducers<OptionsInitialState>;
+type SliceReducers = {
+  setOptionsList: CaseReducer<OptionsInitialState, PayloadAction<{ result: Array<OptionsItem> }>>;
+  setOptionsDeleteList: CaseReducer<OptionsInitialState, PayloadAction<{ query: string }>>;
+};
 
-const { actions, reducer }: Slice = createSlice<OptionsInitialState, CaseReducers, 'options'>({
-  name: 'options',
+const sliceName: 'options' = 'options';
+const { actions, reducer }: Slice<OptionsInitialState, SliceReducers, typeof sliceName> = createSlice({
+  name: sliceName,
   initialState: {
     optionsList: []
   },
@@ -27,7 +31,7 @@ const { actions, reducer }: Slice = createSlice<OptionsInitialState, CaseReducer
   }
 });
 
-export const { setOptionsList, setOptionsDeleteList }: Record<string, Function> = actions;
+export const { setOptionsList, setOptionsDeleteList }: CaseReducerActions<SliceReducers, typeof sliceName> = actions;
 
 // 保存数据
 export const saveFormData: DataDispatchFunc = IDBRedux.putAction({
@@ -60,4 +64,4 @@ export const deleteRoomId: QueryDispatchFunc = IDBRedux.deleteAction({
   objectStoreName: roomIdObjectStoreName
 });
 
-export default { options: reducer };
+export default { [sliceName]: reducer };

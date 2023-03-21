@@ -1,17 +1,22 @@
-import { createSlice, type Slice, type SliceCaseReducers, type PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, type Slice, type PayloadAction, type CaseReducer, type CaseReducerActions } from '@reduxjs/toolkit';
 import type { QueryDispatchFunc, CursorDispatchFunc, DataDispatchFunc } from '@indexeddb-tools/indexeddb-redux';
 import IDBRedux, { qqObjectStoreName } from '../../../utils/IDB/IDBRedux';
 import type { QQLoginItem } from '../types';
-import type { IDBActionFunc } from '../../../commonTypes';
 
 export interface MiraiLoginInitialState {
   childProcessWorker: Worker | null;
   qqLoginList: Array<QQLoginItem>;
 }
 
-type CaseReducers = SliceCaseReducers<MiraiLoginInitialState>;
+type SliceReducers = {
+  setChildProcessWorker: CaseReducer<MiraiLoginInitialState, PayloadAction<Worker | undefined>>;
+  setQQLoginList: CaseReducer<MiraiLoginInitialState, PayloadAction<{ result: Array<QQLoginItem> }>>;
+  setQQLoginDeleteList: CaseReducer<MiraiLoginInitialState, PayloadAction<{ query: string }>>;
+  setQQLoginAdd: CaseReducer<MiraiLoginInitialState, PayloadAction<{ data: QQLoginItem }>>;
+};
 
-const { actions, reducer }: Slice = createSlice<MiraiLoginInitialState, CaseReducers, 'miraiLogin'>({
+const sliceName: 'miraiLogin' = 'miraiLogin';
+const { actions, reducer }: Slice<MiraiLoginInitialState, SliceReducers, typeof sliceName> = createSlice({
   name: 'miraiLogin',
   initialState: {
     childProcessWorker: null, // worker
@@ -59,24 +64,24 @@ export const {
   setQQLoginList,
   setQQLoginDeleteList,
   setQQLoginAdd
-}: Record<string, Function> = actions;
+}: CaseReducerActions<SliceReducers, typeof sliceName> = actions;
 
 // 配置列表
 export const queryQQLoginList: CursorDispatchFunc = IDBRedux.cursorAction({
   objectStoreName: qqObjectStoreName,
-  successAction: setQQLoginList as IDBActionFunc
+  successAction: setQQLoginList
 });
 
 // 删除数据
 export const deleteQQLoginItem: QueryDispatchFunc = IDBRedux.deleteAction({
   objectStoreName: qqObjectStoreName,
-  successAction: setQQLoginDeleteList as IDBActionFunc
+  successAction: setQQLoginDeleteList
 });
 
 // 保存数据
 export const saveQQLoginItemData: DataDispatchFunc = IDBRedux.putAction({
   objectStoreName: qqObjectStoreName,
-  successAction: setQQLoginAdd as IDBActionFunc
+  successAction: setQQLoginAdd
 });
 
-export default { miraiLogin: reducer };
+export default { [sliceName]: reducer };
