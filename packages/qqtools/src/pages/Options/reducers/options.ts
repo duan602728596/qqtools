@@ -1,7 +1,7 @@
 import { createSlice, type Slice, type PayloadAction, type CaseReducer, type CaseReducerActions } from '@reduxjs/toolkit';
 import type { DataDispatchFunc, QueryDispatchFunc, CursorDispatchFunc } from '@indexeddb-tools/indexeddb-redux';
 import IDBRedux, { loginOptionsObjectStoreName, roomIdObjectStoreName } from '../../../utils/IDB/IDBRedux';
-import type { OptionsItem, IDBActionFunc } from '../../../commonTypes';
+import type { OptionsItem } from '../../../commonTypes';
 
 export interface OptionsInitialState {
   optionsList: Array<OptionsItem>;
@@ -41,13 +41,13 @@ export const saveFormData: DataDispatchFunc = IDBRedux.putAction({
 // 配置列表
 export const queryOptionsList: CursorDispatchFunc = IDBRedux.cursorAction({
   objectStoreName: loginOptionsObjectStoreName,
-  successAction: setOptionsList as IDBActionFunc
+  successAction: setOptionsList
 });
 
 // 删除
 export const deleteOption: QueryDispatchFunc = IDBRedux.deleteAction({
   objectStoreName: loginOptionsObjectStoreName,
-  successAction: setOptionsDeleteList as IDBActionFunc
+  successAction: setOptionsDeleteList
 });
 
 // 获取单个配置
