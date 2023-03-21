@@ -158,6 +158,10 @@
                 "value": "LIVEPUSH"
               },
               {
+                "label": "房间电台",
+                "value": "TEAM_VOICE"
+              },
+              {
                 "label": "翻牌",
                 "value": "FLIPCARD"
               },

@@ -125,6 +125,18 @@ ${ nickName }：${ replyInfo.text }
       );
     } else
 
+    if (data.type === 'custom' && data.attach.messageType === 'TEAM_VOICE') {
+      if (pocket48LiveAtAll) {
+        sendGroup.push(CQ.atAll());
+      }
+
+      sendGroup.push(
+        `${ nickName } 开启了房间电台
+地址：${ data.attach.voiceInfo.streamUrl }
+时间：${ msgTime }${ memberInfoContent }`
+      );
+    } else
+
     // 鸡腿翻牌
     if (data.type === 'custom' && data.attach.messageType === 'FLIPCARD') {
       const info: FlipCardInfo = data.attach.filpCardInfo ?? data.attach.flipCardInfo;
@@ -215,7 +227,8 @@ ${ info.question }
       'DISABLE_SPEAK',
       'OPEN_LIVE',
       'TRIP_INFO',
-      'ZHONGQIU_ACTIVITY_LANTERN_FANS'
+      'ZHONGQIU_ACTIVITY_LANTERN_FANS',
+      'PERSONAL_VOICE'
     ].includes(data.attach.messageType)) {
       // 什么都不做
     } else {
@@ -319,6 +332,12 @@ ${ nickName }：${ data.attach.replyInfo.text }
     if (data.type === 'custom' && data.attach.messageType === 'LIVEPUSH') {
       logData = `${ nickName } 正在直播
 直播标题：${ data.attach.livePushInfo.liveTitle }
+时间：${ msgTime }${ memberInfoContent }`;
+    } else
+
+    if (data.type === 'custom' && data.attach.messageType === 'TEAM_VOICE') {
+      logData = `${ nickName } 开启了房间电台
+地址：${ data.attach.voiceInfo.streamUrl }
 时间：${ msgTime }${ memberInfoContent }`;
     } else
 

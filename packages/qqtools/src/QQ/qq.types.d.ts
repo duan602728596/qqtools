@@ -381,6 +381,50 @@ export interface ZHONGQIU_ACTIVITY_LANTERN_FANSMessageV2 extends CustomMessageV2
   };
 }
 
+// 房间电台
+export interface TEAM_VOICEMessageV2 extends CustomMessageV2 {
+  type: 'custom';
+  attach: {
+    messageType: 'TEAM_VOICE';
+    voiceInfo: {
+      voiceStarInfoList: Array<{
+        userId: number;
+        nickname: string;
+        avatar: string;
+        pfUrl: string;
+        voiceStatus: boolean;
+      }>;
+      streamUrl: string;
+      operateType: 'upVoice';
+    };
+  };
+}
+
+export interface PERSONAL_VOICEMessageV2 extends CustomMessageV2 {
+  type: 'custom';
+  attach: {
+    messageType: 'PERSONAL_VOICE';
+    personalVoiceInfo: {
+      operateType: 'closeSession';
+    };
+  };
+}
+
+// 礼物，送礼物的不是本人
+export interface GIFT_TEXTMessageV2 extends CustomMessageV2 {
+  type: 'custom';
+  attach: {
+    messageType: 'GIFT_TEXT';
+    giftInfo: {
+      acceptUserId: number;
+      acceptUserName: string;
+      giftName: string;
+      giftNum: number;
+      picPath: string;
+    };
+  };
+}
+
 export type CustomMessageAllV2 =
   | TEXTMessageV2
   | REPLYMessageV2
@@ -404,7 +448,10 @@ export type CustomMessageAllV2 =
   | PRESENT_TEXTMessageV2
   | VOTEMessageV2
   | CLOSE_ROOM_CHATMessageV2
-  | ZHONGQIU_ACTIVITY_LANTERN_FANSMessageV2;
+  | ZHONGQIU_ACTIVITY_LANTERN_FANSMessageV2
+  | TEAM_VOICEMessageV2
+  | PERSONAL_VOICEMessageV2
+  | GIFT_TEXTMessageV2;
 
 
 /* 微博类型 */
