@@ -35,29 +35,36 @@ function handleOpenDownloadUrlClick(event: MouseEvent): void {
 function Index(props: {}): ReactElement {
   return (
     <div className="p-[16px]">
-      <div>
-        <Space className="mb-[16px]">
-          <ButtonLink linkProps={{ to: 'Login' }} buttonProps={{ type: 'primary', icon: <IconQqOutlined /> }}>
+      <nav className="grid grid-cols-4 gap-[16px] w-[755px]">
+        <div>
+          <ButtonLink linkProps={{ to: 'Login' }} buttonProps={{ type: 'primary', icon: <IconQqOutlined />, block: true }}>
             账号登陆
           </ButtonLink>
-          <ButtonLink linkProps={{ to: 'Options' }} buttonProps={{ icon: <IconSettingOutlined /> }}>登陆配置</ButtonLink>
-        </Space>
-      </div>
-      <div>
-        <Space>
-          <ButtonLink linkProps={{ to: 'MiraiLogin' }} buttonProps={{ icon: <IconClusterOutlined />, danger: true }}>
+        </div>
+        <div>
+          <ButtonLink linkProps={{ to: 'Options' }} buttonProps={{ icon: <IconSettingOutlined />, block: true }}>
             登陆配置
           </ButtonLink>
-          <Button icon={ <IconQuestionCircleFilled /> } onClick={ handleOpenHelpClick }>使用说明</Button>
-          <Tooltip title="开发者工具">
-            <Button type="text" icon={ <IconToolTwoTone /> } onClick={ handleOpenDeveloperToolsClick } />
-          </Tooltip>
-          <Tooltip title="问题反馈">
-            <Button type="text" icon={ <IconBugTwoTone /> } onClick={ handleOpenIssuesClick } />
-          </Tooltip>
-          <ButtonLink linkProps={{ to: '/Credits' }} buttonProps={{ type: 'text' }}>License</ButtonLink>
-        </Space>
-      </div>
+        </div>
+        <div>
+          <ButtonLink linkProps={{ to: 'MiraiLogin' }} buttonProps={{ icon: <IconClusterOutlined />, danger: true, block: true }}>
+            Mirai登录
+          </ButtonLink>
+        </div>
+        <div>
+          <Button icon={ <IconQuestionCircleFilled /> } block={ true } onClick={ handleOpenHelpClick }>使用说明</Button>
+        </div>
+      </nav>
+      <Divider />
+      <Space>
+        <Tooltip title="开发者工具">
+          <Button type="text" icon={ <IconToolTwoTone /> } onClick={ handleOpenDeveloperToolsClick } />
+        </Tooltip>
+        <Tooltip title="问题反馈">
+          <Button type="text" icon={ <IconBugTwoTone /> } onClick={ handleOpenIssuesClick } />
+        </Tooltip>
+        <ButtonLink linkProps={{ to: '/Credits' }} buttonProps={{ type: 'text' }}>License</ButtonLink>
+      </Space>
       <Divider />
       <div className="flex">
         <div>
