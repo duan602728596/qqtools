@@ -16,7 +16,7 @@ import { Button, Space, Table, Checkbox, message, notification, Tooltip, Select,
 import type { ColumnsType } from 'antd/es/table';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import type { MessageInstance } from 'antd/es/message/interface';
-import type { UseMessageReturnType, UseNotificationType } from '@qqtools-types/antd';
+import type { UseMessageReturnType, UseNotificationReturnType } from '@qqtools-types/antd';
 import { ToolTwoTone as IconToolTwoTone } from '@ant-design/icons';
 import style from './index.sass';
 import { omit } from '../../utils/lodash';
@@ -66,7 +66,7 @@ function Index(props: {}): ReactElement {
   const { childProcessWorker, qqLoginList }: MiraiLoginInitialState = useSelector(selector);
   const dispatch: Dispatch = useDispatch();
   const [messageApi, messageContextHolder]: UseMessageReturnType = message.useMessage();
-  const [notificationApi, notificationContextHolder]: UseNotificationType = notification.useNotification();
+  const [notificationApi, notificationContextHolder]: UseNotificationReturnType = notification.useNotification();
   const [closeBtnLoading, setCloseBtnLoading]: [boolean, D<S<boolean>>] = useState(false); // 关闭进程的loading
 
   // 关闭线程

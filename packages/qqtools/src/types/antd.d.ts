@@ -11,4 +11,4 @@ type ContextHolderType = ReactElement<any, string | JSXElementConstructor<any>>;
 
 export type UseModalReturnType = readonly [Omit<ModalStaticFunctions, 'warn'>, ContextHolderType];
 export type UseMessageReturnType = readonly [MessageInstance, ContextHolderType];
-export type UseNotificationType = readonly [NotificationInstance, ContextHolderType];
+export type UseNotificationReturnType = readonly [NotificationInstance, ContextHolderType];
