@@ -125,6 +125,7 @@ ${ nickName }：${ replyInfo.text }
       );
     } else
 
+    // 房间电台
     if (data.type === 'custom' && data.attach.messageType === 'TEAM_VOICE') {
       if (pocket48LiveAtAll) {
         sendGroup.push(CQ.atAll());
@@ -335,6 +336,7 @@ ${ nickName }：${ data.attach.replyInfo.text }
 时间：${ msgTime }${ memberInfoContent }`;
     } else
 
+    // 房间电台
     if (data.type === 'custom' && data.attach.messageType === 'TEAM_VOICE') {
       logData = `${ data.attach.voiceInfo.voiceStarInfoList?.[0]?.nickname ?? '' } 开启了房间电台
 地址：${ data.attach.voiceInfo.streamUrl }
