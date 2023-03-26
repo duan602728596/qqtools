@@ -20,6 +20,8 @@ interface QChatSocketArgs {
   pocket48Account: string;
   pocket48Token: string;
   pocket48ServerId: string;
+  message?: MessageInstance;
+  notification?: NotificationInstance;
 }
 
 /* 创建网易云信sdk的socket连接 */
@@ -37,6 +39,9 @@ class QChatSocket {
     this.pocket48Account = options.pocket48Account;
     this.pocket48Token = options.pocket48Token;
     this.pocket48ServerId = options.pocket48ServerId;
+
+    options.message && (this.#messageApi = options.message);
+    options.notification && (this.#notificationApi = options.notification);
   }
 
   // 初始化
