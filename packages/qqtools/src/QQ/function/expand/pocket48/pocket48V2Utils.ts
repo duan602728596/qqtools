@@ -131,7 +131,7 @@ ${ nickName }：${ replyInfo.text }
       }
 
       sendGroup.push(
-        `${ nickName } 开启了房间电台
+        `${ data.attach.voiceInfo.voiceStarInfoList?.[0]?.nickname ?? '' }开启了房间电台
 地址：${ data.attach.voiceInfo.streamUrl }
 时间：${ msgTime }${ memberInfoContent }`
       );
@@ -336,7 +336,7 @@ ${ nickName }：${ data.attach.replyInfo.text }
     } else
 
     if (data.type === 'custom' && data.attach.messageType === 'TEAM_VOICE') {
-      logData = `${ nickName } 开启了房间电台
+      logData = `${ data.attach.voiceInfo.voiceStarInfoList?.[0]?.nickname ?? '' } 开启了房间电台
 地址：${ data.attach.voiceInfo.streamUrl }
 时间：${ msgTime }${ memberInfoContent }`;
     } else

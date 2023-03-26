@@ -44,7 +44,7 @@ async function mock(qq: QQModals, command: string, qqNumber: number, groupId: nu
       });
 
       for (const msg of zhouxiangPocketMockData.message) {
-        const user: UserV2 = JSON.parse(msg.ext).user ;
+        const user: UserV2 = JSON.parse(msg.ext).user;
         const roomMessageArgs: RoomMessageArgs = {
           user,
           data: msg,
@@ -57,6 +57,30 @@ async function mock(qq: QQModals, command: string, qqNumber: number, groupId: nu
           await qq.sendMessage(parser(sendGroup.join(''), qq.protocol) as any);
         }
       }
+
+      break;
+
+    case 'test-pocket-lyx':
+      const linyixiPocketMockData2: { message: any } = await import('./linyixi.json', {
+        assert: { type: 'json' }
+      });
+
+      for (const msg of linyixiPocketMockData2.message) {
+        const user: UserV2 = msg.attach.voiceInfo.voiceStarInfoList[0];
+        const roomMessageArgs: RoomMessageArgs = {
+          user,
+          data: msg,
+          pocket48ShieldMsgType: undefined,
+          channel: undefined
+        };
+        const sendGroup: string[] = getRoomMessage(roomMessageArgs);
+
+        if (sendGroup.length > 0) {
+          await qq.sendMessage(parser(sendGroup.join(''), qq.protocol) as any);
+        }
+      }
+
+      break;
   }
 }
 

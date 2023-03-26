@@ -49,51 +49,55 @@ class Pocket48V2Expand {
 
     // 用户
     const user: UserV2 | undefined = event.ext ? JSON.parse(event.ext).user : undefined;
+    const isIdolUser: boolean = !!(user && user.roleId === 3 && !user.vip); // 判断是否是小偶像的信息
+    const isPresentText: boolean = type === 'PRESENT_TEXT'; // 礼物信息
+    const isTeamVoice: boolean = type === 'TEAM_VOICE'; // 房间电台
 
-    if ((!user || user?.roleId !== 3 || user?.vip) && type !== 'PRESENT_TEXT') return; // 过滤非房间成员
+    // xox信息、礼物信息、房间电台可以处理
+    if (isIdolUser || isPresentText || isTeamVoice) {
+      let channel: Array<ChannelInfo> | undefined;
 
-    let channel: Array<ChannelInfo> | undefined;
+      if (Pocket48V2Expand.channelIdMap.has(event.channelId)) {
+        channel = Pocket48V2Expand.channelIdMap.get(event.channelId);
+      } else {
+        const channelResult: Array<ChannelInfo> | undefined = await this.qChatSocket?.qChat!.qchatChannel.getChannels({
+          channelIds: [event.channelId]
+        });
 
-    if (Pocket48V2Expand.channelIdMap.has(event.channelId)) {
-      channel = Pocket48V2Expand.channelIdMap.get(event.channelId);
-    } else {
-      const channelResult: Array<ChannelInfo> | undefined = await this.qChatSocket?.qChat!.qchatChannel.getChannels({
-        channelIds: [event.channelId]
-      });
+        channelResult && Pocket48V2Expand.channelIdMap.set(event.channelId, channelResult);
+        channel = channelResult;
+      }
 
-      channelResult && Pocket48V2Expand.channelIdMap.set(event.channelId, channelResult);
-      channel = channelResult;
-    }
+      if (channel?.[0]?.name === '直播') return; // 过滤直播房间
 
-    if (channel?.[0]?.name === '直播') return; // 过滤直播房间
-
-    // 发送的数据
-    const roomMessageArgs: RoomMessageArgs = {
-      user,
-      data: event,
-      pocket48LiveAtAll,
-      pocket48ShieldMsgType,
-      memberInfo: this.memberInfo,
-      pocket48MemberInfo,
-      channel
-    };
-    const sendGroup: string[] = getRoomMessage(roomMessageArgs);
-
-    if (sendGroup.length > 0) {
-      await this.qq.sendMessage(parser(sendGroup.join(''), this.qq.protocol) as any);
-    }
-
-    // 日志
-    if (pocket48LogSave && pocket48LogDir && !/^\s*$/.test(pocket48LogDir)) {
-      const logData: string | undefined = getLogMessage({
+      // 发送的数据
+      const roomMessageArgs: RoomMessageArgs = {
         user,
         data: event,
+        pocket48LiveAtAll,
+        pocket48ShieldMsgType,
         memberInfo: this.memberInfo,
+        pocket48MemberInfo,
         channel
-      });
+      };
+      const sendGroup: string[] = getRoomMessage(roomMessageArgs);
 
-      if (logData) {
-        await log(pocket48LogDir, logData);
+      if (sendGroup.length > 0) {
+        await this.qq.sendMessage(parser(sendGroup.join(''), this.qq.protocol) as any);
+      }
+
+      // 日志
+      if (pocket48LogSave && pocket48LogDir && !/^\s*$/.test(pocket48LogDir)) {
+        const logData: string | undefined = getLogMessage({
+          user,
+          data: event,
+          memberInfo: this.memberInfo,
+          channel
+        });
+
+        if (logData) {
+          await log(pocket48LogDir, logData);
+        }
       }
     }
   }

@@ -1,0 +1,40 @@
+{
+  "message": [
+    {
+      "serverId": "2148087",
+      "channelId": "2606784",
+      "fromAccount": "20221009033825_c7o515ro89v44zo",
+      "fromClientType": "Server",
+      "fromNick": "",
+      "time": 1679387774924,
+      "updateTime": 1679387774924,
+      "type": "custom",
+      "attach": {
+        "messageType": "TEAM_VOICE",
+        "voiceInfo": {
+          "voiceStarInfoList": [
+            {
+              "userId": 89653445,
+              "nickname": "林奕希",
+              "avatar": "/avatar/2023/0122/89653445x3xx1f71jgkvsip7m51sv4wl.jpg",
+              "pfUrl": "/backstage/2022/0125/bbl9ozlpb08mwz15vme630w.webp",
+              "voiceStatus": true
+            }
+          ],
+          "streamUrl": "rtmp://idol.tv.48.cn/asia-snh48-4/snh48-2606784?wsSecret=091432cfcc33df68e8209f48c05d1c99&wsTime=64196c7e&keeptime=600",
+          "operateType": "upVoice"
+        }
+      },
+      "msgIdClient": "749a22f9-9574-4e14-99c5-1e31c81b4d05",
+      "msgIdServer": "699958567",
+      "status": 0,
+      "historyEnable": true,
+      "pushEnable": false,
+      "needBadge": false,
+      "needPushNick": false,
+      "notifyReason": "notifySubscribe",
+      "routeEnable": true,
+      "deliveryStatus": "success"
+    }
+  ]
+}
