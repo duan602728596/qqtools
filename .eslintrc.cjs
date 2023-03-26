@@ -96,7 +96,7 @@ module.exports = {
           { hoist: 'all' }
         ],
         'no-use-before-define': 'off',
-        '@typescript-eslint/no-use-before-define': 'error'  // 禁止定义前使用
+        '@typescript-eslint/no-use-before-define': 'error' // 禁止定义前使用
       }
     },
     {
