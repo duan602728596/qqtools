@@ -1,13 +1,14 @@
 import QChatSDK from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK';
 import NIMSDK from 'nim-web-sdk-ng/dist/NIM_BROWSER_SDK';
-import { notification } from 'antd';
 import type { LoginResult } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/types';
 import type {
   SubscribeAllChannelResult,
   ServerInfo
 } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatServerServiceInterface';
 import type { QChatMessage } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatMsgServiceInterface';
-import { message } from 'antd';
+import { message, notification } from 'antd';
+import type { MessageInstance } from 'antd/es/message/interface';
+import type { NotificationInstance } from 'antd/es/notification/interface';
 import appKey from './appKey.mjs';
 
 interface Queue {
@@ -29,6 +30,8 @@ class QChatSocket {
   public qChat?: QChatSDK;
   public queues: Array<Queue> = [];
   public serverInfo: ServerInfo;
+  #messageApi: typeof message | MessageInstance = message;
+  #notificationApi: typeof notification | NotificationInstance = notification;
 
   constructor(options: QChatSocketArgs) {
     this.pocket48Account = options.pocket48Account;
@@ -69,7 +72,7 @@ class QChatSocket {
     console.log('订阅servers', result);
 
     if (result.failServerIds.length) {
-      notification.error({
+      this.#notificationApi.error({
         message: '订阅服务器失败',
         description: `ServerId: ${ result.failServerIds[0] }`
       });
@@ -92,7 +95,7 @@ class QChatSocket {
   // 断开连接
   handleRoomSocketDisconnect: () => void = (...args: any[]): void => {
     console.log('连接断开', args);
-    message.error(`连接断开。ServerID：[${ this.pocket48ServerId }]`);
+    this.#messageApi.error(`连接断开。ServerID：[${ this.pocket48ServerId }]`);
   };
 
   // 添加队列
