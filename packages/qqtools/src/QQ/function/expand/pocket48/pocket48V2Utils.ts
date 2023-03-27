@@ -2,7 +2,7 @@ import * as fse from 'fs-extra';
 import * as dayjs from 'dayjs';
 import type { ChannelInfo } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatChannelServiceInterface';
 import * as CQ from '../../parser/CQ';
-import { mp4Source } from '../../../../utils/snh48';
+import { mp4Source, source } from '../../../../utils/snh48';
 import type {
   CustomMessageAllV2,
   UserV2,
@@ -175,9 +175,9 @@ ${ info.question }
     if (data.type === 'custom' && data.attach.messageType === 'EXPRESSIMAGE') {
       sendGroup.push(
         `${ nickName } ：`,
-        CQ.image(data.attach?.expressImageInfo?.emotionRemote
+        CQ.image(source(data.attach?.expressImageInfo?.emotionRemote
           ?? data.attach?.expressImgInfo?.emotionRemote
-          ?? data.attach.emotionRemote),
+          ?? data.attach.emotionRemote)),
         `时间：${ msgTime }${ memberInfoContent }`
       );
     } else
@@ -375,7 +375,9 @@ ${ info.question }
     // 发送2021表情包
     if (data.type === 'custom' && data.attach.messageType === 'EXPRESSIMAGE') {
       logData = `${ nickName } 发送了一个表情：
-地址：${ data.attach?.expressImgInfo?.emotionRemote ?? data.attach.emotionRemote }
+地址：${ source(data.attach?.expressImageInfo?.emotionRemote
+  ?? data.attach?.expressImgInfo?.emotionRemote
+  ?? data.attach.emotionRemote) }
 时间：${ msgTime }${ memberInfoContent }`;
     } else
 
