@@ -1741,6 +1741,24 @@
       "team": "BEJ48"
     },
     {
+      "ownerName": "BEJ48-高梓萌",
+      "id": 100073653,
+      "serverId": 4818677,
+      "team": "BEJ48"
+    },
+    {
+      "ownerName": "BEJ48-聂渝景",
+      "id": 100073654,
+      "serverId": 4884312,
+      "team": "BEJ48"
+    },
+    {
+      "ownerName": "BEJ48-庄雅雯",
+      "id": 100073656,
+      "serverId": 4769395,
+      "team": "BEJ48"
+    },
+    {
       "id": 4344250371,
       "ownerName": "SNH48-陈雨孜",
       "roomId": "147283635",
@@ -1842,5 +1860,5 @@
       "team": "CKG48"
     }
   ],
-  "buildTime": "2023-03-12 15:43:57"
+  "buildTime": "2023-04-08 09:57:43"
 }
