@@ -1,6 +1,6 @@
 import got, { type Response as GotResponse } from 'got';
 import { createHeaders } from '../../../utils/snh48';
-import type { IMUserInfo, LoginUserInfo, SMSResult } from './interface';
+import type { IMUserInfo, LoginUserInfo, SMSResult, UserInfoReloadOrSwitch } from './interface';
 
 /**
  * 获取im信息
@@ -44,6 +44,28 @@ export async function requestMobileCodeLogin(mobile: string, code: string): Prom
     headers: createHeaders(),
     responseType: 'json',
     json: { mobile, code }
+  });
+
+  return res.body;
+}
+
+/* reload user info */
+export async function requestUserInfoReload(token: string): Promise<UserInfoReloadOrSwitch> {
+  const res: GotResponse<UserInfoReloadOrSwitch> = await got.post('https://pocketapi.48.cn/user/api/v1/user/info/reload', {
+    responseType: 'json',
+    headers: createHeaders(token),
+    json: { from: 'appstart' }
+  });
+
+  return res.body;
+}
+
+/* switch */
+export async function requestUserInfoSwitch(token: string, userId: number): Promise<UserInfoReloadOrSwitch> {
+  const res: GotResponse<UserInfoReloadOrSwitch> = await got.post('https://pocketapi.48.cn/user/api/v1/bigsmall/switch/user', {
+    responseType: 'json',
+    headers: createHeaders(token),
+    json: { toUserId: userId }
   });
 
   return res.body;
