@@ -193,7 +193,9 @@ async function main() {
             team: teams[`${ teamId }`]
           });
 
-          console.log(`ID: ${ serverOwner } ownerName: ${ item.serverOwnerName } serverId: ${ item.serverId } team: ${ item.team }`);
+          console.log(`ID: ${ serverOwner } ownerName: ${
+            item.serverOwnerName ?? serverOwnerName
+          } serverId: ${ item.serverId } team: ${ item.team }`);
         }
 
         if (Object.keys(item).length > 0) {
