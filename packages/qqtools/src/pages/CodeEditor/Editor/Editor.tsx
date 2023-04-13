@@ -7,6 +7,7 @@ import { Button, Divider, message, Modal } from 'antd';
 import type { UseMessageReturnType, UseModalReturnType } from '@qqtools-types/antd';
 import { FileFilled as IconFileFilled, SaveFilled as IconSaveFilled } from '@ant-design/icons';
 import MonacoEditor from 'react-monaco-editor';
+import style from './editor.sass';
 import { showOpenDialog } from '../../../utils/remote/dialog';
 
 type EditType = 'yaml' | 'json' | 'javascript';
@@ -122,9 +123,9 @@ function Editor(props: {}): ReactElement {
               <Button type="primary" danger={ true } onClick={ handleBackClick }>返回</Button>
             </Button.Group>
           </div>
-          <p className="grow text-[12px] leading-[34px] text-right">支持yaml, json, javascript格式文件。</p>
+          <p className="grow mb-0 text-[12px] leading-[34px] text-right">支持yaml, json, javascript格式文件。</p>
         </div>
-        <Divider />
+        <Divider className={ style.divider } />
       </header>
       <div className="shrink-0 grow">
         <div className="w-full h-full">
