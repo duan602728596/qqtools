@@ -9,6 +9,7 @@
     { "name": "fs-extra", "href": "https://github.com/jprichardson/node-fs-extra" },
     { "name": "got", "href": "https://github.com/sindresorhus/got" },
     { "name": "js-yaml", "href": "https://github.com/nodeca/js-yaml" },
+    { "name": "monaco-editor", "href": "https://github.com/microsoft/monaco-editor" },
     { "name": "node-schedule", "href": "https://github.com/node-schedule/node-schedule" },
     { "name": "nunjucks", "href": "https://github.com/mozilla/nunjucks" },
     { "name": "playwright", "href": "https://playwright.dev" },

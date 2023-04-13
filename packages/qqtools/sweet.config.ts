@@ -5,6 +5,8 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 // @ts-ignore
 import CopyPlugin from 'copy-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+// @ts-ignore
+import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin';
 import type { Options as HtmlMinifierOptions } from 'html-minifier-terser';
 
 const isDev: boolean = process.env.NODE_ENV === 'development';
@@ -54,6 +56,7 @@ const externalsName: Array<string> = nodeModules([
   'crypto',
   'events',
   'fs',
+  'fs/promises',
   'http',
   'net',
   'os',
@@ -115,7 +118,7 @@ export default function(info: object): { [key: string]: any } {
       include: /src/
     },
     less: {
-      include: /node_modules[\\/]_?antd/,
+      include: /node_modules[\\/](_?antd|monaco-editor)/,
       exclude: /tailwindcss/i
     },
     rules: [
@@ -130,6 +133,9 @@ export default function(info: object): { [key: string]: any } {
           from: path.join(__dirname, 'src/QQ/sdk/1'),
           to: path.join(__dirname, 'dist')
         }]
+      }),
+      new MonacoWebpackPlugin({
+        languages: ['json', 'yaml', 'javascript']
       }),
       analyzer && new BundleAnalyzerPlugin()
     ].filter(Boolean)

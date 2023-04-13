@@ -1,7 +1,7 @@
 import { ipcRenderer, shell } from 'electron';
 import type { ReactElement, MouseEvent } from 'react';
 import { Button, Space, Divider, Image, Tooltip } from 'antd';
-import {
+import Icon, {
   QqOutlined as IconQqOutlined,
   SettingOutlined as IconSettingOutlined,
   QuestionCircleFilled as IconQuestionCircleFilled,
@@ -9,7 +9,10 @@ import {
   ClusterOutlined as IconClusterOutlined,
   BugTwoTone as IconBugTwoTone
 } from '@ant-design/icons';
+import IconVSCodeSvgComponent from './images/vscode.component.svg';
 import ButtonLink from '../../components/ButtonLink/ButtonLink';
+
+const IconVSCode: ReactElement = <Icon component={ IconVSCodeSvgComponent } />;
 
 // 打开开发者工具
 function handleOpenDeveloperToolsClick(event: MouseEvent): void {
@@ -53,6 +56,12 @@ function Index(props: {}): ReactElement {
         </div>
         <div>
           <Button icon={ <IconQuestionCircleFilled /> } block={ true } onClick={ handleOpenHelpClick }>使用说明</Button>
+        </div>
+      </nav>
+      <Divider />
+      <nav className="grid grid-cols-4 gap-[16px] w-[755px]">
+        <div>
+          <ButtonLink linkProps={{ to: 'CodeEditor' }} buttonProps={{ icon: IconVSCode, block: true }}>代码编辑器</ButtonLink>
         </div>
       </nav>
       <Divider />
