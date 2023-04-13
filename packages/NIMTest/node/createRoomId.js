@@ -5,8 +5,10 @@ const _ = require('lodash');
 const dayjs = require('dayjs');
 
 require('dayjs/locale/zh-cn');
+require('../../NIMNodePolyfill/NIMNodePolyfill.cjs');
 
 const NIM_SDK = require('@yxim/nim-web-sdk/dist/SDK/NIM_Web_SDK_nodejs');
+const QChatSDK = require('nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK.js');
 
 dayjs.locale('zh-cn');
 
@@ -31,6 +33,8 @@ const teams = {
 
 const token = '';
 const pa = '';
+const pocket48Account = '';
+const pocket48Token = '';
 
 const appInfo = JSON.stringify({
   vendor: 'apple',
@@ -99,6 +103,38 @@ function getRoomInfo(chatroomId) {
         console.error(err);
       }
     });
+  });
+}
+
+// 获取房间信息
+function getServerInfo(serverId) {
+  return new Promise(async (resolve, reject) => {
+    const appKey = await import(path.join(__dirname, '../../qqtools/src/QQ/sdk/appKey.mjs'));
+    const qchat = new QChatSDK({
+      appkey: atob(appKey.default),
+      account: pocket48Account,
+      token: pocket48Token,
+      linkAddresses: ['qchatweblink01.netease.im:443']
+    });
+
+    qchat.on('logined', async () => {
+      const result = await qchat.qchatServer.subscribeAllChannel({
+        type: 1,
+        serverIds: [serverId]
+      });
+
+      const serverInfo = await qchat.qchatServer.getServers({
+        serverIds: [serverId]
+      });
+
+      resolve({
+        serverInfo,
+        qchat,
+        owner: serverInfo[0].owner,
+        success: 1
+      });
+    });
+    await qchat.login();
   });
 }
 
@@ -179,7 +215,9 @@ async function main() {
 
         if (resServerJumpInfo.body.status === 200 && resServerJumpInfo?.body?.content?.jumpServerInfo) {
           const { serverId, serverOwner, serverOwnerName, teamId } = resServerJumpInfo.body.content.jumpServerInfo;
+          const { qchat, owner } = await getServerInfo(`${ serverId }`);
 
+          await qchat.logout();
           if (!item.ownerName) {
             item.ownerName = `${ teamsPrefix(teamId) }${ serverOwnerName }`;
           }
@@ -190,6 +228,7 @@ async function main() {
 
           Object.assign(item, {
             serverId,
+            account: owner,
             team: teams[`${ teamId }`]
           });
 

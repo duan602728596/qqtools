@@ -14,10 +14,11 @@
     },
     {
       "id": 17,
-      "ownerName": "SNH48-蒋芸",
+      "ownerName": "蒋芸",
       "roomId": "67256337",
       "serverId": 1181021,
-      "team": "TEAM SII"
+      "team": "TEAM SII",
+      "account": "20190415141431_6ma7ux3q7pg73r8"
     },
     {
       "id": 18,
@@ -623,13 +624,15 @@
       "ownerName": "GNZ48-王秭歆",
       "id": 417329,
       "serverId": 1181028,
-      "team": "TEAM G"
+      "team": "TEAM G",
+      "account": "20190415141829_a0ob0f4vnwxmw8e"
     },
     {
       "ownerName": "GNZ48-杨可璐",
       "id": 417330,
       "serverId": 1147925,
-      "team": "TEAM G"
+      "team": "TEAM G",
+      "account": "20190415142019_z3jaao840ytr4fy"
     },
     {
       "id": 417331,
@@ -705,7 +708,8 @@
       "ownerName": "IDFT-高志娴",
       "id": 480665,
       "serverId": 4720566,
-      "team": "IDFT"
+      "team": "IDFT",
+      "account": "20190415142042_g9twpiahcsp34oi"
     },
     {
       "id": 480675,
@@ -910,7 +914,8 @@
       "ownerName": "IDFT-王梦竹",
       "id": 614739,
       "serverId": 3884907,
-      "team": "IDFT"
+      "team": "IDFT",
+      "account": "20190415142556_dafn2z4w8dg4w07"
     },
     {
       "id": 614741,
@@ -1375,7 +1380,8 @@
       "ownerName": "IDFT-项宇婧",
       "id": 57737478,
       "serverId": 4228256,
-      "team": "IDFT"
+      "team": "IDFT",
+      "account": "20210531134105_0pk94tu2sm2afa4"
     },
     {
       "id": 58785983,
@@ -1514,7 +1520,8 @@
       "ownerName": "BEJ48-朱虹蓉",
       "roomId": "668812898",
       "serverId": 1115378,
-      "team": "BEJ48"
+      "team": "BEJ48",
+      "account": "20220122223018_l7z134jdcy0ixcq"
     },
     {
       "id": 71500014,
@@ -1616,19 +1623,22 @@
       "ownerName": "GNZ48-陈淑钰",
       "id": 89653427,
       "serverId": 2262617,
-      "team": "预备生"
+      "team": "预备生",
+      "account": "20221009033228_oqhltur64imxkh3"
     },
     {
       "ownerName": "GNZ48-郭兆媛",
       "id": 89653428,
       "serverId": 2164051,
-      "team": "预备生"
+      "team": "预备生",
+      "account": "20221009033432_rf8bxeh8ts9fx8e"
     },
     {
       "ownerName": "GNZ48-何林燕",
       "id": 89653435,
       "serverId": 2262998,
-      "team": "预备生"
+      "team": "预备生",
+      "account": "20221009033448_901ubxjkc58pmz4"
     },
     {
       "id": 89653437,
@@ -1642,127 +1652,148 @@
       "ownerName": "GNZ48-刘欣媛",
       "id": 89653441,
       "serverId": 2327846,
-      "team": "TEAM G"
+      "team": "TEAM G",
+      "account": "20221009033806_45tl9hnugityv8c"
     },
     {
       "ownerName": "GNZ48-林奕希",
       "id": 89653445,
       "serverId": 2148087,
-      "team": "预备生"
+      "team": "预备生",
+      "account": "20221009033825_c7o515ro89v44zo"
     },
     {
       "ownerName": "GNZ48-马可悦",
       "id": 89653450,
       "serverId": 2426434,
-      "team": "预备生"
+      "team": "预备生",
+      "account": "20221009033843_7jann56rk1vdxrd"
     },
     {
       "ownerName": "GNZ48-蒙晓丽",
       "id": 89653453,
       "serverId": 2426435,
-      "team": "预备生"
+      "team": "预备生",
+      "account": "20221009033906_nahipu95uumeqwi"
     },
     {
       "ownerName": "GNZ48-秦露丹",
       "id": 89653457,
       "serverId": 2295536,
-      "team": "预备生"
+      "team": "预备生",
+      "account": "20221009033927_2zh5ee0pv58x8lo"
     },
     {
       "ownerName": "GNZ48-邱刘佳",
       "id": 89653461,
       "serverId": 2262618,
-      "team": "预备生"
+      "team": "预备生",
+      "account": "20221009033953_nfs492zpka1iys3"
     },
     {
       "ownerName": "GNZ48-宋筱璐",
       "id": 89653462,
       "serverId": 2229297,
-      "team": "预备生"
+      "team": "预备生",
+      "account": "20221009034014_e83u77ykme3es9i"
     },
     {
       "ownerName": "GNZ48-申雨鑫",
       "id": 89653465,
       "serverId": 2328251,
-      "team": "预备生"
+      "team": "预备生",
+      "account": "20221009034038_whb5jqm27yeghn0"
     },
     {
       "ownerName": "GNZ48-谭思慧",
       "id": 89653513,
       "serverId": 2262216,
-      "team": "预备生"
+      "team": "预备生",
+      "account": "20221009034056_idr46zdqlz1pk21"
     },
     {
       "ownerName": "GNZ48-王语晨",
       "id": 89653517,
       "serverId": 2278592,
-      "team": "TEAM NIII"
+      "team": "TEAM NIII",
+      "account": "20221009034119_vynj56ve0qs66sr"
     },
     {
       "ownerName": "GNZ48-夏莹",
       "id": 89653520,
       "serverId": 2344009,
-      "team": "预备生"
+      "team": "预备生",
+      "account": "20221009034148_0l0nq8e48ry7jbc"
     },
     {
       "ownerName": "GNZ48-许雅兰",
       "id": 89653525,
       "serverId": 2197175,
-      "team": "预备生"
+      "team": "预备生",
+      "account": "20221009034214_as0otizmupa6x8f"
     },
     {
       "ownerName": "GNZ48-叶溁语",
       "id": 89653527,
       "serverId": 2328252,
-      "team": "预备生"
+      "team": "预备生",
+      "account": "20221009034236_pfby5dfi0noitx0"
     },
     {
       "ownerName": "GNZ48-钟洁玟",
       "id": 89653528,
       "serverId": 2295537,
-      "team": "预备生"
+      "team": "预备生",
+      "account": "20221009034303_q03d9937tj39mkv"
     },
     {
       "ownerName": "GNZ48-周是汝",
       "id": 89653530,
       "serverId": 2312098,
-      "team": "预备生"
+      "team": "预备生",
+      "account": "20221009034324_3d1dyp7kcaeu0st"
     },
     {
       "ownerName": "GNZ48-张芷欣",
       "id": 89653537,
       "serverId": 2196977,
-      "team": "预备生"
+      "team": "预备生",
+      "account": "20221009034345_cd33lffrq7h09q1"
     },
     {
       "ownerName": "BEJ48-马欣宇",
       "id": 95552277,
       "serverId": 2901484,
-      "team": "BEJ48"
+      "team": "BEJ48",
+      "account": "20230114205958_x73aalldlf6sv1m"
     },
     {
       "ownerName": "BEJ48-郑照暄",
       "id": 95552291,
       "serverId": 2803371,
-      "team": "BEJ48"
+      "team": "BEJ48",
+      "account": "20230114210025_kud8mzko4wgin0b"
     },
     {
       "ownerName": "BEJ48-高梓萌",
       "id": 100073653,
       "serverId": 4818677,
-      "team": "BEJ48"
+      "team": "BEJ48",
+      "account": "20230408001602_7ct2yzp1jjai776"
     },
     {
       "ownerName": "BEJ48-聂渝景",
       "id": 100073654,
       "serverId": 4884312,
-      "team": "BEJ48"
+      "team": "BEJ48",
+      "account": "20230408001623_tc5os3p724arkpe"
     },
     {
       "ownerName": "BEJ48-庄雅雯",
       "id": 100073656,
       "serverId": 4769395,
-      "team": "BEJ48"
+      "team": "BEJ48",
+      "account": "20230408001642_6p97vvm7h3o2wni"
     },
     {
       "id": 4344250371,
@@ -1801,7 +1832,8 @@
       "ownerName": "SNH48-由淼",
       "roomId": "159822189",
       "serverId": 1148112,
-      "team": "TEAM SII"
+      "team": "TEAM SII",
+      "account": "20200228121100_h2iumsjcpjnpkht"
     },
     {
       "id": 6827278357,
@@ -1847,7 +1879,8 @@
       "ownerName": "GNZ48-张书瑀",
       "id": 8957984819,
       "serverId": 1901962,
-      "team": "TEAM Z"
+      "team": "TEAM Z",
+      "account": "20200617192607_6rk2yxn4brrzn5k"
     },
     {
       "id": 9276751976,
@@ -1866,5 +1899,5 @@
       "team": "CKG48"
     }
   ],
-  "buildTime": "2023-04-11 21:20:48"
+  "buildTime": "2023-04-14 01:30:52"
 }

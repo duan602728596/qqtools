@@ -15,7 +15,12 @@ async function checkCreateRoomIdFile(NIMTestDir) {
   const createRoomIdFile = path.join(NIMTestDir, 'node/createRoomId.js');
   const file = await fs.readFile(createRoomIdFile, { encoding: 'utf8' });
 
-  if (!(/token = ''/.test(file) && /pa = ''/.test(file))) {
+  if (!(
+    /token = ''/.test(file)
+    && /pa = ''/.test(file)
+    && /pocket48Account = ''/.test(file)
+    && /pocket48Token = ''/.test(file)
+  )) {
     throw new Error('有敏感信息。');
   }
 }
