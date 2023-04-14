@@ -115,14 +115,14 @@ class QChatSocket {
 
     for (const systemNotification of systemNotifications) {
       if (systemNotification.attach.serverInfo?.serverId === this.pocket48ServerId) {
-        console.log('systemNotification', systemNotification);
+        console.log('systemNotification', systemNotification.type, systemNotification);
       }
     }
   };
 
   handleSystemNotificationUpdate: (event: QChatSystemNotification) => void = (event: QChatSystemNotification): void => {
     if (event.attach.serverInfo?.serverId === this.pocket48ServerId) {
-      console.log('systemNotificationUpdate', event);
+      console.log('systemNotificationUpdate', event.type, event);
     }
   };
 
