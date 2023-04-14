@@ -3,9 +3,11 @@ import NIMSDK from 'nim-web-sdk-ng/dist/NIM_BROWSER_SDK';
 import type { LoginResult } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/types';
 import type {
   SubscribeAllChannelResult,
-  ServerInfo
+  ServerInfo,
+  SubscribeServerResult
 } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatServerServiceInterface';
-import type { QChatMessage } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatMsgServiceInterface';
+import type { QChatMessage, QChatSystemNotification } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatMsgServiceInterface';
+import type { SystemNotificationEvent } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatInterface';
 import { message, notification } from 'antd';
 import type { MessageInstance } from 'antd/es/message/interface';
 import type { NotificationInstance } from 'antd/es/notification/interface';
@@ -65,6 +67,8 @@ class QChatSocket {
     this.qChat.on('logined', this.handleLogined);
     this.qChat.on('message', this.handleMessage);
     this.qChat.on('disconnect', this.handleRoomSocketDisconnect);
+    this.qChat.on('systemNotification', this.handleSystemNotification);
+    this.qChat.on('systemNotificationUpdate', this.handleSystemNotificationUpdate);
     await this.qChat.login();
   }
 
@@ -75,14 +79,20 @@ class QChatSocket {
       serverIds: [this.pocket48ServerId]
     });
 
-    console.log('订阅servers', result);
-
     if (result.failServerIds.length) {
       this.#notificationApi.error({
         message: '订阅服务器失败',
         description: `ServerId: ${ result.failServerIds[0] }`
       });
     }
+
+    const systemSubscribeResult: SubscribeServerResult | void = await this.qChat!.qchatServer.subscribeServer({
+      type: 4,
+      opeType: 1,
+      servers: [{ serverId: this.pocket48ServerId }]
+    });
+
+    console.log('订阅servers', result, '订阅system notification', systemSubscribeResult);
 
     const serverInfo: Array<ServerInfo> = await this.qChat!.qchatServer.getServers({
       serverIds: [this.pocket48ServerId]
@@ -95,6 +105,23 @@ class QChatSocket {
   handleMessage: (event: QChatMessage) => void = (event: QChatMessage): void => {
     for (const item of this.queues) {
       item.onmsgs(event);
+    }
+  };
+
+  // 系统消息
+  handleSystemNotification: (event: SystemNotificationEvent) => void = (event: SystemNotificationEvent): void => {
+    const systemNotifications: Array<QChatSystemNotification> = event.systemNotifications;
+
+    for (const systemNotification of systemNotifications) {
+      if (systemNotification.attach.serverInfo?.serverId === this.pocket48ServerId) {
+        console.log('systemNotification', systemNotification);
+      }
+    }
+  };
+
+  handleSystemNotificationUpdate: (event: QChatSystemNotification) => void = (event: QChatSystemNotification): void => {
+    if (event.attach.serverInfo?.serverId === this.pocket48ServerId) {
+      console.log('systemNotificationUpdate', event);
     }
   };
 
