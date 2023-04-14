@@ -57,6 +57,7 @@ class QChatSocket {
     });
 
     await this.nim.connect();
+
     this.qChat = new QChatSDK({
       appkey: atob(appKey),
       account: this.pocket48Account,
