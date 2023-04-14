@@ -93,13 +93,12 @@ class QChatSocket {
       servers: [{ serverId: this.pocket48ServerId }]
     });
 
-    console.log('订阅servers', result, '订阅system notification', systemSubscribeResult);
-
     const serverInfo: Array<ServerInfo> = await this.qChat!.qchatServer.getServers({
       serverIds: [this.pocket48ServerId]
     });
 
     this.serverInfo = serverInfo[0];
+    console.log('serverInfo', this.serverInfo, '订阅servers', result, '订阅system notification', systemSubscribeResult);
   };
 
   // message
