@@ -69,6 +69,7 @@ class QChatSocket {
       this.qChat.on('systemNotification', this.handleSystemNotification);
       this.qChat.on('systemNotificationUpdate', this.handleSystemNotificationUpdate);
     }
+    await this.qChat.login();
   }
 
   // 登录成功
