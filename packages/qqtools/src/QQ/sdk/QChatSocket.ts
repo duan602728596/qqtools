@@ -1,11 +1,7 @@
 import QChatSDK from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK';
 import NIMSDK from 'nim-web-sdk-ng/dist/NIM_BROWSER_SDK';
 import type { LoginResult } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/types';
-import type {
-  SubscribeAllChannelResult,
-  ServerInfo,
-  SubscribeServerResult
-} from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatServerServiceInterface';
+import type { SubscribeAllChannelResult, ServerInfo } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatServerServiceInterface';
 import type { QChatMessage, QChatSystemNotification } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatMsgServiceInterface';
 import type { SystemNotificationEvent } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatInterface';
 import { message, notification } from 'antd';
@@ -68,9 +64,11 @@ class QChatSocket {
     this.qChat.on('logined', this.handleLogined);
     this.qChat.on('message', this.handleMessage);
     this.qChat.on('disconnect', this.handleRoomSocketDisconnect);
-    this.qChat.on('systemNotification', this.handleSystemNotification);
-    this.qChat.on('systemNotificationUpdate', this.handleSystemNotificationUpdate);
-    await this.qChat.login();
+
+    if (process.env.NODE_ENV === 'development') {
+      this.qChat.on('systemNotification', this.handleSystemNotification);
+      this.qChat.on('systemNotificationUpdate', this.handleSystemNotificationUpdate);
+    }
   }
 
   // 登录成功
@@ -87,18 +85,20 @@ class QChatSocket {
       });
     }
 
-    const systemSubscribeResult: SubscribeServerResult | void = await this.qChat!.qchatServer.subscribeServer({
-      type: 4,
-      opeType: 1,
-      servers: [{ serverId: this.pocket48ServerId }]
-    });
+    if (process.env.NODE_ENV === 'development') {
+      await this.qChat!.qchatServer.subscribeServer({
+        type: 4,
+        opeType: 1,
+        servers: [{ serverId: this.pocket48ServerId }]
+      });
+    }
 
     const serverInfo: Array<ServerInfo> = await this.qChat!.qchatServer.getServers({
       serverIds: [this.pocket48ServerId]
     });
 
     this.serverInfo = serverInfo[0];
-    console.log('serverInfo', this.serverInfo, '订阅servers', result, '订阅system notification', systemSubscribeResult);
+    console.log('serverInfo', this.serverInfo, '订阅servers', result);
   };
 
   // message
