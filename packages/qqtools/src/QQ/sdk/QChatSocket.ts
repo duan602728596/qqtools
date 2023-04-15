@@ -100,6 +100,12 @@ class QChatSocket {
         servers: [{ serverId: this.pocket48ServerId }]
       });
     }
+
+    console.log(
+      await this.nim!.user.getUsersNameCardFromServer({
+        accounts: [this.serverInfo.owner]
+      })
+    );
   };
 
   // message
@@ -150,6 +156,7 @@ class QChatSocket {
   async disconnect(): Promise<void> {
     if (this.queues.length === 0) {
       await this.qChat?.logout?.();
+      await this.qChat?.destroy?.();
       await this.nim?.destroy?.();
       this.qChat = undefined;
       this.nim = undefined;
