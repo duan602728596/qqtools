@@ -69,6 +69,7 @@ class QChatSocket {
       this.qChat.on('systemNotification', this.handleSystemNotification);
       this.qChat.on('systemNotificationUpdate', this.handleSystemNotificationUpdate);
     }
+
     await this.qChat.login();
   }
 
@@ -100,12 +101,6 @@ class QChatSocket {
         servers: [{ serverId: this.pocket48ServerId }]
       });
     }
-
-    console.log(
-      await this.nim!.user.getUsersNameCardFromServer({
-        accounts: [this.serverInfo.owner]
-      })
-    );
   };
 
   // message
