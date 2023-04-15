@@ -58,22 +58,6 @@ function headers() {
   };
 }
 
-function teamsPrefix(teamId) {
-  const t = Number(teamId);
-
-  if ([1001, 1002, 1003, 1004, 1007].includes(t)) return 'SNH48-';
-
-  if (t === 1105) return 'BEJ48-';
-
-  if ([1201, 1202, 1203, 1207].includes(t)) return 'GNZ48-';
-
-  if (t === 1404) return 'CKG48-';
-
-  if (t === 1501) return 'IDFT-';
-
-  return '';
-}
-
 // 获取房间信息
 function getRoomInfo(chatroomId) {
   return new Promise(async (resolve, reject) => {
@@ -219,7 +203,7 @@ async function main() {
 
           await qchat.logout();
           if (!item.ownerName) {
-            item.ownerName = `${ teamsPrefix(teamId) }${ serverOwnerName }`;
+            item.ownerName = serverOwnerName;
           }
 
           if (!item.id) {

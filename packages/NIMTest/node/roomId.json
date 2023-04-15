@@ -54,7 +54,7 @@
     },
     {
       "id": 27,
-      "ownerName": "硬糖少女303-赵粤",
+      "ownerName": "赵粤",
       "roomId": "67284410",
       "account": "20190415141607_qwpyng70orn18oq"
     },
@@ -868,7 +868,7 @@
       "roomId": "67352339",
       "account": "20190415142512_v451d61n5gdcu2w",
       "serverId": 1148714,
-      "team": "TEAM NIII"
+      "team": "TEAM G"
     },
     {
       "id": 609002,
@@ -1096,7 +1096,7 @@
     },
     {
       "id": 722784,
-      "ownerName": "IDFT-谢菲菲",
+      "ownerName": "GNZ48-谢菲菲",
       "roomId": "67352360",
       "account": "20190415142957_qbf9u5132wfanc1",
       "serverId": 1853317,
@@ -1861,7 +1861,7 @@
     },
     {
       "id": 8957984817,
-      "ownerName": "IDFT-石竹君",
+      "ownerName": "GNZ48-石竹君",
       "roomId": "181393187",
       "account": "20200617192501_451ye1c4w95q0w4",
       "serverId": 1164290,
@@ -1899,5 +1899,5 @@
       "team": "CKG48"
     }
   ],
-  "buildTime": "2023-04-14 01:30:52"
+  "buildTime": "2023-04-15 23:57:46"
 }
