@@ -85,6 +85,13 @@ class QChatSocket {
       });
     }
 
+    const serverInfo: Array<ServerInfo> = await this.qChat!.qchatServer.getServers({
+      serverIds: [this.pocket48ServerId]
+    });
+
+    this.serverInfo = serverInfo[0];
+    console.log('serverInfo', this.serverInfo, '订阅servers', result);
+
     if (process.env.NODE_ENV === 'development') {
       await this.qChat!.qchatServer.subscribeServer({
         type: 4,
@@ -92,13 +99,6 @@ class QChatSocket {
         servers: [{ serverId: this.pocket48ServerId }]
       });
     }
-
-    const serverInfo: Array<ServerInfo> = await this.qChat!.qchatServer.getServers({
-      serverIds: [this.pocket48ServerId]
-    });
-
-    this.serverInfo = serverInfo[0];
-    console.log('serverInfo', this.serverInfo, '订阅servers', result);
   };
 
   // message
