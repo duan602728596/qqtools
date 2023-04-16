@@ -1,5 +1,5 @@
 import { ipcRenderer, shell } from 'electron';
-import type { ReactElement, MouseEvent } from 'react';
+import type { ReactElement, ReactNode, MouseEvent } from 'react';
 import { Button, Space, Divider, Image, Tooltip } from 'antd';
 import Icon, {
   QqOutlined as IconQqOutlined,
@@ -11,6 +11,14 @@ import Icon, {
 } from '@ant-design/icons';
 import IconVSCodeSvgComponent from './images/vscode.component.svg';
 import ButtonLink from '../../components/ButtonLink/ButtonLink';
+
+interface NativeItem {
+  name: string;
+  url?: string;
+  icon: ReactElement;
+  danger?: boolean;
+  onClick?(event: MouseEvent): void | Promise<void>;
+}
 
 const IconVSCode: ReactElement = <Icon component={ IconVSCodeSvgComponent } />;
 
@@ -34,46 +42,95 @@ function handleOpenDownloadUrlClick(event: MouseEvent): void {
   shell.openExternal('https://github.com/duan602728596/qqtools/releases');
 }
 
+/* 导航配置 */
+const navLinkConfig: Array<Array<NativeItem>> = [
+  [
+    {
+      name: '账号登陆',
+      url: '/Login',
+      icon: <IconQqOutlined />
+    },
+    {
+      name: '登陆配置',
+      url: '/Options',
+      icon: <IconSettingOutlined />
+    },
+    {
+      name: 'Mirai登录',
+      url: '/MiraiLogin',
+      icon: <IconClusterOutlined />,
+      danger: true
+    },
+    {
+      name: '使用说明',
+      icon: <IconQuestionCircleFilled />,
+      onClick: handleOpenHelpClick
+    }
+  ],
+  [
+    {
+      name: '代码编辑器',
+      url: '/CodeEditor',
+      icon: IconVSCode
+    }
+  ]
+];
+
+/* 导航渲染 */
+function nativeRender(): Array<ReactNode> {
+  const element: Array<ReactElement> = [];
+
+  for (let i: number = 0, j: number = navLinkConfig.length; i < j; i++) {
+    const group: Array<NativeItem> = navLinkConfig[i];
+    const groupElement: Array<ReactElement> = [];
+
+    for (const navItem of group) {
+      groupElement.push(
+        <div key={ navItem.name }>
+          {
+            navItem.url ? (
+              <ButtonLink linkProps={{ to: navItem.url }}
+                buttonProps={{
+                  icon: navItem.icon,
+                  block: true,
+                  danger: navItem.danger
+                }}
+              >
+                { navItem.name }
+              </ButtonLink>
+            ) : <Button icon={ navItem.icon } block={ true } onClick={ navItem.onClick }>{ navItem.name }</Button>
+          }
+        </div>
+      );
+    }
+
+    element.push(
+      <nav key={ `nav-${ i }` } className="grid grid-cols-4 gap-[16px] w-[755px]">
+        { groupElement }
+      </nav>,
+      <Divider key={ `driver-${ i }` } />
+    );
+  }
+
+  return element;
+}
+
 /* 首页 */
 function Index(props: {}): ReactElement {
   return (
     <div className="p-[16px]">
-      <nav className="grid grid-cols-4 gap-[16px] w-[755px]">
-        <div>
-          <ButtonLink linkProps={{ to: 'Login' }} buttonProps={{ type: 'primary', icon: <IconQqOutlined />, block: true }}>
-            账号登陆
-          </ButtonLink>
-        </div>
-        <div>
-          <ButtonLink linkProps={{ to: 'Options' }} buttonProps={{ icon: <IconSettingOutlined />, block: true }}>
-            登陆配置
-          </ButtonLink>
-        </div>
-        <div>
-          <ButtonLink linkProps={{ to: 'MiraiLogin' }} buttonProps={{ icon: <IconClusterOutlined />, danger: true, block: true }}>
-            Mirai登录
-          </ButtonLink>
-        </div>
-        <div>
-          <Button icon={ <IconQuestionCircleFilled /> } block={ true } onClick={ handleOpenHelpClick }>使用说明</Button>
-        </div>
-      </nav>
-      <Divider />
-      <nav className="grid grid-cols-4 gap-[16px] w-[755px]">
-        <div>
-          <ButtonLink linkProps={{ to: 'CodeEditor' }} buttonProps={{ icon: IconVSCode, block: true }}>代码编辑器</ButtonLink>
-        </div>
-      </nav>
-      <Divider />
-      <Space>
-        <Tooltip title="开发者工具">
-          <Button type="text" icon={ <IconToolTwoTone /> } onClick={ handleOpenDeveloperToolsClick } />
-        </Tooltip>
-        <Tooltip title="问题反馈">
-          <Button type="text" icon={ <IconBugTwoTone /> } onClick={ handleOpenIssuesClick } />
-        </Tooltip>
-        <ButtonLink linkProps={{ to: '/Credits' }} buttonProps={{ type: 'text' }}>License</ButtonLink>
-      </Space>
+      { nativeRender() }
+      <div>
+        <Space>
+          <Tooltip title="开发者工具">
+            <Button type="text" icon={ <IconToolTwoTone /> } onClick={ handleOpenDeveloperToolsClick } />
+          </Tooltip>
+          <Tooltip title="问题反馈">
+            <Button type="text" icon={ <IconBugTwoTone /> } onClick={ handleOpenIssuesClick } />
+          </Tooltip>
+          <ButtonLink linkProps={{ to: '/Credits' }} buttonProps={{ type: 'text' }}>License</ButtonLink>
+        </Space>
+      </div>
       <Divider />
       <div className="flex">
         <div>
