@@ -4,7 +4,7 @@ import { Button, Space, Divider, Image, Tooltip } from 'antd';
 import Icon, {
   QqOutlined as IconQqOutlined,
   SettingOutlined as IconSettingOutlined,
-  QuestionCircleFilled as IconQuestionCircleFilled,
+  FileSyncOutlined as IconFileSyncOutlined,
   ToolTwoTone as IconToolTwoTone,
   ClusterOutlined as IconClusterOutlined,
   BugTwoTone as IconBugTwoTone
@@ -29,7 +29,7 @@ function handleOpenDeveloperToolsClick(event: MouseEvent): void {
 
 // 打开使用说明
 function handleOpenHelpClick(event: MouseEvent): void {
-  shell.openExternal('https://www.yuque.com/bbkkbkk/qqtools');
+  shell.openExternal('https://yzb1g5r02h.feishu.cn/docx/R123d4UKKovQx0x1dM2cDce7n9c');
 }
 
 // 打开issues
@@ -61,13 +61,6 @@ const navLinkConfig: Array<Array<NativeItem>> = [
       icon: <IconClusterOutlined />,
       danger: true
     },
-    {
-      name: '使用说明',
-      icon: <IconQuestionCircleFilled />,
-      onClick: handleOpenHelpClick
-    }
-  ],
-  [
     {
       name: '代码编辑器',
       url: '/CodeEditor',
@@ -122,6 +115,9 @@ function Index(props: {}): ReactElement {
       { nativeRender() }
       <div>
         <Space>
+          <Button icon={ <IconFileSyncOutlined /> } onClick={ handleOpenHelpClick }>
+            使用手册
+          </Button>
           <Tooltip title="开发者工具">
             <Button type="text" icon={ <IconToolTwoTone /> } onClick={ handleOpenDeveloperToolsClick } />
           </Tooltip>

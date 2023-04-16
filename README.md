@@ -8,7 +8,7 @@
 
 ## 文档
 
-文档地址：[https://www.yuque.com/bbkkbkk/qqtools](https://www.yuque.com/bbkkbkk/qqtools) 。   
+文档地址：[https://yzb1g5r02h.feishu.cn/docx/R123d4UKKovQx0x1dM2cDce7n9c](https://yzb1g5r02h.feishu.cn/docx/R123d4UKKovQx0x1dM2cDce7n9c) 。   
 
 软件的使用和开发请查看该文档。
 
