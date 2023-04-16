@@ -65,7 +65,10 @@
       "type": "number",
       "title": "端口号",
       "$required": true,
-      "$requiredMessage": "必须填写端口号"
+      "$requiredMessage": "必须填写端口号",
+      "maximum": 65535,
+      "minimum": 0,
+      "$integer": true
     },
     "reverseWebsocket": {
       "id": "$root/properties/reverseWebsocket",

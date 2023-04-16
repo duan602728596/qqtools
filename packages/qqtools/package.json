@@ -19,7 +19,7 @@
     "@reduxjs/toolkit": "^2.0.0-alpha.2",
     "@yxim/nim-web-sdk": "^8.9.106",
     "antd": "^5.1.2",
-    "antd-schema-form": "^5.0.0",
+    "antd-schema-form": "^5.0.1",
     "classnames": "^2.3.2",
     "dayjs": "^1.11.7",
     "icqq": "^0.0.32",
