@@ -121,7 +121,7 @@ class Queue {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-use-before-define
-const bucket: Bucket = new Bucket(5, 2.5 * 60 * 1_000, (): void => queue.run());
+const bucket: Bucket = new Bucket(6, 1.5 * 60 * 1_000, (): void => queue.run());
 const queue: Queue = new Queue({ workerLen: 1, verifyFunction: (): boolean => bucket.count > 0 });
 const broadcastChannel: BroadcastChannel = new BroadcastChannel(broadcastName);
 
