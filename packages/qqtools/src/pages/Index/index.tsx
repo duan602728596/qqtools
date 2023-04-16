@@ -9,15 +9,14 @@ import Icon, {
   ClusterOutlined as IconClusterOutlined,
   BugTwoTone as IconBugTwoTone
 } from '@ant-design/icons';
-import IconVSCodeSvgComponent from './images/vscode.component.svg';
 import ButtonLink from '../../components/ButtonLink/ButtonLink';
+import IconVSCodeSvgComponent from './images/vscode.component.svg';
 
 interface NativeItem {
   name: string;
-  url?: string;
+  url: string;
   icon: ReactElement;
   danger?: boolean;
-  onClick?(event: MouseEvent): void | Promise<void>;
 }
 
 const IconVSCode: ReactElement = <Icon component={ IconVSCodeSvgComponent } />;
@@ -80,19 +79,15 @@ function nativeRender(): Array<ReactNode> {
     for (const navItem of group) {
       groupElement.push(
         <div key={ navItem.name }>
-          {
-            navItem.url ? (
-              <ButtonLink linkProps={{ to: navItem.url }}
-                buttonProps={{
-                  icon: navItem.icon,
-                  block: true,
-                  danger: navItem.danger
-                }}
-              >
-                { navItem.name }
-              </ButtonLink>
-            ) : <Button icon={ navItem.icon } block={ true } onClick={ navItem.onClick }>{ navItem.name }</Button>
-          }
+          <ButtonLink linkProps={{ to: navItem.url }}
+            buttonProps={{
+              icon: navItem.icon,
+              block: true,
+              danger: navItem.danger
+            }}
+          >
+            { navItem.name }
+          </ButtonLink>
         </div>
       );
     }
