@@ -1796,6 +1796,62 @@
       "account": "20230408001642_6p97vvm7h3o2wni"
     },
     {
+      "ownerName": "卢晨昕",
+      "id": 103679154,
+      "serverId": 5080426,
+      "account": "20230504181400_tlnc390hi8jt6z9",
+      "team": "预备生"
+    },
+    {
+      "ownerName": "李虞龙若",
+      "id": 103679162,
+      "serverId": 5277545,
+      "account": "20230504181416_34l5htpoy4bwd5p",
+      "team": "预备生"
+    },
+    {
+      "ownerName": "温若其",
+      "id": 103679163,
+      "serverId": 5310065,
+      "account": "20230504181437_hyoyewjte0fanfv",
+      "team": "预备生"
+    },
+    {
+      "ownerName": "许佳佳",
+      "id": 103679165,
+      "serverId": 5309666,
+      "account": "20230504181453_0c1j2l4bee6gz6x",
+      "team": "预备生"
+    },
+    {
+      "ownerName": "尤可莹",
+      "id": 103679169,
+      "serverId": 5293105,
+      "account": "20230504181513_2p3v7n2lnv1lszf",
+      "team": "预备生"
+    },
+    {
+      "ownerName": "杨心渝",
+      "id": 103679171,
+      "serverId": 5342585,
+      "account": "20230504181527_vm1wa5u4gcjjpmh",
+      "team": "预备生"
+    },
+    {
+      "ownerName": "周童玥",
+      "id": 103679173,
+      "serverId": 5310265,
+      "account": "20230504181540_zr9ndtjbvpmtt0m",
+      "team": "预备生"
+    },
+    {
+      "ownerName": "张怡婷",
+      "id": 103679182,
+      "serverId": 5325825,
+      "account": "20230504181553_a15sx01uuw0u4dj",
+      "team": "预备生"
+    },
+    {
       "id": 4344250371,
       "ownerName": "SNH48-陈雨孜",
       "roomId": "147283635",
@@ -1899,5 +1955,5 @@
       "team": "CKG48"
     }
   ],
-  "buildTime": "2023-04-15 23:57:46"
+  "buildTime": "2023-05-05 00:14:31"
 }
