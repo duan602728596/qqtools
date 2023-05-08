@@ -1852,6 +1852,27 @@
       "team": "预备生"
     },
     {
+      "ownerName": "陈珊玲",
+      "id": 103940353,
+      "serverId": 5326477,
+      "account": "20230506184724_7k7x4m4mosgxijh",
+      "team": "预备生"
+    },
+    {
+      "ownerName": "荣子彤",
+      "id": 103940355,
+      "serverId": 5375361,
+      "account": "20230506184742_b6v8q4ltv3dqeu0",
+      "team": "预备生"
+    },
+    {
+      "ownerName": "陶慧",
+      "id": 103940359,
+      "serverId": 5260633,
+      "account": "20230506184804_u44n5fne5jd7hu9",
+      "team": "预备生"
+    },
+    {
       "id": 4344250371,
       "ownerName": "SNH48-陈雨孜",
       "roomId": "147283635",
@@ -1955,5 +1976,5 @@
       "team": "CKG48"
     }
   ],
-  "buildTime": "2023-05-05 00:14:31"
+  "buildTime": "2023-05-08 22:25:33"
 }
