@@ -65,6 +65,7 @@ const externalsName: Array<string> = nodeModules([
   'timers',
   'util'
 ]).concat([
+  'antd',
   'electron',
   'fs-extra',
   'got',
