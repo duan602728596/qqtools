@@ -13,12 +13,14 @@ const scripts = await fsP.readFile(path.join(__dirname, 'XiaoHongShu.js'), { enc
  * How to use:
  *
  * console.log(
- *   await sign(`/api/sns/web/v1/user_posted?num=30&cursor=&user_id=594099df82ec393174227f18`)
+ *   await sign(`/api/sns/web/v1/user_posted?num=30&cursor=&user_id=594099df82ec393174227f18`, undefined, cookie)
  * )
  *
  * @param { string } uri
+ * @param { Record<string, unknown> | undefined } data
+ * @param { string } cookie
  */
-async function sign(uri) {
+async function sign(uri, data, cookie) {
   const browser = await chromium.launch({
     headless: true,
     executablePath: '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
@@ -41,9 +43,20 @@ async function sign(uri) {
 </html>`
       });
     });
+
+  if (typeof cookie === 'string') {
+    await context.addCookies(cookie.split(/;\s*/).map((cs) => {
+      const [name, value] = cs.split(/\s*=\s*/);
+
+      return { name, value, url: 'https://www.xiaohongshu.com/' };
+    }));
+  }
+
   await page.goto('https://www.xiaohongshu.com/user/profile/594099df82ec393174227f18', { timeout: 0 });
   await page.waitForLoadState('domcontentloaded', { timeout: 0 });
-  const handle = await page.evaluateHandle((u) => window._webmsxyw(u), uri);
+  const handle = await page.evaluateHandle(
+    ([u, d]) => window._webmsxyw(u, d),
+    [uri, data]);
 
   const result = await handle.jsonValue();
 
