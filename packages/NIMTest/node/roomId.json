@@ -98,6 +98,12 @@
       "account": "20190415141038_9e1nm6qihlgvlkr"
     },
     {
+      "id": 43,
+      "ownerName": "IDFT-徐伊人",
+      "roomId": "67217603",
+      "account": "20190415141758_acd9i8l4xap25j4"
+    },
+    {
       "id": 63,
       "ownerName": "袋王",
       "roomId": "67236601",
@@ -1796,6 +1802,20 @@
       "account": "20230408001642_6p97vvm7h3o2wni"
     },
     {
+      "ownerName": "李歆乐",
+      "id": 103350419,
+      "serverId": 5359579,
+      "account": "20230514175250_1yowdosbpzxuyku",
+      "team": "BEJ48"
+    },
+    {
+      "ownerName": "朱一柠",
+      "id": 103350420,
+      "serverId": 5457150,
+      "account": "20230514175250_n03y6g29g5m02jn",
+      "team": "BEJ48"
+    },
+    {
       "ownerName": "卢晨昕",
       "id": 103679154,
       "serverId": 5080426,
@@ -1976,5 +1996,5 @@
       "team": "CKG48"
     }
   ],
-  "buildTime": "2023-05-08 22:25:33"
+  "buildTime": "2023-05-21 23:51:46"
 }
