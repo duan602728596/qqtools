@@ -73,6 +73,7 @@ const externalsName: Array<string> = nodeModules([
   'js-yaml',
   'node-schedule',
   'nunjucks',
+  'playwright-core',
   'ws'
 ]);
 
