@@ -11,6 +11,7 @@ import type { Store } from 'rc-field-form/es/interface';
 import './index.global.sass';
 import checkboxDesc from './components/checkboxDesc';
 import pocket48LogDir from './components/pocket48LogDir';
+import xiaohongshuCacheFile from './components/xiaohongshuCacheFile';
 import IMLogin from './components/IMLogin/IMLogin';
 import randomId from './components/randomId';
 import { getOptionItem, saveFormData } from '../reducers/options';
@@ -22,7 +23,8 @@ const customComponent: CustomComponentObject = {
   checkboxDesc,
   pocket48LogDir,
   IMLogin,
-  randomId
+  randomId,
+  xiaohongshuCacheFile
 };
 
 const customTableRender: CustomTableRenderObject = {

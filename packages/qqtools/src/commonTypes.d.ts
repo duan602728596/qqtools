@@ -76,6 +76,14 @@ export interface OptionsItemBilibili {
   bilibiliAtAll?: string;
 }
 
+// 小红书
+export interface OptionsItemXiaohongshu {
+  xiaohongshuListener?: boolean;
+  userId: string;
+  description: string;
+  cacheFile: string;
+}
+
 // 定时任务
 export interface OptionsItemCronTimer {
   cronJob?: boolean;
@@ -99,6 +107,7 @@ export interface OptionsItemValueV2 extends OptionsItemBasic {
   weibo?: Array<OptionsItemWeibo>;
   douyin?: Array<OptionsItemDouyin>;
   bilibili?: Array<OptionsItemBilibili>;
+  xiaohongshu?: Array<OptionsItemXiaohongshu>;
   cronTimer?: Array<OptionsItemCronTimer>;
 }
 

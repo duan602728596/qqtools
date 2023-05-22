@@ -392,6 +392,45 @@
         }
       }
     },
+    "xiaohongshu": {
+      "id": "$root/properties/xiaohongshu",
+      "type": "array",
+      "title": "小红书监听",
+      "items": {
+        "id": "$root/properties/xiaohongshu/items",
+        "type": "object",
+        "title": "小红书监听配置",
+        "properties": {
+          "xiaohongshuListener": {
+            "id": "$root/properties/xiaohongshu/items/properties/xiaohongshuListener",
+            "type": "boolean",
+            "title": "小红书监听监听",
+            "$componentType": "switch",
+            "$defaultValue": true
+          },
+          "userId": {
+            "id": "$root/properties/xiaohongshu/items/properties/userId",
+            "type": "string",
+            "title": "用户ID",
+            "$required": true
+          },
+          "description": {
+            "id": "$root/properties/xiaohongshu/items/properties/description",
+            "type": "string",
+            "title": "监听介绍",
+            "$required": true
+          },
+          "cacheFile": {
+            "id": "$root/properties/xiaohongshu/items/properties/cacheFile",
+            "type": "string",
+            "title": "文件缓存地址",
+            "$required": true,
+            "$componentType": "xiaohongshuCacheFile",
+            "$tableColumnHidden": true
+          }
+        }
+      }
+    },
     "groupWelcome": {
       "id": "$root/properties/groupWelcome",
       "type": "boolean",
