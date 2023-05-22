@@ -65,7 +65,6 @@ const externalsName: Array<string> = nodeModules([
   'timers',
   'util'
 ]).concat([
-  'antd',
   'electron',
   'fs-extra',
   'got',
@@ -90,6 +89,7 @@ export default function(info: object): { [key: string]: any } {
       '@indexeddb-tools/indexeddb',
       '@indexeddb-tools/indexeddb-redux',
       '@yxim/nim-web-sdk/dist/SDK/NIM_Web_SDK.js',
+      'antd',
       'classnames',
       'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK',
       'nim-web-sdk-ng/dist/NIM_BROWSER_SDK',
