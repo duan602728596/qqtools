@@ -1,6 +1,10 @@
 /**
  * Encryption method on the web side of Xiaohongshu.
  *
+ * If you want to get cookie, use this api:
+ *
+ * https://edith.xiaohongshu.com/api/sns/web/v1/login/activate
+ *
  * If you want to get list, use this api:
  * https://edith.xiaohongshu.com/api/sns/web/v1/user_posted?num=30&cursor=&user_id=62331cfb000000001000d273
  *

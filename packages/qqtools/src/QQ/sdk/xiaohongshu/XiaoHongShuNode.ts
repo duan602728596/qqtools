@@ -31,7 +31,7 @@ export interface SignResult {
  * @param { Record<string, unknown> | undefined } data
  * @param { string } cookie
  */
-async function sign(
+export async function sign(
   executablePath: string,
   uri: string,
   data: Record<string, unknown> | undefined,
@@ -67,7 +67,6 @@ async function sign(
   const handle: JSHandle = await page.evaluateHandle(
     ([u, d]: [string, Record<string, unknown> | undefined]) => window['_webmsxyw'](u, d),
     [uri, data]);
-
   const result: SignResult = await handle.jsonValue();
 
   await page.close();
@@ -76,4 +75,29 @@ async function sign(
   return result;
 }
 
-export default sign;
+/**
+ * @param { string } executablePath
+ */
+export async function getCookie(executablePath: string): Promise<string> {
+  const browser: Browser = await getBrowser(executablePath).launch({
+    headless: true,
+    executablePath,
+    timeout: 0
+  });
+  const context: BrowserContext = await browser.newContext();
+  const page: Page = await context.newPage();
+
+  await page.route(
+    (u: URL): boolean => /\.(png|j?peg|webp|avif|icon?|gif)/.test(u.pathname) || /\/webp/.test(u.href),
+    async function(route: Route, request: Request): Promise<void> {
+      await route.abort();
+    });
+  await page.goto('https://www.xiaohongshu.com/user/profile/594099df82ec393174227f18', { timeout: 0 });
+  await page.waitForLoadState('domcontentloaded', { timeout: 0 });
+  const cookie: string = ((await context.cookies()) ?? []).map((c: Cookie): string => `${ c.name }=${ c.value }`).join('; ');
+
+  await page.close();
+  await browser.close();
+
+  return cookie;
+}
