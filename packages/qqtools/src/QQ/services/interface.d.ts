@@ -48,6 +48,25 @@ export interface UserPostedResponse {
   };
 }
 
+export interface FeedNodeCard {
+  time: number;
+  title: string;
+  type: 'normal' | 'video';
+  user: {
+    avatar: string;
+    nickname: string;
+  };
+  video?: {
+    media: {
+      stream: {
+        h264: [{
+          master_url: string;
+        }];
+      };
+    };
+  };
+}
+
 export interface NoteFeedResponse {
   code: number;
   success: boolean;
@@ -55,24 +74,7 @@ export interface NoteFeedResponse {
     items: [{
       id: string;
       model_type: 'note';
-      note_card: [{
-        time: number;
-        title: string;
-        type: 'normal' | 'video';
-        user: {
-          avatar: string;
-          nickname: string;
-        };
-        video?: {
-          media: {
-            stream: {
-              h264: [{
-                master_url: string;
-              }];
-            };
-          };
-        };
-      }];
+      note_card: FeedNodeCard;
     }];
   };
 }

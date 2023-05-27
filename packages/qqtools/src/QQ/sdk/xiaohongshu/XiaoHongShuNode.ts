@@ -1,6 +1,6 @@
 import type { Browser, BrowserContext, Page, Route, Request, Cookie, JSHandle } from 'playwright-core';
 import { getBrowser } from '../../../utils/utils';
-import script from './script.mjs';
+import script from './script.js';
 
 const xiaohongshuBody: string = `<html>
 <head>
@@ -93,7 +93,7 @@ export async function getCookie(executablePath: string): Promise<string> {
       await route.abort();
     });
   await page.goto('https://www.xiaohongshu.com/user/profile/594099df82ec393174227f18', { timeout: 0 });
-  await page.waitForLoadState('domcontentloaded', { timeout: 0 });
+  await page.waitForSelector('.user-name', { timeout: 0 });
   const cookie: string = ((await context.cookies()) ?? []).map((c: Cookie): string => `${ c.name }=${ c.value }`).join('; ');
 
   await page.close();

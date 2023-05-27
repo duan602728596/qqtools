@@ -4,6 +4,7 @@ import Pocket48V2Expand from '../function/expand/pocket48/Pocket48V2Expand';
 import WeiboExpand from '../function/expand/weibo/WeiboExpand';
 import DouyinExpand from '../function/expand/douyin/DouyinExpand';
 import BilibiliExpand from '../function/expand/bilibili/BilibiliExpand';
+import XiaohongshuExpand from '../function/expand/xiaohongshu/XiaohongshuExpand';
 import CronTimerExpand from '../function/expand/cronTimer/CronTimerExpand';
 import QChatSocket from '../sdk/QChatSocket';
 import { QQProtocol, type QQModals } from './ModalTypes';
@@ -39,6 +40,7 @@ abstract class Basic {
   public weibo: Array<WeiboExpand> | undefined;
   public douyin: Array<DouyinExpand> | undefined;
   public bilibili: Array<BilibiliExpand> | undefined;
+  public xiaohonshu: Array<XiaohongshuExpand> | undefined;
   public cronTimer: Array<CronTimerExpand> | undefined;
   messageApi: typeof message | MessageInstance = message;
 
@@ -103,6 +105,22 @@ abstract class Basic {
       }
     }
 
+    if (this.config.xiaohongshu) {
+      this.xiaohonshu = [];
+
+      for (const item of this.config.xiaohongshu) {
+        const xiaohonshu: XiaohongshuExpand = new XiaohongshuExpand({
+          qq: this,
+          config: item,
+          protocol: this.protocol,
+          messageApi: this.messageApi
+        });
+
+        xiaohonshu.initXiaohongshuWorker();
+        this.xiaohonshu.push(xiaohonshu);
+      }
+    }
+
     if (this.config.cronTimer) {
       this.cronTimer = [];
 
@@ -138,6 +156,11 @@ abstract class Basic {
     if (this.bilibili) {
       this.bilibili.forEach((item: BilibiliExpand): unknown => item.destroy());
       this.bilibili = undefined;
+    }
+
+    if (this.xiaohonshu) {
+      this.xiaohonshu.forEach((item: XiaohongshuExpand): unknown => item.destroy());
+      this.xiaohonshu = undefined;
     }
 
     // 销毁定时任务

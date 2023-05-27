@@ -28,9 +28,13 @@ class XiaohongshuExpand {
     messageApi && (this.#messageApi = messageApi);
   }
 
-  // 微博监听
+  // 小红书监听
   handleWeiboWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
-    await this.qq.sendMessage(event.data.sendGroup);
+    if (event.data.type === 'message') {
+      for (let i: number = event.data.sendGroup.length - 1; i >= 0; i--) {
+        await this.qq.sendMessage(event.data.sendGroup[i] as any);
+      }
+    }
   };
 
   // 初始化
@@ -51,7 +55,9 @@ class XiaohongshuExpand {
     this.xiaohongshuWorker.addEventListener('message', this.handleWeiboWorkerMessage, false);
     this.xiaohongshuWorker.postMessage({
       userId: this.userId,
-      cacheFile
+      cacheFile,
+      executablePath,
+      protocol: this.protocol
     });
   }
 

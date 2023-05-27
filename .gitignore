@@ -30,3 +30,4 @@ packages/node-oicqhttp/config.dev.js
 packages/node-oicqhttp/config.dev.mjs
 packages/node-oicqhttp/oicq
 .pkg_cache
+xiaohongshu_cache
