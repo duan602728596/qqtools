@@ -5,6 +5,7 @@ import { isDevelopment, packageJson } from './utils';
 import { ipc, removeIpc } from './ipc';
 import ipcRemoteHandle from './ipcHandle/ipcRemoteHandle';
 import { proxyServerClose } from './proxyServer/proxyServer';
+import logProtocol from './logProtocol/logProtocol';
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1'; // 关闭警告
 
@@ -13,6 +14,8 @@ let win: BrowserWindow | null = null;
 
 /* 初始化 */
 function createWindow(): void {
+  logProtocol();
+
   win = new BrowserWindow({
     width: 1000,
     height: 800,

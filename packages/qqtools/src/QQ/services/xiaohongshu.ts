@@ -1,5 +1,7 @@
 import got, { type Response as GotResponse } from 'got';
+import type { _UserPostedObject, _FeedObject } from '@qqtools3/main/src/logProtocol/logTemplate/xiaohongshu';
 import { sign, type SignResult } from '../sdk/xiaohongshu/XiaoHongShuNode';
+import { _xiaohongshuLogProtocol } from '../../utils/logProtocol/logActions';
 import type { UserPostedResponse, NoteFeedResponse } from './interface';
 
 // 请求user数据
@@ -16,15 +18,21 @@ export async function requestUserPosted(userId: string, cookie: string, executab
     }
   });
 
-  if (process.env.NODE_ENV === 'development') {
-    console.log('小红书 user_posted', res.body);
-  }
+  _xiaohongshuLogProtocol.post<_UserPostedObject>('userPosted', {
+    userId,
+    response: JSON.stringify(res.body, null, 2)
+  });
 
   return res.body;
 }
 
 // 请求feed
-export async function requestFeed(sourceNoteId: string, cookie: string, executablePath: string): Promise<NoteFeedResponse> {
+export async function requestFeed(
+  sourceNoteId: string,
+  cookie: string,
+  executablePath: string,
+  userId: string
+): Promise<NoteFeedResponse> {
   const reqPath: string = '/api/sns/web/v1/feed';
   const json: { source_note_id: string } = { source_note_id: sourceNoteId };
   const headers: SignResult = await sign(executablePath, reqPath, json, cookie);
@@ -39,9 +47,11 @@ export async function requestFeed(sourceNoteId: string, cookie: string, executab
     json
   });
 
-  if (process.env.NODE_ENV === 'development') {
-    console.log('小红书 feed', res.body);
-  }
+  _xiaohongshuLogProtocol.post<_FeedObject>('feed', {
+    userId,
+    sourceNoteId,
+    response: JSON.stringify(res.body, null, 2)
+  });
 
   return res.body;
 }

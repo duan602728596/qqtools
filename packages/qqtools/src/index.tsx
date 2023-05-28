@@ -13,6 +13,7 @@ import IDBInit from './utils/IDB/IDBInit';
 import './main.tailwindcss.css';
 import { proxyServerInit } from './utils/proxyServer/proxyServer';
 import './components/Accessibility/Accessibility';
+import './utils/logProtocol/logProtocolBroadcastChannel';
 
 dayjs.locale('zh-cn');
 

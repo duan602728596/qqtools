@@ -53,7 +53,7 @@ function QQSendGroup(item: Required<MergeData>): string {
 
 /* 获取详细信息 */
 async function getFeed(sourceNoteId: string): Promise<FeedNodeCard | undefined> {
-  const res: NoteFeedResponse = await requestFeed(sourceNoteId, cookieString, executablePath);
+  const res: NoteFeedResponse = await requestFeed(sourceNoteId, cookieString, executablePath, userId);
 
   if (res.success) {
     return res.data.items?.[0].note_card;
