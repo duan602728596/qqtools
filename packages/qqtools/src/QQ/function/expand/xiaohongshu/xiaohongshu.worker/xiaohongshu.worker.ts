@@ -60,8 +60,13 @@ async function getFeed(sourceNoteId: string): Promise<FeedNodeCard | undefined> 
   }
 }
 
-/* 格式化数据 */
-async function formatData(data: Array<PostedNoteItem>, feeds: Array<FeedNodeCard | undefined>, cache: JsonCache): Promise<MergeData[]> {
+/**
+ * 格式化数据
+ * @param { Array<PostedNoteItem> } data: 小红书列表
+ * @param { Array<FeedNodeCard | undefined> } feeds: 列表item对应的feed
+ * @param { JsonCache } cache: 小红书缓存
+ */
+async function formatToMergeData(data: PostedNoteItem[], feeds: (FeedNodeCard | undefined)[], cache: JsonCache): Promise<MergeData[]> {
   const nextData: Array<MergeData> = [];
 
   data.forEach((item: PostedNoteItem, index: number): void => {
@@ -106,6 +111,32 @@ async function formatData(data: Array<PostedNoteItem>, feeds: Array<FeedNodeCard
   return nextData;
 }
 
+/* 获取和格式化数据 */
+type GetMergeDataReturn = { mergeData: Array<MergeData>; everyHasTime: boolean };
+
+/**
+ * @param { Array<PostedNoteItem> } data: 获取到的列表
+ */
+async function getMergeData(data: Array<PostedNoteItem>): Promise<GetMergeDataReturn> {
+  const cache: JsonCache = await readCache();
+  const feeds: Array<FeedNodeCard | undefined> = [];
+
+  for (const item of data) {
+    if (item.note_id in cache.cache) {
+      feeds.push(cache.cache[item.note_id]);
+    } else {
+      feeds.push(await getFeed(item.note_id));
+    }
+  }
+
+  const mergeData: Array<MergeData> = await formatToMergeData(data, feeds, cache); // 请求完数据后格式化数据
+  const everyHasTime: boolean = mergeData.every((o: MergeData): boolean => !!o.card?.time);
+
+  if (everyHasTime) mergeData.sort((a: MergeData, b: MergeData): number => b.card!.time - a.card!.time);
+
+  return { mergeData, everyHasTime };
+}
+
 /* 小红书轮询 */
 async function xiaohongshuListener(): Promise<void> {
   try {
@@ -121,29 +152,16 @@ async function xiaohongshuListener(): Promise<void> {
       const data: Array<PostedNoteItem> = userPostedRes.data.notes ?? [];
 
       if (data.length) {
-        const cache: JsonCache = await readCache();
-        const feeds: Array<FeedNodeCard | undefined> = [];
+        const { mergeData, everyHasTime }: GetMergeDataReturn = await getMergeData(data);
 
-        for (const item of data) {
-          if (item.note_id in cache.cache) {
-            feeds.push(cache.cache[item.note_id]);
-          } else {
-            feeds.push(await getFeed(item.note_id));
-          }
-        }
-
-        const fd: Array<MergeData> = await formatData(data, feeds, cache); // 请求完数据后格式化数据
-
-        if (fd.every((o: MergeData): boolean => !!o.card?.time)) {
-          fd.sort((a: MergeData, b: MergeData): number => b.card!.time - a.card!.time);
-
+        if (everyHasTime) {
           if (lastUpdateTime === null) {
-            lastUpdateTime = fd[0].card!.time;
+            lastUpdateTime = mergeData[0].card!.time;
           }
 
           const sendGroup: Array<ParserResult> = [];
 
-          for (const item of fd) {
+          for (const item of mergeData) {
             if (item.card!.time > lastUpdateTime) {
               sendGroup.push(parser(QQSendGroup(item as Required<MergeData>), protocol));
             } else {
@@ -156,7 +174,7 @@ async function xiaohongshuListener(): Promise<void> {
               type: 'message',
               sendGroup
             });
-            lastUpdateTime = fd[0].card!.time;
+            lastUpdateTime = mergeData[0].card!.time;
           }
         }
       }
@@ -181,30 +199,14 @@ async function xiaohongshuInit(): Promise<void> {
       const data: Array<PostedNoteItem> = userPostedRes.data.notes ?? [];
 
       if (data.length) {
-        const cache: JsonCache = await readCache();
-        const feeds: Array<FeedNodeCard | undefined> = [];
+        const { mergeData, everyHasTime }: GetMergeDataReturn = await getMergeData(data);
 
-        for (const item of data) {
-          if (item.note_id in cache.cache) {
-            feeds.push(cache.cache[item.note_id]);
-          } else {
-            feeds.push(await getFeed(item.note_id));
-          }
-        }
-
-        const fd: Array<MergeData> = await formatData(data, feeds, cache); // 请求完数据后格式化数据
-
-        if (fd.every((o: MergeData): boolean => !!o.card?.time)) {
-          fd.sort((a: MergeData, b: MergeData): number => b.card!.time - a.card!.time);
-          lastUpdateTime = fd[0].card!.time;
-        } else {
-          lastUpdateTime = 0;
+        if (everyHasTime) {
+          lastUpdateTime = mergeData[0].card!.time;
         }
       } else {
         lastUpdateTime = 0;
       }
-    } else {
-      lastUpdateTime = 0;
     }
   } catch (err) {
     console.error(err);
