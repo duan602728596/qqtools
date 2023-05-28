@@ -78,26 +78,34 @@ export async function sign(
 /**
  * @param { string } executablePath
  */
-export async function getCookie(executablePath: string): Promise<string> {
-  const browser: Browser = await getBrowser(executablePath).launch({
-    headless: true,
-    executablePath,
-    timeout: 0
-  });
-  const context: BrowserContext = await browser.newContext();
-  const page: Page = await context.newPage();
+export async function getCookie(executablePath: string): Promise<string | undefined> {
+  let browser: Browser | null = null,
+    page: Page | null = null;
 
-  await page.route(
-    (u: URL): boolean => /\.(png|j?peg|webp|avif|icon?|gif)/.test(u.pathname) || /\/webp/.test(u.href),
-    async function(route: Route, request: Request): Promise<void> {
-      await route.abort();
+  try {
+    browser = await getBrowser(executablePath).launch({
+      headless: true,
+      executablePath,
+      timeout: 0
     });
-  await page.goto('https://www.xiaohongshu.com/user/profile/594099df82ec393174227f18', { timeout: 0 });
-  await page.waitForSelector('.user-name', { timeout: 0 });
-  const cookie: string = ((await context.cookies()) ?? []).map((c: Cookie): string => `${ c.name }=${ c.value }`).join('; ');
+    const context: BrowserContext = await browser.newContext();
 
-  await page.close();
-  await browser.close();
+    page = await context.newPage();
+    await page.route(
+      (u: URL): boolean => /\.(png|j?peg|webp|avif|icon?|gif)/.test(u.pathname) || /\/webp/.test(u.href),
+      async function(route: Route, request: Request): Promise<void> {
+        await route.abort();
+      });
+    await page.goto('https://www.xiaohongshu.com/user/profile/594099df82ec393174227f18', { timeout: 0 });
+    await page.waitForSelector('.user-name', { timeout: 60_000 * 5 });
+    const cookie: string = ((await context.cookies()) ?? []).map((c: Cookie): string => `${ c.name }=${ c.value }`).join('; ');
 
-  return cookie;
+    await page.close();
+    await browser.close();
+
+    return cookie;
+  } catch (err) {
+    await page?.close?.();
+    await browser?.close?.();
+  }
 }

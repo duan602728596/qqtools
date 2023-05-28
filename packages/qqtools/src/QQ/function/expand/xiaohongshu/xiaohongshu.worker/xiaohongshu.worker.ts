@@ -142,7 +142,9 @@ async function xiaohongshuListener(): Promise<void> {
   try {
     // 重新获取cookie
     if (cookieStringNumber > 24 * 12) {
-      cookieString = await getCookie(executablePath);
+      const nextCookie: string | undefined = await getCookie(executablePath);
+
+      nextCookie && (cookieString = nextCookie);
       cookieStringNumber = 0;
     }
 
@@ -190,7 +192,7 @@ async function xiaohongshuListener(): Promise<void> {
 /* 初始化小红书 */
 async function xiaohongshuInit(): Promise<void> {
   try {
-    cookieString = await getCookie(executablePath);
+    cookieString = (await getCookie(executablePath))!;
     console.log(`小红书Cookie获取成功：${ cookieString }`);
 
     const userPostedRes: UserPostedResponse = await requestUserPosted(userId, cookieString, executablePath);
