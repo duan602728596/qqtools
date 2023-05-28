@@ -1,3 +1,4 @@
+import { setTimeout as setTimeoutPromise } from 'node:timers/promises';
 import { message } from 'antd';
 import type { MessageInstance } from 'antd/es/message/interface';
 import Pocket48V2Expand from '../function/expand/pocket48/Pocket48V2Expand';
@@ -118,6 +119,7 @@ abstract class Basic {
 
         xiaohonshu.initXiaohongshuWorker();
         this.xiaohonshu.push(xiaohonshu);
+        await setTimeoutPromise(60_000);
       }
     }
 

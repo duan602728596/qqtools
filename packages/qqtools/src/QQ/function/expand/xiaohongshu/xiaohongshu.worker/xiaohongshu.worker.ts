@@ -141,7 +141,7 @@ async function getMergeData(data: Array<PostedNoteItem>): Promise<GetMergeDataRe
 async function xiaohongshuListener(): Promise<void> {
   try {
     // 重新获取cookie
-    if (cookieStringNumber > 10) {
+    if (cookieStringNumber > 24 * 12) {
       cookieString = await getCookie(executablePath);
       cookieStringNumber = 0;
     }

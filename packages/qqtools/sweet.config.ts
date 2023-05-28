@@ -63,6 +63,7 @@ const externalsName: Array<string> = nodeModules([
   'path',
   'process',
   'timers',
+  'timers/promises',
   'util'
 ]).concat([
   'electron',
