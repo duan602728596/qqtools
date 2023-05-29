@@ -6,20 +6,25 @@ import { QQProtocol } from '../../../../QQBotModals/ModalTypes';
 import parser, { type ParserResult } from '../../../parser';
 import * as CQ from '../../../parser/CQ';
 import { isCloseMessage, type MessageObject, type BaseInitMessage, type JsonCache, type MergeData } from './messageTypes';
-import { getCookie } from '../../../../sdk/xiaohongshu/XiaoHongShuNode';
 import { requestUserPosted, requestFeed } from '../../../../services/xiaohongshu';
 import type { UserPostedResponse, NoteFeedResponse, PostedNoteItem, FeedNodeCard } from '../../../../services/interface';
 
 /* 小红书 */
 let userId: string;
+let description: string;
 let cacheFile: string;
 let executablePath: string;
 let cookieString: string;
-let cookieStringNumber: number = 0;
 let protocol: QQProtocol; // 协议
 let lastUpdateTime: number | 0 | null = null; // 记录最新发布的更新时间，为0表示当前没有数据，null表示请求数据失败了
 const intervalTime: number = 5 * 60 * 1_000;  // 轮询间隔
 let xiaohongshuTimer: NodeJS.Timer | undefined = undefined; // 轮询定时器
+
+/* 调试 */
+const _startTime: string = dayjs().format('YYYY-MM-DD HH:mm:ss');
+let _isSendDebugMessage: boolean = false;     // 是否发送调试信息
+let _debugTimes: number = 0;                  // 调试次数
+let _sendedXiaohongshuDebugInfo: boolean = false;
 
 /* 从cache中获取缓存 */
 function readCache(): Promise<JsonCache> {
@@ -140,17 +145,11 @@ async function getMergeData(data: Array<PostedNoteItem>): Promise<GetMergeDataRe
 /* 小红书轮询 */
 async function xiaohongshuListener(): Promise<void> {
   try {
-    // 重新获取cookie
-    if (cookieStringNumber > 24 * 12) {
-      const nextCookie: string | undefined = await getCookie(executablePath);
-
-      nextCookie && (cookieString = nextCookie);
-      cookieStringNumber = 0;
-    }
-
     const userPostedRes: UserPostedResponse = await requestUserPosted(userId, cookieString, executablePath);
 
     if (userPostedRes.success) {
+      _isSendDebugMessage && (_debugTimes = 0);
+
       const data: Array<PostedNoteItem> = userPostedRes.data.notes ?? [];
 
       if (data.length) {
@@ -180,21 +179,36 @@ async function xiaohongshuListener(): Promise<void> {
           }
         }
       }
+    } else {
+      const _endTime: string = dayjs().format('YYYY-MM-DD HH:mm:ss');
+
+      console.warn('[小红书]没有获取到UserPostedResponse。', '--->', description ?? userId, _endTime);
+
+      if (_isSendDebugMessage) {
+        _debugTimes++;
+
+        if (_debugTimes > 6 && !_sendedXiaohongshuDebugInfo) {
+          postMessage({
+            type: 'message',
+            sendGroup: [parser(`[qqtools] Debug info: your Xiaohongshu cookie has expired.
+UserId: ${ userId }
+StartTime: ${ _startTime }
+EndTime: ${ _endTime }`, protocol)]
+          });
+          _sendedXiaohongshuDebugInfo = true;
+        }
+      }
     }
   } catch (err) {
     console.error(err);
   }
 
-  cookieStringNumber++;
   xiaohongshuTimer = setTimeout(xiaohongshuListener, intervalTime);
 }
 
 /* 初始化小红书 */
 async function xiaohongshuInit(): Promise<void> {
   try {
-    cookieString = (await getCookie(executablePath))!;
-    console.log(`小红书Cookie获取成功：${ cookieString }`);
-
     const userPostedRes: UserPostedResponse = await requestUserPosted(userId, cookieString, executablePath);
 
     if (userPostedRes.success) {
@@ -209,6 +223,10 @@ async function xiaohongshuInit(): Promise<void> {
       } else {
         lastUpdateTime = 0;
       }
+    } else {
+      console.warn('[小红书]初始化时没有获取到UserPostedResponse。', '--->', description ?? userId,
+        dayjs().format('YYYY-MM-DD HH:mm:ss'));
+      _isSendDebugMessage && _debugTimes++;
     }
   } catch (err) {
     console.error(err);
@@ -227,13 +245,19 @@ addEventListener('message', function(event: MessageEvent<MessageObject>): void {
       userId: userId1,
       cacheFile: cacheFile1,
       executablePath: executablePath1,
-      protocol: protocol1
+      protocol: protocol1,
+      description: description1,
+      cookieString: cookieString1,
+      isSendDebugMessage
     }: BaseInitMessage = event.data;
 
     userId = userId1;
     cacheFile = cacheFile1;
     executablePath = executablePath1;
     protocol = protocol1;
+    description = description1;
+    cookieString = cookieString1;
+    _isSendDebugMessage = !!isSendDebugMessage;
     xiaohongshuInit();
   }
 });

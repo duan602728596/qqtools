@@ -39,7 +39,7 @@ class XiaohongshuExpand {
 
   // 初始化
   initXiaohongshuWorker(): void {
-    const { xiaohongshuListener, userId, cacheFile }: OptionsItemXiaohongshu = this.config;
+    const { xiaohongshuListener, userId, cookieString, description, cacheFile, isSendDebugMessage }: OptionsItemXiaohongshu = this.config;
     const executablePath: string | null = getExecutablePath();
 
     if (!executablePath) {
@@ -57,7 +57,10 @@ class XiaohongshuExpand {
       userId: this.userId,
       cacheFile,
       executablePath,
-      protocol: this.protocol
+      protocol: this.protocol,
+      cookieString,
+      description,
+      isSendDebugMessage
     });
   }
 

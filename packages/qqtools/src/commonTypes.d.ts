@@ -80,8 +80,10 @@ export interface OptionsItemBilibili {
 export interface OptionsItemXiaohongshu {
   xiaohongshuListener?: boolean;
   userId: string;
+  cookieString: string;
   description: string;
   cacheFile: string;
+  isSendDebugMessage?: boolean;
 }
 
 // 定时任务

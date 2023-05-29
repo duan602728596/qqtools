@@ -361,6 +361,59 @@
         }
       }
     },
+    "xiaohongshu": {
+      "id": "$root/properties/xiaohongshu",
+      "type": "array",
+      "title": "小红书监听",
+      "items": {
+        "id": "$root/properties/xiaohongshu/items",
+        "type": "object",
+        "title": "小红书监听配置",
+        "properties": {
+          "xiaohongshuListener": {
+            "id": "$root/properties/xiaohongshu/items/properties/xiaohongshuListener",
+            "type": "boolean",
+            "title": "小红书监听监听",
+            "$componentType": "switch",
+            "$defaultValue": true
+          },
+          "userId": {
+            "id": "$root/properties/xiaohongshu/items/properties/userId",
+            "type": "string",
+            "title": "用户ID",
+            "$required": true
+          },
+          "cookieString": {
+            "id": "$root/properties/xiaohongshu/items/properties/cookieString",
+            "type": "string",
+            "title": "Cookie（注意千万不要填写登录后的Cookie）",
+            "$required": true,
+            "$componentType": "textArea",
+            "$tableColumnHidden": true
+          },
+          "description": {
+            "id": "$root/properties/xiaohongshu/items/properties/description",
+            "type": "string",
+            "title": "监听介绍",
+            "$required": true
+          },
+          "cacheFile": {
+            "id": "$root/properties/xiaohongshu/items/properties/cacheFile",
+            "type": "string",
+            "title": "文件缓存地址",
+            "$required": true,
+            "$componentType": "xiaohongshuCacheFile",
+            "$tableColumnHidden": true
+          },
+          "isSendDebugMessage": {
+            "id": "$root/properties/xiaohongshu/items/properties/isSendDebugMessage",
+            "type": "boolean",
+            "title": "cookie过期时，发送到群里提醒",
+            "$tableColumnHidden": true
+          }
+        }
+      }
+    },
     "cronTimer": {
       "id": "$root/properties/cronTimer",
       "type": "array",
@@ -387,45 +440,6 @@
             "type": "string",
             "title": "发送信息",
             "$componentType": "textArea",
-            "$tableColumnHidden": true
-          }
-        }
-      }
-    },
-    "xiaohongshu": {
-      "id": "$root/properties/xiaohongshu",
-      "type": "array",
-      "title": "小红书监听",
-      "items": {
-        "id": "$root/properties/xiaohongshu/items",
-        "type": "object",
-        "title": "小红书监听配置",
-        "properties": {
-          "xiaohongshuListener": {
-            "id": "$root/properties/xiaohongshu/items/properties/xiaohongshuListener",
-            "type": "boolean",
-            "title": "小红书监听监听",
-            "$componentType": "switch",
-            "$defaultValue": true
-          },
-          "userId": {
-            "id": "$root/properties/xiaohongshu/items/properties/userId",
-            "type": "string",
-            "title": "用户ID",
-            "$required": true
-          },
-          "description": {
-            "id": "$root/properties/xiaohongshu/items/properties/description",
-            "type": "string",
-            "title": "监听介绍",
-            "$required": true
-          },
-          "cacheFile": {
-            "id": "$root/properties/xiaohongshu/items/properties/cacheFile",
-            "type": "string",
-            "title": "文件缓存地址",
-            "$required": true,
-            "$componentType": "xiaohongshuCacheFile",
             "$tableColumnHidden": true
           }
         }

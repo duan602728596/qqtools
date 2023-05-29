@@ -129,7 +129,7 @@ async function handleDouyinListener(): Promise<void> {
     } else {
       const _endTime: string = dayjs().format('YYYY-MM-DD HH:mm:ss');
 
-      console.warn('没有获取到RENDER_DATA。', '--->', description ?? userId, _endTime);
+      console.warn('[抖音]没有获取到RENDER_DATA。', '--->', description ?? userId, _endTime);
 
       if (_isSendDebugMessage) {
         _debugTimes++;
@@ -164,7 +164,7 @@ async function douyinInit(): Promise<void> {
 
       lastUpdateTime = data.length ? data[0].create_time : 0;
     } else {
-      console.warn('初始化时没有获取到RENDER_DATA。', '--->', description ?? userId,
+      console.warn('[抖音]初始化时没有获取到RENDER_DATA。', '--->', description ?? userId,
         dayjs().format('YYYY-MM-DD HH:mm:ss'));
       _isSendDebugMessage && _debugTimes++;
     }

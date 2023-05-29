@@ -12,6 +12,9 @@ export interface BaseInitMessage {
   cacheFile: string;
   executablePath: string;
   protocol: QQProtocol;
+  cookieString: string;
+  description: string;
+  isSendDebugMessage?: boolean;
 }
 
 export type MessageObject = CloseMessage | BaseInitMessage;

@@ -119,7 +119,6 @@ abstract class Basic {
 
         xiaohonshu.initXiaohongshuWorker();
         this.xiaohonshu.push(xiaohonshu);
-        await setTimeoutPromise(60_000);
       }
     }
 
