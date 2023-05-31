@@ -13,8 +13,8 @@ import type { UserPostedResponse, NoteFeedResponse, PostedNoteItem, FeedNodeCard
 let userId: string;
 let description: string;
 let cacheFile: string;
-let executablePath: string;
 let cookieString: string;
+let port: number;
 let protocol: QQProtocol; // 协议
 let lastUpdateTime: number | 0 | null = null; // 记录最新发布的更新时间，为0表示当前没有数据，null表示请求数据失败了
 const intervalTime: number = 5 * 60 * 1_000;  // 轮询间隔
@@ -58,7 +58,7 @@ function QQSendGroup(item: Required<MergeData>): string {
 
 /* 获取详细信息 */
 async function getFeed(sourceNoteId: string): Promise<FeedNodeCard | undefined> {
-  const res: NoteFeedResponse = await requestFeed(sourceNoteId, cookieString, executablePath, userId);
+  const res: NoteFeedResponse = await requestFeed(sourceNoteId, cookieString, port, userId);
 
   if (res.success) {
     return res.data.items?.[0].note_card;
@@ -145,7 +145,7 @@ async function getMergeData(data: Array<PostedNoteItem>): Promise<GetMergeDataRe
 /* 小红书轮询 */
 async function xiaohongshuListener(): Promise<void> {
   try {
-    const userPostedRes: UserPostedResponse = await requestUserPosted(userId, cookieString, executablePath);
+    const userPostedRes: UserPostedResponse = await requestUserPosted(userId, cookieString, port);
 
     if (userPostedRes.success) {
       _isSendDebugMessage && (_debugTimes = 0);
@@ -209,7 +209,7 @@ EndTime: ${ _endTime }`, protocol)]
 /* 初始化小红书 */
 async function xiaohongshuInit(): Promise<void> {
   try {
-    const userPostedRes: UserPostedResponse = await requestUserPosted(userId, cookieString, executablePath);
+    const userPostedRes: UserPostedResponse = await requestUserPosted(userId, cookieString, port);
 
     if (userPostedRes.success) {
       const data: Array<PostedNoteItem> = userPostedRes.data.notes ?? [];
@@ -244,17 +244,17 @@ addEventListener('message', function(event: MessageEvent<MessageObject>): void {
     const {
       userId: userId1,
       cacheFile: cacheFile1,
-      executablePath: executablePath1,
       protocol: protocol1,
       description: description1,
       cookieString: cookieString1,
+      port: port1,
       isSendDebugMessage
     }: BaseInitMessage = event.data;
 
     userId = userId1;
     cacheFile = cacheFile1;
-    executablePath = executablePath1;
     protocol = protocol1;
+    port = port1;
     description = description1;
     cookieString = cookieString1;
     _isSendDebugMessage = !!isSendDebugMessage;

@@ -1,7 +1,6 @@
 import {
   ipcMain,
   dialog,
-  type BrowserWindow,
   type IpcMainInvokeEvent,
   type OpenDialogOptions,
   type OpenDialogReturnValue,
@@ -10,7 +9,7 @@ import {
 } from 'electron';
 
 /* Remote方法的迁移 */
-function ipcRemoteHandle(win: BrowserWindow): void {
+function ipcRemoteHandle(): void {
   // 显示打开的文件选择框
   ipcMain.handle(
     'show-open-dialog',

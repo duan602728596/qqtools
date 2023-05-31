@@ -8,6 +8,7 @@ import XiaohongshuExpand from '../function/expand/xiaohongshu/XiaohongshuExpand'
 import CronTimerExpand from '../function/expand/cronTimer/CronTimerExpand';
 import QChatSocket from '../sdk/QChatSocket';
 import { QQProtocol, type QQModals } from './ModalTypes';
+import { detectPort } from '../../utils/utils';
 import type { OptionsItemValueV2, MemberInfo } from '../../commonTypes';
 
 export type MessageListener = (event: MessageEvent) => void | Promise<void>;
@@ -107,13 +108,18 @@ abstract class Basic {
 
     if (this.config.xiaohongshu) {
       this.xiaohonshu = [];
+      const port: number = await detectPort(22150);
+
+      await XiaohongshuExpand.windowInit();
 
       for (const item of this.config.xiaohongshu) {
         const xiaohonshu: XiaohongshuExpand = new XiaohongshuExpand({
           qq: this,
           config: item,
           protocol: this.protocol,
-          messageApi: this.messageApi
+          messageApi: this.messageApi,
+          port,
+          cookie: await XiaohongshuExpand.cookie(port)
         });
 
         xiaohonshu.initXiaohongshuWorker();
@@ -161,6 +167,7 @@ abstract class Basic {
     if (this.xiaohonshu) {
       this.xiaohonshu.forEach((item: XiaohongshuExpand): unknown => item.destroy());
       this.xiaohonshu = undefined;
+      XiaohongshuExpand.destroy();
     }
 
     // 销毁定时任务

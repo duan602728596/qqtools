@@ -10,9 +10,9 @@ export interface CloseMessage {
 export interface BaseInitMessage {
   userId: string;
   cacheFile: string;
-  executablePath: string;
   protocol: QQProtocol;
   cookieString: string;
+  port: number;
   description: string;
   isSendDebugMessage?: boolean;
 }

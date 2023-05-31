@@ -383,14 +383,6 @@
             "title": "用户ID",
             "$required": true
           },
-          "cookieString": {
-            "id": "$root/properties/xiaohongshu/items/properties/cookieString",
-            "type": "string",
-            "title": "Cookie（注意千万不要填写登录后的Cookie）",
-            "$required": true,
-            "$componentType": "textArea",
-            "$tableColumnHidden": true
-          },
           "description": {
             "id": "$root/properties/xiaohongshu/items/properties/description",
             "type": "string",

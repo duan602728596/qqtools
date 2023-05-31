@@ -1,3 +1,4 @@
+import { ipcRenderer } from 'electron';
 import { message } from 'antd';
 import type { MessageInstance } from 'antd/es/message/interface';
 import getXiaohongshuWorker from './xiaohongshu.worker/getXiaohongshuWorker';
@@ -14,17 +15,35 @@ class XiaohongshuExpand {
   public protocol: QQProtocol;
   public userId: string; // 用户ID
   public xiaohongshuWorker?: Worker; // 监听
+  public port: number;
+  public cookie: string;
   #messageApi: typeof message | MessageInstance = message;
 
-  constructor({ config, qq, protocol, messageApi }: {
+  static windowInit(): Promise<void> {
+    return ipcRenderer.invoke('xiaohongshu-window-init');
+  }
+
+  static cookie(port: number): Promise<string> {
+    return ipcRenderer.invoke('xiaohongshu-cookie', port);
+  }
+
+  static destroy(): Promise<void> {
+    return ipcRenderer.invoke('xiaohongshu-destroy');
+  }
+
+  constructor({ config, qq, protocol, messageApi, port, cookie }: {
     config: OptionsItemXiaohongshu;
     qq: QQModals;
     protocol: QQProtocol;
+    port: number;
+    cookie: string;
     messageApi?: MessageInstance;
   }) {
     this.config = config;
     this.qq = qq;
     this.protocol = protocol;
+    this.port = port;
+    this.cookie = cookie;
     messageApi && (this.#messageApi = messageApi);
   }
 
@@ -39,14 +58,8 @@ class XiaohongshuExpand {
 
   // 初始化
   initXiaohongshuWorker(): void {
-    const { xiaohongshuListener, userId, cookieString, description, cacheFile, isSendDebugMessage }: OptionsItemXiaohongshu = this.config;
+    const { xiaohongshuListener, userId, description, cacheFile, isSendDebugMessage }: OptionsItemXiaohongshu = this.config;
     const executablePath: string | null = getExecutablePath();
-
-    if (!executablePath) {
-      message.warning('小红书监听需要配置无头浏览器！');
-
-      return;
-    }
 
     if (!(xiaohongshuListener && userId && cacheFile)) return;
 
@@ -58,7 +71,8 @@ class XiaohongshuExpand {
       cacheFile,
       executablePath,
       protocol: this.protocol,
-      cookieString,
+      cookieString: this.cookie,
+      port: this.port,
       description,
       isSendDebugMessage
     });

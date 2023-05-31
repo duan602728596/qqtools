@@ -4,6 +4,7 @@ import { app, BrowserWindow, Menu } from 'electron';
 import { isDevelopment, packageJson } from './utils';
 import { ipc, removeIpc } from './ipc';
 import ipcRemoteHandle from './ipcHandle/ipcRemoteHandle';
+import xiaohongshuHandle from './ipcHandle/xiaohongshuHandle';
 import { proxyServerClose } from './proxyServer/proxyServer';
 import logProtocol from './logProtocol/logProtocol';
 
@@ -45,7 +46,8 @@ function createWindow(): void {
   ipc(win);
 
   try {
-    ipcRemoteHandle(win);
+    ipcRemoteHandle();
+    xiaohongshuHandle();
   } catch {}
 
   win.on('closed', async function(): Promise<void> {
