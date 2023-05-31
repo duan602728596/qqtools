@@ -45,7 +45,7 @@ function ipcXiaohongshuHandle(): void {
         const script: string = await fsP.readFile(
           isDevelopment
             ? path.join(__dirname, '../preload/xiaohongshuServerInject.js')
-            : path.join(process.resourcesPath, 'app.asar.unpacked/bin/lib/reload/xiaohongshuServerInject.js'),
+            : path.join(process.resourcesPath, 'app.asar.unpacked/bin/lib/preload/xiaohongshuServerInject.js'),
           { encoding: 'utf8' });
 
         await xiaohongshuWin.webContents.executeJavaScript(`(() => {
