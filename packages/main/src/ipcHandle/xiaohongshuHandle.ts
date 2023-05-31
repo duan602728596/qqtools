@@ -7,6 +7,11 @@ import { pcUserAgent, isDevelopment } from '../utils';
 
 let xiaohongshuWin: BrowserWindow | null;
 
+export function xiaohongshuWindowClose(): void {
+  xiaohongshuWin?.close?.();
+  xiaohongshuWin = null;
+}
+
 function ipcXiaohongshuHandle(): void {
   // 初始化小红书窗口并注入脚本
   ipcMain.handle(
@@ -63,12 +68,9 @@ function ipcXiaohongshuHandle(): void {
     });
 
   // 销毁窗口
-  ipcMain.handle(
-    'xiaohongshu-destroy',
-    function(): void {
-      xiaohongshuWin?.close?.();
-      xiaohongshuWin = null;
-    });
+  ipcMain.handle('xiaohongshu-destroy', function(event: IpcMainInvokeEvent): void {
+    xiaohongshuWindowClose();
+  });
 }
 
 export default ipcXiaohongshuHandle;
