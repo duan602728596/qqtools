@@ -1,4 +1,5 @@
 import * as path from 'node:path';
+import * as process from 'node:process';
 import { setTimeout } from 'node:timers';
 import * as fsP from 'node:fs/promises';
 import { ipcMain, BrowserWindow, type IpcMainInvokeEvent, type Cookie } from 'electron';
@@ -42,7 +43,10 @@ function ipcXiaohongshuHandle(): void {
     async function(event: IpcMainInvokeEvent, port: number): Promise<string> {
       if (xiaohongshuWin) {
         const script: string = await fsP.readFile(
-          path.join(__dirname, '../preload/xiaohongshuServerInject.js'), { encoding: 'utf8' });
+          isDevelopment
+            ? path.join(__dirname, '../preload/xiaohongshuServerInject.js')
+            : path.join(process.resourcesPath, 'app.asar.unpacked/bin/lib/reload/xiaohongshuServerInject.js'),
+          { encoding: 'utf8' });
 
         await xiaohongshuWin.webContents.executeJavaScript(`(() => {
   const exports = {};

@@ -1,6 +1,5 @@
 import * as net from 'node:net';
 import type { Server as NetServer } from 'node:net';
-import { webkit, firefox, chromium, type BrowserType } from 'playwright-core';
 
 /**
  * 检查端口占用情况
@@ -48,17 +47,6 @@ export async function detectPort(port: number, ignorePort: Array<number> = []): 
   }
 
   return newNumber;
-}
-
-/* 根据路径获取不同的启动器 */
-export function getBrowser(executablePath: string): BrowserType {
-  if (/Safari/i.test(executablePath)) {
-    return webkit;
-  } else if (/(Firefox|火狐)/i.test(executablePath)) {
-    return firefox;
-  } else {
-    return chromium;
-  }
 }
 
 /* 获取executablePath的路径 */

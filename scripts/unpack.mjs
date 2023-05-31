@@ -77,7 +77,8 @@ function config(outputDir, target) {
     asarUnpack: [
       'node_modules/asar-node',
       'bin/lib/asarNodeRequire.js',
-      'bin/lib/proxyServer/httpProxyServer.worker.js'
+      'bin/lib/proxyServer/httpProxyServer.worker.js',
+      'bin/lib/reload/xiaohongshuServerInject.js'
     ]
   };
 
