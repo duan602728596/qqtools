@@ -1,7 +1,7 @@
 import got, { type Response as GotResponse } from 'got';
 import type { _UserPostedObject, _FeedObject } from '@qqtools3/main/src/logProtocol/logTemplate/xiaohongshu';
 import { _xiaohongshuLogProtocol } from '../../utils/logProtocol/logActions';
-import { XHSProtocol, MessageObject, isSignMessage } from '../function/expand/xiaohongshu/xiaohongshu.worker/messageTypes';
+import { XHSProtocol, isSignMessage, type MessageObject } from '../function/expand/xiaohongshu/xiaohongshu.worker/messageTypes';
 import type { UserPostedResponse, NoteFeedResponse, SignResult } from './interface';
 
 export async function requestSign(port: number, reqPath: string, data: any | undefined): Promise<SignResult> {
