@@ -24,12 +24,21 @@ export interface BaseInitMessage {
   isSendDebugMessage?: boolean;
 }
 
-export type MessageObject = CloseMessage | BaseInitMessage;
+// sign的计算
+export interface SignMessage {
+  type: 'sign';
+  id: string;
+  result: XHSProtocol;
+}
+
+export type MessageObject = CloseMessage | BaseInitMessage | SignMessage;
 
 // 判断各种类型
 type IsMessageFunction<T extends MessageObject> = (d: MessageObject) => d is T;
 
 export const isCloseMessage: IsMessageFunction<CloseMessage> = (d: MessageObject): d is CloseMessage => !!d['close'];
+
+export const isSignMessage: IsMessageFunction<SignMessage> = (d: MessageObject): d is SignMessage => d['type'] === 'sign';
 
 // 组合数据
 export interface MergeData {

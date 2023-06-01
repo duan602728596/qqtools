@@ -73,6 +73,7 @@ class XiaohongshuExpand {
       }
     } else if (event.data.type === 'sign') {
       this.xiaohongshuWorker?.postMessage({
+        type: 'sign',
         id: event.data.id,
         result: await XiaohongshuExpand.chromeDevtoolsSign(event.data.url, event.data.data)
       });

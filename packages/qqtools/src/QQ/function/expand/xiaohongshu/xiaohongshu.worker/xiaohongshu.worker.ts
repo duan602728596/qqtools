@@ -5,7 +5,15 @@ import * as dayjs from 'dayjs';
 import { QQProtocol } from '../../../../QQBotModals/ModalTypes';
 import parser, { type ParserResult } from '../../../parser';
 import * as CQ from '../../../parser/CQ';
-import { isCloseMessage, XHSProtocol, type MessageObject, type BaseInitMessage, type JsonCache, type MergeData } from './messageTypes';
+import {
+  isCloseMessage,
+  isSignMessage,
+  XHSProtocol,
+  type MessageObject,
+  type BaseInitMessage,
+  type JsonCache,
+  type MergeData
+} from './messageTypes';
 import { requestUserPosted, requestFeed } from '../../../../services/xiaohongshu';
 import type { UserPostedResponse, NoteFeedResponse, PostedNoteItem, FeedNodeCard } from '../../../../services/interface';
 
@@ -241,6 +249,8 @@ addEventListener('message', function(event: MessageEvent<MessageObject>): void {
     try {
       xiaohongshuTimer && clearTimeout(xiaohongshuTimer);
     } catch { /* noop */ }
+  } else if (isSignMessage(event.data)) {
+    /* noop */
   } else {
     const {
       userId: userId1,
