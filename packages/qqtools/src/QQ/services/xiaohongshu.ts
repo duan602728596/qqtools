@@ -1,4 +1,3 @@
-import { ipcRenderer } from 'electron';
 import got, { type Response as GotResponse } from 'got';
 import type { _UserPostedObject, _FeedObject } from '@qqtools3/main/src/logProtocol/logTemplate/xiaohongshu';
 import { _xiaohongshuLogProtocol } from '../../utils/logProtocol/logActions';
@@ -17,10 +16,20 @@ export async function requestSign(port: number, reqPath: string, data: any | und
   return res.json();
 }
 
-async function invokeSign(reqPath: string, data: string | undefined): Promise<SignResult> {
-  const result: string = await ipcRenderer.invoke('xiaohongshu-chrome-remote-sign', reqPath, data);
+function invokeSign(reqPath: string, data: string | undefined): Promise<SignResult> {
+  const id: string = `${ Math.random() }`;
 
-  return JSON.parse(result);
+  return new Promise((resolve: Function, reject: Function): void => {
+    function handleSignMessage(event: MessageEvent<{ id: string; result: SignResult }>): void {
+      if (id === event.data.id) {
+        removeEventListener('message', handleSignMessage);
+        resolve(event.data.result);
+      }
+    }
+
+    addEventListener('message', handleSignMessage);
+    postMessage({ id, url: reqPath, data, type: 'sign' });
+  });
 }
 
 // 请求user数据

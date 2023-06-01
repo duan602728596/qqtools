@@ -44,6 +44,7 @@
     "@babel/eslint-parser": "^7.19.1",
     "@sweet-milktea/milktea-cli": "^4.1.0",
     "@sweet-milktea/util-tools": "^4.1.0",
+    "@types/chrome-remote-interface": "^0",
     "@types/fs-extra": "^11",
     "@types/js-yaml": "^4",
     "@types/lodash-es": "^4",

@@ -5,12 +5,14 @@ import { setTimeout as setTimeoutPromise } from 'node:timers/promises';
 import * as fsP from 'node:fs/promises';
 import { spawn, type ChildProcess } from 'node:child_process';
 import { ipcMain, BrowserWindow, type IpcMainInvokeEvent, type Cookie } from 'electron';
-import CDP from 'chrome-remote-interface';
+import * as CDP from 'chrome-remote-interface';
+import type { Client } from 'chrome-remote-interface';
+import type { Protocol } from 'devtools-protocol/types/protocol';
 import { pcUserAgent, isDevelopment } from '../utils';
 
 let xiaohongshuWin: BrowserWindow | null = null,
   child: ChildProcess | null = null,
-  client: CDP | null = null;
+  client: Client | null = null;
 
 async function command(cmd: string, args: Array<string>): Promise<void> {
   if (!child) {
@@ -35,6 +37,18 @@ export function closeAll(): void {
   child = null;
   client?.close();
   client = null;
+}
+
+export async function clientSwitch(): Promise<void> {
+  if (client) {
+    const { targetInfos }: Protocol.Target.GetTargetsResponse = await client.Target.getTargets();
+    const xiaohongshuTarget: Protocol.Target.TargetInfo | undefined = targetInfos.find(
+      (target: Protocol.Target.TargetInfo): boolean => target.type === 'page' && target.url.includes('www.xiaohongshu.com'));
+
+    if (xiaohongshuTarget && !xiaohongshuTarget.attached) {
+      await client.Target.attachToTarget({ targetId: xiaohongshuTarget.targetId });
+    }
+  }
 }
 
 function ipcXiaohongshuHandle(): void {
@@ -94,43 +108,54 @@ function ipcXiaohongshuHandle(): void {
   });
 
   // 小红书协议连接
-  ipcMain.handle('xiaohongshu-chrome-remote-init', async function(event: IpcMainInvokeEvent, executablePath: string, port: number): Promise<void> {
-    await command(executablePath, ['--remote-debugging-port=13500', '--disable-gpu']);
+  ipcMain.handle(
+    'xiaohongshu-chrome-remote-init',
+    async function(event: IpcMainInvokeEvent, executablePath: string, port: number): Promise<void> {
+      await command(executablePath, [`--remote-debugging-port=${ port }`, '--disable-gpu']);
 
-    client = await CDP({ port });
-    await Promise.all([
-      client.Page.enable(),
-      client.Network.enable(),
-      client.Runtime.enable()
-    ]);
-    await client.Page.navigate({ url: 'https://www.xiaohongshu.com/user/profile/594099df82ec393174227f18' });
-    await client.Page.loadEventFired();
-    await setTimeoutPromise(5_000);
-  });
+      client = await CDP({ port });
+      await Promise.all([
+        client.Page.enable(),
+        client.Network.enable(),
+        client.Runtime.enable()
+      ]);
+      await client.Page.navigate({ url: 'https://www.xiaohongshu.com/user/profile/594099df82ec393174227f18' });
+      await client.Page.loadEventFired();
+      await setTimeoutPromise(3_000);
+    });
 
   // 获取cookie
-  ipcMain.handle('xiaohongshu-chrome-remote-cookie', async function(event: IpcMainInvokeEvent, executablePath: string, port: number): Promise<string> {
-    if (client) {
-      const cookies: string = (await client.Network.getCookies()).cookies.map((cookie: Cookie): string => `${ cookie.name }=${ cookie.value }`).join('; ');
+  ipcMain.handle(
+    'xiaohongshu-chrome-remote-cookie',
+    async function(event: IpcMainInvokeEvent, executablePath: string, port: number): Promise<string> {
+      await clientSwitch();
 
-      return cookies;
-    }
+      if (client) {
+        const cookies: string = (await client.Network.getCookies()).cookies
+          .map((cookie: Protocol.Network.Cookie): string => `${ cookie.name }=${ cookie.value }`).join('; ');
 
-    return '';
-  });
+        return cookies;
+      }
+
+      return '';
+    });
 
   // 获取header的加密
-  ipcMain.handle('xiaohongshu-chrome-remote-sign', async function(event: IpcMainInvokeEvent, url: string, data: string | undefined): Promise<string | undefined> {
-    if (client) {
-      const signResult: { result: { value: string } } = await client.Runtime.evaluate({
-        expression: `JSON.stringify(window._webmsxyw("${ url }", ${ data ?? 'undefined' }));`
-      });
+  ipcMain.handle(
+    'xiaohongshu-chrome-remote-sign',
+    async function(event: IpcMainInvokeEvent, url: string, data: string | undefined): Promise<string | undefined> {
+      await clientSwitch();
 
-      return signResult.result.value;
-    }
+      if (client) {
+        const signResult: Protocol.Runtime.EvaluateResponse = await client.Runtime.evaluate({
+          expression: `JSON.stringify(window._webmsxyw("${ url }", ${ data ?? 'undefined' }));`
+        });
 
-    return undefined;
-  });
+        return signResult.result.value;
+      }
+
+      return undefined;
+    });
 }
 
 export default ipcXiaohongshuHandle;

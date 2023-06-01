@@ -5,6 +5,7 @@ import getXiaohongshuWorker from './xiaohongshu.worker/getXiaohongshuWorker';
 import type { QQProtocol, QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemXiaohongshu } from '../../../../commonTypes';
 import type { XHSProtocol } from './xiaohongshu.worker/messageTypes';
+import type { SignResult } from '../../../services/interface';
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
 
@@ -40,6 +41,12 @@ class XiaohongshuExpand {
     return ipcRenderer.invoke('xiaohongshu-chrome-remote-cookie');
   }
 
+  static async chromeDevtoolsSign(reqPath: string, data: string | undefined): Promise<SignResult> {
+    const result: string = await ipcRenderer.invoke('xiaohongshu-chrome-remote-sign', reqPath, data);
+
+    return JSON.parse(result);
+  }
+
   constructor({ config, qq, protocol, messageApi, port, cookie, signProtocol }: {
     config: OptionsItemXiaohongshu;
     qq: QQModals;
@@ -64,6 +71,11 @@ class XiaohongshuExpand {
       for (let i: number = event.data.sendGroup.length - 1; i >= 0; i--) {
         await this.qq.sendMessage(event.data.sendGroup[i] as any);
       }
+    } else if (event.data.type === 'sign') {
+      this.xiaohongshuWorker?.postMessage({
+        id: event.data.id,
+        result: await XiaohongshuExpand.chromeDevtoolsSign(event.data.url, event.data.data)
+      });
     }
   };
 

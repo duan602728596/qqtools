@@ -123,6 +123,10 @@ abstract class Basic {
         await XiaohongshuExpand.windowInit();
       }
 
+      const cookie: string = signProtocol === XHSProtocol.ChromeDevtoolsProtocol
+        ? await XiaohongshuExpand.chromeDevtoolCookie()
+        : await XiaohongshuExpand.cookie(port);
+
       for (const item of this.config.xiaohongshu) {
         const xiaohonshu: XiaohongshuExpand = new XiaohongshuExpand({
           qq: this,
@@ -130,9 +134,7 @@ abstract class Basic {
           protocol: this.protocol,
           messageApi: this.messageApi,
           port,
-          cookie: signProtocol === XHSProtocol.ChromeDevtoolsProtocol
-            ? await XiaohongshuExpand.chromeDevtoolCookie()
-            : await XiaohongshuExpand.cookie(port),
+          cookie,
           signProtocol
         });
 
