@@ -17,8 +17,10 @@ export async function requestSign(port: number, reqPath: string, data: any | und
   return res.json();
 }
 
-function invokeSign(reqPath: string, data: string | undefined): Promise<SignResult> {
-  return ipcRenderer.invoke('xiaohongshu-chrome-remote-sign', reqPath, data);
+async function invokeSign(reqPath: string, data: string | undefined): Promise<SignResult> {
+  const result: string = await ipcRenderer.invoke('xiaohongshu-chrome-remote-sign', reqPath, data);
+
+  return JSON.parse(result);
 }
 
 // 请求user数据
