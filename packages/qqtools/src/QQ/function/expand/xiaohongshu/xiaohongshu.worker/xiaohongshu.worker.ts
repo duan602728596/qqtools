@@ -58,7 +58,9 @@ function QQSendGroup(item: Required<MergeData>): string {
   ];
 
   protocol !== QQProtocol.Mirai && sendMessageGroup.push(CQ.image(item.cover.url));
-  item.card.video && sendMessageGroup.push(`视频下载地址：${
+  item.card.video && sendMessageGroup.push(`${
+    protocol === QQProtocol.Mirai ? '\n' : ''
+  }视频下载地址：${
     item.card.video.media.stream.h264[0].master_url
   }`);
 
