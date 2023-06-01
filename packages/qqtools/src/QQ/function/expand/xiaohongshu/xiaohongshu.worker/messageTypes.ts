@@ -1,6 +1,12 @@
 import type { QQProtocol } from '../../../../QQBotModals/ModalTypes';
 import type { FeedNodeCard } from '../../../../services/interface';
 
+// 小红书protocol
+export enum XHSProtocol {
+  ChromeDevtoolsProtocol = 'chrome-devtools-protocol',
+  ElectronInjectServer = 'electron-inject-server'
+}
+
 // 关闭消息
 export interface CloseMessage {
   close: true;
@@ -13,6 +19,7 @@ export interface BaseInitMessage {
   protocol: QQProtocol;
   cookieString: string;
   port: number;
+  signProtocol: XHSProtocol;
   description: string;
   isSendDebugMessage?: boolean;
 }

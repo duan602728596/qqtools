@@ -1,6 +1,8 @@
+import { ipcRenderer } from 'electron';
 import got, { type Response as GotResponse } from 'got';
 import type { _UserPostedObject, _FeedObject } from '@qqtools3/main/src/logProtocol/logTemplate/xiaohongshu';
 import { _xiaohongshuLogProtocol } from '../../utils/logProtocol/logActions';
+import { XHSProtocol } from '../function/expand/xiaohongshu/xiaohongshu.worker/messageTypes';
 import type { UserPostedResponse, NoteFeedResponse, SignResult } from './interface';
 
 export async function requestSign(port: number, reqPath: string, data: any | undefined): Promise<SignResult> {
@@ -15,10 +17,16 @@ export async function requestSign(port: number, reqPath: string, data: any | und
   return res.json();
 }
 
+function invokeSign(reqPath: string, data: string | undefined): Promise<SignResult> {
+  return ipcRenderer.invoke('xiaohongshu-chrome-remote-sign', reqPath, data);
+}
+
 // 请求user数据
-export async function requestUserPosted(userId: string, cookie: string, port: number): Promise<UserPostedResponse> {
+export async function requestUserPosted(userId: string, cookie: string, signProtocol: XHSProtocol, port: number): Promise<UserPostedResponse> {
   const reqPath: string = `/api/sns/web/v1/user_posted?num=30&cursor=&user_id=${ userId }`;
-  const headers: SignResult = await requestSign(port, reqPath, undefined);
+  const headers: SignResult = signProtocol === XHSProtocol.ChromeDevtoolsProtocol
+    ? await invokeSign(reqPath, undefined)
+    : await requestSign(port, reqPath, undefined);
   const res: GotResponse<UserPostedResponse> = await got.get(`https://edith.xiaohongshu.com${ reqPath }`, {
     responseType: 'json',
     headers: {
@@ -41,12 +49,15 @@ export async function requestUserPosted(userId: string, cookie: string, port: nu
 export async function requestFeed(
   sourceNoteId: string,
   cookie: string,
+  signProtocol: XHSProtocol,
   port: number,
   userId: string
 ): Promise<NoteFeedResponse> {
   const reqPath: string = '/api/sns/web/v1/feed';
   const json: { source_note_id: string } = { source_note_id: sourceNoteId };
-  const headers: SignResult = await requestSign(port, reqPath, json);
+  const headers: SignResult = signProtocol === XHSProtocol.ChromeDevtoolsProtocol
+    ? await invokeSign(reqPath, JSON.stringify(json))
+    : await requestSign(port, reqPath, json);
   const res: GotResponse<NoteFeedResponse> = await got.post(`https://edith.xiaohongshu.com${ reqPath }`, {
     responseType: 'json',
     headers: {

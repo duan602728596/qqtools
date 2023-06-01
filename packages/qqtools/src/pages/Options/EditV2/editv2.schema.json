@@ -361,6 +361,22 @@
         }
       }
     },
+    "xiaohongshuProtocol": {
+      "id": "$root/properties/xiaohongshuProtocol",
+      "type": "string",
+      "title": "小红书加密获取协议",
+      "$componentType": "select",
+      "$options": [
+        {
+          "label": "Chrome Devtools Protocol",
+          "value": "chrome-devtools-protocol"
+        },
+        {
+          "label": "Electron Inject Server",
+          "value": "electron-inject-server"
+        }
+      ]
+    },
     "xiaohongshu": {
       "id": "$root/properties/xiaohongshu",
       "type": "array",

@@ -1,3 +1,5 @@
+import type { XHSProtocol } from './QQ/function/expand/xiaohongshu/xiaohongshu.worker/messageTypes';
+
 export interface EditItem {
   id: string;
   cmd: string;
@@ -108,6 +110,7 @@ export interface OptionsItemValueV2 extends OptionsItemBasic {
   weibo?: Array<OptionsItemWeibo>;
   douyin?: Array<OptionsItemDouyin>;
   bilibili?: Array<OptionsItemBilibili>;
+  xiaohongshuProtocol?: XHSProtocol;
   xiaohongshu?: Array<OptionsItemXiaohongshu>;
   cronTimer?: Array<OptionsItemCronTimer>;
 }

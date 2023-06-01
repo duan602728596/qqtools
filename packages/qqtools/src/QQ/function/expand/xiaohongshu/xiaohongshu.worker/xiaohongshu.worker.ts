@@ -5,7 +5,7 @@ import * as dayjs from 'dayjs';
 import { QQProtocol } from '../../../../QQBotModals/ModalTypes';
 import parser, { type ParserResult } from '../../../parser';
 import * as CQ from '../../../parser/CQ';
-import { isCloseMessage, type MessageObject, type BaseInitMessage, type JsonCache, type MergeData } from './messageTypes';
+import { isCloseMessage, XHSProtocol, type MessageObject, type BaseInitMessage, type JsonCache, type MergeData } from './messageTypes';
 import { requestUserPosted, requestFeed } from '../../../../services/xiaohongshu';
 import type { UserPostedResponse, NoteFeedResponse, PostedNoteItem, FeedNodeCard } from '../../../../services/interface';
 
@@ -16,6 +16,7 @@ let cacheFile: string;
 let cookieString: string;
 let port: number;
 let protocol: QQProtocol; // 协议
+let signProtocol: XHSProtocol;
 let lastUpdateTime: number | 0 | null = null; // 记录最新发布的更新时间，为0表示当前没有数据，null表示请求数据失败了
 const intervalTime: number = 5 * 60 * 1_000;  // 轮询间隔
 let xiaohongshuTimer: NodeJS.Timer | undefined = undefined; // 轮询定时器
@@ -58,7 +59,7 @@ function QQSendGroup(item: Required<MergeData>): string {
 
 /* 获取详细信息 */
 async function getFeed(sourceNoteId: string): Promise<FeedNodeCard | undefined> {
-  const res: NoteFeedResponse = await requestFeed(sourceNoteId, cookieString, port, userId);
+  const res: NoteFeedResponse = await requestFeed(sourceNoteId, cookieString, signProtocol, port, userId);
 
   if (res.success) {
     return res.data.items?.[0].note_card;
@@ -145,7 +146,7 @@ async function getMergeData(data: Array<PostedNoteItem>): Promise<GetMergeDataRe
 /* 小红书轮询 */
 async function xiaohongshuListener(): Promise<void> {
   try {
-    const userPostedRes: UserPostedResponse = await requestUserPosted(userId, cookieString, port);
+    const userPostedRes: UserPostedResponse = await requestUserPosted(userId, cookieString, signProtocol, port);
 
     if (userPostedRes.success) {
       _isSendDebugMessage && (_debugTimes = 0);
@@ -209,7 +210,7 @@ EndTime: ${ _endTime }`, protocol)]
 /* 初始化小红书 */
 async function xiaohongshuInit(): Promise<void> {
   try {
-    const userPostedRes: UserPostedResponse = await requestUserPosted(userId, cookieString, port);
+    const userPostedRes: UserPostedResponse = await requestUserPosted(userId, cookieString, signProtocol, port);
 
     if (userPostedRes.success) {
       const data: Array<PostedNoteItem> = userPostedRes.data.notes ?? [];
@@ -245,6 +246,7 @@ addEventListener('message', function(event: MessageEvent<MessageObject>): void {
       userId: userId1,
       cacheFile: cacheFile1,
       protocol: protocol1,
+      signProtocol: signProtocol1,
       description: description1,
       cookieString: cookieString1,
       port: port1,
@@ -254,6 +256,7 @@ addEventListener('message', function(event: MessageEvent<MessageObject>): void {
     userId = userId1;
     cacheFile = cacheFile1;
     protocol = protocol1;
+    signProtocol = signProtocol1;
     port = port1;
     description = description1;
     cookieString = cookieString1;

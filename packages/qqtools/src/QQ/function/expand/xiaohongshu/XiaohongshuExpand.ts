@@ -2,9 +2,9 @@ import { ipcRenderer } from 'electron';
 import { message } from 'antd';
 import type { MessageInstance } from 'antd/es/message/interface';
 import getXiaohongshuWorker from './xiaohongshu.worker/getXiaohongshuWorker';
-import { getExecutablePath } from '../../../../utils/utils';
 import type { QQProtocol, QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemXiaohongshu } from '../../../../commonTypes';
+import type { XHSProtocol } from './xiaohongshu.worker/messageTypes';
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
 
@@ -17,6 +17,7 @@ class XiaohongshuExpand {
   public xiaohongshuWorker?: Worker; // 监听
   public port: number;
   public cookie: string;
+  public signProtocol: XHSProtocol;
   #messageApi: typeof message | MessageInstance = message;
 
   static windowInit(): Promise<void> {
@@ -31,12 +32,21 @@ class XiaohongshuExpand {
     return ipcRenderer.invoke('xiaohongshu-destroy');
   }
 
-  constructor({ config, qq, protocol, messageApi, port, cookie }: {
+  static chromeDevtoolsInit(executablePath: string, port: number): Promise<void> {
+    return ipcRenderer.invoke('xiaohongshu-chrome-remote-init', executablePath, port);
+  }
+
+  static chromeDevtoolCookie(): Promise<string> {
+    return ipcRenderer.invoke('xiaohongshu-chrome-remote-cookie');
+  }
+
+  constructor({ config, qq, protocol, messageApi, port, cookie, signProtocol }: {
     config: OptionsItemXiaohongshu;
     qq: QQModals;
     protocol: QQProtocol;
     port: number;
     cookie: string;
+    signProtocol: XHSProtocol;
     messageApi?: MessageInstance;
   }) {
     this.config = config;
@@ -44,6 +54,7 @@ class XiaohongshuExpand {
     this.protocol = protocol;
     this.port = port;
     this.cookie = cookie;
+    this.signProtocol = signProtocol;
     messageApi && (this.#messageApi = messageApi);
   }
 
@@ -59,7 +70,6 @@ class XiaohongshuExpand {
   // 初始化
   initXiaohongshuWorker(): void {
     const { xiaohongshuListener, userId, description, cacheFile, isSendDebugMessage }: OptionsItemXiaohongshu = this.config;
-    const executablePath: string | null = getExecutablePath();
 
     if (!(xiaohongshuListener && userId && cacheFile)) return;
 
@@ -69,8 +79,8 @@ class XiaohongshuExpand {
     this.xiaohongshuWorker.postMessage({
       userId: this.userId,
       cacheFile,
-      executablePath,
       protocol: this.protocol,
+      signProtocol: this.signProtocol,
       cookieString: this.cookie,
       port: this.port,
       description,

@@ -8,8 +8,9 @@ import XiaohongshuExpand from '../function/expand/xiaohongshu/XiaohongshuExpand'
 import CronTimerExpand from '../function/expand/cronTimer/CronTimerExpand';
 import QChatSocket from '../sdk/QChatSocket';
 import { QQProtocol, type QQModals } from './ModalTypes';
-import { detectPort } from '../../utils/utils';
-import type { OptionsItemValueV2, MemberInfo } from '../../commonTypes';
+import { detectPort, getExecutablePath } from '../../utils/utils';
+import { XHSProtocol } from '../function/expand/xiaohongshu/xiaohongshu.worker/messageTypes';
+import type { MemberInfo, OptionsItemValueV2 } from '../../commonTypes';
 
 export type MessageListener = (event: MessageEvent) => void | Promise<void>;
 
@@ -108,9 +109,19 @@ abstract class Basic {
 
     if (this.config.xiaohongshu) {
       this.xiaohonshu = [];
+      const signProtocol: XHSProtocol = this.config.xiaohongshuProtocol ?? XHSProtocol.ChromeDevtoolsProtocol;
       const port: number = await detectPort(22150);
+      const executablePath: string | null = getExecutablePath();
 
-      await XiaohongshuExpand.windowInit();
+      if (signProtocol === XHSProtocol.ChromeDevtoolsProtocol) {
+        if (executablePath) {
+          await XiaohongshuExpand.chromeDevtoolsInit(executablePath, port);
+        } else {
+          message.warning('小红书监听需要配置无头浏览器！');
+        }
+      } else if (signProtocol === XHSProtocol.ElectronInjectServer) {
+        await XiaohongshuExpand.windowInit();
+      }
 
       for (const item of this.config.xiaohongshu) {
         const xiaohonshu: XiaohongshuExpand = new XiaohongshuExpand({
@@ -119,7 +130,10 @@ abstract class Basic {
           protocol: this.protocol,
           messageApi: this.messageApi,
           port,
-          cookie: await XiaohongshuExpand.cookie(port)
+          cookie: signProtocol === XHSProtocol.ChromeDevtoolsProtocol
+            ? await XiaohongshuExpand.chromeDevtoolCookie()
+            : await XiaohongshuExpand.cookie(port),
+          signProtocol
         });
 
         xiaohonshu.initXiaohongshuWorker();

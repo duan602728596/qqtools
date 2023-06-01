@@ -10,6 +10,7 @@ import Icon, {
   BugTwoTone as IconBugTwoTone
 } from '@ant-design/icons';
 import ButtonLink from '../../components/ButtonLink/ButtonLink';
+import ExecutablePath from './ExecutablePath/ExecutablePath';
 import IconVSCodeSvgComponent from './images/vscode.component.svg';
 
 interface NativeItem {
@@ -110,6 +111,7 @@ function Index(props: {}): ReactElement {
       { nativeRender() }
       <div>
         <Space>
+          <ExecutablePath />
           <Button icon={ <IconFileSyncOutlined /> } onClick={ handleOpenHelpClick }>
             使用手册
           </Button>
