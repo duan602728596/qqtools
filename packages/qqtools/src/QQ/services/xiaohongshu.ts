@@ -1,7 +1,7 @@
 import got, { type Response as GotResponse } from 'got';
 import type { _UserPostedObject, _FeedObject } from '@qqtools3/main/src/logProtocol/logTemplate/xiaohongshu';
 import { _xiaohongshuLogProtocol } from '../../utils/logProtocol/logActions';
-import { XHSProtocol } from '../function/expand/xiaohongshu/xiaohongshu.worker/messageTypes';
+import { XHSProtocol, MessageObject, isSignMessage } from '../function/expand/xiaohongshu/xiaohongshu.worker/messageTypes';
 import type { UserPostedResponse, NoteFeedResponse, SignResult } from './interface';
 
 export async function requestSign(port: number, reqPath: string, data: any | undefined): Promise<SignResult> {
@@ -20,8 +20,8 @@ function invokeSign(reqPath: string, data: string | undefined): Promise<SignResu
   const id: string = `${ Math.random() }`;
 
   return new Promise((resolve: Function, reject: Function): void => {
-    function handleSignMessage(event: MessageEvent<{ id: string; result: SignResult }>): void {
-      if (id === event.data.id) {
+    function handleSignMessage(event: MessageEvent<MessageObject>): void {
+      if (isSignMessage(event.data) && id === event.data.id) {
         removeEventListener('message', handleSignMessage);
         resolve(event.data.result);
       }
