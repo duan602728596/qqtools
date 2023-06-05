@@ -27,3 +27,29 @@ export async function requestAwemePost(cookie: string, videoQuery: VideoQuery): 
 
   return res.body;
 }
+
+/* 请求ttwid */
+export async function requestTtwidCookie(): Promise<string> {
+  const res: GotResponse = await got.post('https://ttwid.bytedance.com/ttwid/union/register/', {
+    responseType: 'json',
+    json: {
+      region: 'union',
+      aid: 1768,
+      needFid: false,
+      service: 'www.ixigua.com',
+      migrate_info: { ticket: '', source: 'source' },
+      cbUrlProtocol: 'https',
+      union: true
+    }
+  });
+
+  const cookie: Array<string> = [];
+
+  if (res.headers?.['set-cookie']) {
+    for (const cookieStr of res.headers['set-cookie']) {
+      cookie.push(cookieStr);
+    }
+  }
+
+  return cookie.join('; ');
+}

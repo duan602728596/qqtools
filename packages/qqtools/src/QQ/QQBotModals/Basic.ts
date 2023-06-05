@@ -10,7 +10,7 @@ import QChatSocket from '../sdk/QChatSocket';
 import { QQProtocol, type QQModals } from './ModalTypes';
 import { detectPort, getExecutablePath } from '../../utils/utils';
 import { XHSProtocol } from '../function/expand/xiaohongshu/xiaohongshu.worker/messageTypes';
-import type { MemberInfo, OptionsItemValueV2 } from '../../commonTypes';
+import type { MemberInfo, OptionsItemValueV2, OptionsItemXiaohongshu } from '../../commonTypes';
 
 export type MessageListener = (event: MessageEvent) => void | Promise<void>;
 
@@ -107,8 +107,12 @@ abstract class Basic {
       }
     }
 
-    if (this.config.xiaohongshu) {
+    if (
+      this.config?.xiaohongshu?.length
+      && this.config.xiaohongshu.some((c: OptionsItemXiaohongshu): boolean => !!c.xiaohongshuListener)
+    ) {
       this.xiaohonshu = [];
+
       const signProtocol: XHSProtocol = this.config.xiaohongshuProtocol ?? XHSProtocol.ChromeDevtoolsProtocol;
       const port: number = await detectPort(22550);
       const executablePath: string | null = getExecutablePath();

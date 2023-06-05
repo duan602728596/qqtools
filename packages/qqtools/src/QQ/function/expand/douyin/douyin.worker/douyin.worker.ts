@@ -4,7 +4,7 @@ import { QQProtocol } from '../../../../QQBotModals/ModalTypes';
 import parser, { type ParserResult } from '../../../parser';
 import * as CQ from '../../../parser/CQ';
 import { isCloseMessage, type MessageObject } from './messageTypes';
-import { requestAwemePost } from '../../../../services/douyin';
+import { requestAwemePost, requestTtwidCookie } from '../../../../services/douyin';
 import broadcastName from '../limiting.worker/broadcastName';
 import { msToken } from '../signUtils';
 import type { AwemePostResponse, AwemeItem } from '../../../../services/interface';
@@ -16,7 +16,6 @@ let protocol: QQProtocol;                              // 协议：mirai或者oi
 let lastUpdateTime: number | 0 | null = null;          // 记录最新发布视频的更新时间，为0表示当前没有数据，null表示请求数据失败了
 let douyinTimer: NodeJS.Timer | undefined = undefined; // 轮询定时器
 let intervalTime: number = 10 * 60 * 1_000;            // 轮询间隔
-let cookieString: string;                              // cookie
 
 /* 调试 */
 const _startTime: string = dayjs().format('YYYY-MM-DD HH:mm:ss');
@@ -61,11 +60,24 @@ function waitLimiting(id: string): Promise<void> {
   });
 }
 
+/* 创建cookie */
+async function getCookie(): Promise<string> {
+  const cookie: string = await requestTtwidCookie();
+  const passportCsrfToken: string = msToken(32);
+
+  return [
+    cookie,
+    'passport_csrf_token=' + passportCsrfToken,
+    'passport_csrf_token_default=' + passportCsrfToken
+  ].join('; ');
+}
+
 /* 获取解析html和接口获取数据 */
-export async function getDouyinDataByApi(wait: boolean = true): Promise<AwemePostResponse | undefined> {
+async function getDouyinDataByApi(wait: boolean = true): Promise<AwemePostResponse | undefined> {
   try {
     wait && await waitLimiting(msToken(10));
-    const res: AwemePostResponse | string = await requestAwemePost(cookieString, {
+
+    const res: AwemePostResponse | string = await requestAwemePost(await getCookie(), {
       secUserId: userId,
       webId: `${ Math.random() }`.replace(/^0\./, '')
     });
@@ -182,7 +194,6 @@ addEventListener('message', function(event: MessageEvent<MessageObject>) {
     } catch { /* noop */ }
   } else {
     userId = event.data.userId;
-    cookieString = event.data.cookieString;
     description = event.data.description;
     protocol = event.data.protocol;
     _isSendDebugMessage = event.data.isSendDebugMessage;

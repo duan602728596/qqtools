@@ -13,7 +13,6 @@ interface BaseInitMessage {
   protocol: QQProtocol;
   intervalTime: number | undefined;
   isSendDebugMessage: boolean;
-  cookieString: string;
 }
 
 export type MessageObject = CloseMessage | BaseInitMessage;

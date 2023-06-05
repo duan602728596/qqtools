@@ -65,7 +65,6 @@ export interface OptionsItemWeibo {
 export interface OptionsItemDouyin {
   douyinListener?: boolean;
   userId: string;
-  cookieString: string;
   description: string;
   intervalTime?: number;
   isSendDebugMessage?: boolean;
