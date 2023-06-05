@@ -47,6 +47,31 @@ class XiaohongshuExpand {
     return JSON.parse(result);
   }
 
+  // 图片转base64
+  static imageToBase64(url: string): Promise<string> {
+    return new Promise((resolve: Function, reject: Function): void => {
+      const img: HTMLImageElement = new Image();
+
+      img.addEventListener('load', function(): void {
+        let canvas: HTMLCanvasElement | null = document.createElement('canvas');
+
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        const context: CanvasRenderingContext2D = canvas.getContext('2d')!;
+
+        context.drawImage(img, 0, 0);
+
+        const base64: string = canvas.toDataURL('image/png');
+
+        canvas = null;
+        resolve(base64);
+      }, { once: true });
+
+      img.src = url;
+    });
+  }
+
   constructor({ config, qq, protocol, messageApi, port, cookie, signProtocol }: {
     config: OptionsItemXiaohongshu;
     qq: QQModals;
@@ -72,10 +97,16 @@ class XiaohongshuExpand {
         await this.qq.sendMessage(event.data.sendGroup[i] as any);
       }
     } else if (event.data.type === 'sign') {
-      this.xiaohongshuWorker?.postMessage({
+      this.xiaohongshuWorker?.postMessage?.({
         type: 'sign',
         id: event.data.id,
         result: await XiaohongshuExpand.chromeDevtoolsSign(event.data.url, event.data.data)
+      });
+    } else if (event.data.type === 'imageToBase64') {
+      this.xiaohongshuWorker?.postMessage({
+        type: 'imageToBase64',
+        id: event.data.id,
+        result: await XiaohongshuExpand.imageToBase64(event.data.imageUrl)
       });
     }
   };

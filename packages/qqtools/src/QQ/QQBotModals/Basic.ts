@@ -110,7 +110,7 @@ abstract class Basic {
     if (this.config.xiaohongshu) {
       this.xiaohonshu = [];
       const signProtocol: XHSProtocol = this.config.xiaohongshuProtocol ?? XHSProtocol.ChromeDevtoolsProtocol;
-      const port: number = await detectPort(22150);
+      const port: number = await detectPort(22550);
       const executablePath: string | null = getExecutablePath();
 
       if (signProtocol === XHSProtocol.ChromeDevtoolsProtocol) {

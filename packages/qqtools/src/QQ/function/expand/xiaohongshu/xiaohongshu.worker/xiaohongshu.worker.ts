@@ -8,6 +8,7 @@ import * as CQ from '../../../parser/CQ';
 import {
   isCloseMessage,
   isSignMessage,
+  isImageToBase64Message,
   XHSProtocol,
   type MessageObject,
   type BaseInitMessage,
@@ -49,15 +50,36 @@ function writeCache(json: JsonCache): Promise<void> {
   return fse.writeJson(cacheFile, json);
 }
 
+function imageToBase64(imageUrl: string): Promise<string> {
+  const id: string = `${ Math.random() }`;
+
+  return new Promise((resolve: Function, reject: Function): void => {
+    function handleSignMessage(event: MessageEvent<MessageObject>): void {
+      if (isImageToBase64Message(event.data) && id === event.data.id) {
+        removeEventListener('message', handleSignMessage);
+        resolve(event.data.result.replace('data:image/png;base64,', ''));
+      }
+    }
+
+    addEventListener('message', handleSignMessage);
+    postMessage({ id, imageUrl, type: 'imageToBase64' });
+  });
+}
+
 /* 发送数据 */
-function QQSendGroup(item: Required<MergeData>): string {
+async function QQSendGroup(item: Required<MergeData>): Promise<string> {
   const sendMessageGroup: Array<string> = [
     `${ item.card.user.nickname } 在${
       dayjs(item.card.time).format('YYYY-MM-DD HH:mm:ss')
     }发送了一条小红书：${ item.card.title }`
   ];
 
-  protocol !== QQProtocol.Mirai && sendMessageGroup.push(CQ.image(item.cover.url));
+  if (protocol === QQProtocol.Mirai) {
+    sendMessageGroup.push(CQ.image(`base64://${ await imageToBase64(item.cover.url) }`));
+  } else {
+    sendMessageGroup.push(CQ.image(item.cover.url));
+  }
+
   item.card.video && sendMessageGroup.push(`视频下载地址：${
     item.card.video.media.stream.h264[0].master_url
   }`);
@@ -173,7 +195,7 @@ async function xiaohongshuListener(): Promise<void> {
 
           for (const item of mergeData) {
             if (item.card!.time > lastUpdateTime) {
-              sendGroup.push(parser(QQSendGroup(item as Required<MergeData>), protocol));
+              sendGroup.push(parser(await QQSendGroup(item as Required<MergeData>), protocol));
             } else {
               break;
             }
@@ -249,7 +271,7 @@ addEventListener('message', function(event: MessageEvent<MessageObject>): void {
     try {
       xiaohongshuTimer && clearTimeout(xiaohongshuTimer);
     } catch { /* noop */ }
-  } else if (isSignMessage(event.data)) {
+  } else if (isSignMessage(event.data) || isImageToBase64Message(event.data)) {
     /* noop */
   } else {
     const {

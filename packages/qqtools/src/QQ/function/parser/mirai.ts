@@ -28,6 +28,11 @@ export interface ImagePathProps {
   path: string;
 }
 
+export interface ImageBase64Props {
+  type: 'Image';
+  base64: string;
+}
+
 export interface AtProps {
   type: 'At';
   target: number;
@@ -58,6 +63,7 @@ export type MiraiMessageProps = PlainProps
   | DiceProps
   | ImageUrlProps
   | ImagePathProps
+  | ImageBase64Props
   | AtProps
   | AtAllProps
   | VoiceCodeProps
@@ -89,9 +95,11 @@ export function dice(value: number): DiceProps {
  * 发送图片
  * @param { string } url: 图片地址或本地地址
  */
-export function image(url: string): ImageUrlProps | ImagePathProps {
+export function image(url: string): ImageUrlProps | ImagePathProps | ImageBase64Props {
   if (/^https?:\/\//.test(url)) {
     return { type: 'Image', url };
+  } else if (/^base64/.test(url)) {
+    return { type: 'Image', base64: url.replace('base64://', '') };
   } else {
     return { type: 'Image', path: url };
   }

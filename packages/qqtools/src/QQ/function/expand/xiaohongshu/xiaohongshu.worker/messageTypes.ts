@@ -31,7 +31,14 @@ export interface SignMessage {
   result: XHSProtocol;
 }
 
-export type MessageObject = CloseMessage | BaseInitMessage | SignMessage;
+// 转base64
+export interface ImageToBase64Message {
+  type: 'imageToBase64';
+  id: string;
+  result: string;
+}
+
+export type MessageObject = CloseMessage | BaseInitMessage | SignMessage | ImageToBase64Message;
 
 // 判断各种类型
 type IsMessageFunction<T extends MessageObject> = (d: MessageObject) => d is T;
@@ -39,6 +46,9 @@ type IsMessageFunction<T extends MessageObject> = (d: MessageObject) => d is T;
 export const isCloseMessage: IsMessageFunction<CloseMessage> = (d: MessageObject): d is CloseMessage => !!d['close'];
 
 export const isSignMessage: IsMessageFunction<SignMessage> = (d: MessageObject): d is SignMessage => d['type'] === 'sign';
+
+export const isImageToBase64Message: IsMessageFunction<ImageToBase64Message>
+  = (d: MessageObject): d is ImageToBase64Message => d['type'] === 'imageToBase64';
 
 // 组合数据
 export interface MergeData {
