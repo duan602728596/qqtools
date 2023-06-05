@@ -15,22 +15,6 @@ dayjs.locale('zh-cn');
 const fsP = fs.promises;
 const { Chatroom } = NIM_SDK;
 
-const teams = {
-  '2001': '丝芭影视',
-  '1001': 'TEAM SII',
-  '1002': 'TEAM NII',
-  '1003': 'TEAM HII',
-  '1004': 'TEAM X',
-  '1007': '预备生',
-  '1105': 'BEJ48',
-  '1201': 'TEAM G',
-  '1202': 'TEAM NIII',
-  '1203': 'TEAM Z',
-  '1207': '预备生',
-  '1404': 'CKG48',
-  '1501': 'IDFT'
-};
-
 const token = '';
 const pa = '';
 const pocket48Account = '';
@@ -93,32 +77,32 @@ function getRoomInfo(chatroomId) {
 // 获取房间信息
 function getServerInfo(serverId) {
   return new Promise(async (resolve, reject) => {
-    const appKey = await import(path.join(__dirname, '../../qqtools/src/QQ/sdk/appKey.mjs'));
-    const qchat = new QChatSDK({
-      appkey: atob(appKey.default),
-      account: pocket48Account,
-      token: pocket48Token,
-      linkAddresses: ['qchatweblink01.netease.im:443']
-    });
-
-    qchat.on('logined', async () => {
-      const result = await qchat.qchatServer.subscribeAllChannel({
-        type: 1,
-        serverIds: [serverId]
+    try {
+      const appKey = await import(path.join(__dirname, '../../qqtools/src/QQ/sdk/appKey.mjs'));
+      const qchat = new QChatSDK({
+        appkey: atob(appKey.default),
+        account: pocket48Account,
+        token: pocket48Token,
+        linkAddresses: ['qchatweblink01.netease.im:443']
       });
 
-      const serverInfo = await qchat.qchatServer.getServers({
-        serverIds: [serverId]
+      qchat.on('logined', async () => {
+        const serverInfo = await qchat.qchatServer.getServers({
+          serverIds: [serverId]
+        });
+
+        resolve({
+          serverInfo,
+          qchat,
+          owner: serverInfo[0].owner,
+          success: 1
+        });
       });
 
-      resolve({
-        serverInfo,
-        qchat,
-        owner: serverInfo[0].owner,
-        success: 1
-      });
-    });
-    await qchat.login();
+      await qchat.login();
+    } catch (err) {
+      console.error(err);
+    }
   });
 }
 
@@ -161,7 +145,7 @@ async function main() {
       }
 
       // 获取账号信息
-      const [resMembersInfo, resServerJumpInfo] = await Promise.all([
+      const [resMembersInfo, resServerJumpInfo, resArchives] = await Promise.all([
         got.post('https://pocketapi.48.cn/im/api/v1/im/room/info/type/source', {
           headers: headers(),
           responseType: 'json',
@@ -177,19 +161,28 @@ async function main() {
             targetType: 1,
             starId: friend
           }
+        }),
+        got.post('https://pocketapi.48.cn/user/api/v1/user/star/archives', {
+          headers: headers(),
+          responseType: 'json',
+          json: {
+            memberId: friend
+          }
         })
       ]);
 
       if (resMembersInfo.body.status === 200 || resServerJumpInfo.body.status === 200) {
+        let ownerName2;
+
         if (resMembersInfo.body.status === 200 && resMembersInfo?.body?.content?.roomInfo) {
           const { roomId: rid, ownerName } = resMembersInfo.body.content.roomInfo;
           const { nimChatroomSocket, event, success } = await getRoomInfo(rid);
           const account = success ? event?.chatroom?.creator : undefined;
 
+          ownerName2 = ownerName;
           nimChatroomSocket.disconnect();
           Object.assign(item, {
             id: friend,
-            ownerName,
             roomId: rid,
             account
           });
@@ -199,12 +192,11 @@ async function main() {
 
         if (resServerJumpInfo.body.status === 200 && resServerJumpInfo?.body?.content?.jumpServerInfo) {
           const { serverId, serverOwner, serverOwnerName, teamId } = resServerJumpInfo.body.content.jumpServerInfo;
-          const { qchat, owner } = await getServerInfo(`${ serverId }`);
+          const { qchat, owner, success } = await getServerInfo(`${ serverId }`);
 
-          await qchat.logout();
-          if (!item.ownerName) {
-            item.ownerName = serverOwnerName;
-          }
+          await qchat.destroy();
+
+          item.ownerName = serverOwnerName ?? ownerName2;
 
           if (!item.id) {
             item.id = serverOwner;
@@ -212,13 +204,22 @@ async function main() {
 
           Object.assign(item, {
             serverId,
-            account: owner,
-            team: teams[`${ teamId }`]
+            account: owner
           });
 
-          console.log(`ID: ${ serverOwner } ownerName: ${
-            item.serverOwnerName ?? serverOwnerName
-          } serverId: ${ item.serverId } team: ${ item.team }`);
+          if (resArchives.body.status === 200 && resArchives?.body?.content?.starInfo) {
+            const { starTeamName, starTeamId, starGroupName, periodName, pinyin } = resArchives.body.content.starInfo;
+
+            item.team = starTeamName;
+            item.teamId = starTeamId;
+            item.groupName = starGroupName;
+            item.periodName = periodName;
+            item.pinyin = pinyin;
+          }
+
+          console.log(`ID: ${ serverOwner } ownerName: ${ serverOwnerName } serverId: ${ item.serverId } team: ${ item.team }`);
+        } else {
+          ownerName2 && (item.ownerName = ownerName2);
         }
 
         if (Object.keys(item).length > 0) {
