@@ -15,6 +15,7 @@ let description: string;                               // 描述
 let protocol: QQProtocol;                              // 协议：mirai或者oicq
 let lastUpdateTime: number | 0 | null = null;          // 记录最新发布视频的更新时间，为0表示当前没有数据，null表示请求数据失败了
 let douyinTimer: NodeJS.Timer | undefined = undefined; // 轮询定时器
+let cookieString: string;
 let intervalTime: number = 10 * 60 * 1_000;            // 轮询间隔
 
 /* 调试 */
@@ -62,6 +63,10 @@ function waitLimiting(id: string): Promise<void> {
 
 /* 创建cookie */
 async function getCookie(): Promise<string> {
+  if (cookieString && !/^\s$/.test(cookieString)) {
+    return cookieString;
+  }
+
   const cookie: string = await requestTtwidCookie();
   const passportCsrfToken: string = msToken(32);
 
@@ -196,6 +201,7 @@ addEventListener('message', function(event: MessageEvent<MessageObject>) {
     userId = event.data.userId;
     description = event.data.description;
     protocol = event.data.protocol;
+    cookieString = event.data.cookieString;
     _isSendDebugMessage = event.data.isSendDebugMessage;
 
     if (event.data.intervalTime && event.data.intervalTime >= 10) {

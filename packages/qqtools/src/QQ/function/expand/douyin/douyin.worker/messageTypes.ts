@@ -10,6 +10,7 @@ interface BaseInitMessage {
   userId: string;
   webId: string;
   description: string;
+  cookieString: string;
   protocol: QQProtocol;
   intervalTime: number | undefined;
   isSendDebugMessage: boolean;

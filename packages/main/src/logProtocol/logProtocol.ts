@@ -1,11 +1,15 @@
 import { protocol, type Protocol, type ProtocolRequest, type ProtocolResponse } from 'electron';
 import { userPostedTemplate, feedTemplate } from './logTemplate/xiaohongshu';
+import { awemePostTemplate } from './logTemplate/douyin';
 
 /* template方法 */
 const template: Record<string, Record<string, (t: string, fn: string, d: string) => string>> = {
   xiaohongshu: {
     userPosted: userPostedTemplate,
     feed: feedTemplate
+  },
+  douyin: {
+    awemePost: awemePostTemplate
   }
 };
 

@@ -1,5 +1,7 @@
 import got, { type Response as GotResponse } from 'got';
+import type { _AwemePostObject } from '@qqtools3/main/src/logProtocol/logTemplate/douyin';
 import { pcUserAgent, awemePostQuery, type VideoQuery } from '../function/expand/douyin/signUtils';
+import { _douyinLogProtocol } from '../../utils/logProtocol/logActions';
 import type { AwemePostResponse } from './interface';
 
 /**
@@ -24,6 +26,11 @@ export async function requestAwemePost(cookie: string, videoQuery: VideoQuery): 
       },
       followRedirect: false
     });
+
+  _douyinLogProtocol.post<_AwemePostObject>('awemePost', {
+    userId: videoQuery.secUserId,
+    response: res.body === '' ? '' : JSON.stringify(res.body, null, 2)
+  });
 
   return res.body;
 }

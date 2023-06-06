@@ -60,6 +60,7 @@ class DouyinExpand {
       douyinListener,
       userId,
       description,
+      cookieString,
       intervalTime,
       isSendDebugMessage
     }: OptionsItemDouyin = this.config;
@@ -71,6 +72,7 @@ class DouyinExpand {
     this.douyinWorker.postMessage({
       userId,
       description,
+      cookieString,
       protocol: this.protocol,
       intervalTime,
       isSendDebugMessage

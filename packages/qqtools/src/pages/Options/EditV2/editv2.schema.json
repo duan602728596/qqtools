@@ -306,6 +306,14 @@
             "title": "监听介绍",
             "$required": true
           },
+          "cookieString": {
+            "id": "$root/properties/douyin/items/properties/cookieString",
+            "type": "string",
+            "title": "Cookie",
+            "$required": true,
+            "$componentType": "textArea",
+            "$tableColumnHidden": true
+          },
           "intervalTime": {
             "id": "$root/properties/douyin/items/properties/intervalTime",
             "type": "number",
