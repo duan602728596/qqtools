@@ -15,7 +15,7 @@ let description: string;                               // 描述
 let protocol: QQProtocol;                              // 协议：mirai或者oicq
 let lastUpdateTime: number | 0 | null = null;          // 记录最新发布视频的更新时间，为0表示当前没有数据，null表示请求数据失败了
 let douyinTimer: NodeJS.Timer | undefined = undefined; // 轮询定时器
-let cookieString: string;
+let cookieString: string | undefined = undefined;
 let intervalTime: number = 10 * 60 * 1_000;            // 轮询间隔
 
 /* 调试 */
@@ -82,10 +82,7 @@ async function getDouyinDataByApi(wait: boolean = true): Promise<AwemePostRespon
   try {
     wait && await waitLimiting(msToken(10));
 
-    const res: AwemePostResponse | string = await requestAwemePost(await getCookie(), {
-      secUserId: userId,
-      webId: `${ Math.random() }`.replace(/^0\./, '')
-    });
+    const res: AwemePostResponse | string = await requestAwemePost(await getCookie(), userId);
 
     // res可能返回string，表示请求失败了
     if (typeof res === 'object') {

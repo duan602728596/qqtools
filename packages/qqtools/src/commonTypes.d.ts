@@ -66,7 +66,7 @@ export interface OptionsItemDouyin {
   douyinListener?: boolean;
   userId: string;
   description: string;
-  cookieString: string;
+  cookieString?: string;
   intervalTime?: number;
   isSendDebugMessage?: boolean;
 }

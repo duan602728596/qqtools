@@ -310,7 +310,6 @@
             "id": "$root/properties/douyin/items/properties/cookieString",
             "type": "string",
             "title": "Cookie",
-            "$required": true,
             "$componentType": "textArea",
             "$tableColumnHidden": true
           },

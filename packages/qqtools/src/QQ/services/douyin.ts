@@ -1,6 +1,6 @@
 import got, { type Response as GotResponse } from 'got';
 import type { _AwemePostObject } from '@qqtools3/main/src/logProtocol/logTemplate/douyin';
-import { pcUserAgent, awemePostQuery, type VideoQuery } from '../function/expand/douyin/signUtils';
+import { douyinUserAgent, awemePostQuery } from '../function/expand/douyin/signUtils';
 import { _douyinLogProtocol } from '../../utils/logProtocol/logActions';
 import type { AwemePostResponse } from './interface';
 
@@ -11,24 +11,24 @@ import type { AwemePostResponse } from './interface';
 /**
  * 请求user的视频列表
  * @param { string } cookie: string
- * @param { VideoQuery } videoQuery: user id
+ * @param { string } secUserId: user id
  */
-export async function requestAwemePost(cookie: string, videoQuery: VideoQuery): Promise<AwemePostResponse | string> {
-  const query: string = awemePostQuery(videoQuery);
+export async function requestAwemePost(cookie: string, secUserId: string): Promise<AwemePostResponse | string> {
+  const query: string = awemePostQuery(secUserId);
   const res: GotResponse<AwemePostResponse | string> = await got.get(
     `https://www.douyin.com/aweme/v1/web/aweme/post/?${ query }`, {
       responseType: 'json',
       headers: {
-        Referer: `https://www.douyin.com/user/${ videoQuery.secUserId }`,
+        Referer: `https://www.douyin.com/user/${ secUserId }`,
         Host: 'www.douyin.com',
-        'User-Agent': pcUserAgent,
+        'User-Agent': douyinUserAgent,
         Cookie: cookie
       },
       followRedirect: false
     });
 
   _douyinLogProtocol.post<_AwemePostObject>('awemePost', {
-    userId: videoQuery.secUserId,
+    userId: secUserId,
     response: res.body === '' ? '' : JSON.stringify(res.body, null, 2)
   });
 
