@@ -9,7 +9,8 @@ import type {
   ReplyInfo,
   FlipCardInfo,
   FlipCardAudioInfo,
-  FlipCardVideoInfo
+  FlipCardVideoInfo,
+  GIFT_TEXTMessageV2
 } from '../../../qq.types';
 import type { MemberInfo } from '../../../../commonTypes';
 
@@ -220,6 +221,17 @@ ${ info.question }
       );
     } else
 
+    // 礼物信息
+    if (data.type === 'custom' && data.attach.messageType === 'GIFT_TEXT') {
+      const { acceptUserName, giftName, giftNum, picPath }: GIFT_TEXTMessageV2['attach']['giftInfo'] = data.attach.giftInfo;
+
+      sendGroup.push(
+        `${ nickName } 送给 ${ acceptUserName }${ giftNum }个${ giftName }。`,
+        CQ.image(picPath),
+        `时间：${ msgTime }${ memberInfoContent }`
+      );
+    } else
+
     // 删除回复、禁言、open live、trip info
     // TODO: SESSION_DIANTA目前会导致重复发送信息，所以暂时不处理
     if (data.type === 'custom' && [
@@ -414,6 +426,15 @@ ${ JSON.stringify(data) }`;
     if (data.type === 'custom' && data.attach.messageType === 'DELETE') {
       logData = `${ nickName } 删除信息
 ${ JSON.stringify(data) }`;
+    } else
+
+    // 礼物信息
+    if (data.type === 'custom' && data.attach.messageType === 'GIFT_TEXT') {
+      const { acceptUserName, giftName, giftNum, picPath }: GIFT_TEXTMessageV2['attach']['giftInfo'] = data.attach.giftInfo;
+
+      logData = `${ nickName } 送给 ${ acceptUserName }${ giftNum }个${ giftName }。
+地址：${ source(picPath) }
+时间：${ msgTime }${ memberInfoContent }`;
     } else
 
     // 禁言、open live、trip info

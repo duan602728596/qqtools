@@ -185,6 +185,10 @@
                 "value": "EXPRESS"
               },
               {
+                "label": "礼物信息",
+                "value": "GIFT_TEXT"
+              },
+              {
                 "label": "礼物回复信息",
                 "value": "GIFTREPLY"
               },
