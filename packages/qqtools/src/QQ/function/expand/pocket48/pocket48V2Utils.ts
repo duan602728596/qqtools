@@ -232,7 +232,7 @@ ${ info.question }
       }: GIFT_TEXTMessageV2['attach']['giftInfo'] = data.attach.giftInfo;
 
       sendGroup.push(
-        `${ nickName } 送给 ${ acceptUserName ?? userName }${ giftNum }个${ giftName }。`,
+        `${ nickName } 送给 ${ acceptUserName ?? userName } ${ giftNum }个${ giftName }。`,
         CQ.image(source(picPath)),
         `时间：${ msgTime }${ memberInfoContent }`
       );
@@ -444,7 +444,7 @@ ${ JSON.stringify(data) }`;
         picPath
       }: GIFT_TEXTMessageV2['attach']['giftInfo'] = data.attach.giftInfo;
 
-      logData = `${ nickName } 送给 ${ acceptUserName ?? userName }${ giftNum }个${ giftName }。
+      logData = `${ nickName } 送给 ${ acceptUserName ?? userName } ${ giftNum }个${ giftName }。
 地址：${ source(picPath) }
 时间：${ msgTime }${ memberInfoContent }`;
     } else
