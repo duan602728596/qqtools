@@ -418,6 +418,7 @@ export interface GIFT_TEXTMessageV2 extends CustomMessageV2 {
     giftInfo: {
       acceptUserId: number;
       acceptUserName: string;
+      userName: string;
       giftName: string;
       giftNum: number;
       picPath: string;

@@ -223,11 +223,17 @@ ${ info.question }
 
     // 礼物信息
     if (data.type === 'custom' && data.attach.messageType === 'GIFT_TEXT') {
-      const { acceptUserName, giftName, giftNum, picPath }: GIFT_TEXTMessageV2['attach']['giftInfo'] = data.attach.giftInfo;
+      const {
+        acceptUserName,
+        userName,
+        giftName,
+        giftNum,
+        picPath
+      }: GIFT_TEXTMessageV2['attach']['giftInfo'] = data.attach.giftInfo;
 
       sendGroup.push(
-        `${ nickName } 送给 ${ acceptUserName }${ giftNum }个${ giftName }。`,
-        CQ.image(picPath),
+        `${ nickName } 送给 ${ acceptUserName ?? userName }${ giftNum }个${ giftName }。`,
+        CQ.image(source(picPath)),
         `时间：${ msgTime }${ memberInfoContent }`
       );
     } else
@@ -430,9 +436,15 @@ ${ JSON.stringify(data) }`;
 
     // 礼物信息
     if (data.type === 'custom' && data.attach.messageType === 'GIFT_TEXT') {
-      const { acceptUserName, giftName, giftNum, picPath }: GIFT_TEXTMessageV2['attach']['giftInfo'] = data.attach.giftInfo;
+      const {
+        acceptUserName,
+        userName,
+        giftName,
+        giftNum,
+        picPath
+      }: GIFT_TEXTMessageV2['attach']['giftInfo'] = data.attach.giftInfo;
 
-      logData = `${ nickName } 送给 ${ acceptUserName }${ giftNum }个${ giftName }。
+      logData = `${ nickName } 送给 ${ acceptUserName ?? userName }${ giftNum }个${ giftName }。
 地址：${ source(picPath) }
 时间：${ msgTime }${ memberInfoContent }`;
     } else
