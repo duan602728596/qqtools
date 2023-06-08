@@ -50,11 +50,12 @@ class Pocket48V2Expand {
     // 用户
     const user: UserV2 | undefined = event.ext ? JSON.parse(event.ext).user : undefined;
     const isIdolUser: boolean = !!(user && user.roleId === 3 && !user.vip); // 判断是否是小偶像的信息
-    const isPresentText: boolean = type === 'PRESENT_TEXT' || type === 'GIFT_TEXT'; // 礼物信息
-    const isTeamVoice: boolean = type === 'TEAM_VOICE'; // 房间电台
+    const isPresentText: boolean = type === 'PRESENT_TEXT'; // 投票信息
+    const isGiftText: boolean = type === 'GIFT_TEXT';       // 礼物信息
+    const isTeamVoice: boolean = type === 'TEAM_VOICE';     // 房间电台
 
     // xox信息、礼物信息、房间电台可以处理
-    if (isIdolUser || isPresentText || isTeamVoice) {
+    if (isIdolUser || isPresentText || isGiftText || isTeamVoice) {
       let channel: Array<ChannelInfo> | undefined;
 
       if (Pocket48V2Expand.channelIdMap.has(event.channelId)) {
