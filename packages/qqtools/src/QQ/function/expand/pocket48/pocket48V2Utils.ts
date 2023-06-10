@@ -232,9 +232,8 @@ ${ info.question }
       }: GIFT_TEXTMessageV2['attach']['giftInfo'] = data.attach.giftInfo;
 
       sendGroup.push(
-        `${ nickName } 送给 ${ acceptUserName ?? userName } ${ giftNum }个${ giftName }。`,
-        CQ.image(source(picPath)),
-        `时间：${ msgTime }${ memberInfoContent }`
+        `${ nickName } 送给 ${ acceptUserName ?? userName } ${ giftNum }个${ giftName }。
+时间：${ msgTime }${ memberInfoContent }`
       );
     } else
 
