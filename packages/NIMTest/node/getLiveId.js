@@ -107,7 +107,12 @@ async function getLiveList() {
   setTimeout(getLiveList, 3 * 60 * 1_000);
 }
 
-function main() {
+async function main() {
+  const roomId = await getRoomIdJson();
+  const noLiveRoomId = roomId.filter((o) => !o.liveRoomId);
+
+  console.log(`没有查询到LiveId的有：${ noLiveRoomId.join(', ') }`);
+
   getLiveList();
 }
 
