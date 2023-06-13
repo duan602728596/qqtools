@@ -77,13 +77,13 @@ async function getLiveList() {
       let hasChange = false;
 
       for (const item of liveListRes.content.liveList) {
-        const roomIdItem = roomId.find((r) => r.id === item.userInfo.userId);
+        const roomIdItem = roomId.find((r) => r.id === Number(item.userInfo.userId));
 
         if (roomIdItem && !roomIdItem.liveRoomId) {
           const liveOneRes = await requestLiveRoomInfo(item.liveId);
 
           if (liveOneRes.success) {
-            roomIdItem.liveRoomId = liveOneRes.content.roomId;
+            roomIdItem.liveRoomId = Number(liveOneRes.content.roomId);
             console.log(`添加了${ roomIdItem.ownerName }的直播间ID`);
             hasChange = true;
           }

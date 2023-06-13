@@ -2880,7 +2880,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十二期生",
-      "pinyin": "li xinle"
+      "pinyin": "li xinle",
+      "liveRoomId": 4403529539
     },
     {
       "ownerName": "朱一柠",
@@ -2891,7 +2892,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十二期生",
-      "pinyin": "zhu yining"
+      "pinyin": "zhu yining",
+      "liveRoomId": 4403512650
     },
     {
       "id": 103679154,
@@ -3045,7 +3047,8 @@
       "teamId": 2102,
       "groupName": "CGT48",
       "periodName": "CGT48 一期生",
-      "pinyin": "cheng yuhan"
+      "pinyin": "cheng yuhan",
+      "liveRoomId": 4511925628
     },
     {
       "ownerName": "何蔡娴",
@@ -3067,7 +3070,8 @@
       "teamId": 2102,
       "groupName": "CGT48",
       "periodName": "CGT48 一期生",
-      "pinyin": "he mengdi"
+      "pinyin": "he mengdi",
+      "liveRoomId": 4512777596
     },
     {
       "ownerName": "何渝欣",
@@ -3100,7 +3104,8 @@
       "teamId": 2102,
       "groupName": "CGT48",
       "periodName": "CGT48 一期生",
-      "pinyin": "lei xinmeng"
+      "pinyin": "lei xinmeng",
+      "liveRoomId": 4512106245
     },
     {
       "ownerName": "雷薪梦",
@@ -3144,7 +3149,8 @@
       "teamId": 2102,
       "groupName": "CGT48",
       "periodName": "CGT48 一期生",
-      "pinyin": "wang yilin"
+      "pinyin": "wang yilin",
+      "liveRoomId": 4512384734
     },
     {
       "ownerName": "齐灵泉",
@@ -3188,7 +3194,8 @@
       "teamId": 2102,
       "groupName": "CGT48",
       "periodName": "CGT48 一期生",
-      "pinyin": "tan yonghang"
+      "pinyin": "tan yonghang",
+      "liveRoomId": 4513072329
     },
     {
       "ownerName": "陈韵佳",
@@ -3199,7 +3206,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 六期生",
-      "pinyin": "chen yunjia"
+      "pinyin": "chen yunjia",
+      "liveRoomId": 4512532082
     },
     {
       "ownerName": "胡丹",
@@ -3210,7 +3218,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 六期生",
-      "pinyin": "hu dan"
+      "pinyin": "hu dan",
+      "liveRoomId": 4512777388
     },
     {
       "ownerName": "何馨曼",
@@ -3221,7 +3230,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 六期生",
-      "pinyin": "he xinman"
+      "pinyin": "he xinman",
+      "liveRoomId": 4511679951
     },
     {
       "ownerName": "姬梦真",
@@ -3254,7 +3264,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 六期生",
-      "pinyin": "liu xingyu"
+      "pinyin": "liu xingyu",
+      "liveRoomId": 4511762001
     },
     {
       "ownerName": "马星月",
@@ -3265,7 +3276,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 六期生",
-      "pinyin": "ma xingyue"
+      "pinyin": "ma xingyue",
+      "liveRoomId": 4511991471
     },
     {
       "ownerName": "彭夕株",
@@ -3276,7 +3288,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 六期生",
-      "pinyin": "peng xizhu"
+      "pinyin": "peng xizhu",
+      "liveRoomId": 4511859878
     },
     {
       "ownerName": "吴志越",
@@ -3320,7 +3333,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 六期生",
-      "pinyin": "zhang saiyan"
+      "pinyin": "zhang saiyan",
+      "liveRoomId": 4512810885
     },
     {
       "ownerName": "张伟依",
@@ -3546,5 +3560,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-06-13 23:24:38"
+  "buildTime": "2023-06-13 23:31:00"
 }
