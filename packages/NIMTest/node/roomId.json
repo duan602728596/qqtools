@@ -10,12 +10,14 @@
       "teamId": 1009,
       "groupName": "SNH48",
       "periodName": "SNH48 一期生",
-      "pinyin": "zhang yuge"
+      "pinyin": "zhang yuge",
+      "liveRoomId": 4614061
     },
     {
       "id": 8,
       "roomId": "67322480",
-      "ownerName": "孙芮"
+      "ownerName": "孙芮",
+      "liveRoomId": 3871095
     },
     {
       "id": 17,
@@ -27,7 +29,8 @@
       "teamId": 1009,
       "groupName": "SNH48",
       "periodName": "SNH48 二期生",
-      "pinyin": "jiang yun"
+      "pinyin": "jiang yun",
+      "liveRoomId": 3868291
     },
     {
       "id": 18,
@@ -69,7 +72,8 @@
       "teamId": 1009,
       "groupName": "SNH48",
       "periodName": "SNH48 二期生",
-      "pinyin": "lin siyi"
+      "pinyin": "lin siyi",
+      "liveRoomId": 3870020
     },
     {
       "id": 27,
@@ -81,7 +85,8 @@
       "id": 34,
       "roomId": "67189770",
       "account": "20190415141326_3ql8q1r0qrkioj7",
-      "ownerName": "陆婷"
+      "ownerName": "陆婷",
+      "liveRoomId": 3866800
     },
     {
       "id": 35,
@@ -99,7 +104,8 @@
       "id": 36,
       "roomId": "67275458",
       "account": "20190415141752_4ssranlu40473lq",
-      "ownerName": "钱蓓婷"
+      "ownerName": "钱蓓婷",
+      "liveRoomId": 3870016
     },
     {
       "id": 38,
@@ -111,7 +117,8 @@
       "teamId": 1009,
       "groupName": "SNH48",
       "periodName": "SNH48 一期生",
-      "pinyin": "dai meng"
+      "pinyin": "dai meng",
+      "liveRoomId": 3871094
     },
     {
       "id": 39,
@@ -123,13 +130,15 @@
       "teamId": 1009,
       "groupName": "SNH48",
       "periodName": "SNH48 一期生",
-      "pinyin": "wu zhehan"
+      "pinyin": "wu zhehan",
+      "liveRoomId": 3872011
     },
     {
       "id": 40,
       "roomId": "67352247",
       "account": "20190415141038_9e1nm6qihlgvlkr",
-      "ownerName": "邱欣怡"
+      "ownerName": "邱欣怡",
+      "liveRoomId": 3870017
     },
     {
       "id": 43,
@@ -154,7 +163,8 @@
       "teamId": 1003,
       "groupName": "SNH48",
       "periodName": "SNH48 三期生",
-      "pinyin": "zhang xin"
+      "pinyin": "zhang xin",
+      "liveRoomId": 3872016
     },
     {
       "id": 5566,
@@ -166,19 +176,22 @@
       "teamId": 1003,
       "groupName": "SNH48",
       "periodName": "SNH48 三期生",
-      "pinyin": "Xu YangYuZhuo"
+      "pinyin": "Xu YangYuZhuo",
+      "liveRoomId": 3868298
     },
     {
       "id": 5574,
       "roomId": "67217613",
       "account": "20190415141916_2fsz5gzc9gco89w",
-      "ownerName": "SNH48-张雨鑫"
+      "ownerName": "SNH48-张雨鑫",
+      "liveRoomId": 3872017
     },
     {
       "id": 5973,
       "roomId": "67207881",
       "account": "20190415142302_jir0fiilktunyfh",
-      "ownerName": "SNH48"
+      "ownerName": "SNH48",
+      "liveRoomId": 3869841
     },
     {
       "id": 6431,
@@ -190,7 +203,8 @@
       "teamId": 1004,
       "groupName": "SNH48",
       "periodName": "SNH48 四期生",
-      "pinyin": "chen lin"
+      "pinyin": "chen lin",
+      "liveRoomId": 3870022
     },
     {
       "id": 6737,
@@ -202,7 +216,8 @@
       "teamId": 1001,
       "groupName": "SNH48",
       "periodName": "SNH48 四期生",
-      "pinyin": "Shao XueCong"
+      "pinyin": "Shao XueCong",
+      "liveRoomId": 3872019
     },
     {
       "id": 6738,
@@ -214,7 +229,8 @@
       "teamId": 1004,
       "groupName": "SNH48",
       "periodName": "SNH48 四期生",
-      "pinyin": "Song XinRan"
+      "pinyin": "Song XinRan",
+      "liveRoomId": 3866807
     },
     {
       "id": 6742,
@@ -226,7 +242,8 @@
       "teamId": 1004,
       "groupName": "SNH48",
       "periodName": "SNH48 四期生",
-      "pinyin": "Wang XiaoJia"
+      "pinyin": "Wang XiaoJia",
+      "liveRoomId": 3866809
     },
     {
       "id": 6743,
@@ -238,7 +255,8 @@
       "teamId": 1004,
       "groupName": "SNH48",
       "periodName": "SNH48 四期生",
-      "pinyin": "Xie TianYi"
+      "pinyin": "Xie TianYi",
+      "liveRoomId": 3868302
     },
     {
       "id": 6744,
@@ -250,7 +268,8 @@
       "teamId": 1004,
       "groupName": "SNH48",
       "periodName": "SNH48 四期生",
-      "pinyin": "Yang BingYi"
+      "pinyin": "Yang BingYi",
+      "liveRoomId": 3872020
     },
     {
       "id": 6745,
@@ -262,7 +281,8 @@
       "teamId": 1001,
       "groupName": "SNH48",
       "periodName": "SNH48 四期生",
-      "pinyin": "yan mingjun"
+      "pinyin": "yan mingjun",
+      "liveRoomId": 3868295
     },
     {
       "id": 9073,
@@ -280,7 +300,8 @@
       "teamId": 1003,
       "groupName": "SNH48",
       "periodName": "SNH48 五期生",
-      "pinyin": "Shen MengYao"
+      "pinyin": "Shen MengYao",
+      "liveRoomId": 3870025
     },
     {
       "id": 63548,
@@ -292,7 +313,8 @@
       "teamId": 1203,
       "groupName": "GNZ48",
       "periodName": "SNH48 五期生",
-      "pinyin": "chen ke"
+      "pinyin": "chen ke",
+      "liveRoomId": 3868305
     },
     {
       "id": 63554,
@@ -304,7 +326,8 @@
       "teamId": 1001,
       "groupName": "SNH48",
       "periodName": "SNH48 五期生",
-      "pinyin": "duan yixuan"
+      "pinyin": "duan yixuan",
+      "liveRoomId": 3868306
     },
     {
       "id": 63555,
@@ -316,7 +339,8 @@
       "teamId": 1003,
       "groupName": "SNH48",
       "periodName": "SNH48 五期生",
-      "pinyin": "Fei QinYuan"
+      "pinyin": "Fei QinYuan",
+      "liveRoomId": 3871113
     },
     {
       "id": 63559,
@@ -328,7 +352,8 @@
       "teamId": 1002,
       "groupName": "SNH48",
       "periodName": "SNH48 五期生",
-      "pinyin": "hu xiaohui"
+      "pinyin": "hu xiaohui",
+      "liveRoomId": 3868307
     },
     {
       "id": 63560,
@@ -340,7 +365,8 @@
       "teamId": 1003,
       "groupName": "SNH48",
       "periodName": "SNH48 五期生",
-      "pinyin": "Jiang Shan"
+      "pinyin": "Jiang Shan",
+      "liveRoomId": 3871115
     },
     {
       "id": 63561,
@@ -352,7 +378,8 @@
       "teamId": 1003,
       "groupName": "SNH48",
       "periodName": "SNH48 五期生",
-      "pinyin": "Jiang ShuTing"
+      "pinyin": "Jiang ShuTing",
+      "liveRoomId": 3869326
     },
     {
       "id": 63566,
@@ -364,7 +391,8 @@
       "teamId": 1001,
       "groupName": "SNH48",
       "periodName": "SNH48 五期生",
-      "pinyin": "Liu ZengYan"
+      "pinyin": "Liu ZengYan",
+      "liveRoomId": 3869329
     },
     {
       "id": 63567,
@@ -376,7 +404,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 五期生",
-      "pinyin": "Pan YingQi"
+      "pinyin": "Pan YingQi",
+      "liveRoomId": 3871117
     },
     {
       "id": 63571,
@@ -388,7 +417,8 @@
       "teamId": 1001,
       "groupName": "SNH48",
       "periodName": "SNH48 五期生",
-      "pinyin": "tian shuli"
+      "pinyin": "tian shuli",
+      "liveRoomId": 3868309
     },
     {
       "id": 63576,
@@ -400,7 +430,8 @@
       "teamId": 1501,
       "groupName": "IDFT",
       "periodName": "SNH48 五期生",
-      "pinyin": "yang qingying"
+      "pinyin": "yang qingying",
+      "liveRoomId": 3869330
     },
     {
       "id": 63577,
@@ -412,7 +443,8 @@
       "teamId": 1201,
       "groupName": "GNZ48",
       "periodName": "SNH48 五期生",
-      "pinyin": "zeng aijia"
+      "pinyin": "zeng aijia",
+      "liveRoomId": 3872026
     },
     {
       "id": 63580,
@@ -424,7 +456,8 @@
       "teamId": 1501,
       "groupName": "IDFT",
       "periodName": "SNH48 五期生",
-      "pinyin": "zhang kaiqi"
+      "pinyin": "zhang kaiqi",
+      "liveRoomId": 3868311
     },
     {
       "id": 286977,
@@ -436,7 +469,8 @@
       "teamId": 1003,
       "groupName": "SNH48",
       "periodName": "SNH48 六期生",
-      "pinyin": "sun zhenni"
+      "pinyin": "sun zhenni",
+      "liveRoomId": 3866821
     },
     {
       "id": 286979,
@@ -460,7 +494,8 @@
       "teamId": 1003,
       "groupName": "SNH48",
       "periodName": "SNH48 六期生",
-      "pinyin": "li jiaen"
+      "pinyin": "li jiaen",
+      "liveRoomId": 3866824
     },
     {
       "id": 327558,
@@ -472,7 +507,8 @@
       "teamId": 1203,
       "groupName": "GNZ48",
       "periodName": "SNH48 六期生",
-      "pinyin": "luo hanyue"
+      "pinyin": "luo hanyue",
+      "liveRoomId": 3871123
     },
     {
       "id": 327560,
@@ -484,7 +520,8 @@
       "teamId": 1201,
       "groupName": "GNZ48",
       "periodName": "SNH48 六期生",
-      "pinyin": "zhang qiongyu"
+      "pinyin": "zhang qiongyu",
+      "liveRoomId": 3872028
     },
     {
       "id": 327563,
@@ -496,7 +533,8 @@
       "teamId": 1202,
       "groupName": "GNZ48",
       "periodName": "SNH48 六期生",
-      "pinyin": "chen nanxi"
+      "pinyin": "chen nanxi",
+      "liveRoomId": 3871124
     },
     {
       "id": 327566,
@@ -508,7 +546,8 @@
       "teamId": 1202,
       "groupName": "GNZ48",
       "periodName": "SNH48 六期生",
-      "pinyin": "hong jingwen"
+      "pinyin": "hong jingwen",
+      "liveRoomId": 3870037
     },
     {
       "id": 327567,
@@ -520,7 +559,8 @@
       "teamId": 1202,
       "groupName": "GNZ48",
       "periodName": "SNH48 六期生",
-      "pinyin": "liu lifei"
+      "pinyin": "liu lifei",
+      "liveRoomId": 3872031
     },
     {
       "id": 327568,
@@ -532,7 +572,8 @@
       "teamId": 1202,
       "groupName": "GNZ48",
       "periodName": "SNH48 六期生",
-      "pinyin": "liu qianqian"
+      "pinyin": "liu qianqian",
+      "liveRoomId": 3872032
     },
     {
       "id": 327569,
@@ -544,7 +585,8 @@
       "teamId": 1202,
       "groupName": "GNZ48",
       "periodName": "SNH48 六期生",
-      "pinyin": "lu jing"
+      "pinyin": "lu jing",
+      "liveRoomId": 3872033
     },
     {
       "id": 327571,
@@ -556,7 +598,8 @@
       "teamId": 1202,
       "groupName": "GNZ48",
       "periodName": "SNH48 六期生",
-      "pinyin": "tang lijia"
+      "pinyin": "tang lijia",
+      "liveRoomId": 3872034
     },
     {
       "id": 327572,
@@ -568,7 +611,8 @@
       "teamId": 1202,
       "groupName": "GNZ48",
       "periodName": "SNH48 六期生",
-      "pinyin": "xian shennan"
+      "pinyin": "xian shennan",
+      "liveRoomId": 3868316
     },
     {
       "id": 327574,
@@ -580,7 +624,8 @@
       "teamId": 1501,
       "groupName": "IDFT",
       "periodName": "SNH48 六期生",
-      "pinyin": "Xiong XinYao"
+      "pinyin": "Xiong XinYao",
+      "liveRoomId": 3868317
     },
     {
       "id": 327575,
@@ -592,7 +637,8 @@
       "teamId": 1202,
       "groupName": "GNZ48",
       "periodName": "SNH48 六期生",
-      "pinyin": "zheng danni"
+      "pinyin": "zheng danni",
+      "liveRoomId": 3871126
     },
     {
       "id": 327577,
@@ -604,7 +650,8 @@
       "teamId": 1004,
       "groupName": "SNH48",
       "periodName": "SNH48 六期生",
-      "pinyin": "zuo jingyuan"
+      "pinyin": "zuo jingyuan",
+      "liveRoomId": 3872036
     },
     {
       "id": 327579,
@@ -616,7 +663,8 @@
       "teamId": 1002,
       "groupName": "SNH48",
       "periodName": "SNH48 六期生",
-      "pinyin": "liu shuxian"
+      "pinyin": "liu shuxian",
+      "liveRoomId": 3871127
     },
     {
       "id": 327580,
@@ -628,7 +676,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "SNH48 六期生",
-      "pinyin": "zhang menghui"
+      "pinyin": "zhang menghui",
+      "liveRoomId": 3868318
     },
     {
       "id": 327581,
@@ -640,7 +689,8 @@
       "teamId": 1002,
       "groupName": "SNH48",
       "periodName": "SNH48 六期生",
-      "pinyin": "qing yuwen"
+      "pinyin": "qing yuwen",
+      "liveRoomId": 3871128
     },
     {
       "id": 327587,
@@ -652,7 +702,8 @@
       "teamId": 1003,
       "groupName": "SNH48",
       "periodName": "SNH48 六期生",
-      "pinyin": "feng sijia"
+      "pinyin": "feng sijia",
+      "liveRoomId": 3871130
     },
     {
       "id": 327596,
@@ -664,7 +715,8 @@
       "teamId": 1001,
       "groupName": "SNH48",
       "periodName": "SNH48 六期生",
-      "pinyin": "ma yuling"
+      "pinyin": "ma yuling",
+      "liveRoomId": 3871133
     },
     {
       "id": 327597,
@@ -676,7 +728,8 @@
       "teamId": 1002,
       "groupName": "SNH48",
       "periodName": "SNH48 六期生",
-      "pinyin": "su shanshan"
+      "pinyin": "su shanshan",
+      "liveRoomId": 3866827
     },
     {
       "id": 327598,
@@ -688,13 +741,15 @@
       "teamId": 1002,
       "groupName": "SNH48",
       "periodName": "SNH48 六期生",
-      "pinyin": "zhang xiaoying"
+      "pinyin": "zhang xiaoying",
+      "liveRoomId": 3868320
     },
     {
       "id": 327601,
       "roomId": "67207817",
       "account": "20190415141141_vih7vn2x9cm4euo",
-      "ownerName": "SNH48-陈倩楠"
+      "ownerName": "SNH48-陈倩楠",
+      "liveRoomId": 3871134
     },
     {
       "id": 327602,
@@ -706,19 +761,22 @@
       "teamId": 1004,
       "groupName": "SNH48",
       "periodName": "SNH48 六期生",
-      "pinyin": "liu shengnan"
+      "pinyin": "liu shengnan",
+      "liveRoomId": 3868322
     },
     {
       "id": 327682,
       "roomId": "67207875",
       "account": "20190415142248_a113kfk5mlooj1u",
-      "ownerName": "BEJ48"
+      "ownerName": "BEJ48",
+      "liveRoomId": 3872562
     },
     {
       "id": 327683,
       "roomId": "67380600",
       "account": "20190415142350_pwxqty1aw7x8jx0",
-      "ownerName": "GNZ48"
+      "ownerName": "GNZ48",
+      "liveRoomId": 3874066
     },
     {
       "id": 399631,
@@ -730,7 +788,8 @@
       "teamId": 1004,
       "groupName": "SNH48",
       "periodName": "SNH48 七期生",
-      "pinyin": "Lv Yi"
+      "pinyin": "Lv Yi",
+      "liveRoomId": 4175670
     },
     {
       "id": 399662,
@@ -754,7 +813,8 @@
       "teamId": 1003,
       "groupName": "SNH48",
       "periodName": "SNH48 七期生",
-      "pinyin": "Yuan YiQi"
+      "pinyin": "Yuan YiQi",
+      "liveRoomId": 4173867
     },
     {
       "id": 399674,
@@ -766,7 +826,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 七期生",
-      "pinyin": "Xu ShiQi"
+      "pinyin": "Xu ShiQi",
+      "liveRoomId": 4175677
     },
     {
       "id": 407106,
@@ -778,7 +839,8 @@
       "teamId": 1001,
       "groupName": "SNH48",
       "periodName": "BEJ48 一期生",
-      "pinyin": "huang enru"
+      "pinyin": "huang enru",
+      "liveRoomId": 4312285
     },
     {
       "id": 407108,
@@ -802,7 +864,8 @@
       "teamId": 1002,
       "groupName": "SNH48",
       "periodName": "BEJ48 一期生",
-      "pinyin": "liu xian"
+      "pinyin": "liu xian",
+      "liveRoomId": 4307916
     },
     {
       "id": 407121,
@@ -814,7 +877,8 @@
       "teamId": 1003,
       "groupName": "SNH48",
       "periodName": "BEJ48 一期生",
-      "pinyin": "sun yushan"
+      "pinyin": "sun yushan",
+      "liveRoomId": 4311573
     },
     {
       "id": 407127,
@@ -826,7 +890,8 @@
       "teamId": 1002,
       "groupName": "SNH48",
       "periodName": "BEJ48 一期生",
-      "pinyin": "zhang huaijin"
+      "pinyin": "zhang huaijin",
+      "liveRoomId": 4310652
     },
     {
       "id": 407130,
@@ -850,7 +915,8 @@
       "teamId": 1203,
       "groupName": "GNZ48",
       "periodName": "GNZ48 一期生",
-      "pinyin": "chen guijun"
+      "pinyin": "chen guijun",
+      "liveRoomId": 5081868
     },
     {
       "id": 417320,
@@ -862,7 +928,8 @@
       "teamId": 1203,
       "groupName": "GNZ48",
       "periodName": "GNZ48 一期生",
-      "pinyin": "long yirui"
+      "pinyin": "long yirui",
+      "liveRoomId": 5081871
     },
     {
       "id": 417321,
@@ -874,7 +941,8 @@
       "teamId": 1203,
       "groupName": "GNZ48",
       "periodName": "GNZ48 一期生",
-      "pinyin": "nong yanping"
+      "pinyin": "nong yanping",
+      "liveRoomId": 5081873
     },
     {
       "id": 417324,
@@ -886,7 +954,8 @@
       "teamId": 1202,
       "groupName": "GNZ48",
       "periodName": "GNZ48 一期生",
-      "pinyin": "wang cuifei"
+      "pinyin": "wang cuifei",
+      "liveRoomId": 5083254
     },
     {
       "id": 417326,
@@ -898,7 +967,8 @@
       "teamId": 1203,
       "groupName": "GNZ48",
       "periodName": "GNZ48 一期生",
-      "pinyin": "wang siyue"
+      "pinyin": "wang siyue",
+      "liveRoomId": 5080436
     },
     {
       "ownerName": "王秭歆",
@@ -909,7 +979,8 @@
       "teamId": 1201,
       "groupName": "GNZ48",
       "periodName": "GNZ48 一期生",
-      "pinyin": "wang zixin"
+      "pinyin": "wang zixin",
+      "liveRoomId": 5083255
     },
     {
       "ownerName": "杨可璐",
@@ -920,7 +991,8 @@
       "teamId": 1201,
       "groupName": "GNZ48",
       "periodName": "GNZ48 一期生",
-      "pinyin": "yang kelu"
+      "pinyin": "yang kelu",
+      "liveRoomId": 5084349
     },
     {
       "id": 417331,
@@ -932,7 +1004,8 @@
       "teamId": 1203,
       "groupName": "GNZ48",
       "periodName": "GNZ48 一期生",
-      "pinyin": "yang yuanyuan"
+      "pinyin": "yang yuanyuan",
+      "liveRoomId": 5082313
     },
     {
       "id": 417336,
@@ -944,7 +1017,8 @@
       "teamId": 1501,
       "groupName": "IDFT",
       "periodName": "GNZ48 一期生",
-      "pinyin": "Zhao YiMin"
+      "pinyin": "Zhao YiMin",
+      "liveRoomId": 5084202
     },
     {
       "id": 458335,
@@ -956,7 +1030,8 @@
       "teamId": 1001,
       "groupName": "SNH48",
       "periodName": "SHY48 一期生",
-      "pinyin": "li hui"
+      "pinyin": "li hui",
+      "liveRoomId": 6478871
     },
     {
       "id": 459991,
@@ -968,7 +1043,8 @@
       "teamId": 1002,
       "groupName": "SNH48",
       "periodName": "SHY48 一期生",
-      "pinyin": "Lu TianHui"
+      "pinyin": "Lu TianHui",
+      "liveRoomId": 6477874
     },
     {
       "id": 459997,
@@ -980,7 +1056,8 @@
       "teamId": 1501,
       "groupName": "IDFT",
       "periodName": "SHY48 一期生",
-      "pinyin": "Zhu Yan"
+      "pinyin": "Zhu Yan",
+      "liveRoomId": 6483558
     },
     {
       "id": 459999,
@@ -992,7 +1069,8 @@
       "teamId": 1002,
       "groupName": "SNH48",
       "periodName": "SHY48 一期生",
-      "pinyin": "han jiale"
+      "pinyin": "han jiale",
+      "liveRoomId": 6482745
     },
     {
       "id": 460004,
@@ -1004,7 +1082,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "SHY48 一期生",
-      "pinyin": "Yang YunHan"
+      "pinyin": "Yang YunHan",
+      "liveRoomId": 6483556
     },
     {
       "id": 460005,
@@ -1016,7 +1095,8 @@
       "teamId": 1002,
       "groupName": "SNH48",
       "periodName": "SHY48 一期生",
-      "pinyin": "Zhao JiaRui"
+      "pinyin": "Zhao JiaRui",
+      "liveRoomId": 6486104
     },
     {
       "id": 460933,
@@ -1033,7 +1113,8 @@
       "teamId": 1501,
       "groupName": "IDFT",
       "periodName": "SHY48 一期生",
-      "pinyin": "Gao ZhiXian"
+      "pinyin": "Gao ZhiXian",
+      "liveRoomId": 7403679
     },
     {
       "id": 480675,
@@ -1045,7 +1126,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "SHY48 一期生",
-      "pinyin": "zhang aijing"
+      "pinyin": "zhang aijing",
+      "liveRoomId": 7395696
     },
     {
       "id": 480680,
@@ -1057,7 +1139,8 @@
       "teamId": 1203,
       "groupName": "GNZ48",
       "periodName": "SHY48 一期生",
-      "pinyin": "zhang youning"
+      "pinyin": "zhang youning",
+      "liveRoomId": 7407185
     },
     {
       "id": 526172,
@@ -1075,7 +1158,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 二期生",
-      "pinyin": "sun xiaoyan"
+      "pinyin": "sun xiaoyan",
+      "liveRoomId": 8694381
     },
     {
       "id": 528336,
@@ -1116,7 +1200,8 @@
       "teamId": 1004,
       "groupName": "SNH48",
       "periodName": "SHY48 二期生",
-      "pinyin": "Wang FeiYan"
+      "pinyin": "Wang FeiYan",
+      "liveRoomId": 8757318
     },
     {
       "id": 530390,
@@ -1128,7 +1213,8 @@
       "teamId": 1004,
       "groupName": "SNH48",
       "periodName": "SHY48 二期生",
-      "pinyin": "wang ruiqi"
+      "pinyin": "wang ruiqi",
+      "liveRoomId": 8751867
     },
     {
       "id": 530439,
@@ -1140,7 +1226,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "GNZ48 二期生",
-      "pinyin": "gao xueyi"
+      "pinyin": "gao xueyi",
+      "liveRoomId": 8756487
     },
     {
       "id": 530452,
@@ -1152,7 +1239,8 @@
       "teamId": 1203,
       "groupName": "GNZ48",
       "periodName": "GNZ48 二期生",
-      "pinyin": "zhu yixin"
+      "pinyin": "zhu yixin",
+      "liveRoomId": 8752975
     },
     {
       "id": 538697,
@@ -1164,7 +1252,8 @@
       "teamId": 1001,
       "groupName": "SNH48",
       "periodName": "BEJ48 二期生",
-      "pinyin": "shen xiaoai"
+      "pinyin": "shen xiaoai",
+      "liveRoomId": 9470936
     },
     {
       "id": 594003,
@@ -1176,7 +1265,8 @@
       "teamId": 1003,
       "groupName": "SNH48",
       "periodName": "SNH48 八期生",
-      "pinyin": "Wang Yi"
+      "pinyin": "Wang Yi",
+      "liveRoomId": 11342780
     },
     {
       "id": 601302,
@@ -1188,7 +1278,8 @@
       "teamId": 1203,
       "groupName": "GNZ48",
       "periodName": "GNZ48 三期生",
-      "pinyin": "liang wanlin"
+      "pinyin": "liang wanlin",
+      "liveRoomId": 18715288
     },
     {
       "id": 607511,
@@ -1200,7 +1291,8 @@
       "teamId": 1203,
       "groupName": "GNZ48",
       "periodName": "GNZ48 三期生",
-      "pinyin": "deng huien"
+      "pinyin": "deng huien",
+      "liveRoomId": 18718150
     },
     {
       "id": 607513,
@@ -1212,7 +1304,8 @@
       "teamId": 1201,
       "groupName": "GNZ48",
       "periodName": "GNZ48 三期生",
-      "pinyin": "fu bingbing"
+      "pinyin": "fu bingbing",
+      "liveRoomId": 18703998
     },
     {
       "id": 607515,
@@ -1224,7 +1317,8 @@
       "teamId": 1201,
       "groupName": "GNZ48",
       "periodName": "GNZ48 三期生",
-      "pinyin": "huang chuyin"
+      "pinyin": "huang chuyin",
+      "liveRoomId": 18706927
     },
     {
       "id": 607521,
@@ -1236,7 +1330,8 @@
       "teamId": 1201,
       "groupName": "GNZ48",
       "periodName": "GNZ48 三期生",
-      "pinyin": "luo kejia"
+      "pinyin": "luo kejia",
+      "liveRoomId": 18718155
     },
     {
       "id": 607523,
@@ -1248,7 +1343,8 @@
       "teamId": 1203,
       "groupName": "GNZ48",
       "periodName": "GNZ48 三期生",
-      "pinyin": "lin zhi"
+      "pinyin": "lin zhi",
+      "liveRoomId": 18706930
     },
     {
       "id": 607591,
@@ -1260,7 +1356,8 @@
       "teamId": 1201,
       "groupName": "GNZ48",
       "periodName": "GNZ48 三期生",
-      "pinyin": "wu yufei"
+      "pinyin": "wu yufei",
+      "liveRoomId": 18718159
     },
     {
       "id": 609002,
@@ -1272,7 +1369,8 @@
       "teamId": 1001,
       "groupName": "SNH48",
       "periodName": "SHY48 三期生",
-      "pinyin": "zhao tianyang"
+      "pinyin": "zhao tianyang",
+      "liveRoomId": 18033754
     },
     {
       "id": 614528,
@@ -1284,7 +1382,8 @@
       "teamId": 1002,
       "groupName": "SNH48",
       "periodName": "CKG48 一期生",
-      "pinyin": "bai xinyu"
+      "pinyin": "bai xinyu",
+      "liveRoomId": 19838373
     },
     {
       "id": 614727,
@@ -1296,7 +1395,8 @@
       "teamId": 1201,
       "groupName": "GNZ48",
       "periodName": "CKG48 一期生",
-      "pinyin": "li shanshan"
+      "pinyin": "li shanshan",
+      "liveRoomId": 19838372
     },
     {
       "id": 614728,
@@ -1308,7 +1408,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 一期生",
-      "pinyin": "lei yuxiao"
+      "pinyin": "lei yuxiao",
+      "liveRoomId": 19848042
     },
     {
       "id": 614734,
@@ -1320,7 +1421,8 @@
       "teamId": 1004,
       "groupName": "SNH48",
       "periodName": "CKG48 一期生",
-      "pinyin": "Ran Wei"
+      "pinyin": "Ran Wei",
+      "liveRoomId": 19834736
     },
     {
       "ownerName": "王梦竹",
@@ -1331,7 +1433,8 @@
       "teamId": 1501,
       "groupName": "IDFT",
       "periodName": "CKG48 一期生",
-      "pinyin": "Wang MengZhu"
+      "pinyin": "Wang MengZhu",
+      "liveRoomId": 19837443
     },
     {
       "id": 614741,
@@ -1343,7 +1446,8 @@
       "teamId": 1202,
       "groupName": "GNZ48",
       "periodName": "CKG48 一期生",
-      "pinyin": "zeng jia"
+      "pinyin": "zeng jia",
+      "liveRoomId": 19844104
     },
     {
       "id": 614753,
@@ -1355,7 +1459,8 @@
       "teamId": 1003,
       "groupName": "SNH48",
       "periodName": "CKG48 一期生",
-      "pinyin": "Hao JingYi"
+      "pinyin": "Hao JingYi",
+      "liveRoomId": 19847208
     },
     {
       "id": 614755,
@@ -1379,7 +1484,8 @@
       "teamId": 1003,
       "groupName": "SNH48",
       "periodName": "CKG48 一期生",
-      "pinyin": "lin shuqing"
+      "pinyin": "lin shuqing",
+      "liveRoomId": 19843742
     },
     {
       "id": 614761,
@@ -1391,7 +1497,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 一期生",
-      "pinyin": "Wu XueYu"
+      "pinyin": "Wu XueYu",
+      "liveRoomId": 19843746
     },
     {
       "id": 614773,
@@ -1403,12 +1510,14 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 一期生",
-      "pinyin": "zhao zehui"
+      "pinyin": "zhao zehui",
+      "liveRoomId": 19837445
     },
     {
       "id": 614776,
       "roomId": "67390993",
-      "ownerName": "CKG48-吴晶晶"
+      "ownerName": "CKG48-吴晶晶",
+      "liveRoomId": 19843743
     },
     {
       "id": 624121,
@@ -1420,7 +1529,8 @@
       "teamId": 1004,
       "groupName": "SNH48",
       "periodName": "BEJ48 三期生",
-      "pinyin": "heyang qingqing"
+      "pinyin": "heyang qingqing",
+      "liveRoomId": 21010986
     },
     {
       "id": 654707,
@@ -1450,7 +1560,8 @@
       "teamId": 1002,
       "groupName": "SNH48",
       "periodName": "SNH48 九期生",
-      "pinyin": "Zhang Qian"
+      "pinyin": "Zhang Qian",
+      "liveRoomId": 25426303
     },
     {
       "id": 677404,
@@ -1462,7 +1573,8 @@
       "teamId": 1002,
       "groupName": "SNH48",
       "periodName": "SNH48 九期生",
-      "pinyin": "Zhou ShiYu"
+      "pinyin": "Zhou ShiYu",
+      "liveRoomId": 25474023
     },
     {
       "id": 679462,
@@ -1504,7 +1616,8 @@
       "teamId": 1203,
       "groupName": "GNZ48",
       "periodName": "CKG48 二期生",
-      "pinyin": "xu chuwen"
+      "pinyin": "xu chuwen",
+      "liveRoomId": 25549473
     },
     {
       "id": 707374,
@@ -1516,7 +1629,8 @@
       "teamId": 1501,
       "groupName": "IDFT",
       "periodName": "CKG48 二期生",
-      "pinyin": "Zou BingQing"
+      "pinyin": "Zou BingQing",
+      "liveRoomId": 346654836
     },
     {
       "id": 711726,
@@ -1528,7 +1642,8 @@
       "teamId": 1203,
       "groupName": "GNZ48",
       "periodName": "BEJ48 四期生",
-      "pinyin": "gao weiran"
+      "pinyin": "gao weiran",
+      "liveRoomId": 25451672
     },
     {
       "id": 711732,
@@ -1540,7 +1655,8 @@
       "teamId": 1001,
       "groupName": "SNH48",
       "periodName": "BEJ48 四期生",
-      "pinyin": "peng jiamin"
+      "pinyin": "peng jiamin",
+      "liveRoomId": 25327214
     },
     {
       "id": 711741,
@@ -1552,7 +1668,8 @@
       "teamId": 1002,
       "groupName": "SNH48",
       "periodName": "BEJ48 四期生",
-      "pinyin": "Yang YuXin"
+      "pinyin": "Yang YuXin",
+      "liveRoomId": 25461568
     },
     {
       "id": 711746,
@@ -1564,7 +1681,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 四期生",
-      "pinyin": "zhou xiang"
+      "pinyin": "zhou xiang",
+      "liveRoomId": 25442930
     },
     {
       "id": 722780,
@@ -1576,7 +1694,8 @@
       "teamId": 1201,
       "groupName": "GNZ48",
       "periodName": "GNZ48 五期生",
-      "pinyin": "liang jiao"
+      "pinyin": "liang jiao",
+      "liveRoomId": 26707180
     },
     {
       "id": 722781,
@@ -1588,7 +1707,8 @@
       "teamId": 1203,
       "groupName": "GNZ48",
       "periodName": "GNZ48 五期生",
-      "pinyin": "liang qiao"
+      "pinyin": "liang qiao",
+      "liveRoomId": 26657866
     },
     {
       "id": 722784,
@@ -1600,7 +1720,8 @@
       "teamId": 1203,
       "groupName": "GNZ48",
       "periodName": "GNZ48 五期生",
-      "pinyin": "xie feifei"
+      "pinyin": "xie feifei",
+      "liveRoomId": 25749010
     },
     {
       "id": 844544,
@@ -1630,7 +1751,8 @@
       "teamId": 1201,
       "groupName": "GNZ48",
       "periodName": "CKG48 三期生",
-      "pinyin": "fang qi"
+      "pinyin": "fang qi",
+      "liveRoomId": 58481225
     },
     {
       "id": 867892,
@@ -1642,7 +1764,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "CKG48 三期生",
-      "pinyin": "guoshuang"
+      "pinyin": "guoshuang",
+      "liveRoomId": 58309213
     },
     {
       "id": 867895,
@@ -1654,7 +1777,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 三期生",
-      "pinyin": "peng yuhan"
+      "pinyin": "peng yuhan",
+      "liveRoomId": 58338917
     },
     {
       "id": 867896,
@@ -1666,7 +1790,8 @@
       "teamId": 1501,
       "groupName": "IDFT",
       "periodName": "CKG48 三期生",
-      "pinyin": "Tian Mi"
+      "pinyin": "Tian Mi",
+      "liveRoomId": 58377416
     },
     {
       "id": 868352,
@@ -1678,7 +1803,8 @@
       "teamId": 1002,
       "groupName": "SNH48",
       "periodName": "SNH48 十期生",
-      "pinyin": "Liu Jie"
+      "pinyin": "Liu Jie",
+      "liveRoomId": 59601083
     },
     {
       "id": 874497,
@@ -1702,7 +1828,8 @@
       "teamId": 1501,
       "groupName": "IDFT",
       "periodName": "SHY48 四期生",
-      "pinyin": "Feng JiaBao"
+      "pinyin": "Feng JiaBao",
+      "liveRoomId": 63304939
     },
     {
       "id": 874502,
@@ -1714,7 +1841,8 @@
       "teamId": 2101,
       "groupName": "CGT48",
       "periodName": "SHY48 四期生",
-      "pinyin": "huang yi"
+      "pinyin": "huang yi",
+      "liveRoomId": 2248574546
     },
     {
       "id": 874505,
@@ -1726,7 +1854,8 @@
       "teamId": 1501,
       "groupName": "IDFT",
       "periodName": "SHY48 四期生",
-      "pinyin": "liu  yuqing"
+      "pinyin": "liu  yuqing",
+      "liveRoomId": 63147326
     },
     {
       "id": 874512,
@@ -1738,7 +1867,8 @@
       "teamId": 1001,
       "groupName": "SNH48",
       "periodName": "SHY48 四期生",
-      "pinyin": "wang  qiuru"
+      "pinyin": "wang  qiuru",
+      "liveRoomId": 161954294
     },
     {
       "id": 874696,
@@ -1750,7 +1880,8 @@
       "teamId": 1203,
       "groupName": "GNZ48",
       "periodName": "GNZ48 六期生",
-      "pinyin": "ye shuqi"
+      "pinyin": "ye shuqi",
+      "liveRoomId": 61644507
     },
     {
       "id": 874698,
@@ -1762,7 +1893,8 @@
       "teamId": 1501,
       "groupName": "IDFT",
       "periodName": "GNZ48 六期生",
-      "pinyin": "Yan YuDie"
+      "pinyin": "Yan YuDie",
+      "liveRoomId": 63787130
     },
     {
       "id": 874701,
@@ -1774,7 +1906,8 @@
       "teamId": 1202,
       "groupName": "GNZ48",
       "periodName": "GNZ48 六期生",
-      "pinyin": "zhang run"
+      "pinyin": "zhang run",
+      "liveRoomId": 61565785
     },
     {
       "id": 874720,
@@ -1786,7 +1919,8 @@
       "teamId": 2101,
       "groupName": "CGT48",
       "periodName": "SHY48 四期生",
-      "pinyin": "wang  yongqi"
+      "pinyin": "wang  yongqi",
+      "liveRoomId": 2001028551
     },
     {
       "id": 874723,
@@ -1798,7 +1932,8 @@
       "teamId": 1202,
       "groupName": "GNZ48",
       "periodName": "SHY48 四期生",
-      "pinyin": "wang  zi"
+      "pinyin": "wang  zi",
+      "liveRoomId": 63129409
     },
     {
       "id": 881190,
@@ -1810,7 +1945,8 @@
       "teamId": 1002,
       "groupName": "SNH48",
       "periodName": "SNH48 十一期生",
-      "pinyin": "Yan Qin"
+      "pinyin": "Yan Qin",
+      "liveRoomId": 59553648
     },
     {
       "id": 39911923,
@@ -1822,7 +1958,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 四期生",
-      "pinyin": "pan ying"
+      "pinyin": "pan ying",
+      "liveRoomId": 224821256
     },
     {
       "id": 42402741,
@@ -1834,7 +1971,8 @@
       "teamId": 1004,
       "groupName": "SNH48",
       "periodName": "SNH48 十四期生",
-      "pinyin": "yan na"
+      "pinyin": "yan na",
+      "liveRoomId": 248749245
     },
     {
       "id": 45285669,
@@ -1846,7 +1984,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 九期生",
-      "pinyin": "chen zhenzhen"
+      "pinyin": "chen zhenzhen",
+      "liveRoomId": 262927035
     },
     {
       "id": 45285682,
@@ -1858,7 +1997,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 九期生",
-      "pinyin": "huang yici"
+      "pinyin": "huang yici",
+      "liveRoomId": 262900733
     },
     {
       "id": 45285685,
@@ -1870,7 +2010,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 九期生",
-      "pinyin": "huang xuanqi"
+      "pinyin": "huang xuanqi",
+      "liveRoomId": 262898906
     },
     {
       "id": 45285691,
@@ -1882,7 +2023,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 九期生",
-      "pinyin": "tang chenwei"
+      "pinyin": "tang chenwei",
+      "liveRoomId": 262906788
     },
     {
       "id": 45285698,
@@ -1894,7 +2036,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 九期生",
-      "pinyin": "zhang chenyi"
+      "pinyin": "zhang chenyi",
+      "liveRoomId": 262958689
     },
     {
       "id": 52494479,
@@ -1906,7 +2049,8 @@
       "teamId": 1501,
       "groupName": "IDFT",
       "periodName": "GNZ48 九期生",
-      "pinyin": "jiang xinyao"
+      "pinyin": "jiang xinyao",
+      "liveRoomId": 388398090
     },
     {
       "id": 52494482,
@@ -1918,7 +2062,8 @@
       "teamId": 1501,
       "groupName": "IDFT",
       "periodName": "GNZ48 九期生",
-      "pinyin": "jiang yuhang"
+      "pinyin": "jiang yuhang",
+      "liveRoomId": 382284342
     },
     {
       "id": 54526093,
@@ -1930,7 +2075,8 @@
       "teamId": 1004,
       "groupName": "SNH48",
       "periodName": "SNH48 十五期生",
-      "pinyin": "lin jiayi"
+      "pinyin": "lin jiayi",
+      "liveRoomId": 378291135
     },
     {
       "id": 54526095,
@@ -1942,7 +2088,8 @@
       "teamId": 1004,
       "groupName": "SNH48",
       "periodName": "SNH48 十五期生",
-      "pinyin": "wu bohan"
+      "pinyin": "wu bohan",
+      "liveRoomId": 378357411
     },
     {
       "id": 54526097,
@@ -1954,7 +2101,8 @@
       "teamId": 1004,
       "groupName": "SNH48",
       "periodName": "SNH48 十五期生",
-      "pinyin": "yu jiawei"
+      "pinyin": "yu jiawei",
+      "liveRoomId": 378299581
     },
     {
       "id": 54526100,
@@ -1966,7 +2114,8 @@
       "teamId": 1003,
       "groupName": "SNH48",
       "periodName": "SNH48 十五期生",
-      "pinyin": "zhang shiyun"
+      "pinyin": "zhang shiyun",
+      "liveRoomId": 378087593
     },
     {
       "id": 54526102,
@@ -1978,7 +2127,8 @@
       "teamId": 1003,
       "groupName": "SNH48",
       "periodName": "SNH48 十五期生",
-      "pinyin": "zhang yueming"
+      "pinyin": "zhang yueming",
+      "liveRoomId": 378385638
     },
     {
       "id": 57737429,
@@ -1990,7 +2140,8 @@
       "teamId": 1201,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十期生",
-      "pinyin": "chen hongyu"
+      "pinyin": "chen hongyu",
+      "liveRoomId": 396559479
     },
     {
       "id": 57737430,
@@ -2002,7 +2153,8 @@
       "teamId": 1203,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十期生",
-      "pinyin": "zhou peixi"
+      "pinyin": "zhou peixi",
+      "liveRoomId": 396751583
     },
     {
       "ownerName": "项宇婧",
@@ -2013,7 +2165,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十期生",
-      "pinyin": "xiang yujing"
+      "pinyin": "xiang yujing",
+      "liveRoomId": 396759042
     },
     {
       "id": 58785983,
@@ -2025,7 +2178,8 @@
       "teamId": 2001,
       "groupName": "丝芭影视",
       "periodName": "丝芭影视",
-      "pinyin": "陆婷玉"
+      "pinyin": "陆婷玉",
+      "liveRoomId": 403157347
     },
     {
       "id": 64422010,
@@ -2037,7 +2191,8 @@
       "teamId": 1004,
       "groupName": "SNH48",
       "periodName": "SNH48 十六期生",
-      "pinyin": "xiong ziyi"
+      "pinyin": "xiong ziyi",
+      "liveRoomId": 443384919
     },
     {
       "id": 64422016,
@@ -2049,7 +2204,8 @@
       "teamId": 1004,
       "groupName": "SNH48",
       "periodName": "SNH48 十六期生",
-      "pinyin": "wang yiliu"
+      "pinyin": "wang yiliu",
+      "liveRoomId": 443375776
     },
     {
       "id": 64487703,
@@ -2061,7 +2217,8 @@
       "teamId": 1001,
       "groupName": "SNH48",
       "periodName": "SNH48 十六期生",
-      "pinyin": "lu xinyi"
+      "pinyin": "lu xinyi",
+      "liveRoomId": 443715214
     },
     {
       "id": 64487705,
@@ -2073,7 +2230,8 @@
       "teamId": 1001,
       "groupName": "SNH48",
       "periodName": "SNH48 十六期生",
-      "pinyin": "zhu hanjia"
+      "pinyin": "zhu hanjia",
+      "liveRoomId": 443112140
     },
     {
       "id": 64487708,
@@ -2085,7 +2243,8 @@
       "teamId": 1001,
       "groupName": "SNH48",
       "periodName": "SNH48 十六期生",
-      "pinyin": "bei chuhan"
+      "pinyin": "bei chuhan",
+      "liveRoomId": 443107128
     },
     {
       "id": 69861644,
@@ -2097,7 +2256,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 五期生",
-      "pinyin": "zhu ruiyuan"
+      "pinyin": "zhu ruiyuan",
+      "liveRoomId": 464223129
     },
     {
       "id": 69861648,
@@ -2109,7 +2269,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 五期生",
-      "pinyin": "chen yinglin"
+      "pinyin": "chen yinglin",
+      "liveRoomId": 464217438
     },
     {
       "id": 69861654,
@@ -2121,7 +2282,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 五期生",
-      "pinyin": "luo yuting"
+      "pinyin": "luo yuting",
+      "liveRoomId": 464189305
     },
     {
       "id": 69861660,
@@ -2133,13 +2295,15 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 五期生",
-      "pinyin": "zhang fan"
+      "pinyin": "zhang fan",
+      "liveRoomId": 464202451
     },
     {
       "id": 69861665,
       "roomId": "464191729",
       "account": "20211205183657_b5uva998swptzib",
-      "ownerName": "CKG48-谢金男"
+      "ownerName": "CKG48-谢金男",
+      "liveRoomId": 464202443
     },
     {
       "id": 69861666,
@@ -2151,7 +2315,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 五期生",
-      "pinyin": "fu meishan"
+      "pinyin": "fu meishan",
+      "liveRoomId": 464236172
     },
     {
       "id": 70385972,
@@ -2163,7 +2328,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十期生",
-      "pinyin": "guo xiaoying"
+      "pinyin": "guo xiaoying",
+      "liveRoomId": 669206250
     },
     {
       "id": 70385975,
@@ -2175,7 +2341,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十期生",
-      "pinyin": "han xue"
+      "pinyin": "han xue",
+      "liveRoomId": 668828878
     },
     {
       "id": 70385982,
@@ -2187,7 +2354,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十期生",
-      "pinyin": "li siao"
+      "pinyin": "li siao",
+      "liveRoomId": 669009760
     },
     {
       "id": 70385989,
@@ -2199,13 +2367,15 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十期生",
-      "pinyin": "wang siyi"
+      "pinyin": "wang siyi",
+      "liveRoomId": 668960494
     },
     {
       "id": 70385991,
       "roomId": "668812879",
       "account": "20220122222915_w7pmj6vn27ri869",
-      "ownerName": "BEJ48-王言蹊"
+      "ownerName": "BEJ48-王言蹊",
+      "liveRoomId": 669124538
     },
     {
       "id": 70385998,
@@ -2217,7 +2387,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十期生",
-      "pinyin": "zhu hongrong"
+      "pinyin": "zhu hongrong",
+      "liveRoomId": 669189359
     },
     {
       "id": 71500014,
@@ -2229,7 +2400,8 @@
       "teamId": 1202,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十一期生",
-      "pinyin": "huang rutong"
+      "pinyin": "huang rutong",
+      "liveRoomId": 1108116916
     },
     {
       "id": 71500016,
@@ -2241,7 +2413,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十一期生",
-      "pinyin": "hui yuxuan"
+      "pinyin": "hui yuxuan",
+      "liveRoomId": 1002342131
     },
     {
       "id": 71500018,
@@ -2253,7 +2426,8 @@
       "teamId": 1201,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十一期生",
-      "pinyin": "lin entong"
+      "pinyin": "lin entong",
+      "liveRoomId": 1344259875
     },
     {
       "id": 71500020,
@@ -2265,7 +2439,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十一期生",
-      "pinyin": "lei shuyi"
+      "pinyin": "lei shuyi",
+      "liveRoomId": 1245480953
     },
     {
       "id": 81199151,
@@ -2277,7 +2452,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 五期生",
-      "pinyin": "peng hanling"
+      "pinyin": "peng hanling",
+      "liveRoomId": 1483523641
     },
     {
       "id": 83099892,
@@ -2289,7 +2465,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十一期生",
-      "pinyin": "wu ruisha"
+      "pinyin": "wu ruisha",
+      "liveRoomId": 1780991004
     },
     {
       "id": 83231314,
@@ -2301,7 +2478,8 @@
       "teamId": 1202,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十二期生",
-      "pinyin": "lu jingting"
+      "pinyin": "lu jingting",
+      "liveRoomId": 1697203554
     },
     {
       "id": 87622891,
@@ -2313,7 +2491,8 @@
       "teamId": 1004,
       "groupName": "SNH48",
       "periodName": "SNH48 十七期生",
-      "pinyin": "liu xiaohan"
+      "pinyin": "liu xiaohan",
+      "liveRoomId": 2195735816
     },
     {
       "id": 87622902,
@@ -2325,7 +2504,8 @@
       "teamId": 1004,
       "groupName": "SNH48",
       "periodName": "SNH48 十七期生",
-      "pinyin": "lv xiangyi"
+      "pinyin": "lv xiangyi",
+      "liveRoomId": 2195506932
     },
     {
       "id": 87622911,
@@ -2337,7 +2517,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 十七期生",
-      "pinyin": "zhang wenting"
+      "pinyin": "zhang wenting",
+      "liveRoomId": 2196407471
     },
     {
       "id": 89587917,
@@ -2349,7 +2530,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 十七期生",
-      "pinyin": "zhan di"
+      "pinyin": "zhan di",
+      "liveRoomId": 2413709266
     },
     {
       "id": 89587920,
@@ -2361,7 +2543,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 十七期生",
-      "pinyin": "shi weixi"
+      "pinyin": "shi weixi",
+      "liveRoomId": 2413299282
     },
     {
       "id": 89653427,
@@ -2373,7 +2556,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十三期生",
-      "pinyin": "chen shuyu"
+      "pinyin": "chen shuyu",
+      "liveRoomId": 2459617057
     },
     {
       "id": 89653428,
@@ -2385,7 +2569,8 @@
       "teamId": 2101,
       "groupName": "CGT48",
       "periodName": "GNZ48 十三期生",
-      "pinyin": "guo zhaoyuan"
+      "pinyin": "guo zhaoyuan",
+      "liveRoomId": 2459584453
     },
     {
       "id": 89653435,
@@ -2397,7 +2582,8 @@
       "teamId": 2101,
       "groupName": "CGT48",
       "periodName": "GNZ48 十三期生",
-      "pinyin": "he linyan"
+      "pinyin": "he linyan",
+      "liveRoomId": 2465597296
     },
     {
       "id": 89653437,
@@ -2409,7 +2595,8 @@
       "teamId": 2101,
       "groupName": "CGT48",
       "periodName": "GNZ48 十三期生",
-      "pinyin": "huang yixuan"
+      "pinyin": "huang yixuan",
+      "liveRoomId": 2700100781
     },
     {
       "id": 89653441,
@@ -2421,7 +2608,8 @@
       "teamId": 1201,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十三期生",
-      "pinyin": "liu xinyuan"
+      "pinyin": "liu xinyuan",
+      "liveRoomId": 2465564370
     },
     {
       "id": 89653445,
@@ -2433,7 +2621,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十三期生",
-      "pinyin": "lin yixi"
+      "pinyin": "lin yixi",
+      "liveRoomId": 2465597285
     },
     {
       "id": 89653450,
@@ -2445,7 +2634,8 @@
       "teamId": 2101,
       "groupName": "CGT48",
       "periodName": "GNZ48 十三期生",
-      "pinyin": "ma keyue"
+      "pinyin": "ma keyue",
+      "liveRoomId": 2459534574
     },
     {
       "id": 89653453,
@@ -2457,7 +2647,8 @@
       "teamId": 2101,
       "groupName": "CGT48",
       "periodName": "GNZ48 十三期生",
-      "pinyin": "meng xiaoli"
+      "pinyin": "meng xiaoli",
+      "liveRoomId": 2459944884
     },
     {
       "id": 89653457,
@@ -2469,7 +2660,8 @@
       "teamId": 2101,
       "groupName": "CGT48",
       "periodName": "GNZ48 十三期生",
-      "pinyin": "qin ludan"
+      "pinyin": "qin ludan",
+      "liveRoomId": 2465465662
     },
     {
       "id": 89653461,
@@ -2481,7 +2673,8 @@
       "teamId": 2101,
       "groupName": "CGT48",
       "periodName": "GNZ48 十三期生",
-      "pinyin": "qiu liujia"
+      "pinyin": "qiu liujia",
+      "liveRoomId": 2459960536
     },
     {
       "id": 89653462,
@@ -2493,7 +2686,8 @@
       "teamId": 2101,
       "groupName": "CGT48",
       "periodName": "GNZ48 十三期生",
-      "pinyin": "song xiaolu"
+      "pinyin": "song xiaolu",
+      "liveRoomId": 2465940713
     },
     {
       "id": 89653465,
@@ -2505,7 +2699,8 @@
       "teamId": 2101,
       "groupName": "CGT48",
       "periodName": "GNZ48 十三期生",
-      "pinyin": "shen yuxin"
+      "pinyin": "shen yuxin",
+      "liveRoomId": 2459977331
     },
     {
       "id": 89653513,
@@ -2517,7 +2712,8 @@
       "teamId": 2101,
       "groupName": "CGT48",
       "periodName": "GNZ48 十三期生",
-      "pinyin": "tan sihui"
+      "pinyin": "tan sihui",
+      "liveRoomId": 2459912003
     },
     {
       "id": 89653517,
@@ -2529,7 +2725,8 @@
       "teamId": 1202,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十三期生",
-      "pinyin": "wang yuchen"
+      "pinyin": "wang yuchen",
+      "liveRoomId": 2466022879
     },
     {
       "id": 89653520,
@@ -2541,7 +2738,8 @@
       "teamId": 2101,
       "groupName": "CGT48",
       "periodName": "GNZ48 十三期生",
-      "pinyin": "xia ying"
+      "pinyin": "xia ying",
+      "liveRoomId": 2465990576
     },
     {
       "id": 89653525,
@@ -2553,7 +2751,8 @@
       "teamId": 2101,
       "groupName": "CGT48",
       "periodName": "GNZ48 十三期生",
-      "pinyin": "xu yalan"
+      "pinyin": "xu yalan",
+      "liveRoomId": 2465973263
     },
     {
       "id": 89653527,
@@ -2565,7 +2764,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十三期生",
-      "pinyin": "ye yingyu"
+      "pinyin": "ye yingyu",
+      "liveRoomId": 2459977432
     },
     {
       "id": 89653528,
@@ -2577,7 +2777,8 @@
       "teamId": 2101,
       "groupName": "CGT48",
       "periodName": "GNZ48 十三期生",
-      "pinyin": "zhong jiewen"
+      "pinyin": "zhong jiewen",
+      "liveRoomId": 2459960480
     },
     {
       "id": 89653530,
@@ -2589,7 +2790,8 @@
       "teamId": 2101,
       "groupName": "CGT48",
       "periodName": "GNZ48 十三期生",
-      "pinyin": "zhou shiru"
+      "pinyin": "zhou shiru",
+      "liveRoomId": 2465925093
     },
     {
       "id": 89653537,
@@ -2601,7 +2803,8 @@
       "teamId": 2101,
       "groupName": "CGT48",
       "periodName": "GNZ48 十三期生",
-      "pinyin": "zhang zhixin"
+      "pinyin": "zhang zhixin",
+      "liveRoomId": 2465940501
     },
     {
       "id": 95552277,
@@ -2613,7 +2816,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十二期生",
-      "pinyin": "ma xinyu"
+      "pinyin": "ma xinyu",
+      "liveRoomId": 3130623118
     },
     {
       "id": 95552291,
@@ -2625,7 +2829,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十二期生",
-      "pinyin": "zheng zhaoxuan"
+      "pinyin": "zheng zhaoxuan",
+      "liveRoomId": 3130623265
     },
     {
       "id": 100073653,
@@ -2637,7 +2842,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十二期生",
-      "pinyin": "gao zimeng"
+      "pinyin": "gao zimeng",
+      "liveRoomId": 4003513662
     },
     {
       "id": 100073654,
@@ -2649,7 +2855,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十二期生",
-      "pinyin": "nie yujing"
+      "pinyin": "nie yujing",
+      "liveRoomId": 4003366894
     },
     {
       "id": 100073656,
@@ -2661,7 +2868,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十二期生",
-      "pinyin": "zhuang yawen"
+      "pinyin": "zhuang yawen",
+      "liveRoomId": 4003645243
     },
     {
       "ownerName": "李歆乐",
@@ -2695,7 +2903,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 十八期生",
-      "pinyin": "lu chenxin"
+      "pinyin": "lu chenxin",
+      "liveRoomId": 4245243861
     },
     {
       "id": 103679162,
@@ -2707,7 +2916,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 十八期生",
-      "pinyin": "li yulongruo"
+      "pinyin": "li yulongruo",
+      "liveRoomId": 4246669254
     },
     {
       "id": 103679163,
@@ -2719,7 +2929,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 十八期生",
-      "pinyin": "wen ruoqi"
+      "pinyin": "wen ruoqi",
+      "liveRoomId": 4263151137
     },
     {
       "id": 103679165,
@@ -2731,7 +2942,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 十八期生",
-      "pinyin": "xu jiajia"
+      "pinyin": "xu jiajia",
+      "liveRoomId": 4253484459
     },
     {
       "id": 103679169,
@@ -2743,7 +2955,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 十八期生",
-      "pinyin": "you keying"
+      "pinyin": "you keying",
+      "liveRoomId": 4244785036
     },
     {
       "id": 103679171,
@@ -2755,7 +2968,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 十八期生",
-      "pinyin": "yang xinyu"
+      "pinyin": "yang xinyu",
+      "liveRoomId": 4254385728
     },
     {
       "id": 103679173,
@@ -2767,7 +2981,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 十八期生",
-      "pinyin": "zhou tongyue"
+      "pinyin": "zhou tongyue",
+      "liveRoomId": 4245538563
     },
     {
       "id": 103679182,
@@ -2779,7 +2994,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 十八期生",
-      "pinyin": "zhang yiting"
+      "pinyin": "zhang yiting",
+      "liveRoomId": 4244997187
     },
     {
       "id": 103940353,
@@ -2791,7 +3007,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十四期生",
-      "pinyin": "chenshanling"
+      "pinyin": "chenshanling",
+      "liveRoomId": 4281287782
     },
     {
       "id": 103940355,
@@ -2803,7 +3020,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十四期生",
-      "pinyin": "rong zitong"
+      "pinyin": "rong zitong",
+      "liveRoomId": 4280731370
     },
     {
       "id": 103940359,
@@ -2815,7 +3033,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十四期生",
-      "pinyin": "taohui"
+      "pinyin": "taohui",
+      "liveRoomId": 4281255785
     },
     {
       "ownerName": "程妤涵",
@@ -3146,7 +3365,8 @@
       "teamId": 1001,
       "groupName": "SNH48",
       "periodName": "SNH48 十二期生",
-      "pinyin": "chen yuzi"
+      "pinyin": "chen yuzi",
+      "liveRoomId": 148014351
     },
     {
       "id": 4528799751,
@@ -3158,7 +3378,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 七期生",
-      "pinyin": "zhang zhijie"
+      "pinyin": "zhang zhijie",
+      "liveRoomId": 143217705
     },
     {
       "id": 4998561802,
@@ -3170,7 +3391,8 @@
       "teamId": 1001,
       "groupName": "SNH48",
       "periodName": "BEJ48 七期生",
-      "pinyin": "ning ke"
+      "pinyin": "ning ke",
+      "liveRoomId": 154271246
     },
     {
       "id": 5384437777,
@@ -3182,7 +3404,8 @@
       "teamId": 1002,
       "groupName": "SNH48",
       "periodName": "SNH48 十三期生",
-      "pinyin": "zhang ruijie"
+      "pinyin": "zhang ruijie",
+      "liveRoomId": 157053036
     },
     {
       "id": 5602541574,
@@ -3194,7 +3417,8 @@
       "teamId": 1001,
       "groupName": "SNH48",
       "periodName": "SNH48 十三期生",
-      "pinyin": "you miao"
+      "pinyin": "you miao",
+      "liveRoomId": 160147195
     },
     {
       "id": 6827278357,
@@ -3206,7 +3430,8 @@
       "teamId": 1501,
       "groupName": "IDFT",
       "periodName": "GNZ48 七期生",
-      "pinyin": "wu siqi"
+      "pinyin": "wu siqi",
+      "liveRoomId": 155390738
     },
     {
       "id": 6827278358,
@@ -3218,7 +3443,8 @@
       "teamId": 1203,
       "groupName": "GNZ48",
       "periodName": "GNZ48 七期生",
-      "pinyin": "ma xinyue"
+      "pinyin": "ma xinyue",
+      "liveRoomId": 155425159
     },
     {
       "id": 7984906291,
@@ -3230,7 +3456,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 八期生",
-      "pinyin": "wang ruoshilan"
+      "pinyin": "wang ruoshilan",
+      "liveRoomId": 180176795
     },
     {
       "id": 8957984817,
@@ -3242,7 +3469,8 @@
       "teamId": 1202,
       "groupName": "GNZ48",
       "periodName": "GNZ48 八期生",
-      "pinyin": "shi zhujun"
+      "pinyin": "shi zhujun",
+      "liveRoomId": 182345007
     },
     {
       "id": 8957984818,
@@ -3254,7 +3482,8 @@
       "teamId": 1201,
       "groupName": "GNZ48",
       "periodName": "GNZ48 八期生",
-      "pinyin": "yang ruoxi"
+      "pinyin": "yang ruoxi",
+      "liveRoomId": 182335918
     },
     {
       "ownerName": "张书瑀",
@@ -3265,7 +3494,8 @@
       "teamId": 1203,
       "groupName": "GNZ48",
       "periodName": "GNZ48 八期生",
-      "pinyin": "zhang shuyu"
+      "pinyin": "zhang shuyu",
+      "liveRoomId": 182317927
     },
     {
       "id": 9276751976,
@@ -3277,7 +3507,8 @@
       "teamId": 1501,
       "groupName": "IDFT",
       "periodName": "CKG48 四期生",
-      "pinyin": "yu yunxuan"
+      "pinyin": "yu yunxuan",
+      "liveRoomId": 187921874
     },
     {
       "id": 9276751977,
@@ -3289,8 +3520,9 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 四期生",
-      "pinyin": "liang jingjin"
+      "pinyin": "liang jingjin",
+      "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-06-05 14:02:05"
+  "buildTime": "2023-06-13 15:30:34"
 }
