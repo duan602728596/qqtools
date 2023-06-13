@@ -73,7 +73,7 @@ async function getLiveList() {
     const liveListRes = await requestLiveList();
 
     if (liveListRes.success) {
-      const roomId = await getRoomIdJson();
+      const { roomId } = await getRoomIdJson();
       let hasChange = false;
 
       for (const item of liveListRes.content.liveList) {
@@ -109,10 +109,10 @@ async function getLiveList() {
 
 async function main() {
   const { roomId } = await getRoomIdJson();
-  const noLiveRoomId = roomId.filter((o) => !o.liveRoomId);
+  const noLiveRoomId = roomId.filter((o) => !o.liveRoomId)
+    .map((o) => o.ownerName);
 
   console.log(`没有查询到LiveId的有：${ noLiveRoomId.join(', ') }`);
-
   getLiveList();
 }
 
