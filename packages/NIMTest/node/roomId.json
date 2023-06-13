@@ -3180,6 +3180,17 @@
       "pinyin": "ren yeyan"
     },
     {
+      "ownerName": "谭勇航",
+      "id": 105710026,
+      "serverId": 5883730,
+      "account": "20230602185647_u9ik8yh0dfzpzct",
+      "team": "TEAM GII",
+      "teamId": 2102,
+      "groupName": "CGT48",
+      "periodName": "CGT48 一期生",
+      "pinyin": "tan yonghang"
+    },
+    {
       "ownerName": "陈韵佳",
       "id": 105710061,
       "serverId": 5916053,
@@ -3222,6 +3233,17 @@
       "groupName": "CKG48",
       "periodName": "CKG48 六期生",
       "pinyin": "ji mengzhen"
+    },
+    {
+      "ownerName": "卢美廷",
+      "id": 105710082,
+      "serverId": 5850825,
+      "account": "20230602203833_jhoc8z5bt6g3vk5",
+      "team": "CKG48",
+      "teamId": 1404,
+      "groupName": "CKG48",
+      "periodName": "CKG48 六期生",
+      "pinyin": "lu meiting"
     },
     {
       "ownerName": "刘星雨",
@@ -3524,5 +3546,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-06-13 15:30:34"
+  "buildTime": "2023-06-13 23:24:38"
 }
