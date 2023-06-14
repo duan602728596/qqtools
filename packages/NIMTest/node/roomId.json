@@ -3059,7 +3059,8 @@
       "teamId": 2102,
       "groupName": "CGT48",
       "periodName": "CGT48 一期生",
-      "pinyin": "he caixian"
+      "pinyin": "he caixian",
+      "liveRoomId": 4512221026
     },
     {
       "ownerName": "何梦迪",
@@ -3082,7 +3083,8 @@
       "teamId": 2102,
       "groupName": "CGT48",
       "periodName": "CGT48 一期生",
-      "pinyin": "he yuxin"
+      "pinyin": "he yuxin",
+      "liveRoomId": 4512106163
     },
     {
       "ownerName": "林海盈",
@@ -3127,7 +3129,8 @@
       "teamId": 2102,
       "groupName": "CGT48",
       "periodName": "CGT48 一期生",
-      "pinyin": "yuan yijie"
+      "pinyin": "yuan yijie",
+      "liveRoomId": 4512761331
     },
     {
       "ownerName": "徐钰涵",
@@ -3138,7 +3141,8 @@
       "teamId": 2102,
       "groupName": "CGT48",
       "periodName": "CGT48 一期生",
-      "pinyin": "xu yuhan"
+      "pinyin": "xu yuhan",
+      "liveRoomId": 4521625420
     },
     {
       "ownerName": "王艺霖",
@@ -3161,7 +3165,8 @@
       "teamId": 2102,
       "groupName": "CGT48",
       "periodName": "CGT48 一期生",
-      "pinyin": "qi lingquan"
+      "pinyin": "qi lingquan",
+      "liveRoomId": 4512040885
     },
     {
       "ownerName": "王依",
@@ -3254,7 +3259,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 六期生",
-      "pinyin": "lu meiting"
+      "pinyin": "lu meiting",
+      "liveRoomId": 4512122690
     },
     {
       "ownerName": "刘星雨",
@@ -3312,7 +3318,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 六期生",
-      "pinyin": "yang tianling"
+      "pinyin": "yang tianling",
+      "liveRoomId": 4512433656
     },
     {
       "ownerName": "张莉莉",
@@ -3358,7 +3365,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 六期生",
-      "pinyin": "zhang yongye"
+      "pinyin": "zhang yongye",
+      "liveRoomId": 4512023703
     },
     {
       "ownerName": "程宝玉",
@@ -3391,7 +3399,8 @@
       "teamId": 1405,
       "groupName": "CKG48",
       "periodName": "CKG48 六期生",
-      "pinyin": "zhang yuye"
+      "pinyin": "zhang yuye",
+      "liveRoomId": 4521837726
     },
     {
       "id": 4344250371,
@@ -3562,5 +3571,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-06-14 00:03:42"
+  "buildTime": "2023-06-14 23:19:16"
 }
