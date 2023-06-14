@@ -3242,7 +3242,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 六期生",
-      "pinyin": "ji mengzhen"
+      "pinyin": "ji mengzhen",
+      "liveRoomId": 4512400420
     },
     {
       "ownerName": "卢美廷",
@@ -3322,7 +3323,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 六期生",
-      "pinyin": "zhang lili"
+      "pinyin": "zhang lili",
+      "liveRoomId": 4512450518
     },
     {
       "ownerName": "张思妍",
@@ -3560,5 +3562,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-06-13 23:31:00"
+  "buildTime": "2023-06-14 00:03:42"
 }
