@@ -191,6 +191,7 @@ async function main() {
         }
 
         if (resServerJumpInfo.body.status === 200 && resServerJumpInfo?.body?.content?.jumpServerInfo) {
+          const { channelId } = resServerJumpInfo.body.content;
           const { serverId, serverOwner, serverOwnerName, teamId } = resServerJumpInfo.body.content.jumpServerInfo;
           const { qchat, owner, success } = await getServerInfo(`${ serverId }`);
 
@@ -204,6 +205,7 @@ async function main() {
 
           Object.assign(item, {
             serverId,
+            channelId,
             account: owner
           });
 
