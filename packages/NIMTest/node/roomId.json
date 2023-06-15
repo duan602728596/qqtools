@@ -3640,7 +3640,8 @@
       "teamId": 2103,
       "groupName": "CGT48",
       "periodName": "CGT48 一期生",
-      "pinyin": "wu yun"
+      "pinyin": "wu yun",
+      "liveRoomId": 4523181511
     },
     {
       "id": 105710390,
@@ -3837,5 +3838,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-06-15 00:19:27"
+  "buildTime": "2023-06-15 22:07:41"
 }
