@@ -3628,7 +3628,8 @@
       "teamId": 2103,
       "groupName": "CGT48",
       "periodName": "CGT48 一期生",
-      "pinyin": "cheng baoyu"
+      "pinyin": "cheng baoyu",
+      "liveRoomId": 4522051148
     },
     {
       "id": 105710368,
@@ -3838,5 +3839,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-06-15 22:07:41"
+  "buildTime": "2023-06-16 22:34:53"
 }
