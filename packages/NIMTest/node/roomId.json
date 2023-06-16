@@ -3552,7 +3552,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 六期生",
-      "pinyin": "wu zhiyue"
+      "pinyin": "wu zhiyue",
+      "liveRoomId": 4512351870
     },
     {
       "id": 105710107,
@@ -3603,7 +3604,8 @@
       "teamId": 1404,
       "groupName": "CKG48",
       "periodName": "CKG48 六期生",
-      "pinyin": "zhang weiyi"
+      "pinyin": "zhang weiyi",
+      "liveRoomId": 4512499624
     },
     {
       "id": 105710135,
@@ -3839,5 +3841,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-06-16 22:34:53"
+  "buildTime": "2023-06-16 23:41:48"
 }
