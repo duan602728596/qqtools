@@ -3322,7 +3322,8 @@
       "teamId": 2102,
       "groupName": "CGT48",
       "periodName": "CGT48 一期生",
-      "pinyin": "lin haiying"
+      "pinyin": "lin haiying",
+      "liveRoomId": 4513350677
     },
     {
       "id": 105710002,
@@ -3411,7 +3412,8 @@
       "teamId": 2102,
       "groupName": "CGT48",
       "periodName": "CGT48 一期生",
-      "pinyin": "wang yi"
+      "pinyin": "wang yi",
+      "liveRoomId": 4513301549
     },
     {
       "id": 105710022,
@@ -3841,5 +3843,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-06-16 23:41:48"
+  "buildTime": "2023-06-18 00:11:21"
 }
