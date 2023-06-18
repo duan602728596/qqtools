@@ -61,14 +61,6 @@ export interface NIMError {
   message: string;
 }
 
-export interface NIMMessage {
-  custom: string;
-  file: {
-    url: string;
-  };
-  time: number;
-}
-
 /* 发言类型v2 */
 export interface UserV2 {
   avatar: string;
@@ -454,6 +446,53 @@ export type CustomMessageAllV2 =
   | PERSONAL_VOICEMessageV2
   | GIFT_TEXTMessageV2;
 
+export interface LiveRoomCustomUser {
+  pfUrl: string;
+  teamLogo: string;
+  badge: Array<unknown>;
+  level: number;
+  nickName: string;
+  roleId: number;
+  avatar: string;
+  vip: boolean;
+  userId: number;
+}
+
+// 礼物custom类型
+export interface LiveRoomGiftInfoCustom {
+  giftInfo: {
+    giftId: number;
+    giftName: string;
+    picPath: string;
+    switchTime: number;
+    click: boolean;
+    special: boolean;
+    giftNum: number;
+    zipPath: string;
+    sourceId: string;
+    acceptUser: {
+      userId: number;
+      userAvatar: string;
+      userName: string;
+    };
+  };
+  liveBubbleId: string;
+  liveBubbleIosUrl: string;
+  liveBubbleAndroidUrl: string;
+  specialBadge: Array<unknown>;
+  fromApp: string;
+  roomId: string;
+  module: 'LIVE';
+  sourceId: string;
+  messageType: 'PRESENT_NORMAL';
+  user: LiveRoomCustomUser;
+  sessionRole: string;
+}
+
+export interface LiveRoomLiveCloseCustom {
+  messageType: 'CLOSELIVE';
+  sourceId: number;
+}
 
 /* 微博类型 */
 export interface WeiboTab {

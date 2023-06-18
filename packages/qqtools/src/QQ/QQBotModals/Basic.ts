@@ -6,15 +6,17 @@ import DouyinExpand from '../function/expand/douyin/DouyinExpand';
 import BilibiliExpand from '../function/expand/bilibili/BilibiliExpand';
 import XiaohongshuExpand from '../function/expand/xiaohongshu/XiaohongshuExpand';
 import CronTimerExpand from '../function/expand/cronTimer/CronTimerExpand';
-import QChatSocket from '../sdk/QChatSocket';
 import { QQProtocol, type QQModals } from './ModalTypes';
 import { detectPort, getExecutablePath } from '../../utils/utils';
 import { XHSProtocol } from '../function/expand/xiaohongshu/xiaohongshu.worker/messageTypes';
+import type QChatSocket from '../sdk/QChatSocket';
+import type NimChatroomSocket from '../sdk/NimChatroomSocket';
 import type { MemberInfo, OptionsItemValueV2, OptionsItemXiaohongshu } from '../../commonTypes';
 
 export type MessageListener = (event: MessageEvent) => void | Promise<void>;
 
 export const qChatSocketList: Array<QChatSocket> = [];
+export const nimChatroomList: Array<NimChatroomSocket> = [];
 
 export interface BasicImplement<MessageType> {
   sendMessage(value: MessageType, groupId?: number): void | Promise<void>;

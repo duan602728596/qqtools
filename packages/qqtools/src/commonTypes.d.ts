@@ -50,6 +50,12 @@ export interface OptionsItemPocket48V2 {
   pocket48MemberInfo?: boolean;
   pocket48LogSave?: boolean;
   pocket48LogDir?: string;
+
+  // 直播间信息
+  pocket48LiveListener?: boolean;
+  pocket48LiveRoomId?: string;
+  pocket48LiveRoomSendGiftInfo?: boolean;
+  pocket48LiveRoomSendGiftLeaderboard?: boolean;
 }
 
 // 微博

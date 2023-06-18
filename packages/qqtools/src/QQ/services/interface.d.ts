@@ -83,3 +83,24 @@ export interface SignResult {
   'X-s': string;
   'X-t': string;
 }
+
+/* 口袋礼物 */
+export interface GiftMoneyItem {
+  giftId: number;
+  money: number;
+  giftName: string;
+}
+
+interface GiftMoneyGroup {
+  typeId: number;
+  typeName: string;
+  specialInstru: string;
+  giftList: Array<GiftMoneyItem>;
+}
+
+export interface GiftMoney {
+  status: number;
+  success: boolean;
+  message: string;
+  content: Array<GiftMoneyGroup>;
+}

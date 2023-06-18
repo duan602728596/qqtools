@@ -1,12 +1,53 @@
 import { randomUUID } from 'node:crypto';
 import type { ChannelInfo } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatChannelServiceInterface';
+import type { NIMChatroomMessage } from '@yxim/nim-web-sdk/dist/SDK/NIM_Web_Chatroom/NIMChatroomMessageInterface';
 import QChatSocket from '../../../sdk/QChatSocket';
-import { qChatSocketList } from '../../../QQBotModals/Basic';
+import NimChatroomSocket from '../../../sdk/NimChatroomSocket';
+import { qChatSocketList, nimChatroomList } from '../../../QQBotModals/Basic';
 import { getRoomMessage, getLogMessage, log, type RoomMessageArgs } from './pocket48V2Utils';
 import parser from '../../parser';
+import { requestGiftList } from '../../../services/pocket48';
 import type { QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemPocket48V2, MemberInfo } from '../../../../commonTypes';
-import type { CustomMessageAllV2, UserV2 } from '../../../qq.types';
+import type { CustomMessageAllV2, UserV2, LiveRoomGiftInfoCustom, LiveRoomLiveCloseCustom } from '../../../qq.types';
+import type { GiftMoneyItem, GiftMoney } from '../../../services/interface';
+
+interface GiftItem {
+  giftId: number;
+  giftName: string;
+  giftNum: number;
+  userId: number;
+  nickName: string;
+}
+
+interface GiftSendItem {
+  giftId: number;
+  giftName: string;
+  giftNum: number;
+  money: number;
+}
+
+/* 计算礼物送的数量 */
+function giftSend(data: Array<GiftItem>, giftList: Array<GiftMoneyItem>): Array<GiftSendItem> {
+  const result: Array<GiftSendItem> = [];
+
+  for (const item of data) {
+    const g: GiftSendItem | undefined = result.find((o: GiftSendItem): boolean => o.giftName === item.giftName);
+
+    if (g) {
+      g.giftNum += item.giftNum;
+    } else {
+      result.push({
+        giftId: item.giftId,
+        giftName: item.giftName,
+        giftNum: item.giftNum,
+        money: giftList.find((o: GiftMoneyItem): boolean => o.giftId === item.giftId)?.money ?? 0
+      });
+    }
+  }
+
+  return result.sort((a: GiftSendItem, b: GiftSendItem): number => b.money - a.money);
+}
 
 /* 口袋48 */
 class Pocket48V2Expand {
@@ -14,9 +55,13 @@ class Pocket48V2Expand {
 
   public config: OptionsItemPocket48V2;
   public qq: QQModals;
-  public qChatSocketId?: string;    // 对应的nim的唯一socketId
-  public qChatSocket?: QChatSocket; // socket
-  public memberInfo?: MemberInfo;   // 房间成员信息
+  public qChatSocketId?: string;                  // 对应的nim的唯一socketId
+  public qChatSocket?: QChatSocket;               // socket
+  public nimChatroom?: NimChatroomSocket;         // 口袋48直播间
+  public memberInfo?: MemberInfo;                 // 房间成员信息
+  public giftList?: Array<GiftItem>;              // 礼物榜
+  public qingchunshikeGiftList?: Array<GiftItem>; // 青春时刻
+  public giftUserId?: number;
 
   constructor({ config, qq }: { config: OptionsItemPocket48V2; qq: QQModals }) {
     this.config = config;
@@ -28,10 +73,17 @@ class Pocket48V2Expand {
     const {
       pocket48LiveAtAll,
       pocket48ServerId,
+      pocket48Account,
+      pocket48Token,
       pocket48ShieldMsgType,
       pocket48MemberInfo,
       pocket48LogSave,
-      pocket48LogDir
+      pocket48LogDir,
+      // 直播间相关
+      pocket48LiveListener,
+      pocket48LiveRoomId,
+      pocket48LiveRoomSendGiftInfo,
+      pocket48LiveRoomSendGiftLeaderboard
     }: OptionsItemPocket48V2 = this.config;
 
     if (event.serverId !== pocket48ServerId) return; // 频道不一致时不处理
@@ -100,6 +152,43 @@ class Pocket48V2Expand {
           await log(pocket48LogDir, logData);
         }
       }
+
+      // 直播统计
+      if (
+        pocket48LiveListener
+        && pocket48LiveRoomId
+        && (pocket48LiveRoomSendGiftInfo || pocket48LiveRoomSendGiftLeaderboard)
+        && event.type === 'custom'
+        && event.attach.messageType === 'LIVEPUSH'
+        && this.qChatSocketId
+      ) {
+        this.giftList = [];
+        this.qingchunshikeGiftList = [];
+        this.giftUserId = user!.userId;
+
+        const index: number = nimChatroomList.findIndex(
+          (o: NimChatroomSocket): boolean => o.pocket48RoomId === pocket48LiveRoomId);
+
+        if (index < 0) {
+          this.nimChatroom = new NimChatroomSocket({
+            pocket48IsAnonymous: false,
+            pocket48Account,
+            pocket48Token
+          });
+          await this.nimChatroom.init();
+          this.nimChatroom.addQueue({
+            id: this.qChatSocketId,
+            onmsgs: this.handleLiveRoomSocketMessage
+          });
+          nimChatroomList.push(this.nimChatroom); // 添加到列表
+        } else {
+          nimChatroomList[index].addQueue({
+            id: this.qChatSocketId,
+            onmsgs: this.handleLiveRoomSocketMessage
+          });
+          this.nimChatroom = nimChatroomList[index];
+        }
+      }
     }
   }
 
@@ -115,6 +204,67 @@ class Pocket48V2Expand {
   // 事件监听
   handleRoomSocketMessage: Function = (event: CustomMessageAllV2): void => {
     this.roomSocketMessageAll(event);
+  };
+
+  // 处理单个消息
+  async liveRoomSocketMessageOne(msg: NIMChatroomMessage): Promise<void> {
+    if (msg.type !== 'custom' || !msg.custom) return;
+
+    const customJson: LiveRoomGiftInfoCustom | LiveRoomLiveCloseCustom = JSON.parse(msg.custom);
+    const {
+      pocket48LiveRoomSendGiftInfo,
+      pocket48LiveRoomSendGiftLeaderboard
+    }: OptionsItemPocket48V2 = this.config;
+
+    // 礼物信息
+    if ('giftInfo' in customJson) {
+      const giftInfo: GiftItem = {
+        giftId: customJson.giftInfo.giftId,
+        giftName: customJson.giftInfo.giftName,
+        giftNum: customJson.giftInfo.giftNum,
+        nickName: customJson.user.nickName,
+        userId: customJson.user.userId
+      };
+
+      if (/^\d+(.\d+)?分$/.test(giftInfo.giftName)) {
+        this.qingchunshikeGiftList?.push?.(giftInfo);
+      } else {
+        this.giftList?.push?.(giftInfo);
+      }
+    } else if (customJson.messageType === 'CLOSELIVE') {
+      const resGift: GiftMoney = await requestGiftList(this.giftUserId!);
+      const giftList: Array<GiftMoneyItem> = [];
+
+      for (const giftGroup of resGift.content) {
+        giftList.push(...giftGroup.giftList);
+      }
+
+      // 计算礼物信息
+      if (pocket48LiveRoomSendGiftInfo) {
+        const [qingchunshikeGiftListResult, giftListResult]: [Array<GiftSendItem>, Array<GiftSendItem>]
+          = [giftSend(this.qingchunshikeGiftList!, giftList), giftSend(this.giftList!, giftList)];
+
+        if (qingchunshikeGiftListResult.length > 0 || giftListResult.length > 0) {
+          const result: string = [...qingchunshikeGiftListResult, ...giftListResult].map((o: GiftSendItem) => {
+            return `${ o.giftName } x ${ o.giftNum }`;
+          }).join('\n');
+
+          await this.qq.sendMessage(parser(`礼物统计\n${ result }`, this.qq.protocol) as any);
+        }
+      }
+    }
+  }
+
+  // 循环处理所有消息
+  liveRoomSocketMessageAll(event: Array<NIMChatroomMessage>): void {
+    for (const msg of event) {
+      this.liveRoomSocketMessageOne(msg);
+    }
+  }
+
+  // 直播间时间监听
+  handleLiveRoomSocketMessage: Function = (event: Array<NIMChatroomMessage>): void => {
+    this.liveRoomSocketMessageAll(event);
   };
 
   // 口袋48监听初始化
@@ -169,7 +319,7 @@ class Pocket48V2Expand {
 
   // 移除socket连接
   disconnectPocket48(): void {
-    const { pocket48ServerId }: OptionsItemPocket48V2 = this.config;
+    const { pocket48ServerId, pocket48LiveRoomId }: OptionsItemPocket48V2 = this.config;
     const index: number = qChatSocketList.findIndex((o: QChatSocket): boolean => o.pocket48ServerId === pocket48ServerId);
 
     if (index >= 0 && this.qChatSocketId) {
@@ -181,7 +331,24 @@ class Pocket48V2Expand {
       }
     }
 
+    if (this.nimChatroom) {
+      const index2: number = nimChatroomList.findIndex(
+        (o: NimChatroomSocket): boolean => o.pocket48RoomId === pocket48LiveRoomId);
+
+      if (index2 >= 0 && this.qChatSocketId) {
+        nimChatroomList[index2].removeQueue(this.qChatSocketId);
+
+        if (nimChatroomList[index2].queues.length === 0) {
+          nimChatroomList[index2].disconnect();
+          nimChatroomList.splice(index2, 1);
+        }
+      }
+    }
+
     this.qChatSocketId = undefined;
+    this.nimChatroom = undefined;
+    this.giftList = undefined;
+    this.qingchunshikeGiftList = undefined;
   }
 
   // 销毁

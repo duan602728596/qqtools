@@ -1,9 +1,11 @@
 import { randomUUID } from 'node:crypto';
 import NIM_SDK from '@yxim/nim-web-sdk/dist/SDK/NIM_Web_SDK.js';
 import type NIM_Web_Chatroom from '@yxim/nim-web-sdk/dist/SDK/NIM_Web_Chatroom';
+import type { NIMChatroomMessage } from '@yxim/nim-web-sdk/dist/SDK/NIM_Web_Chatroom/NIMChatroomMessageInterface';
 import { message } from 'antd';
+import type { MessageInstance } from 'antd/es/message/interface';
 import appKey from './appKey.mjs';
-import type { NIMMessage, NIMError } from '../qq.types';
+import type { NIMError } from '../qq.types';
 
 interface Queue {
   id: string;
@@ -15,6 +17,7 @@ interface NimChatroomSocketArgs {
   pocket48Account?: string;
   pocket48Token?: string;
   pocket48RoomId?: string;
+  message?: MessageInstance;
 }
 
 export interface ChatroomMember {
@@ -34,6 +37,7 @@ class NimChatroomSocket {
   public pocket48RoomId?: string;
   public queues: Array<Queue>;
   public nimChatroomSocket: NIM_Web_Chatroom | undefined; // 口袋48
+  #messageApi: typeof message | MessageInstance = message;
 
   constructor(arg: NimChatroomSocketArgs) {
     this.pocket48IsAnonymous = arg.pocket48IsAnonymous; // 是否为游客模式
@@ -41,6 +45,7 @@ class NimChatroomSocket {
     this.pocket48Token = arg.pocket48Token;             // token
     this.pocket48RoomId = arg.pocket48RoomId;           // 房间id
     this.queues = [];
+    arg.message && (this.#messageApi = arg.message);
   }
 
   // 初始化
@@ -64,7 +69,7 @@ class NimChatroomSocket {
         onconnect(event: any): void {
           resolve();
           console.log('进入聊天室', event);
-          message.success(`进入口袋48房间。房间ID：[${ self.pocket48RoomId }]`);
+          self.#messageApi.success(`进入口袋48房间。房间ID：[${ self.pocket48RoomId }]`);
         },
         onmsgs: this.handleRoomSocketMessage,
         onerror: this.handleRoomSocketError,
@@ -77,7 +82,7 @@ class NimChatroomSocket {
   }
 
   // 事件监听
-  handleRoomSocketMessage: Function = (event: Array<NIMMessage>): void => {
+  handleRoomSocketMessage: Function = (event: Array<NIMChatroomMessage>): void => {
     for (const item of this.queues) {
       item.onmsgs(event);
     }
@@ -86,13 +91,13 @@ class NimChatroomSocket {
   // 进入房间失败
   handleRoomSocketError: Function = (err: NIMError, event: any): void => {
     console.log('发生错误', err, event);
-    message.error('进入口袋48房间失败');
+    this.#messageApi.error('进入口袋48房间失败');
   };
 
   // 断开连接
   handleRoomSocketDisconnect: Function = (err: NIMError): void => {
     console.log('连接断开', err);
-    message.error(`连接断开。房间ID：[${ this.pocket48RoomId }]`);
+    this.#messageApi.error(`连接断开。房间ID：[${ this.pocket48RoomId }]`);
   };
 
   // 添加队列

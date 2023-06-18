@@ -234,6 +234,27 @@
             "title": "日志保存位置",
             "$tableColumnHidden": true,
             "$componentType": "pocket48LogDir"
+          },
+          "pocket48LiveListener": {
+            "id": "$root/properties/pocket48V2/items/properties/pocket48LiveListener",
+            "type": "boolean",
+            "title": "开启直播间信息监听",
+            "$componentType": "switch"
+          },
+          "pocket48LiveRoomId": {
+            "id": "$root/properties/pocket48V2/items/properties/pocket48LiveRoomId",
+            "type": "string",
+            "title": "直播间ID"
+          },
+          "pocket48LiveRoomSendGiftInfo": {
+            "id": "$root/properties/pocket48V2/items/properties/pocket48LiveRoomSendGiftInfo",
+            "type": "boolean",
+            "title": "下播后发送礼物信息"
+          },
+          "pocket48LiveRoomSendGiftLeaderboard": {
+            "id": "$root/properties/pocket48V2/items/properties/pocket48LiveRoomSendGiftLeaderboard",
+            "type": "boolean",
+            "title": "下播后发送礼物排行榜信息"
           }
         }
       }
