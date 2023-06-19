@@ -7,107 +7,11 @@ import { qChatSocketList, nimChatroomList } from '../../../QQBotModals/Basic';
 import { getRoomMessage, getLogMessage, log, type RoomMessageArgs } from './pocket48V2Utils';
 import parser from '../../parser';
 import { requestGiftList } from '../../../services/pocket48';
+import { giftSend, giftLeaderboard, type GiftItem, type GiftSendItem, type GiftUserItem } from './giftCompute';
 import type { QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemPocket48V2, MemberInfo } from '../../../../commonTypes';
 import type { CustomMessageAllV2, UserV2, LiveRoomGiftInfoCustom, LiveRoomLiveCloseCustom } from '../../../qq.types';
 import type { GiftMoneyItem, GiftMoney } from '../../../services/interface';
-
-interface GiftItem {
-  giftId: number;
-  giftName: string;
-  giftNum: number;
-  userId: number;
-  nickName: string;
-}
-
-interface GiftSendItem {
-  giftId: number;
-  giftName: string;
-  giftNum: number;
-  money: number;
-}
-
-interface GiftUserItem {
-  userId: number;
-  nickName: string;
-  giftList: Array<GiftSendItem>;
-  qingchunshikeGiftList: Array<GiftSendItem>;
-  total: number;  // 鸡腿
-  total2: number; // 青春时刻
-}
-
-/* 计算礼物送的数量 */
-function giftSend(data: Array<GiftItem>, giftList: Array<GiftMoneyItem>): Array<GiftSendItem> {
-  const result: Array<GiftSendItem> = [];
-
-  for (const item of data) {
-    const g: GiftSendItem | undefined = result.find((o: GiftSendItem): boolean => o.giftName === item.giftName);
-
-    if (g) {
-      g.giftNum += item.giftNum;
-    } else {
-      result.push({
-        giftId: item.giftId,
-        giftName: item.giftName,
-        giftNum: item.giftNum,
-        money: giftList.find((o: GiftMoneyItem): boolean => o.giftId === item.giftId)?.money ?? 0
-      });
-    }
-  }
-
-  return result.sort((a: GiftSendItem, b: GiftSendItem): number => b.money - a.money);
-}
-
-/* 计算每个人的礼物 */
-function giftLeaderboard(data: Array<GiftItem>, giftList: Array<GiftMoneyItem>): Array<GiftUserItem> {
-  const result: Array<GiftUserItem> = [];
-
-  for (const item of data) {
-    let user: GiftUserItem | undefined = result.find((o: GiftUserItem): boolean => o.userId === item.userId);
-
-    if (!user) {
-      result.push({
-        userId: item.userId,
-        nickName: item.nickName,
-        giftList: [],
-        qingchunshikeGiftList: [],
-        total: 0,
-        total2: 0
-      });
-      user = result[result.length - 1];
-    }
-
-    const isQingchunshikeGift: boolean = /^\d+(.\d+)?分$/.test(item.giftName);
-    const g: GiftSendItem | undefined = user[isQingchunshikeGift ? 'qingchunshikeGiftList' : 'giftList'].find(
-      (o: GiftSendItem): boolean => o.giftName === item.giftName);
-
-    if (g) {
-      g.giftNum += item.giftNum;
-      user[isQingchunshikeGift ? 'total2' : 'total'] += item.giftNum * g.money;
-    } else {
-      user[isQingchunshikeGift ? 'qingchunshikeGiftList' : 'giftList'].push({
-        giftId: item.giftId,
-        giftName: item.giftName,
-        giftNum: item.giftNum,
-        money: giftList.find((o: GiftMoneyItem): boolean => o.giftId === item.giftId)?.money ?? 0
-      });
-    }
-  }
-
-  result.sort((a: GiftUserItem, b: GiftUserItem): number => (b.total2 + b.total) - (a.total2 + a.total));
-
-  result.forEach((o: GiftUserItem): void => {
-    if (o.qingchunshikeGiftList.length) {
-      o.qingchunshikeGiftList.sort((a: GiftSendItem, b: GiftSendItem): number => b.money - a.money);
-    }
-
-    if (o.giftList.length) {
-      o.giftList.sort((a: GiftSendItem, b: GiftSendItem): number => b.money - a.money);
-    }
-  });
-
-  return result;
-}
 
 /* 口袋48 */
 class Pocket48V2Expand {
