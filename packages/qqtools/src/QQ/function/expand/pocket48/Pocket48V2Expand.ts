@@ -215,16 +215,14 @@ class Pocket48V2Expand {
 
       // 计算单人的排行榜
       if (pocket48LiveRoomSendGiftLeaderboard && this.giftNickName) {
-        const text: Array<string> = pocket48LiveRoomSendGiftLeaderboardText({
+        const text: string = pocket48LiveRoomSendGiftLeaderboardText({
           qingchunshikeGiftList: this.qingchunshikeGiftList ?? [],
           giftList: this.giftList ?? [],
           giftMoneyList,
           giftNickName: this.giftNickName
         });
 
-        for (const t of text) {
-          await this.qq.sendMessage(parser(t, this.qq.protocol) as any);
-        }
+        await this.qq.sendMessage(parser(text, this.qq.protocol) as any);
       }
 
       this.giftList = [];

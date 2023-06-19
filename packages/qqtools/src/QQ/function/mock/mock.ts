@@ -7,7 +7,7 @@ import { getDouyinServerPort } from '../../../utils/proxyServer/proxyServer';
 import {
   pocket48LiveRoomSendGiftText,
   pocket48LiveRoomSendGiftLeaderboardText,
-  GiftItem
+  type GiftItem
 } from '../expand/pocket48/giftCompute';
 import { requestGiftList } from '../../services/pocket48/pocket48';
 import type { UserV2, LiveRoomGiftInfoCustom } from '../../qq.types';
@@ -125,16 +125,14 @@ async function mock(qq: QQModals, command: string, qqNumber: number, groupId: nu
 
       text && (await qq.sendMessage(parser(text, qq.protocol) as any));
 
-      const text2: Array<string> = pocket48LiveRoomSendGiftLeaderboardText({
+      const text2: string = pocket48LiveRoomSendGiftLeaderboardText({
         qingchunshikeGiftList,
         giftList,
         giftMoneyList,
         giftNickName: zzxMockData.user.nickName
       });
 
-      for (const t of text2) {
-        await qq.sendMessage(parser(t, qq.protocol) as any);
-      }
+      await qq.sendMessage(parser(text2, qq.protocol) as any);
   }
 }
 

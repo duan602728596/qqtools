@@ -153,32 +153,26 @@ export function pocket48LiveRoomSendGiftLeaderboardText({
   qingchunshikeGiftList = [],
   giftMoneyList,
   giftNickName
-}: GiftSendTextArgs): Array<string> {
-  const sendText: Array<string> = [];
+}: GiftSendTextArgs): string {
+  const sendText: Array<string> = [`[${ giftNickName }]直播礼物排行榜：`];
   const giftLeaderboardResult: Array<GiftUserItem> = giftLeaderboard([
     ...qingchunshikeGiftList,
     ...giftList
   ], giftMoneyList);
 
-  for (let i: number = 0, j: number = giftLeaderboardResult.length; i < j; i += 10) {
-    const start: number = i, end: number = i + 10;
-    const giftLeaderboardResultSlice: Array<GiftUserItem> = giftLeaderboardResult.slice(start, end);
-    const giftLeaderboardText: Array<string> = [`[${ giftNickName }]直播礼物排行榜（${ start } - ${ end }）：`];
+  giftLeaderboardResult.forEach((item: GiftUserItem, index: number): void => {
+    const t: Array<string> = [];
 
-    giftLeaderboardResultSlice.forEach((item: GiftUserItem, index: number): void => {
-      giftLeaderboardText.push(`${ i + index + 1 }、${ item.nickName }：${ item.total }`);
+    for (const item2 of item.qingchunshikeGiftList) {
+      t.push(`${ item2.giftName } x ${ item2.giftNum }`);
+    }
 
-      for (const item2 of item.qingchunshikeGiftList) {
-        giftLeaderboardText.push(`${ item2.giftName } x ${ item2.giftNum }`);
-      }
+    for (const item2 of item.giftList) {
+      t.push(`${ item2.giftName } x ${ item2.giftNum }`);
+    }
 
-      for (const item2 of item.giftList) {
-        giftLeaderboardText.push(`${ item2.giftName } x ${ item2.giftNum }`);
-      }
-    });
+    sendText.push(`${ index + 1 }、${ item.nickName }（${ item.total }）：${ t.join(', ') }`);
+  });
 
-    sendText.push(giftLeaderboardText.join('\n'));
-  }
-
-  return sendText;
+  return sendText.join('\n');
 }
