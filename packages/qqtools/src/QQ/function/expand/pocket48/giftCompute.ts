@@ -1,4 +1,4 @@
-import type { GiftMoneyItem, GiftMoney } from '../../../services/interface';
+import type { GiftMoneyItem } from '../../../services/interface';
 
 // 单条礼物信息
 export interface GiftItem {
@@ -10,7 +10,7 @@ export interface GiftItem {
 }
 
 // 礼物的发送信息
-export interface GiftSendItem {
+interface GiftSendItem {
   giftId: number;
   giftName: string;
   giftNum: number;
@@ -18,7 +18,7 @@ export interface GiftSendItem {
 }
 
 // 每个user的礼物信息
-export interface GiftUserItem {
+interface GiftUserItem {
   userId: number;
   nickName: string;
   giftList: Array<GiftSendItem>;
@@ -32,7 +32,7 @@ export interface GiftUserItem {
  * @param { Array<GiftItem> } data: 送的礼物
  * @param { Array<GiftMoneyItem> } giftList: 礼物价格信息
  */
-export function giftSend(data: Array<GiftItem>, giftList: Array<GiftMoneyItem>): Array<GiftSendItem> {
+function giftSend(data: Array<GiftItem>, giftList: Array<GiftMoneyItem>): Array<GiftSendItem> {
   const result: Array<GiftSendItem> = [];
 
   for (const item of data) {
@@ -58,7 +58,7 @@ export function giftSend(data: Array<GiftItem>, giftList: Array<GiftMoneyItem>):
  * @param { Array<GiftItem> } data: 送的礼物
  * @param { Array<GiftMoneyItem> } giftList: 礼物价格信息
  */
-export function giftLeaderboard(data: Array<GiftItem>, giftList: Array<GiftMoneyItem>): Array<GiftUserItem> {
+function giftLeaderboard(data: Array<GiftItem>, giftList: Array<GiftMoneyItem>): Array<GiftUserItem> {
   const result: Array<GiftUserItem> = [];
 
   for (const item of data) {
@@ -106,4 +106,68 @@ export function giftLeaderboard(data: Array<GiftItem>, giftList: Array<GiftMoney
   });
 
   return result;
+}
+
+/* 根据礼物榜单生成消息 */
+interface GiftSendTextArgs {
+  giftList: Array<GiftItem>;
+  qingchunshikeGiftList: Array<GiftItem>;
+  giftMoneyList: Array<GiftMoneyItem>;
+  giftNickName: string;
+}
+
+export function pocket48LiveRoomSendGiftText({
+  giftList = [],
+  qingchunshikeGiftList = [],
+  giftMoneyList,
+  giftNickName
+}: GiftSendTextArgs): string | null {
+  const [qingchunshikeGiftListResult, giftListResult]: [Array<GiftSendItem>, Array<GiftSendItem>]
+    = [giftSend(qingchunshikeGiftList, giftMoneyList), giftSend(giftList, giftMoneyList)];
+
+  if (qingchunshikeGiftListResult.length > 0 || giftListResult.length > 0) {
+    let TotalCost: number = 0;
+    const qingchunshikeGiftText: Array<string> = qingchunshikeGiftListResult.map((o: GiftSendItem) => {
+      return `${ o.giftName }x${ o.giftNum }`;
+    });
+    const giftText: Array<string> = giftListResult.map((o: GiftSendItem) => {
+      TotalCost += o.money * o.giftNum;
+
+      return `${ o.giftName }x${ o.giftNum }`;
+    });
+
+    return `[${ giftNickName }]直播礼物统计：${ TotalCost }\n${
+      [...qingchunshikeGiftText, giftText].join('\n')
+    }`;
+  } else {
+    return null;
+  }
+}
+
+/* 根据礼物榜单生成排行榜 */
+export function pocket48LiveRoomSendGiftLeaderboardText({
+  giftList = [],
+  qingchunshikeGiftList = [],
+  giftMoneyList,
+  giftNickName
+}: GiftSendTextArgs): string {
+  const giftLeaderboardText: Array<string> = [`[${ giftNickName }]直播礼物排行榜：`];
+  const giftLeaderboardResult: Array<GiftUserItem> = giftLeaderboard([
+    ...qingchunshikeGiftList,
+    ...giftList
+  ], giftMoneyList);
+
+  giftLeaderboardResult.forEach((item: GiftUserItem, index: number): void => {
+    giftLeaderboardText.push(`${ index + 1 }、${ item.nickName }：${ item.total }`);
+
+    for (const item2 of item.qingchunshikeGiftList) {
+      giftLeaderboardText.push(`${ item2.giftName }x${ item2.giftNum }`);
+    }
+
+    for (const item2 of item.giftList) {
+      giftLeaderboardText.push(`${ item2.giftName }x${ item2.giftNum }`);
+    }
+  });
+
+  return giftLeaderboardText.join('\n');
 }

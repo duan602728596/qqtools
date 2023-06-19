@@ -7,7 +7,7 @@ import { qChatSocketList, nimChatroomList } from '../../../QQBotModals/Basic';
 import { getRoomMessage, getLogMessage, log, type RoomMessageArgs } from './pocket48V2Utils';
 import parser from '../../parser';
 import { requestGiftList } from '../../../services/pocket48';
-import { giftSend, giftLeaderboard, type GiftItem, type GiftSendItem, type GiftUserItem } from './giftCompute';
+import { pocket48LiveRoomSendGiftText, pocket48LiveRoomSendGiftLeaderboardText, type GiftItem } from './giftCompute';
 import type { QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemPocket48V2, MemberInfo } from '../../../../commonTypes';
 import type { CustomMessageAllV2, UserV2, LiveRoomGiftInfoCustom, LiveRoomLiveCloseCustom } from '../../../qq.types';
@@ -206,45 +206,27 @@ class Pocket48V2Expand {
       }
 
       // 计算礼物信息
-      if (pocket48LiveRoomSendGiftInfo) {
-        const [qingchunshikeGiftListResult, giftListResult]: [Array<GiftSendItem>, Array<GiftSendItem>]
-          = [giftSend(this.qingchunshikeGiftList!, giftMoneyList), giftSend(this.giftList!, giftMoneyList)];
+      if (pocket48LiveRoomSendGiftInfo && this.giftNickName) {
+        const text: string | null = pocket48LiveRoomSendGiftText({
+          qingchunshikeGiftList: this.qingchunshikeGiftList ?? [],
+          giftList: this.giftList ?? [],
+          giftMoneyList,
+          giftNickName: this.giftNickName
+        });
 
-        if (qingchunshikeGiftListResult.length > 0 || giftListResult.length > 0) {
-          let TotalCost: number = 0;
-          const qingchunshikeGiftText: Array<string> = qingchunshikeGiftListResult.map((o: GiftSendItem) => {
-            return `${ o.giftName }x${ o.giftNum }`;
-          });
-          const giftText: Array<string> = giftListResult.map((o: GiftSendItem) => {
-            TotalCost += o.money * o.giftNum;
-
-            return `${ o.giftName }x${ o.giftNum }`;
-          });
-
-          await this.qq.sendMessage(parser(`[${ this.giftNickName }]直播礼物统计：${ TotalCost }\n${
-            [...qingchunshikeGiftText, giftText].join('\n')
-          }`, this.qq.protocol) as any);
-        }
+        text && (await this.qq.sendMessage(parser(text, this.qq.protocol) as any));
       }
 
       // 计算单人的排行榜
-      if (pocket48LiveRoomSendGiftLeaderboard) {
-        const giftLeaderboardText: Array<string> = [`[${ this.giftNickName }]直播礼物排行榜：`];
-        const giftLeaderboardResult: Array<GiftUserItem> = giftLeaderboard([...this.qingchunshikeGiftList!, ...this.giftList!], giftMoneyList);
-
-        giftLeaderboardResult.forEach((item: GiftUserItem, index: number): void => {
-          giftLeaderboardText.push(`${ index + 1 }、${ item.nickName }：${ item.total }`);
-
-          for (const item2 of item.qingchunshikeGiftList) {
-            giftLeaderboardText.push(`${ item2.giftName }x${ item2.giftNum }`);
-          }
-
-          for (const item2 of item.giftList) {
-            giftLeaderboardText.push(`${ item2.giftName }x${ item2.giftNum }`);
-          }
+      if (pocket48LiveRoomSendGiftLeaderboard && this.giftNickName) {
+        const text: string = pocket48LiveRoomSendGiftLeaderboardText({
+          qingchunshikeGiftList: this.qingchunshikeGiftList ?? [],
+          giftList: this.giftList ?? [],
+          giftMoneyList,
+          giftNickName: this.giftNickName
         });
 
-        await this.qq.sendMessage(parser(giftLeaderboardText.join('\n'), this.qq.protocol) as any);
+        await this.qq.sendMessage(parser(text, this.qq.protocol) as any);
       }
 
       this.giftList = [];
