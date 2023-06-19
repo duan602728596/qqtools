@@ -27,6 +27,15 @@ interface GiftSendItem {
   money: number;
 }
 
+interface GiftUserItem {
+  userId: number;
+  nickName: string;
+  giftList: Array<GiftSendItem>;
+  qingchunshikeGiftList: Array<GiftSendItem>;
+  total: number;  // 鸡腿
+  total2: number; // 青春时刻
+}
+
 /* 计算礼物送的数量 */
 function giftSend(data: Array<GiftItem>, giftList: Array<GiftMoneyItem>): Array<GiftSendItem> {
   const result: Array<GiftSendItem> = [];
@@ -49,6 +58,57 @@ function giftSend(data: Array<GiftItem>, giftList: Array<GiftMoneyItem>): Array<
   return result.sort((a: GiftSendItem, b: GiftSendItem): number => b.money - a.money);
 }
 
+/* 计算每个人的礼物 */
+function giftLeaderboard(data: Array<GiftItem>, giftList: Array<GiftMoneyItem>): Array<GiftUserItem> {
+  const result: Array<GiftUserItem> = [];
+
+  for (const item of data) {
+    let user: GiftUserItem | undefined = result.find((o: GiftUserItem): boolean => o.userId === item.userId);
+
+    if (!user) {
+      result.push({
+        userId: item.userId,
+        nickName: item.nickName,
+        giftList: [],
+        qingchunshikeGiftList: [],
+        total: 0,
+        total2: 0
+      });
+      user = result[result.length - 1];
+    }
+
+    const isQingchunshikeGift: boolean = /^\d+(.\d+)?分$/.test(item.giftName);
+    const g: GiftSendItem | undefined = user[isQingchunshikeGift ? 'qingchunshikeGiftList' : 'giftList'].find(
+      (o: GiftSendItem): boolean => o.giftName === item.giftName);
+
+    if (g) {
+      g.giftNum += item.giftNum;
+      user[isQingchunshikeGift ? 'total2' : 'total'] += item.giftNum * g.money;
+    } else {
+      user[isQingchunshikeGift ? 'qingchunshikeGiftList' : 'giftList'].push({
+        giftId: item.giftId,
+        giftName: item.giftName,
+        giftNum: item.giftNum,
+        money: giftList.find((o: GiftMoneyItem): boolean => o.giftId === item.giftId)?.money ?? 0
+      });
+    }
+  }
+
+  result.sort((a: GiftUserItem, b: GiftUserItem): number => (b.total2 + b.total) - (a.total2 + a.total));
+
+  result.forEach((o: GiftUserItem): void => {
+    if (o.qingchunshikeGiftList.length) {
+      o.qingchunshikeGiftList.sort((a: GiftSendItem, b: GiftSendItem): number => b.money - a.money);
+    }
+
+    if (o.giftList.length) {
+      o.giftList.sort((a: GiftSendItem, b: GiftSendItem): number => b.money - a.money);
+    }
+  });
+
+  return result;
+}
+
 /* 口袋48 */
 class Pocket48V2Expand {
   static channelIdMap: Map<string, Array<ChannelInfo>> = new Map();
@@ -62,6 +122,7 @@ class Pocket48V2Expand {
   public giftList?: Array<GiftItem>;              // 礼物榜
   public qingchunshikeGiftList?: Array<GiftItem>; // 青春时刻
   public giftUserId?: number;
+  public giftNickName?: string;
 
   constructor({ config, qq }: { config: OptionsItemPocket48V2; qq: QQModals }) {
     this.config = config;
@@ -165,6 +226,7 @@ class Pocket48V2Expand {
         this.giftList = [];
         this.qingchunshikeGiftList = [];
         this.giftUserId = user!.userId;
+        this.giftNickName = user!.nickName;
 
         const index: number = nimChatroomList.findIndex(
           (o: NimChatroomSocket): boolean => o.pocket48RoomId === pocket48LiveRoomId);
@@ -233,25 +295,56 @@ class Pocket48V2Expand {
       }
     } else if (customJson.messageType === 'CLOSELIVE') {
       const resGift: GiftMoney = await requestGiftList(this.giftUserId!);
-      const giftList: Array<GiftMoneyItem> = [];
+      const giftMoneyList: Array<GiftMoneyItem> = [];
 
       for (const giftGroup of resGift.content) {
-        giftList.push(...giftGroup.giftList);
+        giftMoneyList.push(...giftGroup.giftList);
       }
 
       // 计算礼物信息
       if (pocket48LiveRoomSendGiftInfo) {
         const [qingchunshikeGiftListResult, giftListResult]: [Array<GiftSendItem>, Array<GiftSendItem>]
-          = [giftSend(this.qingchunshikeGiftList!, giftList), giftSend(this.giftList!, giftList)];
+          = [giftSend(this.qingchunshikeGiftList!, giftMoneyList), giftSend(this.giftList!, giftMoneyList)];
 
         if (qingchunshikeGiftListResult.length > 0 || giftListResult.length > 0) {
-          const result: string = [...qingchunshikeGiftListResult, ...giftListResult].map((o: GiftSendItem) => {
-            return `${ o.giftName } x ${ o.giftNum }`;
-          }).join('\n');
+          let TotalCost: number = 0;
+          const qingchunshikeGiftText: Array<string> = qingchunshikeGiftListResult.map((o: GiftSendItem) => {
+            return `${ o.giftName }x${ o.giftNum }`;
+          });
+          const giftText: Array<string> = giftListResult.map((o: GiftSendItem) => {
+            TotalCost += o.money * o.giftNum;
 
-          await this.qq.sendMessage(parser(`礼物统计\n${ result }`, this.qq.protocol) as any);
+            return `${ o.giftName }x${ o.giftNum }`;
+          });
+
+          await this.qq.sendMessage(parser(`[${ this.giftNickName }]直播礼物统计：${ TotalCost }\n${
+            [...qingchunshikeGiftText, giftText].join('\n')
+          }`, this.qq.protocol) as any);
         }
       }
+
+      // 计算单人的排行榜
+      if (pocket48LiveRoomSendGiftLeaderboard) {
+        const giftLeaderboardText: Array<string> = [`[${ this.giftNickName }]直播礼物排行榜：`];
+        const giftLeaderboardResult: Array<GiftUserItem> = giftLeaderboard([...this.qingchunshikeGiftList!, ...this.giftList!], giftMoneyList);
+
+        giftLeaderboardResult.forEach((item: GiftUserItem, index: number): void => {
+          giftLeaderboardText.push(`${ index + 1 }、${ item.nickName }：${ item.total }`);
+
+          for (const item2 of item.qingchunshikeGiftList) {
+            giftLeaderboardText.push(`${ item2.giftName }x${ item2.giftNum }`);
+          }
+
+          for (const item2 of item.giftList) {
+            giftLeaderboardText.push(`${ item2.giftName }x${ item2.giftNum }`);
+          }
+        });
+
+        await this.qq.sendMessage(parser(giftLeaderboardText.join('\n'), this.qq.protocol) as any);
+      }
+
+      this.giftList = [];
+      this.qingchunshikeGiftList = [];
     }
   }
 
