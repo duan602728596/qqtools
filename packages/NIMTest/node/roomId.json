@@ -3425,7 +3425,8 @@
       "teamId": 2102,
       "groupName": "CGT48",
       "periodName": "CGT48 一期生",
-      "pinyin": "ren yeyan"
+      "pinyin": "ren yeyan",
+      "liveRoomId": 4512728744
     },
     {
       "id": 105710026,
@@ -3843,5 +3844,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-06-18 00:11:21"
+  "buildTime": "2023-06-19 22:07:00"
 }
