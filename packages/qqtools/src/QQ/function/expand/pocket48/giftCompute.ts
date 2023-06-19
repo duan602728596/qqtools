@@ -84,12 +84,15 @@ function giftLeaderboard(data: Array<GiftItem>, giftList: Array<GiftMoneyItem>):
       g.giftNum += item.giftNum;
       user[isQingchunshikeGift ? 'total2' : 'total'] += item.giftNum * g.money;
     } else {
+      const money: number = giftList.find((o: GiftMoneyItem): boolean => o.giftId === item.giftId)?.money ?? 0;
+
       user[isQingchunshikeGift ? 'qingchunshikeGiftList' : 'giftList'].push({
         giftId: item.giftId,
         giftName: item.giftName,
         giftNum: item.giftNum,
-        money: giftList.find((o: GiftMoneyItem): boolean => o.giftId === item.giftId)?.money ?? 0
+        money
       });
+      user[isQingchunshikeGift ? 'total2' : 'total'] += item.giftNum * money;
     }
   }
 
@@ -128,16 +131,16 @@ export function pocket48LiveRoomSendGiftText({
   if (qingchunshikeGiftListResult.length > 0 || giftListResult.length > 0) {
     let TotalCost: number = 0;
     const qingchunshikeGiftText: Array<string> = qingchunshikeGiftListResult.map((o: GiftSendItem) => {
-      return `${ o.giftName }x${ o.giftNum }`;
+      return `${ o.giftName } x ${ o.giftNum }`;
     });
     const giftText: Array<string> = giftListResult.map((o: GiftSendItem) => {
       TotalCost += o.money * o.giftNum;
 
-      return `${ o.giftName }x${ o.giftNum }`;
+      return `${ o.giftName } x ${ o.giftNum }`;
     });
 
-    return `[${ giftNickName }]直播礼物统计：${ TotalCost }\n${
-      [...qingchunshikeGiftText, giftText].join('\n')
+    return `[${ giftNickName }]直播礼物统计：\n鸡腿：${ TotalCost }\n${
+      [...qingchunshikeGiftText, ...giftText].join('\n')
     }`;
   } else {
     return null;
@@ -150,24 +153,32 @@ export function pocket48LiveRoomSendGiftLeaderboardText({
   qingchunshikeGiftList = [],
   giftMoneyList,
   giftNickName
-}: GiftSendTextArgs): string {
-  const giftLeaderboardText: Array<string> = [`[${ giftNickName }]直播礼物排行榜：`];
+}: GiftSendTextArgs): Array<string> {
+  const sendText: Array<string> = [];
   const giftLeaderboardResult: Array<GiftUserItem> = giftLeaderboard([
     ...qingchunshikeGiftList,
     ...giftList
   ], giftMoneyList);
 
-  giftLeaderboardResult.forEach((item: GiftUserItem, index: number): void => {
-    giftLeaderboardText.push(`${ index + 1 }、${ item.nickName }：${ item.total }`);
+  for (let i: number = 0, j: number = giftLeaderboardResult.length; i < j; i += 10) {
+    const start: number = i, end: number = i + 10;
+    const giftLeaderboardResultSlice: Array<GiftUserItem> = giftLeaderboardResult.slice(start, end);
+    const giftLeaderboardText: Array<string> = [`[${ giftNickName }]直播礼物排行榜（${ start } - ${ end }）：`];
 
-    for (const item2 of item.qingchunshikeGiftList) {
-      giftLeaderboardText.push(`${ item2.giftName }x${ item2.giftNum }`);
-    }
+    giftLeaderboardResultSlice.forEach((item: GiftUserItem, index: number): void => {
+      giftLeaderboardText.push(`${ i + index + 1 }、${ item.nickName }：${ item.total }`);
 
-    for (const item2 of item.giftList) {
-      giftLeaderboardText.push(`${ item2.giftName }x${ item2.giftNum }`);
-    }
-  });
+      for (const item2 of item.qingchunshikeGiftList) {
+        giftLeaderboardText.push(`${ item2.giftName } x ${ item2.giftNum }`);
+      }
 
-  return giftLeaderboardText.join('\n');
+      for (const item2 of item.giftList) {
+        giftLeaderboardText.push(`${ item2.giftName } x ${ item2.giftNum }`);
+      }
+    });
+
+    sendText.push(giftLeaderboardText.join('\n'));
+  }
+
+  return sendText;
 }

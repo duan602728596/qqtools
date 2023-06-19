@@ -1,9 +1,17 @@
+import type { NIMChatroomMessage } from '@yxim/nim-web-sdk/dist/SDK/NIM_Web_Chatroom/NIMChatroomMessageInterface';
 import parser from '../parser';
 import * as CQ from '../parser/CQ';
 import { getRoomMessage, type RoomMessageArgs } from '../expand/pocket48/pocket48V2Utils';
 import { QQProtocol, type QQModals } from '../../QQBotModals/ModalTypes';
 import { getDouyinServerPort } from '../../../utils/proxyServer/proxyServer';
-import type { UserV2 } from '../../qq.types';
+import {
+  pocket48LiveRoomSendGiftText,
+  pocket48LiveRoomSendGiftLeaderboardText,
+  GiftItem
+} from '../expand/pocket48/giftCompute';
+import { requestGiftList } from '../../services/pocket48/pocket48';
+import type { UserV2, LiveRoomGiftInfoCustom } from '../../qq.types';
+import type { GiftMoney, GiftMoneyGroup, GiftMoneyItem } from '../../services/interface';
 
 const mockImg: string[] = [
   'https://wx2.sinaimg.cn/mw690/00689qXxly1hat3deahenj32c0340kjn.jpg',
@@ -81,6 +89,52 @@ async function mock(qq: QQModals, command: string, qqNumber: number, groupId: nu
       }
 
       break;
+
+    case 'test-zzx':
+      const zzxMockData: { user: any; data: any } = await import('./zhengzhaoxuan.json', {
+        assert: { type: 'json' }
+      });
+      const resGift: GiftMoney = await requestGiftList(zzxMockData.user.userId);
+      const giftMoneyList: Array<GiftMoneyItem> = resGift.content.map((o: GiftMoneyGroup) => o.giftList).flat();
+
+      const qingchunshikeGiftList: Array<GiftItem> = [], giftList: Array<GiftItem> = [];
+
+      zzxMockData.data.forEach((o: NIMChatroomMessage): void => {
+        const customJson: LiveRoomGiftInfoCustom = JSON.parse(o.custom!);
+        const giftInfo: GiftItem = {
+          giftId: customJson.giftInfo.giftId,
+          giftName: customJson.giftInfo.giftName,
+          giftNum: customJson.giftInfo.giftNum,
+          nickName: customJson.user.nickName,
+          userId: customJson.user.userId
+        };
+
+        if (/^\d+(.\d+)?分$/.test(customJson.giftInfo.giftName)) {
+          qingchunshikeGiftList.push(giftInfo);
+        } else {
+          giftList.push(giftInfo);
+        }
+      });
+
+      const text: string | null = pocket48LiveRoomSendGiftText({
+        qingchunshikeGiftList,
+        giftList,
+        giftMoneyList,
+        giftNickName: zzxMockData.user.nickName
+      });
+
+      text && (await qq.sendMessage(parser(text, qq.protocol) as any));
+
+      const text2: Array<string> = pocket48LiveRoomSendGiftLeaderboardText({
+        qingchunshikeGiftList,
+        giftList,
+        giftMoneyList,
+        giftNickName: zzxMockData.user.nickName
+      });
+
+      for (const t of text2) {
+        await qq.sendMessage(parser(t, qq.protocol) as any);
+      }
   }
 }
 

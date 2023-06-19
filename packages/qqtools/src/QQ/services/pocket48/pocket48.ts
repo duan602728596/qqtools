@@ -1,6 +1,7 @@
 import got, { type Response as GotResponse } from 'got';
-import { createHeaders } from '../../utils/snh48';
-import type { GiftMoney } from './interface';
+import { createHeaders } from '../../../utils/snh48';
+import * as biaoqingbao from './biaoqingbao.json' assert { type: 'json' };
+import type { GiftMoney } from '../interface';
 
 // 请求礼物列表
 export async function requestGiftList(id: number): Promise<GiftMoney> {
@@ -12,6 +13,10 @@ export async function requestGiftList(id: number): Promise<GiftMoney> {
       memberId: String(id)
     }
   });
+
+  if (res.body?.content?.length) {
+    res.body.content.push(biaoqingbao['default']);
+  }
 
   return res.body;
 }

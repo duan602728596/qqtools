@@ -6,12 +6,12 @@ import NimChatroomSocket from '../../../sdk/NimChatroomSocket';
 import { qChatSocketList, nimChatroomList } from '../../../QQBotModals/Basic';
 import { getRoomMessage, getLogMessage, log, type RoomMessageArgs } from './pocket48V2Utils';
 import parser from '../../parser';
-import { requestGiftList } from '../../../services/pocket48';
+import { requestGiftList } from '../../../services/pocket48/pocket48';
 import { pocket48LiveRoomSendGiftText, pocket48LiveRoomSendGiftLeaderboardText, type GiftItem } from './giftCompute';
 import type { QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemPocket48V2, MemberInfo } from '../../../../commonTypes';
 import type { CustomMessageAllV2, UserV2, LiveRoomGiftInfoCustom, LiveRoomLiveCloseCustom } from '../../../qq.types';
-import type { GiftMoneyItem, GiftMoney } from '../../../services/interface';
+import type { GiftMoneyItem, GiftMoneyGroup, GiftMoney } from '../../../services/interface';
 
 /* 口袋48 */
 class Pocket48V2Expand {
@@ -199,11 +199,7 @@ class Pocket48V2Expand {
       }
     } else if (customJson.messageType === 'CLOSELIVE') {
       const resGift: GiftMoney = await requestGiftList(this.giftUserId!);
-      const giftMoneyList: Array<GiftMoneyItem> = [];
-
-      for (const giftGroup of resGift.content) {
-        giftMoneyList.push(...giftGroup.giftList);
-      }
+      const giftMoneyList: Array<GiftMoneyItem> = resGift.content.map((o: GiftMoneyGroup) => o.giftList).flat();
 
       // 计算礼物信息
       if (pocket48LiveRoomSendGiftInfo && this.giftNickName) {
@@ -219,14 +215,16 @@ class Pocket48V2Expand {
 
       // 计算单人的排行榜
       if (pocket48LiveRoomSendGiftLeaderboard && this.giftNickName) {
-        const text: string = pocket48LiveRoomSendGiftLeaderboardText({
+        const text: Array<string> = pocket48LiveRoomSendGiftLeaderboardText({
           qingchunshikeGiftList: this.qingchunshikeGiftList ?? [],
           giftList: this.giftList ?? [],
           giftMoneyList,
           giftNickName: this.giftNickName
         });
 
-        await this.qq.sendMessage(parser(text, this.qq.protocol) as any);
+        for (const t of text) {
+          await this.qq.sendMessage(parser(t, this.qq.protocol) as any);
+        }
       }
 
       this.giftList = [];

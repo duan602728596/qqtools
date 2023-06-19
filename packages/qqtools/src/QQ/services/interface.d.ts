@@ -91,7 +91,7 @@ export interface GiftMoneyItem {
   giftName: string;
 }
 
-interface GiftMoneyGroup {
+export interface GiftMoneyGroup {
   typeId: number;
   typeName: string;
   specialInstru: string;
