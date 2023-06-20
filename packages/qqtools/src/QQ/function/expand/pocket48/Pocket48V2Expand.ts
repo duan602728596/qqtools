@@ -139,7 +139,8 @@ class Pocket48V2Expand {
           this.nimChatroom = new NimChatroomSocket({
             pocket48IsAnonymous: false,
             pocket48Account,
-            pocket48Token
+            pocket48Token,
+            pocket48RoomId: pocket48LiveRoomId
           });
           await this.nimChatroom.init();
           this.nimChatroom.addQueue({
@@ -177,11 +178,7 @@ class Pocket48V2Expand {
     if (msg.type !== 'custom' || !msg.custom) return;
 
     const customJson: LiveRoomGiftInfoCustom | LiveRoomLiveCloseCustom = JSON.parse(msg.custom);
-    const {
-      pocket48LiveRoomSendGiftInfo,
-      pocket48LiveRoomSendGiftLeaderboard,
-      pocket48LiveRoomId
-    }: OptionsItemPocket48V2 = this.config;
+    const { pocket48LiveRoomSendGiftInfo, pocket48LiveRoomSendGiftLeaderboard }: OptionsItemPocket48V2 = this.config;
 
     // 礼物信息
     if ('giftInfo' in customJson) {
