@@ -25,8 +25,9 @@ class Pocket48V2Expand {
   public memberInfo?: MemberInfo;                 // 房间成员信息
   public giftList?: Array<GiftItem>;              // 礼物榜
   public qingchunshikeGiftList?: Array<GiftItem>; // 青春时刻
-  public giftUserId?: number;
-  public giftNickName?: string;
+  public giftUserId?: number;                     // 用户ID
+  public giftNickName?: string;                   // 用户名
+  public giftMoneyList?: Array<GiftMoneyItem>;    // 礼物信息的缓存
 
   constructor({ config, qq }: { config: OptionsItemPocket48V2; qq: QQModals }) {
     this.config = config;
@@ -132,6 +133,12 @@ class Pocket48V2Expand {
         this.giftUserId = user!.userId;
         this.giftNickName = user!.nickName;
 
+        if (!(this?.giftMoneyList?.length)) {
+          const resGift: GiftMoney = await requestGiftList(this.giftUserId!);
+
+          this.giftMoneyList = resGift.content.map((o: GiftMoneyGroup) => o.giftList).flat();
+        }
+
         const index: number = nimChatroomList.findIndex(
           (o: NimChatroomSocket): boolean => o.pocket48RoomId === pocket48LiveRoomId);
 
@@ -196,15 +203,12 @@ class Pocket48V2Expand {
         this.giftList?.push?.(giftInfo);
       }
     } else if (customJson.messageType === 'CLOSELIVE') {
-      const resGift: GiftMoney = await requestGiftList(this.giftUserId!);
-      const giftMoneyList: Array<GiftMoneyItem> = resGift.content.map((o: GiftMoneyGroup) => o.giftList).flat();
-
       // 计算礼物信息
       if (pocket48LiveRoomSendGiftInfo && this.giftNickName) {
         const text: string | null = pocket48LiveRoomSendGiftText({
           qingchunshikeGiftList: this.qingchunshikeGiftList ?? [],
           giftList: this.giftList ?? [],
-          giftMoneyList,
+          giftMoneyList: this.giftMoneyList ?? [],
           giftNickName: this.giftNickName
         });
 
@@ -216,7 +220,7 @@ class Pocket48V2Expand {
         const text: string = pocket48LiveRoomSendGiftLeaderboardText({
           qingchunshikeGiftList: this.qingchunshikeGiftList ?? [],
           giftList: this.giftList ?? [],
-          giftMoneyList,
+          giftMoneyList: this.giftMoneyList ?? [],
           giftNickName: this.giftNickName
         });
 
@@ -225,14 +229,17 @@ class Pocket48V2Expand {
 
       this.giftList = [];
       this.qingchunshikeGiftList = [];
+      this.giftNickName = undefined;
+      this.giftUserId = undefined;
+      this.giftMoneyList = [];
       this.disconnectNIM();
     }
   }
 
   // 循环处理所有消息
-  liveRoomSocketMessageAll(event: Array<NIMChatroomMessage>): void {
+  async liveRoomSocketMessageAll(event: Array<NIMChatroomMessage>): Promise<void> {
     for (const msg of event) {
-      this.liveRoomSocketMessageOne(msg);
+      await this.liveRoomSocketMessageOne(msg);
     }
   }
 
@@ -329,6 +336,9 @@ class Pocket48V2Expand {
     this.nimChatroom = undefined;
     this.giftList = undefined;
     this.qingchunshikeGiftList = undefined;
+    this.giftNickName = undefined;
+    this.giftUserId = undefined;
+    this.giftMoneyList = undefined;
   }
 
   // 销毁
