@@ -1,7 +1,8 @@
 import got, { type Response as GotResponse } from 'got';
 import { createHeaders } from '../../../utils/snh48';
 import * as biaoqingbao from './biaoqingbao.json' assert { type: 'json' };
-import type { GiftMoney } from '../interface';
+import * as qingchunshike from './qingchunshike.json' assert { type: 'json' };
+import type { GiftMoney, GiftMoneyGroup } from '../interface';
 
 // 请求礼物列表
 export async function requestGiftList(id: number): Promise<GiftMoney> {
@@ -15,8 +16,16 @@ export async function requestGiftList(id: number): Promise<GiftMoney> {
   });
 
   if (res.body?.content?.length) {
-    res.body.content.push(biaoqingbao['default']);
+    if (!res.body.content.find((o: GiftMoneyGroup): boolean => o.typeId === biaoqingbao['default'].typeId)) {
+      res.body.content.push(biaoqingbao['default']);
+    }
+
+    if (!res.body.content.find((o: GiftMoneyGroup): boolean => o.typeId === qingchunshike['default'].typeId)) {
+      res.body.content.push(qingchunshike['default']);
+    }
   }
+
+  console.log(res.body);
 
   return res.body;
 }

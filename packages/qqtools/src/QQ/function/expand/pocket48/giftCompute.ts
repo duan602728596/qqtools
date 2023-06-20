@@ -100,11 +100,13 @@ function giftLeaderboard(data: Array<GiftItem>, giftList: Array<GiftMoneyItem>):
 
   result.forEach((o: GiftUserItem): void => {
     if (o.qingchunshikeGiftList.length) {
-      o.qingchunshikeGiftList.sort((a: GiftSendItem, b: GiftSendItem): number => b.money - a.money);
+      o.qingchunshikeGiftList = o.qingchunshikeGiftList.sort(
+        (a: GiftSendItem, b: GiftSendItem): number => b.money - a.money);
     }
 
     if (o.giftList.length) {
-      o.giftList.sort((a: GiftSendItem, b: GiftSendItem): number => b.money - a.money);
+      o.giftList = o.giftList.sort(
+        (a: GiftSendItem, b: GiftSendItem): number => b.money - a.money);
     }
   });
 
