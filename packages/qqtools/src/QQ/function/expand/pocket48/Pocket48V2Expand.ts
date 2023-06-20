@@ -315,7 +315,7 @@ class Pocket48V2Expand {
 
   // 移除socket连接
   disconnectPocket48(): void {
-    const { pocket48ServerId, pocket48LiveRoomId }: OptionsItemPocket48V2 = this.config;
+    const { pocket48ServerId }: OptionsItemPocket48V2 = this.config;
     const index: number = qChatSocketList.findIndex((o: QChatSocket): boolean => o.pocket48ServerId === pocket48ServerId);
 
     if (index >= 0 && this.qChatSocketId) {
