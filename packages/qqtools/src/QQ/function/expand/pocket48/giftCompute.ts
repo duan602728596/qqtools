@@ -141,7 +141,7 @@ export function pocket48LiveRoomSendGiftText({
       return `${ o.giftName } x ${ o.giftNum }`;
     });
 
-    return `[${ giftNickName }]直播礼物统计：\n鸡腿：${ TotalCost }\n${
+    return `【${ giftNickName }】直播礼物统计：\n鸡腿：${ TotalCost }\n${
       [...qingchunshikeGiftText, ...giftText].join('\n')
     }`;
   } else {
@@ -156,7 +156,7 @@ export function pocket48LiveRoomSendGiftLeaderboardText({
   giftMoneyList,
   giftNickName
 }: GiftSendTextArgs): string {
-  const sendText: Array<string> = [`[${ giftNickName }]直播礼物排行榜：`];
+  const sendText: Array<string> = [`【${ giftNickName }】直播礼物排行榜：`];
   const giftLeaderboardResult: Array<GiftUserItem> = giftLeaderboard([
     ...qingchunshikeGiftList,
     ...giftList
@@ -173,7 +173,7 @@ export function pocket48LiveRoomSendGiftLeaderboardText({
       t.push(`${ item2.giftName } x ${ item2.giftNum }`);
     }
 
-    sendText.push(`${ index + 1 }、${ item.nickName }（${ item.total }）：${ t.join(', ') }`);
+    sendText.push(`[${ index + 1 }]${ item.nickName }（${ item.total }）：${ t.join('，') }`);
   });
 
   return sendText.join('\n');
