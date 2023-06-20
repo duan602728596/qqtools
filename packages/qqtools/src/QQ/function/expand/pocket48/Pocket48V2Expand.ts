@@ -179,7 +179,8 @@ class Pocket48V2Expand {
     const customJson: LiveRoomGiftInfoCustom | LiveRoomLiveCloseCustom = JSON.parse(msg.custom);
     const {
       pocket48LiveRoomSendGiftInfo,
-      pocket48LiveRoomSendGiftLeaderboard
+      pocket48LiveRoomSendGiftLeaderboard,
+      pocket48LiveRoomId
     }: OptionsItemPocket48V2 = this.config;
 
     // 礼物信息
@@ -227,6 +228,7 @@ class Pocket48V2Expand {
 
       this.giftList = [];
       this.qingchunshikeGiftList = [];
+      this.disconnectNIM();
     }
   }
 
@@ -292,19 +294,9 @@ class Pocket48V2Expand {
     }
   }
 
-  // 移除socket连接
-  disconnectPocket48(): void {
-    const { pocket48ServerId, pocket48LiveRoomId }: OptionsItemPocket48V2 = this.config;
-    const index: number = qChatSocketList.findIndex((o: QChatSocket): boolean => o.pocket48ServerId === pocket48ServerId);
-
-    if (index >= 0 && this.qChatSocketId) {
-      qChatSocketList[index].removeQueue(this.qChatSocketId);
-
-      if (qChatSocketList[index].queues.length === 0) {
-        qChatSocketList[index].disconnect();
-        qChatSocketList.splice(index, 1);
-      }
-    }
+  // 移除NIM连接
+  disconnectNIM(): void {
+    const { pocket48LiveRoomId }: OptionsItemPocket48V2 = this.config;
 
     if (this.nimChatroom) {
       const index2: number = nimChatroomList.findIndex(
@@ -319,7 +311,23 @@ class Pocket48V2Expand {
         }
       }
     }
+  }
 
+  // 移除socket连接
+  disconnectPocket48(): void {
+    const { pocket48ServerId, pocket48LiveRoomId }: OptionsItemPocket48V2 = this.config;
+    const index: number = qChatSocketList.findIndex((o: QChatSocket): boolean => o.pocket48ServerId === pocket48ServerId);
+
+    if (index >= 0 && this.qChatSocketId) {
+      qChatSocketList[index].removeQueue(this.qChatSocketId);
+
+      if (qChatSocketList[index].queues.length === 0) {
+        qChatSocketList[index].disconnect();
+        qChatSocketList.splice(index, 1);
+      }
+    }
+
+    this.disconnectNIM();
     this.qChatSocketId = undefined;
     this.nimChatroom = undefined;
     this.giftList = undefined;
