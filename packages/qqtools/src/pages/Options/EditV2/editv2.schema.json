@@ -102,7 +102,8 @@
             "type": "string",
             "title": "ServerID",
             "$required": true,
-            "$requiredMessage": "必须填写ServerID"
+            "$requiredMessage": "必须填写ServerID",
+            "$componentType": "userInfoSearch"
           },
           "pocket48Account": {
             "id": "$root/properties/pocket48V2/items/properties/pocket48Account",
@@ -244,7 +245,8 @@
           "pocket48LiveRoomId": {
             "id": "$root/properties/pocket48V2/items/properties/pocket48LiveRoomId",
             "type": "string",
-            "title": "直播间ID"
+            "title": "直播间ID",
+            "$componentType": "userInfoSearch"
           },
           "pocket48LiveRoomSendGiftInfo": {
             "id": "$root/properties/pocket48V2/items/properties/pocket48LiveRoomSendGiftInfo",

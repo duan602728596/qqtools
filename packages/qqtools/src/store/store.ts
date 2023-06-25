@@ -10,7 +10,7 @@ import {
 import type { GetDefaultMiddleware } from '@reduxjs/toolkit/src/getDefaultMiddleware';
 import type { Middlewares } from '@reduxjs/toolkit/src/configureStore';
 import type { Tuple } from '@reduxjs/toolkit/src/utils';
-import { reducersMapObject, ignoreOptions } from './reducers';
+import { reducersMapObject, ignoreOptions, apiMiddlewares } from './reducers';
 
 interface ThunkOptions<E = any> {
   extraArgument: E;
@@ -36,7 +36,7 @@ function createStore(initialState: any = {}): void {
       return getDefaultMiddleware<GetDefaultMiddlewareOptions>({
         immutableCheck: ignoreOptions,
         serializableCheck: ignoreOptions
-      });
+      }).concat(apiMiddlewares);
     }
   });
 }

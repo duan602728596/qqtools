@@ -96,6 +96,7 @@ export default function(info: object): { [key: string]: any } {
       'react-dom/client',
       'prop-types',
       '@reduxjs/toolkit',
+      '@reduxjs/toolkit/query/react',
       'react-redux',
       'reselect',
       'react-router-dom'

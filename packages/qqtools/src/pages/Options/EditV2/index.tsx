@@ -14,6 +14,7 @@ import pocket48LogDir from './components/pocket48LogDir';
 import xiaohongshuCacheFile from './components/xiaohongshuCacheFile';
 import IMLogin from './components/IMLogin/IMLogin';
 import randomId from './components/randomId';
+import userInfoSearch from './components/userInfoSearch/userInfoSearch';
 import { getOptionItem, saveFormData } from '../reducers/options';
 import formatToV2Config from '../../../QQ/function/formatToV2Config';
 import * as editV2SchemaJson from './editv2.schema.json' assert { type: 'json' };
@@ -22,9 +23,10 @@ import type { OptionsItem, OptionsItemValueV2 } from '../../../commonTypes';
 const customComponent: CustomComponentObject = {
   checkboxDesc,
   pocket48LogDir,
+  xiaohongshuCacheFile,
   IMLogin,
   randomId,
-  xiaohongshuCacheFile
+  userInfoSearch
 };
 
 const customTableRender: CustomTableRenderObject = {
