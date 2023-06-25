@@ -253,7 +253,7 @@ function Pocket48Login(props: LoginModalProps): ReactElement {
 
   return (
     <Fragment>
-      <Button className="mt-[8px]" onClick={ (event: MouseEvent): void => setOpen(true) }>口袋48登录</Button>
+      <Button onClick={ (event: MouseEvent): void => setOpen(true) }>口袋48登录</Button>
       <Modal title="口袋48登录"
         open={ open }
         width={ 400 }
