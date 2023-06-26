@@ -233,7 +233,7 @@ ${ info.question }
       const tpNum1: number = Number(tpNum);
 
       sendGroup.push(
-        `${ nickName } 送给 ${ acceptUserName ?? userName } ${ giftNum }个${ giftName }${ tpNum1 > 0 ? `[${ tpNum }]` : '' }。
+        `${ nickName } 送给 ${ acceptUserName ?? userName } ${ giftNum }个${ giftName }${ tpNum1 > 0 ? `(${ tpNum })` : '' }。
 时间：${ msgTime }${ memberInfoContent }`
       );
     } else
@@ -446,7 +446,7 @@ ${ JSON.stringify(data) }`;
       }: GIFT_TEXTMessageV2['attach']['giftInfo'] = data.attach.giftInfo;
       const tpNum1: number = Number(tpNum);
 
-      logData = `${ nickName } 送给 ${ acceptUserName ?? userName } ${ giftNum }个${ giftName }${ tpNum1 > 0 ? `[${ tpNum }]` : '' }。
+      logData = `${ nickName } 送给 ${ acceptUserName ?? userName } ${ giftNum }个${ giftName }${ tpNum1 > 0 ? `(${ tpNum })` : '' }。
 地址：${ source(picPath) }
 时间：${ msgTime }${ memberInfoContent }`;
     } else
