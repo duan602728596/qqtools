@@ -194,7 +194,8 @@ class Pocket48V2Expand {
         giftName: customJson.giftInfo.giftName,
         giftNum: customJson.giftInfo.giftNum,
         nickName: customJson.user.nickName,
-        userId: customJson.user.userId
+        userId: customJson.user.userId,
+        tpNum: customJson.giftInfo.tpNum
       };
 
       if (/^\d+(.\d+)?分$/.test(giftInfo.giftName)) {

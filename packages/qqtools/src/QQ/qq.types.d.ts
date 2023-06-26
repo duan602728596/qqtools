@@ -414,6 +414,7 @@ export interface GIFT_TEXTMessageV2 extends CustomMessageV2 {
       giftName: string;
       giftNum: number;
       picPath: string;
+      tpNum: string | '0';
     };
   };
 }
@@ -470,6 +471,7 @@ export interface LiveRoomGiftInfoCustom {
     giftNum: number;
     zipPath: string;
     sourceId: string;
+    tpNum: string | '0';
     acceptUser: {
       userId: number;
       userAvatar: string;

@@ -7,6 +7,7 @@ export interface GiftItem {
   giftNum: number;
   userId: number;
   nickName: string;
+  tpNum: string | '0';
 }
 
 // 礼物的发送信息
@@ -15,6 +16,7 @@ interface GiftSendItem {
   giftName: string;
   giftNum: number;
   money: number;
+  tpNum: string | '0';
 }
 
 // 每个user的礼物信息
@@ -45,7 +47,8 @@ function giftSend(data: Array<GiftItem>, giftList: Array<GiftMoneyItem>): Array<
         giftId: item.giftId,
         giftName: item.giftName,
         giftNum: item.giftNum,
-        money: giftList.find((o: GiftMoneyItem): boolean => o.giftId === item.giftId)?.money ?? 0
+        money: giftList.find((o: GiftMoneyItem): boolean => o.giftId === item.giftId)?.money ?? 0,
+        tpNum: item.tpNum
       });
     }
   }
@@ -76,7 +79,7 @@ function giftLeaderboard(data: Array<GiftItem>, giftList: Array<GiftMoneyItem>):
       user = result[result.length - 1];
     }
 
-    const isQingchunshikeGift: boolean = /^\d+(.\d+)?分$/.test(item.giftName);
+    const isQingchunshikeGift: boolean = /^\d+(.\d+)?分$/.test(item.giftName) || Number(item.tpNum) > 0;
     const g: GiftSendItem | undefined = user[isQingchunshikeGift ? 'qingchunshikeGiftList' : 'giftList'].find(
       (o: GiftSendItem): boolean => o.giftName === item.giftName);
 
@@ -90,7 +93,8 @@ function giftLeaderboard(data: Array<GiftItem>, giftList: Array<GiftMoneyItem>):
         giftId: item.giftId,
         giftName: item.giftName,
         giftNum: item.giftNum,
-        money
+        money,
+        tpNum: item.tpNum
       });
       user[isQingchunshikeGift ? 'total2' : 'total'] += item.giftNum * money;
     }
@@ -133,7 +137,7 @@ export function pocket48LiveRoomSendGiftText({
   if (qingchunshikeGiftListResult.length > 0 || giftListResult.length > 0) {
     let TotalCost: number = 0;
     const qingchunshikeGiftText: Array<string> = qingchunshikeGiftListResult.map((o: GiftSendItem) => {
-      return `${ o.giftName } x ${ o.giftNum }`;
+      return `${ o.giftName }(${ o.tpNum }) x ${ o.giftNum }`;
     });
     const giftText: Array<string> = giftListResult.map((o: GiftSendItem) => {
       TotalCost += o.money * o.giftNum;
@@ -166,7 +170,7 @@ export function pocket48LiveRoomSendGiftLeaderboardText({
     const t: Array<string> = [];
 
     for (const item2 of item.qingchunshikeGiftList) {
-      t.push(`${ item2.giftName } x ${ item2.giftNum }`);
+      t.push(`${ item2.giftName }(${ item2.tpNum }) x ${ item2.giftNum }`);
     }
 
     for (const item2 of item.giftList) {
