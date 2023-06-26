@@ -106,7 +106,8 @@ async function mock(qq: QQModals, command: string, qqNumber: number, groupId: nu
           giftName: customJson.giftInfo.giftName,
           giftNum: customJson.giftInfo.giftNum,
           nickName: customJson.user.nickName,
-          userId: customJson.user.userId
+          userId: customJson.user.userId,
+          tpNum: customJson.giftInfo.tpNum
         };
 
         if (/^\d+(.\d+)?分$/.test(customJson.giftInfo.giftName)) {
