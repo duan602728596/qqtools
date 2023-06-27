@@ -121,7 +121,7 @@ function ipcXiaohongshuHandle(): void {
       ]);
       await client.Page.navigate({ url: 'https://www.xiaohongshu.com/user/profile/594099df82ec393174227f18' });
       await client.Page.loadEventFired();
-      await setTimeoutPromise(3_000);
+      await setTimeoutPromise(7_000);
     });
 
   // 获取cookie
