@@ -198,7 +198,7 @@ class Pocket48V2Expand {
         tpNum: customJson.giftInfo.tpNum
       };
 
-      if (/^\d+(.\d+)?分$/.test(giftInfo.giftName)) {
+      if (/^\d+(.\d+)?分$/.test(giftInfo.giftName) || Number(customJson.giftInfo.tpNum) > 0) {
         this.qingchunshikeGiftList?.push?.(giftInfo);
       } else {
         this.giftList?.push?.(giftInfo);
