@@ -177,7 +177,7 @@ export function pocket48LiveRoomSendGiftLeaderboardText({
       t.push(`${ item2.giftName } x ${ item2.giftNum }`);
     }
 
-    sendText.push(`[${ index + 1 }]${ item.nickName }（${ item.total }）：${ t.join('，') }`);
+    sendText.push(`[${ index + 1 }]${ item.nickName }(${ item.total })：${ t.join('，') }`);
   });
 
   return sendText.join('\n');
