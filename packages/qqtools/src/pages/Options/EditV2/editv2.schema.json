@@ -35,6 +35,10 @@
         {
           "label": "oicq",
           "value": "1"
+        },
+        {
+          "label": "console-test",
+          "value": "100"
         }
       ]
     },

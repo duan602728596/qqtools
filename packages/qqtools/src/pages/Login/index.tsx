@@ -23,6 +23,7 @@ import dbConfig from '../../utils/IDB/IDBConfig';
 import MiraiQQ from '../../QQ/QQBotModals/MiraiQQ';
 import OicqQQ from '../../QQ/QQBotModals/OicqQQ';
 import GoCQHttp from '../../QQ/QQBotModals/GoCQHttp';
+import ConsoleTest from '../../QQ/QQBotModals/ConsoleTest';
 import formatToV2Config from '../../QQ/function/formatToV2Config';
 import { getGroupNumbers } from '../../QQ/function/qq/qqUtils';
 import type { QQModals } from '../../QQ/QQBotModals/ModalTypes';
@@ -89,8 +90,15 @@ function Index(props: {}): ReactElement {
           membersList: roomIdResult?.value,
           messageApi
         });
-      } else {
+      } else if (qqOptions.optionType === '0') {
         qq = new MiraiQQ({
+          id,
+          config: qqOptions,
+          membersList: roomIdResult?.value,
+          messageApi
+        });
+      } else {
+        qq = new ConsoleTest({
           id,
           config: qqOptions,
           membersList: roomIdResult?.value,

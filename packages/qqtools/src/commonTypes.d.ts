@@ -10,7 +10,7 @@ export interface EditItem {
 // 一些基础的配置
 export interface OptionsItemBasic {
   optionName: string;
-  optionType?: '0' | '1' | '2'; // 0: mirai-api-http，1: oicq，2: go-cqhttp
+  optionType?: '0' | '1' | '2' | '100'; // 0: mirai-api-http，1: oicq，2: go-cqhttp
   qqNumber: number;
   groupNumber: string;
   socketHost?: string;

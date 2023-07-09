@@ -14,7 +14,7 @@ type MiraiMT = MiraiMessageProps | MiraiMessageProps[];
  */
 function parser(text: string, protocol: QQProtocol): ParserResult {
   // go-cqhttp不处理
-  if (protocol === QQProtocol.GoCQHttp) {
+  if (protocol === QQProtocol.GoCQHttp || protocol === QQProtocol.ConsoleTest) {
     return text;
   }
 
