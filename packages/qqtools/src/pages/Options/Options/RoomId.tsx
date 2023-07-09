@@ -11,17 +11,22 @@ import { requestRoomId } from '../services/jsdelivrCDN';
 import type { MemberInfo } from '../../../commonTypes';
 import type { RoomIdObj } from '../services/interface';
 
+// 下载列表文件
+function handleDownloadRoomIdJsonClick(event: MouseEvent<HTMLAnchorElement>): void {
+  shell.openExternal('https://raw.githubusercontent.com/duan602728596/qqtools/main/packages/NIMTest/node/roomId.json');
+}
+
+// 通过jsdelivr下载列表文件
+function handleDownloadRoomIdJsonJsdelivrClick(event: MouseEvent<HTMLAnchorElement>): void {
+  shell.openExternal('https://fastly.jsdelivr.net/gh/duan602728596/qqtools@main/packages/NIMTest/node/roomId.json');
+}
+
 /* 房间信息导入 */
 function RoomId(props: {}): ReactElement {
   const dispatch: Dispatch = useDispatch();
   const [messageApi, messageContextHolder]: UseMessageReturnType = message.useMessage();
   const [visible, setVisible]: [boolean, D<S<boolean>>] = useState(false);
   const [loading, setLoading]: [boolean, D<S<boolean>>] = useState(false);
-
-  // 下载列表文件
-  function handleDownloadRoomIdJsonClick(event: MouseEvent<HTMLAnchorElement>): void {
-    shell.openExternal('https://raw.githubusercontent.com/duan602728596/qqtools/main/packages/NIMTest/node/roomId.json');
-  }
 
   // 通过api导入文件
   async function handleImportRoomIdJsonFromAPIClick(event: MouseEvent): Promise<void> {
@@ -101,7 +106,9 @@ function RoomId(props: {}): ReactElement {
           <Alert type="info" message={ [
             '如果想要监听房间出入信息，必须先导入房间的信息列表。',
             <a key="download" role="button" aria-label="点击下载" onClick={ handleDownloadRoomIdJsonClick }>点击下载</a>,
-            '列表文件。',
+            '列表文件，无法翻墙的用户可以在',
+            <a key="download2" role="button" aria-label="点击下载" onClick={ handleDownloadRoomIdJsonJsdelivrClick }>jsdelivr下载</a>,
+            '。',
             <br key="br" />,
             '或者直接通过请求API导入房间信息。'
           ] } />
