@@ -1,5 +1,7 @@
 import { randomUUID } from 'node:crypto';
+import * as dayjs from 'dayjs';
 import type { ChannelInfo } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatChannelServiceInterface';
+import type { QChatSystemNotification } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatMsgServiceInterface';
 import type { NIMChatroomMessage } from '@yxim/nim-web-sdk/dist/SDK/NIM_Web_Chatroom/NIMChatroomMessageInterface';
 import QChatSocket from '../../../sdk/QChatSocket';
 import NimChatroomSocket from '../../../sdk/NimChatroomSocket';
@@ -23,15 +25,31 @@ class Pocket48V2Expand {
   public qChatSocket?: QChatSocket;               // socket
   public nimChatroom?: NimChatroomSocket;         // 口袋48直播间
   public memberInfo?: MemberInfo;                 // 房间成员信息
+  public membersList?: Array<MemberInfo>;         // 所有成员信息
+  public membersMap?: Map<string, MemberInfo>;    // 所有成员信息
   public giftList?: Array<GiftItem>;              // 礼物榜
   public qingchunshikeGiftList?: Array<GiftItem>; // 青春时刻
   public giftUserId?: number;                     // 用户ID
   public giftNickName?: string;                   // 用户名
   public giftMoneyList?: Array<GiftMoneyItem>;    // 礼物信息的缓存
 
-  constructor({ config, qq }: { config: OptionsItemPocket48V2; qq: QQModals }) {
+  constructor({ config, qq, membersList }: {
+    config: OptionsItemPocket48V2;
+    qq: QQModals;
+    membersList: Array<MemberInfo> | undefined;
+  }) {
     this.config = config;
     this.qq = qq;
+    this.membersList = membersList;
+
+    if (this.membersList?.length) {
+      this.membersMap = new Map();
+      this.membersList.forEach((value: MemberInfo) => {
+        if (value.account) {
+          this.membersMap!.set(value.account, value);
+        }
+      });
+    }
   }
 
   // 处理单个消息
@@ -180,6 +198,27 @@ class Pocket48V2Expand {
     this.roomSocketMessageAll(event);
   };
 
+  // 系统事件
+  handleSystemMessage: Function = async (notification: QChatSystemNotification): Promise<void> => {
+    const { pocket48SystemMessage }: OptionsItemPocket48V2 = this.config;
+
+    if (pocket48SystemMessage && this.membersList?.length && this.membersMap) {
+      const user: MemberInfo | undefined = this.membersMap.get(notification.fromAccount);
+
+      if (user) {
+        if (notification.type === 'serverMemberLeave') {
+          await this.qq.sendMessage(parser(`口袋48系统消息：${ user.ownerName } 取关了 ${
+            notification.attach.serverInfo?.name ?? '未知成员'
+          }\n时间：${ dayjs(notification.time).format('YYYY-MM-DD HH:mm:ss') }`, this.qq.protocol) as any);
+        } else if (notification.type === 'serverMemberApplyDone') {
+          await this.qq.sendMessage(parser(`口袋48系统消息：${ user.ownerName } 关注了 ${
+            notification.attach.serverInfo?.name ?? '未知成员'
+          }\n时间：${ dayjs(notification.time).format('YYYY-MM-DD HH:mm:ss') }`, this.qq.protocol) as any);
+        }
+      }
+    }
+  };
+
   // 处理单个消息
   async liveRoomSocketMessageOne(msg: NIMChatroomMessage): Promise<void> {
     if (msg.type !== 'custom' || !msg.custom) return;
@@ -278,14 +317,16 @@ class Pocket48V2Expand {
       await qChatSocket.init();
       qChatSocket.addQueue({
         id: this.qChatSocketId,
-        onmsgs: this.handleRoomSocketMessage
+        onmsgs: this.handleRoomSocketMessage,
+        onsystemmsgs: this.handleSystemMessage
       });
       qChatSocketList.push(qChatSocket); // 添加到列表
       this.qChatSocket = qChatSocket;
     } else {
       qChatSocketList[index].addQueue({
         id: this.qChatSocketId,
-        onmsgs: this.handleRoomSocketMessage
+        onmsgs: this.handleRoomSocketMessage,
+        onsystemmsgs: this.handleSystemMessage
       });
       this.qChatSocket = qChatSocketList[index];
     }

@@ -47,6 +47,7 @@ export interface OptionsItemPocket48V2 {
   pocket48Token?: string;
   pocket48LiveAtAll?: boolean;
   pocket48ShieldMsgType?: Array<string>;
+  pocket48SystemMessage?: boolean;
   pocket48MemberInfo?: boolean;
   pocket48LogSave?: boolean;
   pocket48LogDir?: string;

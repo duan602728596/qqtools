@@ -217,6 +217,13 @@
               "title": "屏蔽类型"
             }
           },
+          "pocket48SystemMessage": {
+            "id": "$root/properties/pocket48V2/items/properties/pocket48SystemMessage",
+            "type": "boolean",
+            "title": "发送系统消息[关注、取关]（需要先导入房间信息）",
+            "description": "发送系统消息（需要先导入房间信息）",
+            "$tableColumnHidden": true
+          },
           "pocket48MemberInfo": {
             "id": "$root/properties/pocket48V2/items/properties/pocket48MemberInfo",
             "type": "boolean",

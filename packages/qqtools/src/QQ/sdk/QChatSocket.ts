@@ -12,6 +12,7 @@ import appKey from './appKey.mjs';
 interface Queue {
   id: string;
   onmsgs: Function;
+  onsystemmsgs: Function;
 }
 
 interface QChatSocketArgs {
@@ -64,11 +65,7 @@ class QChatSocket {
     this.qChat.on('logined', this.handleLogined);
     this.qChat.on('message', this.handleMessage);
     this.qChat.on('disconnect', this.handleRoomSocketDisconnect);
-
-    if (process.env.NODE_ENV === 'development') {
-      this.qChat.on('systemNotification', this.handleSystemNotification);
-      this.qChat.on('systemNotificationUpdate', this.handleSystemNotificationUpdate);
-    }
+    this.qChat.on('systemNotification', this.handleSystemNotification);
 
     await this.qChat.login();
   }
@@ -116,14 +113,10 @@ class QChatSocket {
 
     for (const systemNotification of systemNotifications) {
       if (systemNotification.attach.serverInfo?.serverId === this.pocket48ServerId) {
-        console.log('systemNotification', systemNotification.type, systemNotification);
+        for (const item of this.queues) {
+          item.onsystemmsgs(systemNotification);
+        }
       }
-    }
-  };
-
-  handleSystemNotificationUpdate: (event: QChatSystemNotification) => void = (event: QChatSystemNotification): void => {
-    if (event.attach.serverInfo?.serverId === this.pocket48ServerId) {
-      console.log('systemNotificationUpdate', event.type, event);
     }
   };
 

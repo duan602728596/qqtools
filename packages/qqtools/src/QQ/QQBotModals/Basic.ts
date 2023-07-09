@@ -55,7 +55,8 @@ abstract class Basic {
       for (const item of this.config.pocket48V2) {
         const pocket48: Pocket48V2Expand = new Pocket48V2Expand({
           qq: this,
-          config: item
+          config: item,
+          membersList: this.membersList
         });
 
         await pocket48.initPocket48();

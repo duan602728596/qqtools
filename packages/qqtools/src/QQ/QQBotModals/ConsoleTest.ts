@@ -135,7 +135,7 @@ class ConsoleTest extends Basic {
       globalThis.__CONSOLE_TEST__[`_${ this.config.qqNumber }`] = this.consoleLogSend;
       await Basic.initExpand.call(this);
       this.startTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
-      console.log(`%c[${ this.startTime }] Console test start. QQ: ${
+      console.log(`%c[${ this.startTime }] Console test init. QQ: ${
         this.config.qqNumber
       }. Group: ${ this.groupNumbers.join(', ') }.`, 'color: #722ed1;');
 
@@ -153,6 +153,9 @@ class ConsoleTest extends Basic {
       document.removeEventListener(consoleTestEvent.type, this.handleConsoleTestListener);
       delete globalThis.__CONSOLE_TEST__[`_${ this.config.qqNumber }`];
       Basic.destroyExpand.call(this);
+      console.log(`%c[${ this.startTime }] Console test destroy. QQ: ${
+        this.config.qqNumber
+      }. Group: ${ this.groupNumbers.join(', ') }.`, 'color: #722ed1;');
 
       return true;
     } catch (err) {
