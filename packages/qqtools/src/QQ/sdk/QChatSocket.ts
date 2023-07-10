@@ -91,13 +91,11 @@ class QChatSocket {
     this.serverInfo = serverInfo[0];
     console.log('serverInfo', this.serverInfo, '订阅servers', result);
 
-    if (process.env.NODE_ENV === 'development') {
-      await this.qChat!.qchatServer.subscribeServer({
-        type: 4,
-        opeType: 1,
-        servers: [{ serverId: this.pocket48ServerId }]
-      });
-    }
+    await this.qChat!.qchatServer.subscribeServer({
+      type: 4,
+      opeType: 1,
+      servers: [{ serverId: this.pocket48ServerId }]
+    });
   };
 
   // message
