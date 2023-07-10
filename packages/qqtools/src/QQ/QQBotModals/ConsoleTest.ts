@@ -87,14 +87,13 @@ class ConsoleTest extends Basic {
     const t: string = dayjs().format('YYYY-MM-DD HH:mm:ss');
 
     groupNumbers.forEach((groupNumber: number, index: number): void => {
+      console.log(`%c[${ t }] ${ qqNumber }：\n${ value }`, 'color: #1677ff;');
       consoleTestEvent['data'] = {
         qq: qqNumber,
         group: groupNumber,
         message: value
       };
-
       document.dispatchEvent(consoleTestEvent);
-      console.log(`%c[${ t }] ${ qqNumber }：\n${ value }`, 'color: #1677ff;');
     });
   };
 
