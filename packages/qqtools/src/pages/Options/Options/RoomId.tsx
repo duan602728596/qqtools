@@ -95,6 +95,7 @@ function RoomId(props: {}): ReactElement {
         width={ 600 }
         centered={ true }
         maskClosable={ false }
+        footer={ <Button onClick={ (event: MouseEvent): void => setVisible(false) }>关闭</Button> }
         onCancel={ (event: MouseEvent): void => setVisible(false) }
       >
         <div className="h-[160px]">
