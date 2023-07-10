@@ -102,7 +102,7 @@ class ConsoleTest extends Basic {
   sendMessageOnce(groupId: number, value: string): void {
     const t: string = dayjs().format('YYYY-MM-DD HH:mm:ss');
 
-    console.log(`%c[${ t }] ${ groupId }：\n${ value }`, 'color: #52c41a;');
+    console.log(`%c[${ t }] ${ groupId }：\n${ value }`, 'color: #237804;');
   }
 
   /**
