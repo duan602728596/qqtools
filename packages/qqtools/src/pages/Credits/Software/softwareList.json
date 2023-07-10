@@ -4,6 +4,8 @@
     { "name": "antd", "href": "https://ant.design" },
     { "name": "antd-schema-form", "href": "https://github.com/duan602728596/antd-schema-form" },
     { "name": "babel", "href": "https://babeljs.io" },
+    { "name": "chrome-launcher", "href": "https://github.com/GoogleChrome/chrome-launcher" },
+    { "name": "chrome-remote-interface", "href": "https://github.com/cyrus-and/chrome-remote-interface" },
     { "name": "electron", "href": "https://www.electronjs.org" },
     { "name": "electron-builder", "href": "https://www.electron.build" },
     { "name": "fs-extra", "href": "https://github.com/jprichardson/node-fs-extra" },
