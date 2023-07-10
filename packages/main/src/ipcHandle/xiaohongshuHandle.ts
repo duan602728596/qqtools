@@ -3,38 +3,31 @@ import * as process from 'node:process';
 import { setTimeout } from 'node:timers';
 import { setTimeout as setTimeoutPromise } from 'node:timers/promises';
 import * as fsP from 'node:fs/promises';
-import { spawn, type ChildProcess } from 'node:child_process';
 import { ipcMain, BrowserWindow, type IpcMainInvokeEvent, type Cookie } from 'electron';
 import * as CDP from 'chrome-remote-interface';
 import type { Client } from 'chrome-remote-interface';
 import type { Protocol } from 'devtools-protocol/types/protocol';
+import * as ChromeLauncher from 'chrome-launcher';
+import type { LaunchedChrome } from 'chrome-launcher';
 import { pcUserAgent, isDevelopment } from '../utils';
 
 let xiaohongshuWin: BrowserWindow | null = null,
-  child: ChildProcess | null = null,
-  client: Client | null = null;
+  client: Client | null = null,
+  chromeLauncher: LaunchedChrome | null = null;
 
-async function command(cmd: string, args: Array<string>): Promise<void> {
-  if (!child) {
-    child = spawn(cmd, args, { stdio: 'inherit' });
-
-    child.on('close', function(code: number | null): void {
-      child = null;
-    });
-
-    child.on('error', function(error: Error): void {
-      child = null;
-    });
-
-    await setTimeoutPromise(5_000);
-  }
+async function chromeStart(executablePath: string, port: number): Promise<void> {
+  chromeLauncher = await ChromeLauncher.launch({
+    chromePath: executablePath,
+    port,
+    chromeFlags: ['--disable-gpu']
+  });
 }
 
 export function closeAll(): void {
   xiaohongshuWin?.close?.();
   xiaohongshuWin = null;
-  child?.kill();
-  child = null;
+  chromeLauncher?.kill();
+  chromeLauncher = null;
   client?.close();
   client = null;
 }
@@ -111,8 +104,7 @@ function ipcXiaohongshuHandle(): void {
   ipcMain.handle(
     'xiaohongshu-chrome-remote-init',
     async function(event: IpcMainInvokeEvent, executablePath: string, port: number): Promise<void> {
-      await command(executablePath, [`--remote-debugging-port=${ port }`, '--disable-gpu']);
-
+      await chromeStart(executablePath, port);
       client = await CDP({ port });
       await Promise.all([
         client.Page.enable(),
