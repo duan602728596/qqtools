@@ -14,7 +14,6 @@
     { "name": "monaco-editor", "href": "https://github.com/microsoft/monaco-editor" },
     { "name": "node-schedule", "href": "https://github.com/node-schedule/node-schedule" },
     { "name": "nunjucks", "href": "https://github.com/mozilla/nunjucks" },
-    { "name": "playwright", "href": "https://playwright.dev" },
     { "name": "pug", "href": "https://pugjs.org/api/getting-started.html" },
     { "name": "react", "href": "https://github.com/facebook/react" },
     { "name": "react-redux", "href": "https://react-redux.js.org" },
