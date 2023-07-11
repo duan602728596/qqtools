@@ -207,10 +207,12 @@ class Pocket48V2Expand {
 
       if (user) {
         if (notification.type === 'serverMemberLeave') {
+          console.log('serverMemberLeave', notification);
           await this.qq.sendMessage(parser(`口袋48系统消息：${ user.ownerName } 取关了 ${
             notification.attach.serverInfo?.name ?? '未知成员'
           }\n时间：${ dayjs(notification.time).format('YYYY-MM-DD HH:mm:ss') }`, this.qq.protocol) as any);
         } else if (notification.type === 'serverMemberApplyDone') {
+          console.log('serverMemberApplyDone', notification);
           await this.qq.sendMessage(parser(`口袋48系统消息：${ user.ownerName } 关注了 ${
             notification.attach.serverInfo?.name ?? '未知成员'
           }\n时间：${ dayjs(notification.time).format('YYYY-MM-DD HH:mm:ss') }`, this.qq.protocol) as any);
