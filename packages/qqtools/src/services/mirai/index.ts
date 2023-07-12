@@ -1,12 +1,8 @@
 import got, { type Response as GotResponse } from 'got';
-import type { MiraiMessageProps } from '../function/parser/mirai';
-import type {
-  AuthResponse,
-  MessageResponse,
-  AboutResponse,
-  WeiboInfo,
-  BilibiliRoomInfo
-} from '../qq.types';
+import type { MiraiMessageProps } from '../../QQ/function/parser/mirai';
+import type { AuthResponse, MessageResponse, AboutResponse } from './interface';
+
+export type * from './interface';
 
 /**
  * 根据authKey获取session
@@ -149,32 +145,6 @@ export async function requestAbout(socketHost: string, port: number): Promise<Ab
     responseType: 'json',
     timeout: 3000
   });
-
-  return res.body;
-}
-
-/**
- * 获取微博lfid
- * @param { string } uid: 微博uid
- */
-export async function requestWeiboInfo(uid: string): Promise<WeiboInfo> {
-  const res: GotResponse<WeiboInfo>
-    = await got.get(`https://m.weibo.cn/api/container/getIndex?type=uid&value=${ uid }`, {
-      responseType: 'json'
-    });
-
-  return res.body;
-}
-
-/* 获取B站直播间信息 */
-export async function requestRoomInfo(id: string): Promise<BilibiliRoomInfo> {
-  const res: GotResponse<BilibiliRoomInfo>
-    = await got.get(`https://api.live.bilibili.com/xlive/web-room/v1/index/getInfoByRoom?room_id=${ id }`, {
-      responseType: 'json',
-      headers: {
-        Referer: `https://live.bilibili.com/${ id }`
-      }
-    });
 
   return res.body;
 }

@@ -1,6 +1,8 @@
 import { setTimeout, clearTimeout } from 'node:timers';
 import type { RoomIdObj } from './interface';
 
+export type * from './interface';
+
 /* 查找roomid */
 export async function requestRoomId(): Promise<RoomIdObj> {
   const controller: AbortController = new AbortController();

@@ -1,9 +1,8 @@
+import { requestWeiboContainer, type WeiboCard, type WeiboContainerList, type WeiboSendData } from '@qqtools-api/weibo';
 import { QQProtocol } from '../../../../QQBotModals/ModalTypes';
 import { filterCards, filterNewCards } from '../weiboUtils';
-import { requestWeiboContainer } from '../../../../services/weibo';
 import parser from '../../../parser';
 import * as CQ from '../../../parser/CQ';
-import type { WeiboCard, WeiboContainerList, WeiboSendData } from '../../../../qq.types';
 
 let lfid: string;       // 账号的lfid
 let weiboTimer: number; // 轮询定时器

@@ -1,4 +1,4 @@
-import type { GiftMoneyItem } from '../../../services/interface';
+import type { GiftMoneyItem } from '@qqtools-api/48';
 
 // 单条礼物信息
 export interface GiftItem {

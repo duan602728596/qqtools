@@ -1,10 +1,9 @@
-import { requestRoomInfo } from '../../../services/services';
+import { requestRoomInfo, type BilibiliRoomInfo } from '@qqtools-api/bilibili';
 import getBilibiliWorker from './bilibili.worker/getBilibiliWorker';
 import parser, { type ParserResult } from '../../parser';
 import * as CQ from '../../parser/CQ';
 import type { QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemBilibili } from '../../../../commonTypes';
-import type { BilibiliRoomInfo } from '../../../qq.types';
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
 

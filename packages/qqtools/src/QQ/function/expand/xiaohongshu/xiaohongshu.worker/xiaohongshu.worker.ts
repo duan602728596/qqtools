@@ -2,6 +2,14 @@ import { setTimeout, clearTimeout } from 'node:timers';
 import * as fs from 'node:fs';
 import * as fse from 'fs-extra';
 import * as dayjs from 'dayjs';
+import {
+  requestUserPosted,
+  requestFeed,
+  type UserPostedResponse,
+  type NoteFeedResponse,
+  type PostedNoteItem,
+  type FeedNodeCard
+} from '@qqtools-api/xiaohongshu';
 import { QQProtocol } from '../../../../QQBotModals/ModalTypes';
 import parser, { type ParserResult } from '../../../parser';
 import * as CQ from '../../../parser/CQ';
@@ -15,8 +23,6 @@ import {
   type JsonCache,
   type MergeData
 } from './messageTypes';
-import { requestUserPosted, requestFeed } from '../../../../services/xiaohongshu';
-import type { UserPostedResponse, NoteFeedResponse, PostedNoteItem, FeedNodeCard } from '../../../../services/interface';
 
 /* 小红书 */
 let userId: string;

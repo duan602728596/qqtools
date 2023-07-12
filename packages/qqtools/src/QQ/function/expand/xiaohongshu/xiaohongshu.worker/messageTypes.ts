@@ -1,5 +1,5 @@
+import type { FeedNodeCard } from '@qqtools-api/xiaohongshu';
 import type { QQProtocol } from '../../../../QQBotModals/ModalTypes';
-import type { FeedNodeCard } from '../../../../services/interface';
 
 // 小红书protocol
 export enum XHSProtocol {

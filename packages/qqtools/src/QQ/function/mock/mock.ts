@@ -1,3 +1,4 @@
+import { requestGiftList, type GiftMoney, type GiftMoneyGroup, type GiftMoneyItem } from '@qqtools-api/48';
 import type { NIMChatroomMessage } from '@yxim/nim-web-sdk/dist/SDK/NIM_Web_Chatroom/NIMChatroomMessageInterface';
 import parser from '../parser';
 import * as CQ from '../parser/CQ';
@@ -9,9 +10,7 @@ import {
   pocket48LiveRoomSendGiftLeaderboardText,
   type GiftItem
 } from '../expand/pocket48/giftCompute';
-import { requestGiftList } from '../../services/pocket48/pocket48';
 import type { UserV2, LiveRoomGiftInfoCustom } from '../../qq.types';
-import type { GiftMoney, GiftMoneyGroup, GiftMoneyItem } from '../../services/interface';
 
 const mockImg: string[] = [
   'https://wx2.sinaimg.cn/mw690/00689qXxly1hat3deahenj32c0340kjn.jpg',

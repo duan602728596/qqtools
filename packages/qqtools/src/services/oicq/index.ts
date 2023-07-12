@@ -1,5 +1,5 @@
 import type { Sendable } from 'icqq';
-import type { ParserResult } from '../function/parser';
+import type { ParserResult } from '../../QQ/function/parser';
 
 /**
  * 发送群消息

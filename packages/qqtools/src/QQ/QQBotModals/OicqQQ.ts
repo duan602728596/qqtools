@@ -1,6 +1,7 @@
 import type { GroupMessage, MemberIncreaseEvent, Sendable } from 'icqq';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
+import { requestSendGroupMessage } from '@qqtools-api/oicq';
 import Basic, { type BasicImplement, type MessageListener, type BasicArgs } from './Basic';
 import { QQProtocol } from './ModalTypes';
 import {
@@ -11,7 +12,6 @@ import {
   isMemberIncreaseEventData
 } from '../function/qq/qqUtils';
 import { log } from '../function/expand/pocket48/pocket48V2Utils';
-import { requestSendGroupMessage } from '../services/oicq';
 import parser, { type ParserResult } from '../function/parser/index';
 import * as CQ from '../function/parser/CQ';
 import type { OptionsItemValueV2, EditItem } from '../../commonTypes';

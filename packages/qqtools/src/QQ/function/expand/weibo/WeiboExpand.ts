@@ -1,12 +1,11 @@
 import { message } from 'antd';
 import type { MessageInstance } from 'antd/es/message/interface';
-import { requestWeiboInfo } from '../../../services/services';
+import { requestWeiboInfo, type WeiboTab, type WeiboInfo } from '@qqtools-api/weibo';
 import getWeiboWorker from './weibo.worker/getWeiboWorker';
 import getWeiboSuperTopicWorker from './weiboSuperTopic.worker/getWeiboSuperTopicWorker';
 import { getDouyinServerPort } from '../../../../utils/proxyServer/proxyServer';
 import type { QQProtocol, QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemWeibo } from '../../../../commonTypes';
-import type { WeiboTab, WeiboInfo } from '../../../qq.types';
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
 

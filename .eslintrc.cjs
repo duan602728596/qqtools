@@ -294,7 +294,7 @@ module.exports = {
       'error',
       {
         commonjs: true,
-        ignore: ['^worker-loader!', 'filenamify/browser', 'SDK']
+        ignore: ['^worker-loader!', '^@qqtools-api/']
       }
     ]
   }

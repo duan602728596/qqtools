@@ -4,9 +4,9 @@ import { AutoComplete, Spin, type FormInstance } from 'antd';
 import type { CustomComponentFuncArgs, StringItem } from 'antd-schema-form/es/types';
 import type { BaseOptionType } from 'rc-select/es/Select';
 import { LoadingOutlined as IconLoadingOutlined } from '@ant-design/icons';
+import type { RoomItem } from '@qqtools-api/48/jsdelivrCDN';
 import style from './userInfoSearch.sass';
 import { useReqRoomIdQuery, type ReqRoomId } from '../../../reducers/pocketFriends.api';
-import type { RoomItem } from '../../../services/interface';
 
 interface UserInfoSearchProps {
   form: FormInstance;

@@ -1,11 +1,11 @@
 import { ipcRenderer } from 'electron';
 import { message } from 'antd';
 import type { MessageInstance } from 'antd/es/message/interface';
+import type { SignResult } from '@qqtools-api/xiaohongshu';
 import getXiaohongshuWorker from './xiaohongshu.worker/getXiaohongshuWorker';
 import type { QQProtocol, QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemXiaohongshu } from '../../../../commonTypes';
 import type { XHSProtocol } from './xiaohongshu.worker/messageTypes';
-import type { SignResult } from '../../../services/interface';
 
 type MessageListener = (event: MessageEvent) => void | Promise<void>;
 

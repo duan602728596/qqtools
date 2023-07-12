@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import * as dayjs from 'dayjs';
+import { requestGiftList, type GiftMoneyItem, type GiftMoneyGroup, type GiftMoney } from '@qqtools-api/48';
 import type { ChannelInfo } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatChannelServiceInterface';
 import type { QChatSystemNotification } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatMsgServiceInterface';
 import type { NIMChatroomMessage } from '@yxim/nim-web-sdk/dist/SDK/NIM_Web_Chatroom/NIMChatroomMessageInterface';
@@ -8,12 +9,10 @@ import NimChatroomSocket from '../../../sdk/NimChatroomSocket';
 import { qChatSocketList, nimChatroomList } from '../../../QQBotModals/Basic';
 import { getRoomMessage, getLogMessage, log, type RoomMessageArgs } from './pocket48V2Utils';
 import parser from '../../parser';
-import { requestGiftList } from '../../../services/pocket48/pocket48';
 import { pocket48LiveRoomSendGiftText, pocket48LiveRoomSendGiftLeaderboardText, type GiftItem } from './giftCompute';
 import type { QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemPocket48V2, MemberInfo } from '../../../../commonTypes';
 import type { CustomMessageAllV2, UserV2, LiveRoomGiftInfoCustom, LiveRoomLiveCloseCustom } from '../../../qq.types';
-import type { GiftMoneyItem, GiftMoneyGroup, GiftMoney } from '../../../services/interface';
 
 /* 口袋48 */
 class Pocket48V2Expand {

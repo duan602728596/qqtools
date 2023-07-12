@@ -1,8 +1,10 @@
 import got, { type Response as GotResponse } from 'got';
-import { createHeaders } from '../../../utils/snh48';
+import { createHeaders } from '../../utils/snh48';
 import * as biaoqingbao from './biaoqingbao.json' assert { type: 'json' };
 import * as qingchunshike from './qingchunshike.json' assert { type: 'json' };
-import type { GiftMoney, GiftMoneyGroup } from '../interface';
+import type { GiftMoney, GiftMoneyGroup } from './interface';
+
+export type * from './interface';
 
 // 请求礼物列表
 export async function requestGiftList(id: number): Promise<GiftMoney> {

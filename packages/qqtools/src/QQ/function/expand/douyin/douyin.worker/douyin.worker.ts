@@ -1,13 +1,12 @@
 import { setTimeout, clearTimeout } from 'node:timers';
 import * as dayjs from 'dayjs';
+import { requestAwemePost, requestTtwidCookie, type AwemePostResponse, type AwemeItem } from '@qqtools-api/douyin';
 import { QQProtocol } from '../../../../QQBotModals/ModalTypes';
 import parser, { type ParserResult } from '../../../parser';
 import * as CQ from '../../../parser/CQ';
 import { isCloseMessage, type MessageObject } from './messageTypes';
-import { requestAwemePost, requestTtwidCookie } from '../../../../services/douyin';
 import broadcastName from '../limiting.worker/broadcastName';
-import { msToken } from '../signUtils';
-import type { AwemePostResponse, AwemeItem } from '../../../../services/interface';
+import { msToken } from '../../../../../utils/toutiao/signUtils';
 
 /* 抖音 */
 let userId: string;                                    // 用户userId

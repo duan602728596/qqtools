@@ -1,8 +1,5 @@
-import { message } from 'antd';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
-import Basic, { type BasicImplement, type MessageListener, type BasicArgs } from './Basic';
-import { QQProtocol } from './ModalTypes';
 import {
   requestAuth,
   requestAuthV2,
@@ -11,8 +8,13 @@ import {
   requestRelease,
   requestSendGroupMessage,
   requestManagers,
-  requestAbout
-} from '../services/services';
+  requestAbout,
+  type AuthResponse,
+  type MessageResponse,
+  type AboutResponse
+} from '@qqtools-api/mirai';
+import Basic, { type BasicImplement, type MessageListener, type BasicArgs } from './Basic';
+import { QQProtocol } from './ModalTypes';
 import { plain, type MiraiMessageProps } from '../function/parser/mirai';
 import { getGroupNumbers, getSocketHost, LogCommandData } from '../function/qq/qqUtils';
 import { log } from '../function/expand/pocket48/pocket48V2Utils';
@@ -20,9 +22,6 @@ import parser from '../function/parser/index';
 import * as CQ from '../function/parser/CQ';
 import type { OptionsItemValueV2, EditItem } from '../../commonTypes';
 import type {
-  AuthResponse,
-  MessageResponse,
-  AboutResponse,
   MessageSocketEventData,
   MessageSocketEventDataV2,
   EventSocketEventData,

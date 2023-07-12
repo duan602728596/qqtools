@@ -1,5 +1,5 @@
 import { randomBytes } from 'node:crypto';
-import Signer from '../../../sdk/Signer';
+import Signer from './Signer';
 
 const CHARACTERS: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 

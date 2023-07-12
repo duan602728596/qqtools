@@ -5,11 +5,10 @@ import { useDispatch } from 'react-redux';
 import type { Dispatch } from '@reduxjs/toolkit';
 import { Button, Modal, Space, Alert, message } from 'antd';
 import type { UseMessageReturnType } from '@qqtools-types/antd';
+import { requestRoomId, type RoomIdObj } from '@qqtools-api/48/jsdelivrCDN';
 import { showOpenDialog } from '../../../utils/remote/dialog';
 import { saveRoomId, deleteRoomId } from '../reducers/options';
-import { requestRoomId } from '../services/jsdelivrCDN';
 import type { MemberInfo } from '../../../commonTypes';
-import type { RoomIdObj } from '../services/interface';
 
 // 下载列表文件
 function handleDownloadRoomIdJsonClick(event: MouseEvent<HTMLAnchorElement>): void {

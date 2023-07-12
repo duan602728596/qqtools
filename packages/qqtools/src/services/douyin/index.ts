@@ -1,8 +1,10 @@
 import got, { type Response as GotResponse } from 'got';
 import type { _AwemePostObject } from '@qqtools3/main/src/logProtocol/logTemplate/douyin';
-import { douyinUserAgent, awemePostQuery } from '../function/expand/douyin/signUtils';
+import { douyinUserAgent, awemePostQuery } from '../../utils/toutiao/signUtils';
 import { _douyinLogProtocol } from '../../utils/logProtocol/logActions';
 import type { AwemePostResponse } from './interface';
+
+export type * from './interface';
 
 /**
  * 该方法运行在worker线程中，所以需要和其他依赖隔离

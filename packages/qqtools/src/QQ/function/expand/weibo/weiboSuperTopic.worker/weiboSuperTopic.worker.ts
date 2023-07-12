@@ -1,14 +1,14 @@
+import {
+  requestWeiboContainer,
+  type WeiboSendData,
+  type WeiboCard,
+  type WeiboSuperTopicContainerList,
+  type WeiboSuperTopicContainerCard
+} from '@qqtools-api/weibo';
 import { QQProtocol } from '../../../../QQBotModals/ModalTypes';
 import { filterCards, filterNewCards } from '../weiboUtils';
-import { requestWeiboContainer } from '../../../../services/weibo';
 import parser from '../../../parser';
 import * as CQ from '../../../parser/CQ';
-import type {
-  WeiboSendData,
-  WeiboCard,
-  WeiboSuperTopicContainerList,
-  WeiboSuperTopicContainerCard
-} from '../../../../qq.types';
 
 let lfid: `${ string }_-_sort_time`; // 账号的lfid
 let weiboTimer: number; // 轮询定时器
