@@ -106,6 +106,11 @@ export default function(info: object): { [key: string]: any } {
     },
     html: [{ template: path.join(__dirname, 'src/index.pug'), minify: htmlWebpackPluginMinify }],
     externals: nodeExternals(externalsName),
+    resolve: {
+      alias: {
+        '@qqtools-api': path.join(__dirname, 'src/services')
+      }
+    },
     javascript: {
       ecmascript: true,
       plugins,

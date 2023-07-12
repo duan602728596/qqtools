@@ -6,7 +6,8 @@
     "importHelpers": true,
     "resolveJsonModule": true,
     "paths": {
-      "@qqtools-types/*": ["./src/types/*"]
+      "@qqtools-types/*": ["./src/types/*"],
+      "@qqtools-api/*": ["./src/services/*"]
     }
   },
   "exclude": [
