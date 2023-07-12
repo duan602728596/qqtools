@@ -81,7 +81,7 @@ class ConsoleTest extends Basic {
   }
 
   // 在console.log上输出信息
-  consoleLogSend: Function = (value: string) => {
+  consoleLogSend: Function = (value: string): void => {
     const groupNumbers: Array<number> = this.groupNumbers;
     const { qqNumber }: OptionsItemValueV2 = this.config;
     const t: string = dayjs().format('YYYY-MM-DD HH:mm:ss');
