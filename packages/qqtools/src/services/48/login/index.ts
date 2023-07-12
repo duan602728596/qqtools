@@ -28,7 +28,7 @@ export async function requestSMS(mobile: string, area: string = '86'): Promise<S
 export async function requestMobileCodeLogin(mobile: string, code: string): Promise<LoginUserInfo> {
   const res: GotResponse<LoginUserInfo> = await got('https://pocketapi.48.cn/user/api/v1/login/app/mobile/code', {
     method: 'POST',
-    headers: createHeaders(undefined, true),
+    headers: createHeaders(),
     responseType: 'json',
     json: { mobile, code }
   });
