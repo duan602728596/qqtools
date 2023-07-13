@@ -1,5 +1,5 @@
 import fs from 'node:fs/promises';
-import path from 'path';
+import path from 'node:path';
 import { cwd } from './utils.mjs';
 
 async function checkLoginHttpFile(NIMTestDir) {
