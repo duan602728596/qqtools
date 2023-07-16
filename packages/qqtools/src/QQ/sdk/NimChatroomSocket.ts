@@ -18,6 +18,7 @@ interface NimChatroomSocketArgs {
   pocket48Token?: string;
   pocket48RoomId?: string;
   message?: MessageInstance;
+  messageIgnore?: boolean;
 }
 
 export interface ChatroomMember {
@@ -38,6 +39,7 @@ class NimChatroomSocket {
   public queues: Array<Queue>;
   public nimChatroomSocket: NIM_Web_Chatroom | undefined; // 口袋48
   #messageApi: typeof message | MessageInstance = message;
+  #messageIgnore: boolean = false;
 
   constructor(arg: NimChatroomSocketArgs) {
     this.pocket48IsAnonymous = arg.pocket48IsAnonymous; // 是否为游客模式
@@ -46,6 +48,7 @@ class NimChatroomSocket {
     this.pocket48RoomId = arg.pocket48RoomId;           // 房间id
     this.queues = [];
     arg.message && (this.#messageApi = arg.message);
+    arg.messageIgnore && (this.#messageIgnore = arg.messageIgnore);
   }
 
   // 初始化
@@ -69,7 +72,7 @@ class NimChatroomSocket {
         onconnect(event: any): void {
           resolve();
           console.log('进入聊天室', event);
-          self.#messageApi.success(`进入口袋48房间。房间ID：[${ self.pocket48RoomId }]`);
+          !this.#messageIgnore && self.#messageApi.success(`进入口袋48房间。房间ID：[${ self.pocket48RoomId }]`);
         },
         onmsgs: this.handleRoomSocketMessage,
         onerror: this.handleRoomSocketError,
@@ -91,13 +94,13 @@ class NimChatroomSocket {
   // 进入房间失败
   handleRoomSocketError: Function = (err: NIMError, event: any): void => {
     console.log('发生错误', err, event);
-    this.#messageApi.error('进入口袋48房间失败');
+    !this.#messageIgnore && this.#messageApi.error('进入口袋48房间失败');
   };
 
   // 断开连接
   handleRoomSocketDisconnect: Function = (err: NIMError): void => {
     console.log('连接断开', err);
-    this.#messageApi.error(`连接断开。房间ID：[${ this.pocket48RoomId }]`);
+    !this.#messageIgnore && this.#messageApi.error(`连接断开。房间ID：[${ this.pocket48RoomId }]`);
   };
 
   // 添加队列

@@ -164,7 +164,8 @@ class Pocket48V2Expand {
             pocket48IsAnonymous: false,
             pocket48Account,
             pocket48Token,
-            pocket48RoomId: pocket48LiveRoomId
+            pocket48RoomId: pocket48LiveRoomId,
+            messageIgnore: true
           });
           await this.nimChatroom.init();
           this.nimChatroom.addQueue({
