@@ -5,7 +5,6 @@ import { isDevelopment, packageJson } from './utils';
 import { ipc, removeIpc } from './ipc';
 import ipcRemoteHandle from './ipcHandle/ipcRemoteHandle';
 import xiaohongshuHandle, { closeAll } from './ipcHandle/xiaohongshuHandle';
-import douyinRequestInit from './webRequest/douyinRequest';
 import { proxyServerClose } from './proxyServer/proxyServer';
 import logProtocol from './logProtocol/logProtocol';
 
@@ -57,8 +56,6 @@ function createWindow(): void {
     removeIpc();
     win = null;
   });
-
-  douyinRequestInit();
 }
 
 app.whenReady().then(createWindow);

@@ -15,25 +15,26 @@ export type * from './interface';
  * @param { string } cookie: string
  * @param { string } secUserId: user id
  */
-export async function requestAwemePostBrowser(cookie: string, secUserId: string): Promise<AwemePostResponse | string> {
+export async function requestAwemePost(cookie: string, secUserId: string): Promise<AwemePostResponse | string> {
   const query: string = awemePostQuery(secUserId);
-  const res: Response = await fetch(`https://www.douyin.com/aweme/v1/web/aweme/post/?${ query }`, {
-    method: 'GET',
-    headers: {
-      cookie0: cookie,
-      secuserid0: secUserId,
-      ua0: douyinUserAgent
-    }
-  });
-  const responseText: string = await res.text();
-  const result: AwemePostResponse | string = responseText === '' ? '' : JSON.parse(responseText);
+  const res: GotResponse<AwemePostResponse | string> = await got.get(
+    `https://www.douyin.com/aweme/v1/web/aweme/post/?${ query }`, {
+      responseType: 'json',
+      headers: {
+        Referer: `https://www.douyin.com/user/${ secUserId }`,
+        Host: 'www.douyin.com',
+        'User-Agent': douyinUserAgent,
+        Cookie: cookie
+      },
+      followRedirect: false
+    });
 
   _douyinLogProtocol.post<_AwemePostObject>('awemePost', {
     userId: secUserId,
-    response: result === '' ? '' : JSON.stringify(result, null, 2)
+    response: res.body === '' ? '' : JSON.stringify(res.body, null, 2)
   });
 
-  return result;
+  return res.body;
 }
 
 /* 请求ttwid */
