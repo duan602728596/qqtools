@@ -5,6 +5,9 @@ import * as fs from 'node:fs';
 /* 判断是开发环境还是生产环境 */
 export const isDevelopment: boolean = process.env.NODE_ENV === 'development';
 
+/* worker.js文件路径 */
+export const workerProductionBasePath: string = path.join(process.resourcesPath, 'app.asar.unpacked/bin/lib');
+
 /* 获取package.json文件的位置 */
 const packageJsonPath: Array<string> = [
   path.join(__dirname, '../package.json'),
