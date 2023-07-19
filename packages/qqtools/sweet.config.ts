@@ -85,21 +85,25 @@ export default function(info: object): { [key: string]: any } {
   const config: { [key: string]: any } = {
     frame: 'react',
     dll: [
+      '@ant-design/icons',
       '@indexeddb-tools/indexeddb',
       '@indexeddb-tools/indexeddb-redux',
-      '@yxim/nim-web-sdk/dist/SDK/NIM_Web_SDK.js',
-      'antd',
-      'classnames',
-      'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK',
-      'nim-web-sdk-ng/dist/NIM_BROWSER_SDK',
-      'react',
-      'react-dom/client',
-      'prop-types',
+      '@bbkkbkk/q',
       '@reduxjs/toolkit',
       '@reduxjs/toolkit/query/react',
+      '@yxim/nim-web-sdk/dist/SDK/NIM_Web_SDK.js',
+      'antd',
+      'antd-schema-form',
+      'classnames',
+      'icqq/lib/message/elements',
+      'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK',
+      'nim-web-sdk-ng/dist/NIM_BROWSER_SDK',
+      'prop-types',
+      'react',
+      'react-dom/client',
       'react-redux',
-      'reselect',
-      'react-router-dom'
+      'react-router-dom',
+      'reselect'
     ],
     entry: {
       index: [path.join(__dirname, 'src/index.tsx')]
