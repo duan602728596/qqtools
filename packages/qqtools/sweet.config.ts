@@ -95,7 +95,6 @@ export default function(info: object): { [key: string]: any } {
       'antd',
       'antd-schema-form',
       'classnames',
-      'icqq/lib/message/elements',
       'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK',
       'nim-web-sdk-ng/dist/NIM_BROWSER_SDK',
       'prop-types',
