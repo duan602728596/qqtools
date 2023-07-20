@@ -62,18 +62,15 @@ function waitLimiting(id: string): Promise<void> {
 
 /* 创建cookie */
 async function getCookie(): Promise<string> {
-  if (cookieString && !/^\s$/.test(cookieString)) {
-    return cookieString;
-  }
-
   const cookie: string = await requestTtwidCookie();
   const passportCsrfToken: string = msToken(32);
 
   return [
+    (cookieString && !/^\s$/.test(cookieString)) ? cookieString.replace(/;+\s*$/g, '') : undefined,
     cookie,
     'passport_csrf_token=' + passportCsrfToken,
     'passport_csrf_token_default=' + passportCsrfToken
-  ].join('; ');
+  ].filter((o: string | undefined): boolean => typeof o === 'string').join('; ');
 }
 
 /* 获取解析html和接口获取数据 */
