@@ -51,7 +51,7 @@ export function awemePostQuery(secUserId: string): string {
   const urlParam: URLSearchParams = new URLSearchParams({
     locate_query: 'false',
     show_live_replay_strategy: '1',
-    count: '30',
+    count: '8',
     publish_video_strategy_type: '2',
     ...systemInfoParams,
     sec_user_id: secUserId,
