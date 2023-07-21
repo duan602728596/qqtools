@@ -1,4 +1,3 @@
-import got, { type Response as GotResponse } from 'got';
 import type { MiraiMessageProps } from '../../QQ/function/parser/mirai';
 import type { AuthResponse, MessageResponse, AboutResponse } from './interface';
 
@@ -130,21 +129,14 @@ export async function requestSendGroupMessage(
  * @param { number } qqNumber: qq号
  */
 export async function requestManagers(socketHost: string, port: number, qqNumber: number): Promise<MessageResponse | Array<any>> {
-  const res: GotResponse<MessageResponse | Array<any>>
-    = await got.get(`http://${ socketHost }:${ port }/managers?qq=${ qqNumber }`, {
-      responseType: 'json',
-      timeout: 3000
-    });
+  const res: Response = await fetch(`http://${ socketHost }:${ port }/managers?qq=${ qqNumber }`);
 
-  return res.body;
+  return res.json();
 }
 
 /* 获取版本号 */
 export async function requestAbout(socketHost: string, port: number): Promise<AboutResponse> {
-  const res: GotResponse<AboutResponse> = await got.get(`http://${ socketHost }:${ port }/about`, {
-    responseType: 'json',
-    timeout: 3000
-  });
+  const res: Response = await fetch(`http://${ socketHost }:${ port }/about`);
 
-  return res.body;
+  return res.json();
 }
