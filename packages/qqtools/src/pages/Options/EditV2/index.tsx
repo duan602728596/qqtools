@@ -16,7 +16,7 @@ import IMLogin from './components/IMLogin/IMLogin';
 import randomId from './components/randomId';
 import userInfoSearch from './components/userInfoSearch/userInfoSearch';
 import { getOptionItem, saveFormData } from '../reducers/options';
-import formatToV2Config from '../../../QQ/function/formatToV2Config';
+import { formatToV2Config, formatOptionType } from '../../../QQ/function/formatConfig';
 import * as editV2SchemaJson from './editv2.schema.json' assert { type: 'json' };
 import type { OptionsItem, OptionsItemValueV2 } from '../../../commonTypes';
 
@@ -49,7 +49,7 @@ function EditV2(props: {}): ReactElement {
       const { result }: { result: OptionsItem } = await dispatch(getOptionItem({
         query: params.id
       }));
-      const value: OptionsItemValueV2 = formatToV2Config(result.value);
+      const value: OptionsItemValueV2 = formatOptionType(formatToV2Config(result.value));
 
       formRef.current && formRef.current.setFieldsValue(getObjectFromValue({ $root: value }));
     }

@@ -1,4 +1,5 @@
 import { pick } from '../../utils/lodash';
+import { QQProtocol } from '../QQBotModals/ModalTypes';
 import type { OptionsItemValue, OptionsItemValueV2 } from '../../commonTypes';
 
 function isOldConfig(oldConfig: OptionsItemValue | OptionsItemValueV2): oldConfig is OptionsItemValue {
@@ -6,7 +7,7 @@ function isOldConfig(oldConfig: OptionsItemValue | OptionsItemValueV2): oldConfi
 }
 
 /* 格式化数据格式 */
-function formatToV2Config(oldConfig: OptionsItemValue | OptionsItemValueV2): OptionsItemValueV2 {
+export function formatToV2Config(oldConfig: OptionsItemValue | OptionsItemValueV2): OptionsItemValueV2 {
   // 数据处理，保证数据的格式
   if (isOldConfig(oldConfig)) {
     const formatValue: OptionsItemValueV2 = pick(oldConfig, [
@@ -67,4 +68,18 @@ function formatToV2Config(oldConfig: OptionsItemValue | OptionsItemValueV2): Opt
   return oldConfig;
 }
 
-export default formatToV2Config;
+export function formatOptionType(config: OptionsItemValueV2): OptionsItemValueV2 {
+  const nextConfig: OptionsItemValueV2 = { ...config };
+
+  if (nextConfig.optionType === 0 || nextConfig.optionType === '0') {
+    nextConfig.optionType = QQProtocol.Mirai;
+  } else if (nextConfig.optionType === '1') {
+    nextConfig.optionType = QQProtocol.Oicq;
+  } else if (nextConfig.optionType === '2') {
+    nextConfig.optionType = QQProtocol.GoCQHttp;
+  } else if (nextConfig.optionType === '100') {
+    nextConfig.optionType = QQProtocol.ConsoleTest;
+  }
+
+  return nextConfig;
+}

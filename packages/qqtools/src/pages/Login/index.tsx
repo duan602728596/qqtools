@@ -24,9 +24,9 @@ import MiraiQQ from '../../QQ/QQBotModals/MiraiQQ';
 import OicqQQ from '../../QQ/QQBotModals/OicqQQ';
 import GoCQHttp from '../../QQ/QQBotModals/GoCQHttp';
 import ConsoleTest from '../../QQ/QQBotModals/ConsoleTest';
-import formatToV2Config from '../../QQ/function/formatToV2Config';
+import { formatToV2Config, formatOptionType } from '../../QQ/function/formatConfig';
 import { getGroupNumbers } from '../../QQ/function/qq/qqUtils';
-import type { QQModals } from '../../QQ/QQBotModals/ModalTypes';
+import { QQProtocol, type QQModals } from '../../QQ/QQBotModals/ModalTypes';
 import type { OptionsItem, OptionsItemValueV2, MemberInfo } from '../../commonTypes';
 
 /* redux selector */
@@ -72,45 +72,49 @@ function Index(props: {}): ReactElement {
         query: 'roomId'
       }));
       const index: number = optionsList.findIndex((o: OptionsItem): boolean => o.id === optionValue);
-      const qqOptions: OptionsItemValueV2 = formatToV2Config(optionsList[index].value);
+      const qqOptions: OptionsItemValueV2 = formatOptionType(formatToV2Config(optionsList[index].value));
       const id: string = randomUUID();
-      let qq: QQModals;
+      let qq: QQModals | null = null;
 
-      if (qqOptions.optionType === '1') {
+      if (qqOptions.optionType === QQProtocol.Oicq) {
         qq = new OicqQQ({
           id,
           config: qqOptions,
           membersList: roomIdResult?.value,
           messageApi
         });
-      } else if (qqOptions.optionType === '2') {
+      } else if (qqOptions.optionType === QQProtocol.GoCQHttp) {
         qq = new GoCQHttp({
           id,
           config: qqOptions,
           membersList: roomIdResult?.value,
           messageApi
         });
-      } else if (qqOptions.optionType === '0') {
+      } else if (qqOptions.optionType === QQProtocol.Mirai) {
         qq = new MiraiQQ({
           id,
           config: qqOptions,
           membersList: roomIdResult?.value,
           messageApi
         });
-      } else {
+      } else if (qqOptions.optionType === QQProtocol.ConsoleTest) {
         qq = new ConsoleTest({
           id,
           config: qqOptions,
           membersList: roomIdResult?.value,
           messageApi
         });
+      } else {
+        messageApi.error('请先在“登录配置“中为当前的配置选择”配置类型”。');
       }
 
-      const result: boolean = await qq.init();
+      if (qq) {
+        const result: boolean = await qq.init();
 
-      if (result) {
-        dispatch(setAddLogin(qq));
-        messageApi.success('登录成功！');
+        if (result) {
+          dispatch(setAddLogin(qq));
+          messageApi.success('登录成功！');
+        }
       }
     } catch (err) {
       console.error(err);

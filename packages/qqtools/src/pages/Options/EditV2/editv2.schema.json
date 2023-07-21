@@ -21,24 +21,25 @@
       "id": "$root/properties/optionType",
       "type": "string",
       "title": "配置类型",
-      "$required": false,
+      "$required": true,
       "$componentType": "select",
+      "$requiredMessage": "必须选择配置类型",
       "$options": [
         {
           "label": "mirai",
-          "value": "0"
+          "value": "mirai"
         },
         {
           "label": "go-cqhttp",
-          "value": "2"
+          "value": "go-cqhttp"
         },
         {
           "label": "oicq",
-          "value": "1"
+          "value": "oicq"
         },
         {
           "label": "console-test",
-          "value": "100"
+          "value": "console-test"
         }
       ]
     },
