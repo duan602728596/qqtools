@@ -61,7 +61,10 @@ const selector: Selector<RState, MiraiLoginInitialState> = createStructuredSelec
   qqLoginList: ({ miraiLogin }: RState): Array<QQLoginItem> => miraiLogin.qqLoginList
 });
 
-/* 启动mirai */
+/**
+ * 启动mirai
+ * @deprecated
+ */
 function Index(props: {}): ReactElement {
   const { childProcessWorker, qqLoginList }: MiraiLoginInitialState = useSelector(selector);
   const dispatch: Dispatch = useDispatch();

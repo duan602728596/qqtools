@@ -8,10 +8,13 @@ export interface EditItem {
   value: string;
 }
 
-// 一些基础的配置
+/* ========== 一些基础的配置 ========== */
+/** @deprecated */
+type OldOptionType = '0' | '1' | '2' | '100' | 0;
+
 export interface OptionsItemBasic {
   optionName: string;
-  optionType: QQProtocol | '0' | '1' | '2' | '100' | 0; // 0: mirai-api-http，1: oicq，2: go-cqhttp
+  optionType: QQProtocol | OldOptionType; // 0: mirai-api-http，1: oicq，2: go-cqhttp
   qqNumber: number;
   groupNumber: string;
   socketHost?: string;
@@ -25,7 +28,10 @@ export interface OptionsItemBasic {
   customCmd?: Array<EditItem>;
 }
 
-// 口袋48
+/**
+ * 口袋48
+ * @deprecated
+ */
 export interface OptionsItemPocket48 {
   pocket48RoomListener?: boolean;
   pocket48RoomId?: string;
