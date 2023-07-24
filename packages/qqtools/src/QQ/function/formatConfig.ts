@@ -69,7 +69,7 @@ export function formatToV2Config(oldConfig: OptionsItemValue | OptionsItemValueV
 }
 
 export function formatOptionType(config: OptionsItemValueV2): OptionsItemValueV2 {
-  const nextConfig: OptionsItemValueV2 = { ...config };
+  const nextConfig: OptionsItemValueV2 = structuredClone<OptionsItemValueV2>(config);
 
   if (nextConfig.optionType === 0 || nextConfig.optionType === '0') {
     nextConfig.optionType = QQProtocol.Mirai;
