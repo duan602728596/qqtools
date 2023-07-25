@@ -76,6 +76,7 @@ const externalsName: Array<string> = nodeModules([
 ]);
 
 export default function(info: object): { [key: string]: any } {
+  const entryDir: string = path.join(__dirname, 'src/entry');
   const plugins: Array<any> = [
     '@babel/plugin-syntax-import-assertions',
     !isDev && ['transform-react-remove-prop-types', { mode: 'remove', removeImport: true }],
@@ -105,9 +106,9 @@ export default function(info: object): { [key: string]: any } {
       'reselect'
     ],
     entry: {
-      index: [path.join(__dirname, 'src/index.tsx')]
+      index: [path.join(entryDir, 'index/index.tsx')]
     },
-    html: [{ template: path.join(__dirname, 'src/index.pug'), minify: htmlWebpackPluginMinify }],
+    html: [{ template: path.join(entryDir, 'index/index.pug'), minify: htmlWebpackPluginMinify }],
     externals: nodeExternals(externalsName),
     resolve: {
       alias: {

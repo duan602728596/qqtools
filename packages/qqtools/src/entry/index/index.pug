@@ -1,5 +1,5 @@
-- var imports = require('./imports');
-- var packageJson = require('../package.json');
+- var imports = require('../../imports');
+- var packageJson = require('../../../package.json');
 
 doctype html
 html
@@ -11,9 +11,9 @@ html
 
   body
     div.app#app
-      include ./components/loading/loading.pug
+      include ../../components/loading/loading
 
-    include ./components/wasm/wasm.pug
+    include ../../components/wasm/wasm
 
     if htmlWebpackPlugin.options.mode === 'development'
       script(src=imports.dll)

@@ -7,13 +7,13 @@ import zhCN from 'antd/locale/zh_CN';
 import { magenta } from '@ant-design/colors';
 import * as dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
-import { storeFactory } from './store/store';
-import Routers from './router/Routers';
-import IDBInit from './utils/IDB/IDBInit';
-import './main.tailwindcss.css';
-import { proxyServerInit } from './utils/proxyServer/proxyServer';
-import './components/Accessibility/Accessibility';
-import './utils/logProtocol/logProtocolBroadcastChannel';
+import { storeFactory } from '../../store/store';
+import Routers from '../../router/Routers';
+import IDBInit from '../../utils/IDB/IDBInit';
+import '../../main.tailwindcss.css';
+import { proxyServerInit } from '../../utils/proxyServer/proxyServer';
+import '../../components/Accessibility/Accessibility';
+import '../../utils/logProtocol/logProtocolBroadcastChannel';
 
 dayjs.locale('zh-cn');
 
