@@ -100,6 +100,7 @@ export default function(info: object): { [key: string]: any } {
       'nim-web-sdk-ng/dist/NIM_BROWSER_SDK',
       'prop-types',
       'react',
+      'react/jsx-dev-runtime',
       'react-dom/client',
       'react-redux',
       'react-router-dom',
