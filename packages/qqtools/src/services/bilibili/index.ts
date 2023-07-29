@@ -1,5 +1,5 @@
 import got, { type Response as GotResponse } from 'got';
-import type { BilibiliLiveStatus, BilibiliRoomInfo } from './interface';
+import type { BilibiliLiveStatus, BilibiliRoomInfo, BilibiliFeedSpace } from './interface';
 
 export type * from './interface';
 
@@ -14,11 +14,24 @@ export async function requestRoomStatus(id: string): Promise<BilibiliLiveStatus>
 
 /* 获取B站直播间信息 */
 export async function requestRoomInfo(id: string): Promise<BilibiliRoomInfo> {
-  const res: GotResponse<BilibiliRoomInfo>
-    = await got.get(`https://api.live.bilibili.com/xlive/web-room/v1/index/getInfoByRoom?room_id=${ id }`, {
+  const res: GotResponse<BilibiliRoomInfo> = await got.get(
+    `https://api.live.bilibili.com/xlive/web-room/v1/index/getInfoByRoom?room_id=${ id }`, {
       responseType: 'json',
       headers: {
         Referer: `https://live.bilibili.com/${ id }`
+      }
+    });
+
+  return res.body;
+}
+
+/* 获取B站动态 */
+export async function requestFeedSpace(id: string): Promise<BilibiliFeedSpace> {
+  const res: GotResponse<BilibiliFeedSpace> = await got.get(
+    `https://api.bilibili.com/x/polymer/web-dynamic/v1/feed/space?host_mid=${ id }&timezone_offset=-480`, {
+      responseType: 'json',
+      headers: {
+        Referer: `https://space.bilibili.com/${ id }/dynamic`
       }
     });
 
