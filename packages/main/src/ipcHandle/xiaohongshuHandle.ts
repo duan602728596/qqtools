@@ -19,7 +19,7 @@ async function chromeStart(executablePath: string, port: number): Promise<void> 
   chromeLauncher = await ChromeLauncher.launch({
     chromePath: executablePath,
     port,
-    chromeFlags: ['--disable-gpu']
+    chromeFlags: ['--disable-gpu', '--window-size=400,400']
   });
 }
 
@@ -49,8 +49,8 @@ function ipcXiaohongshuHandle(): void {
   ipcMain.handle('xiaohongshu-window-init', function(event: IpcMainInvokeEvent): Promise<void> {
     return new Promise((resolve: Function, reject: Function): void => {
       xiaohongshuWin = new BrowserWindow({
-        width: 1000,
-        height: 800,
+        width: 400,
+        height: 400,
         webPreferences: {
           nodeIntegration: true,
           nodeIntegrationInWorker: true,
@@ -113,6 +113,24 @@ function ipcXiaohongshuHandle(): void {
       ]);
       await client.Page.navigate({ url: 'https://www.xiaohongshu.com/user/profile/594099df82ec393174227f18' });
       await client.Page.loadEventFired();
+
+      let waitingDom: boolean = true;
+
+      // 等待dom出现
+      while (waitingDom) {
+        const result: Protocol.Runtime.EvaluateResponse = await client.Runtime.evaluate({ expression: `
+          !!(document.querySelector('.user-nickname')
+             || document.querySelector('.reds-button-new')
+             || document.querySelector('.follow')
+          )` });
+
+        if (result.result.value) {
+          waitingDom = false;
+        } else {
+          await setTimeoutPromise(1_000);
+        }
+      }
+
       await setTimeoutPromise(7_000);
     });
 
