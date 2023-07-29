@@ -119,10 +119,10 @@ function ipcXiaohongshuHandle(): void {
       // 等待dom出现
       while (waitingDom) {
         const result: Protocol.Runtime.EvaluateResponse = await client.Runtime.evaluate({ expression: `
-          !!(document.querySelector('.user-nickname')
+          (!!(document.querySelector('.user-nickname')
              || document.querySelector('.reds-button-new')
              || document.querySelector('.follow')
-          )` });
+          )) && !document.getElementById('captcha-div')` });
 
         if (result.result.value) {
           waitingDom = false;
