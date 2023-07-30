@@ -28,7 +28,7 @@ function filterData(data: Array<BilibiliFeedSpaceItem>): Array<BilibiliFeedSpace
 
 /* 创建发送消息 */
 function createSendMessageItem(item: BilibiliFeedSpaceItem): string {
-  const time: string = dayjs(item.modules.module_author.pub_ts).format('YYYY-MM-DD HH:mm:ss');
+  const time: string = dayjs.unix(item.modules.module_author.pub_ts).format('YYYY-MM-DD HH:mm:ss');
   const sendMessageGroup: Array<string> = [];
   const action: string = item.type === 'DYNAMIC_TYPE_AV' ? '投稿了视频' : '发送了动态';
   let text: string;
@@ -39,7 +39,7 @@ function createSendMessageItem(item: BilibiliFeedSpaceItem): string {
     text = item.modules.module_dynamic.desc.text;
   }
 
-  sendMessageGroup.push(`${ item.modules.module_author.name } 在${ time }${ action }：${ text }`);
+  sendMessageGroup.push(`${ item.modules.module_author.name } 在${ time }在B站${ action }：${ text }`);
 
   if (item.type === 'DYNAMIC_TYPE_AV') {
     sendMessageGroup.push(`\n地址：https:${ item.modules.module_dynamic.major.archive.jump_url }`);

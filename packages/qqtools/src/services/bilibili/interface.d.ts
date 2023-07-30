@@ -29,7 +29,7 @@ interface FeedSpaceModuleAuthor<A = string> {
   name: string;
   pub_action: A;
   pub_time: string;
-  pub_ts: string; // 秒
+  pub_ts: number; // 秒
 }
 
 interface FeedSpaceAVModuleDynamic {
