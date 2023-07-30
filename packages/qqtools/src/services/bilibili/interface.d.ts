@@ -33,18 +33,22 @@ interface FeedSpaceModuleAuthor<A = string> {
 }
 
 interface FeedSpaceAVModuleDynamic {
-  cover: string;
-  jump_url: string;
-  title: string;
+  major: {
+    archive: {
+      cover: string;
+      jump_url: string;
+      title: string;
+    };
+  };
 }
 
 interface FeedSpaceDrawModuleDynamic {
   desc: {
     text: string;
-    major: {
-      draw: {
-        items: Array<{ src: string }>;
-      };
+  };
+  major: {
+    draw: {
+      items: Array<{ src: string }>;
     };
   };
 }
@@ -55,6 +59,7 @@ export interface FeedSpaceDynamicTypeAV {
     module_author: FeedSpaceModuleAuthor;
     module_dynamic: FeedSpaceAVModuleDynamic;
   };
+  id_str: string;
 }
 
 export interface FeedSpaceDynamicTypeDraw {
@@ -63,6 +68,7 @@ export interface FeedSpaceDynamicTypeDraw {
     module_author: FeedSpaceModuleAuthor<''>;
     module_dynamic: FeedSpaceDrawModuleDynamic;
   };
+  id_str: string;
 }
 
 export type BilibiliFeedSpaceItem = FeedSpaceDynamicTypeAV | FeedSpaceDynamicTypeDraw;

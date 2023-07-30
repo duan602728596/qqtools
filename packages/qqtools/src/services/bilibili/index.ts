@@ -26,12 +26,13 @@ export async function requestRoomInfo(id: string): Promise<BilibiliRoomInfo> {
 }
 
 /* 获取B站动态 */
-export async function requestFeedSpace(id: string): Promise<BilibiliFeedSpace> {
+export async function requestFeedSpace(id: string, cookie: string): Promise<BilibiliFeedSpace> {
   const res: GotResponse<BilibiliFeedSpace> = await got.get(
     `https://api.bilibili.com/x/polymer/web-dynamic/v1/feed/space?host_mid=${ id }&timezone_offset=-480`, {
       responseType: 'json',
       headers: {
-        Referer: `https://space.bilibili.com/${ id }/dynamic`
+        Referer: `https://space.bilibili.com/${ id }/dynamic`,
+        Cookie: cookie
       }
     });
 

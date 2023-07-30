@@ -389,7 +389,8 @@
           "bilibiliLiveId": {
             "id": "$root/properties/bilibili/items/properties/bilibiliLiveId",
             "type": "string",
-            "title": "直播间ID"
+            "title": "直播间ID",
+            "$required": true
           },
           "bilibiliAtAll": {
             "id": "$root/properties/bilibili/items/properties/bilibiliAtAll",
@@ -397,6 +398,39 @@
             "title": "@全体成员",
             "description": "直播时@全体成员（需要有管理员权限）",
             "$componentType": "checkboxDesc"
+          }
+        }
+      }
+    },
+    "bilibiliFeedSpace": {
+      "id": "$root/properties/bilibiliFeedSpace",
+      "type": "array",
+      "title": "B站空间动态监听",
+      "items": {
+        "id": "$root/properties/bilibiliFeedSpace/items",
+        "type": "object",
+        "title": "B站空间动态监听",
+        "properties": {
+          "bilibiliFeedSpaceListener": {
+            "id": "$root/properties/bilibiliFeedSpace/items/properties/bilibiliFeedSpaceListener",
+            "type": "boolean",
+            "title": "开启监听",
+            "$componentType": "switch",
+            "$defaultValue": true
+          },
+          "bilibiliFeedSpaceId": {
+            "id": "$root/properties/bilibiliFeedSpace/items/properties/bilibiliFeedSpaceId",
+            "type": "string",
+            "title": "空间ID",
+            "$required": true
+          },
+          "cookieString": {
+            "id": "$root/properties/bilibiliFeedSpace/items/properties/cookieString",
+            "type": "string",
+            "title": "Cookie",
+            "$componentType": "textArea",
+            "$placeholder": "B站空间动态监听需要Cookie才能成功请求动态",
+            "$tableColumnHidden": true
           }
         }
       }

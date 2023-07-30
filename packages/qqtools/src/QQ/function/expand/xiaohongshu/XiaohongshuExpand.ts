@@ -6,8 +6,7 @@ import getXiaohongshuWorker from './xiaohongshu.worker/getXiaohongshuWorker';
 import type { QQProtocol, QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemXiaohongshu } from '../../../../commonTypes';
 import type { XHSProtocol } from './xiaohongshu.worker/messageTypes';
-
-type MessageListener = (event: MessageEvent) => void | Promise<void>;
+import type { MessageListener } from '../../../QQBotModals/Basic';
 
 /* 小红书 */
 class XiaohongshuExpand {

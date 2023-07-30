@@ -6,8 +6,7 @@ import getWeiboSuperTopicWorker from './weiboSuperTopic.worker/getWeiboSuperTopi
 import { getDouyinServerPort } from '../../../../utils/proxyServer/proxyServer';
 import type { QQProtocol, QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemWeibo } from '../../../../commonTypes';
-
-type MessageListener = (event: MessageEvent) => void | Promise<void>;
+import type { MessageListener } from '../../../QQBotModals/Basic';
 
 /* 微博 */
 class WeiboExpand {

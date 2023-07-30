@@ -92,6 +92,12 @@ export interface OptionsItemBilibili {
   bilibiliAtAll?: string;
 }
 
+export interface OptionsItemBilibiliFeedSpace {
+  bilibiliFeedSpaceListener?: boolean;
+  bilibiliFeedSpaceId: string;
+  cookieString?: string;
+}
+
 // 小红书
 export interface OptionsItemXiaohongshu {
   xiaohongshuListener?: boolean;
@@ -124,6 +130,7 @@ export interface OptionsItemValueV2 extends OptionsItemBasic {
   weibo?: Array<OptionsItemWeibo>;
   douyin?: Array<OptionsItemDouyin>;
   bilibili?: Array<OptionsItemBilibili>;
+  bilibiliFeedSpace?: Array<OptionsItemBilibiliFeedSpace>;
   xiaohongshuProtocol?: XHSProtocol;
   xiaohongshu?: Array<OptionsItemXiaohongshu>;
   cronTimer?: Array<OptionsItemCronTimer>;
