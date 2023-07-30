@@ -1,6 +1,7 @@
 import { protocol, type Protocol } from 'electron';
 import { userPostedTemplate, feedTemplate } from './logTemplate/xiaohongshu';
 import { awemePostTemplate } from './logTemplate/douyin';
+import { feedSpaceTemplate } from './logTemplate/bilibili';
 
 /* template方法 */
 const template: Record<string, Record<string, (t: string, fn: string, d: string) => string>> = {
@@ -10,6 +11,9 @@ const template: Record<string, Record<string, (t: string, fn: string, d: string)
   },
   douyin: {
     awemePost: awemePostTemplate
+  },
+  bilibili: {
+    feedSpace: feedSpaceTemplate
   }
 };
 

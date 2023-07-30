@@ -1,4 +1,6 @@
 import got, { type Response as GotResponse } from 'got';
+import type { _FeedSpaceObject } from '@qqtools3/main/src/logProtocol/logTemplate/bilibili';
+import { _bilibili } from '../../utils/logProtocol/logActions';
 import type { BilibiliLiveStatus, BilibiliRoomInfo, BilibiliFeedSpace } from './interface';
 
 export type * from './interface';
@@ -35,6 +37,11 @@ export async function requestFeedSpace(id: string, cookie: string): Promise<Bili
         Cookie: cookie
       }
     });
+
+  _bilibili.post<_FeedSpaceObject>('feedSpace', {
+    id,
+    response: JSON.stringify(res.body, null, 2)
+  });
 
   return res.body;
 }
