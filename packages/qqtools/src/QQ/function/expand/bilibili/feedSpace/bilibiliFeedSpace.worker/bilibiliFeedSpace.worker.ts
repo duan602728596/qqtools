@@ -86,7 +86,7 @@ async function bilibiliFeedSpaceTimerFunc(): Promise<void> {
     console.error(err);
   }
 
-  bilibiliFeedSpaceTimer = setTimeout(bilibiliFeedSpaceTimerFunc, 300_000);
+  bilibiliFeedSpaceTimer = setTimeout(bilibiliFeedSpaceTimerFunc, 600_000);
 }
 
 async function bilibiliFeedSpaceInit(): Promise<void> {
@@ -100,7 +100,7 @@ async function bilibiliFeedSpaceInit(): Promise<void> {
     console.error(err);
   }
 
-  bilibiliFeedSpaceTimer = setTimeout(bilibiliFeedSpaceTimerFunc, 300_000);
+  bilibiliFeedSpaceTimer = setTimeout(bilibiliFeedSpaceTimerFunc, 600_000);
 }
 
 addEventListener('message', function(event: MessageEvent<{
