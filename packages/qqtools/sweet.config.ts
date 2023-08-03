@@ -75,8 +75,15 @@ const externalsName: Array<string> = nodeModules([
   'ws'
 ]);
 
+/**
+ * 创建路径
+ * @param { string } p: 路径
+ */
+function srcPath(p: string): string {
+  return path.join(__dirname, 'src', p);
+}
+
 export default function(info: object): { [key: string]: any } {
-  const entryDir: string = path.join(__dirname, 'src/entry');
   const plugins: Array<any> = [
     '@babel/plugin-syntax-import-assertions',
     !isDev && ['transform-react-remove-prop-types', { mode: 'remove', removeImport: true }],
@@ -107,13 +114,13 @@ export default function(info: object): { [key: string]: any } {
       'reselect'
     ],
     entry: {
-      index: [path.join(entryDir, 'index/index.tsx')]
+      index: [srcPath('index.tsx')]
     },
-    html: [{ template: path.join(entryDir, 'index/index.pug'), minify: htmlWebpackPluginMinify }],
+    html: [{ template: srcPath('index.pug'), minify: htmlWebpackPluginMinify }],
     externals: nodeExternals(externalsName),
     resolve: {
       alias: {
-        '@qqtools-api': path.join(__dirname, 'src/services')
+        '@qqtools-api': srcPath('services')
       }
     },
     javascript: {
@@ -142,7 +149,7 @@ export default function(info: object): { [key: string]: any } {
     plugins: [
       new CopyPlugin({
         patterns: [{
-          from: path.join(__dirname, 'src/QQ/sdk/1'),
+          from: srcPath('QQ/sdk/1'),
           to: path.join(__dirname, 'dist')
         }]
       }),
