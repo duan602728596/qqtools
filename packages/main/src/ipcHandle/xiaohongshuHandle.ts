@@ -1,27 +1,18 @@
 import * as path from 'node:path';
 import * as process from 'node:process';
 import { setTimeout } from 'node:timers';
-import { setTimeout as setTimeoutPromise } from 'node:timers/promises';
 import * as fsP from 'node:fs/promises';
 import { ipcMain, BrowserWindow, type IpcMainInvokeEvent, type Cookie } from 'electron';
 import * as CDP from 'chrome-remote-interface';
 import type { Client } from 'chrome-remote-interface';
 import type { Protocol } from 'devtools-protocol/types/protocol';
-import * as ChromeLauncher from 'chrome-launcher';
 import type { LaunchedChrome } from 'chrome-launcher';
 import { pcUserAgent, isDevelopment } from '../utils';
+import { chromeStart, clientSwitch, waitingDomFunction } from './CDPHelper';
 
 let xiaohongshuWin: BrowserWindow | null = null,
   client: Client | null = null,
   chromeLauncher: LaunchedChrome | null = null;
-
-async function chromeStart(executablePath: string, port: number): Promise<void> {
-  chromeLauncher = await ChromeLauncher.launch({
-    chromePath: executablePath,
-    port,
-    chromeFlags: ['--disable-gpu', '--window-size=400,400']
-  });
-}
 
 export function closeAll(): void {
   xiaohongshuWin?.close?.();
@@ -30,18 +21,6 @@ export function closeAll(): void {
   chromeLauncher = null;
   client?.close();
   client = null;
-}
-
-export async function clientSwitch(): Promise<void> {
-  if (client) {
-    const { targetInfos }: Protocol.Target.GetTargetsResponse = await client.Target.getTargets();
-    const xiaohongshuTarget: Protocol.Target.TargetInfo | undefined = targetInfos.find(
-      (target: Protocol.Target.TargetInfo): boolean => target.type === 'page' && target.url.includes('www.xiaohongshu.com'));
-
-    if (xiaohongshuTarget && !xiaohongshuTarget.attached) {
-      await client.Target.attachToTarget({ targetId: xiaohongshuTarget.targetId });
-    }
-  }
 }
 
 function ipcXiaohongshuHandle(): void {
@@ -104,7 +83,7 @@ function ipcXiaohongshuHandle(): void {
   ipcMain.handle(
     'xiaohongshu-chrome-remote-init',
     async function(event: IpcMainInvokeEvent, executablePath: string, port: number): Promise<void> {
-      await chromeStart(executablePath, port);
+      chromeLauncher = await chromeStart(executablePath, port);
       client = await CDP({ port });
       await Promise.all([
         client.Page.enable(),
@@ -113,32 +92,19 @@ function ipcXiaohongshuHandle(): void {
       ]);
       await client.Page.navigate({ url: 'https://www.xiaohongshu.com/user/profile/594099df82ec393174227f18' });
       await client.Page.loadEventFired();
-
-      let waitingDom: boolean = true;
-
-      // 等待dom出现
-      while (waitingDom) {
-        const result: Protocol.Runtime.EvaluateResponse = await client.Runtime.evaluate({ expression: `
-          (!!(document.querySelector('.user-nickname')
-             || document.querySelector('.reds-button-new')
-             || document.querySelector('.follow')
-          )) && !document.getElementById('captcha-div')` });
-
-        if (result.result.value) {
-          waitingDom = false;
-        } else {
-          await setTimeoutPromise(1_000);
-        }
-      }
-
-      await setTimeoutPromise(7_000);
+      await waitingDomFunction(client, `
+        (!!(document.querySelector('.user-nickname')
+          || document.querySelector('.reds-button-new')
+          || document.querySelector('.follow')
+        )) && !document.getElementById('captcha-div')
+      `);
     });
 
   // 获取cookie
   ipcMain.handle(
     'xiaohongshu-chrome-remote-cookie',
     async function(event: IpcMainInvokeEvent, executablePath: string, port: number): Promise<string> {
-      await clientSwitch();
+      await clientSwitch(client, 'www.xiaohongshu.com');
 
       if (client) {
         const cookies: string = (await client.Network.getCookies()).cookies
@@ -154,7 +120,7 @@ function ipcXiaohongshuHandle(): void {
   ipcMain.handle(
     'xiaohongshu-chrome-remote-sign',
     async function(event: IpcMainInvokeEvent, url: string, data: string | undefined): Promise<string | undefined> {
-      await clientSwitch();
+      await clientSwitch(client, 'www.xiaohongshu.com');
 
       if (client) {
         const signResult: Protocol.Runtime.EvaluateResponse = await client.Runtime.evaluate({

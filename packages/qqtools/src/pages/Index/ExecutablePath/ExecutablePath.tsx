@@ -76,6 +76,7 @@ function ExecutablePath(props: ExecutablePathProps): ReactElement {
         open={ visible }
         width={ 600 }
         centered={ true }
+        maskClosable={ false }
         afterClose={ handleResetExecutablePathClick }
         onOk={ handleSetExecutablePathClick }
         onCancel={ handleCloseExecutablePathModalClick }
