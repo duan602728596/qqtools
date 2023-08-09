@@ -14,52 +14,16 @@ export function msToken(length: number = 128): string {
 }
 
 /* ua必须对应Params */
-const date: Date = new Date();
-const browserVersion: number = date.getFullYear() - 1_700 + date.getMonth(); // 由于总是检测版本，所以直接往高写
-
-export const douyinUserAgent: string = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-  + `Chrome/${ browserVersion }.0.0.0 Safari/537.36 Edg/${ browserVersion }.0.1774.57`;
-const systemInfoParams: Record<string, string> = {
-  device_platform: 'webapp',
-  aid: '6383',
-  channel: 'channel_pc_web',
-  pc_client_type: '1',
-  version_code: '170400',
-  version_name: '17.4.0',
-  cookie_enabled: 'true',
-  screen_width: '1440',
-  screen_height: '900',
-  browser_language: 'zh-CN',
-  browser_platform: 'Win32',
-  browser_name: 'Edge',
-  browser_version: `${ browserVersion }.0.1774.57`,
-  browser_online: 'true',
-  engine_name: 'Blink',
-  engine_version: `${ browserVersion }.0.0.0`,
-  os_name: 'Windows',
-  os_version: '10',
-  cpu_core_num: '4',
-  device_memory: '8',
-  platform: 'PC',
-  downlink: '10',
-  effective_type: '4g',
-  round_trip_time: '100'
-};
-
-export function awemePostQuery(secUserId: string): string {
-  const token: string = msToken();
+export function awemePostQueryV2(secUserId: string): string {
   const urlParam: URLSearchParams = new URLSearchParams({
-    locate_query: 'false',
-    show_live_replay_strategy: '1',
-    count: '8',
-    publish_video_strategy_type: '2',
-    ...systemInfoParams,
+    aid: '6383',
     sec_user_id: secUserId,
+    count: '8',
     max_cursor: `${ new Date().getTime() }`,
-    webid: `${ Math.random() }`.replace(/^0\./, ''),
-    msToken: token
+    cookie_enabled: 'true',
+    platform: 'PC'
   });
-  const xbogus: string = Signer.sign(urlParam.toString(), douyinUserAgent);
+  const xbogus: string = Signer.sign(urlParam.toString(), '');
 
   urlParam.set('X-Bogus', xbogus);
 

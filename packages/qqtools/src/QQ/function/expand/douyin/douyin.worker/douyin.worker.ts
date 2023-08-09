@@ -1,6 +1,6 @@
 import { setTimeout, clearTimeout } from 'node:timers';
 import * as dayjs from 'dayjs';
-import { requestAwemePost, requestTtwidCookie, type AwemePostResponse, type AwemeItem } from '@qqtools-api/douyin';
+import { requestAwemePostV2, requestTtwidCookie, type AwemePostResponse, type AwemeItem } from '@qqtools-api/douyin';
 import { QQProtocol } from '../../../../QQBotModals/ModalTypes';
 import parser, { type ParserResult } from '../../../parser';
 import * as CQ from '../../../parser/CQ';
@@ -78,7 +78,7 @@ async function getDouyinDataByApi(wait: boolean = true): Promise<AwemePostRespon
   try {
     wait && await waitLimiting(msToken(10));
 
-    const res: AwemePostResponse | string = await requestAwemePost(await getCookie(), userId);
+    const res: AwemePostResponse | string = await requestAwemePostV2(await getCookie(), userId);
 
     // res可能返回string，表示请求失败了
     if (typeof res === 'object') {

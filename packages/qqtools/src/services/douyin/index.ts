@@ -1,6 +1,6 @@
 import got, { type Response as GotResponse } from 'got';
 import type { _AwemePostObject } from '@qqtools3/main/src/logProtocol/logTemplate/douyin';
-import { douyinUserAgent, awemePostQuery } from '../../utils/toutiao/signUtils';
+import { awemePostQueryV2 } from '../../utils/toutiao/signUtils';
 import { _douyinLogProtocol } from '../../utils/logProtocol/logActions';
 import type { AwemePostResponse } from './interface';
 
@@ -15,15 +15,15 @@ export type * from './interface';
  * @param { string } cookie: string
  * @param { string } secUserId: user id
  */
-export async function requestAwemePost(cookie: string, secUserId: string): Promise<AwemePostResponse | string> {
-  const query: string = awemePostQuery(secUserId);
+export async function requestAwemePostV2(cookie: string, secUserId: string): Promise<AwemePostResponse | string> {
+  const query: string = awemePostQueryV2(secUserId);
   const res: GotResponse<AwemePostResponse | string> = await got.get(
     `https://www.douyin.com/aweme/v1/web/aweme/post/?${ query }`, {
       responseType: 'json',
       headers: {
         Referer: `https://www.douyin.com/user/${ secUserId }`,
         Host: 'www.douyin.com',
-        'User-Agent': douyinUserAgent,
+        'User-Agent': '',
         Cookie: cookie
       },
       followRedirect: false

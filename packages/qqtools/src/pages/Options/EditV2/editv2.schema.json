@@ -351,7 +351,7 @@
             "type": "string",
             "title": "Cookie",
             "$componentType": "textArea",
-            "$placeholder": "粘贴Cookie中的sessionid和sessionid_ss。抖音需要登录后才能成功请求用户的作品列表。",
+            "$placeholder": "粘贴Cookie中的sessionid、sessionid_ss、sid_guard。抖音需要登录后才能成功请求用户的作品列表。",
             "$tableColumnHidden": true
           },
           "intervalTime": {
