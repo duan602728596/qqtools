@@ -20,6 +20,7 @@
     "install:cn": "ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/ PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn install",
     "install:ci": "PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn install",
     "check-token": "node scripts/checkToken.mjs",
+    "set-version": "node scripts/setVersion.mjs",
     "postinstall": "husky install && node scripts/fixTypesError.mjs && npm run install:babel"
   },
   "private": true,
