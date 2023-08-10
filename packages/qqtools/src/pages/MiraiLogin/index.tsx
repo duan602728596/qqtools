@@ -18,6 +18,7 @@ import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import type { MessageInstance } from 'antd/es/message/interface';
 import type { UseMessageReturnType, UseNotificationReturnType } from '@qqtools-types/antd';
 import { ToolTwoTone as IconToolTwoTone } from '@ant-design/icons';
+import { WinIpcChannel } from '@qqtools3/main/src/channelEnum';
 import style from './index.sass';
 import { omit } from '../../utils/lodash';
 import Header from './Header/Header';
@@ -142,7 +143,7 @@ function Index(props: {}): ReactElement {
 
   // 打开开发者工具
   function handleOpenDeveloperToolsClick(event: MouseEvent): void {
-    ipcRenderer.send('developer-tools');
+    ipcRenderer.send(WinIpcChannel.DeveloperTools);
   }
 
   const columns: ColumnsType<QQLoginItem> = [

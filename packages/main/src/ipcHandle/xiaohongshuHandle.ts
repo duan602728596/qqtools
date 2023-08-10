@@ -9,6 +9,7 @@ import type { Protocol } from 'devtools-protocol/types/protocol';
 import type { LaunchedChrome } from 'chrome-launcher';
 import { pcUserAgent, isDevelopment } from '../utils';
 import { chromeStart, clientSwitch, waitingDomFunction } from './CDPHelper';
+import { XiaohongshuHandleChannel } from '../channelEnum';
 
 let xiaohongshuWin: BrowserWindow | null = null,
   client: Client | null = null,
@@ -25,7 +26,7 @@ export function closeAll(): void {
 
 function ipcXiaohongshuHandle(): void {
   // 初始化小红书窗口并注入脚本
-  ipcMain.handle('xiaohongshu-window-init', function(event: IpcMainInvokeEvent): Promise<void> {
+  ipcMain.handle(XiaohongshuHandleChannel.XiaohongshuWindoInit, function(event: IpcMainInvokeEvent): Promise<void> {
     return new Promise((resolve: Function, reject: Function): void => {
       xiaohongshuWin = new BrowserWindow({
         width: 400,
@@ -52,7 +53,7 @@ function ipcXiaohongshuHandle(): void {
   });
 
   // 获取窗口的cookie
-  ipcMain.handle('xiaohongshu-cookie', async function(event: IpcMainInvokeEvent, port: number): Promise<string> {
+  ipcMain.handle(XiaohongshuHandleChannel.XiaohongshuCookie, async function(event: IpcMainInvokeEvent, port: number): Promise<string> {
     if (xiaohongshuWin) {
       const script: string = await fsP.readFile(
         isDevelopment
@@ -75,13 +76,13 @@ function ipcXiaohongshuHandle(): void {
   });
 
   // 销毁窗口
-  ipcMain.handle('xiaohongshu-destroy', function(event: IpcMainInvokeEvent): void {
+  ipcMain.handle(XiaohongshuHandleChannel.XiaohongshuDestroy, function(event: IpcMainInvokeEvent): void {
     closeAll();
   });
 
   // 小红书协议连接
   ipcMain.handle(
-    'xiaohongshu-chrome-remote-init',
+    XiaohongshuHandleChannel.XiaohongshuChromeRemoteInit,
     async function(event: IpcMainInvokeEvent, executablePath: string, port: number): Promise<void> {
       chromeLauncher = await chromeStart(executablePath, port);
       client = await CDP({ port });
@@ -102,7 +103,7 @@ function ipcXiaohongshuHandle(): void {
 
   // 获取cookie
   ipcMain.handle(
-    'xiaohongshu-chrome-remote-cookie',
+    XiaohongshuHandleChannel.XiaohongshuChromeRemoteCookie,
     async function(event: IpcMainInvokeEvent, executablePath: string, port: number): Promise<string> {
       await clientSwitch(client, 'www.xiaohongshu.com');
 
@@ -118,7 +119,7 @@ function ipcXiaohongshuHandle(): void {
 
   // 获取header的加密
   ipcMain.handle(
-    'xiaohongshu-chrome-remote-sign',
+    XiaohongshuHandleChannel.XiaohongshuChromeRemoteSign,
     async function(event: IpcMainInvokeEvent, url: string, data: string | undefined): Promise<string | undefined> {
       await clientSwitch(client, 'www.xiaohongshu.com');
 

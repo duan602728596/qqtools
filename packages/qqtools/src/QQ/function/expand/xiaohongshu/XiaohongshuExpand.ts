@@ -1,6 +1,7 @@
 import { ipcRenderer } from 'electron';
 import { message } from 'antd';
 import type { MessageInstance } from 'antd/es/message/interface';
+import { XiaohongshuHandleChannel } from '@qqtools3/main/src/channelEnum';
 import type { SignResult } from '@qqtools-api/xiaohongshu';
 import getXiaohongshuWorker from './xiaohongshu.worker/getXiaohongshuWorker';
 import type { QQProtocol, QQModals } from '../../../QQBotModals/ModalTypes';
@@ -21,27 +22,27 @@ class XiaohongshuExpand {
   #messageApi: typeof message | MessageInstance = message;
 
   static windowInit(): Promise<void> {
-    return ipcRenderer.invoke('xiaohongshu-window-init');
+    return ipcRenderer.invoke(XiaohongshuHandleChannel.XiaohongshuWindoInit);
   }
 
   static cookie(port: number): Promise<string> {
-    return ipcRenderer.invoke('xiaohongshu-cookie', port);
+    return ipcRenderer.invoke(XiaohongshuHandleChannel.XiaohongshuCookie, port);
   }
 
   static destroy(): Promise<void> {
-    return ipcRenderer.invoke('xiaohongshu-destroy');
+    return ipcRenderer.invoke(XiaohongshuHandleChannel.XiaohongshuDestroy);
   }
 
   static chromeDevtoolsInit(executablePath: string, port: number): Promise<void> {
-    return ipcRenderer.invoke('xiaohongshu-chrome-remote-init', executablePath, port);
+    return ipcRenderer.invoke(XiaohongshuHandleChannel.XiaohongshuChromeRemoteInit, executablePath, port);
   }
 
   static chromeDevtoolCookie(): Promise<string> {
-    return ipcRenderer.invoke('xiaohongshu-chrome-remote-cookie');
+    return ipcRenderer.invoke(XiaohongshuHandleChannel.XiaohongshuChromeRemoteCookie);
   }
 
   static async chromeDevtoolsSign(reqPath: string, data: string | undefined): Promise<SignResult> {
-    const result: string = await ipcRenderer.invoke('xiaohongshu-chrome-remote-sign', reqPath, data);
+    const result: string = await ipcRenderer.invoke(XiaohongshuHandleChannel.XiaohongshuChromeRemoteSign, reqPath, data);
 
     return JSON.parse(result);
   }

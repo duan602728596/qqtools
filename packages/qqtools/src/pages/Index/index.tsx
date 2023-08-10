@@ -9,6 +9,7 @@ import Icon, {
   ClusterOutlined as IconClusterOutlined,
   BugTwoTone as IconBugTwoTone
 } from '@ant-design/icons';
+import { WinIpcChannel } from '@qqtools3/main/src/channelEnum';
 import ButtonLink from '../../components/ButtonLink/ButtonLink';
 import ExecutablePath from './ExecutablePath/ExecutablePath';
 import IconVSCodeSvgComponent from './images/vscode.component.svg';
@@ -24,7 +25,7 @@ const IconVSCode: ReactElement = <Icon component={ IconVSCodeSvgComponent } />;
 
 // 打开开发者工具
 function handleOpenDeveloperToolsClick(event: MouseEvent): void {
-  ipcRenderer.send('developer-tools');
+  ipcRenderer.send(WinIpcChannel.DeveloperTools);
 }
 
 // 打开使用说明
