@@ -1,11 +1,12 @@
 import { ipcMain, type BrowserWindow } from 'electron';
-import openDevTools, { type as openDevToolsType } from './ipcListener/openDevTools';
-import { proxyServerInit, type as proxyServerType } from './proxyServer/proxyServer';
+import openDevTools from './ipcListener/openDevTools';
+import { proxyServerInit } from './proxyServer/proxyServer';
+import { WinIpcChannel, ProxyServerChannel } from './channelEnum';
 
 /* 移除所有监听的通信 */
 const removeListenerChannel: Array<string> = [
-  openDevToolsType,
-  proxyServerType
+  WinIpcChannel.DeveloperTools,
+  ProxyServerChannel.ProxyServer
 ];
 
 export function removeIpc(): void {
