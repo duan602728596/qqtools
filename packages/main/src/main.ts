@@ -1,7 +1,7 @@
 import * as process from 'node:process';
 import * as path from 'node:path';
 import { app, BrowserWindow, Menu } from 'electron';
-import { isDevelopment, packageJson } from './utils';
+import { isDevelopment, titleBarIcon, createHtmlFilePath, packageJson } from './utils';
 import { ipc, removeIpc } from './ipc';
 import ipcRemoteHandle from './ipcHandle/ipcRemoteHandle';
 import xiaohongshuHandle, { closeAll as xiaohongshuCloseAll } from './ipcHandle/xiaohongshuHandle';
@@ -27,18 +27,14 @@ function createWindow(): void {
       contextIsolation: false
     },
     title: `qqtools - ${ packageJson.version }`,
-    icon: isDevelopment ? undefined : path.join(__dirname, '../../titleBarIcon.png')
+    icon: titleBarIcon
   });
 
   if (isDevelopment) {
     win.webContents.openDevTools();
   }
 
-  win.loadFile(
-    isDevelopment
-      ? path.join(__dirname, '../../qqtools/dist/index.html')
-      : path.join(__dirname, '../../dist/index.html')
-  );
+  win.loadFile(createHtmlFilePath('index'));
 
   // 去掉顶层菜单
   Menu.setApplicationMenu(null);
