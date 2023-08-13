@@ -53,16 +53,14 @@ export function getRoomMessage({
     ? `${ channelInfoContent }\n房间：${ memberInfo.ownerName } 的口袋房间` : channelInfoContent;
 
   try {
-    // 普通信息
     if (data.type === 'text') {
+      // 普通信息
       sendGroup.push(
         `${ nickName }：${ data.body }
 时间：${ msgTime }${ memberInfoContent }`
       );
-    } else
-
-    // 回复信息
-    if (data.type === 'custom' && (data.attach.messageType === 'REPLY' || data.attach.messageType === 'GIFTREPLY')) {
+    } else if (data.type === 'custom' && (data.attach.messageType === 'REPLY' || data.attach.messageType === 'GIFTREPLY')) {
+      // 回复信息
       const replyInfo: ReplyInfo = data.attach.replyInfo ?? data.attach.giftReplyInfo;
 
       sendGroup.push(
@@ -70,51 +68,39 @@ export function getRoomMessage({
 ${ nickName }：${ replyInfo.text }
 时间：${ msgTime }${ memberInfoContent }`
       );
-    } else
-
-    // 发送图片
-    if (data.type === 'image') {
+    } else if (data.type === 'image') {
+      // 发送图片
       sendGroup.push(
         `${ nickName } 发送了一张图片：`,
         CQ.image(data.attach.url),
         `时间：${ msgTime }${ memberInfoContent }`
       );
-    } else
-
-    // 发送语音
-    if (data.type === 'audio') {
+    } else if (data.type === 'audio') {
+      // 发送语音
       sendGroup.push(
         `${ nickName } 发送了一条语音：${ data.attach.url }
 时间：${ msgTime }${ memberInfoContent }`
       );
-    } else
-
-    // 发送短视频
-    if (data.type === 'video') {
+    } else if (data.type === 'video') {
+      // 发送短视频
       sendGroup.push(
         `${ nickName } 发送了一个视频：${ data.attach.url }
 时间：${ msgTime }${ memberInfoContent }`
       );
-    } else
-
-    // 发送语音_1
-    if (data.type === 'custom' && data.attach.messageType === 'AUDIO') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'AUDIO') {
+      // 发送语音_1
       sendGroup.push(
         `${ nickName } 发送了一条语音：${ data.attach.audioInfo.url }
 时间：${ msgTime }${ memberInfoContent }`
       );
-    } else
-
-    // 发送短视频_1
-    if (data.type === 'custom' && data.attach.messageType === 'VIDEO') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'VIDEO') {
+      // 发送短视频_1
       sendGroup.push(
         `${ nickName } 发送了一个视频：${ data.attach.videoInfo.url }
 时间：${ msgTime }${ memberInfoContent }`
       );
-    } else
-
-    // 直播
-    if (data.type === 'custom' && data.attach.messageType === 'LIVEPUSH') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'LIVEPUSH') {
+      // 直播
       if (pocket48LiveAtAll) {
         sendGroup.push(CQ.atAll());
       }
@@ -124,10 +110,8 @@ ${ nickName }：${ replyInfo.text }
 直播标题：${ data.attach.livePushInfo.liveTitle }
 时间：${ msgTime }${ memberInfoContent }`
       );
-    } else
-
-    // 房间电台
-    if (data.type === 'custom' && data.attach.messageType === 'TEAM_VOICE') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'TEAM_VOICE') {
+      // 房间电台
       if (pocket48LiveAtAll) {
         sendGroup.push(CQ.atAll());
       }
@@ -137,10 +121,8 @@ ${ nickName }：${ replyInfo.text }
 地址：${ data.attach.voiceInfo.streamUrl }
 时间：${ msgTime }${ memberInfoContent }`
       );
-    } else
-
-    // 鸡腿翻牌
-    if (data.type === 'custom' && data.attach.messageType === 'FLIPCARD') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'FLIPCARD') {
+      // 鸡腿翻牌
       const info: FlipCardInfo = data.attach.filpCardInfo ?? data.attach.flipCardInfo;
 
       sendGroup.push(
@@ -149,14 +131,12 @@ ${ info.question }
 回答：${ info.answer }
 时间：${ msgTime }${ memberInfoContent }`
       );
-    } else
-
-    // 语音、视频翻牌
-    if (
+    } else if (
       data.type === 'custom'
       && (data.attach.messageType === 'FLIPCARD_AUDIO'
       || data.attach.messageType === 'FLIPCARD_VIDEO')
     ) {
+      // 语音、视频翻牌
       const info: FlipCardAudioInfo | FlipCardVideoInfo = (data.attach.filpCardInfo ?? data.attach.flipCardInfo)
         ?? (data.attach.messageType === 'FLIPCARD_AUDIO'
           ? (data.attach.filpCardAudioInfo ?? data.attach.flipCardAudioInfo)
@@ -170,10 +150,8 @@ ${ info.question }
 回答：${ mp4Source(answer.url) }
 时间：${ msgTime }${ memberInfoContent }`
       );
-    } else
-
-    // 发送2021表情包
-    if (data.type === 'custom' && data.attach.messageType === 'EXPRESSIMAGE') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'EXPRESSIMAGE') {
+      // 发送2021表情包
       sendGroup.push(
         `${ nickName } ：`,
         CQ.image(source(data.attach?.expressImageInfo?.emotionRemote
@@ -181,10 +159,8 @@ ${ info.question }
           ?? data.attach.emotionRemote)),
         `时间：${ msgTime }${ memberInfoContent }`
       );
-    } else
-
-    // 投票
-    if (data.type === 'custom' && data.attach.messageType === 'PRESENT_TEXT') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'PRESENT_TEXT') {
+      // 投票
       // 判断是否为总选投票
       if (data.attach.giftInfo.giftName.includes('投票')) {
         sendGroup.push(
@@ -193,36 +169,28 @@ ${ info.question }
           `时间：${ msgTime }${ memberInfoContent }`
         );
       }
-    } else
-
-    // 房间发起投票
-    if (data.type === 'custom' && data.attach.messageType === 'VOTE') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'VOTE') {
+      // 房间发起投票
       sendGroup.push(
         `${ nickName }：发起投票
 标题：${ data.attach.voteInfo.text }
 正文：${ data.attach.voteInfo.content }
 时间：${ msgTime }${ memberInfoContent }`
       );
-    } else
-
-    // 关闭房间
-    if (data.type === 'custom' && data.attach.messageType === 'CLOSE_ROOM_CHAT') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'CLOSE_ROOM_CHAT') {
+      // 关闭房间
       sendGroup.push(
         `${ nickName } 房间被关闭了。
 时间：${ msgTime }${ memberInfoContent }`
       );
-    } else
-
-    // 发表情
-    if (data.type === 'custom' && data.attach.messageType === 'EXPRESS') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'EXPRESS') {
+      // 发表情
       sendGroup.push(
         `${ nickName }：发送了一个表情。
 时间：${ msgTime }${ memberInfoContent }`
       );
-    } else
-
-    // 礼物信息
-    if (data.type === 'custom' && data.attach.messageType === 'GIFT_TEXT') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'GIFT_TEXT') {
+      // 礼物信息
       const {
         acceptUserName,
         userName,
@@ -236,11 +204,7 @@ ${ info.question }
         `${ nickName } 送给 ${ acceptUserName ?? userName } ${ giftNum }个${ giftName }${ tpNum1 > 0 ? `(${ tpNum })` : '' }。
 时间：${ msgTime }${ memberInfoContent }`
       );
-    } else
-
-    // 删除回复、禁言、open live、trip info
-    // TODO: SESSION_DIANTA目前会导致重复发送信息，所以暂时不处理
-    if (data.type === 'custom' && [
+    } else if (data.type === 'custom' && [
       'DELETE',
       'SESSION_DIANTAI',
       'DISABLE_SPEAK',
@@ -249,6 +213,8 @@ ${ info.question }
       'ZHONGQIU_ACTIVITY_LANTERN_FANS',
       'PERSONAL_VOICE'
     ].includes(data.attach.messageType)) {
+      // 删除回复、禁言、open live、trip info
+      // TODO: SESSION_DIANTA目前会导致重复发送信息，所以暂时不处理
       // 什么都不做
     } else {
       // 未知信息类型
@@ -299,84 +265,64 @@ export function getLogMessage({ user, data, memberInfo, channel }: {
     : channelInfoContent;
 
   try {
-    // 普通信息
     if (data.type === 'text') {
+      // 普通信息
       logData = `${ nickName }：${ data.body }
 时间：${ msgTime }${ memberInfoContent }`;
-    } else
-
-    // 回复信息
-    if (data.type === 'custom' && data.attach.messageType === 'REPLY') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'REPLY') {
+      // 回复信息
       logData = `${ data.attach.replyInfo.replyName }：${ data.attach.replyInfo.replyText }
 ${ nickName }：${ data.attach.replyInfo.text }
 时间：${ msgTime }${ memberInfoContent }`;
-    } else
-
-    // 发送图片
-    if (data.type === 'image') {
+    } else if (data.type === 'image') {
+      // 发送图片
       logData = `${ nickName } 发送了一张图片：
 地址：${ data.attach.url }
 时间：${ msgTime }${ memberInfoContent }`;
-    } else
-
-    // 发送语音
-    if (data.type === 'audio') {
+    } else if (data.type === 'audio') {
+      // 发送语音
       logData = `${ nickName } 发送了一条语音：
 地址：${ data.attach.url }
 时间：${ msgTime }${ memberInfoContent }`;
-    } else
-
-    // 发送短视频
-    if (data.type === 'video') {
+    } else if (data.type === 'video') {
+      // 发送短视频
       logData = `${ nickName } 发送了一个视频：
 地址：${ data.attach.url }
 时间：${ msgTime }${ memberInfoContent }`;
-    } else
-
-    // 发送语音_1
-    if (data.type === 'custom' && data.attach.messageType === 'AUDIO') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'AUDIO') {
+      // 发送语音_1
       logData = `${ nickName } 发送了一条语音：
 地址：${ data.attach.audioInfo.url }
 时间：${ msgTime }${ memberInfoContent }`;
-    } else
-
-    // 发送短视频_1
-    if (data.type === 'custom' && data.attach.messageType === 'VIDEO') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'VIDEO') {
+      // 发送短视频_1
       logData = `${ nickName } 发送了一个视频：
 地址：${ data.attach.videoInfo.url }
 时间：${ msgTime }${ memberInfoContent }`;
-    } else
-
-    // 直播
-    if (data.type === 'custom' && data.attach.messageType === 'LIVEPUSH') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'LIVEPUSH') {
+      // 直播
       logData = `${ nickName } 正在直播
 直播标题：${ data.attach.livePushInfo.liveTitle }
 时间：${ msgTime }${ memberInfoContent }`;
-    } else
-
-    // 房间电台
-    if (data.type === 'custom' && data.attach.messageType === 'TEAM_VOICE') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'TEAM_VOICE') {
+      // 房间电台
       logData = `${ data.attach.voiceInfo.voiceStarInfoList?.[0]?.nickname ?? '' } 开启了房间电台
 地址：${ data.attach.voiceInfo.streamUrl }
 时间：${ msgTime }${ memberInfoContent }`;
-    } else
-
-    // 鸡腿翻牌
-    if (data.type === 'custom' && data.attach.messageType === 'FLIPCARD') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'FLIPCARD') {
+      // 鸡腿翻牌
       const info: FlipCardInfo = data.attach.filpCardInfo ?? data.attach.flipCardInfo;
 
       logData = `${ nickName } 翻牌了问题：
 ${ info.question }
 回答：${ info.answer }
 时间：${ msgTime }${ memberInfoContent }`;
-    } else
-
-    // 语音、视频翻牌
-    if (
+    } else if (
       data.type === 'custom'
       && (data.attach.messageType === 'FLIPCARD_AUDIO'
       || data.attach.messageType === 'FLIPCARD_VIDEO')
     ) {
+      // 语音、视频翻牌
       const info: FlipCardAudioInfo | FlipCardVideoInfo = (data.attach.filpCardInfo ?? data.attach.flipCardInfo)
         ?? (data.attach.messageType === 'FLIPCARD_AUDIO'
           ? (data.attach.filpCardAudioInfo ?? data.attach.flipCardAudioInfo)
@@ -388,54 +334,40 @@ ${ info.question }
 ${ info.question }
 回答：${ mp4Source(answer.url) }
 时间：${ msgTime }${ memberInfoContent }`;
-    } else
-
-    // 发送2021表情包
-    if (data.type === 'custom' && data.attach.messageType === 'EXPRESSIMAGE') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'EXPRESSIMAGE') {
+      // 发送2021表情包
       logData = `${ nickName } 发送了一个表情：
 地址：${ source(data.attach?.expressImageInfo?.emotionRemote
   ?? data.attach?.expressImgInfo?.emotionRemote
   ?? data.attach.emotionRemote) }
 时间：${ msgTime }${ memberInfoContent }`;
-    } else
-
-    // 投票
-    if (data.type === 'custom' && data.attach.messageType === 'PRESENT_TEXT') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'PRESENT_TEXT') {
+      // 投票
       // 判断是否为总选投票
       if (data.attach.giftInfo.giftName.includes('投票')) {
         logData = `${ nickName }：投出了${ data.attach.giftInfo.giftNum }票。
 时间：${ msgTime }${ memberInfoContent }`;
       }
-    } else
-
-    // 房间发起投票
-    if (data.type === 'custom' && data.attach.messageType === 'VOTE') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'VOTE') {
+      // 房间发起投票
       logData = `${ nickName }：发起投票
 标题：${ data.attach.voteInfo.text }
 正文：${ data.attach.voteInfo.content }
 时间：${ msgTime }${ memberInfoContent }`;
-    } else
-
-    // 关闭房间
-    if (data.type === 'custom' && data.attach.messageType === 'CLOSE_ROOM_CHAT') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'CLOSE_ROOM_CHAT') {
+      // 关闭房间
       logData = `${ nickName } 房间被关闭了。
 时间：${ msgTime }${ memberInfoContent }`;
-    } else
-
-    // 发表情
-    if (data.type === 'custom' && data.attach.messageType === 'EXPRESS') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'EXPRESS') {
+      // 发表情
       logData = `${ nickName } 发送了一个表情：
 ${ JSON.stringify(data) }`;
-    } else
-
-    // 删除回复
-    if (data.type === 'custom' && data.attach.messageType === 'DELETE') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'DELETE') {
+      // 删除回复
       logData = `${ nickName } 删除信息
 ${ JSON.stringify(data) }`;
-    } else
-
-    // 礼物信息
-    if (data.type === 'custom' && data.attach.messageType === 'GIFT_TEXT') {
+    } else if (data.type === 'custom' && data.attach.messageType === 'GIFT_TEXT') {
+      // 礼物信息
       const {
         acceptUserName,
         userName,
@@ -449,15 +381,13 @@ ${ JSON.stringify(data) }`;
       logData = `${ nickName } 送给 ${ acceptUserName ?? userName } ${ giftNum }个${ giftName }${ tpNum1 > 0 ? `(${ tpNum })` : '' }。
 地址：${ source(picPath) }
 时间：${ msgTime }${ memberInfoContent }`;
-    } else
-
-    // 禁言、open live、trip info
-    if (data.type === 'custom' && [
+    } else if (data.type === 'custom' && [
       'SESSION_DIANTAI',
       'OPEN_LIVE',
       'TRIP_INFO',
       'ZHONGQIU_ACTIVITY_LANTERN_FANS'
     ].includes(data.attach.messageType)) {
+      // 禁言、open live、trip info
       // 什么都不做
     } else {
       // 未知信息类型
