@@ -7,20 +7,23 @@ import type { QQProtocol } from '../../../../../QQBotModals/ModalTypes';
 
 let bilibiliFeedSpaceId: string; // bilibili空间id
 let bilibiliFeedSpaceTimer: NodeJS.Timer | null = null;
-let idStr: string | null = null; // 记录查询位置
-let protocol: QQProtocol;        // 协议
-let requestCookie: string;
+let latestTime: number | null = null; // 记录最新的时间
+let protocol: QQProtocol;             // 协议
+let requestCookie: string;            // 请求cookie
 
-/* 过滤最新的数据 */
-function filterData(data: Array<BilibiliFeedSpaceItem>): Array<BilibiliFeedSpaceItem> {
-  const nextData: Array<BilibiliFeedSpaceItem> = [];
+/**
+ * 格式化数据
+ * @param { Array<BilibiliFeedSpaceItem> } data: 原始数据
+ * @param { boolean } needFilter: 是否需要过滤
+ */
+function formatData(data: Array<BilibiliFeedSpaceItem>, needFilter?: boolean): Array<BilibiliFeedSpaceItem> {
+  const nextData: Array<BilibiliFeedSpaceItem> = [...data].sort(
+    (a: BilibiliFeedSpaceItem, b: BilibiliFeedSpaceItem): number =>
+      b.modules.module_author.pub_ts - a.modules.module_author.pub_ts);
 
-  for (const item of data) {
-    if (item.id_str !== idStr) {
-      nextData.push(item);
-    } else {
-      break;
-    }
+  if (needFilter) {
+    return nextData.filter(
+      (o: BilibiliFeedSpaceItem): boolean => latestTime !== null && o.modules.module_author.pub_ts > latestTime);
   }
 
   return nextData;
@@ -60,11 +63,11 @@ async function bilibiliFeedSpaceTimerFunc(): Promise<void> {
     const res: BilibiliFeedSpace = await requestFeedSpace(bilibiliFeedSpaceId, requestCookie);
 
     if (res?.data?.items?.length) {
-      if (idStr === null) {
-        idStr = res.data.items[0].id_str;
+      if (latestTime === null) {
+        latestTime = res.data.items[0].modules.module_author.pub_ts;
       }
 
-      const nextData: Array<BilibiliFeedSpaceItem> = filterData(res.data.items);
+      const nextData: Array<BilibiliFeedSpaceItem> = formatData(res.data.items, true);
 
       if (nextData.length) {
         const sendGroup: Array<ParserResult> = [];
@@ -78,7 +81,7 @@ async function bilibiliFeedSpaceTimerFunc(): Promise<void> {
             type: 'message',
             sendGroup
           });
-          idStr = nextData[0].id_str;
+          latestTime = nextData[0].modules.module_author.pub_ts;
         }
       }
     }
@@ -94,7 +97,9 @@ async function bilibiliFeedSpaceInit(): Promise<void> {
     const res: BilibiliFeedSpace = await requestFeedSpace(bilibiliFeedSpaceId, requestCookie);
 
     if (res?.data?.items?.length) {
-      idStr = res.data.items[0].id_str;
+      const items: Array<BilibiliFeedSpaceItem> = formatData(res.data.items);
+
+      latestTime = items[0].modules.module_author.pub_ts;
     }
   } catch (err) {
     console.error(err);
