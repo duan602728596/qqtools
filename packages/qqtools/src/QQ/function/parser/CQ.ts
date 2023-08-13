@@ -7,11 +7,11 @@ export function image(file: string, type: 'file' | 'url' = 'file'): string {
 }
 
 export function at(id: number): string {
-  return `[CQ:at,qq=${ id }]`;
+  return `[CQ:at,qq=${ id }] `;
 }
 
 export function atAll(): string {
-  return '[CQ:at,qq=all]';
+  return '[CQ:at,qq=all] ';
 }
 
 export function record(file: string, type: 'file' | 'url' = 'file'): string {
