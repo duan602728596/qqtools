@@ -9,11 +9,11 @@ import * as dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 import { storeFactory } from './store/store';
 import Routers from './router/Routers';
-import MDXProvider from './components/MdxProvider/MDXProvider';
+import MDXProvider from './components/basic/MdxProvider/MDXProvider';
 import IDBInit from './utils/IDB/IDBInit';
 import './entry/main.tailwindcss.css';
 import { proxyServerInit } from './utils/proxyServer/proxyServer';
-import './components/Accessibility/Accessibility';
+import './components/basic/Accessibility/Accessibility';
 import './utils/logProtocol/logProtocolBroadcastChannel';
 
 dayjs.locale('zh-cn');

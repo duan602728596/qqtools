@@ -11,9 +11,9 @@ html
 
   body
     div.app#app
-      include components/loading/loading
+      include components/basic/loading/loading
 
-    include components/wasm/wasm
+    include components/basic/wasm/wasm
 
     if htmlWebpackPlugin.options.mode === 'development'
       script(src=imports.dll)
