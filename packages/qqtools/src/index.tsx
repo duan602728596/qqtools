@@ -9,6 +9,7 @@ import * as dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 import { storeFactory } from './store/store';
 import Routers from './router/Routers';
+import MDXProvider from './components/MdxProvider/MDXProvider';
 import IDBInit from './utils/IDB/IDBInit';
 import './entry/main.tailwindcss.css';
 import { proxyServerInit } from './utils/proxyServer/proxyServer';
@@ -29,9 +30,11 @@ root.render(
         }
       }}
     >
-      <HashRouter>
-        <Routers />
-      </HashRouter>
+      <MDXProvider>
+        <HashRouter>
+          <Routers />
+        </HashRouter>
+      </MDXProvider>
     </ConfigProvider>
   </Provider>
 );

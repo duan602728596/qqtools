@@ -144,6 +144,15 @@ export default function(info: object): { [key: string]: any } {
       {
         test: /\.tailwindcss\.css$/i,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
+      },
+      {
+        test: /\.mdx$/,
+        use: [{
+          loader: '@mdx-js/loader',
+          options: {
+            providerImportSource: '@mdx-js/react'
+          }
+        }]
       }
     ],
     plugins: [

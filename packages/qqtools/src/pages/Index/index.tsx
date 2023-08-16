@@ -122,7 +122,7 @@ function Index(props: {}): ReactElement {
           <Tooltip title="问题反馈">
             <Button type="text" icon={ <IconBugTwoTone /> } onClick={ handleOpenIssuesClick } />
           </Tooltip>
-          <ButtonLink linkProps={{ to: '/Credits' }} buttonProps={{ type: 'text' }}>License</ButtonLink>
+          <ButtonLink linkProps={{ to: '/Agreement/Agreement' }} buttonProps={{ type: 'text' }}>License</ButtonLink>
         </Space>
       </div>
       <Divider />
