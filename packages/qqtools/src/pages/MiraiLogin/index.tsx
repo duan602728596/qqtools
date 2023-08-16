@@ -32,6 +32,8 @@ import {
 } from './reducers/miraiLogin';
 import dbConfig from '../../utils/IDB/IDBConfig';
 import { login, queue } from './function/login/login';
+import dynamicReducer from '../../store/dynamicReducers';
+import miraiLoginReducers from './reducers/miraiLogin';
 import type { LoginInfoSendMessage } from './function/login/miraiChild.worker/miraiChild.worker';
 import type { QQLoginItem, ProtocolType } from './types';
 
@@ -235,4 +237,4 @@ function Index(props: {}): ReactElement {
   );
 }
 
-export default Index;
+export default dynamicReducer([miraiLoginReducers])(Index);
