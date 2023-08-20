@@ -20,6 +20,5 @@ export function needToReadPowerLoader(): Response | null {
 
 /* 设置已阅读声明 */
 export function setReadPower(): void {
-  console.log(12345);
   localStorage.setItem(NOW_POWER_VERSION_KEY, NOW_POWER_VERSION);
 }
