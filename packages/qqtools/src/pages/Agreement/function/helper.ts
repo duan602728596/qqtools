@@ -1,7 +1,7 @@
 import { redirect } from 'react-router-dom';
 
 const NOW_POWER_VERSION_KEY: 'POWER_VERSION_KEY' = 'POWER_VERSION_KEY';
-const NOW_POWER_VERSION: '20230816' = '20230816';
+const NOW_POWER_VERSION: '20230820' = '20230820';
 
 /* 判断是否需要阅读声明 */
 export function needToReadPower(): boolean {
@@ -20,6 +20,5 @@ export function needToReadPowerLoader(): Response | null {
 
 /* 设置已阅读声明 */
 export function setReadPower(): void {
-  console.log(12345);
   localStorage.setItem(NOW_POWER_VERSION_KEY, NOW_POWER_VERSION);
 }
