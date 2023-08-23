@@ -6,7 +6,7 @@ import * as CQ from '../../../../parser/CQ';
 import type { QQProtocol } from '../../../../../QQBotModals/ModalTypes';
 
 let bilibiliFeedSpaceId: string; // bilibili空间id
-let bilibiliFeedSpaceTimer: NodeJS.Timer | null = null;
+let bilibiliFeedSpaceTimer: NodeJS.Timeout | null = null;
 let latestTime: number | null = null; // 记录最新的时间
 let protocol: QQProtocol;             // 协议
 let requestCookie: string;            // 请求cookie
