@@ -13,7 +13,7 @@ let userId: string;                                    // 用户userId
 let description: string;                               // 描述
 let protocol: QQProtocol;                              // 协议：mirai或者oicq
 let lastUpdateTime: number | 0 | null = null;          // 记录最新发布视频的更新时间，为0表示当前没有数据，null表示请求数据失败了
-let douyinTimer: NodeJS.Timer | undefined = undefined; // 轮询定时器
+let douyinTimer: NodeJS.Timeout | undefined = undefined; // 轮询定时器
 let cookieString: string | undefined = undefined;
 let intervalTime: number = 10 * 60 * 1_000;            // 轮询间隔
 

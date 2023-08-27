@@ -5,7 +5,7 @@ type Listener = () => void;
 /* 发送短信倒计时 */
 class SMSStore {
   time: number = 0;
-  timer: NodeJS.Timer | number | null = null;
+  timer: NodeJS.Timeout | number | null = null;
   listeners: Array<Listener> = [];
 
   getSnapshot: () => number = (): number => {

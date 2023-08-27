@@ -3,6 +3,7 @@ const path = require('node:path');
 const { randomUUID } = require('node:crypto');
 const _ = require('lodash');
 const dayjs = require('dayjs');
+const importESM = require('@sweet-milktea/utils/importESM');
 
 require('dayjs/locale/zh-cn');
 require('../../NIMNodePolyfill/NIMNodePolyfill.cjs');
@@ -45,7 +46,7 @@ function headers() {
 // 获取房间信息
 function getRoomInfo(chatroomId) {
   return new Promise(async (resolve, reject) => {
-    const appKey = await import(path.join(__dirname, '../../qqtools/src/QQ/sdk/appKey.mjs'));
+    const appKey = await importESM(path.join(__dirname, '../../qqtools/src/QQ/sdk/appKey.mjs'));
     const nimChatroomSocket = Chatroom.getInstance({
       appKey: atob(appKey.default),
       isAnonymous: true,
@@ -78,7 +79,7 @@ function getRoomInfo(chatroomId) {
 function getServerInfo(serverId) {
   return new Promise(async (resolve, reject) => {
     try {
-      const appKey = await import(path.join(__dirname, '../../qqtools/src/QQ/sdk/appKey.mjs'));
+      const appKey = await importESM(path.join(__dirname, '../../qqtools/src/QQ/sdk/appKey.mjs'));
       const qchat = new QChatSDK({
         appkey: atob(appKey.default),
         account: pocket48Account,

@@ -34,7 +34,7 @@ let protocol: QQProtocol; // 协议
 let signProtocol: XHSProtocol;
 let lastUpdateTime: number | 0 | null = null; // 记录最新发布的更新时间，为0表示当前没有数据，null表示请求数据失败了
 const intervalTime: number = 5 * 60 * 1_000;  // 轮询间隔
-let xiaohongshuTimer: NodeJS.Timer | undefined = undefined; // 轮询定时器
+let xiaohongshuTimer: NodeJS.Timeout | undefined = undefined; // 轮询定时器
 
 /* 调试 */
 const _startTime: string = dayjs().format('YYYY-MM-DD HH:mm:ss');
