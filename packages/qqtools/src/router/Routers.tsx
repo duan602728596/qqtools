@@ -6,14 +6,14 @@ import Options from '../pages/Options/index';
 import MiraiLoginDynamic from '../pages/MiraiLogin/loader';
 import CodeEditor from '../pages/CodeEditor/index';
 import Agreement from '../pages/Agreement/index';
-import { needToReadPowerLoader } from '../pages/Agreement/function/helper';
+import { needToReadPower } from '../pages/Agreement/function/helper';
 
 function Routers(props: {}): ReactElement | null {
   const routes: ReactElement | null = useRoutes([
     {
       path: '/',
       Component(): ReactElement {
-        if (needToReadPowerLoader()) {
+        if (needToReadPower()) {
           return <Navigate to="/Agreement/Power?read=1" />;
         }
 
