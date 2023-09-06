@@ -32,6 +32,16 @@ export interface BasicArgs {
   messageApi?: MessageInstance;
 }
 
+interface KeyType {
+  pocket48V2: Pocket48V2Expand;
+  weibo: WeiboExpand;
+  douyin: DouyinExpand;
+  bilibili: BilibiliExpand;
+  bilibiliFeedSpace: BilibiliFeedSpace;
+  xiaohonshu: XiaohongshuExpand;
+  cronTimer: CronTimerExpand;
+}
+
 abstract class Basic {
   public protocol: QQProtocol;        // mirai或者oicq
   public id: string;                  // 当前进程的唯一ID
@@ -175,46 +185,19 @@ abstract class Basic {
     }
   }
 
+  destroyOne(key: keyof KeyType): void {
+    const expandItem: Array<KeyType[keyof KeyType]> | undefined = this[key];
+
+    if (expandItem) {
+      expandItem.forEach((item: KeyType[keyof KeyType]): unknown => item.destroy());
+    }
+  }
+
   static destroyExpand(this: QQModals): void {
-    // 销毁口袋监听
-    if (this.pocket48V2) {
-      this.pocket48V2.forEach((item: Pocket48V2Expand): unknown => item.destroy());
-      this.pocket48V2 = undefined;
-    }
+    const keyArray: Array<keyof KeyType> = ['pocket48V2', 'weibo', 'douyin', 'bilibili', 'bilibiliFeedSpace', 'xiaohonshu', 'cronTimer'];
 
-    // 销毁微博监听
-    if (this.weibo) {
-      this.weibo.forEach((item: WeiboExpand): unknown => item.destroy());
-      this.weibo = undefined;
-    }
-
-    // 销毁抖音监听
-    if (this.douyin) {
-      this.douyin.forEach((item: DouyinExpand): unknown => item.destroy());
-      this.douyin = undefined;
-    }
-
-    // 销毁bilibili监听
-    if (this.bilibili) {
-      this.bilibili.forEach((item: BilibiliExpand): unknown => item.destroy());
-      this.bilibili = undefined;
-    }
-
-    if (this.bilibiliFeedSpace) {
-      this.bilibiliFeedSpace.forEach((item: BilibiliFeedSpace): unknown => item.destroy());
-      this.bilibiliFeedSpace = undefined;
-    }
-
-    if (this.xiaohonshu) {
-      this.xiaohonshu.forEach((item: XiaohongshuExpand): unknown => item.destroy());
-      this.xiaohonshu = undefined;
-      XiaohongshuExpand.destroy();
-    }
-
-    // 销毁定时任务
-    if (this.cronTimer) {
-      this.cronTimer.forEach((item: CronTimerExpand): unknown => item.destroy());
-      this.cronTimer = undefined;
+    for (const key of keyArray) {
+      this.destroyOne(key);
     }
   }
 
