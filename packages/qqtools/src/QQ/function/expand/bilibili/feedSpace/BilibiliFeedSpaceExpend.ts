@@ -4,7 +4,7 @@ import type { OptionsItemBilibiliFeedSpace } from '../../../../../commonTypes';
 import type { MessageListener } from '../../../../QQBotModals/Basic';
 
 /* bilibili空间动态 */
-class BilibiliFeedSpace {
+class BilibiliFeedSpaceExpend {
   public config: OptionsItemBilibiliFeedSpace;
   public qq: QQModals;
   public bilibiliFeedSpaceWorker?: Worker;
@@ -47,4 +47,4 @@ class BilibiliFeedSpace {
   }
 }
 
-export default BilibiliFeedSpace;
+export default BilibiliFeedSpaceExpend;

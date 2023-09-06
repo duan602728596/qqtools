@@ -4,7 +4,7 @@ import Pocket48V2Expand from '../function/expand/pocket48/Pocket48V2Expand';
 import WeiboExpand from '../function/expand/weibo/WeiboExpand';
 import DouyinExpand from '../function/expand/douyin/DouyinExpand';
 import BilibiliExpand from '../function/expand/bilibili/live/BilibiliExpand';
-import BilibiliFeedSpace from '../function/expand/bilibili/feedSpace/BilibiliFeedSpace';
+import BilibiliFeedSpaceExpend from '../function/expand/bilibili/feedSpace/BilibiliFeedSpaceExpend';
 import XiaohongshuExpand from '../function/expand/xiaohongshu/XiaohongshuExpand';
 import CronTimerExpand from '../function/expand/cronTimer/CronTimerExpand';
 import { QQProtocol, type QQModals } from './ModalTypes';
@@ -37,7 +37,7 @@ interface KeyType {
   weibo: WeiboExpand;
   douyin: DouyinExpand;
   bilibili: BilibiliExpand;
-  bilibiliFeedSpace: BilibiliFeedSpace;
+  bilibiliFeedSpace: BilibiliFeedSpaceExpend;
   xiaohonshu: XiaohongshuExpand;
   cronTimer: CronTimerExpand;
 }
@@ -55,7 +55,7 @@ abstract class Basic {
   public weibo: Array<WeiboExpand> | undefined;
   public douyin: Array<DouyinExpand> | undefined;
   public bilibili: Array<BilibiliExpand> | undefined;
-  public bilibiliFeedSpace: Array<BilibiliFeedSpace> | undefined;
+  public bilibiliFeedSpace: Array<BilibiliFeedSpaceExpend> | undefined;
   public xiaohonshu: Array<XiaohongshuExpand> | undefined;
   public cronTimer: Array<CronTimerExpand> | undefined;
   messageApi: typeof message | MessageInstance = message;
@@ -126,7 +126,7 @@ abstract class Basic {
       this.bilibiliFeedSpace = [];
 
       for (const item of this.config.bilibiliFeedSpace) {
-        const bilibiliFeedSpace: BilibiliFeedSpace = new BilibiliFeedSpace({ qq: this, config: item });
+        const bilibiliFeedSpace: BilibiliFeedSpaceExpend = new BilibiliFeedSpaceExpend({ qq: this, config: item });
 
         bilibiliFeedSpace.initBilibiliFeedSpaceWorker();
         this.bilibiliFeedSpace.push(bilibiliFeedSpace);
