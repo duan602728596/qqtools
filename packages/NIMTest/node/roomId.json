@@ -1775,6 +1775,19 @@
       "liveRoomId": 346654836
     },
     {
+      "ownerName": "付奕萱",
+      "id": 711725,
+      "serverId": 8717745,
+      "channelId": 10863705,
+      "account": "20190415142837_wl4og5hb6wseqw1",
+      "team": "IDFT",
+      "teamId": 1501,
+      "groupName": "IDFT",
+      "periodName": "BEJ48 四期生",
+      "pinyin": "fu yixuan",
+      "liveRoomId": 25374594
+    },
+    {
       "id": 711726,
       "roomId": "67189871",
       "account": "20190415142831_58etbwa8aqnlpnl",
@@ -3870,5 +3883,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-08-31 18:23:11"
+  "buildTime": "2023-09-06 22:16:20"
 }
