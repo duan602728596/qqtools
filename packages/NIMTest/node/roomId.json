@@ -2253,6 +2253,18 @@
       "liveRoomId": 382284342
     },
     {
+      "ownerName": "吕思琪",
+      "id": 52494485,
+      "serverId": 8668709,
+      "channelId": 11061090,
+      "account": "20210425160656_5mg2mw855d4oe4b",
+      "team": "IDFT",
+      "teamId": 1501,
+      "groupName": "IDFT",
+      "periodName": "GNZ48 九期生",
+      "pinyin": "lv siqi"
+    },
+    {
       "id": 54526093,
       "roomId": "377992915",
       "account": "20210412201403_ubbqatt4wuyrkh6",
@@ -3883,5 +3895,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-09-06 22:16:20"
+  "buildTime": "2023-09-17 21:59:19"
 }
