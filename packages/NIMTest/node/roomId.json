@@ -3714,6 +3714,131 @@
       "liveRoomId": 4521837726
     },
     {
+      "ownerName": "阿丽米热",
+      "id": 112525372,
+      "serverId": 8882149,
+      "channelId": 11339559,
+      "account": "20230927122508_y6a7e28atr59r3b",
+      "team": "BEJ48",
+      "teamId": 1105,
+      "groupName": "BEJ48",
+      "periodName": "BEJ48 十三期生",
+      "pinyin": "alimire"
+    },
+    {
+      "ownerName": "陈枳霏",
+      "id": 112525375,
+      "serverId": 8635743,
+      "channelId": 11257562,
+      "account": "20230927122508_q1b9q2iuni4q9ev",
+      "team": "BEJ48",
+      "teamId": 1105,
+      "groupName": "BEJ48",
+      "periodName": "BEJ48 十三期生",
+      "pinyin": "chen zhifei"
+    },
+    {
+      "ownerName": "刁昕妤",
+      "id": 112525376,
+      "serverId": 8619361,
+      "channelId": 11355911,
+      "account": "20230927122508_66wh81dq73m4x79",
+      "team": "BEJ48",
+      "teamId": 1105,
+      "groupName": "BEJ48",
+      "periodName": "BEJ48 十三期生",
+      "pinyin": "diao xinyu"
+    },
+    {
+      "ownerName": "高予瑾",
+      "id": 112525377,
+      "serverId": 8652089,
+      "channelId": 11289676,
+      "account": "20230927122508_amleqwcdzz32wrj",
+      "team": "BEJ48",
+      "teamId": 1105,
+      "groupName": "BEJ48",
+      "periodName": "BEJ48 十三期生",
+      "pinyin": "gao yujin",
+      "liveRoomId": 5687248590
+    },
+    {
+      "ownerName": "孟清渝",
+      "id": 112525381,
+      "serverId": 8652292,
+      "channelId": 11241399,
+      "account": "20230927122508_tmu2dd7v724us1y",
+      "team": "BEJ48",
+      "teamId": 1105,
+      "groupName": "BEJ48",
+      "periodName": "BEJ48 十三期生",
+      "pinyin": "meng qingyu",
+      "liveRoomId": 5687297244
+    },
+    {
+      "ownerName": "沈祉含",
+      "id": 112525382,
+      "serverId": 8717914,
+      "channelId": 11339161,
+      "account": "20230927122509_z5gmif3jjrrurvp",
+      "team": "BEJ48",
+      "teamId": 1105,
+      "groupName": "BEJ48",
+      "periodName": "BEJ48 十三期生",
+      "pinyin": "shen zhihan",
+      "liveRoomId": 5687281243
+    },
+    {
+      "ownerName": "孙嘉馥",
+      "id": 112525384,
+      "serverId": 8800110,
+      "channelId": 11355517,
+      "account": "20230927122509_biw9gn4lew0s9jy",
+      "team": "BEJ48",
+      "teamId": 1105,
+      "groupName": "BEJ48",
+      "periodName": "BEJ48 十三期生",
+      "pinyin": "sun jiafu"
+    },
+    {
+      "ownerName": "王祉依",
+      "id": 112525388,
+      "serverId": 8718321,
+      "channelId": 11371868,
+      "account": "20230927122509_wb7ea7n7qsfcbkx",
+      "team": "BEJ48",
+      "teamId": 1105,
+      "groupName": "BEJ48",
+      "periodName": "BEJ48 十三期生",
+      "pinyin": "wang zhiyi",
+      "liveRoomId": 5687248243
+    },
+    {
+      "ownerName": "袁涵",
+      "id": 112525391,
+      "serverId": 8815869,
+      "channelId": 10929737,
+      "account": "20230927122509_m60g7b6pw2167gq",
+      "team": "BEJ48",
+      "teamId": 1105,
+      "groupName": "BEJ48",
+      "periodName": "BEJ48 十三期生",
+      "pinyin": "yuan han"
+    },
+    {
+      "ownerName": "张歆如",
+      "id": 112525394,
+      "serverId": 8734301,
+      "channelId": 10929738,
+      "account": "20230927122509_3zkwoq6vlxo5f6g",
+      "team": "BEJ48",
+      "teamId": 1105,
+      "groupName": "BEJ48",
+      "periodName": "BEJ48 十三期生",
+      "pinyin": "zhang xinru",
+      "liveRoomId": 5687248594
+    },
+    {
       "id": 4344250371,
       "roomId": "147283635",
       "account": "20200109180128_8b0atpmt7na9apo",
@@ -3895,5 +4020,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-09-17 21:59:19"
+  "buildTime": "2023-09-27 20:06:28"
 }
