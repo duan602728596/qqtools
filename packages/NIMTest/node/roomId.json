@@ -3723,7 +3723,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十三期生",
-      "pinyin": "alimire"
+      "pinyin": "alimire",
+      "liveRoomId": 5695752187
     },
     {
       "ownerName": "陈枳霏",
@@ -3735,7 +3736,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十三期生",
-      "pinyin": "chen zhifei"
+      "pinyin": "chen zhifei",
+      "liveRoomId": 5695816983
     },
     {
       "ownerName": "刁昕妤",
@@ -3747,7 +3749,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十三期生",
-      "pinyin": "diao xinyu"
+      "pinyin": "diao xinyu",
+      "liveRoomId": 5695784674
     },
     {
       "ownerName": "高予瑾",
@@ -3798,7 +3801,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十三期生",
-      "pinyin": "sun jiafu"
+      "pinyin": "sun jiafu",
+      "liveRoomId": 5695833820
     },
     {
       "ownerName": "王祉依",
@@ -3823,7 +3827,8 @@
       "teamId": 1105,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十三期生",
-      "pinyin": "yuan han"
+      "pinyin": "yuan han",
+      "liveRoomId": 5695833764
     },
     {
       "ownerName": "张歆如",
@@ -4020,5 +4025,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-09-27 20:06:28"
+  "buildTime": "2023-09-28 20:23:02"
 }
