@@ -9,6 +9,9 @@ require('dayjs/locale/zh-cn');
 require('../../NIMNodePolyfill/NIMNodePolyfill.cjs');
 
 const NIM_SDK = require('@yxim/nim-web-sdk/dist/SDK/NIM_Web_SDK_nodejs');
+
+globalThis.document = undefined; // fix error
+
 const QChatSDK = require('nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK.js');
 
 dayjs.locale('zh-cn');
