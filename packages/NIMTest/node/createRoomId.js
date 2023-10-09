@@ -145,7 +145,6 @@ async function main() {
 
       if (index >= 0) {
         item = roomId[index];
-        continue;
       }
 
       // 获取账号信息
@@ -241,7 +240,9 @@ async function main() {
           buildTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
         }, null, 2);
 
-        await fsP.writeFile(fileName, newData);
+        if (newData !== '') {
+          await fsP.writeFile(fileName, newData);
+        }
       }
     }
   } catch (err) {
