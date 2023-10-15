@@ -3964,7 +3964,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 十九期生",
-      "pinyin": "tang chengcheng"
+      "pinyin": "tang chengcheng",
+      "liveRoomId": 5737120856
     },
     {
       "ownerName": "王悦垚",
@@ -4000,7 +4001,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 十九期生",
-      "pinyin": "ye fan"
+      "pinyin": "ye fan",
+      "liveRoomId": 5738153929
     },
     {
       "ownerName": "张倩",
@@ -4196,5 +4198,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-10-09 21:21:50"
+  "buildTime": "2023-10-15 22:42:04"
 }
