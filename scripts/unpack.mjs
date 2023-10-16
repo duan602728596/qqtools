@@ -75,12 +75,7 @@ function config(outputDir, target) {
       app: wwwDir,
       output: outputDir
     },
-    asarUnpack: [
-      'node_modules/asar-node',
-      'boot/asarNodeRequire.js',
-      'boot/proxyServer/httpProxyServer.worker.js',
-      'boot/preload/xiaohongshuServerInject.js'
-    ]
+    asar: false
   };
 
   // 重写编译目标
