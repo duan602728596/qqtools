@@ -1,7 +1,7 @@
 import { protocol, type Protocol } from 'electron';
-import { userPostedTemplate, feedTemplate } from './logTemplate/xiaohongshu';
-import { awemePostTemplate } from './logTemplate/douyin';
-import { feedSpaceTemplate } from './logTemplate/bilibili';
+import { userPostedTemplate, feedTemplate } from './logTemplate/xiaohongshu.mjs';
+import { awemePostTemplate } from './logTemplate/douyin.mjs';
+import { feedSpaceTemplate } from './logTemplate/bilibili.mjs';
 
 /* template方法 */
 const template: Record<string, Record<string, (t: string, fn: string, d: string) => string>> = {

@@ -1,5 +1,7 @@
-import * as http from 'node:http';
+import type * as Http from 'node:http';
 import type { IncomingMessage, ServerResponse } from 'node:http';
+
+const http: typeof Http = globalThis.require('node:http');
 
 declare global {
   interface GlobalThis {

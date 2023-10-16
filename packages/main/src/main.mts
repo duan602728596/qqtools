@@ -1,12 +1,11 @@
 import * as process from 'node:process';
-import * as path from 'node:path';
 import { app, BrowserWindow, Menu } from 'electron';
-import { isDevelopment, titleBarIcon, createHtmlFilePath, packageJson } from './utils';
-import { ipc, removeIpc } from './ipc';
-import ipcRemoteHandle from './ipcHandle/ipcRemoteHandle';
-import xiaohongshuHandle, { closeAll as xiaohongshuCloseAll } from './ipcHandle/xiaohongshuHandle';
-import { proxyServerClose } from './proxyServer/proxyServer';
-import logProtocol from './logProtocol/logProtocol';
+import { isDevelopment, titleBarIcon, createHtmlFilePath, packageJson } from './utils.mjs';
+import { ipc, removeIpc } from './ipc.mjs';
+import ipcRemoteHandle from './ipcHandle/ipcRemoteHandle.mjs';
+import xiaohongshuHandle, { closeAll as xiaohongshuCloseAll } from './ipcHandle/xiaohongshuHandle.mjs';
+import { proxyServerClose } from './proxyServer/proxyServer.mjs';
+import logProtocol from './logProtocol/logProtocol.mjs';
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1'; // 关闭警告
 

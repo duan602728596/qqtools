@@ -7,7 +7,7 @@ import {
   type SaveDialogOptions,
   type SaveDialogReturnValue
 } from 'electron';
-import { IpcRemoteHandleChannel } from '../channelEnum';
+import { IpcRemoteHandleChannel } from '../channelEnum.js';
 
 /* Remote方法的迁移 */
 function ipcRemoteHandle(): void {

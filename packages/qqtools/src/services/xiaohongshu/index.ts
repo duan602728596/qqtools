@@ -1,5 +1,5 @@
 import got, { type Response as GotResponse } from 'got';
-import type { _UserPostedObject, _FeedObject } from '@qqtools3/main/src/logProtocol/logTemplate/xiaohongshu';
+import type { _UserPostedObject, _FeedObject } from '@qqtools3/main/src/logProtocol/logTemplate/xiaohongshu.mjs';
 import { _xiaohongshuLogProtocol } from '../../utils/logProtocol/logActions';
 import { XHSProtocol, isSignMessage, type MessageObject } from '../../QQ/function/expand/xiaohongshu/xiaohongshu.worker/messageTypes';
 import type { UserPostedResponse, NoteFeedResponse, SignResult } from './interface';

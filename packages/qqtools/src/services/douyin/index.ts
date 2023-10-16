@@ -1,5 +1,5 @@
 import got, { type Response as GotResponse } from 'got';
-import type { _AwemePostObject } from '@qqtools3/main/src/logProtocol/logTemplate/douyin';
+import type { _AwemePostObject } from '../../../../main/src/logProtocol/logTemplate/douyin.mjs';
 import { awemePostQueryV2 } from '../../utils/toutiao/signUtils';
 import { _douyinLogProtocol } from '../../utils/logProtocol/logActions';
 import type { AwemePostResponse } from './interface';

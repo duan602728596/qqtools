@@ -3,14 +3,16 @@ import * as process from 'node:process';
 import { setTimeout } from 'node:timers';
 import * as fsP from 'node:fs/promises';
 import { ipcMain, BrowserWindow, type IpcMainInvokeEvent, type Cookie } from 'electron';
-import * as CDP from 'chrome-remote-interface';
+// @ts-ignore
+import CDP from 'chrome-remote-interface';
 import type { Client } from 'chrome-remote-interface';
-import type { Protocol } from 'devtools-protocol/types/protocol';
+import type { Protocol } from 'devtools-protocol/types/protocol.js';
 import type { LaunchedChrome } from 'chrome-launcher';
-import { pcUserAgent, isDevelopment } from '../utils';
-import { chromeStart, clientSwitch, waitingDomFunction } from './CDPHelper';
-import { XiaohongshuHandleChannel } from '../channelEnum';
+import { pcUserAgent, isDevelopment, workerProductionBasePath, metaHelper, type MetaHelperResult } from '../utils.mjs';
+import { chromeStart, clientSwitch, waitingDomFunction } from './CDPHelper.mjs';
+import { XiaohongshuHandleChannel } from '../channelEnum.js';
 
+const { __dirname }: MetaHelperResult = metaHelper(import.meta.url);
 let xiaohongshuWin: BrowserWindow | null = null,
   client: Client | null = null,
   chromeLauncher: LaunchedChrome | null = null;
@@ -58,7 +60,7 @@ function ipcXiaohongshuHandle(): void {
       const script: string = await fsP.readFile(
         isDevelopment
           ? path.join(__dirname, '../preload/xiaohongshuServerInject.js')
-          : path.join(process.resourcesPath, 'app.asar.unpacked/bin/lib/preload/xiaohongshuServerInject.js'),
+          : path.join(workerProductionBasePath, 'preload/xiaohongshuServerInject.js'),
         { encoding: 'utf8' });
 
       await xiaohongshuWin.webContents.executeJavaScript(`(() => {

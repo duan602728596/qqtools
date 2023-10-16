@@ -6,9 +6,8 @@
     "name": "段昊辰",
     "email": "duanhaochen@126.com"
   },
-  "main": "boot/main.js",
+  "main": "boot/main.mjs",
   "dependencies": {
-    "asar-node": "^3.1.1",
     "chrome-launcher": "^0.15.2",
     "chrome-remote-interface": "^0.32.2",
     "fs-extra": "^11.1.1",

@@ -41,13 +41,14 @@ module.exports = {
   },
   globals: {
     NodeJS: 'readonly',
+    NodeRequire: 'readonly',
     Generator: 'readonly',
     el: 'readonly',
     Chatroom: 'readonly'
   },
   overrides: [
     {
-      files: ['*.ts', '*.tsx', '.mts', '.cts'],
+      files: ['*.ts', '*.tsx', '*.mts', '*.cts'],
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: 'tsconfig.json',

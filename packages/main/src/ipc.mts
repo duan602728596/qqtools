@@ -1,7 +1,7 @@
 import { ipcMain, type BrowserWindow } from 'electron';
-import openDevTools from './ipcListener/openDevTools';
-import { proxyServerInit } from './proxyServer/proxyServer';
-import { WinIpcChannel, ProxyServerChannel } from './channelEnum';
+import openDevTools from './ipcListener/openDevTools.mjs';
+import { proxyServerInit } from './proxyServer/proxyServer.mjs';
+import { WinIpcChannel, ProxyServerChannel } from './channelEnum.js';
 
 /* 移除所有监听的通信 */
 const removeListenerChannel: Array<string> = [
