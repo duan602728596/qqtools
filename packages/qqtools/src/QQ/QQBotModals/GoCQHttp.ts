@@ -40,6 +40,16 @@ class GoCQHttp extends Basic implements BasicImplement<string> {
     return ['bearer', 'token'].includes(bearerStr) && authValue === token;
   }
 
+  static getCommand(data: GroupMessage): string {
+    const { raw_message: rawMessage, message }: GroupMessage = data;
+
+    if (message?.[0] && message[0].type === 'text') {
+      return message[0].text ?? message[0]['data']['text'];
+    }
+
+    return rawMessage ?? '';
+  }
+
   public protocol: QQProtocol = QQProtocol.GoCQHttp;
   public websocket: WebSocketClient | WebSocketServer | undefined;
 
@@ -64,7 +74,8 @@ class GoCQHttp extends Basic implements BasicImplement<string> {
     if (data.post_type === 'meta_event' && data.meta_event_type === 'heartbeat') return;
 
     if (isGroupMessageEventData(data) && data.sender.user_id !== qqNumber && groupNumbers.includes(data.group_id)) {
-      const { raw_message: command, /* 当前命令 */ group_id: groupId /* 收到消息的群 */ }: GroupMessage = data;
+      const { group_id: groupId /* 收到消息的群 */ }: GroupMessage = data;
+      const command: string = GoCQHttp.getCommand(data);
 
       // 日志信息输出
       if (command === 'log') {
