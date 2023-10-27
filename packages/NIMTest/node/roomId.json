@@ -3977,7 +3977,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 十九期生",
-      "pinyin": "wang yueyao"
+      "pinyin": "wang yueyao",
+      "liveRoomId": 5748196794
     },
     {
       "ownerName": "王紫澍",
@@ -4198,5 +4199,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-10-15 22:42:04"
+  "buildTime": "2023-10-27 23:18:53"
 }
