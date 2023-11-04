@@ -145,6 +145,7 @@ async function main() {
 
       if (index >= 0) {
         item = roomId[index];
+        continue;
       }
 
       // 获取账号信息
