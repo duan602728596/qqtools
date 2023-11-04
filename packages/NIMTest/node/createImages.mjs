@@ -47,7 +47,7 @@ const imagesPath = path.join(__dirname, '../images');
 
 async function createOneImage(file, output) {
   let browser = await chromium.launch({
-    headless: false,
+    headless: true,
     executablePath: '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
     timeout: 0
   });
@@ -69,7 +69,7 @@ async function createHtml(groups, output) {
   const html = [];
 
   for (const group of groups) {
-    html.push(`<div class="title">${ group }</div>
+    html.push(`<div class="title">${ group || '其他' }</div>
 <div class="view">
 <table class="table">
   <thead>
