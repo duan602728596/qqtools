@@ -1209,6 +1209,18 @@
       "liveRoomId": 7403679
     },
     {
+      "ownerName": "寇承希",
+      "id": 480666,
+      "serverId": 9471751,
+      "channelId": 12059765,
+      "account": "20190415142215_j9716k4ofybz0vh",
+      "team": "IDFT",
+      "teamId": 1501,
+      "groupName": "IDFT",
+      "periodName": "SHY48 一期生",
+      "pinyin": "kou chengxi"
+    },
+    {
       "id": 480675,
       "roomId": "67265495",
       "account": "20190415142156_42p2y146i8jb6g3",
@@ -1355,6 +1367,18 @@
       "periodName": "BEJ48 二期生",
       "pinyin": "shen xiaoai",
       "liveRoomId": 9470936
+    },
+    {
+      "ownerName": "金莹玥",
+      "id": 538735,
+      "serverId": 9405764,
+      "channelId": 11749332,
+      "account": "20190415142342_4bs99ifq2c2dr5o",
+      "team": "IDFT",
+      "teamId": 1501,
+      "groupName": "IDFT",
+      "periodName": "SNH48 八期生",
+      "pinyin": "jin yingyue"
     },
     {
       "id": 594003,
@@ -1726,6 +1750,18 @@
       "groupName": "IDFT",
       "periodName": "SHY48 三期生",
       "pinyin": "Li SuHong"
+    },
+    {
+      "ownerName": "王嘉瑜",
+      "id": 679464,
+      "serverId": 9537179,
+      "channelId": 11781650,
+      "account": "20190415142815_klus13hz4d28r9h",
+      "team": "IDFT",
+      "teamId": 1501,
+      "groupName": "IDFT",
+      "periodName": "SHY48 三期生",
+      "pinyin": "wang jiayu"
     },
     {
       "id": 707365,
@@ -4018,6 +4054,67 @@
       "pinyin": "zhang qian"
     },
     {
+      "ownerName": "陈萧扬",
+      "id": 115343491,
+      "serverId": 9209212,
+      "channelId": 11699832,
+      "account": "20231029165757_gifx20x9l8lxtb0",
+      "team": "预备生",
+      "teamId": 1405,
+      "groupName": "CKG48",
+      "periodName": "CKG48 七期生",
+      "pinyin": "chenxiaoyang"
+    },
+    {
+      "ownerName": "胡思颖",
+      "id": 115343492,
+      "serverId": 9094216,
+      "channelId": 11879543,
+      "account": "20231029165822_6kxxr9g5exh2ous",
+      "team": "预备生",
+      "teamId": 1405,
+      "groupName": "CKG48",
+      "periodName": "CKG48 七期生",
+      "pinyin": "husiying"
+    },
+    {
+      "ownerName": "林丹蕾",
+      "id": 115343493,
+      "serverId": 9307736,
+      "channelId": 11831083,
+      "account": "20231029165904_8t087p1k3evo4lk",
+      "team": "预备生",
+      "teamId": 1405,
+      "groupName": "CKG48",
+      "periodName": "CKG48 七期生",
+      "pinyin": "lindanlei",
+      "liveRoomId": 5984929094
+    },
+    {
+      "ownerName": "申家璐",
+      "id": 115343494,
+      "serverId": 9438621,
+      "channelId": 11863834,
+      "account": "20231029165842_datx8tud2jgusbc",
+      "team": "预备生",
+      "teamId": 1405,
+      "groupName": "CKG48",
+      "periodName": "CKG48 七期生",
+      "pinyin": "shenjialu"
+    },
+    {
+      "ownerName": "张瀚引",
+      "id": 115671365,
+      "serverId": 9225417,
+      "channelId": 12470201,
+      "account": "20231101205619_tbm0p2cl1r0y1an",
+      "team": "预备生",
+      "teamId": 1007,
+      "groupName": "SNH48",
+      "periodName": "SNH48 十九期生",
+      "pinyin": "zhang hanyin"
+    },
+    {
       "id": 4344250371,
       "roomId": "147283635",
       "account": "20200109180128_8b0atpmt7na9apo",
@@ -4199,5 +4296,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-10-27 23:18:53"
+  "buildTime": "2023-11-05 00:25:03"
 }
