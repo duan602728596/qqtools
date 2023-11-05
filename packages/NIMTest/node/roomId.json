@@ -3889,7 +3889,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十五期生",
-      "pinyin": "dingjiaxin"
+      "pinyin": "dingjiaxin",
+      "liveRoomId": 5780359112
     },
     {
       "ownerName": "林家谊",
@@ -3926,7 +3927,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十五期生",
-      "pinyin": "wangjun"
+      "pinyin": "wangjun",
+      "liveRoomId": 5780178730
     },
     {
       "ownerName": "谢晓倩",
@@ -3938,7 +3940,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十五期生",
-      "pinyin": "xiexiaoqian"
+      "pinyin": "xiexiaoqian",
+      "liveRoomId": 5786420477
     },
     {
       "ownerName": "石梦湲",
@@ -4076,7 +4079,8 @@
       "teamId": 1405,
       "groupName": "CKG48",
       "periodName": "CKG48 七期生",
-      "pinyin": "husiying"
+      "pinyin": "husiying",
+      "liveRoomId": 5984847398
     },
     {
       "ownerName": "林丹蕾",
@@ -4298,5 +4302,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-11-05 22:25:42"
+  "buildTime": "2023-11-06 00:51:34"
 }
