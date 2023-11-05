@@ -4063,7 +4063,8 @@
       "teamId": 1405,
       "groupName": "CKG48",
       "periodName": "CKG48 七期生",
-      "pinyin": "chenxiaoyang"
+      "pinyin": "chenxiaoyang",
+      "liveRoomId": 5984617728
     },
     {
       "ownerName": "胡思颖",
@@ -4112,7 +4113,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 十九期生",
-      "pinyin": "zhang hanyin"
+      "pinyin": "zhang hanyin",
+      "liveRoomId": 6036063993
     },
     {
       "id": 4344250371,
@@ -4296,5 +4298,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-11-05 00:25:03"
+  "buildTime": "2023-11-05 22:25:42"
 }
