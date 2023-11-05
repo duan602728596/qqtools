@@ -96,6 +96,8 @@ async function createHtml(groups, output) {
     html.push('</tbody></table></div>');
   }
 
+  html.push(`<time class="time">最后更新时间：${ roomId.buildTime }</time>`);
+
   await fsP.writeFile(path.join(imagesPath, `${ output }.html`), `<html>
 <head>
   <meta charset="utf8">
@@ -114,15 +116,23 @@ async function createHtml(groups, output) {
     }
 
     .table {
-        width: 660px;
-        border-collapse: collapse;
-        font-size: 14px;
+      width: 660px;
+      border-collapse: collapse;
+      font-size: 14px;
 
-        & th, & td {
-          padding: 4px 6px;
-          border: 1px solid #000;
-          text-align: left;
-        }
+      & th, & td {
+        width: 20%;
+        padding: 4px 6px;
+        border: 1px solid #000;
+      }
+    }
+
+    .time {
+      display: block;
+      margin-right: 4px;
+      font-size: 12px;
+      padding: 8px;
+      text-align: right;
     }
   </style>
 </head>
@@ -138,13 +148,7 @@ async function createImages() {
     await fsP.mkdir(imagesPath);
   }
 
-  await createHtml(order[0], 1);
-  await createHtml(order[1], 2);
-  await createHtml(order[2], 3);
-  await createHtml(order[3], 4);
-  await createHtml(order[4], 5);
-  await createHtml(order[5], 6);
-  await createHtml(order[6], 7);
+  await createHtml(order.flat(), 'roomId');
 }
 
 createImages();
