@@ -4054,7 +4054,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 十九期生",
-      "pinyin": "zhang qian"
+      "pinyin": "zhang qian",
+      "liveRoomId": 5738186306
     },
     {
       "ownerName": "陈萧扬",
@@ -4302,5 +4303,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-11-06 00:51:34"
+  "buildTime": "2023-11-07 21:19:07"
 }
