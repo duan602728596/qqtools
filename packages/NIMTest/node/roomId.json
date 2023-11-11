@@ -1761,7 +1761,8 @@
       "teamId": 1501,
       "groupName": "IDFT",
       "periodName": "SHY48 三期生",
-      "pinyin": "wang jiayu"
+      "pinyin": "wang jiayu",
+      "liveRoomId": 22537511
     },
     {
       "id": 707365,
@@ -4106,7 +4107,8 @@
       "teamId": 1405,
       "groupName": "CKG48",
       "periodName": "CKG48 七期生",
-      "pinyin": "shenjialu"
+      "pinyin": "shenjialu",
+      "liveRoomId": 5985338439
     },
     {
       "ownerName": "张瀚引",
@@ -4303,5 +4305,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-11-07 21:19:07"
+  "buildTime": "2023-11-11 23:33:23"
 }
