@@ -2299,7 +2299,8 @@
       "teamId": 1501,
       "groupName": "IDFT",
       "periodName": "GNZ48 九期生",
-      "pinyin": "lv siqi"
+      "pinyin": "lv siqi",
+      "liveRoomId": 384280615
     },
     {
       "id": 54526093,
@@ -4305,5 +4306,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-11-11 23:33:23"
+  "buildTime": "2023-11-14 20:27:39"
 }
