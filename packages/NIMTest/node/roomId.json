@@ -3993,7 +3993,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 十九期生",
-      "pinyin": "liang huaifang"
+      "pinyin": "liang huaifang",
+      "liveRoomId": 5738431906
     },
     {
       "ownerName": "唐程成",
@@ -4306,5 +4307,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-11-14 20:27:39"
+  "buildTime": "2023-11-15 21:51:49"
 }
