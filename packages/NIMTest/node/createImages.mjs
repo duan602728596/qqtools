@@ -2,7 +2,6 @@ import fs, { promises as fsP } from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import { chromium } from 'playwright-core';
-import pug from 'pug';
 import { metaHelper } from '@sweet-milktea/utils';
 import roomId from './roomId.json' assert { type: 'json' };
 
