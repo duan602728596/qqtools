@@ -146,6 +146,10 @@ async function main() {
       if (index >= 0) {
         item = roomId[index];
         continue;
+
+        // if (item?.team !== '预备生') {
+        //   continue;
+        // }
       }
 
       // 获取账号信息
