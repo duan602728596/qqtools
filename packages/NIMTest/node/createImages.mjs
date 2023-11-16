@@ -1,6 +1,8 @@
 import fs, { promises as fsP } from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import { chromium } from 'playwright-core';
+import pug from 'pug';
 import { metaHelper } from '@sweet-milktea/utils';
 import roomId from './roomId.json' assert { type: 'json' };
 
@@ -48,7 +50,9 @@ const imagesPath = path.join(__dirname, '../images');
 async function createOneImage(file, output) {
   let browser = await chromium.launch({
     headless: true,
-    executablePath: '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
+    executablePath: os.platform() === 'win32'
+      ? 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
+      : '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
     timeout: 0
   });
   const context = await browser.newContext({
@@ -69,7 +73,9 @@ async function createHtml(groups, output) {
   const html = [];
 
   for (const group of groups) {
-    html.push(`<div class="title">${ group || '其他' }</div>
+    const teams = roomId.roomId.filter((o) => (o.team ?? '') === group);
+
+    html.push(`<div class="title">${ group || '其他' }（${ teams.length }人）</div>
 <div class="view">
 <table class="table">
   <thead>
@@ -83,7 +89,7 @@ async function createHtml(groups, output) {
   </thead>
 <tbody>`);
 
-    for (const item of roomId.roomId.filter((o) => (o.team ?? '') === group)) {
+    for (const item of teams) {
       html.push(`<tr>
   <td>${ item.id }</td>
   <td>${ item.ownerName }</td>
