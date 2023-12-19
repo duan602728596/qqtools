@@ -4126,6 +4126,80 @@
       "liveRoomId": 6036063993
     },
     {
+      "ownerName": "李咏薇",
+      "id": 118489334,
+      "serverId": 10421585,
+      "channelId": 13861988,
+      "account": "20231215215615_woqkleqv5mfzvj1",
+      "team": "预备生",
+      "teamId": 1207,
+      "groupName": "GNZ48",
+      "periodName": "GNZ48 十六期生",
+      "pinyin": "liyongwei"
+    },
+    {
+      "ownerName": "兰雅心",
+      "id": 118489336,
+      "serverId": 10421785,
+      "channelId": 13829665,
+      "account": "20231215215615_0br82lz3tj2gb16",
+      "team": "预备生",
+      "teamId": 1207,
+      "groupName": "GNZ48",
+      "periodName": "CGT48 二期生",
+      "pinyin": "lanyaxin"
+    },
+    {
+      "ownerName": "梅思华",
+      "id": 118489338,
+      "serverId": 10405826,
+      "channelId": 13878946,
+      "account": "20231215215615_qfp6swp68y900q1",
+      "team": "预备生",
+      "teamId": 1207,
+      "groupName": "GNZ48",
+      "periodName": "CGT48 二期生",
+      "pinyin": "meisihua",
+      "liveRoomId": 6393054681
+    },
+    {
+      "ownerName": "徐钰清",
+      "id": 118489339,
+      "serverId": 10503986,
+      "channelId": 13796748,
+      "account": "20231215215616_zdsn8s9w1vyh8k7",
+      "team": "预备生",
+      "teamId": 1207,
+      "groupName": "GNZ48",
+      "periodName": "CGT48 二期生",
+      "pinyin": "xuyuqing"
+    },
+    {
+      "ownerName": "张羽多",
+      "id": 118489340,
+      "serverId": 10470665,
+      "channelId": 13796946,
+      "account": "20231215215616_u14uel5ulv148wp",
+      "team": "预备生",
+      "teamId": 1207,
+      "groupName": "GNZ48",
+      "periodName": "CGT48 二期生",
+      "pinyin": "zhangyuduo"
+    },
+    {
+      "ownerName": "张咏琪",
+      "id": 118489341,
+      "serverId": 10470865,
+      "channelId": 13911667,
+      "account": "20231215215616_1eukdcbmuga69xo",
+      "team": "预备生",
+      "teamId": 1207,
+      "groupName": "GNZ48",
+      "periodName": "CGT48 二期生",
+      "pinyin": "zhangyongqi",
+      "liveRoomId": 6392907211
+    },
+    {
       "id": 4344250371,
       "roomId": "147283635",
       "account": "20200109180128_8b0atpmt7na9apo",
@@ -4307,5 +4381,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-11-16 13:20:59"
+  "buildTime": "2023-12-19 21:21:21"
 }
