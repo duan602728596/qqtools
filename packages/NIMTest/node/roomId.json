@@ -4032,7 +4032,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 十九期生",
-      "pinyin": "wang zishu"
+      "pinyin": "wang zishu",
+      "liveRoomId": 5788189750
     },
     {
       "ownerName": "叶凡",
@@ -4135,7 +4136,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十六期生",
-      "pinyin": "liyongwei"
+      "pinyin": "liyongwei",
+      "liveRoomId": 6392825278
     },
     {
       "ownerName": "兰雅心",
@@ -4184,7 +4186,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "CGT48 二期生",
-      "pinyin": "zhangyuduo"
+      "pinyin": "zhangyuduo",
+      "liveRoomId": 6392907063
     },
     {
       "ownerName": "张咏琪",
@@ -4381,5 +4384,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-12-19 21:21:21"
+  "buildTime": "2023-12-21 00:06:57"
 }
