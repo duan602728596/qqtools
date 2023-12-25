@@ -4127,6 +4127,18 @@
       "liveRoomId": 6036063993
     },
     {
+      "ownerName": "丁子钦",
+      "id": 118423773,
+      "serverId": 10405469,
+      "channelId": 13830099,
+      "account": "20231224164240_7ih96y85a9nahag",
+      "team": "TEAM E",
+      "teamId": 1102,
+      "groupName": "BEJ48",
+      "periodName": "BEJ48 十三期生",
+      "pinyin": "ding ziqin"
+    },
+    {
       "ownerName": "李咏薇",
       "id": 118489334,
       "serverId": 10421585,
@@ -4384,5 +4396,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-12-21 00:06:57"
+  "buildTime": "2023-12-25 22:11:06"
 }
