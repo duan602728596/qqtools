@@ -1378,7 +1378,8 @@
       "teamId": 1501,
       "groupName": "IDFT",
       "periodName": "SNH48 八期生",
-      "pinyin": "jin yingyue"
+      "pinyin": "jin yingyue",
+      "liveRoomId": 9217644
     },
     {
       "id": 594003,
@@ -4136,7 +4137,8 @@
       "teamId": 1102,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十三期生",
-      "pinyin": "ding ziqin"
+      "pinyin": "ding ziqin",
+      "liveRoomId": 6465324539
     },
     {
       "ownerName": "李咏薇",
@@ -4186,7 +4188,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "CGT48 二期生",
-      "pinyin": "xuyuqing"
+      "pinyin": "xuyuqing",
+      "liveRoomId": 6392956785
     },
     {
       "ownerName": "张羽多",
@@ -4396,5 +4399,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-12-25 22:11:06"
+  "buildTime": "2023-12-25 22:19:12"
 }
