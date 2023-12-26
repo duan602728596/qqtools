@@ -10,7 +10,7 @@ module.exports = function(api) {
       ['@babel/preset-typescript']
     ],
     plugins: [
-      '@babel/plugin-syntax-import-assertions'
+      ['@babel/plugin-syntax-import-attributes', { deprecatedAssertSyntax: true }]
     ]
   };
 };
