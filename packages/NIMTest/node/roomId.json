@@ -4141,6 +4141,19 @@
       "liveRoomId": 6465324539
     },
     {
+      "ownerName": "焦玥",
+      "id": 118489333,
+      "serverId": 10421385,
+      "channelId": 13747865,
+      "account": "20231215215615_luxtgp6t9c85abx",
+      "team": "预备生",
+      "teamId": 1207,
+      "groupName": "GNZ48",
+      "periodName": "GNZ48 十六期生",
+      "pinyin": "jiaoyue",
+      "liveRoomId": 6392890702
+    },
+    {
       "ownerName": "李咏薇",
       "id": 118489334,
       "serverId": 10421585,
@@ -4399,5 +4412,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2023-12-25 22:19:12"
+  "buildTime": "2023-12-28 23:50:58"
 }
