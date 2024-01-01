@@ -2,9 +2,9 @@
   "name": "@qqtools3/nimtest",
   "version": "0.0.0",
   "dependencies": {
-    "@yxim/nim-web-sdk": "^8.9.113",
-    "got": "^13.0.0",
+    "@yxim/nim-web-sdk": "^8.9.121",
+    "got": "^14.0.0",
     "lodash": "^4.17.21",
-    "playwright-core": "^1.39.0"
+    "playwright-core": "^1.40.1"
   }
 }

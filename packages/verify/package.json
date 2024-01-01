@@ -4,6 +4,6 @@
   "type": "module",
   "dependencies": {
     "@sweet-milktea/utils": "^4.0.0",
-    "puppeteer-core": "^20.8.0"
+    "puppeteer-core": "^21.6.1"
   }
 }
