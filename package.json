@@ -30,6 +30,7 @@
   ],
   "packageManager": "yarn@4.0.2",
   "dependencies": {
+    "@electron/universal": "^2.0.1",
     "@vercel/ncc": "^0.38.1",
     "cross-zip": "^4.0.0",
     "electron": "^28.1.0",
