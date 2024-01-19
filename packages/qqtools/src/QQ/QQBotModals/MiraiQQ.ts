@@ -17,7 +17,7 @@ import Basic, { type BasicImplement, type MessageListener, type BasicArgs } from
 import { QQProtocol } from './ModalTypes';
 import { plain, type MiraiMessageProps } from '../function/parser/mirai';
 import { getGroupNumbers, getSocketHost, LogCommandData } from '../function/qq/qqUtils';
-import parser from '../function/parser/index';
+import parser, { type ParserResult } from '../function/parser/index';
 import * as CQ from '../function/parser/CQ';
 import type { OptionsItemValueV2, EditItem } from '../../commonTypes';
 import type {
@@ -248,6 +248,15 @@ class MiraiQQ extends Basic implements BasicImplement<Array<MiraiMessageProps>> 
     } catch (err) {
       console.error(err);
     }
+  }
+
+  async sendMessagePlain(value: string, groupId?: number): Promise<void> {
+    const sendValue: ParserResult = parser({
+      text: value,
+      protocol: this.protocol
+    });
+
+    await this.sendMessage(sendValue as Array<MiraiMessageProps>, groupId);
   }
 
   // 日志回调函数

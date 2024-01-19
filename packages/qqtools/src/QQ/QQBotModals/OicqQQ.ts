@@ -129,6 +129,15 @@ class OicqQQ extends Basic implements BasicImplement<Sendable> {
     }
   }
 
+  async sendMessagePlain(value: string, groupId?: number): Promise<void> {
+    const sendValue: ParserResult = parser({
+      text: value,
+      protocol: this.protocol
+    });
+
+    await this.sendMessage(sendValue as Sendable, groupId);
+  }
+
   // 日志回调函数
   async logCommandCallback(groupId: number): Promise<void> {
     const { qqNumber }: OptionsItemValueV2 = this.config;

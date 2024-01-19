@@ -13,6 +13,7 @@ import {
   isMemberIncreaseEventData
 } from '../function/qq/qqUtils';
 import * as CQ from '../function/parser/CQ';
+import parser, { type ParserResult } from '../function/parser';
 import type { OptionsItemValueV2, EditItem } from '../../commonTypes';
 
 export interface HeartbeatMessage {
@@ -175,6 +176,17 @@ class GoCQHttp extends Basic implements BasicImplement<string> {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  sendMessagePlain(value: string, groupId?: number): void {
+    if (!this.websocket) return;
+
+    const sendValue: ParserResult = parser({
+      text: value,
+      protocol: this.protocol
+    });
+
+    this.sendMessage(sendValue as string, groupId);
   }
 
   // 日志回调函数
