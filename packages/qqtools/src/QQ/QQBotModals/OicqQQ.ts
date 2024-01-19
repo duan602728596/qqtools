@@ -11,7 +11,6 @@ import {
   isGroupMessageEventData,
   isMemberIncreaseEventData
 } from '../function/qq/qqUtils';
-import { log } from '../function/expand/pocket48/pocket48V2Utils';
 import parser, { type ParserResult } from '../function/parser/index';
 import * as CQ from '../function/parser/CQ';
 import type { OptionsItemValueV2, EditItem } from '../../commonTypes';

@@ -20,7 +20,6 @@ interface ParserArgs {
 function parser(args: ParserArgs): ParserResult {
   const { text, protocol }: ParserArgs = args;
 
-  // go-cqhttp不处理
   if (protocol === QQProtocol.GoCQHttp || protocol === QQProtocol.ConsoleTest) {
     return text;
   }

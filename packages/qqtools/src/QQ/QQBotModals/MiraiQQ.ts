@@ -17,7 +17,6 @@ import Basic, { type BasicImplement, type MessageListener, type BasicArgs } from
 import { QQProtocol } from './ModalTypes';
 import { plain, type MiraiMessageProps } from '../function/parser/mirai';
 import { getGroupNumbers, getSocketHost, LogCommandData } from '../function/qq/qqUtils';
-import { log } from '../function/expand/pocket48/pocket48V2Utils';
 import parser from '../function/parser/index';
 import * as CQ from '../function/parser/CQ';
 import type { OptionsItemValueV2, EditItem } from '../../commonTypes';

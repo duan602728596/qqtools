@@ -78,7 +78,7 @@
     "reverseWebsocket": {
       "id": "$root/properties/reverseWebsocket",
       "type": "boolean",
-      "title": "go-cqhttp反向websocket"
+      "title": "【仅适用go-cqhttp】反向websocket"
     },
     "authKey": {
       "id": "$root/properties/authKey",
