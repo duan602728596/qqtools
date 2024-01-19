@@ -109,7 +109,10 @@ class OicqQQ extends Basic implements BasicImplement<Sendable> {
       const { socketHost }: this = this;
       const { socketPort }: OptionsItemValueV2 = this.config;
       const groupNumbers: Array<number> = this.groupNumbers;
-      const sendValue: ParserResult | Sendable = typeof value === 'string' ? parser(value, this.protocol) : value;
+      const sendValue: ParserResult | Sendable = typeof value === 'string' ? parser({
+        text: value,
+        protocol: this.protocol
+      }) : value;
 
       if (typeof groupId === 'number') {
         // 只发送到一个群

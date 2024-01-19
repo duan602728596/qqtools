@@ -22,7 +22,10 @@ class BilibiliExpand {
   handleBilibiliWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
     const { bilibiliAtAll }: OptionsItemBilibili = this.config;
     const text: string = `bilibili：${ this.bilibiliUsername }在B站开启了直播。`;
-    const sendMessage: ParserResult = parser(`${ bilibiliAtAll ? CQ.atAll() : '' }${ text }`, this.qq.protocol);
+    const sendMessage: ParserResult = parser({
+      text: `${ bilibiliAtAll ? CQ.atAll() : '' }${ text }`,
+      protocol: this.qq.protocol
+    });
 
     await this.qq.sendMessage(sendMessage as any);
   };

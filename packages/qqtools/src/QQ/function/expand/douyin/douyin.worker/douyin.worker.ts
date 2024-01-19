@@ -120,7 +120,10 @@ async function handleDouyinListener(): Promise<void> {
               cover: item.video.cover.url_list[0]
             };
 
-            sendGroup.push(parser(QQSendGroup(sendData), protocol));
+            sendGroup.push(parser({
+              text: QQSendGroup(sendData),
+              protocol
+            }));
           } else {
             break;
           }
@@ -147,10 +150,13 @@ async function handleDouyinListener(): Promise<void> {
         if (_debugTimes > 6 && !_sendedDouyinDebugInfo) {
           postMessage({
             type: 'message',
-            sendGroup: [parser(`[qqtools] Debug info: your Douyin cookie has expired.
+            sendGroup: [parser({
+              text: `[qqtools] Debug info: your Douyin cookie has expired.
 UserId: ${ userId }
 StartTime: ${ _startTime }
-EndTime: ${ _endTime }`, protocol)]
+EndTime: ${ _endTime }`,
+              protocol
+            })]
           });
           _sendedDouyinDebugInfo = true;
         }

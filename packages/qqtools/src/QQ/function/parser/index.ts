@@ -7,12 +7,19 @@ import { miraiTemplate } from '../qq/qqUtils';
 export type ParserResult = Array<MiraiMessageProps> | Array<MessageElem> | string;
 type MiraiMT = MiraiMessageProps | MiraiMessageProps[];
 
+interface ParserArgs {
+  text: string;
+  protocol: QQProtocol;
+}
+
 /**
  * 消息统一解析
  * @param { string } text: 原始文本
  * @param { QQProtocol } protocol: 协议
  */
-function parser(text: string, protocol: QQProtocol): ParserResult {
+function parser(args: ParserArgs): ParserResult {
+  const { text, protocol }: ParserArgs = args;
+
   // go-cqhttp不处理
   if (protocol === QQProtocol.GoCQHttp || protocol === QQProtocol.ConsoleTest) {
     return text;

@@ -62,7 +62,10 @@ async function weiboContainerListTimer(): Promise<void> {
 
         for (const item of newList) {
           postMessage({
-            sendGroup: parser(QQSendGroup(item), protocol)
+            sendGroup: parser({
+              text: QQSendGroup(item),
+              protocol
+            })
           });
         }
       }

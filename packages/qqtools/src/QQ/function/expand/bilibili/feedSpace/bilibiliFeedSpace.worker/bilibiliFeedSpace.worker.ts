@@ -73,7 +73,10 @@ async function bilibiliFeedSpaceTimerFunc(): Promise<void> {
         const sendGroup: Array<ParserResult> = [];
 
         for (const item of nextData) {
-          sendGroup.push(parser(createSendMessageItem(item), protocol));
+          sendGroup.push(parser({
+            text: createSendMessageItem(item),
+            protocol
+          }));
         }
 
         if (sendGroup.length) {

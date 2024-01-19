@@ -201,7 +201,10 @@ async function xiaohongshuListener(): Promise<void> {
 
           for (const item of mergeData) {
             if (item.card!.time > lastUpdateTime) {
-              sendGroup.push(parser(await QQSendGroup(item as Required<MergeData>), protocol));
+              sendGroup.push(parser({
+                text: await QQSendGroup(item as Required<MergeData>),
+                protocol
+              }));
             } else {
               break;
             }
@@ -227,10 +230,13 @@ async function xiaohongshuListener(): Promise<void> {
         if (_debugTimes > 6 && !_sendedXiaohongshuDebugInfo) {
           postMessage({
             type: 'message',
-            sendGroup: [parser(`[qqtools] Debug info: your Xiaohongshu cookie has expired.
+            sendGroup: [parser({
+              text: `[qqtools] Debug info: your Xiaohongshu cookie has expired.
 UserId: ${ userId }
 StartTime: ${ _startTime }
-EndTime: ${ _endTime }`, protocol)]
+EndTime: ${ _endTime }`,
+              protocol
+            })]
           });
           _sendedXiaohongshuDebugInfo = true;
         }

@@ -83,7 +83,10 @@ class MiraiQQ extends Basic implements BasicImplement<Array<MiraiMessageProps>> 
           });
 
           if (customCmdItem) {
-            await this.sendMessage(parser(customCmdItem.value, this.protocol) as Array<MiraiMessageProps>, groupId);
+            await this.sendMessage(parser({
+              text: customCmdItem.value,
+              protocol: this.protocol
+            }) as Array<MiraiMessageProps>, groupId);
           }
         }
 
@@ -109,7 +112,10 @@ class MiraiQQ extends Basic implements BasicImplement<Array<MiraiMessageProps>> 
           at: CQ.at(data.member.id)
         });
 
-        await this.sendMessage(parser(msg, this.protocol) as Array<MiraiMessageProps>, data.member.group.id);
+        await this.sendMessage(parser({
+          text: msg,
+          protocol: this.protocol
+        }) as Array<MiraiMessageProps>, data.member.group.id);
       }
     }
   };

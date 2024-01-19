@@ -20,7 +20,10 @@ class CronTimerExpand {
 
     if (cronJob && cronTime && cronSendData) {
       this.cronJob = scheduleJob(cronTime, (): void => {
-        this.qq.sendMessage(parser(cronSendData, this.qq.protocol) as any);
+        this.qq.sendMessage(parser({
+          text: cronSendData,
+          protocol: this.qq.protocol
+        }) as any);
       });
     }
   }

@@ -119,7 +119,10 @@ class Pocket48V2Expand {
       const sendGroup: string[] = getRoomMessage(roomMessageArgs);
 
       if (sendGroup.length > 0) {
-        await this.qq.sendMessage(parser(sendGroup.join(''), this.qq.protocol) as any);
+        await this.qq.sendMessage(parser({
+          text: sendGroup.join(''),
+          protocol: this.qq.protocol
+        }) as any);
       }
 
       // 日志
@@ -208,14 +211,20 @@ class Pocket48V2Expand {
       if (user) {
         if (notification.type === 'serverMemberLeave') {
           console.log('serverMemberLeave', notification);
-          await this.qq.sendMessage(parser(`口袋48系统消息：${ user.ownerName } 取关了 ${
-            notification.attach.serverInfo?.name ?? '未知成员'
-          }\n时间：${ dayjs(notification.time).format('YYYY-MM-DD HH:mm:ss') }`, this.qq.protocol) as any);
+          await this.qq.sendMessage(parser({
+            text: `口袋48系统消息：${ user.ownerName } 取关了 ${
+              notification.attach.serverInfo?.name ?? '未知成员'
+            }\n时间：${ dayjs(notification.time).format('YYYY-MM-DD HH:mm:ss') }`,
+            protocol: this.qq.protocol
+          }) as any);
         } else if (notification.type === 'serverMemberApplyDone') {
           console.log('serverMemberApplyDone', notification);
-          await this.qq.sendMessage(parser(`口袋48系统消息：${ user.ownerName } 关注了 ${
-            notification.attach.serverInfo?.name ?? '未知成员'
-          }\n时间：${ dayjs(notification.time).format('YYYY-MM-DD HH:mm:ss') }`, this.qq.protocol) as any);
+          await this.qq.sendMessage(parser({
+            text: `口袋48系统消息：${ user.ownerName } 关注了 ${
+              notification.attach.serverInfo?.name ?? '未知成员'
+            }\n时间：${ dayjs(notification.time).format('YYYY-MM-DD HH:mm:ss') }`,
+            protocol: this.qq.protocol
+          }) as any);
         }
       }
     }
@@ -254,7 +263,10 @@ class Pocket48V2Expand {
           giftNickName: this.giftNickName
         });
 
-        text && (await this.qq.sendMessage(parser(text, this.qq.protocol) as any));
+        text && (await this.qq.sendMessage(parser({
+          text,
+          protocol: this.qq.protocol
+        }) as any));
       }
 
       // 计算单人的排行榜
@@ -266,7 +278,10 @@ class Pocket48V2Expand {
           giftNickName: this.giftNickName
         });
 
-        await this.qq.sendMessage(parser(text, this.qq.protocol) as any);
+        await this.qq.sendMessage(parser({
+          text,
+          protocol: this.qq.protocol
+        }) as any);
       }
 
       this.giftList = [];
