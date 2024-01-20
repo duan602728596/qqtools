@@ -1,5 +1,5 @@
 import { setTimeout as setTimeoutPromise } from 'node:timers/promises';
-import * as ChromeLauncher from 'chrome-launcher';
+import ChromeLauncher from 'chrome-launcher';
 import type { LaunchedChrome } from 'chrome-launcher';
 import type { Protocol } from 'devtools-protocol';
 import type { Client } from 'chrome-remote-interface';
