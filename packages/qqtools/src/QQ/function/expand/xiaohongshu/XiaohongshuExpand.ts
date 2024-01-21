@@ -2,8 +2,9 @@ import { ipcRenderer } from 'electron';
 import { message } from 'antd';
 import type { MessageInstance } from 'antd/es/message/interface';
 import { XiaohongshuHandleChannel } from '@qqtools3/main/src/channelEnum';
-import type { SignResult } from '@qqtools-api/xiaohongshu';
+import type { SignResult, UserPostedResponse, PostedNoteItem } from '@qqtools-api/xiaohongshu';
 import getXiaohongshuWorker from './xiaohongshu.worker/getXiaohongshuWorker';
+import { parseHtml, type XiaohongshuInitialState, type NoteItem } from './function/parseHtml';
 import type { QQProtocol, QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemXiaohongshu } from '../../../../commonTypes';
 import type { XHSProtocol } from './xiaohongshu.worker/messageTypes';
@@ -45,6 +46,30 @@ class XiaohongshuExpand {
     const result: string = await ipcRenderer.invoke(XiaohongshuHandleChannel.XiaohongshuChromeRemoteSign, reqPath, data);
 
     return JSON.parse(result);
+  }
+
+  static async chromeDevtoolsRequestHtml(u: string): Promise<UserPostedResponse | undefined> {
+    const result: string | void = await ipcRenderer.invoke(XiaohongshuHandleChannel.XiaohongshuChromeRemoteRequestHtml, u);
+
+    if (result) {
+      const initialState: XiaohongshuInitialState | undefined = parseHtml(result);
+
+      if (initialState) {
+        return {
+          code: 0,
+          success: true,
+          data: {
+            cursor: '',
+            has_more: false,
+            notes: initialState.user.notes.flat().map((o: NoteItem): PostedNoteItem => ({
+              type: o.noteCard.type,
+              note_id: o.noteCard.noteId,
+              cover: { url: o.noteCard.cover.urlDefault }
+            }))
+          }
+        };
+      }
+    }
   }
 
   // 图片转base64
@@ -107,6 +132,12 @@ class XiaohongshuExpand {
         type: 'imageToBase64',
         id: event.data.id,
         result: await XiaohongshuExpand.imageToBase64(event.data.imageUrl)
+      });
+    } else if (event.data.type === 'requestHtml') {
+      this.xiaohongshuWorker?.postMessage({
+        type: 'requestHtml',
+        id: event.data.id,
+        result: await XiaohongshuExpand.chromeDevtoolsRequestHtml(event.data.url)
       });
     }
   };

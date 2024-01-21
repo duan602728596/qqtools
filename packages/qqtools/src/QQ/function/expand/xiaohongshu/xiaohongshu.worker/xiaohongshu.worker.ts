@@ -17,6 +17,7 @@ import {
   isCloseMessage,
   isSignMessage,
   isImageToBase64Message,
+  isRequestHtmlMessage,
   XHSProtocol,
   type MessageObject,
   type BaseInitMessage,
@@ -69,6 +70,22 @@ function imageToBase64(imageUrl: string): Promise<string> {
 
     addEventListener('message', handleSignMessage);
     postMessage({ id, imageUrl, type: 'imageToBase64' });
+  });
+}
+
+function requestHtml(): Promise<UserPostedResponse | undefined> {
+  const id: string = `${ Math.random() }`;
+
+  return new Promise((resolve: Function, reject: Function): void => {
+    function handleSignMessage(event: MessageEvent<MessageObject>): void {
+      if (isRequestHtmlMessage(event.data) && id === event.data.id) {
+        removeEventListener('message', handleSignMessage);
+        resolve(event.data.result);
+      }
+    }
+
+    addEventListener('message', handleSignMessage);
+    postMessage({ id, url: `https://www.xiaohongshu.com/user/profile/${ userId }`, type: 'requestHtml' });
   });
 }
 
@@ -182,9 +199,9 @@ async function getMergeData(data: Array<PostedNoteItem>): Promise<GetMergeDataRe
 /* 小红书轮询 */
 async function xiaohongshuListener(): Promise<void> {
   try {
-    const userPostedRes: UserPostedResponse = await requestUserPosted(userId, cookieString, signProtocol, port);
+    const userPostedRes: UserPostedResponse | undefined = await requestHtml();
 
-    if (userPostedRes.success) {
+    if (userPostedRes && userPostedRes.success) {
       _isSendDebugMessage && (_debugTimes = 0);
 
       const data: Array<PostedNoteItem> = userPostedRes.data.notes ?? [];
@@ -252,9 +269,9 @@ EndTime: ${ _endTime }`,
 /* 初始化小红书 */
 async function xiaohongshuInit(): Promise<void> {
   try {
-    const userPostedRes: UserPostedResponse = await requestUserPosted(userId, cookieString, signProtocol, port);
+    const userPostedRes: UserPostedResponse | undefined = await requestHtml();
 
-    if (userPostedRes.success) {
+    if (userPostedRes && userPostedRes.success) {
       const data: Array<PostedNoteItem> = userPostedRes.data.notes ?? [];
 
       if (data.length) {
@@ -283,7 +300,7 @@ addEventListener('message', function(event: MessageEvent<MessageObject>): void {
     try {
       xiaohongshuTimer && clearTimeout(xiaohongshuTimer);
     } catch { /* noop */ }
-  } else if (isSignMessage(event.data) || isImageToBase64Message(event.data)) {
+  } else if (isSignMessage(event.data) || isImageToBase64Message(event.data) || isRequestHtmlMessage(event.data)) {
     /* noop */
   } else {
     const {

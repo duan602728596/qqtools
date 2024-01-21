@@ -67,7 +67,11 @@ export async function requestFeed(
   userId: string
 ): Promise<NoteFeedResponse> {
   const reqPath: string = '/api/sns/web/v1/feed';
-  const json: { source_note_id: string } = { source_note_id: sourceNoteId };
+  const json: Record<string, any> = {
+    source_note_id: sourceNoteId,
+    image_formats: ['jpg', 'webp', 'avif'],
+    extra: { need_body_topic: 1 }
+  };
   const headers: SignResult = signProtocol === XHSProtocol.ChromeDevtoolsProtocol
     ? await invokeSign(reqPath, JSON.stringify(json))
     : await requestSign(port, reqPath, json);

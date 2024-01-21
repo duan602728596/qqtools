@@ -1,5 +1,4 @@
 import * as path from 'node:path';
-import * as process from 'node:process';
 import { setTimeout } from 'node:timers';
 import * as fsP from 'node:fs/promises';
 import { ipcMain, BrowserWindow, type IpcMainInvokeEvent, type Cookie } from 'electron';
@@ -135,6 +134,28 @@ function ipcXiaohongshuHandle(): void {
 
       return undefined;
     });
+
+  ipcMain.handle(
+    XiaohongshuHandleChannel.XiaohongshuChromeRemoteRequestHtml,
+    async function(event: IpcMainInvokeEvent, url: string): Promise<string | undefined> {
+      await clientSwitch(client, 'www.xiaohongshu.com');
+
+      if (client) {
+        const signResult: Protocol.Runtime.EvaluateResponse = await client.Runtime.evaluate({
+          expression: `async function requestHtml() {
+            var request = await fetch('${ url }', { credentials: 'include' });
+            return request.text();
+          }
+          requestHtml();`,
+          awaitPromise: true
+        });
+
+        return signResult.result.value;
+      }
+
+      return undefined;
+    }
+  );
 }
 
 export default ipcXiaohongshuHandle;
