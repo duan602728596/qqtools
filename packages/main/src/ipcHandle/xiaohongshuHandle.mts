@@ -1,5 +1,4 @@
 import * as path from 'node:path';
-import * as process from 'node:process';
 import { setTimeout } from 'node:timers';
 import * as fsP from 'node:fs/promises';
 import { ipcMain, BrowserWindow, type IpcMainInvokeEvent, type Cookie } from 'electron';
@@ -93,6 +92,44 @@ function ipcXiaohongshuHandle(): void {
         client.Network.enable(),
         client.Runtime.enable()
       ]);
+
+      // 拦截并修改响应
+      // https://fe-static.xhscdn.com/formula-static/xhs-pc-web/public/js/vendor-dynamic.327e555.js
+      await client.Network.setRequestInterception({
+        patterns: [
+          {
+            urlPattern: '*.js',
+            resourceType: 'Script',
+            interceptionStage: 'HeadersReceived'
+          }
+        ]
+      });
+
+      // @ts-ignore
+      client.Network.requestIntercepted(async ({ interceptionId, request }: {
+        interceptionId: string;
+        request: Protocol.Network.Request;
+      }): Promise<void> => {
+        const url: string = request.url;
+
+        if (url.includes('fe-static.xhscdn.com') && url.includes('vendor-dynamic')) {
+          const response: Protocol.Network.GetResponseBodyForInterceptionResponse = await client!.Network.getResponseBodyForInterception({ interceptionId });
+          const scriptText: string = atob(response.body);
+          const newScriptText: string = scriptText.replace(
+            /function xsCommon/i, 'window._xsCommon=xsCommon;function xsCommon');
+
+          await client!.Network.continueInterceptedRequest({
+            interceptionId,
+            rawResponse: btoa(newScriptText),
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Content-Type': 'application/javascript'
+            }
+          });
+        } else {
+          await client!.Network.continueInterceptedRequest({ interceptionId });
+        }
+      });
       await client.Page.navigate({ url: 'https://www.xiaohongshu.com/user/profile/594099df82ec393174227f18' });
       await client.Page.loadEventFired();
       await waitingDomFunction(client, `
@@ -135,6 +172,28 @@ function ipcXiaohongshuHandle(): void {
 
       return undefined;
     });
+
+  ipcMain.handle(
+    XiaohongshuHandleChannel.XiaohongshuChromeRemoteRequestHtml,
+    async function(event: IpcMainInvokeEvent, url: string): Promise<string | undefined> {
+      await clientSwitch(client, 'www.xiaohongshu.com');
+
+      if (client) {
+        const signResult: Protocol.Runtime.EvaluateResponse = await client.Runtime.evaluate({
+          expression: `async function requestHtml() {
+            var request = await fetch('${ url }', { credentials: 'include' });
+            return request.text();
+          }
+          requestHtml();`,
+          awaitPromise: true
+        });
+
+        return signResult.result.value;
+      }
+
+      return undefined;
+    }
+  );
 }
 
 export default ipcXiaohongshuHandle;

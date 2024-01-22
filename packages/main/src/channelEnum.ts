@@ -13,7 +13,8 @@ export const enum XiaohongshuHandleChannel {
   XiaohongshuDestroy = 'xiaohongshu-destroy',
   XiaohongshuChromeRemoteInit = 'xiaohongshu-chrome-remote-init',
   XiaohongshuChromeRemoteCookie = 'xiaohongshu-chrome-remote-cookie',
-  XiaohongshuChromeRemoteSign = 'xiaohongshu-chrome-remote-sign'
+  XiaohongshuChromeRemoteSign = 'xiaohongshu-chrome-remote-sign',
+  XiaohongshuChromeRemoteRequestHtml = 'xiaohongshu-chrome-remote-request-html'
 }
 
 // Electron ipc channel

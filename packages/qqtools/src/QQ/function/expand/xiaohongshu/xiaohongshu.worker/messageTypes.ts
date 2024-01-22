@@ -38,7 +38,14 @@ export interface ImageToBase64Message {
   result: string;
 }
 
-export type MessageObject = CloseMessage | BaseInitMessage | SignMessage | ImageToBase64Message;
+// 获取html
+export interface RequestHtmlMessage {
+  type: 'requestHtml';
+  id: string;
+  result: string;
+}
+
+export type MessageObject = CloseMessage | BaseInitMessage | SignMessage | ImageToBase64Message | RequestHtmlMessage;
 
 // 判断各种类型
 type IsMessageFunction<T extends MessageObject> = (d: MessageObject) => d is T;
@@ -49,6 +56,9 @@ export const isSignMessage: IsMessageFunction<SignMessage> = (d: MessageObject):
 
 export const isImageToBase64Message: IsMessageFunction<ImageToBase64Message>
   = (d: MessageObject): d is ImageToBase64Message => d['type'] === 'imageToBase64';
+
+export const isRequestHtmlMessage: IsMessageFunction<RequestHtmlMessage>
+  = (d: MessageObject): d is RequestHtmlMessage => d['type'] === 'requestHtml';
 
 // 组合数据
 export interface MergeData {
