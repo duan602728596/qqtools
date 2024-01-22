@@ -13,7 +13,7 @@ export function chromeStart(executablePath: string, port: number): Promise<Launc
   return ChromeLauncher.launch({
     chromePath: executablePath,
     port,
-    chromeFlags: ['--disable-gpu', '--window-size=400,400']
+    chromeFlags: ['--disable-gpu', '--window-size=400,400', '--disable-web-security', '--allow-file-access-from-files']
   });
 }
 
