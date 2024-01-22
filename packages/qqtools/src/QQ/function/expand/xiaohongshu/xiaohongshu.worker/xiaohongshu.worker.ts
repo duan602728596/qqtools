@@ -24,6 +24,8 @@ import {
   type JsonCache,
   type MergeData
 } from './messageTypes';
+import { _xiaohongshuLogProtocol } from '../../../../../utils/logProtocol/logActions';
+import type { _UserPostedObject } from '../../../../../../../main/src/logProtocol/logTemplate/xiaohongshu.mjs';
 
 /* 小红书 */
 let userId: string;
@@ -80,6 +82,10 @@ function requestHtml(): Promise<UserPostedResponse | undefined> {
     function handleSignMessage(event: MessageEvent<MessageObject>): void {
       if (isRequestHtmlMessage(event.data) && id === event.data.id) {
         removeEventListener('message', handleSignMessage);
+        _xiaohongshuLogProtocol.post<_UserPostedObject>('userPosted', {
+          userId,
+          response: JSON.stringify(event.data.result, null, 2)
+        });
         resolve(event.data.result);
       }
     }
@@ -199,7 +205,7 @@ async function getMergeData(data: Array<PostedNoteItem>): Promise<GetMergeDataRe
 /* 小红书轮询 */
 async function xiaohongshuListener(): Promise<void> {
   try {
-    const userPostedRes: UserPostedResponse | undefined = await requestHtml();
+    const userPostedRes: UserPostedResponse = await requestUserPosted(userId, cookieString, signProtocol, port);
 
     if (userPostedRes && userPostedRes.success) {
       _isSendDebugMessage && (_debugTimes = 0);
@@ -269,7 +275,7 @@ EndTime: ${ _endTime }`,
 /* 初始化小红书 */
 async function xiaohongshuInit(): Promise<void> {
   try {
-    const userPostedRes: UserPostedResponse | undefined = await requestHtml();
+    const userPostedRes: UserPostedResponse = await requestUserPosted(userId, cookieString, signProtocol, port);
 
     if (userPostedRes && userPostedRes.success) {
       const data: Array<PostedNoteItem> = userPostedRes.data.notes ?? [];

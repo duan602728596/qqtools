@@ -113,7 +113,8 @@ function ipcXiaohongshuHandle(): void {
         const url: string = request.url;
 
         if (url.includes('fe-static.xhscdn.com') && url.includes('vendor-dynamic')) {
-          const response: Protocol.Network.GetResponseBodyForInterceptionResponse = await client!.Network.getResponseBodyForInterception({ interceptionId });
+          const response: Protocol.Network.GetResponseBodyForInterceptionResponse
+            = await client!.Network.getResponseBodyForInterception({ interceptionId });
           const scriptText: string = atob(response.body);
           const newScriptText: string = scriptText.replace(
             /function xsCommon/i, 'window._xsCommon=xsCommon;function xsCommon');
@@ -159,12 +160,18 @@ function ipcXiaohongshuHandle(): void {
   // 获取header的加密
   ipcMain.handle(
     XiaohongshuHandleChannel.XiaohongshuChromeRemoteSign,
-    async function(event: IpcMainInvokeEvent, url: string, data: string | undefined): Promise<string | undefined> {
+    async function(event: IpcMainInvokeEvent, url: string, data: string | undefined, platform: string): Promise<string | undefined> {
       await clientSwitch(client, 'www.xiaohongshu.com');
 
       if (client) {
         const signResult: Protocol.Runtime.EvaluateResponse = await client.Runtime.evaluate({
-          expression: `JSON.stringify(window._webmsxyw("${ url }", ${ data ?? 'undefined' }));`
+          expression: `var headers = window._webmsxyw('${ url }', ${ data ?? 'undefined' });
+  var args = {
+    headers,
+    url: '//edith.xiaohongshu.com${ url }'
+  };
+  var xsCommonHeader = window._xsCommon(${ JSON.stringify({ platform }) }, args);
+  JSON.stringify(args.headers);`
         });
 
         return signResult.result.value;

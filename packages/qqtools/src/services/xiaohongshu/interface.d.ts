@@ -49,6 +49,7 @@ export interface NoteFeedResponse {
 }
 
 export interface SignResult {
-  'X-s': string;
-  'X-t': string;
+  'X-S': string;
+  'X-T': string;
+  'X-S-Common': string;
 }
