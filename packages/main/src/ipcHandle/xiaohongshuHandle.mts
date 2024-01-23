@@ -178,13 +178,17 @@ function ipcXiaohongshuHandle(): void {
 
       if (client) {
         const signResult: Protocol.Runtime.EvaluateResponse = await client.Runtime.evaluate({
-          expression: `var headers = window._webmsxyw('${ url }', ${ data ?? 'undefined' });
+          expression: `function _sign() {
+  var headers = window._webmsxyw('${ url }', ${ data ?? 'undefined' });
   var args = {
     headers,
     url: '//edith.xiaohongshu.com${ url }'
   };
   var xsCommonHeader = window._xsCommon(${ JSON.stringify({ platform }) }, args);
-  JSON.stringify(args.headers);`
+
+  return args.headers;
+}
+  JSON.stringify(_sign());`
         });
 
         return signResult.result.value;
