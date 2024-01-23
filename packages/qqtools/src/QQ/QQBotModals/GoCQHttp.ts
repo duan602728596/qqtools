@@ -178,7 +178,7 @@ class GoCQHttp extends Basic implements BasicImplement<string> {
     }
   }
 
-  sendMessagePlain(value: string, groupId?: number): void {
+  sendMessageText(value: string, groupId?: number): void {
     if (!this.websocket) return;
 
     const sendValue: ParserResult = parser({

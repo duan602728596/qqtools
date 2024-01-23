@@ -250,7 +250,7 @@ class MiraiQQ extends Basic implements BasicImplement<Array<MiraiMessageProps>> 
     }
   }
 
-  async sendMessagePlain(value: string, groupId?: number): Promise<void> {
+  async sendMessageText(value: string, groupId?: number): Promise<void> {
     const sendValue: ParserResult = parser({
       text: value,
       protocol: this.protocol

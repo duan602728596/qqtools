@@ -21,7 +21,7 @@ export const nimChatroomList: Array<NimChatroomSocket> = [];
 
 export interface BasicImplement<MessageType> {
   sendMessage(value: MessageType, groupId?: number): void | Promise<void>;
-  sendMessagePlain(value: string, groupId?: number): void | Promise<void>;
+  sendMessageText(value: string, groupId?: number): void | Promise<void>;
   init(): boolean | Promise<boolean>;
   destroy(): boolean | Promise<boolean>;
 }

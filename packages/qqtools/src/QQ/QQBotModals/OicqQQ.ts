@@ -129,7 +129,7 @@ class OicqQQ extends Basic implements BasicImplement<Sendable> {
     }
   }
 
-  async sendMessagePlain(value: string, groupId?: number): Promise<void> {
+  async sendMessageText(value: string, groupId?: number): Promise<void> {
     const sendValue: ParserResult = parser({
       text: value,
       protocol: this.protocol
