@@ -43,9 +43,7 @@ class XiaohongshuExpand {
   }
 
   static async chromeDevtoolsSign(reqPath: string, data: string | undefined): Promise<SignResult> {
-    const platform: string = /Mac/i.test(window.navigator.platform) ? 'Mac OS' : (
-      /Win/i.test(window.navigator.platform) ? 'Windows' : 'Linux');
-    const result: string = await ipcRenderer.invoke(XiaohongshuHandleChannel.XiaohongshuChromeRemoteSign, reqPath, data, platform);
+    const result: string = await ipcRenderer.invoke(XiaohongshuHandleChannel.XiaohongshuChromeRemoteSign, reqPath, data);
 
     return JSON.parse(result);
   }

@@ -1,6 +1,7 @@
 import * as path from 'node:path';
 import { setTimeout } from 'node:timers';
 import * as fsP from 'node:fs/promises';
+import * as process from 'node:process';
 import { ipcMain, BrowserWindow, type IpcMainInvokeEvent, type Cookie } from 'electron';
 // @ts-ignore
 import CDP from 'chrome-remote-interface';
@@ -15,6 +16,18 @@ const { __dirname }: MetaHelperResult = metaHelper(import.meta.url);
 let xiaohongshuWin: BrowserWindow | null = null,
   client: Client | null = null,
   chromeLauncher: LaunchedChrome | null = null;
+
+type XiaoHongShuSignUsePlatform = 'Mac OS' | 'Window' | 'Linux';
+
+const platform: XiaoHongShuSignUsePlatform = (function(): XiaoHongShuSignUsePlatform {
+  if (/mac|darwin/i.test(process.platform)) {
+    return 'Mac OS';
+  } else if (/win/i.test(process.platform)) {
+    return 'Window';
+  } else {
+    return 'Linux';
+  }
+})();
 
 export function closeAll(): void {
   xiaohongshuWin?.close?.();
@@ -160,7 +173,7 @@ function ipcXiaohongshuHandle(): void {
   // 获取header的加密
   ipcMain.handle(
     XiaohongshuHandleChannel.XiaohongshuChromeRemoteSign,
-    async function(event: IpcMainInvokeEvent, url: string, data: string | undefined, platform: string): Promise<string | undefined> {
+    async function(event: IpcMainInvokeEvent, url: string, data: string | undefined): Promise<string | undefined> {
       await clientSwitch(client, 'www.xiaohongshu.com');
 
       if (client) {
