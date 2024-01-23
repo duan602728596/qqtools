@@ -23,7 +23,7 @@ class XiaohongshuExpand {
   #messageApi: typeof message | MessageInstance = message;
 
   static windowInit(): Promise<void> {
-    return ipcRenderer.invoke(XiaohongshuHandleChannel.XiaohongshuWindoInit);
+    return ipcRenderer.invoke(XiaohongshuHandleChannel.XiaohongshuWindowInit);
   }
 
   static cookie(port: number): Promise<string> {

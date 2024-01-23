@@ -8,7 +8,7 @@ export const enum IpcRemoteHandleChannel {
 
 // ipcHandle/xiaohongshuHandle
 export const enum XiaohongshuHandleChannel {
-  XiaohongshuWindoInit = 'xiaohongshu-window-init',
+  XiaohongshuWindowInit = 'xiaohongshu-window-init',
   XiaohongshuCookie = 'xiaohongshu-cookie',
   XiaohongshuDestroy = 'xiaohongshu-destroy',
   XiaohongshuChromeRemoteInit = 'xiaohongshu-chrome-remote-init',

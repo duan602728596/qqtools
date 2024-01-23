@@ -40,7 +40,7 @@ export function closeAll(): void {
 
 function ipcXiaohongshuHandle(): void {
   // 初始化小红书窗口并注入脚本
-  ipcMain.handle(XiaohongshuHandleChannel.XiaohongshuWindoInit, function(event: IpcMainInvokeEvent): Promise<void> {
+  ipcMain.handle(XiaohongshuHandleChannel.XiaohongshuWindowInit, function(event: IpcMainInvokeEvent): Promise<void> {
     return new Promise((resolve: Function, reject: Function): void => {
       xiaohongshuWin = new BrowserWindow({
         width: 400,
