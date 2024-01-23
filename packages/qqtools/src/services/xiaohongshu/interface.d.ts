@@ -50,6 +50,6 @@ export interface NoteFeedResponse {
 
 export interface SignResult {
   'X-s': string;
-  'X-t': number;
+  'X-t': string;
   'X-S-Common'?: string;
 }
