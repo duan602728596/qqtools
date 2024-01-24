@@ -178,17 +178,20 @@ function ipcXiaohongshuHandle(): void {
 
       if (client) {
         const signResult: Protocol.Runtime.EvaluateResponse = await client.Runtime.evaluate({
-          expression: `function _sign() {
-  var headers = window._webmsxyw('${ url }', ${ data ?? 'undefined' });
-  var args = {
+          expression: /** javascript */`
+function __HEADER_SIGN__() {
+  const headers = window._webmsxyw('${ url }', ${ data ?? 'undefined' });
+  const args = {
     headers,
     url: '//edith.xiaohongshu.com${ url }'
   };
-  var xsCommonHeader = window._xsCommon(${ JSON.stringify({ platform }) }, args);
+  const xsCommonHeader = window._xsCommon(${ JSON.stringify({ platform }) }, args);
 
   return args.headers;
 }
-  JSON.stringify(_sign());`
+
+JSON.stringify(__HEADER_SIGN__());
+`
         });
 
         return signResult.result.value;
@@ -204,11 +207,15 @@ function ipcXiaohongshuHandle(): void {
 
       if (client) {
         const signResult: Protocol.Runtime.EvaluateResponse = await client.Runtime.evaluate({
-          expression: `async function requestHtml() {
-            var request = await fetch('${ url }', { credentials: 'include' });
-            return request.text();
-          }
-          requestHtml();`,
+          expression: /** javascript */`
+async function __REQUEST_HTML__() {
+  const request = await fetch('${ url }', { credentials: 'include' });
+
+  return request.text();
+}
+
+__REQUEST_HTML__();
+`,
           awaitPromise: true
         });
 
