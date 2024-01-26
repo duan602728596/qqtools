@@ -2,7 +2,7 @@ import * as fse from 'fs-extra';
 import * as dayjs from 'dayjs';
 import type { ChannelInfo } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatChannelServiceInterface';
 import * as CQ from '../../parser/CQ';
-import { mp4Source, source } from '../../../../utils/snh48';
+import { mp4Source, source, source48CN } from '../../../../utils/snh48';
 import type {
   CustomMessageAllV2,
   UserV2,
@@ -108,7 +108,8 @@ ${ nickName }：${ replyInfo.text }
       sendGroup.push(
         `${ nickName } 正在直播
 直播标题：${ data.attach.livePushInfo.liveTitle }
-时间：${ msgTime }${ memberInfoContent }`
+时间：${ msgTime }${ memberInfoContent }`,
+        CQ.image(source48CN(data.attach.livePushInfo.liveCover))
       );
     } else if (data.type === 'custom' && data.attach.messageType === 'TEAM_VOICE') {
       // 房间电台
@@ -165,7 +166,7 @@ ${ info.question }
       if (data.attach.giftInfo.giftName.includes('投票')) {
         sendGroup.push(
           `${ nickName }：投出了${ data.attach.giftInfo.giftNum }票。`,
-          CQ.image(`https://source.48.cn${ data.attach.giftInfo.picPath }`),
+          CQ.image(source48CN(data.attach.giftInfo.picPath)),
           `时间：${ msgTime }${ memberInfoContent }`
         );
       }

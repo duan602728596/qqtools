@@ -63,3 +63,13 @@ export function mp4Source(pathname: string): string {
 
   return url.href;
 }
+
+export function source48CN(pathname: string): string {
+  if (/^https?\/{2}/i.test(pathname)) {
+    return pathname;
+  } else {
+    const url: URL = new URL(pathname, 'https://source.48.cn/');
+
+    return url.href;
+  }
+}
