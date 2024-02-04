@@ -2,7 +2,7 @@ import { message } from 'antd';
 import type { MessageInstance } from 'antd/es/message/interface';
 import getDouyinWorker from './douyin.worker/getDouyinWorker';
 import getLimitingWorker from './limiting.worker/getLimitingWorker';
-import type { QQProtocol, QQModals } from '../../../QQBotModals/ModalTypes';
+import type { QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemDouyin } from '../../../../commonTypes';
 import type { ParserResult } from '../../parser';
 
@@ -29,19 +29,16 @@ class DouyinExpand {
 
   public config: OptionsItemDouyin;
   public qq: QQModals;
-  public protocol: QQProtocol;
   public douyinWorker?: Worker;
   #messageApi: typeof message | MessageInstance = message;
 
-  constructor({ config, qq, protocol, messageApi }: {
+  constructor({ config, qq, messageApi }: {
     config: OptionsItemDouyin;
     qq: QQModals;
-    protocol: QQProtocol;
     messageApi?: MessageInstance;
   }) {
     this.config = config;
     this.qq = qq;
-    this.protocol = protocol;
     messageApi && (this.#messageApi = messageApi);
   }
 
@@ -49,7 +46,7 @@ class DouyinExpand {
   handleDouyinMessage: MessageListener = async (event: MessageEvent<DouyinMessageData>): Promise<void> => {
     if (event.data.type === 'message') {
       for (let i: number = event.data.sendGroup.length - 1; i >= 0; i--) {
-        await this.qq.sendMessage(event.data.sendGroup[i] as any);
+        await this.qq.sendMessageText(event.data.sendGroup[i] as any);
       }
     }
   };
@@ -73,7 +70,6 @@ class DouyinExpand {
       userId,
       description,
       cookieString,
-      protocol: this.protocol,
       intervalTime,
       isSendDebugMessage
     });

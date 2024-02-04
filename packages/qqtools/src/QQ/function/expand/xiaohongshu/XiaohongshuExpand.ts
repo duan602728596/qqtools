@@ -119,7 +119,7 @@ class XiaohongshuExpand {
   handleWeiboWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
     if (event.data.type === 'message') {
       for (let i: number = event.data.sendGroup.length - 1; i >= 0; i--) {
-        await this.qq.sendMessage(event.data.sendGroup[i] as any);
+        await this.qq.sendMessageText(event.data.sendGroup[i]);
       }
     } else if (event.data.type === 'sign') {
       this.xiaohongshuWorker?.postMessage?.({

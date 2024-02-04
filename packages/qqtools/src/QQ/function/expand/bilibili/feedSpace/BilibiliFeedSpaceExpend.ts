@@ -17,7 +17,7 @@ class BilibiliFeedSpaceExpend {
 
   handleBilibiliFeedSpaceWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
     for (let i: number = event.data.sendGroup.length - 1; i >= 0; i--) {
-      await this.qq.sendMessage(event.data.sendGroup[i]);
+      await this.qq.sendMessageText(event.data.sendGroup[i]);
     }
   };
 
@@ -31,7 +31,6 @@ class BilibiliFeedSpaceExpend {
       this.bilibiliFeedSpaceWorker.addEventListener('message', this.handleBilibiliFeedSpaceWorkerMessage);
       this.bilibiliFeedSpaceWorker.postMessage({
         bilibiliFeedSpaceId,
-        protocol: this.qq.protocol,
         cookie: cookieString
       });
     }

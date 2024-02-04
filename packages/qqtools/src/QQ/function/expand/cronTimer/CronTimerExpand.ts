@@ -1,5 +1,4 @@
 import { scheduleJob, type Job } from 'node-schedule';
-import parser from '../../parser';
 import type { QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemCronTimer } from '../../../../commonTypes';
 
@@ -20,10 +19,7 @@ class CronTimerExpand {
 
     if (cronJob && cronTime && cronSendData) {
       this.cronJob = scheduleJob(cronTime, (): void => {
-        this.qq.sendMessage(parser({
-          text: cronSendData,
-          protocol: this.qq.protocol
-        }) as any);
+        this.qq.sendMessageText(cronSendData);
       });
     }
   }

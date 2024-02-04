@@ -1,8 +1,6 @@
 import { setTimeout, clearTimeout } from 'node:timers';
 import * as dayjs from 'dayjs';
 import { requestAwemePostV2, requestTtwidCookie, type AwemePostResponse, type AwemeItem } from '@qqtools-api/douyin';
-import { QQProtocol } from '../../../../QQBotModals/ModalTypes';
-import parser, { type ParserResult } from '../../../parser';
 import * as CQ from '../../../parser/CQ';
 import { isCloseMessage, type MessageObject } from './messageTypes';
 import broadcastName from '../limiting.worker/broadcastName';
@@ -11,7 +9,6 @@ import { msToken } from '../../../../../utils/toutiao/signUtils';
 /* 抖音 */
 let userId: string;                                    // 用户userId
 let description: string;                               // 描述
-let protocol: QQProtocol;                              // 协议：mirai或者oicq
 let lastUpdateTime: number | 0 | null = null;          // 记录最新发布视频的更新时间，为0表示当前没有数据，null表示请求数据失败了
 let douyinTimer: NodeJS.Timeout | undefined = undefined; // 轮询定时器
 let cookieString: string | undefined = undefined;
@@ -105,7 +102,7 @@ async function handleDouyinListener(): Promise<void> {
       }
 
       if (data.length) {
-        const sendGroup: Array<ParserResult> = [];
+        const sendGroup: Array<string> = [];
 
         for (const item of data) {
           if (item.create_time > lastUpdateTime) {
@@ -120,10 +117,7 @@ async function handleDouyinListener(): Promise<void> {
               cover: item.video.cover.url_list[0]
             };
 
-            sendGroup.push(parser({
-              text: QQSendGroup(sendData),
-              protocol
-            }));
+            sendGroup.push(QQSendGroup(sendData));
           } else {
             break;
           }
@@ -150,13 +144,10 @@ async function handleDouyinListener(): Promise<void> {
         if (_debugTimes > 6 && !_sendedDouyinDebugInfo) {
           postMessage({
             type: 'message',
-            sendGroup: [parser({
-              text: `[qqtools] Debug info: your Douyin cookie has expired.
+            sendGroup: [`[qqtools] Debug info: your Douyin cookie has expired.
 UserId: ${ userId }
 StartTime: ${ _startTime }
-EndTime: ${ _endTime }`,
-              protocol
-            })]
+EndTime: ${ _endTime }`]
           });
           _sendedDouyinDebugInfo = true;
         }
@@ -199,7 +190,6 @@ addEventListener('message', function(event: MessageEvent<MessageObject>) {
   } else {
     userId = event.data.userId;
     description = event.data.description;
-    protocol = event.data.protocol;
     cookieString = event.data.cookieString;
     _isSendDebugMessage = event.data.isSendDebugMessage;
 

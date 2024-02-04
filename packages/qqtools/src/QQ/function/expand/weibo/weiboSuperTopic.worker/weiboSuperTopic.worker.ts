@@ -7,7 +7,6 @@ import {
 } from '@qqtools-api/weibo';
 import { QQProtocol } from '../../../../QQBotModals/ModalTypes';
 import { filterCards, filterNewCards } from '../weiboUtils';
-import parser from '../../../parser';
 import * as CQ from '../../../parser/CQ';
 
 let lfid: `${ string }_-_sort_time`; // 账号的lfid
@@ -62,10 +61,7 @@ async function weiboContainerListTimer(): Promise<void> {
 
         for (const item of newList) {
           postMessage({
-            sendGroup: parser({
-              text: QQSendGroup(item),
-              protocol
-            })
+            sendGroup: QQSendGroup(item)
           });
         }
       }

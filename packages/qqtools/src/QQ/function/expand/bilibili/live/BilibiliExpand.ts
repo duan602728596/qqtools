@@ -1,6 +1,5 @@
 import { requestRoomInfo, type BilibiliRoomInfo } from '@qqtools-api/bilibili';
 import getBilibiliWorker from './bilibili.worker/getBilibiliWorker';
-import parser, { type ParserResult } from '../../../parser';
 import * as CQ from '../../../parser/CQ';
 import type { QQModals } from '../../../../QQBotModals/ModalTypes';
 import type { OptionsItemBilibili } from '../../../../../commonTypes';
@@ -22,12 +21,8 @@ class BilibiliExpand {
   handleBilibiliWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
     const { bilibiliAtAll }: OptionsItemBilibili = this.config;
     const text: string = `bilibili：${ this.bilibiliUsername }在B站开启了直播。`;
-    const sendMessage: ParserResult = parser({
-      text: `${ bilibiliAtAll ? CQ.atAll() : '' }${ text }`,
-      protocol: this.qq.protocol
-    });
 
-    await this.qq.sendMessage(sendMessage as any);
+    await this.qq.sendMessageText(`${ bilibiliAtAll ? CQ.atAll() : '' }${ text }`);
   };
 
   // bilibili直播监听初始化

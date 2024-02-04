@@ -103,7 +103,6 @@ abstract class Basic {
         const douyin: DouyinExpand = new DouyinExpand({
           qq: this,
           config: item,
-          protocol: this.protocol,
           messageApi: this.messageApi
         });
 

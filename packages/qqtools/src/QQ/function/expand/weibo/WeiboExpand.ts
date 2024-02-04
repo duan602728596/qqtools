@@ -33,7 +33,7 @@ class WeiboExpand {
 
   // 微博监听
   handleWeiboWorkerMessage: MessageListener = async (event: MessageEvent): Promise<void> => {
-    await this.qq.sendMessage(event.data.sendGroup);
+    await this.qq.sendMessageText(event.data.sendGroup);
   };
 
   // 微博初始化

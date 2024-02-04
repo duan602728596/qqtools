@@ -8,7 +8,6 @@ import QChatSocket from '../../../sdk/QChatSocket';
 import NimChatroomSocket from '../../../sdk/NimChatroomSocket';
 import { qChatSocketList, nimChatroomList } from '../../../QQBotModals/Basic';
 import { getRoomMessage, getLogMessage, log, type RoomMessageArgs } from './pocket48V2Utils';
-import parser from '../../parser';
 import { pocket48LiveRoomSendGiftText, pocket48LiveRoomSendGiftLeaderboardText, type GiftItem } from './giftCompute';
 import type { QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemPocket48V2, MemberInfo } from '../../../../commonTypes';
@@ -119,10 +118,7 @@ class Pocket48V2Expand {
       const sendGroup: string[] = getRoomMessage(roomMessageArgs);
 
       if (sendGroup.length > 0) {
-        await this.qq.sendMessage(parser({
-          text: sendGroup.join(''),
-          protocol: this.qq.protocol
-        }) as any);
+        await this.qq.sendMessageText(sendGroup.join(''));
       }
 
       // 日志
@@ -211,20 +207,14 @@ class Pocket48V2Expand {
       if (user) {
         if (notification.type === 'serverMemberLeave') {
           console.log('serverMemberLeave', notification);
-          await this.qq.sendMessage(parser({
-            text: `口袋48系统消息：${ user.ownerName } 取关了 ${
-              notification.attach.serverInfo?.name ?? '未知成员'
-            }\n时间：${ dayjs(notification.time).format('YYYY-MM-DD HH:mm:ss') }`,
-            protocol: this.qq.protocol
-          }) as any);
+          await this.qq.sendMessageText(`口袋48系统消息：${ user.ownerName } 取关了 ${
+            notification.attach.serverInfo?.name ?? '未知成员'
+          }\n时间：${ dayjs(notification.time).format('YYYY-MM-DD HH:mm:ss') }`);
         } else if (notification.type === 'serverMemberApplyDone') {
           console.log('serverMemberApplyDone', notification);
-          await this.qq.sendMessage(parser({
-            text: `口袋48系统消息：${ user.ownerName } 关注了 ${
-              notification.attach.serverInfo?.name ?? '未知成员'
-            }\n时间：${ dayjs(notification.time).format('YYYY-MM-DD HH:mm:ss') }`,
-            protocol: this.qq.protocol
-          }) as any);
+          await this.qq.sendMessageText(`口袋48系统消息：${ user.ownerName } 关注了 ${
+            notification.attach.serverInfo?.name ?? '未知成员'
+          }\n时间：${ dayjs(notification.time).format('YYYY-MM-DD HH:mm:ss') }`);
         }
       }
     }
@@ -263,10 +253,7 @@ class Pocket48V2Expand {
           giftNickName: this.giftNickName
         });
 
-        text && (await this.qq.sendMessage(parser({
-          text,
-          protocol: this.qq.protocol
-        }) as any));
+        text && (await this.qq.sendMessageText(text));
       }
 
       // 计算单人的排行榜
@@ -278,10 +265,7 @@ class Pocket48V2Expand {
           giftNickName: this.giftNickName
         });
 
-        await this.qq.sendMessage(parser({
-          text,
-          protocol: this.qq.protocol
-        }) as any);
+        await this.qq.sendMessageText(text);
       }
 
       this.giftList = [];

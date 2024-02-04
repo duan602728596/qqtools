@@ -1,14 +1,11 @@
 import { setTimeout } from 'node:timers';
 import * as dayjs from 'dayjs';
 import { requestFeedSpace, type BilibiliFeedSpace, type BilibiliFeedSpaceItem } from '@qqtools-api/bilibili';
-import parser, { type ParserResult } from '../../../../parser';
 import * as CQ from '../../../../parser/CQ';
-import type { QQProtocol } from '../../../../../QQBotModals/ModalTypes';
 
 let bilibiliFeedSpaceId: string; // bilibili空间id
 let bilibiliFeedSpaceTimer: NodeJS.Timeout | null = null;
 let latestTime: number | null = null; // 记录最新的时间
-let protocol: QQProtocol;             // 协议
 let requestCookie: string;            // 请求cookie
 
 /**
@@ -70,13 +67,10 @@ async function bilibiliFeedSpaceTimerFunc(): Promise<void> {
       const nextData: Array<BilibiliFeedSpaceItem> = formatData(res.data.items, true);
 
       if (nextData.length) {
-        const sendGroup: Array<ParserResult> = [];
+        const sendGroup: Array<string> = [];
 
         for (const item of nextData) {
-          sendGroup.push(parser({
-            text: createSendMessageItem(item),
-            protocol
-          }));
+          sendGroup.push(createSendMessageItem(item));
         }
 
         if (sendGroup.length) {
@@ -113,11 +107,9 @@ async function bilibiliFeedSpaceInit(): Promise<void> {
 
 addEventListener('message', function(event: MessageEvent<{
   bilibiliFeedSpaceId: string;
-  protocol: QQProtocol;
   cookie: string;
 }>): void {
   bilibiliFeedSpaceId = event.data.bilibiliFeedSpaceId;
-  protocol = event.data.protocol;
   requestCookie = event.data.cookie;
   bilibiliFeedSpaceInit();
 });

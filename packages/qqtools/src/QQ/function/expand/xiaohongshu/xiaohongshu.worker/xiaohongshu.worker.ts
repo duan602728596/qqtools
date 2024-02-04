@@ -11,7 +11,6 @@ import {
   type FeedNodeCard
 } from '@qqtools-api/xiaohongshu';
 import { QQProtocol } from '../../../../QQBotModals/ModalTypes';
-import parser, { type ParserResult } from '../../../parser';
 import * as CQ from '../../../parser/CQ';
 import {
   isCloseMessage,
@@ -220,14 +219,11 @@ async function xiaohongshuListener(): Promise<void> {
             lastUpdateTime = mergeData[0].card!.time;
           }
 
-          const sendGroup: Array<ParserResult> = [];
+          const sendGroup: Array<string> = [];
 
           for (const item of mergeData) {
             if (item.card!.time > lastUpdateTime) {
-              sendGroup.push(parser({
-                text: await QQSendGroup(item as Required<MergeData>),
-                protocol
-              }));
+              sendGroup.push(await QQSendGroup(item as Required<MergeData>));
             } else {
               break;
             }
@@ -253,13 +249,10 @@ async function xiaohongshuListener(): Promise<void> {
         if (_debugTimes > 6 && !_sendedXiaohongshuDebugInfo) {
           postMessage({
             type: 'message',
-            sendGroup: [parser({
-              text: `[qqtools] Debug info: your Xiaohongshu cookie has expired.
+            sendGroup: [`[qqtools] Debug info: your Xiaohongshu cookie has expired.
 UserId: ${ userId }
 StartTime: ${ _startTime }
-EndTime: ${ _endTime }`,
-              protocol
-            })]
+EndTime: ${ _endTime }`]
           });
           _sendedXiaohongshuDebugInfo = true;
         }
