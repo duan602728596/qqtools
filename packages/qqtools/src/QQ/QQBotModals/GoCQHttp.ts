@@ -96,7 +96,7 @@ class GoCQHttp extends Basic implements BasicImplement<string> {
         });
 
         if (index >= 0) {
-          await this.sendMessage(customCmd[index].value, groupId);
+          await this.sendMessageText(customCmd[index].value, groupId);
         }
       }
 
@@ -112,7 +112,7 @@ class GoCQHttp extends Basic implements BasicImplement<string> {
           at: CQ.at(data.user_id)
         });
 
-        await this.sendMessage(msg, data.group_id);
+        await this.sendMessageText(msg, data.group_id);
       }
     }
   };
@@ -194,7 +194,7 @@ class GoCQHttp extends Basic implements BasicImplement<string> {
     const { qqNumber }: OptionsItemValueV2 = this.config;
     const msg: string = LogCommandData(this.protocol, qqNumber, this.startTime);
 
-    await this.sendMessage(msg, groupId);
+    await this.sendMessageText(msg, groupId);
   }
 
   // websocket初始化

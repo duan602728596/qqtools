@@ -59,7 +59,7 @@ class OicqQQ extends Basic implements BasicImplement<Sendable> {
         });
 
         if (index >= 0) {
-          await this.sendMessage(customCmd[index].value, groupId);
+          await this.sendMessageText(customCmd[index].value, groupId);
         }
       }
 
@@ -75,7 +75,7 @@ class OicqQQ extends Basic implements BasicImplement<Sendable> {
           at: CQ.at(data.user_id)
         });
 
-        await this.sendMessage(msg, data.group_id);
+        await this.sendMessageText(msg, data.group_id);
       }
     }
   };
@@ -143,7 +143,7 @@ class OicqQQ extends Basic implements BasicImplement<Sendable> {
     const { qqNumber }: OptionsItemValueV2 = this.config;
     const msg: string = LogCommandData(this.protocol, qqNumber, this.startTime);
 
-    await this.sendMessage(msg, groupId);
+    await this.sendMessageText(msg, groupId);
   }
 
   // 项目初始化

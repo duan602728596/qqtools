@@ -1,6 +1,5 @@
 import { requestGiftList, type GiftMoney, type GiftMoneyGroup, type GiftMoneyItem } from '@qqtools-api/48';
 import type { NIMChatroomMessage } from '@yxim/nim-web-sdk/dist/SDK/NIM_Web_Chatroom/NIMChatroomMessageInterface';
-import parser from '../parser';
 import * as CQ from '../parser/CQ';
 import { getRoomMessage, type RoomMessageArgs } from '../expand/pocket48/pocket48V2Utils';
 import { QQProtocol, type QQModals } from '../../QQBotModals/ModalTypes';
@@ -36,17 +35,11 @@ async function mock(qq: QQModals, command: string, qqNumber: number, groupId: nu
           : `http://localhost:${ getDouyinServerPort().port }/proxy/weibo/image?url=${ encodeURIComponent(mockImg[0]) }`
       );
 
-      await qq.sendMessage(parser({
-        text: `恩瑾${ img }<%= qqtools:image, ${ mockImg[1] } %>[mirai:at:${ qqNumber }]\n恩瑾`,
-        protocol: qq.protocol
-      }) as any, groupId);
+      await qq.sendMessageText(`恩瑾${ img }<%= qqtools:image, ${ mockImg[1] } %>[mirai:at:${ qqNumber }]\n恩瑾`, groupId);
       break;
 
     case 'test-voice-gxy':
-      await qq.sendMessage(parser({
-        text: CQ.record(wav),
-        protocol: qq.protocol
-      }) as any, groupId);
+      await qq.sendMessageText(CQ.record(wav), groupId);
       break;
 
     case 'test-pocket-zx':
@@ -65,10 +58,7 @@ async function mock(qq: QQModals, command: string, qqNumber: number, groupId: nu
         const sendGroup: string[] = getRoomMessage(roomMessageArgs);
 
         if (sendGroup.length > 0) {
-          await qq.sendMessage(parser({
-            text: sendGroup.join(''),
-            protocol: qq.protocol
-          }) as any);
+          await qq.sendMessageText(sendGroup.join(''));
         }
       }
 
@@ -90,10 +80,7 @@ async function mock(qq: QQModals, command: string, qqNumber: number, groupId: nu
         const sendGroup: string[] = getRoomMessage(roomMessageArgs);
 
         if (sendGroup.length > 0) {
-          await qq.sendMessage(parser({
-            text: sendGroup.join(''),
-            protocol: qq.protocol
-          }) as any);
+          await qq.sendMessageText(sendGroup.join(''));
         }
       }
 
@@ -133,10 +120,7 @@ async function mock(qq: QQModals, command: string, qqNumber: number, groupId: nu
         giftNickName: zzxMockData.user.nickName
       });
 
-      text && (await qq.sendMessage(parser({
-        text,
-        protocol: qq.protocol
-      }) as any));
+      text && (await qq.sendMessageText(text));
 
       const text2: string = pocket48LiveRoomSendGiftLeaderboardText({
         qingchunshikeGiftList,
@@ -145,10 +129,7 @@ async function mock(qq: QQModals, command: string, qqNumber: number, groupId: nu
         giftNickName: zzxMockData.user.nickName
       });
 
-      await qq.sendMessage(parser({
-        text: text2,
-        protocol: qq.protocol
-      }) as any);
+      await qq.sendMessageText(text2);
   }
 }
 

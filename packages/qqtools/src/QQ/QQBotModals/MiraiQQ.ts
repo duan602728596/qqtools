@@ -82,10 +82,7 @@ class MiraiQQ extends Basic implements BasicImplement<Array<MiraiMessageProps>> 
           });
 
           if (customCmdItem) {
-            await this.sendMessage(parser({
-              text: customCmdItem.value,
-              protocol: this.protocol
-            }) as Array<MiraiMessageProps>, groupId);
+            await this.sendMessageText(customCmdItem.value, groupId);
           }
         }
 
@@ -111,10 +108,7 @@ class MiraiQQ extends Basic implements BasicImplement<Array<MiraiMessageProps>> 
           at: CQ.at(data.member.id)
         });
 
-        await this.sendMessage(parser({
-          text: msg,
-          protocol: this.protocol
-        }) as Array<MiraiMessageProps>, data.member.group.id);
+        await this.sendMessageText(msg, data.member.group.id);
       }
     }
   };
@@ -264,7 +258,7 @@ class MiraiQQ extends Basic implements BasicImplement<Array<MiraiMessageProps>> 
     const { qqNumber }: OptionsItemValueV2 = this.config;
     const msg: string = LogCommandData(this.protocol, qqNumber, this.startTime);
 
-    await this.sendMessage([plain(msg)], groupId);
+    await this.sendMessageText(msg, groupId);
   }
 
   // 项目初始化

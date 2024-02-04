@@ -61,7 +61,7 @@ class ConsoleTest extends Basic {
         });
 
         if (index >= 0) {
-          await this.sendMessage(customCmd[index].value, data.group);
+          this.sendMessageText(customCmd[index].value, data.group);
         }
       }
 
@@ -73,11 +73,11 @@ class ConsoleTest extends Basic {
   };
 
   // 日志回调函数
-  async logCommandCallback(groupId: number): Promise<void> {
+  logCommandCallback(groupId: number): void {
     const { qqNumber }: OptionsItemValueV2 = this.config;
     const msg: string = LogCommandData(this.protocol, qqNumber, this.startTime);
 
-    await this.sendMessage(msg, groupId);
+    this.sendMessageText(msg, groupId);
   }
 
   // 在console.log上输出信息
@@ -125,6 +125,10 @@ class ConsoleTest extends Basic {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  sendMessageText(value: string, groupId?: number): void {
+    this.sendMessage(value, groupId);
   }
 
   // 项目初始化
