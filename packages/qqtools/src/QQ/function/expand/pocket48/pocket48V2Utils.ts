@@ -207,8 +207,10 @@ ${ info.question }
       );
     } else if (data.type === 'custom' && data.attach.messageType === 'RED_PACKET_2024') {
       // 红包
+      const sendRedPacketText: string = data.attach.starName === '' ? '发送了' : `送给${ data.attach.starName }专属`;
+
       sendGroup.push(
-        `${ data.attach.creatorName || nickName } 发送了红包：`,
+        `${ data.attach.creatorName || nickName } ${ sendRedPacketText }红包。`,
         CQ.image(data.attach.coverUrl),
         `时间：${ msgTime }${ memberInfoContent }`
       );
@@ -390,7 +392,9 @@ ${ JSON.stringify(data) }`;
 地址：${ source(picPath) }
 时间：${ msgTime }${ memberInfoContent }`;
     } else if (data.type === 'custom' && data.attach.messageType === 'RED_PACKET_2024') {
-      logData = `${ data.attach.creatorName || nickName } 发送了红包。
+      const sendRedPacketText: string = data.attach.starName === '' ? '发送了' : `送给${ data.attach.starName }专属`;
+
+      logData = `${ data.attach.creatorName || nickName } ${ sendRedPacketText }红包。
 封面地址：${ data.attach.coverUrl }`;
     } else if (data.type === 'custom' && [
       'SESSION_DIANTAI',

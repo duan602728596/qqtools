@@ -408,6 +408,7 @@ export interface RED_PACKETMessageV2 extends CustomMessageV2 {
     creatorName: string;
     packedId: string;
     starId: number;
+    starName: string | '';
     coverUrl: string;
     coverHeight: number;
     coverWidth: number;
