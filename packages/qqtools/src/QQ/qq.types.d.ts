@@ -400,6 +400,23 @@ export interface GIFT_TEXTMessageV2 extends CustomMessageV2 {
   };
 }
 
+// 红包
+export interface RED_PACKETMessageV2 extends CustomMessageV2 {
+  type: 'custom';
+  attach: {
+    messageType: 'RED_PACKET_2024';
+    creatorName: string;
+    packedId: string;
+    starId: number;
+    starName: string | '';
+    coverUrl: string;
+    coverHeight: number;
+    coverWidth: number;
+    sendType: number;
+    resourceType: number;
+  };
+}
+
 export type CustomMessageAllV2 =
   | TEXTMessageV2
   | REPLYMessageV2
@@ -426,7 +443,8 @@ export type CustomMessageAllV2 =
   | ZHONGQIU_ACTIVITY_LANTERN_FANSMessageV2
   | TEAM_VOICEMessageV2
   | PERSONAL_VOICEMessageV2
-  | GIFT_TEXTMessageV2;
+  | GIFT_TEXTMessageV2
+  | RED_PACKETMessageV2;
 
 export interface LiveRoomCustomUser {
   pfUrl: string;

@@ -205,6 +205,15 @@ ${ info.question }
         `${ nickName } 送给 ${ acceptUserName ?? userName } ${ giftNum }个${ giftName }${ tpNum1 > 0 ? `(${ tpNum })` : '' }。
 时间：${ msgTime }${ memberInfoContent }`
       );
+    } else if (data.type === 'custom' && data.attach.messageType === 'RED_PACKET_2024') {
+      // 红包
+      const sendRedPacketText: string = data.attach.starName === '' ? '发送了' : `送给${ data.attach.starName }专属`;
+
+      sendGroup.push(
+        `${ data.attach.creatorName || nickName } ${ sendRedPacketText }红包。`,
+        CQ.image(data.attach.coverUrl),
+        `时间：${ msgTime }${ memberInfoContent }`
+      );
     } else if (data.type === 'custom' && [
       'DELETE',
       'SESSION_DIANTAI',
@@ -382,6 +391,11 @@ ${ JSON.stringify(data) }`;
       logData = `${ nickName } 送给 ${ acceptUserName ?? userName } ${ giftNum }个${ giftName }${ tpNum1 > 0 ? `(${ tpNum })` : '' }。
 地址：${ source(picPath) }
 时间：${ msgTime }${ memberInfoContent }`;
+    } else if (data.type === 'custom' && data.attach.messageType === 'RED_PACKET_2024') {
+      const sendRedPacketText: string = data.attach.starName === '' ? '发送了' : `送给${ data.attach.starName }专属`;
+
+      logData = `${ data.attach.creatorName || nickName } ${ sendRedPacketText }红包。
+封面地址：${ data.attach.coverUrl }`;
     } else if (data.type === 'custom' && [
       'SESSION_DIANTAI',
       'OPEN_LIVE',

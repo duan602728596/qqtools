@@ -203,6 +203,10 @@
                 "value": "PRESENT_TEXT"
               },
               {
+                "label": "红包",
+                "value": "RED_PACKET_2024"
+              },
+              {
                 "label": "未知类型",
                 "value": "UNKNOWN"
               },

@@ -1,4 +1,5 @@
 import type { IncomingMessage } from 'node:http';
+import { setInterval } from 'node:timers';
 import { WebSocket as WebSocketClient, WebSocketServer } from 'ws';
 import type { GroupMessage, MemberIncreaseEvent as OicqMemberIncreaseEvent } from 'icqq';
 import * as dayjs from 'dayjs';
@@ -53,6 +54,7 @@ class GoCQHttp extends Basic implements BasicImplement<string> {
 
   public protocol: QQProtocol = QQProtocol.GoCQHttp;
   public websocket: WebSocketClient | WebSocketServer | undefined;
+  public pingInterval: NodeJS.Timeout | undefined;
 
   constructor(args: BasicArgs) {
     super(args);
@@ -190,11 +192,11 @@ class GoCQHttp extends Basic implements BasicImplement<string> {
   }
 
   // 日志回调函数
-  async logCommandCallback(groupId: number): Promise<void> {
+  logCommandCallback(groupId: number): void {
     const { qqNumber }: OptionsItemValueV2 = this.config;
     const msg: string = LogCommandData(this.protocol, qqNumber, this.startTime);
 
-    await this.sendMessageText(msg, groupId);
+    this.sendMessageText(msg, groupId);
   }
 
   // websocket初始化
@@ -216,8 +218,21 @@ class GoCQHttp extends Basic implements BasicImplement<string> {
       this.websocket.on('connection', (ws: WebSocketClient): void => {
         ws.on('message', this.handleMessageSocketMessage);
         ws.on('error', this.handleWebsocketError);
+        ws.on('pong', (): unknown => ws['isAlive'] = true);
       });
       this.websocket.on('error', this.handleWebsocketError);
+
+      // ping
+      this.pingInterval = setInterval((): void => {
+        (this.websocket as WebSocketServer).clients.forEach((ws: WebSocketClient): void => {
+          if (ws['isAlive'] === false) {
+            return ws.terminate();
+          }
+
+          ws['isAlive'] = false;
+          ws.ping();
+        });
+      }, 30_000);
     } else {
       this.websocket = new WebSocketClient(`ws://${ socketHost }:${ socketPort }`, {
         headers: authKey && !/^\s*$/.test(authKey) ? {
@@ -232,6 +247,8 @@ class GoCQHttp extends Basic implements BasicImplement<string> {
   // websocket销毁
   destroyWebsocket(): void {
     if (this.websocket) {
+      clearTimeout(this.pingInterval);
+      this.pingInterval = undefined;
       this.websocket.close();
       this.websocket = undefined;
     }
