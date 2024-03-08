@@ -31,8 +31,8 @@ interface GiftUserItem {
 
 /**
  * 计算礼物送的数量
- * @param { Array<GiftItem> } data: 送的礼物
- * @param { Array<GiftMoneyItem> } giftList: 礼物价格信息
+ * @param { Array<GiftItem> } data - 送的礼物
+ * @param { Array<GiftMoneyItem> } giftList - 礼物价格信息
  */
 function giftSend(data: Array<GiftItem>, giftList: Array<GiftMoneyItem>): Array<GiftSendItem> {
   const result: Array<GiftSendItem> = [];
@@ -58,8 +58,8 @@ function giftSend(data: Array<GiftItem>, giftList: Array<GiftMoneyItem>): Array<
 
 /**
  * 计算每个人的礼物
- * @param { Array<GiftItem> } data: 送的礼物
- * @param { Array<GiftMoneyItem> } giftList: 礼物价格信息
+ * @param { Array<GiftItem> } data - 送的礼物
+ * @param { Array<GiftMoneyItem> } giftList - 礼物价格信息
  */
 function giftLeaderboard(data: Array<GiftItem>, giftList: Array<GiftMoneyItem>): Array<GiftUserItem> {
   const result: Array<GiftUserItem> = [];

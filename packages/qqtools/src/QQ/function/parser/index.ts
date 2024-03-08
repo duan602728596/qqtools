@@ -14,8 +14,8 @@ interface ParserArgs {
 
 /**
  * 消息统一解析
- * @param { string } text: 原始文本
- * @param { QQProtocol } protocol: 协议
+ * @param { string } args.text - 原始文本
+ * @param { QQProtocol } args.protocol - 协议
  */
 function parser(args: ParserArgs): ParserResult {
   const { text, protocol }: ParserArgs = args;

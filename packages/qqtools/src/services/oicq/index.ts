@@ -3,10 +3,10 @@ import type { ParserResult } from '../../QQ/function/parser';
 
 /**
  * 发送群消息
- * @param { number } groupNumber: 群号
+ * @param { number } groupNumber - 群号
  * @param { string } socketHost
- * @param { number } port: 端口号
- * @param { string } message: 发送信息
+ * @param { number } port - 端口号
+ * @param { string } message - 发送信息
  */
 export async function requestSendGroupMessage(
   groupNumber: number,

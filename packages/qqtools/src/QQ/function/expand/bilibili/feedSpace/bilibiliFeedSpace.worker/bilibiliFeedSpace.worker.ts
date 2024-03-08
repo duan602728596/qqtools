@@ -10,8 +10,8 @@ let requestCookie: string;            // 请求cookie
 
 /**
  * 格式化数据
- * @param { Array<BilibiliFeedSpaceItem> } data: 原始数据
- * @param { boolean } needFilter: 是否需要过滤
+ * @param { Array<BilibiliFeedSpaceItem> } data - 原始数据
+ * @param { boolean } [needFilter] - 是否需要过滤
  */
 function formatData(data: Array<BilibiliFeedSpaceItem>, needFilter?: boolean): Array<BilibiliFeedSpaceItem> {
   const nextData: Array<BilibiliFeedSpaceItem> = [...data].sort(

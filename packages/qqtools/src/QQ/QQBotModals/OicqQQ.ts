@@ -100,8 +100,8 @@ class OicqQQ extends Basic implements BasicImplement<Sendable> {
 
   /**
    * 发送信息
-   * @param { Sendable } value: 要发送的信息
-   * @param { number } groupId: 单个群的群号
+   * @param { Sendable } value - 要发送的信息
+   * @param { number } [groupId] - 单个群的群号
    */
   async sendMessage(value: Sendable, groupId?: number): Promise<void> {
     try {

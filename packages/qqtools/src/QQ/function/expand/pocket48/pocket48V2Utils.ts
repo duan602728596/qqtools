@@ -26,13 +26,13 @@ export interface RoomMessageArgs {
 
 /**
  * 获取房间数据
- * @param { UserV2 | undefined } user: 消息对象
- * @param { CustomMessageAllV2 } data: 发送消息
- * @param { boolean } pocket48LiveAtAll: 直播时是否at全体成员
- * @param { Array<string> | undefined } pocket48ShieldMsgType: 屏蔽类型
- * @param { MemberInfo } memberInfo: 房间信息
- * @param { boolean } pocket48MemberInfo: 发送房间信息
- * @param { Array<ChannelInfo> | undefined } channel: 频道
+ * @param { UserV2 | undefined } user - 消息对象
+ * @param { CustomMessageAllV2 } data - 发送消息
+ * @param { boolean } pocket48LiveAtAll - 直播时是否at全体成员
+ * @param { Array<string> | undefined } pocket48ShieldMsgType - 屏蔽类型
+ * @param { MemberInfo } memberInfo - 房间信息
+ * @param { boolean } pocket48MemberInfo - 发送房间信息
+ * @param { Array<ChannelInfo> | undefined } channel - 频道
  */
 export function getRoomMessage({
   user,
@@ -244,10 +244,10 @@ ${ info.question }
 
 /**
  * 获取房间日志
- * @param { UserV2 | undefined } user: 消息对象
- * @param { CustomMessageAllV2 } data: 消息对象
- * @param { MemberInfo } memberInfo: 房间信息
- * @param { Array<ChannelInfo> | undefined } channel: 频道
+ * @param { UserV2 | undefined } user - 消息对象
+ * @param { CustomMessageAllV2 } data - 消息对象
+ * @param { MemberInfo } [memberInfo] - 房间信息
+ * @param { Array<ChannelInfo> | undefined } channel - 频道
  */
 export function getLogMessage({ user, data, memberInfo, channel }: {
   user: UserV2 | undefined;

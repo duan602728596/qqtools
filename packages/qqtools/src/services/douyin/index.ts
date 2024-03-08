@@ -12,8 +12,8 @@ export type * from './interface';
 
 /**
  * 请求user的视频列表
- * @param { string } cookie: string
- * @param { string } secUserId: user id
+ * @param { string } cookie - string
+ * @param { string } secUserId - user id
  */
 export async function requestAwemePostV2(cookie: string, secUserId: string): Promise<AwemePostResponse | string> {
   const query: string = awemePostQueryV2(secUserId);

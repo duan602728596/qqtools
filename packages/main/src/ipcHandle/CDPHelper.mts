@@ -6,8 +6,8 @@ import type { Client } from 'chrome-remote-interface';
 
 /**
  * 启动浏览器
- * @param { string } executablePath: 浏览器地址
- * @param { number } port: 端口地址
+ * @param { string } executablePath - 浏览器地址
+ * @param { number } port - 端口地址
  */
 export function chromeStart(executablePath: string, port: number): Promise<LaunchedChrome> {
   return ChromeLauncher.launch({

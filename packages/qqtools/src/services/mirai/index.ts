@@ -6,8 +6,8 @@ export type * from './interface';
 /**
  * 根据authKey获取session
  * @param { string } socketHost
- * @param { number } port: 端口号
- * @param { string } authKey: 配置的authKey
+ * @param { number } port - 端口号
+ * @param { string } authKey - 配置的authKey
  */
 export async function requestAuth(socketHost: string, port: number, authKey: string): Promise<AuthResponse> {
   const res: Response = await fetch(`http://${ socketHost }:${ port }/auth`, {
@@ -22,8 +22,8 @@ export async function requestAuth(socketHost: string, port: number, authKey: str
 /**
  * 根据authKey获取session（mirai-api-http的v2版本）
  * @param { string } socketHost
- * @param { number } port: 端口号
- * @param { string } verifyKey: 配置的verifyKey
+ * @param { number } port - 端口号
+ * @param { string } verifyKey - 配置的verifyKey
  */
 export async function requestAuthV2(socketHost: string, port: number, verifyKey: string): Promise<AuthResponse> {
   const res: Response = await fetch(`http://${ socketHost }:${ port }/verify`, {
@@ -37,9 +37,9 @@ export async function requestAuthV2(socketHost: string, port: number, verifyKey:
 
 /**
  * session认证
- * @param { number } qq: qq号
+ * @param { number } qq - qq号
  * @param { string } socketHost
- * @param { number } port: 端口号
+ * @param { number } port - 端口号
  * @param { string } session
  */
 export async function requestVerify(qq: number, socketHost: string, port: number, session: string): Promise<MessageResponse> {

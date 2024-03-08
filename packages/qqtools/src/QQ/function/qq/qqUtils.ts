@@ -20,8 +20,8 @@ interface Options {
  * type: image，解析为图片 <%= qqtools:image, https://example.com/1.jpg %>
  *       at，at人 <%= qqtools:at %>
  *       atAll，at全体成员 <%= qqtools:atAll %>
- * @param { string } message: 信息
- * @param { Options } options: 配置
+ * @param { string } message - 信息
+ * @param { Options } [options = {}] - 配置
  * @return { Array<MiraiMessageProps> }
  */
 export function miraiTemplate(message: string, options: Options = {}): Array<MiraiMessageProps> {
@@ -106,7 +106,7 @@ export function miraiTemplate(message: string, options: Options = {}): Array<Mir
 
 /**
  * 将群号字符串解析成数组
- * @param { string } groupNumber: qq群号，以","分隔
+ * @param { string } groupNumber - qq群号，以","分隔
  */
 export function getGroupNumbers(groupNumber: string): Array<number> {
   return `${ groupNumber }`.split(/\s*[,，]\s*/)
@@ -128,9 +128,9 @@ export function getSocketHost(socketHost: string | undefined): string {
 
 /**
  * 输出机器人的相关信息
- * @param { QQProtocol } protocol: 机器人使用的库
- * @param { number } qqNumber: qq号
- * @param { string } time: 登陆时间
+ * @param { QQProtocol } protocol - 机器人使用的库
+ * @param { number } qqNumber - qq号
+ * @param { string } time - 登陆时间
  */
 export function LogCommandData(protocol: QQProtocol, qqNumber: number, time: string): string {
   return `qqtools

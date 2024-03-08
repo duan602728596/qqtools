@@ -140,8 +140,8 @@ class GoCQHttp extends Basic implements BasicImplement<string> {
 
   /**
    * 发送信息
-   * @param { string } value: 要发送的信息
-   * @param { number } groupId: 单个群的群号
+   * @param { string } value - 要发送的信息
+   * @param { number } [groupId] - 单个群的群号
    */
   sendMessage(value: string, groupId?: number): void {
     if (!this.websocket) return;

@@ -46,7 +46,7 @@ function initWorker(): Promise<Worker> {
  * @param { Worker } worker
  * @param { string } username
  * @param { string } password
- * @param { ProtocolType } protocol: 登陆协议
+ * @param { ProtocolType } [protocol] - 登陆协议
  */
 export function loginWorker(
   worker: Worker,
@@ -81,7 +81,7 @@ export function loginWorker(
  * 账号登陆
  * @param { string } username
  * @param { string } password
- * @param { ProtocolType } protocol: 登陆协议
+ * @param { ProtocolType } [protocol] - 登陆协议
  * @return { [boolean, LoginInfoSendMessage] } 返回是否登录成功或失败，以及其他信息
  */
 export async function login(

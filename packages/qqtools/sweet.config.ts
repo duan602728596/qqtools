@@ -31,7 +31,7 @@ const htmlWebpackPluginMinify: boolean | HtmlMinifierOptions = isDev ? false : {
 
 /**
  * 模块使用node的commonjs的方式引入
- * @param { Array<string> } node: node模块名称
+ * @param { Array<string> } node - node模块名称
  */
 function nodeExternals(node: Array<string>): { [k: string]: string } {
   const result: { [k: string]: string } = {};
@@ -45,7 +45,7 @@ function nodeExternals(node: Array<string>): { [k: string]: string } {
 
 /**
  * 为node原生模块添加"node:"
- * @param { Array<string> } node: node模块名称
+ * @param { Array<string> } node - node模块名称
  */
 function nodeModules(node: Array<string>): Array<string> {
   return node.concat(node.map((o: string): string => `node:${ o }`));
@@ -77,7 +77,7 @@ const externalsName: Array<string> = nodeModules([
 
 /**
  * 创建路径
- * @param { string } p: 路径
+ * @param { string } p - 路径
  */
 function srcPath(p: string): string {
   return path.join(__dirname, 'src', p);

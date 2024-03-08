@@ -71,7 +71,7 @@ export type MiraiMessageProps = PlainProps
 
 /**
  * 发送文字
- * @param { string } text: 文字
+ * @param { string } text - 文字
  */
 export function plain(text: string): PlainProps {
   return { type: 'Plain', text };
@@ -79,8 +79,8 @@ export function plain(text: string): PlainProps {
 
 /**
  * 发送表情
- * @param { number } id: 表情ID
- * @param { string } name: 表情名称
+ * @param { number } id - 表情ID
+ * @param { string } [name] - 表情名称
  */
 export function face(id: number, name?: string): FaceProps {
   return { type: 'Face', faceId: id, name };
@@ -93,7 +93,7 @@ export function dice(value: number): DiceProps {
 
 /**
  * 发送图片
- * @param { string } url: 图片地址或本地地址
+ * @param { string } url - 图片地址或本地地址
  */
 export function image(url: string): ImageUrlProps | ImagePathProps | ImageBase64Props {
   if (/^https?:\/\//.test(url)) {
@@ -107,7 +107,7 @@ export function image(url: string): ImageUrlProps | ImagePathProps | ImageBase64
 
 /**
  * 圈人
- * @param { number } target: QQ号
+ * @param { number } target - QQ号
  */
 export function at(target: number): AtProps {
   return { type: 'At', target, display: 'name' };

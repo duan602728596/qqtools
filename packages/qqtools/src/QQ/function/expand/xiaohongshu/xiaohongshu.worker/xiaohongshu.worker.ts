@@ -126,9 +126,9 @@ async function getFeed(sourceNoteId: string): Promise<FeedNodeCard | undefined> 
 
 /**
  * 格式化数据
- * @param { Array<PostedNoteItem> } data: 小红书列表
- * @param { Array<FeedNodeCard | undefined> } feeds: 列表item对应的feed
- * @param { JsonCache } cache: 小红书缓存
+ * @param { Array<PostedNoteItem> } data - 小红书列表
+ * @param { Array<FeedNodeCard | undefined> } feeds - 列表item对应的feed
+ * @param { JsonCache } cache - 小红书缓存
  */
 async function formatToMergeData(data: PostedNoteItem[], feeds: (FeedNodeCard | undefined)[], cache: JsonCache): Promise<MergeData[]> {
   const nextData: Array<MergeData> = [];
@@ -179,7 +179,7 @@ async function formatToMergeData(data: PostedNoteItem[], feeds: (FeedNodeCard | 
 type GetMergeDataReturn = { mergeData: Array<MergeData>; everyHasTime: boolean };
 
 /**
- * @param { Array<PostedNoteItem> } data: 获取到的列表
+ * @param { Array<PostedNoteItem> } data - 获取到的列表
  */
 async function getMergeData(data: Array<PostedNoteItem>): Promise<GetMergeDataReturn> {
   const cache: JsonCache = await readCache();

@@ -219,8 +219,8 @@ class MiraiQQ extends Basic implements BasicImplement<Array<MiraiMessageProps>> 
 
   /**
    * 发送信息
-   * @param { Array<MiraiMessageProps> } value: 要发送的信息
-   * @param { number } groupId: 单个群的群号
+   * @param { Array<MiraiMessageProps> } value - 要发送的信息
+   * @param { number } [groupId] - 单个群的群号
    */
   async sendMessage(value: Array<MiraiMessageProps>, groupId?: number): Promise<void> {
     try {
