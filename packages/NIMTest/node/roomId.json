@@ -4231,6 +4231,102 @@
       "liveRoomId": 6392907211
     },
     {
+      "ownerName": "马蕴珊",
+      "id": 123011508,
+      "serverId": 12141705,
+      "channelId": 15926909,
+      "account": "20240310170237_86b79oehbh9d2yr",
+      "team": "TEAM B",
+      "teamId": 1101,
+      "groupName": "BEJ48",
+      "periodName": "BEJ48 十四期生",
+      "pinyin": "ma yunshan"
+    },
+    {
+      "ownerName": "马丹旎",
+      "id": 124518603,
+      "serverId": 12535051,
+      "channelId": 16582175,
+      "account": "20240316161533_88sgj210n3wsrnk",
+      "team": "预备生",
+      "teamId": 2103,
+      "groupName": "CGT48",
+      "periodName": "CGT48 二期生",
+      "pinyin": "madanni"
+    },
+    {
+      "ownerName": "陈真允一",
+      "id": 124584289,
+      "serverId": 12682288,
+      "channelId": 16647416,
+      "account": "20240316161638_30beazthfb3z475",
+      "team": "预备生",
+      "teamId": 1007,
+      "groupName": "SNH48",
+      "periodName": "SNH48 二十期生",
+      "pinyin": "chen zhenyunyi"
+    },
+    {
+      "ownerName": "罗颍宸",
+      "id": 124584293,
+      "serverId": 12666330,
+      "channelId": 16565413,
+      "account": "20240316161804_5p7hlgk9el07or5",
+      "team": "预备生",
+      "teamId": 1007,
+      "groupName": "SNH48",
+      "periodName": "SNH48 二十期生",
+      "pinyin": "luo yingchen"
+    },
+    {
+      "ownerName": "吴欣怡",
+      "id": 124584295,
+      "serverId": 12518888,
+      "channelId": 16598327,
+      "account": "20240316161829_7t1rf2sve86xjwp",
+      "team": "预备生",
+      "teamId": 1007,
+      "groupName": "SNH48",
+      "periodName": "SNH48 二十期生",
+      "pinyin": "wu xinyi"
+    },
+    {
+      "ownerName": "夏奕欣",
+      "id": 124584297,
+      "serverId": 12469811,
+      "channelId": 16762541,
+      "account": "20240316161711_v5rj3069zvm6er8",
+      "team": "预备生",
+      "teamId": 1007,
+      "groupName": "SNH48",
+      "periodName": "SNH48 二十期生",
+      "pinyin": "xia yixin"
+    },
+    {
+      "ownerName": "张曼妮",
+      "id": 124584300,
+      "serverId": 12519099,
+      "channelId": 16762729,
+      "account": "20240316161739_k9gaxns8m2fu257",
+      "team": "预备生",
+      "teamId": 1007,
+      "groupName": "SNH48",
+      "periodName": "SNH48 二十期生",
+      "pinyin": "zhang manni"
+    },
+    {
+      "ownerName": "温冰冰",
+      "id": 124584304,
+      "serverId": 12567766,
+      "channelId": 16778489,
+      "account": "20240316161855_athmvjo5ehkbitr",
+      "team": "预备生",
+      "teamId": 1007,
+      "groupName": "SNH48",
+      "periodName": "SNH48 二十期生",
+      "pinyin": "wen bingbing"
+    },
+    {
       "id": 4344250371,
       "roomId": "147283635",
       "account": "20200109180128_8b0atpmt7na9apo",
@@ -4412,5 +4508,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2024-01-10 23:39:53"
+  "buildTime": "2024-03-18 19:43:33"
 }
