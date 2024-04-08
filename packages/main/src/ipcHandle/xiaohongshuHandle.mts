@@ -1,8 +1,9 @@
 import * as path from 'node:path';
 import { setTimeout } from 'node:timers';
+import { setTimeout as setTimeoutPromise } from 'node:timers/promises';
 import * as fsP from 'node:fs/promises';
 import * as process from 'node:process';
-import { ipcMain, BrowserWindow, type IpcMainInvokeEvent, type Cookie } from 'electron';
+import { ipcMain, BrowserWindow, type IpcMainInvokeEvent, type Cookie, type Session } from 'electron';
 // @ts-ignore
 import CDP from 'chrome-remote-interface';
 import type { Client } from 'chrome-remote-interface';
@@ -41,7 +42,7 @@ export function closeAll(): void {
 function ipcXiaohongshuHandle(): void {
   // 初始化小红书窗口并注入脚本
   ipcMain.handle(XiaohongshuHandleChannel.XiaohongshuWindowInit, function(event: IpcMainInvokeEvent): Promise<void> {
-    return new Promise((resolve: Function, reject: Function): void => {
+    return new Promise(async (resolve: Function, reject: Function): Promise<void> => {
       xiaohongshuWin = new BrowserWindow({
         width: 400,
         height: 400,
@@ -51,7 +52,7 @@ function ipcXiaohongshuHandle(): void {
           webSecurity: false,
           contextIsolation: false
         },
-        show: false
+        show: true
       });
 
       isDevelopment && xiaohongshuWin.webContents.openDevTools();
@@ -60,7 +61,7 @@ function ipcXiaohongshuHandle(): void {
         setTimeout(resolve, 5_000);
       });
 
-      xiaohongshuWin.loadURL('https://www.xiaohongshu.com/user/profile/594099df82ec393174227f18', {
+      await xiaohongshuWin.loadURL('https://www.xiaohongshu.com/user/profile/594099df82ec393174227f18', {
         userAgent: pcUserAgent
       });
     });
@@ -103,47 +104,40 @@ function ipcXiaohongshuHandle(): void {
       await Promise.all([
         client.Page.enable(),
         client.Network.enable(),
-        client.Runtime.enable()
+        client.Runtime.enable(),
+        client.Fetch.enable({
+          patterns: [{
+            urlPattern: '*.js',
+            resourceType: 'Script',
+            requestStage: 'Response'
+          }]
+        })
       ]);
 
       // 拦截并修改响应
-      // https://fe-static.xhscdn.com/formula-static/xhs-pc-web/public/js/vendor-dynamic.327e555.js
-      await client.Network.setRequestInterception({
-        patterns: [
-          {
-            urlPattern: '*.js',
-            resourceType: 'Script',
-            interceptionStage: 'HeadersReceived'
-          }
-        ]
-      });
-
-      // @ts-ignore
-      client.Network.requestIntercepted(async ({ interceptionId, request }: {
-        interceptionId: string;
+      // @ts-ignore https://fe-static.xhscdn.com/formula-static/xhs-pc-web/public/js/vendor-dynamic.327e555.js
+      client.Fetch.requestPaused(async ({ request, requestId }: {
         request: Protocol.Network.Request;
+        requestId: string;
       }): Promise<void> => {
         const url: string = request.url;
 
         if (url.includes('fe-static.xhscdn.com') && url.includes('vendor-dynamic')) {
-          const response: Protocol.Network.GetResponseBodyForInterceptionResponse
-            = await client!.Network.getResponseBodyForInterception({ interceptionId });
+          const response: Protocol.Network.GetResponseBodyResponse = await client!.Fetch.getResponseBody({ requestId });
           const scriptText: string = atob(response.body);
           const newScriptText: string = scriptText.replace(
             /function xsCommon/i, 'window._xsCommon=xsCommon;function xsCommon');
 
-          await client!.Network.continueInterceptedRequest({
-            interceptionId,
-            rawResponse: btoa(newScriptText),
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Content-Type': 'application/javascript'
-            }
+          await client!.Fetch.fulfillRequest({
+            requestId,
+            body: btoa(newScriptText),
+            responseCode: 200
           });
         } else {
-          await client!.Network.continueInterceptedRequest({ interceptionId });
+          await client!.Fetch.continueRequest({ requestId });
         }
       });
+
       await client.Page.navigate({ url: 'https://www.xiaohongshu.com/user/profile/594099df82ec393174227f18' });
       await client.Page.loadEventFired();
       await waitingDomFunction(client, `
@@ -152,12 +146,13 @@ function ipcXiaohongshuHandle(): void {
           || document.querySelector('.follow')
         )) && !document.getElementById('captcha-div')
       `);
+      await setTimeoutPromise(5_000);
     });
 
   // 获取cookie
   ipcMain.handle(
     XiaohongshuHandleChannel.XiaohongshuChromeRemoteCookie,
-    async function(event: IpcMainInvokeEvent, executablePath: string, port: number): Promise<string> {
+    async function(event: IpcMainInvokeEvent): Promise<string> {
       await clientSwitch(client, 'www.xiaohongshu.com');
 
       if (client) {
