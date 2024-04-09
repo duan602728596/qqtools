@@ -3,7 +3,7 @@ import { setTimeout } from 'node:timers';
 import { setTimeout as setTimeoutPromise } from 'node:timers/promises';
 import * as fsP from 'node:fs/promises';
 import * as process from 'node:process';
-import { ipcMain, BrowserWindow, type IpcMainInvokeEvent, type Cookie, type Session } from 'electron';
+import { ipcMain, BrowserWindow, type IpcMainInvokeEvent, type Cookie } from 'electron';
 // @ts-ignore
 import CDP from 'chrome-remote-interface';
 import type { Client } from 'chrome-remote-interface';
