@@ -1,13 +1,15 @@
-name: Build apps CI
+# https://docs.github.com/en/actions/using-github-hosted-runners/about-larger-runners/about-larger-runners
+
+name: Build apps CI in xlarge runner
 
 on:
   push:
     branches:
-      - 'build/v**'
+      - 'buildxlarge/v**'
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-latest-xlarge
     strategy:
       matrix:
         node-version: [20.x]
@@ -40,7 +42,5 @@ jobs:
           draft: true
           prerelease: true
           files: |
-            build/linux/qqtools-${{ env.VERSION }}-linux64.zip
-            build/mac/qqtools-${{ env.VERSION }}-mac.zip
-            build/win/qqtools-${{ env.VERSION }}-win64.zip
-            build/win32/qqtools-${{ env.VERSION }}-win32.zip
+            build/mac-arm64/qqtools-${{ env.VERSION }}-mac-arm64.zip
+            build/win-arm64/qqtools-${{ env.VERSION }}-win-arm64.zip
