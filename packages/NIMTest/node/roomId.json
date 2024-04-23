@@ -4301,7 +4301,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 二十期生",
-      "pinyin": "xia yixin"
+      "pinyin": "xia yixin",
+      "liveRoomId": 7251510506
     },
     {
       "ownerName": "张曼妮",
@@ -4509,5 +4510,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2024-04-20 23:38:47"
+  "buildTime": "2024-04-23 23:44:36"
 }
