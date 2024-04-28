@@ -1,4 +1,4 @@
-name: Build apps CI
+name: Build apps CI (Intel)
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-13
     strategy:
       matrix:
         node-version: [20.x]
