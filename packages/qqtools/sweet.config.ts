@@ -86,7 +86,6 @@ function srcPath(p: string): string {
 export default function(info: object): { [key: string]: any } {
   const plugins: Array<any> = [
     ['@babel/plugin-syntax-import-attributes', { deprecatedAssertSyntax: true }],
-    !isDev && ['transform-react-remove-prop-types', { mode: 'remove', removeImport: true }],
     [require.resolve(path.join(__dirname, '../babel-plugin-delay-require')), { moduleNames: externalsName, idle: true }]
   ].filter(Boolean);
 
@@ -105,7 +104,6 @@ export default function(info: object): { [key: string]: any } {
       'classnames',
       'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK',
       'nim-web-sdk-ng/dist/NIM_BROWSER_SDK',
-      'prop-types',
       'react',
       'react/jsx-dev-runtime',
       'react-dom/client',

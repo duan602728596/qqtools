@@ -39,7 +39,6 @@
     "@sweet-milktea/milktea": "^4.2.0",
     "@sweet-milktea/milktea-cli": "^4.1.0",
     "babel-jest": "^29.7.0",
-    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "copy-webpack-plugin": "^11.0.0",
     "cross-env": "^7.0.3",
     "electron": "^30.0.1",

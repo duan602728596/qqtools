@@ -1,6 +1,5 @@
 import type { OpenDialogReturnValue } from 'electron';
 import type { ReactElement, MouseEvent } from 'react';
-import * as PropTypes from 'prop-types';
 import { Space, Input, Button, type FormInstance } from 'antd';
 import type { CustomComponentFuncArgs, StringItem } from 'antd-schema-form/es/types';
 import { showOpenDialog } from '../../../../utils/remote/dialog';
@@ -40,14 +39,6 @@ function LogDir(props: LogDirProps): ReactElement {
     </Space>
   );
 }
-
-LogDir.propTypes = {
-  form: PropTypes.object.isRequired,
-  root: PropTypes.object.isRequired,
-  id: PropTypes.string,
-  value: PropTypes.string,
-  onChange: PropTypes.func
-};
 
 /* 选择日志保存位置 */
 function pocket48LogDir({ root, form, required }: CustomComponentFuncArgs<StringItem>): ReactElement {

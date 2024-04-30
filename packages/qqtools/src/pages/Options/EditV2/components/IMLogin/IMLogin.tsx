@@ -1,5 +1,4 @@
 import { Fragment, type ReactElement, type MouseEvent, type ChangeEvent } from 'react';
-import * as PropTypes from 'prop-types';
 import { Input, Space, Button, message, type FormInstance } from 'antd';
 import type { UseMessageReturnType } from '@qqtools-types/antd';
 import type { CustomComponentFuncArgs, StringItem } from 'antd-schema-form/es/types';
@@ -78,13 +77,6 @@ function IMLoginComponent(props: IMLoginComponentProps): ReactElement {
     </Fragment>
   );
 }
-
-IMLoginComponent.propTypes = {
-  form: PropTypes.object.isRequired,
-  id: PropTypes.string,
-  value: PropTypes.string,
-  onChange: PropTypes.func
-};
 
 /* 登录并获取口袋48的IM信息 */
 function IMLogin({ root, form, required }: CustomComponentFuncArgs<StringItem>): ReactElement {

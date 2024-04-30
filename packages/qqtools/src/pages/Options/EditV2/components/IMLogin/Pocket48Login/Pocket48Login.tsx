@@ -8,7 +8,6 @@ import {
   type MouseEvent,
   type MutableRefObject
 } from 'react';
-import * as PropTypes from 'prop-types';
 import { Button, Modal, Form, message, Tabs, Select, type FormInstance } from 'antd';
 import type { ModalFunc } from 'antd/es/modal/confirm';
 import type { UseMessageReturnType, UseModalReturnType, LabeledValue } from '@qqtools-types/antd';
@@ -278,10 +277,5 @@ function Pocket48Login(props: LoginModalProps): ReactElement {
     </Fragment>
   );
 }
-
-Pocket48Login.propTypes = {
-  form: PropTypes.object,
-  onLoginSuccess: PropTypes.func
-};
 
 export default Pocket48Login;
