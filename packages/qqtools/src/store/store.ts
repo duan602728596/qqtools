@@ -28,6 +28,7 @@ const reducer: Reducer = combineReducers(reducersMapObject);
 /* store */
 export let store: Store;
 
+/* 创建store */
 function createStore(initialState: any = {}): void {
   store = configureStore({
     reducer,
@@ -41,6 +42,7 @@ function createStore(initialState: any = {}): void {
   });
 }
 
+/* 创建（一次）并返回store */
 export function storeFactory(initialState: any = {}): Store {
   if (!store) {
     createStore(initialState);
