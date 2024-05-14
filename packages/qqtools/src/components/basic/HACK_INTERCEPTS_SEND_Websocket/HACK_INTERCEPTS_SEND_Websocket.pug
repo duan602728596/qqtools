@@ -1,8 +1,10 @@
 script.
-  /**
-   * Fix Pocket 48's verification problem for UA and client-type.
-   */
+  /** Fix Pocket 48's verification problem for UA and client-type. */
   (function() {
+    /**
+     * @param { Record<string, any> } obj
+     * @param { (k: string, v: any) => boolean } callback
+     */
     function objectSome(obj, callback) {
       let result = false;
 
@@ -17,11 +19,15 @@ script.
       return result;
     }
 
-    globalThis.WebSocket2 = WebSocket;
+    /**
+     * Rewrite the WebSocket's send method to fix the verification problem.
+     * @class HACK_INTERCEPTS_SEND_Websocket
+     */
+    class HACK_INTERCEPTS_SEND_Websocket extends WebSocket {}
 
-    WebSocket2.prototype.$_SEND = WebSocket2.prototype.send;
+    HACK_INTERCEPTS_SEND_Websocket.prototype.ORIGINAL_send = HACK_INTERCEPTS_SEND_Websocket.prototype.send;
 
-    WebSocket2.prototype.send = function () {
+    HACK_INTERCEPTS_SEND_Websocket.prototype.send = function() {
       if (/3:::/.test(arguments[0])) {
         const message = arguments[0].replace(/3:::/, '');
         let data = null;
@@ -35,13 +41,15 @@ script.
             if (/Property/i.test(Q.t) && Q.v && objectSome(Q.v, (k, v) => /Electron/i.test(v))) {
               Q.v['3'] = 2;
               Q.v['42'] = 'PocketFans201807/24020203';
-              arguments[0] = `3:::${JSON.stringify(data)}`;
+              arguments[0] = `3:::${ JSON.stringify(data) }`;
               break;
             }
           }
         }
       }
 
-      return this.$_SEND.apply(this, arguments);
-    }
+      return this.ORIGINAL_send.apply(this, arguments);
+    };
+
+    globalThis.HACK_INTERCEPTS_SEND_Websocket = HACK_INTERCEPTS_SEND_Websocket;
   })();

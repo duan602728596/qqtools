@@ -7,7 +7,8 @@ const nodeModules = path.join(cwd, 'node_modules');
 async function replaceWebsocket(fp) {
   const filePath = path.join(nodeModules, fp);
   const file = await fsP.readFile(filePath, { encoding: 'utf8' });
-  const newFile = file.replace(/window\.WebSocket/g, 'window.WebSocket2||window.WebSocket');
+  const newFile = file.replace(
+    /window\.WebSocket/g, 'window.HACK_INTERCEPTS_SEND_Websocket||window.WebSocket');
 
   await fsP.writeFile(filePath, newFile, { encoding: 'utf8' });
 }
