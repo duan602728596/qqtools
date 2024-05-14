@@ -4,6 +4,7 @@ import { isDevelopment, titleBarIcon, createHtmlFilePath, packageJson } from './
 import { ipc, removeIpc } from './ipc.mjs';
 import ipcRemoteHandle from './ipcHandle/ipcRemoteHandle.mjs';
 import xiaohongshuHandle, { closeAll as xiaohongshuCloseAll } from './ipcHandle/xiaohongshuHandle.mjs';
+import neteaseIMRequest from './webRequest/neteaseIMRequest.mjs';
 import { proxyServerClose } from './proxyServer/proxyServer.mjs';
 import logProtocol from './logProtocol/logProtocol.mjs';
 
@@ -51,6 +52,8 @@ function createWindow(): void {
     removeIpc();
     processWindow = null;
   });
+
+  neteaseIMRequest();
 }
 
 app.whenReady().then(createWindow);
