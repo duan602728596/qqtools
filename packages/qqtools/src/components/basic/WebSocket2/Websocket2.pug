@@ -3,6 +3,20 @@ script.
    * Fix Pocket 48's verification problem for UA and client-type.
    */
   (function() {
+    function objectSome(obj, callback) {
+      let result = false;
+
+      for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          result = callback(key, obj[key]);
+
+          if (result) break;
+        }
+      }
+
+      return result;
+    }
+
     globalThis.WebSocket2 = WebSocket;
 
     WebSocket2.prototype.$_SEND = WebSocket2.prototype.send;
@@ -16,10 +30,15 @@ script.
           data = JSON.parse(message);
         } catch {}
 
-        if (data && data?.SER === 1 && data?.Q?.[0]?.v) {
-          data.Q[0].v['3'] = 2;
-          data.Q[0].v['42'] = 'PocketFans201807/24020203';
-          arguments[0] = `3:::${ JSON.stringify(data) }`;
+        if (data && data?.SER === 1 && data?.Q?.length) {
+          for (const Q of data.Q) {
+            if (/Property/i.test(Q.t) && Q.v && objectSome(Q.v, (k, v) => /Electron/i.test(v))) {
+              Q.v['3'] = 2;
+              Q.v['42'] = 'PocketFans201807/24020203';
+              arguments[0] = `3:::${JSON.stringify(data)}`;
+              break;
+            }
+          }
         }
       }
 
