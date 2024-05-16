@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "localStorage": "^1.0.4",
-    "nim-web-sdk-ng": "^0.17.0",
+    "nim-web-sdk-ng": "^10.2.6",
     "sessionstorage": "^0.1.0",
     "ws": "^8.16.0"
   },
