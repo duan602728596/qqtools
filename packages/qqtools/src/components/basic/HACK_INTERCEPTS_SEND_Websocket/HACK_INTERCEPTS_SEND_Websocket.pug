@@ -36,11 +36,22 @@ script.
           data = JSON.parse(message);
         } catch {}
 
-        if (data && data?.SER === 1 && data?.Q?.length) {
+        if (data && data?.SER === 1 && data?.SID === 2 && data?.Q?.length) {
           for (const Q of data.Q) {
             if (/Property/i.test(Q.t) && Q.v && objectSome(Q.v, (k, v) => /Electron/i.test(v))) {
               Q.v['3'] = 2;
               Q.v['42'] = 'PocketFans201807/24020203';
+              arguments[0] = `3:::${ JSON.stringify(data) }`;
+              break;
+            }
+          }
+        }
+
+        if (data && data?.SER === 1 && data?.SID === 24 && data?.Q?.length) {
+          for (const Q of data.Q) {
+            if (/Property/i.test(Q.t) && Q.v && objectSome(Q.v, (k, v) => /Electron/i.test(v))) {
+              Q.v['6'] = 2;
+              // Q.v['42'] = 'PocketFans201807/24020203';
               arguments[0] = `3:::${ JSON.stringify(data) }`;
               break;
             }
