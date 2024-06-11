@@ -1,5 +1,5 @@
 import { ipcRenderer, shell } from 'electron';
-import type { ReactElement, ReactNode, MouseEvent } from 'react';
+import { Fragment, type ReactElement, type ReactNode, type MouseEvent } from 'react';
 import { Button, Space, Divider, Image, Tooltip } from 'antd';
 import Icon, {
   QqOutlined as IconQqOutlined,
@@ -12,6 +12,7 @@ import Icon, {
 import { WinIpcChannel } from '@qqtools3/main/src/channelEnum';
 import ButtonLink from '../../components/ButtonLink/ButtonLink';
 import ExecutablePath from './ExecutablePath/ExecutablePath';
+import { useAppDataDir, type UseAppDataDirReturnType } from '../../functionalComponents/Pocket48Login/useAppDataDir/useAppDataDir';
 import IconVSCodeSvgComponent from './images/vscode.component.svg';
 
 interface NativeItem {
@@ -107,45 +108,51 @@ function nativeRender(): Array<ReactNode> {
 
 /* 首页 */
 function Index(props: {}): ReactElement {
+  const { buttonRender, modalRender }: UseAppDataDirReturnType = useAppDataDir();
+
   return (
-    <div className="p-[16px]">
-      { nativeRender() }
-      <div>
-        <Space>
-          <ExecutablePath />
-          <Button icon={ <IconFileSyncOutlined /> } onClick={ handleOpenHelpClick }>
-            使用手册
-          </Button>
-          <Tooltip title="开发者工具">
-            <Button type="text" icon={ <IconToolTwoTone /> } onClick={ handleOpenDeveloperToolsClick } />
-          </Tooltip>
-          <Tooltip title="问题反馈">
-            <Button type="text" icon={ <IconBugTwoTone /> } onClick={ handleOpenIssuesClick } />
-          </Tooltip>
-          <ButtonLink linkProps={{ to: '/Agreement/Agreement' }} buttonProps={{ type: 'text' }}>License</ButtonLink>
-        </Space>
+    <Fragment>
+      <div className="p-[16px]">
+        { nativeRender() }
+        <div>
+          <Space>
+            { buttonRender() }
+            <ExecutablePath />
+            <Button icon={ <IconFileSyncOutlined /> } onClick={ handleOpenHelpClick }>
+              使用手册
+            </Button>
+            <Tooltip title="开发者工具">
+              <Button type="text" icon={ <IconToolTwoTone /> } onClick={ handleOpenDeveloperToolsClick } />
+            </Tooltip>
+            <Tooltip title="问题反馈">
+              <Button type="text" icon={ <IconBugTwoTone /> } onClick={ handleOpenIssuesClick } />
+            </Tooltip>
+            <ButtonLink linkProps={{ to: '/Agreement/Agreement' }} buttonProps={{ type: 'text' }}>License</ButtonLink>
+          </Space>
+        </div>
+        <Divider />
+        <div>
+          <p>
+            本软件为免费软件，
+            <b>使用及传播均不收取任何费用</b>
+            。为了避免您的财产损失，请在
+            <Button type="link" onClick={ handleOpenDownloadUrlClick }>
+              https://github.com/duan602728596/qqtools/releases
+            </Button>
+            下载软件的最新版本。如果你想要赞助作者，请扫码打赏。
+          </p>
+          <Space size={ 8 }>
+            <div className="w-[180px]">
+              <Image className="cursor-pointer" src={ require('./images/zfb.avif') } />
+            </div>
+            <div className="w-[180px]">
+              <Image className="cursor-pointer" src={ require('./images/wx.avif') } />
+            </div>
+          </Space>
+        </div>
       </div>
-      <Divider />
-      <div>
-        <p>
-          本软件为免费软件，
-          <b>使用及传播均不收取任何费用</b>
-          。为了避免您的财产损失，请在
-          <Button type="link" onClick={ handleOpenDownloadUrlClick }>
-            https://github.com/duan602728596/qqtools/releases
-          </Button>
-          下载软件的最新版本。如果你想要赞助作者，请扫码打赏。
-        </p>
-        <Space size={ 8 }>
-          <div className="w-[180px]">
-            <Image className="cursor-pointer" src={ require('./images/zfb.avif') } />
-          </div>
-          <div className="w-[180px]">
-            <Image className="cursor-pointer" src={ require('./images/wx.avif') } />
-          </div>
-        </Space>
-      </div>
-    </div>
+      { modalRender() }
+    </Fragment>
   );
 }
 

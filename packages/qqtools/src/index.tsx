@@ -1,7 +1,7 @@
 import { createRoot, type Root } from 'react-dom/client';
 import { HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider, App } from 'antd';
 import 'antd/dist/reset.css';
 import zhCN from 'antd/locale/zh_CN';
 import { magenta } from '@ant-design/colors';
@@ -30,11 +30,13 @@ root.render(
         }
       }}
     >
-      <MDXProvider>
-        <HashRouter>
-          <Routers />
-        </HashRouter>
-      </MDXProvider>
+      <App component={ false }>
+        <MDXProvider>
+          <HashRouter>
+            <Routers />
+          </HashRouter>
+        </MDXProvider>
+      </App>
     </ConfigProvider>
   </Provider>
 );

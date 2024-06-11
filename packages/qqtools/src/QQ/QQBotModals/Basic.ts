@@ -11,13 +11,13 @@ import { QQProtocol, type QQModals } from './ModalTypes';
 import { detectPort, getExecutablePath } from '../../utils/utils';
 import { XHSProtocol } from '../function/expand/xiaohongshu/xiaohongshu.worker/messageTypes';
 import type QChatSocket from '../sdk/QChatSocket';
-import type NimChatroomSocket from '../sdk/NimChatroomSocket';
+import type NodeNimChatroomSocket from '../sdk/NodeNimChatroomSocket';
 import type { MemberInfo, OptionsItemValueV2, OptionsItemXiaohongshu } from '../../commonTypes';
 
 export type MessageListener = (event: MessageEvent) => void | Promise<void>;
 
 export const qChatSocketList: Array<QChatSocket> = [];
-export const nimChatroomList: Array<NimChatroomSocket> = [];
+export const nimChatroomList: Array<NodeNimChatroomSocket> = [];
 
 export interface BasicImplement<MessageType> {
   sendMessage(value: MessageType, groupId?: number): void | Promise<void>;

@@ -3,12 +3,14 @@ import * as dayjs from 'dayjs';
 import { requestGiftList, type GiftMoneyItem, type GiftMoneyGroup, type GiftMoney } from '@qqtools-api/48';
 import type { ChannelInfo } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatChannelServiceInterface';
 import type { QChatSystemNotification } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatMsgServiceInterface';
-import type { NIMChatroomMessage } from '@yxim/nim-web-sdk/dist/SDK/NIM_Web_Chatroom/NIMChatroomMessageInterface';
+import type { ChatRoomMessage } from 'node-nim';
 import QChatSocket from '../../../sdk/QChatSocket';
-import NimChatroomSocket from '../../../sdk/NimChatroomSocket';
+import NodeNimChatroomSocket from '../../../sdk/NodeNimChatroomSocket';
+import { isWindowsArm } from '../../helper';
 import { qChatSocketList, nimChatroomList } from '../../../QQBotModals/Basic';
 import { getRoomMessage, getLogMessage, log, type RoomMessageArgs } from './pocket48V2Utils';
 import { pocket48LiveRoomSendGiftText, pocket48LiveRoomSendGiftLeaderboardText, type GiftItem } from './giftCompute';
+import { Pocket48Login } from '../../../../functionalComponents/Pocket48Login/enum';
 import type { QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemPocket48V2, MemberInfo } from '../../../../commonTypes';
 import type { CustomMessageAllV2, UserV2, LiveRoomGiftInfoCustom, LiveRoomLiveCloseCustom } from '../../../qq.types';
@@ -21,7 +23,7 @@ class Pocket48V2Expand {
   public qq: QQModals;
   public qChatSocketId?: string;                  // 对应的nim的唯一socketId
   public qChatSocket?: QChatSocket;               // socket
-  public nimChatroom?: NimChatroomSocket;         // 口袋48直播间
+  public nimChatroom?: NodeNimChatroomSocket;     // 口袋48直播间
   public memberInfo?: MemberInfo;                 // 房间成员信息
   public membersList?: Array<MemberInfo>;         // 所有成员信息
   public membersMap?: Map<string, MemberInfo>;    // 所有成员信息
@@ -135,14 +137,20 @@ class Pocket48V2Expand {
         }
       }
 
-      // TODO: 由于SDK验证为浏览器时会出现权限问题，所以暂时关闭直播统计功能
-      const CLOSE_POCKET48_LIVE: boolean = false;
+      const appDataDir: string | null = localStorage.getItem(Pocket48Login.AppDataDir);
+
+      if (!appDataDir) {
+        console.error('最新的网易云信SDK需要手动配置App Data目录后才能使用。\n您需要配置后才能使用弹幕功能。');
+      }
 
       // 直播统计
       if (
-        CLOSE_POCKET48_LIVE
+        !isWindowsArm
         && pocket48LiveListener
+        && pocket48Account
+        && pocket48Token
         && pocket48LiveRoomId
+        && appDataDir
         && (pocket48LiveRoomSendGiftInfo || pocket48LiveRoomSendGiftLeaderboard)
         && event.type === 'custom'
         && event.attach.messageType === 'LIVEPUSH'
@@ -160,16 +168,15 @@ class Pocket48V2Expand {
         }
 
         const index: number = nimChatroomList.findIndex(
-          (o: NimChatroomSocket): boolean => o.pocket48RoomId === pocket48LiveRoomId);
+          (o: NodeNimChatroomSocket): boolean => o.roomId === Number(pocket48LiveRoomId));
 
         if (index < 0) {
-          this.nimChatroom = new NimChatroomSocket({
-            pocket48IsAnonymous: false,
+          this.nimChatroom = new NodeNimChatroomSocket(
             pocket48Account,
             pocket48Token,
-            pocket48RoomId: pocket48LiveRoomId,
-            messageIgnore: true
-          });
+            Number(pocket48LiveRoomId),
+            appDataDir
+          );
           await this.nimChatroom.init();
           this.nimChatroom.addQueue({
             id: this.qChatSocketId,
@@ -225,10 +232,10 @@ class Pocket48V2Expand {
   };
 
   // 处理单个消息
-  async liveRoomSocketMessageOne(msg: NIMChatroomMessage): Promise<void> {
-    if (msg.type !== 'custom' || !msg.custom) return;
+  async liveRoomSocketMessageOne(msg: ChatRoomMessage): Promise<void> {
+    if (msg.msg_type_ !== 1000 || !msg.msg_setting_?.ext_) return;
 
-    const customJson: LiveRoomGiftInfoCustom | LiveRoomLiveCloseCustom = JSON.parse(msg.custom);
+    const customJson: LiveRoomGiftInfoCustom | LiveRoomLiveCloseCustom = JSON.parse(msg.msg_setting_.ext_);
     const { pocket48LiveRoomSendGiftInfo, pocket48LiveRoomSendGiftLeaderboard }: OptionsItemPocket48V2 = this.config;
 
     // 礼物信息
@@ -282,14 +289,14 @@ class Pocket48V2Expand {
   }
 
   // 循环处理所有消息
-  async liveRoomSocketMessageAll(event: Array<NIMChatroomMessage>): Promise<void> {
+  async liveRoomSocketMessageAll(event: Array<ChatRoomMessage>): Promise<void> {
     for (const msg of event) {
       await this.liveRoomSocketMessageOne(msg);
     }
   }
 
   // 直播间时间监听
-  handleLiveRoomSocketMessage: Function = (event: Array<NIMChatroomMessage>): void => {
+  handleLiveRoomSocketMessage: (msgs: Array<ChatRoomMessage>) => void = (event: Array<ChatRoomMessage>): void => {
     this.liveRoomSocketMessageAll(event);
   };
 
@@ -351,13 +358,13 @@ class Pocket48V2Expand {
 
     if (this.nimChatroom) {
       const index2: number = nimChatroomList.findIndex(
-        (o: NimChatroomSocket): boolean => o.pocket48RoomId === pocket48LiveRoomId);
+        (o: NodeNimChatroomSocket): boolean => o.roomId === Number(pocket48LiveRoomId));
 
       if (index2 >= 0 && this.qChatSocketId) {
         nimChatroomList[index2].removeQueue(this.qChatSocketId);
 
         if (nimChatroomList[index2].queues.length === 0) {
-          nimChatroomList[index2].disconnect();
+          nimChatroomList[index2].exit();
           nimChatroomList.splice(index2, 1);
         }
       }
