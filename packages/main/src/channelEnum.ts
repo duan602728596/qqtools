@@ -17,6 +17,11 @@ export const enum XiaohongshuHandleChannel {
   XiaohongshuChromeRemoteRequestHtml = 'xiaohongshu-chrome-remote-request-html'
 }
 
+// ipcHandle/nodeNimLoginHandle
+export const enum NodeNimLoginHandleChannel {
+  NodeNimLogin = 'node-nim-login'
+}
+
 // Electron ipc channel
 export const enum WinIpcChannel {
   DeveloperTools = 'developer-tools'

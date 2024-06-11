@@ -4,6 +4,7 @@ import { isDevelopment, titleBarIcon, createHtmlFilePath, packageJson } from './
 import { ipc, removeIpc } from './ipc.mjs';
 import ipcRemoteHandle from './ipcHandle/ipcRemoteHandle.mjs';
 import xiaohongshuHandle, { closeAll as xiaohongshuCloseAll } from './ipcHandle/xiaohongshuHandle.mjs';
+import { nodeNimHandleLogin, nodeNimCleanup } from './ipcHandle/nodeNimHandleLogin.mjs';
 import neteaseIMRequest from './webRequest/neteaseIMRequest.mjs';
 import { proxyServerClose } from './proxyServer/proxyServer.mjs';
 import logProtocol from './logProtocol/logProtocol.mjs';
@@ -44,11 +45,13 @@ function createWindow(): void {
   try {
     ipcRemoteHandle();
     xiaohongshuHandle();
+    nodeNimHandleLogin();
   } catch {}
 
   processWindow.on('closed', async function(): Promise<void> {
     await proxyServerClose();
     xiaohongshuCloseAll();
+    nodeNimCleanup();
     removeIpc();
     processWindow = null;
   });
@@ -59,6 +62,8 @@ function createWindow(): void {
 app.whenReady().then(createWindow);
 
 app.on('window-all-closed', function(): void {
+  nodeNimCleanup();
+
   if (process.platform !== 'darwin') {
     app.quit();
   }

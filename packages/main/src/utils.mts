@@ -26,6 +26,9 @@ export const isDevelopment: boolean = process.env.NODE_ENV === 'development';
 /* 文件夹路径 */
 export const wwwPath: string = path.join(__dirname, '..');
 
+/* 判断是否是Windows系统和ARM架构 */
+export const isWindowsArm: boolean = process.platform === 'win32' && process.arch === 'arm64';
+
 /**
  * worker.js文件路径
  * 有asar文件：app.asar.unpacked
