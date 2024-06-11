@@ -135,9 +135,13 @@ class Pocket48V2Expand {
         }
       }
 
+      // TODO: 由于SDK验证为浏览器时会出现权限问题，所以暂时关闭直播统计功能
+      const CLOSE_POCKET48_LIVE: boolean = false;
+
       // 直播统计
       if (
-        pocket48LiveListener
+        CLOSE_POCKET48_LIVE
+        && pocket48LiveListener
         && pocket48LiveRoomId
         && (pocket48LiveRoomSendGiftInfo || pocket48LiveRoomSendGiftLeaderboard)
         && event.type === 'custom'
