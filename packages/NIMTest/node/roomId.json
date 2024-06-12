@@ -4470,7 +4470,8 @@
       "teamId": 2103,
       "groupName": "CGT48",
       "periodName": "CGT48 三期生",
-      "pinyin": "liqiuyue"
+      "pinyin": "liqiuyue",
+      "liveRoomId": 8043480438
     },
     {
       "ownerName": "王宇清",
@@ -4506,7 +4507,8 @@
       "teamId": 2103,
       "groupName": "CGT48",
       "periodName": "CGT48 三期生",
-      "pinyin": "zhangqinzhi"
+      "pinyin": "zhangqinzhi",
+      "liveRoomId": 8045315588
     },
     {
       "id": 4344250371,
@@ -4690,5 +4692,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2024-06-12 23:51:18"
+  "buildTime": "2024-06-12 23:54:53"
 }
