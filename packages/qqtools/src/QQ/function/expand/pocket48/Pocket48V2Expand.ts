@@ -233,7 +233,7 @@ class Pocket48V2Expand {
 
   // 处理单个消息
   async liveRoomSocketMessageOne(msg: ChatRoomMessage): Promise<void> {
-    if (msg.msg_type_ !== 1000 || !msg.msg_setting_?.ext_) return;
+    if (!(msg.msg_type_ === 100 && msg.msg_setting_?.ext_)) return;
 
     const customJson: LiveRoomGiftInfoCustom | LiveRoomLiveCloseCustom = JSON.parse(msg.msg_setting_.ext_);
     const { pocket48LiveRoomSendGiftInfo, pocket48LiveRoomSendGiftLeaderboard }: OptionsItemPocket48V2 = this.config;
