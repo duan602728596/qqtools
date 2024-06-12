@@ -14,6 +14,50 @@ globalThis.document = undefined; // fix error
 
 const QChatSDK = require('nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK.js');
 
+/**
+ * @param { Record<string, any> } obj
+ * @param { (k: string, v: any) => boolean } callback
+ */
+function objectSome(obj, callback) {
+  let result = false;
+
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      result = callback(key, obj[key]);
+
+      if (result) break;
+    }
+  }
+
+  return result;
+}
+
+/* Hack */
+globalThis.WebSocket.prototype.ORIGINAL_send = globalThis.WebSocket.prototype.send;
+
+globalThis.WebSocket.prototype.send = function() {
+  if (/3:::/.test(arguments[0])) {
+    const message = arguments[0].replace(/3:::/, '');
+    let data = null;
+
+    try {
+      data = JSON.parse(message);
+    } catch { /* noop */ }
+
+    if (data && data?.SER === 1 && data?.SID === 24 && data?.Q?.length) {
+      for (const Q of data.Q) {
+        if (/Property/i.test(Q.t) && Q.v && objectSome(Q.v, (k, v) => /Native\/[0-9]/i.test(v))) {
+          Q.v['6'] = 2;
+          arguments[0] = `3:::${ JSON.stringify(data) }`;
+          break;
+        }
+      }
+    }
+  }
+
+  return this.ORIGINAL_send.apply(this, arguments);
+};
+
 dayjs.locale('zh-cn');
 
 const fsP = fs.promises;
@@ -182,7 +226,8 @@ async function main() {
       if (resMembersInfo.body.status === 200 || resServerJumpInfo.body.status === 200) {
         let ownerName2;
 
-        if (resMembersInfo.body.status === 200 && resMembersInfo?.body?.content?.roomInfo) {
+        // eslint-disable-next-line no-constant-condition
+        if (resMembersInfo.body.status === 200 && resMembersInfo?.body?.content?.roomInfo && false) {
           const { roomId: rid, ownerName } = resMembersInfo.body.content.roomInfo;
           const { nimChatroomSocket, event, success } = await getRoomInfo(rid);
           const account = success ? event?.chatroom?.creator : undefined;

@@ -4329,6 +4329,186 @@
       "pinyin": "wen bingbing"
     },
     {
+      "ownerName": "陈艺",
+      "id": 126681220,
+      "serverId": 13698749,
+      "channelId": 18368388,
+      "account": "20240427112435_l496nbxn3adz5dl",
+      "team": "TEAM B",
+      "teamId": 1101,
+      "groupName": "BEJ48",
+      "periodName": "BEJ48 十四期生",
+      "pinyin": "chen yi"
+    },
+    {
+      "ownerName": "袁希璨",
+      "id": 127533255,
+      "serverId": 13633532,
+      "channelId": 18319144,
+      "account": "20240501201807_twcyl295gv5clao",
+      "team": "预备生",
+      "teamId": 1405,
+      "groupName": "CKG48",
+      "periodName": "CKG48 八期生",
+      "pinyin": "yuanxican"
+    },
+    {
+      "ownerName": "姚锦杰",
+      "id": 127533256,
+      "serverId": 13583848,
+      "channelId": 18416896,
+      "account": "20240501201909_hw85wq8j3yfjs0q",
+      "team": "预备生",
+      "teamId": 1405,
+      "groupName": "CKG48",
+      "periodName": "CKG48 八期生",
+      "pinyin": "yaojinjie "
+    },
+    {
+      "ownerName": "陈芷晴",
+      "id": 128057653,
+      "serverId": 14354385,
+      "channelId": 19137905,
+      "account": "20240508175549_bibnody5vkzot99",
+      "team": "预备生",
+      "teamId": 1007,
+      "groupName": "SNH48",
+      "periodName": "SNH48 二十期生",
+      "pinyin": "chen zhiqing "
+    },
+    {
+      "ownerName": "潘力帼",
+      "id": 128057655,
+      "serverId": 14387105,
+      "channelId": 19105185,
+      "account": "20240508175615_3t9dwkw7ri6upr5",
+      "team": "预备生",
+      "teamId": 1007,
+      "groupName": "SNH48",
+      "periodName": "SNH48 二十期生",
+      "pinyin": "pan liguo"
+    },
+    {
+      "ownerName": "孔渊",
+      "id": 128581633,
+      "serverId": 14731076,
+      "channelId": 19482486,
+      "account": "20240517141008_ck7lqadler764oi",
+      "team": "预备生",
+      "teamId": 1207,
+      "groupName": "GNZ48",
+      "periodName": "GNZ48 十六期生",
+      "pinyin": "kongyuan"
+    },
+    {
+      "ownerName": "梁子瑄",
+      "id": 128581634,
+      "serverId": 14550315,
+      "channelId": 19580433,
+      "account": "20240517141008_0f0y4pcqw5pqg9g",
+      "team": "预备生",
+      "teamId": 1207,
+      "groupName": "GNZ48",
+      "periodName": "GNZ48 十六期生",
+      "pinyin": "liangzixuan"
+    },
+    {
+      "ownerName": "许涵婧",
+      "id": 128581635,
+      "serverId": 14697555,
+      "channelId": 19417041,
+      "account": "20240517141008_9mizev2dz1rp4r5",
+      "team": "预备生",
+      "teamId": 1207,
+      "groupName": "GNZ48",
+      "periodName": "GNZ48 十六期生",
+      "pinyin": "xuhanjing"
+    },
+    {
+      "ownerName": "杨雅雯",
+      "id": 128581636,
+      "serverId": 14616362,
+      "channelId": 19531160,
+      "account": "20240517141008_eiuixq8wy92oqcz",
+      "team": "预备生",
+      "teamId": 1207,
+      "groupName": "GNZ48",
+      "periodName": "GNZ48 十六期生",
+      "pinyin": "yangyawen"
+    },
+    {
+      "ownerName": "赵文凤",
+      "id": 128581637,
+      "serverId": 14649277,
+      "channelId": 19449764,
+      "account": "20240517141008_bgqx34xt07id20b",
+      "team": "预备生",
+      "teamId": 1207,
+      "groupName": "GNZ48",
+      "periodName": "GNZ48 十六期生",
+      "pinyin": "zhaowenfeng"
+    },
+    {
+      "ownerName": "郭琬苏",
+      "id": 129564673,
+      "serverId": 14550597,
+      "channelId": 19530842,
+      "account": "20240603132539_mjimchvy34ebjjz",
+      "team": "预备生",
+      "teamId": 2103,
+      "groupName": "CGT48",
+      "periodName": "CGT48 三期生",
+      "pinyin": "guowansu"
+    },
+    {
+      "ownerName": "李秋月",
+      "id": 129564674,
+      "serverId": 14779816,
+      "channelId": 19465614,
+      "account": "20240603132539_ifv692c3x0vi3ke",
+      "team": "预备生",
+      "teamId": 2103,
+      "groupName": "CGT48",
+      "periodName": "CGT48 三期生",
+      "pinyin": "liqiuyue"
+    },
+    {
+      "ownerName": "王宇清",
+      "id": 129564675,
+      "serverId": 14747106,
+      "channelId": 19580711,
+      "account": "20240603132539_mywuvv35u4ad41b",
+      "team": "预备生",
+      "teamId": 2103,
+      "groupName": "CGT48",
+      "periodName": "CGT48 三期生",
+      "pinyin": "wangyuqing"
+    },
+    {
+      "ownerName": "杨子涵",
+      "id": 129564676,
+      "serverId": 14550598,
+      "channelId": 19350881,
+      "account": "20240603132539_ou6a5gpv05hv8pr",
+      "team": "预备生",
+      "teamId": 2103,
+      "groupName": "CGT48",
+      "periodName": "CGT48 三期生",
+      "pinyin": "yangzihan"
+    },
+    {
+      "ownerName": "张沁芝",
+      "id": 129564677,
+      "serverId": 14616441,
+      "channelId": 19416513,
+      "account": "20240603132539_utgry54rt5oyb7o",
+      "team": "预备生",
+      "teamId": 2103,
+      "groupName": "CGT48",
+      "periodName": "CGT48 三期生",
+      "pinyin": "zhangqinzhi"
+    },
+    {
       "id": 4344250371,
       "roomId": "147283635",
       "account": "20200109180128_8b0atpmt7na9apo",
@@ -4510,5 +4690,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2024-04-23 23:44:36"
+  "buildTime": "2024-06-12 23:51:18"
 }
