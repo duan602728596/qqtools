@@ -3438,7 +3438,8 @@
       "teamId": 2102,
       "groupName": "CGT48",
       "periodName": "CGT48 一期生",
-      "pinyin": "lei xinmeng"
+      "pinyin": "lei xinmeng",
+      "liveRoomId": 7544522091
     },
     {
       "id": 105710012,
@@ -4449,7 +4450,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十六期生",
-      "pinyin": "zhaowenfeng"
+      "pinyin": "zhaowenfeng",
+      "liveRoomId": 7855949706
     },
     {
       "ownerName": "郭琬苏",
@@ -4696,5 +4698,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2024-06-13 23:43:58"
+  "buildTime": "2024-06-17 21:28:33"
 }
