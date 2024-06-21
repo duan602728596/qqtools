@@ -5,7 +5,7 @@ import { ipc, removeIpc } from './ipc.mjs';
 import ipcRemoteHandle from './ipcHandle/ipcRemoteHandle.mjs';
 import xiaohongshuHandle, { closeAll as xiaohongshuCloseAll } from './ipcHandle/xiaohongshuHandle.mjs';
 import { nodeNimHandleLogin, nodeNimCleanup } from './ipcHandle/nodeNimHandleLogin.mjs';
-import neteaseIMRequest from './webRequest/neteaseIMRequest.mjs';
+import webRequest from './webRequest/webRequest.mjs';
 import { proxyServerClose } from './proxyServer/proxyServer.mjs';
 import logProtocol from './logProtocol/logProtocol.mjs';
 
@@ -56,7 +56,7 @@ function createWindow(): void {
     processWindow = null;
   });
 
-  neteaseIMRequest();
+  webRequest();
 }
 
 app.whenReady().then(createWindow);

@@ -1,3 +1,4 @@
+import * as path from 'node:path';
 import { ipcRenderer } from 'electron';
 import type * as NodeNim from 'node-nim';
 import type { NIMChatRoomEnterStep, ChatRoomInfo, ChatRoomMemberInfo, ChatRoomMessage } from 'node-nim';
@@ -33,7 +34,7 @@ class NodeNimChatroomSocket {
     this.account = account; // 账号
     this.token = token;     // token
     this.roomId = roomId;   // 房间id
-    this.appDataDir = appDataDir; // app数据目录
+    this.appDataDir = path.join(appDataDir, account); // app数据目录
     this.queues = [];
   }
 
@@ -92,7 +93,10 @@ class NodeNimChatroomSocket {
   }
 
   exit(): void {
-    this.chatroom?.exit?.(this.roomId, '');
+    if (this.chatroom) {
+      this.chatroom.exit(this.roomId, '');
+      this.chatroom.cleanup('');
+    }
   }
 
   // 添加队列
