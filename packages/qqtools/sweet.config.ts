@@ -124,7 +124,7 @@ export default function(info: object): { [key: string]: any } {
     javascript: {
       ecmascript: true,
       plugins,
-      exclude: /node_modules|Signer\.js|XiaoHongShu\.js/i
+      exclude: /node_modules|Signer\.js|XiaoHongShu\.js|bdms\.js/i
     },
     typescript: {
       configFile: isDev ? 'tsconfig.json' : 'tsconfig.prod.json',
@@ -139,6 +139,13 @@ export default function(info: object): { [key: string]: any } {
       exclude: /tailwindcss/i
     },
     rules: [
+      {
+        test: /bdms\.js/,
+        type: 'asset/resource',
+        generator: {
+          filename: '[name][ext]'
+        }
+      },
       {
         test: /\.tailwindcss\.css$/i,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']

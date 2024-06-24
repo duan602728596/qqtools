@@ -16,9 +16,17 @@ interface BaseInitMessage {
   isSendDebugMessage: boolean;
 }
 
-export type MessageObject = CloseMessage | BaseInitMessage;
+export interface SignMessage {
+  type: 'sign';
+  id: string;
+  result: string;
+}
+
+export type MessageObject = CloseMessage | BaseInitMessage | SignMessage;
 
 // 判断各种类型
 type IsMessageFunction<T extends MessageObject> = (d: MessageObject) => d is T;
 
 export const isCloseMessage: IsMessageFunction<CloseMessage> = (d: MessageObject): d is CloseMessage => !!d['close'];
+
+export const isSignMessage: IsMessageFunction<SignMessage> = (d: MessageObject): d is SignMessage => d['type'] === 'sign';

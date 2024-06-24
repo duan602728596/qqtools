@@ -2,6 +2,8 @@ import { message } from 'antd';
 import type { MessageInstance } from 'antd/es/message/interface';
 import getDouyinWorker from './douyin.worker/getDouyinWorker';
 import getLimitingWorker from './limiting.worker/getLimitingWorker';
+import { getABResult } from '../../../sdk/AB';
+import { UserAgent } from './UserAgent';
 import type { QQModals } from '../../../QQBotModals/ModalTypes';
 import type { OptionsItemDouyin } from '../../../../commonTypes';
 import type { ParserResult } from '../../parser';
@@ -11,7 +13,13 @@ interface DouyinMessageData {
   sendGroup: Array<ParserResult[] | string>;
 }
 
-type MessageListener = (event: MessageEvent<DouyinMessageData>) => void | Promise<void>;
+interface DouyinSignData {
+  type: 'sign';
+  id: string;
+  result: string;
+}
+
+type MessageListener = (event: MessageEvent<DouyinMessageData | DouyinSignData>) => void | Promise<void>;
 
 /* 抖音监听 */
 class DouyinExpand {
@@ -43,11 +51,17 @@ class DouyinExpand {
   }
 
   // 抖音监听
-  handleDouyinMessage: MessageListener = async (event: MessageEvent<DouyinMessageData>): Promise<void> => {
+  handleDouyinMessage: MessageListener = async (event: MessageEvent<DouyinMessageData | DouyinSignData>): Promise<void> => {
     if (event.data.type === 'message') {
       for (let i: number = event.data.sendGroup.length - 1; i >= 0; i--) {
         await this.qq.sendMessageText(event.data.sendGroup[i] as any);
       }
+    } else if (event.data.type === 'sign' && this.douyinWorker) {
+      this.douyinWorker.postMessage({
+        type: 'sign',
+        id: event.data.id,
+        result: await getABResult(event.data.result, '', UserAgent.UA)
+      });
     }
   };
 

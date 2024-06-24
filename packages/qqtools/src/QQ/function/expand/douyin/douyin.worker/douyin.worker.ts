@@ -2,7 +2,7 @@ import { setTimeout, clearTimeout } from 'node:timers';
 import * as dayjs from 'dayjs';
 import { requestAwemePostV2, requestTtwidCookie, type AwemePostResponse, type AwemeItem } from '@qqtools-api/douyin';
 import * as CQ from '../../../parser/CQ';
-import { isCloseMessage, type MessageObject } from './messageTypes';
+import { isCloseMessage, isSignMessage, type MessageObject } from './messageTypes';
 import broadcastName from '../limiting.worker/broadcastName';
 import { msToken } from '../../../../../utils/toutiao/signUtils';
 
@@ -57,6 +57,23 @@ function waitLimiting(id: string): Promise<void> {
   });
 }
 
+/* 加密算法 */
+function ABogusSign(params: string): Promise<string> {
+  const id: string = `${ Math.random() }`;
+
+  return new Promise((resolve: Function, reject: Function): void => {
+    function handleSignMessage(event: MessageEvent<MessageObject>): void {
+      if (isSignMessage(event.data) && id === event.data.id) {
+        removeEventListener('message', handleSignMessage);
+        resolve(event.data.result);
+      }
+    }
+
+    addEventListener('message', handleSignMessage);
+    postMessage({ type: 'sign', id, result: params });
+  });
+}
+
 /* 创建cookie */
 async function getCookie(): Promise<string> {
   const cookie: string = await requestTtwidCookie();
@@ -75,7 +92,7 @@ async function getDouyinDataByApi(wait: boolean = true): Promise<AwemePostRespon
   try {
     wait && await waitLimiting(msToken(10));
 
-    const res: AwemePostResponse | string = await requestAwemePostV2(await getCookie(), userId);
+    const res: AwemePostResponse | string = await requestAwemePostV2(await getCookie(), userId, ABogusSign);
 
     // res可能返回string，表示请求失败了
     if (typeof res === 'object') {
@@ -187,7 +204,7 @@ addEventListener('message', function(event: MessageEvent<MessageObject>) {
     try {
       douyinTimer && clearTimeout(douyinTimer);
     } catch { /* noop */ }
-  } else {
+  } else if (isSignMessage(event.data)) { /* noop */ } else {
     userId = event.data.userId;
     description = event.data.description;
     cookieString = event.data.cookieString;
