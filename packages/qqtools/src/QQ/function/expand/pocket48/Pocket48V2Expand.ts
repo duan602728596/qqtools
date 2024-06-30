@@ -5,8 +5,7 @@ import type { ChannelInfo } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatCha
 import type { QChatSystemNotification } from 'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK/QChatMsgServiceInterface';
 import type { ChatRoomMessage } from 'node-nim';
 import QChatSocket from '../../../sdk/QChatSocket';
-import NodeNimChatroomSocket from '../../../sdk/NodeNimChatroomSocket';
-import { isWindowsArm } from '../../helper';
+import NodeNimChatroomSocket, { nodeNim } from '../../../sdk/NodeNimChatroomSocket';
 import { qChatSocketList, nimChatroomList } from '../../../QQBotModals/Basic';
 import { getRoomMessage, getLogMessage, log, type RoomMessageArgs } from './pocket48V2Utils';
 import { pocket48LiveRoomSendGiftText, pocket48LiveRoomSendGiftLeaderboardText, type GiftItem } from './giftCompute';
@@ -145,7 +144,7 @@ class Pocket48V2Expand {
 
       // 直播统计
       if (
-        !isWindowsArm
+        nodeNim
         && pocket48LiveListener
         && pocket48Account
         && pocket48Token
