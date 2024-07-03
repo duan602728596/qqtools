@@ -5,6 +5,7 @@ export interface PostedNoteItem {
   cover: {
     url: string;
   };
+  xsec_token: string;
 }
 
 export interface UserPostedResponse {

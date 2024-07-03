@@ -34,9 +34,11 @@ function invokeSign(reqPath: string, data: string | undefined): Promise<SignResu
   });
 }
 
-// 请求user数据
+const userAgent: string = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0';
+
+// 请求user数据: https://www.xiaohongshu.com/user/profile/656d18ba000000003d0379ee
 export async function requestUserPosted(userId: string, cookie: string, signProtocol: XHSProtocol, port: number): Promise<UserPostedResponse> {
-  const reqPath: string = `/api/sns/web/v1/user_posted?num=30&cursor=&user_id=${ userId }`;
+  const reqPath: string = `/api/sns/web/v1/user_posted?num=30&cursor=&user_id=${ userId }&image_formats=jpg,webp,avif`;
   const headers: SignResult = signProtocol === XHSProtocol.ChromeDevtoolsProtocol
     ? await invokeSign(reqPath, undefined)
     : await requestSign(port, reqPath, undefined);
@@ -46,7 +48,8 @@ export async function requestUserPosted(userId: string, cookie: string, signProt
       origin: 'https://www.xiaohongshu.com',
       Referer: 'https://www.xiaohongshu.com/',
       Cookie: cookie,
-      ...headers
+      ...headers,
+      'User-Agent': userAgent
     }
   });
 
@@ -61,6 +64,7 @@ export async function requestUserPosted(userId: string, cookie: string, signProt
 // 请求feed
 export async function requestFeed(
   sourceNoteId: string,
+  xsecToken: string,
   cookie: string,
   signProtocol: XHSProtocol,
   port: number,
@@ -70,7 +74,9 @@ export async function requestFeed(
   const json: Record<string, any> = {
     source_note_id: sourceNoteId,
     image_formats: ['jpg', 'webp', 'avif'],
-    extra: { need_body_topic: 1 }
+    extra: { need_body_topic: 1 },
+    xsec_source: 'pc_user',
+    xsec_token: xsecToken
   };
   const headers: SignResult = signProtocol === XHSProtocol.ChromeDevtoolsProtocol
     ? await invokeSign(reqPath, JSON.stringify(json))
@@ -81,7 +87,8 @@ export async function requestFeed(
       origin: 'https://www.xiaohongshu.com',
       Referer: 'https://www.xiaohongshu.com/',
       Cookie: cookie,
-      ...headers
+      ...headers,
+      'User-Agent': userAgent
     },
     json
   });

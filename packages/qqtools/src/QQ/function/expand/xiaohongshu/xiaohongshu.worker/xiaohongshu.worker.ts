@@ -116,8 +116,8 @@ async function QQSendGroup(item: Required<MergeData>): Promise<string> {
 }
 
 /* 获取详细信息 */
-async function getFeed(sourceNoteId: string): Promise<FeedNodeCard | undefined> {
-  const res: NoteFeedResponse = await requestFeed(sourceNoteId, cookieString, signProtocol, port, userId);
+async function getFeed(sourceNoteId: string, xsecToken: string): Promise<FeedNodeCard | undefined> {
+  const res: NoteFeedResponse = await requestFeed(sourceNoteId, xsecToken, cookieString, signProtocol, port, userId);
 
   if (res.success) {
     return res.data.items?.[0].note_card;
@@ -189,7 +189,7 @@ async function getMergeData(data: Array<PostedNoteItem>): Promise<GetMergeDataRe
     if (item.note_id in cache.cache) {
       feeds.push(cache.cache[item.note_id]);
     } else {
-      feeds.push(await getFeed(item.note_id));
+      feeds.push(await getFeed(item.note_id, item.xsec_token));
     }
   }
 

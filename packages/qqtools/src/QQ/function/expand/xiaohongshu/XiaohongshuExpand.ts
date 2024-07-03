@@ -64,7 +64,8 @@ class XiaohongshuExpand {
             notes: initialState.user.notes.flat().map((o: NoteItem): PostedNoteItem => ({
               type: o.noteCard.type,
               note_id: o.noteCard.noteId,
-              cover: { url: o.noteCard.cover.urlDefault }
+              cover: { url: o.noteCard.cover.urlDefault },
+              xsec_token: o.noteCard.xsec_token
             }))
           }
         };

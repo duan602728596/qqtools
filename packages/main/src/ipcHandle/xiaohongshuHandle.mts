@@ -141,10 +141,16 @@ function ipcXiaohongshuHandle(): void {
       await client.Page.navigate({ url: 'https://www.xiaohongshu.com/user/profile/594099df82ec393174227f18' });
       await client.Page.loadEventFired();
       await waitingDomFunction(client, `
-        (!!(document.querySelector('.user-nickname')
-          || document.querySelector('.reds-button-new')
-          || document.querySelector('.follow')
-        )) && !document.getElementById('captcha-div')
+        !!(
+          (
+            document.querySelector('.user-nickname')
+            || document.querySelector('.reds-button-new')
+            || document.querySelector('.follow')
+          )
+          && !document.getElementById('captcha-div')
+          && !document.getElementById('login-btn')
+          && document.querySelector('.user')
+        )
       `);
       await setTimeoutPromise(5_000);
     });

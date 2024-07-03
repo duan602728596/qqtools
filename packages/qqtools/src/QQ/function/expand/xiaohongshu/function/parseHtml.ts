@@ -14,6 +14,7 @@ export interface NoteItem {
       nickname: string;
       userId: string;
     };
+    xsec_token: string;
   };
 }
 
