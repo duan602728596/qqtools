@@ -10,11 +10,11 @@ export interface EditItem {
 
 /* ========== 一些基础的配置 ========== */
 /** @deprecated */
-type OldOptionType = '0' | '1' | '2' | '100' | 0;
+type OldOptionType = '0' | '2' | '100' | 0;
 
 export interface OptionsItemBasic {
   optionName: string;
-  optionType: QQProtocol | OldOptionType; // 0: mirai-api-http，1: oicq，2: go-cqhttp
+  optionType: QQProtocol | OldOptionType; // 0: mirai-api-http，2: go-cqhttp
   qqNumber: number;
   groupNumber: string;
   socketHost?: string;

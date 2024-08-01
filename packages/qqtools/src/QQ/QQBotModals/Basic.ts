@@ -44,7 +44,7 @@ interface KeyType {
 }
 
 abstract class Basic {
-  public protocol: QQProtocol;        // mirai或者oicq
+  public protocol: QQProtocol;        // 使用的机器人程序
   public id: string;                  // 当前进程的唯一ID
   public config: OptionsItemValueV2;  // 配置
   public groupNumbers: Array<number>; // 多个群号

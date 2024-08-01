@@ -73,8 +73,6 @@ export function formatOptionType(config: OptionsItemValueV2): OptionsItemValueV2
 
   if (nextConfig.optionType === 0 || nextConfig.optionType === '0') {
     nextConfig.optionType = QQProtocol.Mirai;
-  } else if (nextConfig.optionType === '1') {
-    nextConfig.optionType = QQProtocol.Oicq;
   } else if (nextConfig.optionType === '2') {
     nextConfig.optionType = QQProtocol.GoCQHttp;
   } else if (nextConfig.optionType === '100') {

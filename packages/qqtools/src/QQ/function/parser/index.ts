@@ -24,14 +24,9 @@ function parser(args: ParserArgs): ParserResult {
     return text;
   }
 
-  // oicq解析
   const message: Array<MessageElem> = segment.fromCqcode(text);
 
-  if (protocol === QQProtocol.Oicq) {
-    return message;
-  }
-
-  // mirai根据oicq的解析来处理
+  // mirai根据icqq的解析来处理
   const miraiMessageGroup: Array<MiraiMT> = message.map((ele: MessageElem): MiraiMT | undefined => {
     switch (ele.type) {
       case 'text':

@@ -13,7 +13,7 @@ let lfid: `${ string }_-_sort_time`; // 账号的lfid
 let weiboTimer: number; // 轮询定时器
 let weiboId: bigint | null = null; // 记录查询位置
 let superNick: string;  // 超话名称
-let protocol: QQProtocol; // 协议：mirai或者oicq
+let protocol: QQProtocol; // 协议：使用的机器人程序
 let port: number; // 端口号
 
 /**

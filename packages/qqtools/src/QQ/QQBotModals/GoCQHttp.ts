@@ -1,7 +1,7 @@
 import type { IncomingMessage } from 'node:http';
 import { setInterval } from 'node:timers';
 import { WebSocket as WebSocketClient, WebSocketServer } from 'ws';
-import type { GroupMessage, MemberIncreaseEvent as OicqMemberIncreaseEvent } from 'icqq';
+import type { GroupMessage, MemberIncreaseEvent as IcqqMemberIncreaseEvent } from 'icqq';
 import * as dayjs from 'dayjs';
 import { renderString } from 'nunjucks';
 import Basic, { type BasicImplement, type BasicArgs } from './Basic';
@@ -22,7 +22,7 @@ export interface HeartbeatMessage {
   meta_event_type: 'heartbeat';
 }
 
-export interface MemberIncreaseEvent extends Omit<OicqMemberIncreaseEvent, 'notice_type' | 'sub_type'> {
+export interface MemberIncreaseEvent extends Omit<IcqqMemberIncreaseEvent, 'notice_type' | 'sub_type'> {
   notice_type: 'group_increase';
   sub_type: 'approve' | 'invite';
 }

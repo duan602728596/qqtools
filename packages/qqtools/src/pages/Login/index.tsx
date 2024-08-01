@@ -21,7 +21,6 @@ import { queryOptionsList, OptionsInitialState } from '../Options/reducers/optio
 import { setAddLogin, setDeleteLogin, getRoomId, LoginInitialState } from './reducers/reducers';
 import dbConfig from '../../utils/IDB/IDBConfig';
 import MiraiQQ from '../../QQ/QQBotModals/MiraiQQ';
-import OicqQQ from '../../QQ/QQBotModals/OicqQQ';
 import GoCQHttp from '../../QQ/QQBotModals/GoCQHttp';
 import ConsoleTest from '../../QQ/QQBotModals/ConsoleTest';
 import { formatToV2Config, formatOptionType } from '../../QQ/function/formatConfig';
@@ -76,14 +75,7 @@ function Index(props: {}): ReactElement {
       const id: string = randomUUID();
       let qq: QQModals | null = null;
 
-      if (qqOptions.optionType === QQProtocol.Oicq) {
-        qq = new OicqQQ({
-          id,
-          config: qqOptions,
-          membersList: roomIdResult?.value,
-          messageApi
-        });
-      } else if (qqOptions.optionType === QQProtocol.GoCQHttp) {
+      if (qqOptions.optionType === QQProtocol.GoCQHttp) {
         qq = new GoCQHttp({
           id,
           config: qqOptions,

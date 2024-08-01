@@ -7,7 +7,7 @@ let lfid: string;       // 账号的lfid
 let weiboTimer: number; // 轮询定时器
 let weiboAtAll: boolean | undefined; // 是否at全体成员
 let weiboId: bigint | null = null;   // 记录查询位置
-let protocol: QQProtocol; // 协议：mirai或者oicq
+let protocol: QQProtocol; // 使用的机器人程序
 let port: number; // 端口号
 
 /**
