@@ -41,7 +41,7 @@ function EditV2(props: {}): ReactElement {
   const dispatch: Dispatch = useDispatch();
   const params: Params = useParams();
   const navigate: NavigateFunction = useNavigate();
-  const formRef: RefObject<FormInstance> = useRef(null);
+  const formRef: RefObject<FormInstance | null> = useRef(null);
 
   // 数据回填
   async function getData(): Promise<void> {
@@ -51,7 +51,7 @@ function EditV2(props: {}): ReactElement {
       }));
       const value: OptionsItemValueV2 = formatOptionType(formatToV2Config(result.value));
 
-      formRef.current && formRef.current.setFieldsValue(getObjectFromValue({ $root: value }));
+      formRef.current?.setFieldsValue?.(getObjectFromValue({ $root: value }));
     }
   }
 
