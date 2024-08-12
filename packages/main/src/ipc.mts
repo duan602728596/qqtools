@@ -1,4 +1,4 @@
-import { ipcMain, type BrowserWindow } from 'electron';
+import { ipcMain } from 'electron';
 import openDevTools from './ipcListener/openDevTools.mjs';
 import { proxyServerInit } from './proxyServer/proxyServer.mjs';
 import { WinIpcChannel, ProxyServerChannel } from './channelEnum.js';
@@ -16,7 +16,7 @@ export function removeIpc(): void {
 }
 
 /* ipc通信 */
-export function ipc(win: BrowserWindow): void {
-  openDevTools(win);
+export function ipc(): void {
+  openDevTools();
   proxyServerInit();
 }
