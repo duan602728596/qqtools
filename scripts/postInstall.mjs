@@ -4,21 +4,21 @@ import { cwd } from './utils.mjs';
 
 const nodeModules = path.join(cwd, 'node_modules');
 
+/* 修复网易云信SDK */
 async function replaceWebsocket(fp, ws) {
   const filePath = path.join(nodeModules, fp);
   const file = await fsP.readFile(filePath, { encoding: 'utf8' });
-  const newFile = file.replace(
-    /window\.WebSocket/g, `window.${ ws }||window.WebSocket`);
+  const fixedComments = `/* ${ fp } fixed */`;
+  const replaceValue = `${ fixedComments } window.${ ws }||window.WebSocket`;
+
+  if (file.includes(fixedComments)) return;
+
+  const newFile = file.replace(/window\.WebSocket/g, replaceValue);
 
   await fsP.writeFile(filePath, newFile, { encoding: 'utf8' });
 }
 
-async function fixTypesError() {
-  const reduxToolkitFilePath = path.join(nodeModules, '@reduxjs/toolkit/src/query/react/module.ts');
-  const reduxToolkitFile = await fsP.readFile(reduxToolkitFilePath, { encoding: 'utf8' });
-
-  await fsP.writeFile(reduxToolkitFilePath, `// @ts-nocheck\n${ reduxToolkitFile }`, { encoding: 'utf8' });
-
+async function postInstall() {
   // 替换window.WebSocket
   await Promise.all([
     replaceWebsocket('nim-web-sdk-ng/dist/NIM_BROWSER_SDK.js', 'HACK_INTERCEPTS_SEND_NIM_Websocket'),
@@ -26,4 +26,4 @@ async function fixTypesError() {
   ]);
 }
 
-fixTypesError();
+postInstall();
