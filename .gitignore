@@ -34,3 +34,4 @@ xiaohongshu_cache
 roomId-2.json
 packages/NIMTest/images/*.html
 node-nim-cache0
+.eslintcache
