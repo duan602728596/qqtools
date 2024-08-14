@@ -78,7 +78,7 @@
     "react-dom": "rc"
   },
   "lint-staged": {
-    "**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}": "cross-env COMMITLINT=1 eslint --cache --cache-location .eslintcache",
+    "**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}": "cross-env COMMITLINT=1 eslint --cache --cache-location .eslintcache --no-warn-ignored",
     "packages/NIMTest/node/createRoomId.js": "npm run check-token",
     "packages/NIMTest/http/login.http": "npm run check-token"
   },
