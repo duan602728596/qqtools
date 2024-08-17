@@ -4365,7 +4365,8 @@
       "teamId": 1405,
       "groupName": "CKG48",
       "periodName": "CKG48 八期生",
-      "pinyin": "yaojinjie "
+      "pinyin": "yaojinjie ",
+      "liveRoomId": 7697729124
     },
     {
       "ownerName": "陈芷晴",
@@ -4389,7 +4390,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 二十期生",
-      "pinyin": "pan liguo"
+      "pinyin": "pan liguo",
+      "liveRoomId": 7767295999
     },
     {
       "ownerName": "孔渊",
@@ -4438,7 +4440,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十六期生",
-      "pinyin": "yangyawen"
+      "pinyin": "yangyawen",
+      "liveRoomId": 7855736244
     },
     {
       "ownerName": "赵文凤",
@@ -4501,7 +4504,8 @@
       "teamId": 2103,
       "groupName": "CGT48",
       "periodName": "CGT48 三期生",
-      "pinyin": "yangzihan"
+      "pinyin": "yangzihan",
+      "liveRoomId": 8045348149
     },
     {
       "ownerName": "张沁芝",
@@ -4698,5 +4702,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2024-06-17 21:28:33"
+  "buildTime": "2024-08-17 23:31:38"
 }
