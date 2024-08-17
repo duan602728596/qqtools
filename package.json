@@ -3,8 +3,8 @@
   "description": "QQ群工具，配合mirai使用。",
   "license": "AGPL-3.0",
   "scripts": {
-    "eslint": "eslint ./ --fix",
-    "eslint:no-fix": "eslint ./",
+    "eslint": "cross-env COMMITLINT=1 eslint ./ --fix --cache --cache-location .eslintcache",
+    "eslint:no-fix": "cross-env COMMITLINT=1 eslint ./ --cache --cache-location .eslintcache",
     "lerna:install": "lerna bootstrap --force-local",
     "update-version": "milktea-esm update",
     "update-version:dev": "milktea-esm update --__DEV__",
@@ -22,7 +22,7 @@
     "check-token": "node scripts/checkToken.mjs",
     "set-version": "node scripts/setVersion.mjs",
     "cz1": "NODE_OPTIONS=\"--max-old-space-size=409600\" git cz",
-    "postinstall": "husky install && node scripts/fixTypesError.mjs && npm run install:babel"
+    "postinstall": "husky install && node scripts/postInstall.mjs && npm run install:babel"
   },
   "private": true,
   "workspaces": [
@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.23.3",
+    "@eslint/compat": "^1.1.1",
     "@sweet-milktea/milktea-cli": "^4.1.0",
     "@sweet-milktea/util-tools": "^4.1.0",
     "@types/chrome-remote-interface": "^0",
@@ -56,16 +57,17 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/ws": "^8",
-    "@typescript-eslint/eslint-plugin": "^6.16.0",
-    "@typescript-eslint/parser": "^6.16.0",
+    "@typescript-eslint/eslint-plugin": "^7.17.0",
+    "@typescript-eslint/parser": "^7.17.0",
     "commitizen": "^4.3.0",
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^8.56.0",
+    "eslint": "^9.7.0",
     "eslint-import-resolver-node": "^0.3.9",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react": "^7.35.0",
+    "globals": "^15.8.0",
     "husky": "^8.0.3",
     "lint-staged": "^15.2.0"
   },
@@ -76,7 +78,7 @@
     "react-dom": "rc"
   },
   "lint-staged": {
-    "**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}": "eslint",
+    "**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}": "cross-env COMMITLINT=1 eslint --cache --cache-location .eslintcache --no-warn-ignored",
     "packages/NIMTest/node/createRoomId.js": "npm run check-token",
     "packages/NIMTest/http/login.http": "npm run check-token"
   },

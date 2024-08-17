@@ -86,7 +86,7 @@ function srcPath(p: string): string {
 export default function(info: object): { [key: string]: any } {
   const plugins: Array<any> = [
     ['@babel/plugin-syntax-import-attributes', { deprecatedAssertSyntax: true }],
-    [require.resolve(path.join(__dirname, '../babel-plugin-delay-require')), { moduleNames: externalsName, idle: true }]
+    [require.resolve(path.join(__dirname, '../babel-plugin-delay-require')), { moduleNames: externalsName, idle: !isDev }]
   ].filter(Boolean);
 
   const config: { [key: string]: any } = {

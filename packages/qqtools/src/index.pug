@@ -6,12 +6,12 @@ html
   head
     meta(charset='utf-8')
     title= `qqtools - ${ packageJson.version }`
+    include components/basic/wasm/wasm
 
   body
     div.app#app
       include components/basic/loading/loading
 
-    include components/basic/wasm/wasm
     include components/basic/HACK_INTERCEPTS_SEND_Websocket/HACK_INTERCEPTS_SEND_Websocket
 
     if htmlWebpackPlugin.options.mode === 'development'
