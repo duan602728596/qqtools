@@ -4254,7 +4254,8 @@
       "teamId": 2103,
       "groupName": "CGT48",
       "periodName": "CGT48 二期生",
-      "pinyin": "madanni"
+      "pinyin": "madanni",
+      "liveRoomId": 7249954137
     },
     {
       "ownerName": "陈真允一",
@@ -4702,5 +4703,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2024-08-17 23:31:38"
+  "buildTime": "2024-08-26 17:57:46"
 }
