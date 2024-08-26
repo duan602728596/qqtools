@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "dependencies": {
     "@yxim/nim-web-sdk": "^9.16.1",
-    "got": "^14.0.0",
+    "got": "^14.4.2",
     "lodash": "^4.17.21",
     "playwright-core": "^1.40.1"
   }

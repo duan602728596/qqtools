@@ -11,7 +11,7 @@
     "chrome-launcher": "^0.15.2",
     "chrome-remote-interface": "^0.33.0",
     "fs-extra": "^11.2.0",
-    "got": "^11.8.6",
+    "got": "^14.4.2",
     "iconv-lite": "^0.6.3",
     "js-yaml": "^4.1.0",
     "node-schedule": "^2.1.1",

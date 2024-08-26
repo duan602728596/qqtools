@@ -85,7 +85,7 @@ function srcPath(p: string): string {
 
 const reactCompiler: { sources(p: string): boolean } = {
   sources(p: string): boolean {
-    return /48tools[\\/]src[\\/].+\.tsx/.test(p);
+    return /qqtools[\\/]src[\\/].+\.tsx/.test(p);
   }
 };
 
@@ -95,7 +95,10 @@ export default function(info: object): { [key: string]: any } {
     [require.resolve(path.join(__dirname, '../babel-plugin-delay-require')), {
       moduleNames: externalsName,
       idle: false,
-      mountToGlobalThis: true
+      mountToGlobalThis: true,
+      replaceModuleName: isDev ? {
+        got: '@qqtools/got-cjs'
+      } : undefined
     }]
   ].filter(Boolean);
 
