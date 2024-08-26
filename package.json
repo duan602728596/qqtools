@@ -8,7 +8,7 @@
     "lerna:install": "lerna bootstrap --force-local",
     "update-version": "milktea-esm update",
     "update-version:dev": "milktea-esm update --__DEV__",
-    "install:babel": "zx scripts/installBabelPluginDelayRequire.mjs",
+    "install:plugins": "zx scripts/installPlugins.mjs",
     "build": "node scripts/delivery.mjs",
     "build:cn": "ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/ ELECTRON_BUILDER_BINARIES_MIRROR=https://npmmirror.com/mirrors/electron-builder-binaries/ PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm run build",
     "build:ci": "PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm run build",
@@ -22,7 +22,7 @@
     "check-token": "node scripts/checkToken.mjs",
     "set-version": "node scripts/setVersion.mjs",
     "cz1": "NODE_OPTIONS=\"--max-old-space-size=409600\" git cz",
-    "postinstall": "husky install && node scripts/postInstall.mjs && npm run install:babel"
+    "postinstall": "husky install && node scripts/postInstall.mjs && npm run install:plugins"
   },
   "private": true,
   "workspaces": [

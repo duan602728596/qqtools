@@ -1,4 +1,4 @@
-/* global path, fs, cd */
+/* global path, fs, cd, $ */
 import os from 'node:os';
 import { spawn } from 'node:child_process';
 import { cwd, npm } from './utils.mjs';
@@ -21,8 +21,7 @@ if (os.platform() === 'win32') {
   };
 }
 
-const babelPluginDelayRequire = path.join(cwd, 'packages/babel-plugin-delay-require');
-
+/* 执行命令 */
 function $cmd(cmd, args) {
   return new Promise((resolve, reject) => {
     const child = spawn(cmd, args);
@@ -34,10 +33,27 @@ function $cmd(cmd, args) {
   });
 }
 
-async function installBabelPluginDelayRequire() {
+/* 插件目录 */
+const babelPluginDelayRequire = path.join(cwd, 'packages/babel-plugin-delay-require'),
+  postcssPluginRemoveClassNames = path.join(cwd, 'packages/postcss-plugin-remove-classnames');
+const installPluginCache = path.join(cwd, '.installPluginCache');
+
+/* 编译wenjian */
+async function buildPlugin(pluginPath) {
+  await cd(pluginPath);
+
+  try {
+    await $`npm run dev`;
+  } catch {
+    await $cmd(npm, ['run', 'dev']);
+  }
+}
+
+/* 安装插件 */
+async function installPlugins() {
   // 创建目录
-  await fs.ensureDir(babelPluginDelayRequire);
-  cd(babelPluginDelayRequire);
+  await fs.ensureDir(installPluginCache);
+  cd(installPluginCache);
 
   // 初始化项目
   try {
@@ -50,7 +66,8 @@ async function installBabelPluginDelayRequire() {
     await $cmd('git', ['config', 'core.sparsecheckout', 'true']);
   }
 
-  await fs.writeFile(path.join(babelPluginDelayRequire, '.git/info/sparse-checkout'), 'packages/babel-plugin-delay-require');
+  await fs.writeFile(path.join(installPluginCache, '.git/info/sparse-checkout'), `packages/babel-plugin-delay-require
+postcss-plugin-remove-classnames`);
 
   // 拉取代码
   try {
@@ -59,23 +76,17 @@ async function installBabelPluginDelayRequire() {
     await $cmd('git', ['pull', 'origin', 'main', '--depth=1']);
   }
 
-  await fs.copy(
-    path.join(babelPluginDelayRequire, 'packages/babel-plugin-delay-require'),
-    babelPluginDelayRequire
-  );
+  // 复制文件
   await Promise.all([
-    fs.remove(path.join(babelPluginDelayRequire, 'packages')),
-    fs.remove(path.join(babelPluginDelayRequire, '.git'))
+    fs.copy(path.join(installPluginCache, 'packages/babel-plugin-delay-require'), babelPluginDelayRequire),
+    fs.copy(path.join(installPluginCache, 'packages/postcss-plugin-remove-classnames'), postcssPluginRemoveClassNames)
   ]);
 
   // 编译文件
-  try {
-    await $`npm run dev`;
-  } catch {
-    await $cmd(npm, ['run', 'dev']);
-  }
+  await buildPlugin(babelPluginDelayRequire);
+  await buildPlugin(postcssPluginRemoveClassNames);
+
+  await fs.remove(installPluginCache);
 }
 
-if (!fs.existsSync(babelPluginDelayRequire)) {
-  installBabelPluginDelayRequire();
-}
+installPlugins();

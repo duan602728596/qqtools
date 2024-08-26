@@ -25,6 +25,7 @@ www
 build
 dist
 packages/babel-plugin-delay-require
+packages/postcss-plugin-remove-classnames
 packages/NIMNodePolyfill/.env
 packages/node-oicqhttp/config.dev.js
 packages/node-oicqhttp/config.dev.mjs
@@ -35,3 +36,4 @@ roomId-2.json
 packages/NIMTest/images/*.html
 node-nim-cache0
 .eslintcache
+.installPluginCache
