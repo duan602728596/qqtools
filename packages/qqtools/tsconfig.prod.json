@@ -1,14 +1,7 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "ESNext",
-    "jsx": "react-jsx",
-    "importHelpers": true,
-    "resolveJsonModule": true,
-    "paths": {
-      "@qqtools-types/*": ["./src/types/*"],
-      "@qqtools-api/*": ["./src/services/*"]
-    }
+    "jsx": "preserve"
   },
   "exclude": [
     "node_modules"

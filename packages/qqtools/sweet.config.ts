@@ -83,10 +83,20 @@ function srcPath(p: string): string {
   return path.join(__dirname, 'src', p);
 }
 
+const reactCompiler: { sources(p: string): boolean } = {
+  sources(p: string): boolean {
+    return /48tools[\\/]src[\\/].+\.tsx/.test(p);
+  }
+};
+
 export default function(info: object): { [key: string]: any } {
   const plugins: Array<any> = [
     ['@babel/plugin-syntax-import-attributes', { deprecatedAssertSyntax: true }],
-    [require.resolve(path.join(__dirname, '../babel-plugin-delay-require')), { moduleNames: externalsName, idle: !isDev }]
+    [require.resolve(path.join(__dirname, '../babel-plugin-delay-require')), {
+      moduleNames: externalsName,
+      idle: false,
+      mountToGlobalThis: true
+    }]
   ].filter(Boolean);
 
   const config: { [key: string]: any } = {
@@ -105,6 +115,7 @@ export default function(info: object): { [key: string]: any } {
       'nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK',
       'nim-web-sdk-ng/dist/NIM_BROWSER_SDK',
       'react',
+      'react/compiler-runtime',
       'react/jsx-dev-runtime',
       'react-dom/client',
       'react-redux',
@@ -127,9 +138,10 @@ export default function(info: object): { [key: string]: any } {
       exclude: /node_modules|Signer\.js|XiaoHongShu\.js|bdms\.js/i
     },
     typescript: {
-      configFile: isDev ? 'tsconfig.json' : 'tsconfig.prod.json',
+      configFile: 'tsconfig.prod.json',
       plugins,
-      exclude: /node_modules|Signer\.js|XiaoHongShu\.js/i
+      exclude: /node_modules|Signer\.js|XiaoHongShu\.js/i,
+      reactCompiler
     },
     sass: {
       include: /src/
