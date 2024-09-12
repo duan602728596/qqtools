@@ -1,9 +1,0 @@
-{
-  "name": "@qqtools3/verify",
-  "version": "0.0.0",
-  "type": "module",
-  "dependencies": {
-    "@sweet-milktea/utils": "^4.0.0",
-    "puppeteer-core": "^21.6.1"
-  }
-}
