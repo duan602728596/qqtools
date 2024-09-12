@@ -97,7 +97,7 @@ export default function(info: object): { [key: string]: any } {
       idle: false,
       mountToGlobalThis: true,
       replaceModuleName: isDev ? {
-        got: '@qqtools/got-cjs'
+        got: '@qqtools/esm-build/got'
       } : undefined
     }]
   ].filter(Boolean);

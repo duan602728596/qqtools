@@ -33,11 +33,6 @@ import * as ReactDOMClient from 'react-dom/client';`)
   await fsP.writeFile(rcUtilPath, newFile, { encoding: 'utf8' });
 }
 
-/* 编译got cjs */
-async function buildCjsPackage(packageName) {
-  await command(npm, ['run', 'build'], path.join(cwd, 'packages', packageName));
-}
-
 /* 执行postinstall脚本 */
 async function postInstall() {
   // 替换window.WebSocket
@@ -49,8 +44,8 @@ async function postInstall() {
   // 修复rc-util
   await fixRcUtil();
 
-  // 编译got cjs
-  await buildCjsPackage('got-cjs');
+  // 编译esm -> cjs
+  await command(npm, ['run', 'build'], path.join(cwd, 'packages/esm-build'));
 }
 
 postInstall();
