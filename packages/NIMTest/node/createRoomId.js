@@ -6,7 +6,7 @@ const dayjs = require('dayjs');
 const importESM = require('@sweet-milktea/utils/importESM');
 
 require('dayjs/locale/zh-cn');
-require('../../NIMNodePolyfill/NIMNodePolyfill.cjs');
+require('./NIMNodePolyfill.cjs');
 
 const NIM_SDK = require('@yxim/nim-web-sdk/dist/SDK/NIM_Web_SDK_nodejs');
 

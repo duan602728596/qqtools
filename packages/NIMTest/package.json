@@ -4,7 +4,11 @@
   "dependencies": {
     "@yxim/nim-web-sdk": "^9.16.1",
     "got": "^14.4.2",
+    "localStorage": "^1.0.4",
     "lodash": "^4.17.21",
-    "playwright-core": "^1.40.1"
+    "nim-web-sdk-ng": "^0.17.0",
+    "playwright-core": "^1.40.1",
+    "sessionstorage": "^0.1.0",
+    "ws": "^8.16.0"
   }
 }
