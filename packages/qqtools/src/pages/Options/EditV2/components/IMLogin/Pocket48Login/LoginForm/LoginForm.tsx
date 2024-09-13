@@ -10,7 +10,7 @@ import {
 import { Button, Form, Input, message, Select, type FormInstance } from 'antd';
 import type { DefaultOptionType } from 'rc-select/es/Select';
 import type { UseMessageReturnType } from '@qqtools-types/antd';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import {
   requestSMS,
   type SMSResult,

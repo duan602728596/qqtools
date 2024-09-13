@@ -4,7 +4,7 @@ import { Button, Modal, Form, Alert, Input, message, type FormInstance, type Mod
 import type { Store } from 'antd/es/form/interface';
 import type { UseMessageReturnType } from '@qqtools-types/antd';
 import { ChromeFilled as IconChromeFilled, QuestionCircleTwoTone as IconQuestionCircleTwoTone } from '@ant-design/icons';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import style from './executablePath.sass';
 import { showOpenDialog } from '../../../utils/remote/dialog';
 
