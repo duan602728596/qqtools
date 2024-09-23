@@ -51,7 +51,7 @@ async function createOneImage(file, output) {
     headless: true,
     executablePath: os.platform() === 'win32'
       ? 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
-      : '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
+      : '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
     timeout: 0
   });
   const context = await browser.newContext({

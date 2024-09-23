@@ -1,67 +1,13 @@
 const fs = require('node:fs');
+const fsP = require('node:fs/promises');
 const path = require('node:path');
-const { randomUUID } = require('node:crypto');
+const os = require('node:os');
 const _ = require('lodash');
 const dayjs = require('dayjs');
-const importESM = require('@sweet-milktea/utils/importESM');
+const { chromium } = require('playwright-core');
 
 require('dayjs/locale/zh-cn');
-require('./NIMNodePolyfill.cjs');
-
-const NIM_SDK = require('@yxim/nim-web-sdk/dist/SDK/NIM_Web_SDK_nodejs');
-
-globalThis.document = undefined; // fix error
-
-const QChatSDK = require('nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK.js');
-
-/**
- * @param { Record<string, any> } obj
- * @param { (k: string, v: any) => boolean } callback
- */
-function objectSome(obj, callback) {
-  let result = false;
-
-  for (const key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      result = callback(key, obj[key]);
-
-      if (result) break;
-    }
-  }
-
-  return result;
-}
-
-/* Hack */
-globalThis.WebSocket.prototype.ORIGINAL_send = globalThis.WebSocket.prototype.send;
-
-globalThis.WebSocket.prototype.send = function() {
-  if (/3:::/.test(arguments[0])) {
-    const message = arguments[0].replace(/3:::/, '');
-    let data = null;
-
-    try {
-      data = JSON.parse(message);
-    } catch { /* noop */ }
-
-    if (data && data?.SER === 1 && data?.SID === 24 && data?.Q?.length) {
-      for (const Q of data.Q) {
-        if (/Property/i.test(Q.t) && Q.v && objectSome(Q.v, (k, v) => /Native\/[0-9]/i.test(v))) {
-          Q.v['6'] = 2;
-          arguments[0] = `3:::${ JSON.stringify(data) }`;
-          break;
-        }
-      }
-    }
-  }
-
-  return this.ORIGINAL_send.apply(this, arguments);
-};
-
 dayjs.locale('zh-cn');
-
-const fsP = fs.promises;
-const { Chatroom } = NIM_SDK;
 
 const token = '';
 const pa = '';
@@ -91,67 +37,48 @@ function headers() {
 }
 
 // 获取房间信息
-function getRoomInfo(chatroomId) {
-  return new Promise(async (resolve, reject) => {
-    const appKey = await importESM(path.join(__dirname, '../../qqtools/src/QQ/sdk/appKey.mjs'));
-    const nimChatroomSocket = Chatroom.getInstance({
-      appKey: atob(appKey.default),
-      isAnonymous: true,
-      chatroomNick: randomUUID(),
-      chatroomAvatar: '',
-      chatroomId,
-      chatroomAddresses: ['chatweblink01.netease.im:443'],
-      onconnect(event) {
-        resolve({
-          nimChatroomSocket,
-          event,
-          success: 1
-        });
-      },
-      ondisconnect(event) {
-        resolve({
-          nimChatroomSocket,
-          event,
-          success: 0
-        });
-      },
-      onerror(err) {
-        console.error(err);
-      }
-    });
+async function getServerInfo(serverId) {
+  let browser = await chromium.launch({
+    headless: true,
+    executablePath: os.platform() === 'win32'
+      ? 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
+      : '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    timeout: 0
   });
-}
-
-// 获取房间信息
-function getServerInfo(serverId) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const appKey = await importESM(path.join(__dirname, '../../qqtools/src/QQ/sdk/appKey.mjs'));
-      const qchat = new QChatSDK({
-        appkey: atob(appKey.default),
-        account: pocket48Account,
-        token: pocket48Token,
-        linkAddresses: ['qchatweblink01.netease.im:443']
-      });
-
-      qchat.on('logined', async () => {
-        const serverInfo = await qchat.qchatServer.getServers({
-          serverIds: [serverId]
-        });
-
-        resolve({
-          serverInfo,
-          qchat,
-          owner: serverInfo[0].owner,
-          success: 1
-        });
-      });
-
-      await qchat.login();
-    } catch (err) {
-      console.error(err);
+  const context = await browser.newContext({
+    viewport: {
+      width: 660,
+      height: 800
     }
   });
+  const page = await context.newPage();
+
+  await page.goto('file://' + path.join(__dirname, 'qchat.html'));
+
+  // 设置token
+  const accountHandle = await page.$('#account');
+
+  await accountHandle.evaluate((node, v) => node.value = v, pocket48Account);
+
+  const tokenHandle = await page.$('#token');
+
+  await tokenHandle.evaluate((node, v) => node.value = v, pocket48Token);
+
+  // server id
+  const serverIdHandle = await page.$('#server-id');
+
+  await serverIdHandle.evaluate((node, v) => node.value = v, String(serverId));
+
+  // 执行js
+  await page.evaluate(() => globalThis.runGetServerInfo());
+
+  const resultHandle = await page.waitForSelector('#result');
+  const serverInfo = await resultHandle.evaluate((node) => node.innerText);
+
+  await browser.close();
+  browser = null;
+
+  return JSON.parse(serverInfo);
 }
 
 async function main() {
@@ -226,29 +153,10 @@ async function main() {
       if (resMembersInfo.body.status === 200 || resServerJumpInfo.body.status === 200) {
         let ownerName2;
 
-        // eslint-disable-next-line no-constant-condition
-        if (resMembersInfo.body.status === 200 && resMembersInfo?.body?.content?.roomInfo && false) {
-          const { roomId: rid, ownerName } = resMembersInfo.body.content.roomInfo;
-          const { nimChatroomSocket, event, success } = await getRoomInfo(rid);
-          const account = success ? event?.chatroom?.creator : undefined;
-
-          ownerName2 = ownerName;
-          nimChatroomSocket.disconnect();
-          Object.assign(item, {
-            id: friend,
-            roomId: rid,
-            account
-          });
-
-          console.log(`ID: ${ friend } ownerName: ${ ownerName } roomId: ${ rid } account: ${ account }`);
-        }
-
         if (resServerJumpInfo.body.status === 200 && resServerJumpInfo?.body?.content?.jumpServerInfo) {
           const { channelId } = resServerJumpInfo.body.content;
-          const { serverId, serverOwner, serverOwnerName, teamId } = resServerJumpInfo.body.content.jumpServerInfo;
-          const { qchat, owner, success } = await getServerInfo(`${ serverId }`);
-
-          await qchat.destroy();
+          const { serverId, serverOwner, serverOwnerName } = resServerJumpInfo.body.content.jumpServerInfo;
+          const { owner } = await getServerInfo(`${ serverId }`);
 
           item.ownerName = serverOwnerName ?? ownerName2;
 
