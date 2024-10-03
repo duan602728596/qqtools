@@ -4379,7 +4379,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 二十期生",
-      "pinyin": "chen zhiqing "
+      "pinyin": "chen zhiqing ",
+      "liveRoomId": 7767426405
     },
     {
       "ownerName": "潘力帼",
@@ -4699,7 +4700,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 二十一期生",
-      "pinyin": "xiao yanzhu"
+      "pinyin": "xiao yanzhu",
+      "liveRoomId": 9170683892
     },
     {
       "ownerName": "张雷雷",
@@ -4711,7 +4713,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 二十一期生",
-      "pinyin": "zhang leilei"
+      "pinyin": "zhang leilei",
+      "liveRoomId": 9170699777
     },
     {
       "ownerName": "朱文露",
@@ -5015,5 +5018,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2024-09-23 16:10:09"
+  "buildTime": "2024-10-04 01:46:09"
 }
