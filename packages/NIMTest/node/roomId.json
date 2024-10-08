@@ -4532,7 +4532,8 @@
       "teamId": 1104,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十五期生",
-      "pinyin": "bao ying"
+      "pinyin": "bao ying",
+      "liveRoomId": 9013855888
     },
     {
       "ownerName": "谷雨馨",
@@ -4568,7 +4569,8 @@
       "teamId": 1104,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十五期生",
-      "pinyin": "ma mingxuan"
+      "pinyin": "ma mingxuan",
+      "liveRoomId": 9014413252
     },
     {
       "ownerName": "单子涵",
@@ -4580,7 +4582,8 @@
       "teamId": 1104,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十五期生",
-      "pinyin": "shan zihan"
+      "pinyin": "shan zihan",
+      "liveRoomId": 9014461487
     },
     {
       "ownerName": "王佳琪",
@@ -4592,7 +4595,8 @@
       "teamId": 1104,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十五期生",
-      "pinyin": "wang jiaqi"
+      "pinyin": "wang jiaqi",
+      "liveRoomId": 9013986656
     },
     {
       "ownerName": "王苏南",
@@ -4604,7 +4608,8 @@
       "teamId": 1104,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十五期生",
-      "pinyin": "wang sunan"
+      "pinyin": "wang sunan",
+      "liveRoomId": 9014019542
     },
     {
       "ownerName": "张颂宁",
@@ -4616,7 +4621,8 @@
       "teamId": 1104,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十五期生",
-      "pinyin": "zhang songning"
+      "pinyin": "zhang songning",
+      "liveRoomId": 9014134318
     },
     {
       "ownerName": "朱玥彤",
@@ -4628,7 +4634,8 @@
       "teamId": 1104,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十五期生",
-      "pinyin": "zhu yuetong"
+      "pinyin": "zhu yuetong",
+      "liveRoomId": 9015199418
     },
     {
       "ownerName": "陈俞希",
@@ -4676,7 +4683,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 二十一期生",
-      "pinyin": "li zixin"
+      "pinyin": "li zixin",
+      "liveRoomId": 9170749310
     },
     {
       "ownerName": "孙莉",
@@ -4822,7 +4830,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十七期生",
-      "pinyin": "xuyongyi"
+      "pinyin": "xuyongyi",
+      "liveRoomId": 9150105586
     },
     {
       "ownerName": "徐郑子滢",
@@ -5018,5 +5027,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2024-10-04 01:46:09"
+  "buildTime": "2024-10-08 22:18:59"
 }
