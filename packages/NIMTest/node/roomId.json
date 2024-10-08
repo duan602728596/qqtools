@@ -4671,7 +4671,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 二十一期生",
-      "pinyin": "li yan"
+      "pinyin": "li yan",
+      "liveRoomId": 9171125738
     },
     {
       "ownerName": "李子忻",
@@ -4770,7 +4771,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十七期生",
-      "pinyin": "baoyuxin"
+      "pinyin": "baoyuxin",
+      "liveRoomId": 9149973874
     },
     {
       "ownerName": "雷瑞妍",
@@ -4782,7 +4784,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十七期生",
-      "pinyin": "leirui"
+      "pinyin": "leirui",
+      "liveRoomId": 9149711655
     },
     {
       "ownerName": "林仪",
@@ -4794,7 +4797,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十七期生",
-      "pinyin": "linyi"
+      "pinyin": "linyi",
+      "liveRoomId": 9150465362
     },
     {
       "ownerName": "唐果",
@@ -4818,7 +4822,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十七期生",
-      "pinyin": "wangquediewu"
+      "pinyin": "wangquediewu",
+      "liveRoomId": 9150973304
     },
     {
       "ownerName": "许泳怡",
@@ -5027,5 +5032,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2024-10-08 22:18:59"
+  "buildTime": "2024-10-09 01:14:30"
 }
