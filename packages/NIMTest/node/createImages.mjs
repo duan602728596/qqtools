@@ -3,7 +3,7 @@ import path from 'node:path';
 import os from 'node:os';
 import { chromium } from 'playwright-core';
 import { metaHelper } from '@sweet-milktea/utils';
-import roomId from './roomId.json' assert { type: 'json' };
+import roomId from './roomId.json' with { type: 'json' };
 
 const { __dirname } = metaHelper(import.meta.url);
 
