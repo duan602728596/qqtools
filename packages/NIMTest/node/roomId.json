@@ -4430,7 +4430,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十六期生",
-      "pinyin": "xuhanjing"
+      "pinyin": "xuhanjing",
+      "liveRoomId": 7855654071
     },
     {
       "ownerName": "杨雅雯",
@@ -5032,5 +5033,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2024-10-09 01:14:30"
+  "buildTime": "2024-10-10 00:14:35"
 }
