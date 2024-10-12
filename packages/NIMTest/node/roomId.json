@@ -4558,7 +4558,8 @@
       "teamId": 1104,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十五期生",
-      "pinyin": "jin wanying"
+      "pinyin": "jin wanying",
+      "liveRoomId": 9014167110
     },
     {
       "ownerName": "马明萱",
@@ -5033,5 +5034,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2024-10-10 00:14:35"
+  "buildTime": "2024-10-12 21:32:15"
 }
