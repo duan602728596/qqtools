@@ -4549,7 +4549,8 @@
       "teamId": 1104,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十五期生",
-      "pinyin": "gu yuxin"
+      "pinyin": "gu yuxin",
+      "liveRoomId": 9013871939
     },
     {
       "ownerName": "金宛莹",
@@ -4652,7 +4653,8 @@
       "teamId": 1007,
       "groupName": "SNH48",
       "periodName": "SNH48 二十一期生",
-      "pinyin": "chen yuxi"
+      "pinyin": "chen yuxi",
+      "liveRoomId": 9170667069
     },
     {
       "ownerName": "金泓言",
@@ -4766,7 +4768,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十七期生",
-      "pinyin": "baijiayuan"
+      "pinyin": "baijiayuan",
+      "liveRoomId": 9149482626
     },
     {
       "ownerName": "鲍雨欣",
@@ -4855,7 +4858,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十七期生",
-      "pinyin": "xuzhengziying"
+      "pinyin": "xuzhengziying",
+      "liveRoomId": 9151055033
     },
     {
       "id": 4344250371,
@@ -5039,5 +5043,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2024-10-14 22:15:06"
+  "buildTime": "2024-10-17 23:32:54"
 }
