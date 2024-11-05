@@ -27,7 +27,7 @@
   "workspaces": [
     "packages/*"
   ],
-  "packageManager": "yarn@4.2.2",
+  "packageManager": "yarn@4.5.1",
   "dependencies": {
     "@vercel/ncc": "^0.38.1",
     "cross-zip": "^4.0.0",
@@ -68,6 +68,11 @@
     "globals": "^15.8.0",
     "husky": "^8.0.3",
     "lint-staged": "^15.2.0"
+  },
+  "optionalDependencies": {
+    "@qqtools/esm-build": "workspace:*",
+    "@qqtools3/main": "workspace:*",
+    "@qqtools3/qqtools": "workspace:*"
   },
   "resolutions": {
     "@types/react": "npm:types-react@rc",
