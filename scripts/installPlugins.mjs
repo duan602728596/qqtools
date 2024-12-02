@@ -3,8 +3,10 @@ import os from 'node:os';
 import { spawn } from 'node:child_process';
 import { cwd, npm } from './utils.mjs';
 
+const isWindows = os.platform() === 'win32';
+
 /* 修复window下bash的错误 */
-if (os.platform() === 'win32') {
+if (isWindows) {
   $.quote = function(arg) {
     if (/^[a-z\d/_.-]+$/i.test(arg) || arg === '') {
       return arg;
@@ -24,7 +26,11 @@ if (os.platform() === 'win32') {
 /* 执行命令 */
 function $cmd(cmd, args) {
   return new Promise((resolve, reject) => {
-    const child = spawn(cmd, args);
+    const spawnOptions = {};
+
+    if (isWindows) spawnOptions.shell = true;
+
+    const child = spawn(cmd, args, spawnOptions);
 
     child.stdout.on('data', (data) => console.log(data.toString()));
     child.stderr.on('data', (data) => console.log(data.toString()));
