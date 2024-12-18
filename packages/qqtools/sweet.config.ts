@@ -122,7 +122,7 @@ export default function(info: object): { [key: string]: any } {
       'react/jsx-dev-runtime',
       'react-dom/client',
       'react-redux',
-      'react-router-dom',
+      'react-router',
       'reselect'
     ],
     entry: {

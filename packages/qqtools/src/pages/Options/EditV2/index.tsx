@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { useEffect, useRef, type ReactElement, type MouseEvent, type RefObject } from 'react';
 import { useDispatch } from 'react-redux';
 import type { Dispatch } from '@reduxjs/toolkit';
-import { useNavigate, useParams, type NavigateFunction, type Params } from 'react-router-dom';
+import { useNavigate, useParams, type NavigateFunction, type Params } from 'react-router';
 import SchemaForm, { getObjectFromValue } from 'antd-schema-form';
 import type { CustomComponentObject, CustomTableRenderObject, CustomTableRenderFuncArgs } from 'antd-schema-form/es/types';
 import 'antd-schema-form/style/antd-schema-form.css';

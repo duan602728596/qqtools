@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import { useRoutes, Navigate } from 'react-router-dom';
+import { useRoutes, Navigate } from 'react-router';
 import Index from '../pages/Index/index';
 import Login from '../pages/Login/index';
 import Options from '../pages/Options/index';

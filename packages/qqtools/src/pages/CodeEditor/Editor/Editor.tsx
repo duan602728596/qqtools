@@ -2,7 +2,7 @@ import { parse, type ParsedPath } from 'node:path';
 import { readFile, writeFile } from 'node:fs/promises';
 import type { OpenDialogReturnValue } from 'electron';
 import { Fragment, useState, useEffect, type ReactElement, type Dispatch as D, type SetStateAction as S, type MouseEvent } from 'react';
-import { useNavigate, type NavigateFunction } from 'react-router-dom';
+import { useNavigate, type NavigateFunction } from 'react-router';
 import { Button, Divider, message, Modal } from 'antd';
 import type { UseMessageReturnType, UseModalReturnType } from '@qqtools-types/antd';
 import { FileFilled as IconFileFilled, SaveFilled as IconSaveFilled } from '@ant-design/icons';

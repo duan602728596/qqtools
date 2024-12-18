@@ -1,5 +1,5 @@
 import { createRoot, type Root } from 'react-dom/client';
-import { HashRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router';
 import { Provider } from 'react-redux';
 import { ConfigProvider, App } from 'antd';
 import 'antd/dist/reset.css';
