@@ -26,11 +26,11 @@
     "icqq": "^0.6.6",
     "monaco-editor": "0.45.0",
     "nim-web-sdk-ng": "^0.17.2",
-    "react": "rc",
-    "react-dom": "rc",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-monaco-editor": "^0.55.0",
     "react-redux": "^9.0.4",
-    "react-router-dom": "^6.21.1",
+    "react-router": "^7.0.0",
     "reselect": "^5.0.1"
   },
   "devDependencies": {
