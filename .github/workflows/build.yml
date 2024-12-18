@@ -10,7 +10,7 @@ jobs:
     runs-on: macos-13
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [23.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -40,10 +40,14 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: v${{ env.VERSION }}
           tag_name: v${{ env.VERSION }}
-          draft: true
-          prerelease: true
+          draft: false
+          prerelease: false
+          append_body: true
           files: |
             build/linux/qqtools-${{ env.VERSION }}-linux64.zip
             build/mac/qqtools-${{ env.VERSION }}-mac.zip
             build/win/qqtools-${{ env.VERSION }}-win64.zip
             build/win32/qqtools-${{ env.VERSION }}-win32.zip
+
+permissions:
+  contents: write

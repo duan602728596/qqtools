@@ -12,7 +12,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [23.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -37,13 +37,17 @@ jobs:
       - run: npm run build:ci
 
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: v${{ env.VERSION }}
           tag_name: v${{ env.VERSION }}
-          draft: true
-          prerelease: true
+          draft: false
+          prerelease: false
+          append_body: true
           files: |
             build/mac-arm64/qqtools-${{ env.VERSION }}-mac-arm64.zip
             build/win-arm64/qqtools-${{ env.VERSION }}-win-arm64.zip
+
+permissions:
+  contents: write
