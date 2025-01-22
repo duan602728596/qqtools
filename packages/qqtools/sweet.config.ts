@@ -106,6 +106,7 @@ export default function(info: object): { [key: string]: any } {
     frame: 'react',
     dll: [
       '@ant-design/icons',
+      '@ant-design/v5-patch-for-react-19',
       '@indexeddb-tools/indexeddb',
       '@indexeddb-tools/indexeddb-redux',
       '@bbkkbkk/q',

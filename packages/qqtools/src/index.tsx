@@ -2,6 +2,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import { HashRouter } from 'react-router';
 import { Provider } from 'react-redux';
 import { ConfigProvider, App } from 'antd';
+import '@ant-design/v5-patch-for-react-19';
 import 'antd/dist/reset.css';
 import zhCN from 'antd/locale/zh_CN';
 import { magenta } from '@ant-design/colors';

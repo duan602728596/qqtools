@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
+    "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@bbkkbkk/q": "^1.1.1",
     "@indexeddb-tools/indexeddb": "^1.0.0",
     "@indexeddb-tools/indexeddb-redux": "^1.0.0",
