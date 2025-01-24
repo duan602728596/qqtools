@@ -33,8 +33,8 @@
   "dependencies": {
     "@vercel/ncc": "^0.38.1",
     "cross-zip": "^4.0.0",
-    "electron": "30.0.7",
-    "electron-builder": "^24.10.0",
+    "electron": "^34.0.1",
+    "electron-builder": "^25.1.8",
     "fs-extra": "^11.2.0",
     "glob": "^10.3.10",
     "lerna": "^8.0.1",
@@ -54,8 +54,8 @@
     "@types/lodash-es": "^4",
     "@types/node": "^20",
     "@types/node-schedule": "^2",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
     "@types/ws": "^8",
     "@typescript-eslint/eslint-plugin": "^7.17.0",
     "@typescript-eslint/parser": "^7.17.0",
@@ -80,8 +80,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "express/cookie": "^0.7.0",
-    "express/path-to-regexp": "^0.1.10",
-    "rc-resize-observer": "1.4.0"
+    "express/path-to-regexp": "^0.1.10"
   },
   "lint-staged": {
     "**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}": "cross-env COMMITLINT=1 eslint --cache --cache-location .eslintcache --no-warn-ignored",
