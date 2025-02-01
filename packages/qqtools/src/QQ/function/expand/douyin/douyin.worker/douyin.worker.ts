@@ -7,12 +7,12 @@ import broadcastName from '../limiting.worker/broadcastName';
 import { msToken } from '../../../../../utils/toutiao/signUtils';
 
 /* 抖音 */
-let userId: string;                                    // 用户userId
-let description: string;                               // 描述
-let lastUpdateTime: number | 0 | null = null;          // 记录最新发布视频的更新时间，为0表示当前没有数据，null表示请求数据失败了
+let userId: string; // 用户userId
+let description: string; // 描述
+let lastUpdateTime: number | 0 | null = null; // 记录最新发布视频的更新时间，为0表示当前没有数据，null表示请求数据失败了
 let douyinTimer: NodeJS.Timeout | undefined = undefined; // 轮询定时器
 let cookieString: string | undefined = undefined;
-let intervalTime: number = 10 * 60 * 1_000;            // 轮询间隔
+let intervalTime: number = 3 * 60 * 1_000; // 轮询间隔
 
 /* 调试 */
 const _startTime: string = dayjs().format('YYYY-MM-DD HH:mm:ss');
@@ -106,51 +106,9 @@ async function getDouyinDataByApi(wait: boolean = true): Promise<AwemePostRespon
 /* 抖音监听轮询 */
 async function handleDouyinListener(): Promise<void> {
   try {
-    const renderData: AwemePostResponse | undefined = await getDouyinDataByApi();
+    const renderData: AwemePostResponse | undefined = await getDouyinDataByApi(false);
 
-    if (renderData) {
-      _isSendDebugMessage && (_debugTimes = 0);
-
-      const data: Array<AwemeItem> = renderData.aweme_list.sort(
-        (a: AwemeItem, b: AwemeItem): number => b.create_time - a.create_time);
-
-      if (lastUpdateTime === null) {
-        lastUpdateTime = data.length ? data[0].create_time : 0;
-      }
-
-      if (data.length) {
-        const sendGroup: Array<string> = [];
-
-        for (const item of data) {
-          if (item.create_time > lastUpdateTime) {
-            const sendData: DouyinSendMsg = {
-              url: item?.video?.bit_rate?.length
-                ? (item.video.bit_rate[0].play_addr.url_list.find((o: string): boolean => /^https/i.test(o))
-                  ?? item.video.bit_rate[0].play_addr.url_list[0])
-                : undefined,
-              time: dayjs.unix(item.create_time).format('YYYY-MM-DD HH:mm:ss'),
-              desc: item.desc,
-              nickname: item.author.nickname,
-              cover: item.video.cover.url_list[0]
-            };
-
-            sendGroup.push(QQSendGroup(sendData));
-          } else {
-            break;
-          }
-        }
-
-        if (sendGroup.length) {
-          postMessage({
-            type: 'message',
-            sendGroup
-          });
-          lastUpdateTime = data[0].create_time;
-        }
-      }
-
-      _debugTimes = 0;
-    } else {
+    if (!renderData) {
       const _endTime: string = dayjs().format('YYYY-MM-DD HH:mm:ss');
 
       console.warn('[抖音]没有获取到RENDER_DATA。', '--->', description ?? userId, _endTime);
@@ -169,7 +127,51 @@ EndTime: ${ _endTime }`]
           _sendedDouyinDebugInfo = true;
         }
       }
+
+      return;
     }
+
+    _isSendDebugMessage && (_debugTimes = 0);
+
+    const data: Array<AwemeItem> = renderData.aweme_list.sort(
+      (a: AwemeItem, b: AwemeItem): number => b.create_time - a.create_time);
+
+    if (lastUpdateTime === null) {
+      lastUpdateTime = data.length ? data[0].create_time : 0;
+    }
+
+    if (data.length) {
+      const sendGroup: Array<string> = [];
+
+      for (const item of data) {
+        if (item.create_time > lastUpdateTime) {
+          const sendData: DouyinSendMsg = {
+            url: item?.video?.bit_rate?.length
+              ? (item.video.bit_rate[0].play_addr.url_list.find((o: string): boolean => /^https/i.test(o))
+                ?? item.video.bit_rate[0].play_addr.url_list[0])
+              : undefined,
+            time: dayjs.unix(item.create_time).format('YYYY-MM-DD HH:mm:ss'),
+            desc: item.desc,
+            nickname: item.author.nickname,
+            cover: item.video.cover.url_list[0]
+          };
+
+          sendGroup.push(QQSendGroup(sendData));
+        } else {
+          break;
+        }
+      }
+
+      if (sendGroup.length) {
+        postMessage({
+          type: 'message',
+          sendGroup
+        });
+        lastUpdateTime = data[0].create_time;
+      }
+    }
+
+    _debugTimes = 0;
   } catch (err) {
     console.error(err);
   }
@@ -182,16 +184,18 @@ async function douyinInit(): Promise<void> {
   try {
     const renderData: AwemePostResponse | undefined = await getDouyinDataByApi(false);
 
-    if (renderData) {
-      const data: Array<AwemeItem> = renderData.aweme_list.sort(
-        (a: AwemeItem, b: AwemeItem): number => b.create_time - a.create_time);
-
-      lastUpdateTime = data.length ? data[0].create_time : 0;
-    } else {
+    if (!renderData) {
       console.warn('[抖音]初始化时没有获取到RENDER_DATA。', '--->', description ?? userId,
         dayjs().format('YYYY-MM-DD HH:mm:ss'));
       _isSendDebugMessage && _debugTimes++;
+
+      return;
     }
+
+    const data: Array<AwemeItem> = renderData.aweme_list.sort(
+      (a: AwemeItem, b: AwemeItem): number => b.create_time - a.create_time);
+
+    lastUpdateTime = data.length ? data[0].create_time : 0;
   } catch (err) {
     console.error(err);
   }
