@@ -20,7 +20,7 @@
     "@mdx-js/react": "^3.0.0",
     "@reduxjs/toolkit": "^2.0.1",
     "@yxim/nim-web-sdk": "^9.16.1",
-    "antd": "5.17.4",
+    "antd": "^5.17.4",
     "antd-schema-form": "^5.0.1",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.10",
