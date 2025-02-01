@@ -13,8 +13,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { Dispatch } from '@reduxjs/toolkit';
 import { createStructuredSelector, Selector } from 'reselect';
 import { Link } from 'react-router';
-import { Select, Button, Space, Table, message } from 'antd';
+import { Select, Button, Space, Table, message, Alert } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import type { DefaultOptionType } from 'antd/es/select';
 import type { UseMessageReturnType } from '@qqtools-types/antd';
 import style from './index.sass';
 import { queryOptionsList, OptionsInitialState } from '../Options/reducers/options';
@@ -121,11 +122,10 @@ function Index(props: {}): ReactElement {
   }
 
   // 渲染select
-  function optionsListSelectOptionRender(): Array<ReactNode> {
-    return optionsList.map((item: OptionsItem, index: number): ReactElement => {
-      return <Select.Option key={ item.name } value={ item.id }>{ item.name }</Select.Option>;
-    });
-  }
+  const loginSelectOptions: Array<DefaultOptionType> = optionsList.map((o: OptionsItem): DefaultOptionType => ({
+    value: o.id,
+    label: o.name
+  }));
 
   const columns: ColumnsType<QQModals> = [
     {
@@ -173,9 +173,7 @@ function Index(props: {}): ReactElement {
     <Fragment>
       <div className="p-[16px]">
         <Space className="mb-[16px]">
-          <Select className={ style.optionSelect } value={ optionValue } onSelect={ handleSelect }>
-            { optionsListSelectOptionRender() }
-          </Select>
+          <Select className={ style.optionSelect } value={ optionValue } options={ loginSelectOptions } onSelect={ handleSelect } />
           <Button type="primary" disabled={ optionValue === '' } loading={ loginLoading } onClick={ handleLoginClick }>
             登陆
           </Button>
@@ -183,6 +181,7 @@ function Index(props: {}): ReactElement {
             <Button type="primary" danger={ true }>返回</Button>
           </Link>
         </Space>
+        <Alert className="mb-[16px]" type="warning" message="弹出的小红书网页需要登录后才能计算API的加密。" />
         <Table columns={ columns } dataSource={ loginList } rowKey="id" />
       </div>
       { messageContextHolder }

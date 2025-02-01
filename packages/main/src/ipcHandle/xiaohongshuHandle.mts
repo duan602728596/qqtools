@@ -44,7 +44,7 @@ function ipcXiaohongshuHandle(): void {
   ipcMain.handle(XiaohongshuHandleChannel.XiaohongshuWindowInit, function(event: IpcMainInvokeEvent): Promise<void> {
     return new Promise(async (resolve: Function, reject: Function): Promise<void> => {
       xiaohongshuWin = new BrowserWindow({
-        width: 400,
+        width: 970,
         height: 400,
         webPreferences: {
           nodeIntegration: true,
