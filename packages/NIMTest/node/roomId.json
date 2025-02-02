@@ -4871,7 +4871,8 @@
       "teamId": 1104,
       "groupName": "BEJ48",
       "periodName": "BEJ48 十五期生",
-      "pinyin": "guo yichen"
+      "pinyin": "guo yichen",
+      "liveRoomId": 9766864235
     },
     {
       "ownerName": "Magic",
@@ -5267,7 +5268,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十八期生",
-      "pinyin": "xielinrong"
+      "pinyin": "xielinrong",
+      "liveRoomId": 9459716809
     },
     {
       "ownerName": "朱丽娜",
@@ -5279,7 +5281,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十八期生",
-      "pinyin": "zhulina"
+      "pinyin": "zhulina",
+      "liveRoomId": 9468252673
     },
     {
       "id": 4344250371,
@@ -5463,5 +5466,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2025-02-01 16:41:31"
+  "buildTime": "2025-02-02 23:11:47"
 }
