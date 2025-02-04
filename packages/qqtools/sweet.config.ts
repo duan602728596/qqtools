@@ -127,7 +127,7 @@ export default function(info: object): { [key: string]: any } {
       'reselect'
     ],
     entry: {
-      index: [srcPath('index.tsx')]
+      index: [srcPath('Index.tsx')]
     },
     html: [{ template: srcPath('index.pug'), minify: htmlWebpackPluginMinify }],
     externals: nodeExternals(externalsName),

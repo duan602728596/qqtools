@@ -1,10 +1,10 @@
 import type { ReactElement } from 'react';
 import { useRoutes, Navigate } from 'react-router';
-import Index from '../pages/Index/index';
-import Login from '../pages/Login/index';
-import Options from '../pages/Options/index';
-import CodeEditor from '../pages/CodeEditor/index';
-import Agreement from '../pages/Agreement/index';
+import Index from '../pages/Index/Index';
+import Login from '../pages/Login/Index';
+import Options from '../pages/Options/Index';
+import CodeEditor from '../pages/CodeEditor/Index';
+import Agreement from '../pages/Agreement/Index';
 import { needToReadPower } from '../pages/Agreement/function/helper';
 
 function Routers(props: {}): ReactElement | null {
