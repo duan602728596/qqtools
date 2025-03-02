@@ -1,4 +1,4 @@
-// @ts-ignore
+// // @ts-expect-error
 import got, { type Response as GotResponse } from 'got';
 import type { _UserPostedObject, _FeedObject } from '@qqtools3/main/src/logProtocol/logTemplate/xiaohongshu.mjs';
 import { _xiaohongshuLogProtocol } from '../../utils/logProtocol/logActions';

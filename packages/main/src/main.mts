@@ -1,3 +1,4 @@
+import './_sourcemap.mjs';
 import { env, platform } from 'node:process';
 import { app } from 'electron';
 import { nodeNimCleanup } from './ipcHandle/nodeNimHandleLogin.mjs';
