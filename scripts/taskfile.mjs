@@ -7,7 +7,7 @@ import { merge } from 'webpack-merge';
 import { requireJson } from '@sweet-milktea/utils';
 import { require, appDir, webpackBuild, webpackNodeDefaultCjsBuildConfig } from './utils.mjs';
 import { buildModules } from '../packages/esm-build/buildModules.mjs';
-import { appPackageJson } from './jsonImport/jsonImport.mjs';
+import appPackageJson from '../app/package.json' with { type: 'json' };
 
 const argv = process.argv.slice(2);
 
