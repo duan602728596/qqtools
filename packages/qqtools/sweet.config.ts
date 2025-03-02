@@ -95,10 +95,7 @@ export default function(info: object): { [key: string]: any } {
     [require.resolve(path.join(__dirname, '../babel-plugin-delay-require')), {
       moduleNames: externalsName,
       idle: false,
-      mountToGlobalThis: true,
-      replaceModuleName: isDev ? {
-        got: '@qqtools/esm-build/got'
-      } : undefined
+      mountToGlobalThis: true
     }]
   ].filter(Boolean);
 

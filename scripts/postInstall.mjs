@@ -1,6 +1,6 @@
 import path from 'node:path';
 import fsP from 'node:fs/promises';
-import { cwd, command, npm } from './utils.mjs';
+import { cwd } from './utils.mjs';
 
 const nodeModules = path.join(cwd, 'node_modules');
 
@@ -25,9 +25,6 @@ async function postInstall() {
     replaceWebsocket('nim-web-sdk-ng/dist/NIM_BROWSER_SDK.js', 'HACK_INTERCEPTS_SEND_NIM_Websocket'),
     replaceWebsocket('nim-web-sdk-ng/dist/QCHAT_BROWSER_SDK.js', 'HACK_INTERCEPTS_SEND_QCHAT_Websocket')
   ]);
-
-  // 编译esm -> cjs
-  await command(npm, ['run', 'build'], path.join(cwd, 'packages/esm-build'));
 }
 
 postInstall();

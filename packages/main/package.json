@@ -4,18 +4,16 @@
   "scripts": {
     "start": "npm run clean && tsc --outDir lib --watch",
     "dev": "npm run clean && tsc --outDir lib",
-    "build": "npm run clean && tsc --outDir .lib.mid && gulp",
+    "build": "npm run clean && node webpackBuild.mjs",
     "clean": "rimraf ./lib && rimraf ./.lib.mid"
   },
   "dependencies": {
     "chrome-launcher": "^0.15.2",
-    "chrome-remote-interface": "^0.33.0"
+    "chrome-remote-interface": "^0.33.0",
+    "node-nim": "^9.16.5",
+    "source-map-support": "^0.5.21"
   },
   "devDependencies": {
-    "gulp": "^4.0.2",
-    "gulp-change-file-content": "^1.0.1",
-    "gulp-terser": "^2.1.0",
-    "source-map-support": "^0.5.21",
     "typescript": "^5.3.3"
   }
 }

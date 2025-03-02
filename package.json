@@ -72,7 +72,6 @@
     "lint-staged": "^15.2.0"
   },
   "optionalDependencies": {
-    "@qqtools/esm-build": "workspace:*",
     "@qqtools3/main": "workspace:*",
     "@qqtools3/qqtools": "workspace:*"
   },

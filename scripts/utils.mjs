@@ -86,13 +86,18 @@ export function command(cmd, args, cwdPath) {
   });
 }
 
+export const node = isWindows ? 'node.exe' : 'node';
 export const npm = isWindows ? 'npm.cmd' : 'npm';
 
 /* webpack编译 */
-export const webpackNodeDefaultCjsBuildConfig = {
+export const webpackNodeDefaultEsmBuildConfig = {
+  mode: 'production',
   output: {
-    library: { type: 'commonjs' },
-    globalObject: 'globalThis'
+    library: { type: 'module' },
+    globalObject: 'globalThis',
+    environment: {
+      module: true
+    }
   },
   externalsPresets: {
     node: true,
@@ -100,9 +105,31 @@ export const webpackNodeDefaultCjsBuildConfig = {
   },
   target: ['node', 'node20'],
   performance: { hints: false },
+  resolve: {
+    extensions: [
+      '.ts',
+      '.tsx',
+      '.js',
+      '.mjs',
+      '.cjs',
+      '.mts',
+      '.cts',
+      '.jsx',
+      '.vue',
+      '.json',
+      '.wasm'
+    ],
+    extensionAlias: {
+      '.js': ['.ts', '.js'],
+      '.mjs': ['.mts', '.mjs']
+    }
+  },
   node: {
     __filename: true,
     __dirname: true
+  },
+  experiments: {
+    outputModule: true
   }
 };
 

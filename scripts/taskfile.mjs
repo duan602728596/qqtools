@@ -5,8 +5,8 @@ import fse from 'fs-extra';
 import { rimraf } from 'rimraf';
 import { merge } from 'webpack-merge';
 import { requireJson } from '@sweet-milktea/utils';
-import { require, appDir, webpackBuild, webpackNodeDefaultCjsBuildConfig } from './utils.mjs';
-import { buildModules } from '../packages/esm-build/buildModules.mjs';
+import webpackJson from 'webpack/package.json' with { type: 'json' };
+import { require, appDir, webpackBuild, webpackNodeDefaultEsmBuildConfig } from './utils.mjs';
 import appPackageJson from '../app/package.json' with { type: 'json' };
 
 const argv = process.argv.slice(2);
@@ -37,7 +37,7 @@ async function nccBuild(input, output) {
 async function webpackBuildPackage(input, output) {
   const parseResult = path.parse(output);
 
-  await webpackBuild(merge(webpackNodeDefaultCjsBuildConfig, {
+  await webpackBuild(merge(webpackNodeDefaultEsmBuildConfig, {
     mode: 'production',
     entry: {
       index: [input]
@@ -57,11 +57,16 @@ async function createFilesByDependenciesName(dependenciesName) {
   const dependenciesDir = path.join(appNodeModules, dependenciesName); // 模块的输出目录
   const dependenciesNodeModulesDir = path.join(path.parse(require.resolve(dependenciesName))
     .dir.split(/node_modules/)[0], 'node_modules', dependenciesName); // 模块在node_modules中的原位置
+  let esmBuild = false;
 
   await fse.ensureDir(dependenciesDir); // 创建目录
 
-  if (buildModules.includes(dependenciesName)) {
-    await webpackBuildPackage(require.resolve(dependenciesName), path.join(dependenciesDir, 'index.js'));
+  if (appPackageJson.esm.includes(dependenciesName)) {
+    // esm模块使用webpack编译
+    esmBuild = true;
+    await webpackBuildPackage(require.resolve(dependenciesName), path.join(dependenciesDir, 'index.mjs'));
+    console.log(`webpack: Version ${ webpackJson.version }`);
+    console.log('webpack: Compiling file index.mjs into ESM');
   } else {
     await nccBuild(require.resolve(dependenciesName), path.join(dependenciesDir, 'index.js')); // 编译文件
   }
@@ -71,7 +76,7 @@ async function createFilesByDependenciesName(dependenciesName) {
   await fse.writeJSON(path.join(dependenciesDir, 'package.json'), {
     name: dependenciesName,
     version: depPackageJson.version,
-    main: 'index.js',
+    main: esmBuild ? 'index.mjs' : 'index.js',
     license: depPackageJson.license,
     author: depPackageJson.author
   });
