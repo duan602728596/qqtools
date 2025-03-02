@@ -6,7 +6,6 @@ import Icon, {
   SettingOutlined as IconSettingOutlined,
   FileSyncOutlined as IconFileSyncOutlined,
   ToolTwoTone as IconToolTwoTone,
-  ClusterOutlined as IconClusterOutlined,
   BugTwoTone as IconBugTwoTone
 } from '@ant-design/icons';
 import { WinIpcChannel } from '@qqtools3/main/src/channelEnum';
@@ -56,12 +55,6 @@ const navLinkConfig: Array<Array<NativeItem>> = [
       name: '登陆配置',
       url: '/Options',
       icon: <IconSettingOutlined />
-    },
-    {
-      name: 'Mirai登录',
-      url: '/MiraiLogin',
-      icon: <IconClusterOutlined />,
-      danger: true
     },
     {
       name: '代码编辑器',
