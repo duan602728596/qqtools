@@ -5220,7 +5220,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十八期生",
-      "pinyin": "chenshiying"
+      "pinyin": "chenshiying",
+      "liveRoomId": 9428472829
     },
     {
       "ownerName": "和丹丹",
@@ -5232,7 +5233,8 @@
       "teamId": 1207,
       "groupName": "GNZ48",
       "periodName": "GNZ48 十八期生",
-      "pinyin": "hedandan"
+      "pinyin": "hedandan",
+      "liveRoomId": 9428275690
     },
     {
       "ownerName": "万芳源",
@@ -5466,5 +5468,5 @@
       "liveRoomId": 187874323
     }
   ],
-  "buildTime": "2025-02-02 23:11:47"
+  "buildTime": "2025-03-02 22:24:32"
 }
