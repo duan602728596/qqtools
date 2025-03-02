@@ -4,8 +4,10 @@
   "main": "../main/lib/main.mjs",
   "scripts": {
     "runel": "cross-env NODE_ENV=development electron ./",
+    "runel:serve": "cross-env NODE_ENV=development SERVE=1 electron ./",
     "dll": "cross-env NODE_ENV=development milktea-esm dll",
-    "start": "npm run clean && cross-env NODE_ENV=development milktea-esm start",
+    "start": "npm run clean && cross-env NODE_ENV=development NODE_OPTIONS=\"--max_old_space_size=4096\" milktea-esm start",
+    "start:serve": "node --run start -- --server --httpPort=7654",
     "build": "npm run clean && cross-env NODE_ENV=production milktea-esm build",
     "build:analyzer": "npm run clean && cross-env NODE_ENV=production ANALYZER=true milktea-esm build",
     "test": "jest test",
