@@ -1,4 +1,4 @@
-// // @ts-expect-error
+// @ts-expect-error
 import got, { type Response as GotResponse } from 'got';
 import type { _FeedSpaceObject } from '../../../../main/src/logProtocol/logTemplate/bilibili.mjs';
 import { _bilibili } from '../../utils/logProtocol/logActions';

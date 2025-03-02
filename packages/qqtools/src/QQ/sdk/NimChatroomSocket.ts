@@ -132,7 +132,7 @@ class NimChatroomSocket {
   getChatroomMembers(guest: boolean = true): Promise<Array<ChatroomMember>> {
     return new Promise((resolve: Function, reject: Function): void => {
       this.nimChatroomSocket!.getChatroomMembers({
-        // // @ts-expect-error
+        // @ts-expect-error
         guest,
         done(err: Error, arg1: { members: Array<ChatroomMember> }): void {
           resolve(arg1?.members ?? []);

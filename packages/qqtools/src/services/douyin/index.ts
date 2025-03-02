@@ -1,4 +1,4 @@
-// // @ts-expect-error
+// @ts-expect-error
 import got, { type Response as GotResponse } from 'got';
 import type { _AwemePostObject } from '../../../../main/src/logProtocol/logTemplate/douyin.mjs';
 import { awemePostQueryV2 } from '../../utils/toutiao/signUtils';
