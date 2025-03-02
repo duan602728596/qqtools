@@ -1,7 +1,7 @@
 /* @#START_DEV_1 */ import './_sourcemap.mjs'; /* @#END_DEV_1 */
 import { BrowserWindow, Menu } from 'electron';
 import { execArgv } from 'node:process';
-import { createHtmlFilePath, isDevelopment, packageJson, titleBarIcon } from './utils.mjs';
+import { createHtmlFilePath, createHtmlUrl, isDevelopment, isServe, packageJson, titleBarIcon } from './utils.mjs';
 import { ipc, removeIpc } from './ipc.mjs';
 import logProtocol from './logProtocol/logProtocol.mjs';
 import { proxyServerClose } from './proxyServer/proxyServer.mjs';
@@ -48,7 +48,11 @@ export function createWindow(): void {
     processWindow.webContents.openDevTools();
   }
 
-  processWindow.loadFile(createHtmlFilePath('index'));
+  if (isDevelopment && isServe) {
+    processWindow.loadURL(createHtmlUrl(''));
+  } else {
+    processWindow.loadFile(createHtmlFilePath('index'));
+  }
 
   Menu.setApplicationMenu(null); // 去掉顶层菜单
 
