@@ -2,7 +2,7 @@ import * as path from 'node:path';
 import { setTimeout } from 'node:timers';
 import { setTimeout as setTimeoutPromise } from 'node:timers/promises';
 import * as fsP from 'node:fs/promises';
-import * as process from 'node:process';
+import { platform } from 'node:process';
 import { ipcMain, BrowserWindow, type IpcMainInvokeEvent, type Cookie } from 'electron';
 // @ts-ignore
 import CDP from 'chrome-remote-interface';
@@ -20,10 +20,10 @@ let xiaohongshuWin: BrowserWindow | null = null,
 
 type XiaoHongShuSignUsePlatform = 'Mac OS' | 'Window' | 'Linux';
 
-const platform: XiaoHongShuSignUsePlatform = (function(): XiaoHongShuSignUsePlatform {
-  if (/mac|darwin/i.test(process.platform)) {
+const systemPlatform: XiaoHongShuSignUsePlatform = (function(): XiaoHongShuSignUsePlatform {
+  if (/mac|darwin/i.test(platform)) {
     return 'Mac OS';
-  } else if (/win/i.test(process.platform)) {
+  } else if (/win/i.test(platform)) {
     return 'Window';
   } else {
     return 'Linux';
@@ -186,7 +186,7 @@ function __HEADER_SIGN__() {
     headers,
     url: '//edith.xiaohongshu.com${ url }'
   };
-  const xsCommonHeader = window._xsCommon(${ JSON.stringify({ platform }) }, args);
+  const xsCommonHeader = window._xsCommon(${ JSON.stringify({ systemPlatform }) }, args);
 
   return args.headers;
 }

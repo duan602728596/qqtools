@@ -1,5 +1,6 @@
 /* @#START_DEV_1 */ import './_sourcemap.mjs'; /* @#END_DEV_1 */
 import { BrowserWindow, Menu } from 'electron';
+import { execArgv } from 'node:process';
 import { createHtmlFilePath, isDevelopment, packageJson, titleBarIcon } from './utils.mjs';
 import { ipc, removeIpc } from './ipc.mjs';
 import logProtocol from './logProtocol/logProtocol.mjs';
@@ -22,6 +23,8 @@ async function handleProcessWindowClosed(): Promise<void> {
 
 /* 初始化窗口 */
 export function createWindow(): void {
+  execArgv.push('--experimental-require-module');
+
   /* 初始化日志 */
   logProtocol();
 

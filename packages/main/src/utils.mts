@@ -1,4 +1,4 @@
-import * as process from 'node:process';
+import { env, resourcesPath } from 'node:process';
 import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
@@ -21,7 +21,7 @@ export function metaHelper(metaUrl: string): MetaHelperResult {
 const { __dirname }: MetaHelperResult = metaHelper(import.meta.url);
 
 /* 判断是开发环境还是生产环境 */
-export const isDevelopment: boolean = process.env.NODE_ENV === 'development';
+export const isDevelopment: boolean = env.NODE_ENV === 'development';
 
 /* 文件夹路径 */
 export const wwwPath: string = path.join(__dirname, '..');
@@ -31,7 +31,7 @@ export const wwwPath: string = path.join(__dirname, '..');
  * 有asar文件：app.asar.unpacked
  * 无asar文件：app
  */
-export const workerProductionBasePath: string = path.join(process.resourcesPath, 'app/boot');
+export const workerProductionBasePath: string = path.join(resourcesPath, 'app/boot');
 
 /* 图标文件 */
 export const titleBarIcon: string | undefined = isDevelopment ? undefined : path.join(wwwPath, 'titleBarIcon.png');
