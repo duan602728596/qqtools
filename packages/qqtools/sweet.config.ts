@@ -136,12 +136,12 @@ export default function(info: object): { [key: string]: any } {
     javascript: {
       ecmascript: true,
       plugins,
-      exclude: /node_modules|Signer\.js|XiaoHongShu\.js|bdms\.js/i
+      exclude: /node_modules|(imports|appKey)\.m?js|Signer\.js|XiaoHongShu\.js|bdms\.js/i
     },
     typescript: {
       configFile: 'tsconfig.prod.json',
       plugins,
-      exclude: /node_modules|Signer\.js|XiaoHongShu\.js/i,
+      exclude: /node_modules|(imports|appKey)\.m?js|Signer\.js|XiaoHongShu\.js/i,
       reactCompiler
     },
     sass: {
