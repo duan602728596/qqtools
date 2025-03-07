@@ -45,3 +45,7 @@ root.render(
 
 IDBInit();
 proxyServerInit();
+
+if (module.hot) {
+  module.hot.accept();
+}

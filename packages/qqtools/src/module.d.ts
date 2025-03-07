@@ -1,11 +1,26 @@
+import 'webpack/module';
+import type { FunctionComponent } from 'react';
+
+declare namespace NodeJS {
+  interface Module {
+    hot?: webpack.Hot;
+  }
+}
+
 declare module '*.css' {
-  const style: { [key: string]: string };
+  const style: Record<string, string>;
 
   export default style;
 }
 
 declare module '*.sass' {
-  const style: { [key: string]: string };
+  const style: Record<string, string>;
+
+  export default style;
+}
+
+declare module '*.scss' {
+  const style: Record<string, string>;
 
   export default style;
 }
@@ -40,9 +55,13 @@ declare module '*.webp' {
   export default url;
 }
 
-declare module '*.component.svg' {
-  import type { FunctionComponent } from 'react';
+declare module '*.avif' {
+  const url: string;
 
+  export default url;
+}
+
+declare module '*.component.svg' {
   const ReactComponent: FunctionComponent;
 
   export default ReactComponent;
