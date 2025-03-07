@@ -1,12 +1,3 @@
-import 'webpack/module';
-import type { FunctionComponent } from 'react';
-
-declare namespace NodeJS {
-  interface Module {
-    hot?: webpack.Hot;
-  }
-}
-
 declare module '*.css' {
   const style: Record<string, string>;
 
@@ -62,6 +53,8 @@ declare module '*.avif' {
 }
 
 declare module '*.component.svg' {
+  import type { FunctionComponent } from 'react';
+
   const ReactComponent: FunctionComponent;
 
   export default ReactComponent;
