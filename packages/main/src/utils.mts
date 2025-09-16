@@ -18,7 +18,7 @@ export function metaHelper(metaUrl: string): MetaHelperResult {
   return { __filename: filename, __dirname: dirname };
 }
 
-const { __dirname }: MetaHelperResult = metaHelper(import.meta.url);
+const { __dirname }: MetaHelperResult = metaHelper(globalThis.__IMPORT_META_URL__ ?? import.meta.url);
 
 /* 判断是开发环境还是生产环境 */
 export const isDevelopment: boolean = env.NODE_ENV === 'development';
@@ -36,6 +36,9 @@ export const wwwPath: string = path.join(__dirname, '..');
  */
 export const workerProductionBasePath: string = path.join(resourcesPath, 'app/boot');
 
+/* view文件 */
+export const viewDir: string = path.join(wwwPath, isDevelopment ? '../48tools/dist' : 'view');
+
 /* 图标文件 */
 export const titleBarIcon: string | undefined = path.join(wwwPath, isDevelopment ? '../../app/titleBarIcon.png' : 'titleBarIcon.png');
 
@@ -44,9 +47,7 @@ export const titleBarIcon: string | undefined = path.join(wwwPath, isDevelopment
  * @param { string } htmlName - 文件名
  */
 export function createHtmlFilePath(htmlName: string): string {
-  return isDevelopment
-    ? path.join(wwwPath, `../qqtools/dist/${ htmlName }.html`)
-    : path.join(wwwPath, `view/${ htmlName }.html`);
+  return path.join(viewDir, `${ htmlName }.html`);
 }
 
 /**

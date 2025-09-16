@@ -116,7 +116,7 @@ async function main() {
 
       if (index >= 0) {
         item = roomId[index];
-        continue;
+        // continue;
 
         // if (item?.team !== '预备生') {
         //   continue;
@@ -137,6 +137,7 @@ async function main() {
           headers: headers(),
           responseType: 'json',
           json: {
+            tabId: 0,
             targetType: 1,
             starId: friend
           }
