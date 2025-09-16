@@ -55,3 +55,19 @@ export function getExecutablePath(): string | null {
 
   return executablePath;
 }
+
+/**
+ * 生成随机字符串
+ * @param { number } length 字符串长度
+ */
+export function randomString(length: number): string {
+  const chars: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+  const charLen: number = chars.length;
+  let result: string = '';
+
+  for (let i: number = 0; i < length; i++) {
+    result += chars[Math.floor(Math.random() * charLen)];
+  }
+
+  return result;
+}

@@ -1,8 +1,12 @@
 // @ts-expect-error
 import got, { type Response as GotResponse } from 'got';
+import { randomString } from '../../utils/utils';
 import type { WeiboInfo, WeiboContainerList } from './interface';
 
 export type * from './interface';
+
+const weiboCookieSubValue: string = randomString(89);
+const userAgent: string = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36';
 
 /**
  * 获取微博lfid
@@ -11,7 +15,12 @@ export type * from './interface';
 export async function requestWeiboInfo(uid: string): Promise<WeiboInfo> {
   const res: GotResponse<WeiboInfo>
     = await got.get(`https://m.weibo.cn/api/container/getIndex?type=uid&value=${ uid }`, {
-      responseType: 'json'
+      responseType: 'json',
+      headers: {
+        Referer: `https://weibo.com/u/${ uid }`,
+        'User-Agent': userAgent,
+        Cookie: `SUB=_${ weiboCookieSubValue }`
+      }
     });
 
   return res.body;
@@ -23,9 +32,14 @@ export async function requestWeiboInfo(uid: string): Promise<WeiboInfo> {
  * @param { string } lfid - 微博的lfid
  */
 export async function requestWeiboContainer<T = WeiboContainerList>(lfid: string): Promise<T> {
-  const res: Response = await fetch(`https://m.weibo.cn/api/container/getIndex?containerid=${ lfid }`, {
-    mode: 'no-cors'
+  const res: GotResponse<WeiboContainerList> = await got.get(`https://m.weibo.cn/api/container/getIndex?containerid=${ lfid }`, {
+    responseType: 'json',
+    headers: {
+      Referer: 'https://weibo.com',
+      'User-Agent': userAgent,
+      Cookie: `SUB=_${ weiboCookieSubValue }`
+    }
   });
 
-  return await res.json();
+  return res.body;
 }
