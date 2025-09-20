@@ -13,7 +13,7 @@ import { pcUserAgent, isDevelopment, workerProductionBasePath, metaHelper, type 
 import { chromeStart, clientSwitch, waitingDomFunction } from './CDPHelper.mjs';
 import { XiaohongshuHandleChannel } from '../channelEnum.js';
 
-const { __dirname }: MetaHelperResult = metaHelper(import.meta.url);
+const { __dirname }: MetaHelperResult = metaHelper(globalThis.__IMPORT_META_URL__ ?? import.meta.url);
 let xiaohongshuWin: BrowserWindow | null = null,
   client: Client | null = null,
   chromeLauncher: LaunchedChrome | null = null;
