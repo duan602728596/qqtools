@@ -157,7 +157,8 @@ async function main() {
         if (resServerJumpInfo.body.status === 200 && resServerJumpInfo?.body?.content?.jumpServerInfo) {
           const { channelId } = resServerJumpInfo.body.content;
           const { serverId, serverOwner, serverOwnerName } = resServerJumpInfo.body.content.jumpServerInfo;
-          const { owner } = await getServerInfo(`${ serverId }`);
+          // TODO: 暂时关闭
+          // const { owner } = await getServerInfo(`${ serverId }`);
 
           item.ownerName = serverOwnerName ?? ownerName2;
 
@@ -167,8 +168,8 @@ async function main() {
 
           Object.assign(item, {
             serverId,
-            channelId,
-            account: owner
+            channelId
+            // account: owner
           });
 
           if (resArchives.body.status === 200 && resArchives?.body?.content?.starInfo) {
